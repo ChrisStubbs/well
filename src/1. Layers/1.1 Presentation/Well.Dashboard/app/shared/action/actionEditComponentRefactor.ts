@@ -133,63 +133,15 @@ export class ActionEditComponentRefactor implements IObservableAlive {
         //}
     }
 
+    private hasComments(item: LineItemAction): boolean {
+        const existingComments = _.filter(item.comments, x => x.id !== 0);
+        return existingComments.length > 0;
+    }
+
     private loadSource(editLineItemException: EditLineItemException): void {
         this.source = editLineItemException;
         this.originalLineItems = JSON.parse(JSON.stringify(editLineItemException.lineItemActions));
         this.lineItemActions = this.source.lineItemActions || [];
-    }
-    
-    private validateTotalQty(): void {
-        //const form = this.currentForm.form;
-        //const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
-
-        //this.deleteError(form, this.errorInvoiceQty);
-        //if (totalLineQty > this.source.invoiced) {
-        //    this.setError(form, this.errorInvoiceQty);
-        //}
-    }
-
-    public setError(ctl: any, error: string) {
-        if (!ctl.errors) {
-            ctl.setErrors({ key: error });
-        }
-        else {
-            ctl.errors.key = ctl.errors.key + ', ' + error;
-        }
-    }
-
-    public deleteError(ctl: any, error: string) {
-        if (ctl.errors) {
-            const array = ctl.errors.key.split(', ');
-            _.filter(array, x => x === error);
-            if (array.length === 0) {
-                delete ctl.errors[error];
-
-            } else {
-                ctl.errors.key = array.join(', ');
-            }
-        }
-    }
-
-    private getFormValidationErrors() {
-
-        //let errors = [];
-        //const form = this.currentForm.form;
-        //if (form.errors != undefined) {
-        //    errors = form.errors.key.split(', ');
-        //}
-        //return errors;
-
-        return [];
-    }
-
-    private isFormValid() {
-        //return this.currentForm.form.valid;
-    }
-
-    private hasComments(item: LineItemAction): boolean {
-        const existingComments = _.filter(item.comments, x => x.id !== 0);
-        return existingComments.length > 0;
     }
 
     // Reactive form impl
@@ -207,21 +159,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
 
         this.actionsForm = this.formBuilder.group({
                 actionsGroup: this.actionsGroup
-            }
-        );
-    }
-
-    private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
-        const sum = _.sumBy(formArray.value,
-            item => {
-                return item.quantity || 0;
             });
-
-        if (sum > this.source.invoiced) {
-            return { totalQuantity: true, message: 'Quanty invalid ' + sum };
-        }
-
-        return undefined;
     }
 
     private createLineItemActionFromGroup(item: LineItemAction) {
@@ -260,6 +198,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
             if (!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) {
                 commentReason.enable();
             } else {
+                commentReason.setValue(undefined);
                 commentReason.disable();
             }
         });
@@ -274,6 +213,22 @@ export class ActionEditComponentRefactor implements IObservableAlive {
                 originator
             },
             { validator: (control) => validator.validate(control) });
+    }
+
+    private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
+        const sum = _.sumBy(formArray.value,
+            item => {
+                return item.quantity || 0;
+            });
+
+        if (sum > this.source.invoiced) {
+            return {
+                totalQuantity: true,
+                message: 'Total quantity (' + sum + ') is greater than invoiced (' + this.source.invoiced + ')'
+            };
+        }
+
+        return undefined;
     }
 }
 

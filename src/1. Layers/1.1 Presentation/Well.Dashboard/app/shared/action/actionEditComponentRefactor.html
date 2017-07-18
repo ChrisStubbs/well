@@ -74,10 +74,11 @@
                                 <p>actionsForm value: {{ actionsForm.value | json}}</p>
                                <p>actionsGroup value: {{ actionsGroup.value | json}}
                             </div>
-                            <div class="alert" [ngClass]="{'alert-danger': !actionsForm.valid}">
-                                <ul>
-                                    <li *ngFor="let error of actionsForm.errors">
-                                        <strong>{{error}}</strong>
+                            <div class="alert" [ngClass]="{'alert-danger': !actionsForm.valid}" *ngIf="!actionsForm.valid">
+                                <h4>Form contains invalid data</h4>
+                                <ul *ngIf="actionsForm.controls.actionsGroup.errors">
+                                    <li>
+                                        <strong>{{actionsForm.controls.actionsGroup.errors.message}}</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -126,7 +127,7 @@
                                                     <div class="comment-tooltip">
                                                         <tooltip-content #commentTooltip placement="top" class="fake">
                                                             <div class="list-group">
-                                                                <div *ngFor="let c of item.comments;" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                <div *ngFor="let c of lineItemActions[i].comments;" class="list-group-item list-group-item-action flex-column align-items-start">
                                                                     <div class="d-flex w-100 justify-content-between">
                                                                         <h5 class="mb-1">{{c.displayName}}</h5>
                                                                         <small class="text-muted">{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</small>
@@ -138,7 +139,7 @@
                                                             </div>
                                                         </tooltip-content>
                                                         <span class="glyphicon glyphicon-comment" aria-hidden="true"
-                                                              *ngIf="hasComments(item)"
+                                                              *ngIf="hasComments(lineItemActions[i])"
                                                               [tooltip]="commentTooltip"
                                                               tooltipPlacement="right"></span>
                                                     </div>

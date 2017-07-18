@@ -7,7 +7,8 @@
     ViewEncapsulation
     } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, Validator }
+    from '@angular/forms';
 import { IObservableAlive } from '../IObservableAlive';
 import * as _ from 'lodash';
 import { ILookupValue } from '../services/ILookupValue';
@@ -96,8 +97,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     }
 
     public removeItem(index: number): void {
-        const item = this.lineItemActions.splice(index, 1);
-        this.lineItemActionsToRemove.push(item[0]);
+        this.actionsGroup.removeAt(index);
     }
 
     public show(editLineItemException: EditLineItemException) {
@@ -114,7 +114,8 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     }
 
     public save(): void {
-
+        const self = this;
+        console.log(self);
         //if (this.currentForm.form.valid) {
         //    _.map(this.lineItemActions, (current: LineItemAction) => {
         //        if (current.deliveryAction == this.closeAction) {
@@ -192,25 +193,35 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     }
 
     // Reactive form impl
-    private actionsForm: FormArray;
+    private actionsForm: FormGroup;
+    private actionsGroup: FormArray;
 
     private createLineItemActionsForm(editLineItemException: EditLineItemException) {
         const self = this;
 
-        this.actionsForm = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
-            function(item: LineItemAction) {
-                return self.createLineItemActionFromGroup(item);
-            }));
+        this.actionsGroup = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
+                function(item: LineItemAction) {
+                    return self.createLineItemActionFromGroup(item);
+                }),
+            (control) => this.validateTotalQuantity(control));
 
         this.actionsForm = this.formBuilder.group({
                 actionsGroup: this.actionsGroup
-            },
-            { validator: (control) => this.validateTotalQuantity(control) }
+            }
         );
     }
 
-    private validateTotalQuantity(form: FormGroup) {
-        const actionsGrouv = this.actionsForm.value;
+    private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
+        const sum = _.sumBy(formArray.value,
+            item => {
+                return item.quantity || 0;
+            });
+
+        if (sum > this.source.invoiced) {
+            return { totalQuantity: true, message: 'Quanty invalid ' + sum };
+        }
+
+        return undefined;
     }
 
     private createLineItemActionFromGroup(item: LineItemAction) {
@@ -218,10 +229,14 @@ export class ActionEditComponentRefactor implements IObservableAlive {
 
         const action = this.formBuilder.control(item.deliveryAction, Validators.required);
         const quantity = this.formBuilder.control(item.quantity, [Validators.pattern('^[0-9]+$')]);
-        const commentReason = this.formBuilder.control(item.commentReason);
+        const commentReason = this.formBuilder.control({
+            value: item.commentReason,
+            disabled: true
+        });
         const exceptionType = this.formBuilder.control(item.exceptionType);
         const source = this.formBuilder.control(item.source);
         const reason = this.formBuilder.control(item.reason);
+        const originator = this.formBuilder.control(item.originator);
 
         action.valueChanges.subscribe((value) => {
             // When status is close - disable other fields
@@ -241,13 +256,22 @@ export class ActionEditComponentRefactor implements IObservableAlive {
             }
         });
 
+        quantity.valueChanges.subscribe((value) => {
+            if (!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) {
+                commentReason.enable();
+            } else {
+                commentReason.disable();
+            }
+        });
+
         return this.formBuilder.group({
                 action: action,
                 quantity: quantity,
                 commentReason: commentReason,
                 exceptionType: exceptionType,
                 source: source,
-                reason: reason
+                reason: reason,
+                originator
             },
             { validator: (control) => validator.validate(control) });
     }
@@ -318,8 +342,8 @@ class LineItemActionValidator implements Validator {
 
     private validateComment(group: FormGroup): void {   
         // Comment required for new or when quantity changes
-        if ((!this.lineItemAction.id || this.lineItemAction.id == 0) ||
-            group.value.quantity != this.lineItemAction.quantity) {
+        if (this.isNewLineItemAction() ||
+            this.quantityDifferentFromOriginal(group.value.quantity)) {
 
             const commentReasonCtrl = group.controls['commentReason'];
             const commentRequired = Validators.required(commentReasonCtrl);
@@ -336,5 +360,13 @@ class LineItemActionValidator implements Validator {
         if (exceptionTypeRequired) {
             exceptionTypeCtrl.setErrors(exceptionTypeRequired);
         }
+    }
+
+    public quantityDifferentFromOriginal(value: number): boolean {
+        return value != this.lineItemAction.quantity;
+    }
+
+    public isNewLineItemAction(): boolean {
+        return (!this.lineItemAction.id || this.lineItemAction.id == 0);
     }
 }

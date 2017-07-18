@@ -167,7 +167,7 @@
                                                     </select>
                                                 </td>
                                                 <td style="text-align: center; vertical-align: middle">
-                                                    <button *ngIf="item.originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                                    <button *ngIf="item.value.originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
                                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                     </button>
                                                     <span *ngIf="item.originator == 0">
@@ -196,7 +196,7 @@
 
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" #closeModal>Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="!actionsForm.valid" (click)="save1()">Save</button>
+                                <button type="button" class="btn btn-success" [disabled]="true || !actionsForm.valid" (click)="save()">Save</button>
                             </div>
                         </div>
                     </div>

@@ -47,6 +47,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
     private creditAction: number;
     private closeAction: number;
+    private baypassValue = 2;
 
     constructor(
         private lookupService: LookupService,
@@ -138,6 +139,10 @@ export class ActionEditComponentRefactor implements IObservableAlive {
         return existingComments.length > 0;
     }
 
+    private isBaypassException(value: any): boolean {
+        return Number(value) == this.baypassValue;
+    }
+
     private loadSource(editLineItemException: EditLineItemException): void {
         this.source = editLineItemException;
         this.originalLineItems = JSON.parse(JSON.stringify(editLineItemException.lineItemActions));
@@ -171,7 +176,10 @@ export class ActionEditComponentRefactor implements IObservableAlive {
             value: item.commentReason,
             disabled: true
         });
-        const exceptionType = this.formBuilder.control(item.exceptionType);
+        const exceptionType = this.formBuilder.control({
+            value: item.exceptionType,
+            disabled: this.isBaypassException(item.exceptionType)
+        });
         const source = this.formBuilder.control(item.source);
         const reason = this.formBuilder.control(item.reason);
         const originator = this.formBuilder.control(item.originator);

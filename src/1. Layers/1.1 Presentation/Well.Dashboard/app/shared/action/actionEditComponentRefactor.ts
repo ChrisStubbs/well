@@ -47,7 +47,9 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     private errorCommentRequired: string = 'When editing a quantity a comment is required';
     private creditAction: number;
     private closeAction: number;
-    private baypassValue = 2;
+    private bypassValue = 2;
+    private actionsForm: FormGroup;
+    private actionsGroup: FormArray;
 
     constructor(
         private lookupService: LookupService,
@@ -140,7 +142,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     }
 
     private isBaypassExceptionType(value: any): boolean {
-        return Number(value) == this.baypassValue;
+        return Number(value) == this.bypassValue;
     }
 
     private hasBaypassActions() {
@@ -160,16 +162,17 @@ export class ActionEditComponentRefactor implements IObservableAlive {
         this.lineItemActions = this.source.lineItemActions || [];
     }
 
-    // Reactive form impl
-    private actionsForm: FormGroup;
-    private actionsGroup: FormArray;
-
     private createLineItemActionsForm(editLineItemException: EditLineItemException) {
         const self = this;
 
         this.actionsGroup = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
                 function(item: LineItemAction) {
-                    return self.createLineItemActionFromGroup(item);
+
+                    if (Number(item.exceptionType) == self.bypassValue) {
+                        return self.createBypassLineItemActionFormGroup(item);
+                    } else {
+                        return self.createLineItemActionFromGroup(item);
+                    }
                 }),
             (control) => this.validateTotalQuantity(control));
 
@@ -179,19 +182,21 @@ export class ActionEditComponentRefactor implements IObservableAlive {
     }
 
     private createBypassLineItemActionFormGroup(item: LineItemAction) {
-        const action = this.formBuilder.control(item.deliveryAction, Validators.required);
 
+        const action = this.formBuilder.control({
+                value: item.deliveryAction,
+                disabled: true
+            },
+            Validators.required);
         const quantity = this.formBuilder.control({
                 value: item.quantity,
                 disabled: true
             },
             [Validators.pattern('^[0-9]+$')]);
-
         const commentReason = this.formBuilder.control({
             value: item.commentReason,
             disabled: true
         });
-
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
             disabled: true

@@ -78,7 +78,7 @@
                                 <p>actionsForm value: {{ actionsForm.value | json}}</p>
                                <p>actionsGroup value: {{ actionsGroup.value | json}}
                             </div>
-                            <div class="alert" [ngClass]="{'alert-danger': !actionsForm.valid}" *ngIf="!actionsForm.valid">
+                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid">
                                 <h4>Form contains invalid data</h4>
                                 <ul *ngIf="actionsForm.controls.actionsGroup.errors">
                                     <li>
@@ -194,7 +194,7 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <div class="pull-left">
-                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!actionsForm.valid" *ngIf="true || source.canEditActions">Add</button>
+                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!actionsForm.valid" *ngIf="source.canEditActions">Add</button>
                             </div>
                         </div>
                         <div class="col-md-6">

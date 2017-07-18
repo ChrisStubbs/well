@@ -167,7 +167,7 @@
             var jobRoute = new JobRoute { JobId = 1, BranchId = 55, RouteDate = DateTime.Now };
             var jobRoutes = new List<JobRoute> { jobRoute };
 
-            var existingJob = new Job();
+            var existingJob = new Job { ResolutionStatus = ResolutionStatus.Imported};
 
             this.routeHeaderRepository.Setup(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);
@@ -272,7 +272,7 @@
 
             stop.Jobs.Add(job);
 
-            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola };
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, ResolutionStatus = ResolutionStatus.Imported};
 
             this.exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
 
@@ -377,7 +377,7 @@
             route.RouteHeaders.Add(routeHeader);
             stop.Jobs.Add(job);
 
-            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper };
+            var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, JobStatus = JobStatus.CompletedOnPaper , ResolutionStatus = ResolutionStatus.Imported};
 
             this.routeHeaderRepository.Setup(
                 x => x.GetRouteHeaderByRoute(branchId, routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns(existingRouteHeader);

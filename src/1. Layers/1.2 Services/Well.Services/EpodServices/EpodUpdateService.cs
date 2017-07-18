@@ -218,17 +218,20 @@
 
                 if (existingJob == null)
                 {
+                    this.logger.LogError(
+                     $"Job update ignored - no existing job ({jobDto.JobTypeCodeTransend }, { jobDto.PhAccount}, {jobDto.PickListRef}))");
+
                     continue;
                 }
 
-                if (existingJob.ResolutionStatus == ResolutionStatus.ManuallyCompleted)
+                if (existingJob.ResolutionStatus != ResolutionStatus.Imported)
                 {
                     this.logger.LogError(
-                        $"Job update ignored because it has been manually completed ({existingJob.Id}), StopId ({existingJob.StopId})");
+                        $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})");
                       
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
-                        $"Job update ignored because it has been manually completed ({existingJob.Id}), StopId ({existingJob.StopId})",
+                        $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})",
                         9860);
 
                     continue;

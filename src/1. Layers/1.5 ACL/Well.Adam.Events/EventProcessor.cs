@@ -21,6 +21,7 @@
         private readonly IDeliveryLineActionService deliveryLineActionService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
+        private IAdamRepository _adamRepository;
 
         public EventProcessor(IContainer container)
         {
@@ -28,6 +29,7 @@
             this.deliveryLineActionService = container.GetInstance<IDeliveryLineActionService>();
             this.logger = container.GetInstance<ILogger>();
             this.eventLogger = container.GetInstance<IEventLogger>();
+            _adamRepository = container.GetInstance<IAdamRepository>();
         }
 
         public void Process()
@@ -65,6 +67,25 @@
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
                             this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
+                        case EventAction.Amendment:
+                            var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
+                            this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id, GetAdamSettings(amendmentTransaction.BranchId));
+                            break;
+                        case EventAction.GlobalUplift:
+                            var upliftEvent =
+                                JsonConvert.DeserializeObject<GlobalUpliftEvent>(eventToProcess.Event);
+                            // Create transaction from event
+                            var transaction = new GlobalUpliftTransaction(upliftEvent.Id, upliftEvent.BranchId,
+                                upliftEvent.AccountNumber, upliftEvent.CreditReasonCode, upliftEvent.ProductCode,
+                                upliftEvent.Quantity, upliftEvent.StartDate, upliftEvent.EndDate,
+                                upliftEvent.WriteLine, upliftEvent.WriteHeader);
+
+                            // Process event
+                            _adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
+                            // Delete event
+                            exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
+                            break;
+
                     }
                 }
             }

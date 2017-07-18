@@ -1,0 +1,11 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            [disabled]="disabled">
+       Action... <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li *ngFor="let option of options"
+            data-toggle="modal"><a (click)="optionClicked(option)">{{option}}</a></li>
+    </ul>
+</div>
+

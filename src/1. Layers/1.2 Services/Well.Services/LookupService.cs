@@ -54,7 +54,7 @@ namespace PH.Well.Services
                     return this.GetWellStatus().ToList();
 
                 case LookupType.CommentReason:
-                    return this.lookupRepository.CommentReason().OrderBy(x => x.Value).ToList();
+                    return this.lookupRepository.CommentReason();
 
                 case LookupType.ResolutionStatus:
                     return this.GetResolutionStatus();
@@ -90,16 +90,6 @@ namespace PH.Well.Services
                 };
             return actions.Select(a =>
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();
-        }
-
-        private IList<KeyValuePair<string, string>> GetRouteStatus()
-        {
-            var sources = Enum.GetValues(typeof(RouteStatus)).Cast<RouteStatus>().ToList();
-
-            return sources
-                .Where(p => p != RouteStatus.Unknown)
-                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
-                .ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetWellStatus()

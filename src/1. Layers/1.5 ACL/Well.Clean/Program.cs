@@ -53,6 +53,11 @@
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IAmendmentService>().Use<AmendmentService>();
+                    x.For<IAmendmentRepository>().Use<AmendmentRepository>();
+                    x.For<IAmendmentFactory>().Use<AmendmentFactory>();
+                    x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                 });
         }
     }

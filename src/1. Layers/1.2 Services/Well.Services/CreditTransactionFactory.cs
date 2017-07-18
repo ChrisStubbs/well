@@ -70,7 +70,7 @@
                         source = line.Source;
                     }
                     var creditLine =
-                        $"INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
+                        $"INSERT INTO WELLLINE.WELLINEREC (WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
 
                     lineDictionary.Add(lineCount, creditLine);
                 }

@@ -13,6 +13,8 @@
         public string[] Permissions { get; set; }
 
         public User User { get; set; }
+
+        public string CrmBaseUrl { get; set; }
     }
 
 }

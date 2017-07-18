@@ -78,8 +78,8 @@
                                 </select>
                             </div>
                         </th>
-                        <th (click)="sortData('dateSubmittedFormatted', $event)" [style.background-color]="isSortedBy('dateSubmittedFormatted') ? '#bfbfbf': ''">
-                            <div class="text-center">Date Submitted &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('dateSubmittedFormatted')" aria-hidden="true"></span></div>
+                        <th (click)="sortData('dateSubmitted', $event)" [style.background-color]="isSortedBy('dateSubmitted') ? '#bfbfbf': ''">
+                            <div class="text-center">Date Submitted &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('dateSubmitted')" aria-hidden="true"></span></div>
                             <div>
                                 <input type="date" [(ngModel)]="filters.dateSubmittedFormatted" (change)="fillGridSource()" class="form-control">
                             </div>
@@ -123,6 +123,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
     </div>
 </div>

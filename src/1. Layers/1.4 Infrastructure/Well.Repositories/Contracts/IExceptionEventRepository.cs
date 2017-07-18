@@ -1,4 +1,5 @@
 ﻿using System;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.Repositories.Contracts
 {
@@ -22,5 +23,8 @@ namespace PH.Well.Repositories.Contracts
         void InsertPodEvent(PodEvent podEvent);
 
         void InsertPodTransaction(PodTransaction podTransaction);
+
+        void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
+        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null);
     }
 }

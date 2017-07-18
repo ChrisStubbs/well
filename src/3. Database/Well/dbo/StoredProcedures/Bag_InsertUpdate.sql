@@ -24,8 +24,6 @@ BEGIN
 		USING (SELECT  Barcode, [Description] FROM @BagDetails) AS Source
 		(  Barcode, [Description])
 		ON Target.Barcode = Source.Barcode AND Target.[Description] = Source.[Description]
-		WHEN MATCHED THEN
-		UPDATE SET LastUpdatedBy = @process, LastUpdatedDate =  GETDATE()
 		WHEN NOT MATCHED BY TARGET THEN
 		INSERT (Barcode, [Description], CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate) 
 		VALUES (Barcode, [Description],  @process, GETDATE(), @process, GETDATE())

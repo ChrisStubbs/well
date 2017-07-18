@@ -17,9 +17,7 @@
     {
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
-        private readonly IBulkEditSummaryMapper mapper;
-        private readonly IUserNameProvider userNameProvider;
-        private readonly IUserRepository userRepository;
+        private readonly IPatchSummaryMapper mapper;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IJobService jobService;
 
@@ -27,27 +25,23 @@
             ILogger logger,
             IJobService jobService,
             IJobRepository jobRepository,
-            IBulkEditSummaryMapper mapper,
-            IUserNameProvider userNameProvider,
-            IUserRepository userRepository,
+            IPatchSummaryMapper mapper,
             ILineItemActionRepository lineItemActionRepository)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.mapper = mapper;
-            this.userNameProvider = userNameProvider;
-            this.userRepository = userRepository;
             this.lineItemActionRepository = lineItemActionRepository;
             this.jobService = jobService;
         }
-        public BulkEditSummary GetByLineItems(IEnumerable<int> lineItemIds)
+        public PatchSummary GetByLineItems(IEnumerable<int> lineItemIds)
         {
             lineItemIds = lineItemIds.ToArray();
             var jobs = GetEditableJobsByLineItemId(lineItemIds);
             return mapper.Map(jobs, lineItemIds);
         }
 
-        public BulkEditSummary GetByJobs(IEnumerable<int> jobIds)
+        public PatchSummary GetByJobs(IEnumerable<int> jobIds)
         {
             var jobs = GetEditableJobsByJobId(jobIds);
             return mapper.Map(jobs);
@@ -89,7 +83,7 @@
                     {
                         job.ResolutionStatus = jobService.GetCurrentResolutionStatus(job);
                         jobRepository.Update(job);
-                        result.Statuses.Add(new BulkEditResolutionStatus(job.Id, job.ResolutionStatus));
+                        result.Statuses.Add(new JobIdResolutionStatus(job.Id, job.ResolutionStatus));
                     }
 
                     transactionScope.Complete();
@@ -105,16 +99,12 @@
 
         public IEnumerable<Job> GetEditableJobs(IEnumerable<Job> jobs, IEnumerable<int> lineItemIds = null)
         {
-            var username = this.userNameProvider.GetUserName();
-            var user = this.userRepository.GetByIdentity(username);
-
             var editableJobs = jobService.PopulateLineItemsAndRoute(jobs).ToList()
                 .Where(x => x.ResolutionStatus.IsEditable() &&
                             LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
-            var userJobsIds = userRepository.GetUserJobsByJobIds(editableJobs.Select(x => x.Id))
-                                            .Where(x => x.UserId == user.Id).Select(x => x.JobId);
-
+            var userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(editableJobs.Select(x => x.Id));
+                
             return editableJobs.Where(x => userJobsIds.Contains(x.Id));
         }
 

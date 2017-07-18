@@ -197,14 +197,15 @@
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\ManualCompletionController.cs" />
     <Compile Include="Controllers\SubmitActionController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\JobDetailSourceController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\LineItemSearchController.cs" />
-    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\SingleLocationController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
-    <Compile Include="Controllers\AuditController.cs" />
     <Compile Include="Controllers\CreditThresholdController.cs" />
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\SingleRouteController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\CreditThresholdModel.cs" />
     <Compile Include="Models\Job\SetGrnModel.cs" />
     <Compile Include="Models\LineItemEditModel.cs" />
+    <Compile Include="Models\ManualCompletionRequest.cs" />
     <Compile Include="Models\SeasonalDateModel.cs" />
     <Compile Include="Models\SingleRoute.cs" />
     <Compile Include="Models\SingleRouteViewItem.cs" />

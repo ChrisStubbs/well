@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../httpService';
 import { GlobalSettingsService } from '../globalSettings';
 import { HttpErrorService } from '../httpErrorService';
-import { IBulkEditSummary, IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
+import { IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
+import { IPatchSummary } from '../models/patchSummary';
 
 @Injectable()
 export class BulkEditService
@@ -14,22 +15,22 @@ export class BulkEditService
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) { }
 
-    public getSummaryForJob(jobIds: Array<number>): Observable<IBulkEditSummary>
+    public getSummaryForJob(jobIds: Array<number>): Observable<IPatchSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'bulkedit/summary/jobs';
         return this.get(url, jobIds);
     }
 
-    public getSummaryForLineItems(lineitemIds: Array<number>): Observable<IBulkEditSummary>
+    public getSummaryForLineItems(lineitemIds: Array<number>): Observable<IPatchSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'bulkedit/summary/lineitems';
         return this.get(url, lineitemIds);
     }
 
-    private get(url: string, ids: Array<number>): Observable<IBulkEditSummary>
+    private get(url: string, ids: Array<number>): Observable<IPatchSummary>
     {
         return this.http.get(url, { params: { id: ids } })
-            .map((response: Response) => <IBulkEditSummary>response.json())
+            .map((response: Response) => <IPatchSummary>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

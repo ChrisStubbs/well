@@ -5,8 +5,8 @@
     public interface IPostImportRepository
     {
         void PostImportUpdate();
-        void PostTranSendImport();
-        void PostTranSendImportForTobacco();
+        void PostTranSendImport(IEnumerable<int> jobIds);
+        void PostTranSendImportForTobacco(IEnumerable<int> jobIds);
         void PostTranSendImportShortsTba(IEnumerable<int> jobIds);
     }
 }

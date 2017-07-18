@@ -51,7 +51,8 @@
                     stops, 
                     jobs, 
                     assignees, 
-                    jobRepository.JobDetailTotalsPerRouteHeader(id));
+                    jobRepository.JobDetailTotalsPerRouteHeader(id),
+                    jobRepository.GetPrimaryAccountNumberByRouteHeaderId(id));
             }
 
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));

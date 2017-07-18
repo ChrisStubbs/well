@@ -1,0 +1,50 @@
+<button style="visibility: hidden" type="button" data-target="#manualCompletionModal" data-toggle="modal" #showManualCompletionModal>
+    ShowModal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="manualCompletionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{manualCompletionTypeDescription()}}</h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{summary.manuallyCompleteMessage}}
+                    </div>
+                </div>
+                <div class="row" style="overflow-y: auto; max-height: 400px" *ngIf="hasItemsToSubmit()">
+                    <div class="col-md-12">
+                        <div class="table-responsive table-container">
+                            <table id="tableExceptionDeliveries" class="table table-hover table-striped">
+                                <thead>
+                                <tr style="height: auto">
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th class="text-right">Total Dispatched Quantity</th>
+                                    <th class="text-right">Total Dispatched Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="grid-row" *ngFor="let item of summary.items" style="height: auto">
+                                    <td>{{item.invoice}}</td>
+                                    <td>{{item.type}}</td>
+                                    <td class="text-right">{{item.totalDispatchedQuantity}}</td>
+                                    <td class="text-right">{{item.totalDispatchedValue | currency:'GBP':true}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="closeModal()" #btnClose>Cancel</button>
+                <button type="button" class="btn btn-success"  [disabled]="!hasItemsToSubmit()" (click) ="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

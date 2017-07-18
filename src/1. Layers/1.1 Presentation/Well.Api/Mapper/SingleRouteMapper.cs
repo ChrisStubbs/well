@@ -28,7 +28,8 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            Dictionary<int, string> jobPrimaryAccountNumber)
         {
             var singleRoute = new SingleRoute
             {
@@ -40,7 +41,7 @@
                 RouteDate = route.RouteDate
             };
 
-            return MapItems(singleRoute, stops, jobs, assignee, jobDetailTotalsPerRouteHeader);
+            return MapItems(singleRoute, stops, jobs, assignee, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber);
         }
 
         private SingleRoute MapItems(
@@ -48,7 +49,8 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
+            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            Dictionary<int, string> jobPrimaryAccountNumber)
         {
 
             foreach (var stop in stops)
@@ -125,7 +127,8 @@
                         WellStatus = job.WellStatus,
                         WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus),
                         GrnProcessType =  job.GrnProcessType ?? 0,
-                        GrnNumber =  job.GrnNumber
+                        GrnNumber =  job.GrnNumber,
+                        PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id]
                     };
 
                     singleRoute.Items.Add(item);

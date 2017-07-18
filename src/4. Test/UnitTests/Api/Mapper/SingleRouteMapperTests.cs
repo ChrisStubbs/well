@@ -11,6 +11,7 @@
     using Well.Domain.ValueObjects;
     using Well.Services.Contracts;
     using Branch = Well.Domain.Branch;
+    using System.Linq;
 
     [TestFixture]
     public class SingleRouteMapperTests
@@ -35,7 +36,7 @@
             public void ShouldMapSingleRouteItemsFromRouteAndBranch()
             {
 
-                var singleRoute = mapper.Map(branches, routeHeader, new List<Stop>(), new List<Job>(), new List<Assignee>(), new List<JobDetailLineItemTotals>());
+                var singleRoute = mapper.Map(branches, routeHeader, new List<Stop>(), new List<Job>(), new List<Assignee>(), new List<JobDetailLineItemTotals>(), new Dictionary<int, string>());
 
                 Assert.That(singleRoute.Branch, Is.EqualTo(branch.BranchName));
                 Assert.That(singleRoute.BranchId, Is.EqualTo(branch.Id));
@@ -50,7 +51,6 @@
             {
                 var stop = new StopFactory().Build();
                 var stops = new List<Stop> {stop};
-               
 
                 var job = new JobFactory().With(x => x.StopId = stop.Id)
                     .With(x => x.JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
@@ -90,8 +90,11 @@
                         JobDetailId = jobs[0].JobDetails[0].Id
                     }
                 };
+                var primaryAccounts = jobs
+                    .Select((p, index) => new { p.Id, index = index.ToString() })
+                    .ToDictionary(k => k.Id, v => v.index);
 
-                var singleRoute = mapper.Map(branches, routeHeader, stops, jobs, assignees, jobDetailLineItemTotals);
+                var singleRoute = mapper.Map(branches, routeHeader, stops, jobs, assignees, jobDetailLineItemTotals, primaryAccounts);
 
                 Assert.That(singleRoute.Items.Count, Is.EqualTo(2));
                 var item = singleRoute.Items[0];
@@ -113,6 +116,7 @@
                 Assert.That(item.Credit, Is.EqualTo(0));
                 Assert.That(item.Assignee, Is.EqualTo("Crip Bubbs"));
                 Assert.That(singleRoute.Items[1].Assignee, Is.EqualTo("Enri Pears"));
+                Assert.That(singleRoute.Items[1].PrimaryAccountNumber, Is.EqualTo(primaryAccounts[singleRoute.Items[1].JobId]));
             }
 
 

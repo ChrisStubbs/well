@@ -100,6 +100,12 @@
             this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
         }
 
+        public void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings)
+        {
+            var adamResponse = this.adamRepository.AmendmentTransaction(amendmentTransaction, adamSettings);
+            this.MarkAsDone(eventId, adamResponse);
+        }
+
         private void MarkAsDone(int eventId, AdamResponse response)
         {
             if (response == AdamResponse.Success)

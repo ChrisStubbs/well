@@ -2,8 +2,6 @@
 {
     public struct StoredProcedures
     {
-        public const string AuditGet = "Audit_Get";
-        public const string AuditInsert = "Audit_Insert";
         public const string RouteHeaderGetAll = "RouteHeader_GetAll";
         public const string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public const string RouteInsert = "Route_Insert";
@@ -153,9 +151,12 @@
         public const string LineItemActionGetByIds = "LineItemActionGetByIds";
         public const string LineItemActionUpdate = "LineItemActionUpdate";
         public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
+        public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
 
         public const string ActivityGetById = "Activity_GetById";
         public const string LocationGetById = "Location_GetById";
+        public const string GetSingleLocation = "SingleLocation_Get";
+        public const string GetLocations = "Locations_GET";
         
         //lookups
         public const string ExceptionType = "ExceptionTypeGet";
@@ -174,5 +175,11 @@
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
+
+        public const string GetAmendments = "Amendment_GetByJobIds";
+
+        //DateThreshold
+        public const string DateThreshold = "DateThreshold_Get";
+        public const string DateThresholdDelete = "DateThreshold_Delete";
     }
 }

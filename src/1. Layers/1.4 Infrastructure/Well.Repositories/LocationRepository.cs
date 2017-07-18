@@ -5,7 +5,6 @@
     using System.Linq;
     using Common.Contracts;
     using Contracts;
-    using Dapper;
     using Domain;
 
     public class LocationRepository : ILocationRepository
@@ -19,42 +18,33 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
-        // gets the activities, lineitem & lineitem actions for single location
-        public Location GetLocationById(int locationId)
+        public SingleLocation GetSingleLocation(int? locationId, string accountNumber = null, int? branchId = default(int?))
         {
-            var location = new Location();
+            SingleLocation result = null;
 
-            dapperReadProxy.WithStoredProcedure(StoredProcedures.LocationGetById)
-                  .AddParameter("locationId", locationId, DbType.Int32)
-                  .QueryMultiple(x => location = GetLocationFromGrid(x));
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.GetSingleLocation)
+                    .AddParameter("locationId", locationId, DbType.Int32)
+                    .AddParameter("AccountNumber", accountNumber, DbType.String)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
+                    .QueryMultiple(p =>
+                    {
+                        result = p.Read<SingleLocation>().First();
 
-            return location;
+                        result.Details = p.Read<SingleLocationItems>().ToList();
 
+                        return result;
+                    });
+
+            return result;
         }
 
-        public Location GetLocationFromGrid(SqlMapper.GridReader grid)
+        public IList<Location> GetLocation(int branchId)
         {
-            var location = grid.Read<Location>().FirstOrDefault();
-            var activities = grid.Read<Activity>().ToList();
-            var lineItems = grid.Read<LineItem>().ToList();
-            var lineItemActions = grid.Read<LineItemAction>().ToList();
-
-            if (location != null)
-            { 
-                location.Activities = activities.Where(x => x.LocationId == location.Id).ToList();
-
-                foreach (var activity in activities)
-                {
-                    activity.LineItems = lineItems.Where(x => x.ActivityId == activity.Id).ToList();
-
-                    foreach (var item in lineItems)
-                    {
-                        item.LineItemActions = lineItemActions.Where(x => x.LineItemId == item.Id).ToList();
-                    }
-                }
-            }
-
-            return location;
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.GetLocations)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
+                    .Query<Location>()
+                    .OrderBy(p => p.PrimaryAccountNumber)
+                    .ToList();
         }
     }
 }

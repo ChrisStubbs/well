@@ -27,7 +27,8 @@ namespace PH.Well.Api.DependencyResolution
         public DefaultRegistry()
         {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
                 });
@@ -62,7 +63,6 @@ namespace PH.Well.Api.DependencyResolution
             For<INotificationRepository>().Use<NotificationRepository>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
-            For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
             For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
@@ -72,6 +72,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+            For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();
@@ -85,6 +86,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
             For<IStopMapper>().Use<StopMapper>();
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
+            For<IRouteMapper>().Use<RouteMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
@@ -98,7 +100,7 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
             For<IStopStatusService>().Use<StopStatusService>();
-            
+
             //Location/activity/line item
             For<ILocationRepository>().Use<LocationRepository>();
             For<IActivityReadRepository>().Use<ActivityReadRepository>();
@@ -119,10 +121,15 @@ namespace PH.Well.Api.DependencyResolution
             For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
             For<IDateThresholdService>().Use<DateThresholdService>();
 
-            For<IJobResolutionStatus>().Use<JobService>();
+            For<IGetJobResolutionStatus>().Use<JobService>();
             For<IActivityRepository>().Use<ActivityRepository>();
             For<IBulkEditService>().Use<BulkEditService>();
-            For<IBulkEditSummaryMapper>().Use<BulkEditSummaryMapper>();
+            For<IPatchSummaryMapper>().Use<PatchSummaryMapper>();
+            For<IPostImportRepository>().Use<PostImportRepository>();
+            For<IManualCompletionService>().Use<ManualCompletionService>();
+            For<ICommentReasonRepository>().Use<CommentReasonRepository>();
+
+            For<IDateThresholdRepository>().Use<DateThresholdRepository>();
         }
     }
 }

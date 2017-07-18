@@ -196,6 +196,7 @@
     <TypeScriptCompile Include="app\activity\activityComponent.ts" />
     <TypeScriptCompile Include="app\activity\activityService.ts" />
     <TypeScriptCompile Include="app\activity\activitySource.ts" />
+    <TypeScriptCompile Include="app\approvals\approvals.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
@@ -204,14 +205,28 @@
     <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
     <TypeScriptCompile Include="app\job\job.ts" />
     <TypeScriptCompile Include="app\job\jobService.ts" />
+    <TypeScriptCompile Include="app\locations\locations.ts" />
+    <TypeScriptCompile Include="app\locations\locationsComponent.ts" />
+    <TypeScriptCompile Include="app\locations\locationsService.ts" />
+    <TypeScriptCompile Include="app\locations\singleLocation.ts" />
+    <TypeScriptCompile Include="app\locations\singleLocationComponent.ts" />
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
+    <TypeScriptCompile Include="app\shared\action\action.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\locations\locationsComponent.html" />
+    <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
     <Content Include="app\shared\action\bulkEditActionModal.html" />
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\crm\crmLinkPipe.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionRequest.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionService.ts" />
+    <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionModal.ts" />
+    <TypeScriptCompile Include="app\shared\models\jobIdResolutionStatus.ts" />
+    <TypeScriptCompile Include="app\shared\models\patchSummary.ts" />
     <TypeScriptCompile Include="app\shared\action\submitActionModal.ts" />
     <Content Include="app\activity\activityComponent.html" />
     <Content Include="app\exceptions\editExceptionsModal.html" />
@@ -244,7 +259,7 @@
     <TypeScriptCompile Include="app\shared\gridHelpers\gridHelpersFunctions.ts" />
     <TypeScriptCompile Include="app\shared\gridHelpers\IFilter.ts" />
     <TypeScriptCompile Include="app\shared\IObservableAlive.ts" />
-    <TypeScriptCompile Include="app\shared\selectYeNoFilterComponent.ts" />
+    <TypeScriptCompile Include="app\shared\models\resolutionStatus.ts" />
     <TypeScriptCompile Include="app\shared\services\ILookupValue.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupsEnum.ts" />
     <TypeScriptCompile Include="app\shared\services\lookupService.ts" />
@@ -258,10 +273,8 @@
   <ItemGroup>
     <Content Include="app\account\accountModal.html" />
     <Content Include="app\approvals\approvalsComponent.html" />
-    <Content Include="app\audit\audit-list.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
-    <Content Include="app\clean\cleanDelivery-list.html" />
     <Content Include="app\clean_preferences\clean-preferences-add-modal.html" />
     <Content Include="app\clean_preferences\clean-preferences-view.html" />
     <Content Include="app\clean_preferences\clean-preference-remove-modal.html" />
@@ -272,7 +285,6 @@
     <Content Include="app\credit_threshold\credit-threshold-edit-modal.html" />
     <Content Include="app\delivery\delivery-issues.html" />
     <Content Include="app\delivery\delivery.html" />
-    <Content Include="app\delivery\delivery-update.html" />
     <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
@@ -285,7 +297,9 @@
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
+    <Content Include="app\shared\buttonDropDownComponent.html" />
     <Content Include="app\shared\loading.html" />
+    <Content Include="app\shared\manualCompletion\manualCompletionModal.html" />
     <Content Include="app\stops\stopComponent.html" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\theme.css" />
@@ -295,21 +309,17 @@
     <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
-    <Content Include="app\shared\baseDelivery.ts" />
     <Content Include="app\delivery\model\jobDetailSource.ts" />
     <Content Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
     <Content Include="app\notifications\notifications-list.html" />
-    <Content Include="app\route_header\delivery-selection-modal.html" />
-    <Content Include="app\route_header\routeheader-list.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-add-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-remove-modal.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-view.html" />
     <Content Include="app\seasonal_dates\seasonal-dates-edit-modal.html" />
     <Content Include="app\shared\branch\branch-select.html" />
     <Content Include="app\shared\contact-modal.html" />
-    <Content Include="app\shared\orderby-arrow.html" />
     <Content Include="app\shared\confirmModal.html" />
     <Content Include="app\shared\optionFilter.html" />
     <Content Include="app\home\widgets.html" />
@@ -461,9 +471,6 @@
     <Content Include="app\appModule.ts" />
     <Content Include="app\appComponent.ts" />
     <Content Include="app\appRoutes.ts" />
-    <Content Include="app\audit\auditComponent.ts" />
-    <Content Include="app\audit\audit.ts" />
-    <Content Include="app\audit\auditService.ts" />
     <Content Include="app\branch-role\branchRoleComponent.ts" />
     <Content Include="app\clean_preferences\cleanPreference.ts" />
     <Content Include="app\clean_preferences\cleanPreferenceComponent.ts" />
@@ -485,16 +492,11 @@
     <Content Include="app\shared\branch\branch.ts" />
     <Content Include="app\branch\branchSelectionComponent.ts" />
     <Content Include="app\shared\branch\branchService.ts" />
-    <Content Include="app\clean\cleanDelivery.ts" />
-    <Content Include="app\clean\cleanDeliveryService.ts" />
     <Content Include="app\delivery\model\jobDetailReason.ts" />
     <Content Include="app\delivery\model\delivery.ts" />
     <Content Include="app\delivery\deliveryComponent.ts" />
     <Content Include="app\delivery\model\deliveryLine.ts" />
     <Content Include="app\delivery\deliveryService.ts" />
-    <Content Include="app\delivery\deliveryUpdateComponent.ts" />
-    <Content Include="app\exceptions\exceptionDelivery.ts" />
-    <Content Include="app\exceptions\exceptionDeliveryService.ts" />
     <Content Include="app\home\widgetGraphComponent.ts" />
     <Content Include="app\main.ts">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -503,11 +505,7 @@
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />
     <Content Include="app\notifications\notificationsService.ts" />
-    <Content Include="app\route_header\delivery-selection-modal.ts" />
     <Content Include="app\routes\route.ts" />
-    <Content Include="app\route_header\routeHeader.ts" />
-    <Content Include="app\route_header\routeHeaderComponent.ts" />
-    <Content Include="app\route_header\routeHeaderService.ts" />
     <Content Include="app\shared\branch\branchCheckboxComponent.ts" />
     <Content Include="app\shared\contactModal.ts" />
     <Content Include="app\shared\creditItem.ts" />
@@ -517,7 +515,6 @@
     <Content Include="app\shared\globalSettings.ts" />
     <Content Include="app\shared\httpErrorService.ts" />
     <Content Include="app\shared\outstandingPipe.ts" />
-    <Content Include="app\shared\orderbyArrow.ts" />
     <Content Include="app\shared\orderByDatePipe.ts" />
     <Content Include="app\shared\refreshService.ts" />
     <Content Include="app\shared\security\securityService.ts" />
@@ -526,7 +523,6 @@
     <Content Include="app\shared\userJobs.ts" />
     <Content Include="app\shared\userService.ts" />
     <Content Include="app\shared\confirmModal.ts" />
-    <Content Include="app\shared\optionFilterComponent.ts" />
     <Content Include="app\shared\filterOption.ts" />
     <Content Include="app\shared\optionFilterPipe.ts" />
     <Content Include="app\home\widgetService.ts" />
@@ -558,10 +554,8 @@
     <Content Include="app\approvals\approval.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
     <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
-    <TypeScriptCompile Include="app\driver\driverService.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCredit.ts" />
     <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
-    <TypeScriptCompile Include="app\exceptions\exceptionsConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
     <Content Include="app\routes\routesComponent.ts" />
     <TypeScriptCompile Include="app\routes\routeFilter.ts" />
@@ -572,18 +566,15 @@
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResultSummary.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
-    <TypeScriptCompile Include="app\shared\BaseComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
     <TypeScriptCompile Include="app\shared\dateComponent.ts" />
     <TypeScriptCompile Include="app\shared\httpService.ts" />
     <TypeScriptCompile Include="app\shared\IOptionFilter.ts" />
-    <TypeScriptCompile Include="app\shared\NavigateQueryParameters.ts" />
-    <TypeScriptCompile Include="app\shared\NavigateQueryParametersService.ts" />
     <Content Include="app\shared\loadingComponent.ts" />
     <TypeScriptCompile Include="app\shared\OrderByExecutor.ts" />
     <TypeScriptCompile Include="app\shared\orderByPipe.ts" />
     <TypeScriptCompile Include="app\shared\shared.ts" />
-    <TypeScriptCompile Include="app\shared\splitButtonComponent.ts" />
+    <TypeScriptCompile Include="app\shared\buttonDropDownComponent.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,9 +1,10 @@
-﻿namespace PH.Well.Api.Controllers
-{
-    using System.Web.Http;
-    using Domain;
-    using Repositories.Contracts;
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using PH.Well.Domain;
+using PH.Well.Repositories.Contracts;
 
+namespace PH.Well.Api.Controllers
+{
     public class LocationController : ApiController
     {
         private readonly ILocationRepository locationRepository;
@@ -13,9 +14,9 @@
             this.locationRepository = locationRepository;
         }
 
-        public Location GetById(int locationId)
+        public IList<Location> Get(int id)
         {
-            return this.locationRepository.GetLocationById(locationId);
+            return locationRepository.GetLocation(id);
         }
     }
 }

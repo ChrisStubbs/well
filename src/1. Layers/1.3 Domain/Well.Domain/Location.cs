@@ -1,21 +1,14 @@
 ﻿namespace PH.Well.Domain
 {
-    using System.Collections.Generic;
-
-    public class Location : Entity<int>
+    public class Location
     {
-        public Location()
-        {
-            this.Activities = new List<Activity>();
-        }
-
         public int BranchId { get; set; }
-        public string AccountCode { get; set; }
-        public string Name { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string Postcode { get; set; }
-
-        public List<Activity> Activities { get; set; }
+        public string Branch { get; set; }
+        public string PrimaryAccountNumber { get; set; }
+        public string AccountNumber { get; set; }
+        public string AccountName { get; set; }
+        public string Address { get; set; }
+        public int TotalInvoices { get; set; }
+        public int Exceptions { get; set; }
     }
 }

@@ -29,7 +29,6 @@
 
         private readonly ILogger logger;
 
-        private IAuditRepository auditRepo;
 
         private INotificationRepository notificationRepository;
 
@@ -42,7 +41,6 @@
             this.dapperProxy = this.container.GetInstance<IWellDapperProxy>();
             this.webClient = this.container.GetInstance<IWebClient>();
             this.logger = this.container.GetInstance<ILogger>();
-            this.auditRepo = this.container.GetInstance<IAuditRepository>();
             this.notificationRepository = this.container.GetInstance<INotificationRepository>();
             this.creditThresholdRepository = this.container.GetInstance<ICreditThresholdRepository>();
         }
@@ -151,51 +149,7 @@
         {
             this.MakeJobDetailsLineDeliveryStatusException();
         }
-
-        [Given(@"25 audit entries have been made")]
-        public void InsertAudits()
-        {
-            for (int i = 0; i < 25; i++)
-            {
-                var audit = new Audit()
-                {
-                    Entry = "Audit 123",
-                    AccountCode = "123456",
-                    InvoiceNumber = "987654",
-                    DeliveryDate = new DateTime(2016, 1, 20)
-                };
-                auditRepo.Save(audit);
-            }
-        }
-
-        [Given(@"5 audit entries have been made")]
-        public void Insert5Audits()
-        {
-            var audit = new Audit()
-            {
-                Entry = "Audit 123",
-                Type = AuditType.DeliveryLineUpdate,
-                AccountCode = "123456",
-                InvoiceNumber = "987654",
-                DeliveryDate = new DateTime(2016, 1, 20)
-            };
-
-            auditRepo.Save(audit);
-            auditRepo.Save(audit);
-
-            var audit2 = new Audit()
-            {
-                Entry = "Audit 456",
-                Type = AuditType.DeliveryLineUpdate,
-                AccountCode = "88888",
-                InvoiceNumber = "55555",
-                DeliveryDate = new DateTime(2016, 5, 15)
-            };
-            auditRepo.Save(audit2);
-            auditRepo.Save(audit2);
-            auditRepo.Save(audit2);
-        }
-
+        
         [When(@"valid invoice numbers are assigned to jobs")]
         public void WhenValidInvoiceNumbersAreAssignedToJobs()
         {

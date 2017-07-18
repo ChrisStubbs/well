@@ -24,9 +24,10 @@
         public string Product { get; set; }
         public decimal Value { get; set; }
         public int? Invoiced { get; set; }
-        public int? Delivered => Invoiced - (Damages + Shorts);
+        public int? Delivered => Invoiced - (Damages + Shorts + Bypass);
         public int Damages { get; set; }
         public int Shorts { get; set; }
+        public int Bypass { get; set; }
         public int Quantity { get; set; }
         public bool CanEditActions { get; set; }
         public string Resolution { get; set; }

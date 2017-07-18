@@ -139,8 +139,19 @@ export class ActionEditComponentRefactor implements IObservableAlive {
         return existingComments.length > 0;
     }
 
-    private isBaypassException(value: any): boolean {
+    private isBaypassExceptionType(value: any): boolean {
         return Number(value) == this.baypassValue;
+    }
+
+    private hasBaypassActions() {
+        const baypassActions = _.filter(this.source.lineItemActions,
+            (item: LineItemAction) => {
+                if (this.isBaypassExceptionType(item.exceptionType)) {
+                    return item;
+                }
+            });
+
+        return baypassActions.length > 0;
     }
 
     private loadSource(editLineItemException: EditLineItemException): void {
@@ -163,7 +174,49 @@ export class ActionEditComponentRefactor implements IObservableAlive {
             (control) => this.validateTotalQuantity(control));
 
         this.actionsForm = this.formBuilder.group({
-                actionsGroup: this.actionsGroup
+            actionsGroup: this.actionsGroup
+        });
+    }
+
+    private createBypassLineItemActionFormGroup(item: LineItemAction) {
+        const action = this.formBuilder.control(item.deliveryAction, Validators.required);
+
+        const quantity = this.formBuilder.control({
+                value: item.quantity,
+                disabled: true
+            },
+            [Validators.pattern('^[0-9]+$')]);
+
+        const commentReason = this.formBuilder.control({
+            value: item.commentReason,
+            disabled: true
+        });
+
+        const exceptionType = this.formBuilder.control({
+            value: item.exceptionType,
+            disabled: true
+        });
+        const source = this.formBuilder.control({
+            value: item.source,
+            disabled: true
+        });
+        const reason = this.formBuilder.control({
+            value: item.reason,
+            disabled: true
+        });
+        const originator = this.formBuilder.control({
+            value: item.originator,
+            disabled: true
+        });
+
+        return this.formBuilder.group({
+                action: action,
+                quantity: quantity,
+                commentReason: commentReason,
+                exceptionType: exceptionType,
+                source: source,
+                reason: reason,
+                originator
             });
     }
 
@@ -178,7 +231,7 @@ export class ActionEditComponentRefactor implements IObservableAlive {
         });
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
-            disabled: this.isBaypassException(item.exceptionType)
+            disabled: this.isBaypassExceptionType(item.exceptionType)
         });
         const source = this.formBuilder.control(item.source);
         const reason = this.formBuilder.control(item.reason);

@@ -73,11 +73,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div>
-                                <span>Valid : {{ actionsForm.valid }}</span>
-                                <p>actionsForm value: {{ actionsForm.value | json}}</p>
-                               <p>actionsGroup value: {{ actionsGroup.value | json}}
-                            </div>
                             <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid">
                                 <h4>Form contains invalid data</h4>
                                 <ul *ngIf="actionsForm.controls.actionsGroup.errors">
@@ -172,10 +167,10 @@
                                                     </select>
                                                 </td>
                                                 <td style="text-align: center; vertical-align: middle">
-                                                    <button *ngIf="item.value.originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                                    <button *ngIf="lineItemActions[i].originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
                                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                     </button>
-                                                    <span *ngIf="item.originator == 0">
+                                                    <span *ngIf="lineItemActions[i].originator == 0">
                                                         <i *ngIf="source.driverReason" class="fa fa-truck" aria-hidden="true" tooltip="{{source.driverReason}}" tooltipPlacement="left"></i>
                                                         <i *ngIf="!source.driverReason" class="fa fa-truck" aria-hidden="true"></i>
                                                     </span>
@@ -201,7 +196,7 @@
 
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" #closeModal>Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="true || !actionsForm.valid" (click)="save()">Save</button>
+                                <button type="button" class="btn btn-success" [disabled]="!actionsForm.valid" (click)="save()">Save</button>
                             </div>
                         </div>
                     </div>

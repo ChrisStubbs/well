@@ -418,6 +418,9 @@
     <Build Include="dbo\StoredProcedures\Locations_GET.sql" />
     <Build Include="dbo\StoredProcedures\Amendment_GetByJobIds.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
+    <Build Include="dbo\Tables\BranchDateThreshold.sql" />
+    <Build Include="dbo\StoredProcedures\DateThreshold_Get.sql" />
+    <Build Include="dbo\StoredProcedures\DateThreshold_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

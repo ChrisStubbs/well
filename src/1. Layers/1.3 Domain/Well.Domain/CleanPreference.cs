@@ -2,6 +2,7 @@
 {
     using System.Collections.ObjectModel;
 
+    [Deprecated]
     public class CleanPreference : Entity<int>
     {
         public CleanPreference()

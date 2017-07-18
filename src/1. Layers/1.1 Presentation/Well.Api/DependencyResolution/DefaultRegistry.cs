@@ -128,6 +128,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IPostImportRepository>().Use<PostImportRepository>();
             For<IManualCompletionService>().Use<ManualCompletionService>();
             For<ICommentReasonRepository>().Use<CommentReasonRepository>();
+
+            For<IDateThresholdRepository>().Use<DateThresholdRepository>();
         }
     }
 }

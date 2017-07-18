@@ -176,5 +176,9 @@
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
 
         public const string GetAmendments = "Amendment_GetByJobIds";
+
+        //DateThreshold
+        public const string DateThreshold = "DateThreshold_Get";
+        public const string DateThresholdDelete = "DateThreshold_Delete";
     }
 }

@@ -1,8 +1,9 @@
 ﻿namespace PH.Well.Domain
 {
+    using System;
     using System.Collections.ObjectModel;
 
-    [Deprecated]
+    [Obsolete]
     public class CleanPreference : Entity<int>
     {
         public CleanPreference()

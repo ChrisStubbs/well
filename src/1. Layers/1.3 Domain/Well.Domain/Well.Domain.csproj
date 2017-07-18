@@ -53,6 +53,7 @@
     <Compile Include="CleanPreference.cs" />
     <Compile Include="CommentReason.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
+    <Compile Include="DateThreshold.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />

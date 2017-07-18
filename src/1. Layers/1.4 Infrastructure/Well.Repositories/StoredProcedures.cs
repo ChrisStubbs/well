@@ -2,8 +2,6 @@
 {
     public struct StoredProcedures
     {
-        public const string AuditGet = "Audit_Get";
-        public const string AuditInsert = "Audit_Insert";
         public const string RouteHeaderGetAll = "RouteHeader_GetAll";
         public const string RoutesCheckDuplicate = "Routes_CheckDuplicate";
         public const string RouteInsert = "Route_Insert";
@@ -179,5 +177,9 @@
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
 
         public const string GetAmendments = "Amendment_GetByJobIds";
+
+        //DateThreshold
+        public const string DateThreshold = "DateThreshold_Get";
+        public const string DateThresholdDelete = "DateThreshold_Delete";
     }
 }

@@ -70,7 +70,6 @@
     <Compile Include="ActivityRepository.cs" />
     <Compile Include="AmendmentFactory.cs" />
     <Compile Include="AmendmentRepository.cs" />
-    <Compile Include="AuditRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IDateThresholdRepository.cs" />
     <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
@@ -100,7 +100,6 @@
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
-    <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
@@ -118,6 +117,7 @@
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
+    <Compile Include="DateThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />

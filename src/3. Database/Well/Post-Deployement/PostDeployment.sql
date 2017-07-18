@@ -41,3 +41,4 @@ Post-Deployment Script Template
 :r .\Populate-WellStatus.sql
 :r .\Populate-CommentReason.sql
 :r .\Populate-ResolutionStatus.sql
+:r .\Populate-BranchDateThreshold.sql

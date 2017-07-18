@@ -297,9 +297,7 @@
         </div>
     </div>
 </div>
-<!--<action-edit (onSave)="lineItemSaved($event)"></action-edit>-->
+<action-edit (onSave)="lineItemSaved($event)"></action-edit>
 <contact-modal></contact-modal>
 <bulk-edit-action-modal [lineItemIds]="selectedLineItems()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
 <manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
-
-<action-edit-refactor (onSave)="lineItemSaved($event)"></action-edit-refactor>

@@ -100,7 +100,6 @@ import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 import { SingleLocationComponent, LocationsService } from './locations/locations';
 import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
-import {ActionEditComponentRefactor} from './shared/action/actionEditComponentRefactor';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -117,7 +116,7 @@ import {ActionEditComponentRefactor} from './shared/action/actionEditComponentRe
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, ExceptionsConfirmModal, BulkCreditConfirmModal, DateComponent, SplitButtonComponent, StopComponent, SelectYeNoFilterComponent,
         SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, ActionEditComponentRefactor
+        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

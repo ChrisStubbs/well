@@ -212,12 +212,11 @@
     <TypeScriptCompile Include="app\routes\singleRoute.ts" />
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\action.ts" />
-    <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
-    <Content Include="app\shared\action\actionEditComponentRefactor.html" />
+    <Content Include="app\shared\action\actionEditComponent.html" />
     <Content Include="app\shared\action\bulkEditActionModal.html" />
-    <TypeScriptCompile Include="app\shared\action\actionEditComponentRefactor.ts" />
+    <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
@@ -295,7 +294,6 @@
     <Content Include="app\job\assignGrnModal.html" />
     <Content Include="app\routes\routesComponent.html" />
     <Content Include="app\routes\singleRouteComponent.html" />
-    <Content Include="app\shared\action\actionEditComponent.html" />
     <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />

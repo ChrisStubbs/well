@@ -366,9 +366,7 @@ class LineItemActionValidator implements Validator {
     }
 
     private validateCloseAction(group: FormGroup): ValidationErrors {
-        console.log('validateCloseAction');
-        // Set default values here ?
-
+        // No validation
         return undefined;
     }
 

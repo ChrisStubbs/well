@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -61,7 +63,8 @@
                 actionSummaryMapper.Object,
                 jobRepository.Object,
                 jobService.Object,
-                userRepository.Object);
+                userRepository.Object)
+            { CallBase = true };
         }
 
 
@@ -150,7 +153,7 @@
                 var results = mockedSubmitActionService.Object.SubmitAction(submitAction);
 
                 mockedSubmitActionService.Verify(x => x.SubmitCredits(It.IsAny<Job>()), Times.Never);
-                userRepository.Verify(x=> x.UnAssignJobToUser(It.IsAny<int>()),Times.Once);
+                userRepository.Verify(x => x.UnAssignJobToUser(It.IsAny<int>()), Times.Once);
                 userRepository.Verify(x => x.UnAssignJobToUser(job1.Id), Times.Once);
             }
 
@@ -189,9 +192,9 @@
                 jobRepository.Verify(x => x.SaveJobResolutionStatus(job1), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(1));
                 jobRepository.Verify(x => x.Update(job1), Times.Exactly(1));
-                Assert.That(job1SaveJobResolutionStatus[0],Is.EqualTo(ResolutionStatus.Approved));
+                Assert.That(job1SaveJobResolutionStatus[0], Is.EqualTo(ResolutionStatus.Approved));
                 Assert.That(job1SaveJobResolutionStatus[1], Is.EqualTo(ResolutionStatus.Credited));
-                
+
             }
 
 
@@ -265,10 +268,53 @@
 
         public class TheSubmitCreditsMethod : SubmitActionServiceTests
         {
+            [SetUp]
+            public override void SetUp()
+            {
+                base.SetUp();
+                mockedSubmitActionService.Setup(x => x.CreditJobInAdam(It.IsAny<Job>()));
+            }
 
+            [Test]
             public void ShouldCreditJobInAdamsIfAnyCreditDeliveryActions()
             {
                 var job = JobFactory.New.With(x => x.LineItems.Add(LineItemFactory.New.AddCreditAction().Build())).Build();
+
+                mockedSubmitActionService.Object.SubmitCredits(job);
+
+                mockedSubmitActionService.Verify(x => x.CreditJobInAdam(It.IsAny<Job>()), Times.Once);
+                mockedSubmitActionService.Verify(x => x.CreditJobInAdam(job), Times.Once);
+            }
+
+            [Test]
+            public void ShouldNotCreditJobInAdamsIfNoCreditDeliveryActions()
+            {
+                var job = JobFactory.New.Build();
+
+                mockedSubmitActionService.Object.SubmitCredits(job);
+
+                mockedSubmitActionService.Verify(x => x.CreditJobInAdam(It.IsAny<Job>()), Times.Never);
+            }
+        }
+
+        public class TheCreditJobInAdamMethod : SubmitActionServiceTests
+        {
+            [Test]
+            public void ShouldMapJobToDeliveryLineBuildCreditEventTansactionThenInsertExceptionEvent()
+            {
+                var job = JobFactory.New.WithJobRoute(1, DateTime.Now).Build();
+                var credits = new List<DeliveryLineCredit>();
+                var creditTransaction = new CreditTransaction();
+                deliveryLineCreditMapper.Setup(x => x.Map(job)).Returns(credits);
+                creditTransactionFactory.Setup(x => x.Build(credits, job.JobRoute.BranchId)).Returns(creditTransaction);
+                exceptionEventRepository.Setup(x => x.InsertCreditEventTransaction(creditTransaction));
+
+                submitActionService.CreditJobInAdam(job);
+
+                deliveryLineCreditMapper.Verify(x => x.Map(job), Times.Once);
+                creditTransactionFactory.Verify(x => x.Build(credits, job.JobRoute.BranchId),Times.Once);
+                exceptionEventRepository.Verify(x => x.InsertCreditEventTransaction(creditTransaction),Times.Once);
+
             }
         }
     }

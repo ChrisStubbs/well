@@ -128,7 +128,7 @@
             }
         }
 
-        private void CreditJobInAdam(Job job)
+        public virtual void CreditJobInAdam(Job job)
         {
             var credits = deliveryLineCreditMapper.Map(job);
             var creditEventTransaction = this.creditTransactionFactory.Build(credits, job.JobRoute.BranchId);

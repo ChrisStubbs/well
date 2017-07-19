@@ -175,7 +175,7 @@
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: detail.primaryAccountNumber, branchId: branchId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a [routerLink]="['/invoice', item.invoice, branchId]">{{detail.invoice}}</a>
+                                <a [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
                                 <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
                             </td>
                             <td>{{detail.jobType}}</td>

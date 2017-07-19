@@ -37,7 +37,7 @@
         /// <summary>
         /// IOC Dependency Registration
         /// </summary>
-        private static Container InitIoc()
+        public static Container InitIoc()
         {
             return new Container(
                 x =>
@@ -72,6 +72,8 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
                 });
         }
     }

@@ -69,7 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IPrincipleExtensions.cs" />
-    <Compile Include="Import.cs" />
+    <Compile Include="ITransendImport.cs" />
+    <Compile Include="TransendImport.cs" />
     <Compile Include="Infrastructure\Configuration.cs" />
     <Compile Include="Infrastructure\DependancyRegister.cs" />
     <Compile Include="Infrastructure\EpodFileProvider.cs" />

@@ -23,6 +23,7 @@
             return new Container(
                 x =>
                 {
+                    x.For<ITransendImport>().Use<TransendImport>();
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
@@ -41,7 +42,6 @@
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-                   // x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteMapper>().Use<RouteMapper>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
@@ -56,6 +56,8 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

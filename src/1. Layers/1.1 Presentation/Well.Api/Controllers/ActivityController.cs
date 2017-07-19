@@ -2,9 +2,7 @@
 
 namespace PH.Well.Api.Controllers
 {
-    using System;
     using Domain.ValueObjects;
-    using Repositories;
     using Repositories.Contracts;
 
     public class ActivityController : ApiController

@@ -44,6 +44,7 @@ export class ActivitySourceGroup
     public totalDamaged: number;
     public totalShorts: number;
     public totalExpected: number;
+    public totalActual: number;
     public details: Array<ActivitySourceDetail>;
     public resolution: string;
     public resolutionId: number;
@@ -62,6 +63,7 @@ export class ActivitySourceDetail
     public type: string;
     public description: string;
     public value: number;
+    public actual: number;
     public expected: number;
     public damaged: number;
     public shorts: number;

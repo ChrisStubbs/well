@@ -67,6 +67,21 @@
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetById(int id)
+        {
+            var branch = this.branchRespository.GetAllValidBranches().FirstOrDefault(x => x.Id == id);
+            if (branch != null)
+            {
+                var branchArray = new[] {branch};
+                return Request.CreateResponse(branchModelMapper.Map(branchArray, branchArray).Single());
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
+
         [Route("branch-season")]
         [HttpGet]
         public HttpResponseMessage Get(int seasonalDateId)

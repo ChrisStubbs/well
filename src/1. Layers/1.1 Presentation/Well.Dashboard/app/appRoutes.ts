@@ -1,10 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
 import {ApprovalsComponent} from './approvals/approvalsComponent';
-import {AuditComponent} from './audit/auditComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
 import {DeliveryComponent} from './delivery/deliveryComponent';
-import {DeliveryUpdateComponent} from './delivery/deliveryUpdateComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RoutesComponent } from './routes/routesComponent';
@@ -16,19 +14,17 @@ import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevel
 import { SingleRouteComponent } from './routes/singleRouteComponent';
 import {StopComponent} from './stops/stopComponent';
 import {ActivityComponent} from './activity/activityComponent';
-import {SingleLocationComponent} from './locations/singleLocationComponent';
+import {SingleLocationComponent, LocationsComponent} from './locations/locations';
 
 const routes: Routes = [
     { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },
     { path: 'unauthorised', component: UnauthorisedComponent },
     { path: 'approvals', component: ApprovalsComponent },
-    { path: 'audits', component: AuditComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'delivery/:id', component: DeliveryComponent },
-    { path: 'delivery/:id/:line', component: DeliveryUpdateComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'routes', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },
@@ -39,7 +35,8 @@ const routes: Routes = [
     { path: 'singleroute/:id', component: SingleRouteComponent },
     { path: 'stops/:id', component: StopComponent },
     { path: 'invoice/:number/:branchId', component: ActivityComponent },
-    { path: 'singlelocation', component: SingleLocationComponent }
+    { path: 'singlelocation', component: SingleLocationComponent },
+    { path: 'locations', component: LocationsComponent }
 ];
 
 export const appRoutingProviders: any[] = [];

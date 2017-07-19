@@ -63,7 +63,6 @@ namespace PH.Well.Api.DependencyResolution
             For<INotificationRepository>().Use<NotificationRepository>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
-            For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
             For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
@@ -129,6 +128,8 @@ namespace PH.Well.Api.DependencyResolution
             For<IPostImportRepository>().Use<PostImportRepository>();
             For<IManualCompletionService>().Use<ManualCompletionService>();
             For<ICommentReasonRepository>().Use<CommentReasonRepository>();
+
+            For<IDateThresholdRepository>().Use<DateThresholdRepository>();
         }
     }
 }

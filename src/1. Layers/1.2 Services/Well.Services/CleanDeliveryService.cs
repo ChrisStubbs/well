@@ -28,6 +28,8 @@
 
         private readonly ISeasonalDateRepository seasonalDateRepository;
 
+        private readonly IAmendmentService amendmentService;
+
         public CleanDeliveryService(
             ILogger logger,
             IRouteHeaderRepository routeHeaderRepository,
@@ -36,7 +38,8 @@
             IJobDetailRepository jobDetailRepository,
             IRouteToRemoveRepository routeToRemoveRepository,
             ICleanPreferenceRepository cleanPreferenceRepository,
-            ISeasonalDateRepository seasonalDateRepository)
+            ISeasonalDateRepository seasonalDateRepository,
+            IAmendmentService amendmentService)
         {
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
@@ -46,6 +49,7 @@
             this.routeToRemoveRepository = routeToRemoveRepository;
             this.cleanPreferenceRepository = cleanPreferenceRepository;
             this.seasonalDateRepository = seasonalDateRepository;
+            this.amendmentService = amendmentService;
         }
 
         public void DeleteCleans()
@@ -61,6 +65,9 @@
 
             foreach (var routeId in routeIds)
             {
+               
+
+                var jobIdsForDeletion = new List<int>();
                 var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
 
                 foreach (var routeHeader in route.RouteHeaders)
@@ -82,6 +89,11 @@
                             }
 
                             job.SetToDelete();
+                            //todo save all the ids of the jobs that are to be deleted 
+                            if (job.IsDeleted)
+                            {
+                                jobIdsForDeletion.Add(job.JobId);
+                            }
                         }
 
                         stop.SetToDelete();
@@ -92,7 +104,13 @@
 
                 route.SetToDelete();
 
-                try
+                this.logger.LogDebug($"Start generating amendments for route id {routeId}...");
+                // produce amendments for jobs to be deleted for this route
+                this.amendmentService.ProcessAmendments(jobIdsForDeletion);
+
+                this.logger.LogDebug($"Finished  generating amendments for route id {routeId}...");
+
+              /*  try
                 {
                     foreach (var routeHeader in route.RouteHeaders)
                     {
@@ -141,13 +159,16 @@
                 catch (Exception exception)
                 {
                     this.logger.LogError("Error when trying to delete clean route!", exception);
-                }
+                }*/
             }
 
-            this.logger.LogDebug("Finished cleaning the Well...");
+            this.logger.LogDebug
+                ("Finished cleaning the Well...");
         }
 
-        public bool CanDelete(
+
+        public
+            bool CanDelete(
             CustomerRoyaltyException royaltyException,
             CleanPreference cleanPreference,
             IEnumerable<SeasonalDate> seasonalDates,

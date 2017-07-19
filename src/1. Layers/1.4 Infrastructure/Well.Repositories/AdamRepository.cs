@@ -230,7 +230,7 @@
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                         $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
-                        2010);
+                        2012);
                 }
             }
 
@@ -261,7 +261,7 @@
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                        $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
-                       2020);
+                       2022);
                     }
                 }
             }
@@ -302,7 +302,7 @@
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                         $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
-                        2010);
+                        2013);
                 }
             }
 
@@ -342,6 +342,75 @@
             {
                 this.eventRepository.InsertPodTransaction(pod);
                 this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
+                return AdamResponse.AdamDown;
+            }
+
+            return AdamResponse.Unknown;
+        }
+
+        public AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings)
+        {
+            var linesToRemove = new Dictionary<int, string>();
+
+            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new AdamCommand(connection))
+                    {
+                        foreach (var line in amend.LineSql.OrderBy(x => x.Key))
+                        {
+                            command.CommandText = line.Value;
+                            command.ExecuteNonQuery();
+                            linesToRemove.Add(line.Key, line.Value);
+                        }
+                    }
+                }
+                catch (AdamProviderException adamException)
+                {
+                    this.logger.LogError("ADAM error occurred writing amendment line!", adamException);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        $"Adam exception {adamException} when writing amendment line for amend transaction {amend.HeaderSql}",
+                        2015);
+                }
+            }
+
+            foreach (var line in linesToRemove)
+            {
+                amend.LineSql.Remove(line.Key);
+            }
+
+            if (amend.CanWriteHeader)
+            {
+                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        using (var command = new AdamCommand(connection))
+                        {
+                            command.CommandText = amend.HeaderSql;
+                            command.ExecuteNonQuery();
+
+                            return AdamResponse.Success;
+                        }
+                    }
+                    catch (AdamProviderException adamException)
+                    {
+                        this.logger.LogError("ADAM error occurred writing amend header!", adamException);
+
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                       $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
+                       2025);
+                    }
+                }
+            }
+            else
+            {
+                this.logger.LogError("ADAM error occurred writing pod! Remaining amend details recorded.");
                 return AdamResponse.AdamDown;
             }
 
@@ -476,7 +545,6 @@
         }
 
         #endregion Global Uplift
-
         /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
              {
 

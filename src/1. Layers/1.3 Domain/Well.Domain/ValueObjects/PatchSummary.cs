@@ -26,7 +26,7 @@
             ? (Items.Count == 1)
                 ? $"One job with a total order value of £{TotalDispatchedValue} selected"
                 : $"{Items.Count} jobs with a total order value of £{TotalDispatchedValue} selected"
-            : "No jobs that can be manually completed selected ";
+            : "No jobs that can be manually completed selected. The Job must be assigned to you and have a status of 'Invoiced' or be marked as 'Completed on Paper'";
 
         public int NoOfJobs => Items.Count;
         public int TotalDispatchedQuantity => Items.Sum(x => x.TotalDispatchedQuantity);

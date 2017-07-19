@@ -24,9 +24,13 @@ import { AssignModalResult, AssignModel }                   from '../shared/comp
 import { Branch }                                           from '../shared/branch/branch';
 import { ISubmitActionResult, ISubmitActionResultDetails }  from '../shared/action/submitActionModel';
 import {IBulkEditResult}                                    from '../shared/action/bulkEditItem';
+import {AccountReference}                                   from '../shared/crm/crmLinkPipe';
+import {ManualCompletionModal}                              from '../shared/manualCompletion/manualCompletionModal';
+import {SubmitActionModal}                                  from '../shared/action/submitActionModal';
+import {ManualCompletionType}                               from '../shared/manualCompletion/manualCompletionRequest';
+import {IJobIdResolutionStatus}                             from '../shared/models/jobIdResolutionStatus';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import {AccountReference} from '../shared/crm/crmLinkPipe';
 
 @Component({
     selector: 'ow-singleLocation',
@@ -43,12 +47,16 @@ export class SingleLocationComponent implements IObservableAlive
     public wellStatus: Array<ILookupValue>;
 
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private gridSource: Array<SingleLocationGroup> = [];
     private filters = new SingleLocationFilter();
     private source: SingleLocationHeader = new SingleLocationHeader();
     private isReadOnlyUser: boolean = false;
     private accountReference: AccountReference = new AccountReference('', 0);
+    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
+                                       'Edit Exceptions', 'Submit Exceptions'];
 
     constructor(
         private lookupService: LookupService,
@@ -63,13 +71,21 @@ export class SingleLocationComponent implements IObservableAlive
 
     public ngOnInit(): void {
 
+        this.refreshLocationFromApi();
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshLocationFromApi(): void 
+    {
         this.route.queryParams
             .flatMap(data =>
             {
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.locationsService.getSingleRoute(data.id, data.accountNumber, <number>data.branchId),
+                    this.locationsService.getSingleLocation(data.id, data.accountNumber, <number>data.branchId),
                     this.lookupService.get(LookupsEnum.WellStatus)
                 );
             })
@@ -86,7 +102,7 @@ export class SingleLocationComponent implements IObservableAlive
 
                 _.forEach(this.source.details, (current: SingleLocation) =>
                 {
-                    current.assignee = current.assignee ||  'Unallocated';
+                    current.assignee = current.assignee || 'Unallocated';
 
                     this.drivers.push(current.driver || '');
                     this.assignees.push(current.assignee);
@@ -97,9 +113,6 @@ export class SingleLocationComponent implements IObservableAlive
 
                 this.buildGridSource();
             });
-
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     private buildGridSource(): void
@@ -133,6 +146,7 @@ export class SingleLocationComponent implements IObservableAlive
                 item.isExpanded = _.includes(expanded, current[0].invoice);
                 item.details = current;
                 item.isInvoice = current[0].isInvoice;
+                item.accountNumber = current[0].accountNumber;
 
                 this.gridSource.push(item);
             })
@@ -149,11 +163,6 @@ export class SingleLocationComponent implements IObservableAlive
     {
         this.filters = new SingleLocationFilter();
         this.buildGridSource();
-    }
-
-    private bulkEdit(): void
-    {
-        this.bulkEditActionModal.show();
     }
 
     public selectedItems(): Array<SingleLocation>
@@ -291,5 +300,31 @@ export class SingleLocationComponent implements IObservableAlive
         });
 
         this.buildGridSource();
+    }
+
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
+        this.refreshLocationFromApi();
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+        case 'Manually Complete':
+            this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+            break;
+        case 'Manually Bypass':
+            this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+            break;
+        case 'Edit Exceptions':
+            this.bulkEditActionModal.show();
+            break;
+        case 'Submit Exceptions':
+            this.submitActionModal.show();
+            break;
+        default:
+            return;
+        }
     }
 }

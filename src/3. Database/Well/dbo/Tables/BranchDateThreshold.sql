@@ -1,0 +1,11 @@
+﻿CREATE TABLE BranchDateThreshold
+(
+	BranchId		Int NOT NULL CONSTRAINT PK_BranchDateThreshold PRIMARY KEY CLUSTERED, 
+	NumberOfDays	TinyInt NOT NULL,
+	CreatedBy		VARCHAR(50) NOT NULL,
+	DateCreated		DATETIME NOT NULL,
+	UpdatedBy		VARCHAR(50) NOT NULL,
+	DateUpdated		DATETIME NOT NULL,
+
+	CONSTRAINT FK_BranchDateThreshold_Branch FOREIGN KEY (BranchId) REFERENCES Branch(Id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+)

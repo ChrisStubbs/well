@@ -12,6 +12,7 @@
 
     using WebGrease.Css.Extensions;
 
+    [Obsolete]
     public class CleanPreferenceRepository : DapperRepository<CleanPreference, int>, ICleanPreferenceRepository
     {
         public CleanPreferenceRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)

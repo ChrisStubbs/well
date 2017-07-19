@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-6">
             <ul class="list-unstyled">
-                <li><label>Branch:&nbsp;</label>{{branchId}}</li>
+                <li><label>Branch:&nbsp;</label><ow-branch-name [branchId]="branchId"></ow-branch-name></li>
                 <li><label>Driver:&nbsp;</label>{{driver}}</li>
                 <li><label>Date:&nbsp;</label>{{routeDate | date:'dd MMM yyyy'}}</li>
             </ul>
@@ -25,15 +25,11 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 </div>
-                <div class="btn-group">
+                <ow-button-dropdown [options]="actionOptions" [disabled]="selectedItems().length == 0"(onOptionClicked)="submitAction($event)"></ow-button-dropdown>
+                <!--<div class="btn-group">
                     <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Edit Exceptions</button>
-                </div>
+                </div>-->
                 <div class="btn-group">
-                    <submit-action-Modal [disabled]="disableSubmitActions()"
-                                         [isStopLevel]="true"
-                                         [jobIds]="getSelectedJobIds()"
-                                         (onSubmitted)="jobsSubmitted($event)">
-                    </submit-action-Modal>
                 </div>
             </div>
         </div>
@@ -175,11 +171,11 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">
+                            <td colspan="2" class="text-right">
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: detail.primaryAccountNumber, branchId: branchId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a [routerLink]="['/invoice', item.invoice, branchId]">{{item.invoice}}</a>
+                                <a *ngIf="detail.invoice && branchId" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
                                 <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
                             </td>
                             <td>{{detail.jobType}}</td>
@@ -213,3 +209,9 @@
     </div>
 </div>
 <bulk-edit-action-modal [jobIds]="getSelectedJobIds()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
+<manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
+<submit-action-Modal [disabled]="disableSubmitActions()"
+                     [isStopLevel]="true"
+                     [jobIds]="getSelectedJobIds()"
+                     (onSubmitted)="jobsSubmitted($event)">
+</submit-action-Modal>

@@ -62,13 +62,13 @@ namespace PH.Well.Api.Validators
                 
                 actionContext.Response = actionContext.ControllerContext.Request.CreateErrorResponse(
                     HttpStatusCode.Forbidden, 
-                    "You are not authorization to view this resource.");
+                    "You are not authorised to view this resource.");
             }
             else
             {
                 actionContext.Response = actionContext.ControllerContext.Request.CreateErrorResponse(
                     HttpStatusCode.Unauthorized, 
-                    "Authorization has been denied for this request.");
+                    "Authorisation has been denied for this request.");
             }
         }
 

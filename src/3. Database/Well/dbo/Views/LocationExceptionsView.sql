@@ -6,7 +6,7 @@ WITH Exception (LocationId, ExceptionTypeId, ExceptionCount) AS
 		FROM Location l
 		INNER JOIN Activity a on a.LocationId = l.Id
 		INNER JOIN LineItem li ON li.ActivityId = a.Id
-		INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId
+		INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 		GROUP BY l.Id, lia.ExceptionTypeId
 	)
 

@@ -15,21 +15,27 @@
 
     using StructureMap;
 
-    public class EventProcessor
+    public class EventProcessor : IEventProcessor
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryLineActionService deliveryLineActionService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
-        private IAdamRepository _adamRepository;
+        private IAdamRepository adamRepository;
 
-        public EventProcessor(IContainer container)
+        public EventProcessor(
+            IExceptionEventRepository exceptionEventRepository,
+            IDeliveryLineActionService deliveryLineActionService,
+            ILogger logger,
+            IEventLogger eventLogger,
+            IAdamRepository adamRepository
+            )
         {
-            this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
-            this.deliveryLineActionService = container.GetInstance<IDeliveryLineActionService>();
-            this.logger = container.GetInstance<ILogger>();
-            this.eventLogger = container.GetInstance<IEventLogger>();
-            _adamRepository = container.GetInstance<IAdamRepository>();
+            this.exceptionEventRepository = exceptionEventRepository;
+            this.deliveryLineActionService = deliveryLineActionService;
+            this.logger = logger;
+            this.eventLogger = eventLogger;
+            this.adamRepository = adamRepository;
         }
 
         public void Process()
@@ -67,6 +73,10 @@
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
                             this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
+                        case EventAction.Amendment:
+                            var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
+                            this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id, GetAdamSettings(amendmentTransaction.BranchId));
+                            break;
                         case EventAction.GlobalUplift:
                             var upliftEvent =
                                 JsonConvert.DeserializeObject<GlobalUpliftEvent>(eventToProcess.Event);
@@ -77,7 +87,7 @@
                                 upliftEvent.WriteLine, upliftEvent.WriteHeader);
 
                             // Process event
-                            _adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
+                            adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
                             // Delete event
                             exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
                             break;

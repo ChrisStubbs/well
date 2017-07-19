@@ -4,13 +4,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <label>Branch: </label>
-                    <span>{{source.branch}} ({{source.branchId}})</span>
+                    <span><ow-branch-name [branchId]="source.branchId"></ow-branch-name></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <label>
-                        P.O.D.: <a href="" title="Proof of delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        P.O.D: <a href="" title="Proof of delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
                     </label>
                     <span>
                         <span *ngIf="source.pod; else noPod">Yes</span>
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label>
-                        C.O.D.:<a href="" title="Cash on delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        C.O.D:<a href="" title="Cash on delivery" (click)="$event.preventDefault()"><span class="glyphicon glyphicon-info-sign"></span></a>
                     </label>
                     <span>
                         <span *ngIf="source.cod; else noCod">Yes</span>
@@ -33,7 +33,7 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-12">
-                    <label class=" col-form-label">Account Number:</label>
+                    <label class=" col-form-label">Primary Account Number:</label>
                     <span>{{source.accountNumber}}</span>
                     <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
                 </div>
@@ -59,12 +59,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="disableBulkEdit()">Edit Exceptions</button>
-                </div>
-                <div class="btn-group">
-                    <submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>
-                </div>
+                <ow-button-dropdown [options]="actionOptions" [disabled]="disableBulkEdit()" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
             </div>
         </div>
     </div>
@@ -184,9 +179,12 @@
                             </td>
                             <td colspan="4">
                                 <div *ngIf="item.isInvoice; then isInvoice else notInvoice"></div>
-                                <ng-template #isInvoice><label>Invoice: </label></ng-template>
-                                <ng-template #notInvoice><label>Uplift: </label></ng-template>
+                                <ng-template #isInvoice><span>Invoice: </span></ng-template>
+                                <ng-template #notInvoice><span>Uplift: </span></ng-template>
                                 <a [routerLink]="['/invoice', item.invoice, source.branchId]">{{item.invoice}}</a>
+                                &nbsp;
+                                <span>Account Number: </span>
+                                <span>{{item.accountNumber}}</span>
                             </td>
                             <td class="text-right">{{item.totalException}}</td>
                             <td class="text-right">{{item.totalClean}}</td>
@@ -222,3 +220,5 @@
     </div>
 </div>
 <bulk-edit-action-modal [jobIds]="getSelectedJobIds()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
+<manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
+<submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>

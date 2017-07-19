@@ -5,8 +5,6 @@ import { IActionSubmitSummary, IActionSubmitSummaryItem } from './actionSubmitSu
 import { ISubmitActionModel, ISubmitActionResult } from './submitActionModel';
 import { ToasterService } from 'angular2-toaster';
 import * as _ from 'lodash';
-import { ILookupValue } from '../services/ILookupValue';
-import { LookupsEnum } from '../services/lookupsEnum';
 import { LookupService } from '../services/lookupService';
 
 @Component({
@@ -19,10 +17,10 @@ export class SubmitActionModal implements IObservableAlive
 {
     @Input() public disabled: boolean = false;
     @Input() public isStopLevel: boolean = false;
-    @Output() public onActionClicked: EventEmitter<ILookupValue> = new EventEmitter<ILookupValue>();
     @Output() public onSubmitted = new EventEmitter<ISubmitActionResult>();
     @Input() public jobIds: number[] = [];
     @ViewChild('btnClose') private btnClose: ElementRef;
+    @ViewChild('showActionModal') public showActionModal: ElementRef;
 
     private summaryData: IActionSubmitSummary = {} as IActionSubmitSummary;
     public isAlive: boolean = true;
@@ -34,12 +32,33 @@ export class SubmitActionModal implements IObservableAlive
 
     public ngOnInit()
     {
-       //
+        //
     }
 
     public ngOnDestroy()
     {
         this.isAlive = false;
+    }
+
+    public show()
+    {
+        this.showActionModal.nativeElement.click();
+        if (!this.disabled)
+        {
+            this.actionService.getPreSubmitSummary(this.jobIds, this.isStopLevel)
+                .takeWhile(() => this.isAlive)
+                .subscribe(summaryData =>
+                {
+                    this.summaryData = summaryData as IActionSubmitSummary;
+                });
+
+        } else {
+            this.summaryData = {
+                summary: 'You may only submit jobs which are assigned to you and are Pending Submission',
+                items: [],
+                jobIds: []
+            };
+        }
     }
 
     private submit()
@@ -66,8 +85,8 @@ export class SubmitActionModal implements IObservableAlive
             {
                 this.toasterService.pop('success', res.message, '');
             }
-
-        } else
+        }
+        else
         {
             this.toasterService.pop('error', res.message, '');
         }
@@ -81,35 +100,27 @@ export class SubmitActionModal implements IObservableAlive
         this.btnClose.nativeElement.click();
     }
 
-    public actionClicked(action: ILookupValue): void
-    {
-        this.actionService.getPreSubmitSummary(this.jobIds, this.isStopLevel)
-            .takeWhile(() => this.isAlive)
-            .subscribe(summaryData =>
-            {
-                this.summaryData = summaryData as IActionSubmitSummary;
-            });
-
-        this.onActionClicked.emit(action);
-    }
-
     private hasItemsToSubmit(): boolean
     {
-        if (!this.summaryData.jobIds) {
-             return false;
+        if (!this.summaryData.jobIds)
+        {
+            return false;
         }
 
         return this.summaryData.jobIds.length > 0;
     }
 
-    public getIdentifierText(summaryItem: IActionSubmitSummaryItem): string {
+    public getIdentifierText(summaryItem: IActionSubmitSummaryItem): string
+    {
         let type: string;
-        if (this.isStopLevel) {
+        if (this.isStopLevel)
+        {
             type = 'Stop';
-        } else {
+        } else
+        {
             type = _.includes(summaryItem.jobType.toLowerCase(), 'uplift') ? 'Uplift' : 'Invoice';
         }
-       
+
         return type + ' ' + summaryItem.identifier;
     }
 }

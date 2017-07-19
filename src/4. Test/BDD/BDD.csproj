@@ -121,11 +121,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ApprovalsPage.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Audits.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Audits.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -303,10 +298,6 @@
     <None Include="Features\Pages\ApprovalsPage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ApprovalsPage.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Features\Pages\Audits.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Audits.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

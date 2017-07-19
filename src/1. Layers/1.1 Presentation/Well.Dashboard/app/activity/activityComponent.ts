@@ -1,34 +1,38 @@
-import { Component, ViewChild }                                 from '@angular/core';
-import { ActivatedRoute }                                       from '@angular/router';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { LookupService }                                        from '../shared/services/lookupService';
-import { LookupsEnum }                                          from '../shared/services/lookupsEnum';
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { LookupService } from '../shared/services/lookupService';
+import { LookupsEnum } from '../shared/services/lookupsEnum';
 import
 {
     ActivitySource,
     ActivitySourceGroup,
     ActivitySourceDetail,
     ActivityFilter
-}                                                               from './activitySource';
-import { Observable }                                           from 'rxjs';
-import { ActivityService }                                      from './activityService';
-import { ILookupValue }                                         from '../shared/services/ILookupValue';
-import * as _                                                   from 'lodash';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
-import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
-import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
-import { ResolutionStatusEnum }                                 from '../shared/services/resolutionStatusEnum';
-import { ISubmitActionResult, ISubmitActionResultDetails }      from '../shared/action/submitActionModel';
-import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
-import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
+} from './activitySource';
+import { Observable } from 'rxjs';
+import { ActivityService } from './activityService';
+import { ILookupValue } from '../shared/services/ILookupValue';
+import * as _ from 'lodash';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { EditExceptionsService } from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
+import { ResolutionStatusEnum } from '../shared/services/resolutionStatusEnum';
+import { ISubmitActionResult, ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 import { AccountReference } from '../shared/crm/crmLinkPipe';
+import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
+import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
+import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
 
 @Component({
     selector: 'ow-activity',
@@ -62,6 +66,8 @@ export class ActivityComponent implements IObservableAlive
 
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private gridSource: Array<ActivitySourceGroup>;
     private filters = new ActivityFilter();
@@ -70,6 +76,8 @@ export class ActivityComponent implements IObservableAlive
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
     private accountReference: AccountReference = new AccountReference('', 0);
+    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
+        'Edit Exceptions', 'Submit Exceptions'];
 
     constructor(
         private lookupService: LookupService,
@@ -82,7 +90,15 @@ export class ActivityComponent implements IObservableAlive
         this.gridSource = [];
     }
 
-    public ngOnInit(): void
+    public ngOnInit(): void {
+
+        this.refreshActivityFromApi();
+
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshActivityFromApi(): void
     {
         this.route.params
             .flatMap(data =>
@@ -126,9 +142,6 @@ export class ActivityComponent implements IObservableAlive
                     })
                     .value();
             });
-
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public ngOnDestroy(): void
@@ -141,18 +154,21 @@ export class ActivityComponent implements IObservableAlive
         let totalDamaged: number = 0;
         let totalShorts: number = 0;
         let totalExpected: number = 0;
+        let totalActual: number = 0;
 
         _.forEach(data, (current: ActivitySourceDetail) =>
         {
             totalDamaged += current.damaged;
             totalShorts += current.shorts;
             totalExpected += current.expected;
+            totalActual += current.actual;
         });
 
         return {
             totalDamaged: totalDamaged,
             totalShorts: totalShorts,
-            totalExpected: totalExpected
+            totalExpected: totalExpected,
+            totalActual: totalActual
         };
     }
 
@@ -181,6 +197,7 @@ export class ActivityComponent implements IObservableAlive
                 item.totalExpected = summary.totalExpected;
                 item.totalDamaged = summary.totalDamaged;
                 item.totalShorts = summary.totalShorts;
+                item.totalActual = summary.totalActual;
                 item.isExpanded = _.includes(expanded, item.jobId);
                 item.details = current;
 
@@ -326,7 +343,7 @@ export class ActivityComponent implements IObservableAlive
         lineItem.damaged = damages;
         lineItem.hasUnresolvedActions = data.hasUnresolvedActions;
         this.setResolutionStatus(job, data.resolutionId, data.resolutionStatus);
-    } 
+    }
 
     public selectedItems(): Array<ActivitySourceDetail>
     {
@@ -368,11 +385,6 @@ export class ActivityComponent implements IObservableAlive
         });
     }
 
-    private bulkEdit(): void 
-    {
-        this.bulkEditActionModal.show();
-    }
-
     private bulkEditSave(result: IBulkEditResult): void
     {
         _.forEach(result.statuses,
@@ -382,7 +394,8 @@ export class ActivityComponent implements IObservableAlive
 
                 this.setResolutionStatus(job, x.status.value, x.status.description);
                 _.forEach(job.details,
-                    (current) => {
+                    (current) =>
+                    {
                         current.hasUnresolvedActions = false;
                     });
             });
@@ -400,7 +413,7 @@ export class ActivityComponent implements IObservableAlive
                 current.resolutionId = resolutionId;
             });
     }
-    
+
     private disableBulkEdit(): boolean
     {
         return (this.selectedItems().length === 0
@@ -410,5 +423,31 @@ export class ActivityComponent implements IObservableAlive
     public selectedLineItems(): Array<number>
     {
         return _.map(this.selectedItems(), 'lineItemId');
+    }
+
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
+        this.refreshActivityFromApi();
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
     }
 }

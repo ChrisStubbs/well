@@ -19,6 +19,8 @@
 
         void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings);
 
+        void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings);
+
         //ProcessDeliveryPodActionResult ProcessDeliveryPodActions(List<DeliveryLine> lines, AdamSettings adamSettings,string username, int branchId);
     }
 }

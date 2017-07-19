@@ -185,10 +185,7 @@
     <Build Include="dbo\StoredProcedures\Notification_Save.sql" />
     <Build Include="dbo\StoredProcedures\Notifications_Get.sql" />
     <Build Include="dbo\StoredProcedures\Notification_Archive.sql" />
-    <Build Include="dbo\StoredProcedures\Audit_Get.sql" />
-    <Build Include="dbo\Tables\Audit.sql" />
     <Build Include="dbo\Tables\SeasonalDate.sql" />
-    <Build Include="dbo\StoredProcedures\Audit_Insert.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesGetAll.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesDelete.sql" />
     <Build Include="dbo\Tables\SeasonalDateToBranch.sql" />
@@ -415,7 +412,17 @@
     <Build Include="dbo\StoredProcedures\Job_GetWithLineItemActions.sql" />
     <Build Include="dbo\Functions\ExceptionType_Uplifted.sql" />
     <Build Include="dbo\Functions\JobStatus_Clean.sql" />
+    <Build Include="dbo\Views\JobDetailTotalsView.sql" />
     <Build Include="dbo\StoredProcedures\SingleLocation_Get.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemAction_DeleteForJob.sql" />
+    <Build Include="dbo\Views\LineItemAmendmentsView.sql" />
+    <Build Include="dbo\StoredProcedures\Locations_GET.sql" />
+    <Build Include="dbo\StoredProcedures\Amendment_GetByJobIds.sql" />
+    <Build Include="dbo\StoredProcedures\JobDetail_DeleteById.sql" />
+    <Build Include="dbo\Tables\BranchDateThreshold.sql" />
+    <Build Include="dbo\StoredProcedures\DateThreshold_Get.sql" />
+    <Build Include="dbo\StoredProcedures\DateThreshold_Delete.sql" />
+    <None Include="Post-Deployement\Populate-BranchDateThreshold.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />

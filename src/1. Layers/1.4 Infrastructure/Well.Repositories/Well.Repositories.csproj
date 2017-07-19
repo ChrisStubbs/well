@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdamDotNetProvider">
+    <Reference Include="AdamDotNetProvider, Version=14.4.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\AdamDotNetProvider.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -67,7 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityRepository.cs" />
-    <Compile Include="AuditRepository.cs" />
+    <Compile Include="AmendmentFactory.cs" />
+    <Compile Include="AmendmentRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
@@ -78,9 +80,12 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\IActivityRepository.cs" />
+    <Compile Include="Contracts\IAmendmentFactory.cs" />
+    <Compile Include="Contracts\IAmendmentRepository.cs" />
     <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
     <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\IDateThresholdRepository.cs" />
     <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
@@ -95,7 +100,6 @@
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
-    <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
+    <Compile Include="DateThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />

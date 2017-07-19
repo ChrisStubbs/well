@@ -1,5 +1,4 @@
 import { Component, OnInit}  from '@angular/core';
-import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
 
 import { IAccount } from './account';

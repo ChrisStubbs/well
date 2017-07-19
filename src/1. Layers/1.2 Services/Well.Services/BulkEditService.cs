@@ -18,8 +18,6 @@
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
         private readonly IPatchSummaryMapper mapper;
-        private readonly IUserNameProvider userNameProvider;
-        private readonly IUserRepository userRepository;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IJobService jobService;
 
@@ -28,15 +26,11 @@
             IJobService jobService,
             IJobRepository jobRepository,
             IPatchSummaryMapper mapper,
-            IUserNameProvider userNameProvider,
-            IUserRepository userRepository,
             ILineItemActionRepository lineItemActionRepository)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.mapper = mapper;
-            this.userNameProvider = userNameProvider;
-            this.userRepository = userRepository;
             this.lineItemActionRepository = lineItemActionRepository;
             this.jobService = jobService;
         }
@@ -105,16 +99,12 @@
 
         public IEnumerable<Job> GetEditableJobs(IEnumerable<Job> jobs, IEnumerable<int> lineItemIds = null)
         {
-            var username = this.userNameProvider.GetUserName();
-            var user = this.userRepository.GetByIdentity(username);
-
             var editableJobs = jobService.PopulateLineItemsAndRoute(jobs).ToList()
                 .Where(x => x.ResolutionStatus.IsEditable() &&
                             LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
-            var userJobsIds = userRepository.GetUserJobsByJobIds(editableJobs.Select(x => x.Id))
-                                            .Where(x => x.UserId == user.Id).Select(x => x.JobId);
-
+            var userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(editableJobs.Select(x => x.Id));
+                
             return editableJobs.Where(x => userJobsIds.Contains(x.Id));
         }
 

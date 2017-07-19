@@ -1,20 +1,20 @@
 ﻿namespace PH.Well.Services
 {
     using System;
-    using System.CodeDom;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Transactions;
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Repositories.Contracts;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class ManualCompletionService : IManualCompletionService
     {
         private readonly IJobService jobService;
         private readonly IEpodUpdateService epodUpdateService;
+        private readonly ILineItemActionRepository lineItemActionRepository;
 
         public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
         {
@@ -29,10 +29,14 @@
             }
         }
 
-        public ManualCompletionService(IJobService jobService, IEpodUpdateService epodUpdateService)
+        public ManualCompletionService(
+            IJobService jobService, 
+            IEpodUpdateService epodUpdateService, 
+            ILineItemActionRepository lineItemActionRepository)
         {
             this.jobService = jobService;
             this.epodUpdateService = epodUpdateService;
+            this.lineItemActionRepository = lineItemActionRepository;
         }
 
         public IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds)
@@ -59,6 +63,7 @@
 
                 using (var transactionScope = new TransactionScope())
                 {
+                    lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     epodUpdateService.UpdateJob(dto, job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
                     completedJobs.AddRange(epodUpdateService.RunPostInvoicedProcessing(new List<int> { job.Id }));
                     transactionScope.Complete();
@@ -85,7 +90,11 @@
 
         public IEnumerable<Job> GetJobsAvailableForCompletion(IEnumerable<int> jobIds)
         {
-            return jobService.GetJobsWithRoute(jobIds).Where(x => x.WellStatus == WellStatus.Invoiced).ToList();
+            IEnumerable<int> userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(jobIds);
+            return jobService.GetJobsWithRoute(userJobsIds)
+                .Where(x => x.WellStatus == WellStatus.Invoiced
+                || x.JobStatus == JobStatus.CompletedOnPaper)
+                .ToList();
         }
 
     }

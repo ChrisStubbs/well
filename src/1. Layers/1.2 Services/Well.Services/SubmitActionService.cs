@@ -67,8 +67,9 @@
                     foreach (var job in jobs)
                     {
                         // after validation will only have pending submission Jobs
-                        if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingSubmission
-                            || jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.PendingApproval)
+                        var jobResolutionStatus = jobService.GetCurrentResolutionStatus(job);
+                        if (jobResolutionStatus == ResolutionStatus.PendingSubmission
+                            || jobResolutionStatus == ResolutionStatus.PendingApproval)
                         {
                             job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                             jobRepository.SaveJobResolutionStatus(job);
@@ -89,11 +90,11 @@
                                                     "The Job has been been marked for authorisation.");
                             }
 
-                            
+
                             jobRepository.Update(job);
                             resultDetails.Add(new SubmitActionResultDetails(job));
                         }
-                        
+
                     }
 
                     transactionScope.Complete();
@@ -118,7 +119,7 @@
             return jobs;
         }
 
-        private void SubmitCredits(Job job)
+        public virtual void SubmitCredits(Job job)
         {
             var jobLineItemActions = job.GetAllLineItemActions();
             if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit))
@@ -127,7 +128,7 @@
             }
         }
 
-        private void CreditJobInAdam(Job job)
+        public virtual void CreditJobInAdam(Job job)
         {
             var credits = deliveryLineCreditMapper.Map(job);
             var creditEventTransaction = this.creditTransactionFactory.Build(credits, job.JobRoute.BranchId);

@@ -25,7 +25,8 @@
                 2123,
                 EventLogEntryType.Information);
 
-            new CleanWell().Process(container);
+            var cleanWell = container.GetInstance<ICleanWell>();
+            cleanWell.Process(container);
         }
 
         /// <summary>
@@ -36,6 +37,7 @@
             return new Container(
                 x =>
                 {
+                    x.For<ICleanWell>().Use<CleanWell>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
@@ -53,6 +55,11 @@
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IEventLogger>().Use<EventLogger>();
                     x.For<IUserNameProvider>().Use<UserNameProvider>();
+                    x.For<IAmendmentService>().Use<AmendmentService>();
+                    x.For<IAmendmentRepository>().Use<AmendmentRepository>();
+                    x.For<IAmendmentFactory>().Use<AmendmentFactory>();
+                    x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                 });
         }
     }

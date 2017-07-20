@@ -18,19 +18,11 @@ namespace PH.Well.Repositories.Contracts
        
         Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
-        IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
-
         IEnumerable<Job> GetByStopId(int id);
 
         void DeleteJobById(int id);
 
         IEnumerable<PodActionReasons> GetPodActionReasonsById(int pdaCreditReasonId);
-
-        void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
-
-        void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
-
-        CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
 
         void SaveGrn(int jobId, string grn);
 

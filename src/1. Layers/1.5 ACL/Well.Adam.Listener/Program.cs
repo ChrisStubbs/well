@@ -74,6 +74,7 @@
                     x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
                 });
         }
     }

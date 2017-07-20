@@ -146,14 +146,23 @@
 
         public void SetGrn(int jobId, string grn)
         {
-            var jobRoute = jobRepository.GetJobRoute(jobId);
-            var earliestSubmitDate = dateThresholdService.EarliestSubmitDate(jobRoute.RouteDate, jobRoute.BranchId);
-            if (earliestSubmitDate < DateTime.Now)
+            var job = GetJobsWithRoute(new[] { jobId }).FirstOrDefault();
+            if (job != null)
             {
-                throw new Exception("GRN can no longer be modified");
+                var jobRoute = job.JobRoute;
+                var earliestSubmitDate = dateThresholdService.GracePeriodEndDate(
+                                                    jobRoute.RouteDate, 
+                                                    jobRoute.BranchId, 
+                                                    job.GetRoyaltyCode());
+
+                if (earliestSubmitDate < DateTime.Now)
+                {
+                    throw new Exception("GRN can no longer be modified");
+                }
+
+                jobRepository.SaveGrn(jobId, grn);
             }
 
-            jobRepository.SaveGrn(jobId, grn);
         }
 
         #endregion
@@ -167,14 +176,14 @@
                 return ResolutionStatus.ActionRequired;
             }
 
-            if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+            if (dateThresholdService.GracePeriodEndDate(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
             {
                 return ResolutionStatus.Closed | currentCompletionStatus;
             }
 
             return currentCompletionStatus;
         }
-       
+
         private void fillSteps()
         {
             steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
@@ -219,7 +228,7 @@
 
             steps.Add(ResolutionStatus.Credited, job =>
             {
-                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                if (dateThresholdService.GracePeriodEndDate(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
                 {
                     return ResolutionStatus.Closed | ResolutionStatus.Credited;
                 }
@@ -229,7 +238,7 @@
 
             steps.Add(ResolutionStatus.Resolved, job =>
             {
-                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                if (dateThresholdService.GracePeriodEndDate(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
                 {
                     return ResolutionStatus.Closed | ResolutionStatus.Resolved;
                 }

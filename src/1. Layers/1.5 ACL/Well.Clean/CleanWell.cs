@@ -14,7 +14,6 @@
         }
         public void Process(IContainer container)
         {
-
             cleanDeliveryService.DeleteCleans();
         }
     }

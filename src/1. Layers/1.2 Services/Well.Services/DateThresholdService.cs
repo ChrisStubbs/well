@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Services
+﻿using System.Collections.Generic;
+using PH.Well.Domain;
+
+namespace PH.Well.Services
 {
     using System;
     using Repositories.Contracts;
@@ -29,6 +32,16 @@
             var endDate = routeDate.Date.AddDays(branch.NumberOfDays).Date;
 
             return endDate.AddDays(AddNonWorkingDays(routeDate, endDate, branchId));
+        }
+
+        public IList<DateThreshold> GetAll()
+        {
+            return dateThresholdRepository.Get();
+        }
+
+        public void Update(DateThreshold dateThreshold)
+        {
+            dateThresholdRepository.Update(dateThreshold);
         }
 
         private int AddNonWorkingDays(DateTime start, DateTime end, int branchId)

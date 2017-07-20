@@ -210,7 +210,6 @@
     <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />
-    <Build Include="dbo\StoredProcedures\GetBranchesForCleanPreference.sql" />
     <Build Include="dbo\StoredProcedures\RouteIdsToRemoveGet.sql" />
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />

@@ -13,15 +13,14 @@ namespace PH.Well.Repositories
         {
         }
 
-        public void Delete(int branchId)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CleanPreferenceDelete)
-                .AddParameter("branchId", branchId, System.Data.DbType.Int32).Execute();
-        }
-        
         public IList<DateThreshold> Get()
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThreshold).Query<DateThreshold>().ToList();
+        }
+
+        protected override void UpdateExisting(DateThreshold entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

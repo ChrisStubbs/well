@@ -26,10 +26,6 @@ import { BranchCheckboxComponent } from './shared/branch/branchCheckboxComponent
 import { BranchRoleComponent } from './branch-role/branchRoleComponent';
 import { UserThresholdComponent } from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
-import { CleanPreferenceComponent } from './clean_preferences/cleanPreferenceComponent';
-import { CleanPreferenceAddModalComponent } from './clean_preferences/cleanPreferenceAddModalComponent';
-import { CleanPreferenceRemoveModalComponent } from './clean_preferences/cleanPreferenceRemoveModalComponent';
-import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
@@ -64,7 +60,6 @@ import { SecurityService } from './shared/security/securityService';
 import { WidgetService } from './home/widgetService';
 import { SeasonalDateService } from './seasonal_dates/seasonalDateService';
 import { CreditThresholdService } from './credit_threshold/creditThresholdService';
-import { CleanPreferenceService } from './clean_preferences/cleanPreferenceService';
 import { UserService } from './shared/userService';
 import { WidgetWarningService } from './widget_warnings/widgetWarningService';
 import { DeliveryService } from './delivery/deliveryService';
@@ -97,12 +92,10 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
         AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        CleanPreferenceEditModalComponent, DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
-        AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
+        DeliveryIssuesComponent, AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
         NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
+        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, RoutesComponent, SingleRouteComponent, UserPreferenceComponent,
+        WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, BulkCreditConfirmModal, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
         EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
@@ -115,8 +108,8 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
-        CleanPreferenceService, UserService, UserPreferenceService, ActivityService, JobService, LocationsService,
+        UserService, WidgetWarningService, DeliveryService, LookupService,
+        UserPreferenceService, ActivityService, JobService, LocationsService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

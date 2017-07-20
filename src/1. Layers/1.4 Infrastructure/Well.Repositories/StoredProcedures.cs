@@ -104,11 +104,6 @@
         public const string CreditThresholdSave = "CreditThresholdSave";
         public const string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
         public const string ThresholdLevelSave = "ThresholdLevelSave";
-        public const string CleanPreferencesGetAll = "CleanPreferencesGetAll";
-        public const string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
-        public const string CleanPreferenceSave = "CleanPreferenceSave";
-        public const string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
-        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
         public const string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";

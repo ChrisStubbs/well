@@ -132,31 +132,6 @@
             }
         }
 
-        [Route("branch-clean-preference")]
-        [HttpGet]
-        public HttpResponseMessage GetCleanPreferenceBranches(int cleanPreferenceId)
-        {
-            try
-            {
-                var branches = this.branchRespository.GetAllValidBranches();
-
-                if (branches.Any())
-                {
-                    var userBranches = this.branchRespository.GetBranchesForCleanPreference(cleanPreferenceId);
-
-                    IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
-
-                    return this.Request.CreateResponse(HttpStatusCode.OK, model);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
-            }
-        }
-
         [Authorize(Roles = SecurityPermissions.BranchSelection)]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches)

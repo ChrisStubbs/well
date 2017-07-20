@@ -4,13 +4,18 @@
 
     using StructureMap;
 
-    public class CleanWell
+    public class CleanWell : ICleanWell
     {
+        private readonly ICleanDeliveryService cleanDeliveryService;
+
+        public CleanWell(ICleanDeliveryService cleanDeliveryService)
+        {
+            this.cleanDeliveryService = cleanDeliveryService;
+        }
         public void Process(IContainer container)
         {
-            var cleanService = container.GetInstance<ICleanDeliveryService>();
 
-            cleanService.DeleteCleans();
+            cleanDeliveryService.DeleteCleans();
         }
     }
 }

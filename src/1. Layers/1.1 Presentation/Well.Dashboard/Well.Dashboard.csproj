@@ -221,6 +221,7 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branchNameComponent.ts" />
     <TypeScriptCompile Include="app\shared\crm\crmLinkPipe.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionRequest.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionService.ts" />
@@ -295,6 +296,7 @@
     <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
+    <Content Include="app\shared\branch\branch-name.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\buttonDropDownComponent.html" />

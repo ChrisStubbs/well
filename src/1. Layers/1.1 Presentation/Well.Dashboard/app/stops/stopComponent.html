@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-3">
             <ul class="list-unstyled">
-                <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
+                <li><label>Branch:&nbsp;</label><ow-branch-name [branchId]="stop.branchId"></ow-branch-name></li>
                 <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
                 <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
             </ul>

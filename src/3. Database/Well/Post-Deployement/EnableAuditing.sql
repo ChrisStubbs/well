@@ -1,9 +1,6 @@
 ﻿EXEC   [dbo].[AuditTrigger] @SourceTableName = N'Account', @Deletes = 1, @Inserts = 1, @Updates = 1
 GO
 
-EXEC   [dbo].[AuditTrigger] @SourceTableName = N'CleanPreference', @Deletes = 1, @Inserts = 1, @Updates = 1
-GO
-
 EXEC   [dbo].[AuditTrigger] @SourceTableName = N'CreditThreshold', @Deletes = 1, @Inserts = 1, @Updates = 1
 GO
 

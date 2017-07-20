@@ -77,7 +77,6 @@
         public const string GetBranchesForUser = "GetBranchesForUser";
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
-        public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
 
         public const string UsersGet = "Users_Get";
         public const string UserSave = "UserSave";
@@ -106,7 +105,6 @@
         public const string ThresholdLevelSave = "ThresholdLevelSave";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
-        public const string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";
         public const string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
         public const string WidgetWarningGetAll = "WidgetWarning_GetAll";

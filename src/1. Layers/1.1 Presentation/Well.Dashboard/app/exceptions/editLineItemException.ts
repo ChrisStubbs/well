@@ -24,6 +24,7 @@ export class EditLineItemException
     public delivered?: number;
     public damages: number;
     public shorts: number;
+    public bypass: number;
     public exceptions: Array<EditLineItemExceptionDetail>;
     public lineItemActions: Array<LineItemAction>;
     public isExpanded: boolean;

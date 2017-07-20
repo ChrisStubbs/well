@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-6">
             <ul class="list-unstyled">
-                <li><label>Branch:&nbsp;</label>{{branchId}}</li>
+                <li><label>Branch:&nbsp;</label><ow-branch-name [branchId]="branchId"></ow-branch-name></li>
                 <li><label>Driver:&nbsp;</label>{{driver}}</li>
                 <li><label>Date:&nbsp;</label>{{routeDate | date:'dd MMM yyyy'}}</li>
             </ul>
@@ -171,11 +171,11 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">
+                            <td colspan="2" class="text-right">
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: detail.primaryAccountNumber, branchId: branchId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a [routerLink]="['/invoice', item.invoice, branchId]">{{item.invoice}}</a>
+                                <a *ngIf="detail.invoice && branchId" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
                                 <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
                             </td>
                             <td>{{detail.jobType}}</td>

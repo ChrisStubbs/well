@@ -43,6 +43,20 @@
         public string Description { get; set; }
         public decimal Value { get; set; }
         public int Expected { get; set; }
+
+        public int Actual
+        {
+            get
+            {
+                if (ResolutionStatus == ResolutionStatus.Imported)
+                {
+                    return 0;
+                }
+
+                return Expected - (Damaged + Shorts);
+            }
+        }
+
         public int Damaged { get; set; }
         public int Shorts { get; set; }
         public bool Checked { get; set; }

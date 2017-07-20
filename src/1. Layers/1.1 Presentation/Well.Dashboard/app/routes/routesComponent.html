@@ -52,13 +52,14 @@
                         </div>
                     </th>
                     <th>
-                        <div class="text-center">Date</div>
-                        <div>
-                            <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                        <div style="width: 12em"><div class="text-center">Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
                         </div>
                     </th>
                     <th>
-                        <div class="text-center">No. of Stops</div>
+                        <div class="text-center" style="width: 3em">No. of Stops</div>
                     </th>
                     <th>
                         <div class="text-center">Status</div>
@@ -74,15 +75,17 @@
                         </div>
                     </th>
                     <th>
-                        <div class="text-center">Clean</div>
-                        <div>
-                            <select class="form-control"
-                                    (change)="fillGridSource()"
-                                    [(ngModel)]="routeFilter.cleanCount">
-                                <option value>All</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
+                        <div style="width: 4.5em">
+                            <div class="text-center">Clean</div>
+                            <div>
+                                <select class="form-control"
+                                        (change)="fillGridSource()"
+                                        [(ngModel)]="routeFilter.cleanCount">
+                                    <option value>All</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
                         </div>
                     </th>
                     <th>

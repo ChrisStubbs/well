@@ -11,7 +11,7 @@
         <div class="col-md-3">
             <div class="row">
                 <label class="col-md-4">Branch</label>
-                <div class="col-md-8">{{source.branch}}</div>
+                <div class="col-md-8"><ow-branch-name [branchId]="source.branchId"></ow-branch-name></div>
             </div>
             <div class="row">
                 <label class="col-md-4">
@@ -242,7 +242,7 @@
                                 <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
-                            <td class="text-right">{{item.totalExpected - (item.totalDamaged + item.totalShorts)}}</td>
+                            <td class="text-right">{{item.totalActual}}</td>
                             <td class="text-right">{{item.totalDamaged}}</td>
                             <td class="text-right">{{item.totalShorts}}</td>
                             <td colspan="2"></td>
@@ -260,7 +260,7 @@
                             <td>{{detail.description}}</td>
                             <td class="text-right">{{detail.value | currency:'GBP':true }}</td>
                             <td class="text-right">{{detail.expected}}</td>
-                            <td class="text-right">{{detail.expected - (detail.damaged + detail.shorts)}}</td>
+                            <td class="text-right">{{detail.actual}}</td>
                             <td class="text-right">{{detail.damaged}}</td>
                             <td class="text-right">{{detail.shorts}}</td>
                             <td class="text-center"><span *ngIf="detail.checked" class="glyphicon glyphicon-ok"></span></td>

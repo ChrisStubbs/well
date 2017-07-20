@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Adam.Events
 {
-    using System.Security.Cryptography.X509Certificates;
     using Common;
     using Common.Contracts;
     using Repositories;
@@ -17,8 +16,8 @@
         public static void Main(string[] args)
         {
             var container = InitIoc();
-
-            new EventProcessor(container).Process();
+            IEventProcessor eventProcessor = container.GetInstance<IEventProcessor>();
+            eventProcessor.Process();
         }
 
         /// <summary>
@@ -29,6 +28,7 @@
             return new Container(
                 x =>
                 {
+                    x.For<IEventProcessor>().Use<EventProcessor>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
@@ -59,6 +59,8 @@
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<IAdamRepository>().Use<AdamRepository>();
                     x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
                 });
         }
     }

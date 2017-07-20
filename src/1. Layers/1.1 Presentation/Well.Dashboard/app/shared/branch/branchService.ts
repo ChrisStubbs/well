@@ -21,9 +21,14 @@ export class BranchService
 
     public getBranches(username): Observable<Branch[]>
     {
-
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getById(id: number): Observable<Branch> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch/' + id)
+            .map((response: Response) => <Branch>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

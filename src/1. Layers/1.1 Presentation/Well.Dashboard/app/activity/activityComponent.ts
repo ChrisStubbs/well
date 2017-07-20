@@ -154,18 +154,21 @@ export class ActivityComponent implements IObservableAlive
         let totalDamaged: number = 0;
         let totalShorts: number = 0;
         let totalExpected: number = 0;
+        let totalActual: number = 0;
 
         _.forEach(data, (current: ActivitySourceDetail) =>
         {
             totalDamaged += current.damaged;
             totalShorts += current.shorts;
             totalExpected += current.expected;
+            totalActual += current.actual;
         });
 
         return {
             totalDamaged: totalDamaged,
             totalShorts: totalShorts,
-            totalExpected: totalExpected
+            totalExpected: totalExpected,
+            totalActual: totalActual
         };
     }
 
@@ -194,6 +197,7 @@ export class ActivityComponent implements IObservableAlive
                 item.totalExpected = summary.totalExpected;
                 item.totalDamaged = summary.totalDamaged;
                 item.totalShorts = summary.totalShorts;
+                item.totalActual = summary.totalActual;
                 item.isExpanded = _.includes(expanded, item.jobId);
                 item.details = current;
 

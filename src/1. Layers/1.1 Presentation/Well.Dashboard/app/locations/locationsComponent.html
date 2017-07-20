@@ -64,23 +64,14 @@
                             <div class="text-center">Invoices</div>
                             <div class="form-control-placeholder">&nbsp;</div>
                         </th>
-                        <th style="width: 7%">
-                            <div class="text-center">Exceptions</div>
+                        <th style="width: 14%" colspan="2">
+                            <div class="text-center col-md-6">Exceptions</div>
+                            <div class="text-center col-md-6">Clean</div>
                             <div>
                                 <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGrid()" title="">
                                     <option value>All</option>
-                                    <option value="true">With exceptions</option>
-                                    <option value="false">No exceptions</option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 7%">
-                            <div class="text-center">Clean</div>
-                            <div>
-                                <select class="form-control" [(ngModel)]="filters.cleans" (change)="fillGrid()" title="">
-                                    <option value>All</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="1">With exceptions</option>
+                                    <option value="2">With Clean</option>
                                 </select>
                             </div>
                         </th>

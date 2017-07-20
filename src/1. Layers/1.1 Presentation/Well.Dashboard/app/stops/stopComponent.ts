@@ -405,8 +405,7 @@ export class StopComponent implements IObservableAlive
     {
         this.editExceptionsService.get([item.lineItemId])
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Array<EditLineItemException>) =>
-            {
+            .subscribe((res: Array<EditLineItemException>) => {
                 this.actionEditComponent.show(res[0]);
             });
     }

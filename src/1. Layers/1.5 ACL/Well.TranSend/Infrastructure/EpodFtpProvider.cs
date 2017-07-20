@@ -99,7 +99,8 @@
                     }
 
                     this.ftpClient.DeleteFile(filename);
-                    this.fileModule.MoveFile(downloadedFile, Configuration.ArchiveLocation);
+                    this.fileModule.MoveFile(downloadedFile,
+                        Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd")));
 
                     logger.LogDebug($"File {listing.Filename} imported!");
                 }

@@ -8,6 +8,7 @@ SELECT
 	,j.PHAccount AS AccountNumber
 	,rh.RouteOwnerId AS BranchId
 	,u.IdentityName AS AmenderName
+	,j.CustomerRef AS CustomerReference
 	FROM 
 		dbo.Job j
 		INNER JOIN @Ids ids ON ids.Value = j.Id	

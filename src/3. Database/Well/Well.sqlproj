@@ -96,6 +96,7 @@
     <None Include="ManualStep\runRoundhouse.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\020_DropCleanPreferenceTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -204,22 +205,14 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
     <Build Include="dbo\StoredProcedures\ThresholdLevelSave.sql" />
-    <Build Include="dbo\Tables\CleanPreference.sql" />
-    <Build Include="dbo\Tables\CleanPreferenceToBranch.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferencesGetAll.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferenceSave.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferenceToBranchSave.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferenceDelete.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForCleanPreference.sql" />
     <Build Include="dbo\StoredProcedures\RouteIdsToRemoveGet.sql" />
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
-    <Build Include="dbo\StoredProcedures\CleanPreferenceByBranchGet.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />
     <Build Include="dbo\Tables\Widget.sql" />
     <Build Include="dbo\Tables\WidgetToBranch.sql" />

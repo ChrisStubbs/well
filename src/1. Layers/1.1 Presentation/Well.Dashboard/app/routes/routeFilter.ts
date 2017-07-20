@@ -3,6 +3,7 @@ import * as _                   from 'lodash';
 import { AppSearchParameters }  from '../shared/appSearch/appSearchParameters';
 import { DatePipe }             from '@angular/common';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import { Route }                from './route';
 
 export class RouteFilter implements IFilter
 {
@@ -11,7 +12,6 @@ export class RouteFilter implements IFilter
     public dateFormatted: string;
     public routeStatusId?: number;
     public exceptionCount: boolean;
-    public cleanCount: boolean;
     public driverName: string;
     public assignee: string;
 
@@ -22,12 +22,11 @@ export class RouteFilter implements IFilter
         this.dateFormatted = '';
         this.routeStatusId = undefined;
         this.exceptionCount = undefined;
-        this.cleanCount = undefined;
         this.driverName = '';
         this.assignee = '';
     }
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
         switch (filterName)
         {
@@ -55,16 +54,14 @@ export class RouteFilter implements IFilter
                 };
 
             case 'exceptionCount':
-            case 'cleanCount':
-                return (value: number, value2?: boolean) => {
-                    if (_.isNull(value2)) {
-                        return true;
-                    }
-                    if (value2.toString() == 'true') {
-                        return value > 0;
+                return (value: number, value2: number, sourceRow: Route) => {
+
+                    if (+value2 == 1)
+                    {
+                        return sourceRow.exceptionCount > 0;
                     }
 
-                    return value == 0;
+                    return sourceRow.cleanCount > 0;
                 };
         }
 

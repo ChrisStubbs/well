@@ -192,7 +192,6 @@
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\BulkEditController.cs" />
-    <Compile Include="Controllers\CleanPreferenceController.cs" />
     <Compile Include="Controllers\ActionDeliveryLinesController.cs" />
     <Compile Include="Controllers\DeliveryActionController.cs" />
     <Compile Include="Controllers\BulkCreditController.cs" />
@@ -211,7 +210,6 @@
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
-    <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
@@ -242,7 +240,6 @@
     <Compile Include="Mapper\Contracts\IRouteModelsMapper.cs" />
     <Compile Include="Mapper\Contracts\ICreditThresholdMapper.cs" />
     <Compile Include="Mapper\Contracts\ISeasonalDateMapper.cs" />
-    <Compile Include="Mapper\CleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IWidgetWarningMapper.cs" />
     <Compile Include="Mapper\CreditThresholdMapper.cs" />
     <Compile Include="Mapper\DeliveryLinesToModelMapper.cs" />
@@ -258,7 +255,6 @@
     <Compile Include="Models\AuditModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
     <Compile Include="Models\BulkEditPatchRequest.cs" />
-    <Compile Include="Models\CleanPreferenceModel.cs" />
     <Compile Include="Models\DamageModel.cs" />
     <Compile Include="Models\DeliveryDetailModel.cs" />
     <Compile Include="Models\BranchModel.cs" />
@@ -281,9 +277,7 @@
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Models\WidgetWarningModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validators\CleanPreferenceValidator.cs" />
     <Compile Include="Validators\Consts.cs" />
-    <Compile Include="Validators\Contracts\ICleanPreferenceValidator.cs" />
     <Compile Include="Validators\Contracts\ICreditThresholdValidator.cs" />
     <Compile Include="Validators\Contracts\ISeasonalDateValidator.cs" />
     <Compile Include="Validators\Contracts\IWidgetWarningValidator.cs" />

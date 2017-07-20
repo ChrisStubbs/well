@@ -28,7 +28,7 @@
 
         private Mock<IRouteToRemoveRepository> routeToRemoveRepository;
 
-        private Mock<ICleanPreferenceRepository> cleanPreferenceRepository;
+        //private Mock<ICleanPreferenceRepository> cleanPreferenceRepository;
 
         private Mock<ISeasonalDateRepository> seasonalDateRepository;
 
@@ -45,7 +45,7 @@
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.routeToRemoveRepository = new Mock<IRouteToRemoveRepository>(MockBehavior.Strict);
-            this.cleanPreferenceRepository = new Mock<ICleanPreferenceRepository>(MockBehavior.Strict);
+            //this.cleanPreferenceRepository = new Mock<ICleanPreferenceRepository>(MockBehavior.Strict);
             this.seasonalDateRepository = new Mock<ISeasonalDateRepository>(MockBehavior.Strict);
             this.amendmentService = new Mock<IAmendmentService>(MockBehavior.Strict);
 
@@ -56,7 +56,7 @@
                 this.jobRepository.Object,
                 this.jobDetailRepository.Object,
                 this.routeToRemoveRepository.Object,
-                this.cleanPreferenceRepository.Object,
+                //this.cleanPreferenceRepository.Object,
                 this.seasonalDateRepository.Object,
                 this.amendmentService.Object);
         }
@@ -69,13 +69,15 @@
                 var dateCreated = DateTime.Now;
 
                 var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference();
+                //var cleanPreference = new CleanPreference();
 
                 var season = new SeasonalDate { From = DateTime.Now, To = DateTime.Now };
 
                 var seasonalDates = new List<SeasonalDate> { season };
                 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
@@ -84,67 +86,77 @@
                 var dateCreated = DateTime.Now;
 
                 var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference();
+                //var cleanPreference = new CleanPreference();
 
                 var season = new SeasonalDate { From = DateTime.Now.AddDays(-2), To = DateTime.Now.AddDays(2) };
 
                 var seasonalDates = new List<SeasonalDate> { season };
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
             public void ShouldReturnDefaultOfFalseWhenSeasonalDateIsNotActiveInPast()
             {
-                var dateCreated = DateTime.Now;
+                //var dateCreated = DateTime.Now;
 
-                var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference();
+                //var royaltyException = new CustomerRoyaltyException();
+                //var cleanPreference = new CleanPreference();
 
-                var season = new SeasonalDate { From = DateTime.Now.AddDays(-10), To = DateTime.Now.AddDays(-5) };
+                //var season = new SeasonalDate { From = DateTime.Now.AddDays(-10), To = DateTime.Now.AddDays(-5) };
 
-                var seasonalDates = new List<SeasonalDate> { season };
+                //var seasonalDates = new List<SeasonalDate> { season };
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
             public void ShouldReturnFalseWhenSeasonalDateIsNotActiveInFuture()
             {
-                var dateCreated = DateTime.Now;
+                //var dateCreated = DateTime.Now;
 
-                var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference();
+                //var royaltyException = new CustomerRoyaltyException();
+                //var cleanPreference = new CleanPreference();
 
-                var season = new SeasonalDate { From = DateTime.Now.AddDays(10), To = DateTime.Now.AddDays(15) };
+                //var season = new SeasonalDate { From = DateTime.Now.AddDays(10), To = DateTime.Now.AddDays(15) };
 
-                var seasonalDates = new List<SeasonalDate> { season };
+                //var seasonalDates = new List<SeasonalDate> { season };
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
             public void ShouldReturnFalseWhenRoyaltyExceptionGreaterThanNow()
             {
-                var dateCreated = DateTime.Now;
+                //var dateCreated = DateTime.Now;
 
-                var royaltyException = new CustomerRoyaltyException { ExceptionDays = 3 };
-                var cleanPreference = new CleanPreference();
-                var seasonalDates = new List<SeasonalDate>();
+                //var royaltyException = new CustomerRoyaltyException { ExceptionDays = 3 };
+                //var cleanPreference = new CleanPreference();
+                //var seasonalDates = new List<SeasonalDate>();
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
             public void ShouldReturnTrueWhenRoyaltyExceptionLessThanNow()
             {
-                var dateCreated = DateTime.Now.AddDays(-4);
+                //var dateCreated = DateTime.Now.AddDays(-4);
 
-                var royaltyException = new CustomerRoyaltyException { ExceptionDays = 3 };
-                var cleanPreference = new CleanPreference();
-                var seasonalDates = new List<SeasonalDate>();
+                //var royaltyException = new CustomerRoyaltyException { ExceptionDays = 3 };
+                //var cleanPreference = new CleanPreference();
+                //var seasonalDates = new List<SeasonalDate>();
 
-                Assert.IsTrue(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsTrue(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
@@ -153,10 +165,12 @@
                 var dateCreated = DateTime.Now;
 
                 var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference { Days = 1 };
+                //var cleanPreference = new CleanPreference { Days = 1 };
                 var seasonalDates = new List<SeasonalDate>();
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
@@ -165,10 +179,12 @@
                 var dateCreated = DateTime.Now.AddDays(-5);
 
                 var royaltyException = new CustomerRoyaltyException();
-                var cleanPreference = new CleanPreference { Days = 1 };
+                //var cleanPreference = new CleanPreference { Days = 1 };
                 var seasonalDates = new List<SeasonalDate>();
 
-                Assert.IsTrue(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+                //Assert.IsTrue(this.service.CanDelete(royaltyException, cleanPreference, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
 
             [Test]
@@ -179,7 +195,9 @@
                 var royaltyException = new CustomerRoyaltyException();
                 var seasonalDates = new List<SeasonalDate>();
 
-                Assert.IsFalse(this.service.CanDelete(royaltyException, null, seasonalDates, dateCreated));
+                //Assert.IsFalse(this.service.CanDelete(royaltyException, null, seasonalDates, dateCreated));
+
+                throw new NotImplementedException();
             }
         }
     }

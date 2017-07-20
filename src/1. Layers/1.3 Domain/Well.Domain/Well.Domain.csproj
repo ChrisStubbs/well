@@ -50,7 +50,6 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
-    <Compile Include="CleanPreference.cs" />
     <Compile Include="CommentReason.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
     <Compile Include="DateThreshold.cs" />

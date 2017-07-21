@@ -34,7 +34,7 @@
         {
             var branch = GetBranchDateThreshold(branchId);
             var gracePeriodDays = branch.NumberOfDays;
-            var customerRoyaltyException = GetCustomerRoyaltyException(royaltyCode);
+           var customerRoyaltyException = GetCustomerRoyaltyException(royaltyCode);
 
             if (customerRoyaltyException != null && customerRoyaltyException.ExceptionDays > gracePeriodDays)
             {

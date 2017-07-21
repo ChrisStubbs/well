@@ -151,9 +151,9 @@
         {
             if (!string.IsNullOrWhiteSpace(RoyaltyCode))
             {
-                var royaltystring = RoyaltyCode.TrimStart('0');
+                var royaltyParts = RoyaltyCode.Split(' ');
                 int tryParseCode;
-                if (int.TryParse(royaltystring, out tryParseCode))
+                if (int.TryParse(royaltyParts[0], out tryParseCode))
                 {
                     return tryParseCode;
                 }

@@ -38,6 +38,7 @@ import {IJobIdResolutionStatus}                               from '../shared/mo
 export class SingleRouteComponent implements IObservableAlive
 {
     public branchId: number;
+    public branch: string;
     public driver: string;
     public routeDate: Date;
     public routeNumber: string;
@@ -104,6 +105,7 @@ export class SingleRouteComponent implements IObservableAlive
                 this.routeNumber = data.routeNumber;
                 this.driver = data.driver;
                 this.routeDate = data.routeDate;
+                this.branch = data.branch;
 
                 this.source = this.buildGridSource(data.items);
                 this.fillGridSource();

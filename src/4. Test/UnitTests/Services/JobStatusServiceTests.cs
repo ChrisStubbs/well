@@ -507,7 +507,7 @@ namespace PH.Well.UnitTests.Services
             jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
             jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
 
-            dateThresholdService.Setup(x => x.GracePeriodEndDate(routeDate, job.Id, 0))
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, job.Id, 0))
                 .Returns<DateTime>(x => routeDate.AddHours(-1));
 
             Assert.Throws<Exception>(() => service.SetGrn(job.Id, "123"));
@@ -527,7 +527,7 @@ namespace PH.Well.UnitTests.Services
 
             jobRepository.Setup(x => x.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
             //Return submission date greater than now
-            dateThresholdService.Setup(x => x.GracePeriodEndDate(routeDate, routes[0].BranchId, 0))
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, routes[0].BranchId, 0))
                 .Returns(routeDate.AddHours(1));
 
             service.SetGrn(job.Id, "123");

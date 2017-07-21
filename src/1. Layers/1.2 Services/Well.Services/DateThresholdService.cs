@@ -24,13 +24,13 @@
             this.customerRoyaltyExceptionRepository = customerRoyaltyExceptionRepository;
         }
 
-        public DateTime BranchGracePeriodEndDate(DateTime routeDate, int branchId)
+        public DateTime RouteGracePeriodEnd(DateTime routeDate, int branchId)
         {
             var branch = GetBranchDateThreshold(branchId);
             return GetGracePeriodEndDate(routeDate, branch.NumberOfDays, branchId);
         }
 
-        public DateTime GracePeriodEndDate(DateTime routeDate, int branchId, int royaltyCode)
+        public DateTime GracePeriodEnd(DateTime routeDate, int branchId, int royaltyCode)
         {
             var branch = GetBranchDateThreshold(branchId);
             var gracePeriodDays = branch.NumberOfDays;

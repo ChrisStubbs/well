@@ -30,8 +30,9 @@
             this.logger.LogDebug("Start soft delete");
 
             var routesAvailableForSoftDelete = wellCleanUpRepository.GetNonSoftDeletedRoutes()
-                .Where(r => r.RouteDate >= dateThresholdService.BranchGracePeriodEndDate(r.RouteDate, r.BranchId));
+                .Where(r => r.RouteDate >= dateThresholdService.RouteGracePeriodEnd(r.RouteDate, r.BranchId));
 
+            // need to get more info here so we can see if the jonb has passed its Grace Period
             var jobIdsToDelete = wellCleanUpRepository.GetJobsWithNoOustandingExceptions(routesAvailableForSoftDelete.Select(x => x.RouteId)).ToArray();
 
             using (var transactionScope = new TransactionScope())

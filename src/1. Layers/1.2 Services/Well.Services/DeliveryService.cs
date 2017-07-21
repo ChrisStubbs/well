@@ -135,7 +135,7 @@
                 grnEvent.Id = jobId;
                 grnEvent.BranchId = branchId;
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.GracePeriodEndDate(jobRoute.RouteDate, branchId, job.GetRoyaltyCode()));
+                    dateThresholdService.GracePeriodEnd(jobRoute.RouteDate, branchId, job.GetRoyaltyCode()));
 
                 transactionScope.Complete();
 

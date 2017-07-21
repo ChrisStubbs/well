@@ -303,7 +303,6 @@ namespace PH.Well.UnitTests.Services
             var userNameProvider = new Mock<IUserNameProvider>();
             var userRepository = new Mock<IUserRepository>();
 
-
             var sut = new JobService(
                 jobRepository.Object,
                 userThresholdService,
@@ -443,7 +442,7 @@ namespace PH.Well.UnitTests.Services
         {
             var mock = new Mock<IDateThresholdService>();
 
-            mock.Setup(p => p.EarliestSubmitDate(It.IsAny<DateTime>(), It.IsAny<int>())).Returns(date);
+            mock.Setup(p => p.GracePeriodEndDate(It.IsAny<DateTime>(), It.IsAny<int>(),It.IsAny<int>())).Returns(date);
 
             return mock.Object;
         }

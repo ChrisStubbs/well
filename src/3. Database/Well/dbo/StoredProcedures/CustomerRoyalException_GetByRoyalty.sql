@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[CustomerRoyalException_GetByRoyalty]
-	@RoyaltyId int
+	@RoyaltyCode int
 AS
 BEGIN
 SELECT
 	   [Id]
-	  ,[RoyaltyId]
+	  ,[RoyaltyCode]
       ,[Customer]
       ,[ExceptionDays]
       ,[CreatedBy]
@@ -13,5 +13,5 @@ SELECT
       ,[DateUpdated]
       ,[Version]
   FROM [dbo].[CustomerRoyaltyException]
-  WHERE [RoyaltyId] = @RoyaltyId
+  WHERE [RoyaltyCode] = @RoyaltyCode
 END

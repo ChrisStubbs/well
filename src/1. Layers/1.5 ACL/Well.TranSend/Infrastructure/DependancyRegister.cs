@@ -58,6 +58,7 @@
                     x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

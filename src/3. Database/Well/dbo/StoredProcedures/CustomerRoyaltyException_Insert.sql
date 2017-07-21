@@ -1,15 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[CustomerRoyaltyException_Insert]
-	@RoyaltyId int,
+	@RoyaltyCode int,
 	@Customer varchar(100),
-	@ExceptionDays int,
+	@ExceptionDays tinyint,
 	@Username varchar(50)
 AS
 
-SET IDENTITY_INSERT [CustomerRoyaltyException] ON
-
 	INSERT INTO [CustomerRoyaltyException]
 	(
-		[RoyaltyId],
+		[RoyaltyCode],
 		[Customer],
 		[ExceptionDays],
 		[CreatedBy],
@@ -19,7 +17,7 @@ SET IDENTITY_INSERT [CustomerRoyaltyException] ON
 	)
 	VALUES
 	(
-		@RoyaltyId,
+		@RoyaltyCode,
 		@Customer,
 		@ExceptionDays,
 		@Username,
@@ -28,8 +26,5 @@ SET IDENTITY_INSERT [CustomerRoyaltyException] ON
 		GETDATE()
 	)
 
-SET IDENTITY_INSERT [CustomerRoyaltyException] OFF
-
 SELECT CAST(SCOPE_IDENTITY() as int);
 
-RETURN 0

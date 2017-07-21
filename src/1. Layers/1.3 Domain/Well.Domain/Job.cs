@@ -147,5 +147,19 @@
 
         public IEnumerable<JobResolutionStatus> ResolutionStatusHistory;
 
+        public int GetRoyaltyCode()
+        {
+            if (!string.IsNullOrWhiteSpace(RoyaltyCode))
+            {
+                var royaltystring = RoyaltyCode.TrimStart('0');
+                int tryParseCode;
+                if (int.TryParse(royaltystring, out tryParseCode))
+                {
+                    return tryParseCode;
+                }
+            }
+            return default(int);
+
+        }
     }
 }

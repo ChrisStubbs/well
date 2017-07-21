@@ -218,12 +218,12 @@ namespace PH.Well.UnitTests.Services.Validation
             [Test]
             public void ShouldReturnInvalidIfRouteDateGreaterThatEarliestCreditDate()
             {
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 3, BranchId = 1, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 1, JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 2, JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 3, JobRoute = new JobRoute { JobId = 3, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.GracePeriodEndDate(DateTime.Today, 1, 0)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.GracePeriodEndDate(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
@@ -237,8 +237,8 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.GracePeriodEndDate(DateTime.Today, 1, 0)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.GracePeriodEndDate(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 
@@ -250,8 +250,8 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today.AddDays(-1) } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.BranchGracePeriodEndDate(DateTime.Today, 1)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.BranchGracePeriodEndDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 

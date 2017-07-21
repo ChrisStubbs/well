@@ -11,7 +11,7 @@
         <div class="col-md-3">
             <div class="row">
                 <label class="col-md-4">Branch</label>
-                <div class="col-md-8"><ow-branch-name [branchId]="source.branchId"></ow-branch-name></div>
+                <div class="col-md-8">{{source.branch}}&nbsp;({{source.branchId}})</div>
             </div>
             <div class="row">
                 <label class="col-md-4">
@@ -108,7 +108,7 @@
                         <th class="colProduct">
                             <div class="text-center">Product</div>
                             <div>
-                                <input type="text" [(ngModel)]="filters.product" (keyup)="filterFreeText()" class="form-control">
+                                <input [(ngModel)]="filters.product" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
                         <th class="colType">
@@ -253,8 +253,8 @@
                             <td colspan="2">{{detail.product}}</td>
                             <td>{{detail.type}}</td>
                             <td>
-                                <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                    <abbr>{{ item.barCode | slice:-12 }}</abbr>
+                                <div *ngIf="detail.barCode != 'NoBarCode'" class="hideOverflow" title="{{detail.barCode}}">
+                                    <abbr>{{ detail.barCode | slice:-12 }}</abbr>
                                 </div>
                             </td>
                             <td>{{detail.description}}</td>

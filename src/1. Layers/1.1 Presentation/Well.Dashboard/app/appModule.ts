@@ -13,8 +13,6 @@ import { routing, appRoutingProviders } from './appRoutes';
 import { ApprovalsComponent } from './approvals/approvalsComponent';
 import { AccountComponent } from './account/accountComponent';
 import { BranchSelectionComponent } from './branch/branchSelectionComponent';
-import { DeliveryComponent } from './delivery/deliveryComponent';
-import { DeliveryIssuesComponent } from './delivery/deliveryIssuesComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
 import { UserPreferenceComponent } from './user_preferences/userPreferenceComponent';
@@ -67,8 +65,6 @@ import { CreditThresholdService } from './credit_threshold/creditThresholdServic
 import { CleanPreferenceService } from './clean_preferences/cleanPreferenceService';
 import { UserService } from './shared/userService';
 import { WidgetWarningService } from './widget_warnings/widgetWarningService';
-import { DeliveryService } from './delivery/deliveryService';
-import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -97,16 +93,16 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
         AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        CleanPreferenceEditModalComponent, DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
-        AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
-        WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, BulkCreditConfirmModal, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
-        EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent
+        CleanPreferenceEditModalComponent, CleanPreferenceRemoveModalComponent, AccountComponent, ApprovalsComponent,
+        BranchSelectionComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent,
+        CreditThresholdRemoveModalComponent, CreditThresholdAddModalComponent, CreditThresholdEditModalComponent,
+        CleanPreferenceComponent, CleanPreferenceAddModalComponent, RoutesComponent, SingleRouteComponent,
+        UserPreferenceComponent, WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent,
+        UserThresholdComponent, UserThresholdLevelComponent, WidgetWarningsViewComponent, WidgetWarningAddModalComponent,
+        WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
+        StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
+        ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
+        CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
@@ -115,7 +111,7 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
+        CleanPreferenceService, UserService, WidgetWarningService, LookupService,
         CleanPreferenceService, UserService, UserPreferenceService, ActivityService, JobService, LocationsService,
         {
             provide: APP_INITIALIZER,

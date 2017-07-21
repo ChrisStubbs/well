@@ -84,7 +84,6 @@ export class SingleRouteFilter implements IFilter
         this.jobTypeId = undefined;
         this.wellStatus = '';
         this.exceptions = undefined;
-        this.clean = undefined;
         this.assignee = '';
         this.resolutionId = undefined;
     }
@@ -94,11 +93,10 @@ export class SingleRouteFilter implements IFilter
     public jobTypeId?: number = undefined;
     public wellStatus: string;
     public exceptions: boolean;
-    public clean: boolean;
     public assignee: string;
     public resolutionId: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
         switch (filterName)
         {
@@ -122,20 +120,16 @@ export class SingleRouteFilter implements IFilter
                 return  GridHelpersFunctions.isEqualFilter;
 
             case 'exceptions':
-            case 'clean':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
+                return (value: number, value2: number, sourceRow: SingleRouteItem) => {
+
+                    if (+value2 == 1)
                     {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
+                        return sourceRow.exceptions > 0;
                     }
 
-                    return value == 0;
+                    return sourceRow.clean > 0;
                 };
+
             case 'resolutionId':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
         }

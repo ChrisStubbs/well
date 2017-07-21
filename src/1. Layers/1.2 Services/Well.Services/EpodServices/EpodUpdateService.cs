@@ -122,7 +122,7 @@
             {
                 throw new ArgumentNullException(nameof(updatedJobIds));
             }
-                
+
             // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
             {
@@ -228,7 +228,7 @@
                 {
                     this.logger.LogError(
                         $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})");
-                      
+
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})",
@@ -256,7 +256,7 @@
                 var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.EarliestSubmitDate(routeDate, branchId));
+                    dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()));
             }
 
             this.UpdateJobDetails(

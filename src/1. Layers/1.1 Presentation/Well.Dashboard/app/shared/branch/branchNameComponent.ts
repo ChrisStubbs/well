@@ -18,7 +18,6 @@ export class BranchNameComponent {
     public ngOnChanges() {
         if (this.branchId) {
             this.branchService.getById(this.branchId).subscribe((branch): void => {
-                console.log(branch);
                 this.branchName = branch.name + '(' + branch.id + ')';
             });
         }

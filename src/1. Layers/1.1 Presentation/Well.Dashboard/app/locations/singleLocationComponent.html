@@ -36,6 +36,7 @@
                     <label class=" col-form-label">Primary Account Number:</label>
                     <span>{{source.accountNumber}}</span>
                     <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                    <span class="glyphicon glyphicon-new-window"></span>
                 </div>
             </div>
             <div class="row">
@@ -118,25 +119,14 @@
                             </select>
                         </div>
                     </th>
-                    <th style="width: 7%">
-                        <div class="text-center">Damages</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.exceptions" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">With Exceptions</option>
-                                <option value="false">No Exceptions</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th style="width: 7%">
-                        <div class="text-center">Clean</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.clean" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option value="false">Yes</option>
-                                <option value="true">No</option>
-                            </select>
-                        </div>
+                    <th style="width: 14%" colspan="2">
+                        <div class="text-center col-md-6">Exceptions</div>
+                        <div class="text-center col-md-6">Clean</div>
+                        <select class="form-control" [(ngModel)]="filters.exceptions" (change)="buildGridSource()" title="">
+                            <option value>All</option>
+                            <option value="1">With exceptions</option>
+                            <option value="2">With Clean</option>
+                        </select>
                     </th>
                     <th style="width: 7%">
                         <div class="text-center">T.B.A.</div>

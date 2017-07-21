@@ -56,18 +56,21 @@
         {
             this.logger.LogDebug("Started cleaning the Well...");
 
+            // Do not run on sunday
             if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
             {
                 return;
             }
 
+
+            //get all route ids where not deleted
             var routeIds = this.routeToRemoveRepository.GetRouteIds();
 
             foreach (var routeId in routeIds)
             {
-               
 
                 var jobIdsForDeletion = new List<int>();
+
                 var route = this.routeToRemoveRepository.GetRouteToRemove(routeId);
 
                 foreach (var routeHeader in route.RouteHeaders)
@@ -110,56 +113,56 @@
 
                 this.logger.LogDebug($"Finished  generating amendments for route id {routeId}...");
 
-              /*  try
-                {
-                    foreach (var routeHeader in route.RouteHeaders)
-                    {
-                        foreach (var stop in routeHeader.Stops)
-                        {
-                            using (var transaction = new TransactionScope())
-                            {
-                                foreach (var job in stop.Jobs)
-                                {
-                                    foreach (var detail in job.JobDetails)
-                                    {
-                                        if (detail.IsDeleted)
-                                        {
-                                            this.jobDetailRepository.DeleteJobDetailById(detail.JobDetailId);
-                                        }
-                                    }
+                /*  try
+                  {
+                      foreach (var routeHeader in route.RouteHeaders)
+                      {
+                          foreach (var stop in routeHeader.Stops)
+                          {
+                              using (var transaction = new TransactionScope())
+                              {
+                                  foreach (var job in stop.Jobs)
+                                  {
+                                      foreach (var detail in job.JobDetails)
+                                      {
+                                          if (detail.IsDeleted)
+                                          {
+                                              this.jobDetailRepository.DeleteJobDetailById(detail.JobDetailId);
+                                          }
+                                      }
 
-                                    if (job.IsDeleted)
-                                    {
-                                        this.jobRepository.DeleteJobById(job.JobId);
-                                    }
-                                }
+                                      if (job.IsDeleted)
+                                      {
+                                          this.jobRepository.DeleteJobById(job.JobId);
+                                      }
+                                  }
 
-                                if (stop.IsDeleted)
-                                {
-                                    this.stopRepository.DeleteStopById(stop.StopId);
-                                }
+                                  if (stop.IsDeleted)
+                                  {
+                                      this.stopRepository.DeleteStopById(stop.StopId);
+                                  }
 
-                                transaction.Complete();
-                            }
-                        }
+                                  transaction.Complete();
+                              }
+                          }
 
-                        if (routeHeader.IsDeleted)
-                        {
-                            this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
-                        }
-                    }
+                          if (routeHeader.IsDeleted)
+                          {
+                              this.routeHeaderRepository.DeleteRouteHeaderById(routeHeader.RouteHeaderId);
+                          }
+                      }
 
-                    if (route.IsDeleted)
-                    {
-                        this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
-                    }
+                      if (route.IsDeleted)
+                      {
+                          this.routeHeaderRepository.RoutesDeleteById(route.RouteId);
+                      }
 
 
-                }
-                catch (Exception exception)
-                {
-                    this.logger.LogError("Error when trying to delete clean route!", exception);
-                }*/
+                  }
+                  catch (Exception exception)
+                  {
+                      this.logger.LogError("Error when trying to delete clean route!", exception);
+                  }*/
             }
 
             this.logger.LogDebug
@@ -167,8 +170,7 @@
         }
 
 
-        public
-            bool CanDelete(
+        public bool CanDelete(
             CustomerRoyaltyException royaltyException,
             CleanPreference cleanPreference,
             IEnumerable<SeasonalDate> seasonalDates,
@@ -218,18 +220,18 @@
         {
             if (!string.IsNullOrWhiteSpace(royaltyCode))
             {
-                var royaltyParts = royaltyCode.Split(' ');
 
+                var royaltyParts = royaltyCode.Split(' ');
                 int tryParseCode = 0;
 
-                if (int.TryParse(royaltyParts[0], out tryParseCode))
-                {
-                    var royaltyException =
-                        this.jobRepository.GetCustomerRoyaltyExceptions()
-                            .FirstOrDefault(x => x.RoyaltyId == tryParseCode);
+                //if (int.TryParse(royaltyParts[0], out tryParseCode))
+                //{
+                //    var royaltyException =
+                //        this.jobRepository.GetCustomerRoyaltyExceptions()
+                //            .FirstOrDefault(x => x.RoyaltyId == tryParseCode);
 
-                    return royaltyException;
-                }
+                //    return royaltyException;
+                //}
             }
 
             return null;

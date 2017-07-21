@@ -1,34 +1,34 @@
-import { Component, ViewChild } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import { RoutesService } from './routesService';
-import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
-import { ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import { AssignModel, AssignModalResult } from '../shared/components/components';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { SingleRouteItem } from './singleRoute';
+import { Component, ViewChild }                               from '@angular/core';
+import { CurrencyPipe }                                       from '@angular/common';
+import { RoutesService }                                      from './routesService';
+import { SingleRoute, SingleRouteSource, SingleRouteFilter }  from './singleRoute';
+import { ActivatedRoute }                                     from '@angular/router';
+import * as _                                                 from 'lodash';
+import { AssignModel, AssignModalResult }                     from '../shared/components/components';
+import { Branch }                                             from '../shared/branch/branch';
+import { SecurityService }                                    from '../shared/security/securityService';
+import { GlobalSettingsService }                              from '../shared/globalSettings';
+import { IObservableAlive }                                   from '../shared/IObservableAlive';
+import { SingleRouteItem }                                    from './singleRoute';
 import
 {
     LookupService,
     LookupsEnum,
     ILookupValue,
     ResolutionStatusEnum
-} from '../shared/services/services';
-import { Observable } from 'rxjs';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import { ISubmitActionResult } from '../shared/action/submitActionModel';
-import { JobService, GrnHelpers } from '../job/job';
-import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
-import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
-import { IBulkEditResult } from '../shared/action/bulkEditItem';
+}                                                             from '../shared/services/services';
+import { Observable }                                         from 'rxjs';
+import { GridHelpersFunctions }                               from '../shared/gridHelpers/gridHelpersFunctions';
+import { ISubmitActionResult }                                from '../shared/action/submitActionModel';
+import { JobService, GrnHelpers }                             from '../job/job';
+import { ISubmitActionResultDetails }                         from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult }                                    from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/mergeMap';
-import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
-import { SubmitActionModal } from '../shared/action/submitActionModal';
-import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
-import {IJobIdResolutionStatus} from '../shared/models/jobIdResolutionStatus';
+import { ManualCompletionModal }                              from '../shared/manualCompletion/manualCompletionModal';
+import { SubmitActionModal }                                  from '../shared/action/submitActionModal';
+import {ManualCompletionType}                                 from '../shared/manualCompletion/manualCompletionRequest';
+import {IJobIdResolutionStatus}                               from '../shared/models/jobIdResolutionStatus';
 
 @Component({
     selector: 'ow-route',
@@ -38,6 +38,7 @@ import {IJobIdResolutionStatus} from '../shared/models/jobIdResolutionStatus';
 export class SingleRouteComponent implements IObservableAlive
 {
     public branchId: number;
+    public branch: string;
     public driver: string;
     public routeDate: Date;
     public routeNumber: string;
@@ -104,6 +105,7 @@ export class SingleRouteComponent implements IObservableAlive
                 this.routeNumber = data.routeNumber;
                 this.driver = data.driver;
                 this.routeDate = data.routeDate;
+                this.branch = data.branch;
 
                 this.source = this.buildGridSource(data.items);
                 this.fillGridSource();

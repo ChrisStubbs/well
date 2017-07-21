@@ -78,7 +78,6 @@ export class SingleLocationFilter implements IFilter
         this.jobTypeId = undefined;
         this.jobStatus = undefined;
         this.exceptions = undefined;
-        this.clean = undefined;
         this.assignee = '';
         this.resolutionId = undefined;
     }
@@ -87,12 +86,11 @@ export class SingleLocationFilter implements IFilter
     public dateFormatted: string;
     public jobTypeId: string;
     public jobStatus: string;
-    public exceptions: boolean;
-    public clean: boolean;
+    public exceptions: number;
     public assignee: string;
     public resolutionId: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
         switch (filterName) {
             case 'driver':
@@ -108,19 +106,14 @@ export class SingleLocationFilter implements IFilter
                 };
 
             case 'exceptions':
-            case 'clean':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
+                return (value: number, value2: number, sourceRow: SingleLocation) => {
+
+                    if (+value2 == 1)
                     {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
+                        return sourceRow.exceptions > 0;
                     }
 
-                    return value == 0;
+                    return sourceRow.clean > 0;
                 };
 
             case 'resolutionId':
@@ -156,15 +149,13 @@ export class LocationFilter implements  IFilter
         this.accountName = '';
         this.address = '';
         this.exceptions = undefined;
-        this.cleans = undefined;
     }
 
     public primaryAccountNumber: string;
     public accountNumber: string;
     public accountName: string;
     public address: string;
-    public exceptions: boolean;
-    public cleans: boolean;
+    public exceptions: number;
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
@@ -179,16 +170,14 @@ export class LocationFilter implements  IFilter
                 return GridHelpersFunctions.containsFilter;
 
             case 'exceptions':
-            case 'cleans':
-                return (value: number, value2?: boolean) => {
-                    if (_.isNull(value2)) {
-                        return true;
-                    }
-                    if (value2.toString() == 'true') {
-                        return value > 0;
-                    }
+                return (value: number, value2: number, sourceRow: Locations) => {
 
-                    return value == 0;
+                   if (+value2 == 1)
+                   {
+                       return sourceRow.exceptions > 0;
+                   }
+
+                   return sourceRow.cleans > 0;
                 };
         }
 

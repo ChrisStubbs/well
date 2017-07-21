@@ -130,6 +130,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ICommentReasonRepository>().Use<CommentReasonRepository>();
 
             For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+            For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
         }
     }
 }

@@ -61,7 +61,6 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\StoredProcedures" />
     <Folder Include="dbo\Tables" />
-    <Folder Include="Post-Deployement" />
     <Folder Include="dbo\Types" />
     <Folder Include="dbo\Functions" />
     <Folder Include="ManualStep" />
@@ -71,6 +70,7 @@
     <Folder Include="ManualStep\scripts\runBeforeUp" />
     <Folder Include="ManualStep\scripts\up" />
     <Folder Include="dbo\Views" />
+    <Folder Include="Post-Deployement" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -80,15 +80,7 @@
     <None Include="Well.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Post-Deployement\Populate-VisitTypes.sql" />
-    <None Include="Post-Deployement\Populate-JobType.sql" />
-    <None Include="Post-Deployement\Populate-AccountType.sql" />
-    <None Include="Post-Deployement\Populate-ReasonCategory.sql" />
-    <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
-    <None Include="Post-Deployement\Populate-ByPassReasons.sql" />
-    <None Include="Post-Deployement\Populate-JobDetailReason.sql" />
     <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
-    <None Include="Post-Deployement\Populate-PDACreditReasons.sql" />
     <Build Include="dbo\Tables\JobDetailReason.sql" />
     <None Include="ManualStep\roundhouse.0.8.6\bin\rh.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -96,6 +88,7 @@
     <None Include="ManualStep\runRoundhouse.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\17_CustomerRoyaltyExceptionCleanUp.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -105,7 +98,6 @@
     <Build Include="dbo\Tables\JobStatus.sql" />
     <Build Include="dbo\Tables\AccountType.sql" />
     <Build Include="dbo\Tables\ByPassReasons.sql" />
-    <Build Include="dbo\Tables\RoyaltyExceptions.sql" />
     <Build Include="dbo\Tables\BranchCreditApproval.sql" />
     <Build Include="dbo\Tables\BranchApprovalTime.sql" />
     <Build Include="dbo\Tables\Routes.sql" />
@@ -117,7 +109,6 @@
     <Build Include="dbo\Tables\JobDetailDamage.sql" />
     <Build Include="dbo\Tables\JobDetailByPassReasons.sql" />
     <Build Include="dbo\Tables\ExceptionAction.sql" />
-    <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
     <Build Include="dbo\StoredProcedures\Stops_GetByRouteHeaderId.sql" />
     <Build Include="dbo\StoredProcedures\Route_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
@@ -126,7 +117,6 @@
     <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
-    <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <Build Include="dbo\Tables\PerformanceStatus.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByStopId.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetByBranchRouteNumberAndDate.sql" />
@@ -135,7 +125,6 @@
     <Build Include="dbo\Tables\Reason.sql" />
     <Build Include="dbo\StoredProcedures\Account_GetByAccountId.sql" />
     <Build Include="dbo\Tables\Branch.sql" />
-    <None Include="Post-Deployement\Populate-Branch.sql" />
     <Build Include="dbo\StoredProcedures\BranchesGet.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserBranch.sql" />
@@ -154,7 +143,6 @@
     <Build Include="dbo\StoredProcedures\Account_GetByAccountCode.sql" />
     <Build Include="dbo\Tables\JobDetailStatus.sql" />
     <Build Include="dbo\Tables\HolidayExceptions.sql" />
-    <None Include="Post-Deployement\Populate-JobDetailStatus.sql" />
     <Build Include="dbo\StoredProcedures\Stop_GetByJobId.sql" />
     <Build Include="dbo\Tables\CustomerRoyaltyException.sql" />
     <Build Include="dbo\StoredProcedures\HolidayException_Get.sql" />
@@ -194,7 +182,6 @@
     <Build Include="dbo\StoredProcedures\SeasonalDatesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForSeasonalDate.sql" />
     <Build Include="dbo\Tables\ThresholdLevel.sql" />
-    <None Include="Post-Deployement\Populate-ThresholdLevels.sql" />
     <Build Include="dbo\Tables\CreditThreshold.sql" />
     <Build Include="dbo\Tables\CreditThresholdToBranch.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdGetAll.sql" />
@@ -210,7 +197,6 @@
     <Build Include="dbo\StoredProcedures\CleanPreferencesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
-    <None Include="Post-Deployement\Populate-ActionStatus.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Tables\JobDetailAction.sql" />
     <Build Include="dbo\StoredProcedures\CleanPreferenceSave.sql" />
@@ -229,7 +215,6 @@
     <Build Include="dbo\StoredProcedures\WidgetWarningToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\WidgetWarningDelete.sql" />
     <Build Include="dbo\Tables\WidgetType.sql" />
-    <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <Build Include="dbo\Tables\PendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
@@ -252,21 +237,16 @@
     <Build Include="dbo\StoredProcedures\Stop_Update.sql" />
     <Build Include="dbo\StoredProcedures\DeleteStopByTransportOrderReference.sql" />
     <Build Include="dbo\Tables\CashOnDeliveryType.sql" />
-    <None Include="Post-Deployement\Populate-CashOnDeliveryType.sql" />
     <Build Include="dbo\StoredProcedures\AuditTrigger.sql" />
-    <None Include="Post-Deployement\EnableAuditing.sql" />
     <Build Include="dbo\StoredProcedures\RouteheaderGetByNumberDateBranch.sql" />
     <Build Include="dbo\Tables\JobDetailSource.sql" />
-    <None Include="Post-Deployement\Populate-JobDetailSource.sql" />
     <Build Include="dbo\StoredProcedures\SaveGrn.sql" />
     <Build Include="dbo\Tables\DeliveryAction.sql" />
-    <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchIdForJob.sql" />
     <Build Include="dbo\StoredProcedures\Job_SetToStatus.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByBranchAndInvoiceNumber.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\Deliveries_Get.sql" />
-    <None Include="Post-Deployement\Populate-JobStatus.sql" />
     <Build Include="dbo\Types\IntTableType.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetByIds.sql" />
     <Build Include="dbo\StoredProcedures\Users_Get.sql" />
@@ -285,7 +265,6 @@
     <Build Include="dbo\StoredProcedures\Job_UpdateStatus.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetAllForBranch.sql" />
     <Build Include="dbo\Tables\ActivityType.sql" />
-    <None Include="Post-Deployement\Populate-ActivityType.sql" />
     <Build Include="dbo\Functions\ActivityType_Invoice.sql" />
     <Build Include="dbo\Functions\ActivityType_Uplift.sql" />
     <Build Include="dbo\Functions\ActivityType_Documents.sql" />
@@ -295,7 +274,6 @@
     <Build Include="dbo\Tables\LineItem.sql" />
     <Build Include="dbo\Tables\LineItemAction.sql" />
     <Build Include="dbo\Tables\ExceptionType.sql" />
-    <None Include="Post-Deployement\Populate-ExceptionType.sql" />
     <Build Include="dbo\Tables\Bag.sql" />
     <None Include="ManualStep\scripts\up\005_Add_ActivityType_Table.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -364,7 +342,6 @@
     <Build Include="dbo\Views\ActivityExceptionsView.sql" />
     <Build Include="dbo\Views\LocationExceptionsView.sql" />
     <Build Include="dbo\Tables\WellStatus.sql" />
-    <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <Build Include="dbo\Views\JobStatusView.sql" />
     <Build Include="dbo\Views\StopStatusView.sql" />
     <Build Include="dbo\Views\RouteStatusView.sql" />
@@ -375,26 +352,15 @@
     <Build Include="dbo\Functions\ExceptionType_Short.sql" />
     <Build Include="dbo\Functions\JobStatus_Bypass.sql" />
     <Build Include="dbo\Tables\CommentReason.sql" />
-    <None Include="Post-Deployement\Populate-CommentReason.sql" />
     <Build Include="dbo\Tables\LineItemActionComment.sql" />
     <Build Include="dbo\StoredProcedures\CommentReason_Get.sql" />
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
     <Build Include="dbo\Tables\ResolutionStatus.sql" />
     <Build Include="dbo\Tables\JobResolutionStatus.sql" />
-    <None Include="Post-Deployement\Populate-ResolutionStatus.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
-    <None Include="ManualStep\scripts\up\019_DropColumn_IsDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ManualStep\scripts\up\017_AddColumn_DateDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ManualStep\scripts\up\018_Copy_IsDeletedDateDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Build Include="dbo\StoredProcedures\JobResolutionStatus_Insert.sql" />
     <Build Include="dbo\StoredProcedures\JobRoutes_GetByJobIds.sql" />
     <Build Include="dbo\StoredProcedures\LineItemIds_GetByJobIds.sql" />
@@ -422,20 +388,43 @@
     <Build Include="dbo\Tables\BranchDateThreshold.sql" />
     <Build Include="dbo\StoredProcedures\DateThreshold_Get.sql" />
     <Build Include="dbo\StoredProcedures\DateThreshold_Delete.sql" />
+    <None Include="Post-Deployement\EnableAuditing.sql" />
+    <None Include="Post-Deployement\Populate-AccountType.sql" />
+    <None Include="Post-Deployement\Populate-ActionStatus.sql" />
+    <None Include="Post-Deployement\Populate-ActivityType.sql" />
+    <None Include="Post-Deployement\Populate-Branch.sql" />
     <None Include="Post-Deployement\Populate-BranchDateThreshold.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
-    <None Include="Post-Deployement\Populate-RouteStatus.sql" />
-    <None Include="Post-Deployement\Populate-HolidayExceptions.sql" />
+    <None Include="Post-Deployement\Populate-ByPassReasons.sql" />
+    <None Include="Post-Deployement\Populate-CashOnDeliveryType.sql" />
+    <None Include="Post-Deployement\Populate-CommentReason.sql" />
+    <None Include="Post-Deployement\Populate-CommodityType.sql" />
+    <None Include="Post-Deployement\Populate-CSFRejection.sql" />
     <None Include="Post-Deployement\Populate-CustomerRoyalty.sql" />
+    <None Include="Post-Deployement\Populate-DeliveryAction.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionAction.sql" />
+    <None Include="Post-Deployement\Populate-ExceptionType.sql" />
+    <None Include="Post-Deployement\Populate-GrnRefused.sql" />
+    <None Include="Post-Deployement\Populate-HolidayExceptions.sql" />
+    <None Include="Post-Deployement\Populate-JobDetailReason.sql" />
+    <None Include="Post-Deployement\Populate-JobDetailSource.sql" />
+    <None Include="Post-Deployement\Populate-JobDetailStatus.sql" />
+    <None Include="Post-Deployement\Populate-JobStatus.sql" />
+    <None Include="Post-Deployement\Populate-JobType.sql" />
+    <None Include="Post-Deployement\Populate-PDACreditReasons.sql" />
+    <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
     <None Include="Post-Deployement\Populate-PODCreditActions.sql" />
     <None Include="Post-Deployement\Populate-PODCreditReasons.sql" />
-    <None Include="Post-Deployement\Populate-CSFRejection.sql" />
-    <None Include="Post-Deployement\Populate-GrnRefused.sql" />
-    <None Include="Post-Deployement\Populate-CommodityType.sql" />
     <None Include="Post-Deployement\Populate-ProductType.sql" />
+    <None Include="Post-Deployement\Populate-ReasonCategory.sql" />
+    <None Include="Post-Deployement\Populate-ResolutionStatus.sql" />
+    <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
+    <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
+    <None Include="Post-Deployement\Populate-RouteStatus.sql" />
+    <None Include="Post-Deployement\Populate-ThresholdLevels.sql" />
+    <None Include="Post-Deployement\Populate-VisitTypes.sql" />
+    <None Include="Post-Deployement\Populate-WellStatus.sql" />
+    <None Include="Post-Deployement\Populate-WidgetType.sql" />
+    <None Include="Post-Deployement\PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

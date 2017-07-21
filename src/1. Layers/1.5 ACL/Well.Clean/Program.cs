@@ -60,6 +60,7 @@
                     x.For<IAmendmentFactory>().Use<AmendmentFactory>();
                     x.For<IUserRepository>().Use<UserRepository>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
                 });
         }
     }

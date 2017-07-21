@@ -61,9 +61,12 @@
             if (incorrectStateJobs.Any())
             {
                 var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
-                return new SubmitActionResult { Message = $"Can not submit exceptions for jobs. " +
+                return new SubmitActionResult
+                {
+                    Message = $"Can not submit exceptions for jobs. " +
                                                           $"The following jobs are not in Pending Submission / Pending Approval State " +
-                                                          $"{incorrectStateJobstring}." };
+                                                          $"{incorrectStateJobstring}."
+                };
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);
@@ -83,14 +86,14 @@
 
         public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs)
         {
-            var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
-
-            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x => DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
+            var jobsBeforeEarliestSubmitDate =
+                unsubmittedJobs.Where(x => DateTime.Now < dateThresholdService.GracePeriodEnd(
+                                               x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
                 var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
-                    x => $"{x.JobId}: earliest credit date: {dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)}"
+                    x => $"{x.Id}: earliest credit date: {dateThresholdService.GracePeriodEnd(x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())}"
                 ).Distinct());
 
                 return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };

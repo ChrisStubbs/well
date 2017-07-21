@@ -256,7 +256,7 @@
                 var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.GracePeriodEndDate(routeDate, branchId, existingJob.GetRoyaltyCode()));
+                    dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()));
             }
 
             this.UpdateJobDetails(

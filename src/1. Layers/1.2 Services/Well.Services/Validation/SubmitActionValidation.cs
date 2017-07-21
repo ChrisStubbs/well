@@ -87,13 +87,13 @@
         public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs)
         {
             var jobsBeforeEarliestSubmitDate =
-                unsubmittedJobs.Where(x => DateTime.Now < dateThresholdService.GracePeriodEndDate(
+                unsubmittedJobs.Where(x => DateTime.Now < dateThresholdService.GracePeriodEnd(
                                                x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
                 var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
-                    x => $"{x.Id}: earliest credit date: {dateThresholdService.GracePeriodEndDate(x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())}"
+                    x => $"{x.Id}: earliest credit date: {dateThresholdService.GracePeriodEnd(x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())}"
                 ).Distinct());
 
                 return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };

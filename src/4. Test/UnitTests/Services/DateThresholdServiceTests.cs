@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Moq;
-using NUnit.Framework;
-using PH.Well.Domain;
-using PH.Well.Repositories.Contracts;
-using PH.Well.Services;
-
-namespace PH.Well.UnitTests.Services
+﻿namespace PH.Well.UnitTests.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using Moq;
+    using NUnit.Framework;
+    using Repositories.Contracts;
+    using Well.Domain;
+    using Well.Services;
+
+
     [TestFixture]
     public class DateThresholdServiceTests
     {
@@ -132,7 +133,7 @@ namespace PH.Well.UnitTests.Services
                 var deliveryDate = new DateTime(1999, 12, 31);
                 var expectedDate = deliveryDate.AddDays(7);
 
-                Assert.That(sut.BranchGracePeriodEndDate(deliveryDate, 1), Is.EqualTo(expectedDate));
+                Assert.That(sut.RouteGracePeriodEnd(deliveryDate, 1), Is.EqualTo(expectedDate));
             }
 
             [Test]
@@ -141,7 +142,7 @@ namespace PH.Well.UnitTests.Services
                 var deliveryDate = new DateTime(1999, 12, 31);
                 var expectedDate = deliveryDate.AddDays(12);
 
-                Assert.That(sut.BranchGracePeriodEndDate(deliveryDate, 3), Is.EqualTo(expectedDate));
+                Assert.That(sut.RouteGracePeriodEnd(deliveryDate, 3), Is.EqualTo(expectedDate));
             }
 
             [Test]
@@ -150,7 +151,7 @@ namespace PH.Well.UnitTests.Services
                 var deliveryDate = new DateTime(1999, 12, 31);
                 var expectedDate = deliveryDate.AddDays(2);
 
-                Assert.That(sut.BranchGracePeriodEndDate(deliveryDate, 2), Is.EqualTo(expectedDate));
+                Assert.That(sut.RouteGracePeriodEnd(deliveryDate, 2), Is.EqualTo(expectedDate));
             }
 
             [Test]
@@ -159,14 +160,14 @@ namespace PH.Well.UnitTests.Services
                 var deliveryDate = new DateTime(1999, 12, 31);
                 var expectedDate = deliveryDate.AddDays(3);
 
-                Assert.That(sut.BranchGracePeriodEndDate(deliveryDate, 4), Is.EqualTo(expectedDate));
+                Assert.That(sut.RouteGracePeriodEnd(deliveryDate, 4), Is.EqualTo(expectedDate));
             }
 
             [Test]
             public void Should_Throw_Error_No_Data_For_Branch()
             {
                 Assert.Throws(typeof(Exception),
-                    () => sut.BranchGracePeriodEndDate(DateTime.Now, -1),
+                    () => sut.RouteGracePeriodEnd(DateTime.Now, -1),
                     string.Format(DateThresholdService.ErrorMessage, -1));
             }
         }
@@ -198,7 +199,7 @@ namespace PH.Well.UnitTests.Services
                 var routeDate = new DateTime(1999, 12, 31);
                 var expectedDate = routeDate.AddDays(branch1Threshold.NumberOfDays);
 
-                Assert.That(sut.GracePeriodEndDate(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
+                Assert.That(sut.GracePeriodEnd(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
             }
 
             [Test]
@@ -214,7 +215,7 @@ namespace PH.Well.UnitTests.Services
                 var routeDate = new DateTime(1999, 12, 31);
                 var expectedDate = routeDate.AddDays(royaltyException.ExceptionDays);
 
-                Assert.That(sut.GracePeriodEndDate(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
+                Assert.That(sut.GracePeriodEnd(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
             }
 
             [Test]
@@ -230,7 +231,7 @@ namespace PH.Well.UnitTests.Services
                 var routeDate = new DateTime(1999, 12, 31);
                 var expectedDate = routeDate.AddDays(branch1Threshold.NumberOfDays);
 
-                Assert.That(sut.GracePeriodEndDate(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
+                Assert.That(sut.GracePeriodEnd(routeDate, branchId, royaltyCode), Is.EqualTo(expectedDate));
             }
         }
     }

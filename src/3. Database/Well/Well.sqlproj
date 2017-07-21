@@ -88,7 +88,7 @@
     <None Include="ManualStep\runRoundhouse.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ManualStep\scripts\up\020_CustomerRoyaltyExceptionCleanUp.sql" />
+    <None Include="ManualStep\scripts\up\17_CustomerRoyaltyExceptionCleanUp.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -361,15 +361,6 @@
     <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
-    <None Include="ManualStep\scripts\up\019_DropColumn_IsDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ManualStep\scripts\up\017_AddColumn_DateDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ManualStep\scripts\up\018_Copy_IsDeletedDateDeleted.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Build Include="dbo\StoredProcedures\JobResolutionStatus_Insert.sql" />
     <Build Include="dbo\StoredProcedures\JobRoutes_GetByJobIds.sql" />
     <Build Include="dbo\StoredProcedures\LineItemIds_GetByJobIds.sql" />

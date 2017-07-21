@@ -7,4 +7,3 @@ IF OBJECT_ID('dbo.CustomerRoyaltyException', 'U') IS NOT NULL
 BEGIN
 	DROP TABLE dbo.CustomerRoyaltyException; 
 END
-  

@@ -442,7 +442,7 @@ namespace PH.Well.UnitTests.Services
         {
             var mock = new Mock<IDateThresholdService>();
 
-            mock.Setup(p => p.GracePeriodEndDate(It.IsAny<DateTime>(), It.IsAny<int>(),It.IsAny<int>())).Returns(date);
+            mock.Setup(p => p.GracePeriodEnd(It.IsAny<DateTime>(), It.IsAny<int>(),It.IsAny<int>())).Returns(date);
 
             return mock.Object;
         }

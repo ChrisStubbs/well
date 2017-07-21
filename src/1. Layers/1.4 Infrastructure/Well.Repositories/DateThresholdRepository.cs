@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using PH.Well.Common.Contracts;
 using PH.Well.Domain;
@@ -20,7 +21,9 @@ namespace PH.Well.Repositories
 
         protected override void UpdateExisting(DateThreshold entity)
         {
-            throw new NotImplementedException();
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThresholdUpdate)
+                .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
+                .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute();
         }
     }
 }

@@ -85,7 +85,8 @@ import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 import { SingleLocationComponent, LocationsService, LocationsComponent } from './locations/locations';
 import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
-import {BranchNameComponent} from './shared/branch/branchNameComponent';
+import { BranchNameComponent } from './shared/branch/branchNameComponent';
+import { BranchDateThresholdComponent, BranchDateThresholdService } from './branch-role/branchDateThresholdModule';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -99,7 +100,8 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
         WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
         AccountFlagsComponent, BulkCreditConfirmModal, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
         EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent
+        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent,
+        BranchDateThresholdComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
@@ -109,7 +111,7 @@ import {BranchNameComponent} from './shared/branch/branchNameComponent';
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         UserService, WidgetWarningService, DeliveryService, LookupService,
-        UserPreferenceService, ActivityService, JobService, LocationsService,
+        UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

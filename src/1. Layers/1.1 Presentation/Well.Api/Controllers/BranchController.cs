@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Services;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -26,6 +28,7 @@
         private readonly IBranchService branchService;
 
         private readonly IBranchModelMapper branchModelMapper;
+        private readonly IDateThresholdService dateThresholdService;
 
         public BranchController(
             ILogger logger,
@@ -33,7 +36,8 @@
             IServerErrorResponseHandler serverErrorResponseHandler,
             IBranchService branchService,
             IBranchModelMapper branchModelMapper,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IDateThresholdService dateThresholdService)
             : base(userNameProvider)
         {
             this.logger = logger;
@@ -41,6 +45,7 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
             this.branchService = branchService;
             this.branchModelMapper = branchModelMapper;
+            this.dateThresholdService = dateThresholdService;
         }
 
         [HttpGet]
@@ -172,6 +177,24 @@
             {
                 this.logger.LogError("Error when trying to save branches for the user", exception);
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            }
+        }
+
+        [HttpGet]
+        [Route("branchDateThreshold")]
+        public IEnumerable<BranchDateThresholdModel> GetBranchDateThresholds()
+        {
+            return dateThresholdService.GetAll().Select(branchModelMapper.MapDateThreshold).ToList();
+        }
+
+        [HttpPost]
+        [Route("updateBranchDateThreshold")]
+        public void UpdateBranchDateThresholds(BranchDateThresholdModel[] branchDateThresholds)
+        {
+            var branchThresholds = branchDateThresholds.Select(branchModelMapper.MapDateThreshold);
+            foreach (var item in branchThresholds)
+            {
+                dateThresholdService.Update(item);
             }
         }
     }

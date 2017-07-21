@@ -197,6 +197,10 @@
     <TypeScriptCompile Include="app\activity\activityService.ts" />
     <TypeScriptCompile Include="app\activity\activitySource.ts" />
     <TypeScriptCompile Include="app\approvals\approvals.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThreshold.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdComponent.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdModule.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdService.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
@@ -214,6 +218,7 @@
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\action.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\branch-role\branchDateThresholdComponent.html" />
     <Content Include="app\locations\locationsComponent.html" />
     <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
@@ -300,7 +305,6 @@
     <Content Include="app\shared\manualCompletion\manualCompletionModal.html" />
     <Content Include="app\stops\stopComponent.html" />
     <Content Include="Content\css\font-awesome.min.css" />
-    <Content Include="Content\css\theme.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
@@ -333,9 +337,7 @@
     <Content Include="Content\css\bootstrap.flatten.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\imports.css" />
-    <Content Include="Content\css\primeng.css" />
     <Content Include="Content\css\Site.css" />
-    <Content Include="Content\css\ngprime-theme.css" />
     <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\actions.png">

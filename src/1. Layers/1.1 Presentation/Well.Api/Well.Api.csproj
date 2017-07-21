@@ -253,6 +253,7 @@
     <Compile Include="Mapper\StopMapper.cs" />
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
+    <Compile Include="Models\BranchDateThresholdModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
     <Compile Include="Models\BulkEditPatchRequest.cs" />
     <Compile Include="Models\DamageModel.cs" />

@@ -41,6 +41,10 @@ namespace PH.Well.Services
 
         public void Update(DateThreshold dateThreshold)
         {
+            if (dateThreshold.NumberOfDays < 2)
+            {
+                throw new ArgumentException(nameof(dateThreshold.NumberOfDays));
+            }
             dateThresholdRepository.Update(dateThreshold);
         }
 

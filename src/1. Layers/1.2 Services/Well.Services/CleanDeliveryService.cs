@@ -80,15 +80,15 @@
                         foreach (var job in stop.Jobs)
                         {
                             var royaltyException = this.GetCustomerRoyaltyException(job.RoyaltyCode);
-                            var cleanPreference = this.cleanPreferenceRepository.GetByBranchId(routeHeader.BranchId);
+                            //var cleanPreference = this.cleanPreferenceRepository.GetByBranchId(routeHeader.BranchId);
                             var seasonalDates = this.seasonalDateRepository.GetByBranchId(routeHeader.BranchId).ToList();
 
                             foreach (var detail in job.JobDetails)
                             {
-                                if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateUpdated))
-                                {
-                                    detail.SetToDelete();
-                                }
+                                //if (this.CanDelete(royaltyException, cleanPreference, seasonalDates, detail.DateUpdated))
+                                //{
+                                //    detail.SetToDelete();
+                                //}
                             }
 
                             job.SetToDelete();
@@ -172,7 +172,7 @@
 
         public bool CanDelete(
             CustomerRoyaltyException royaltyException,
-            CleanPreference cleanPreference,
+            //CleanPreference cleanPreference,
             IEnumerable<SeasonalDate> seasonalDates,
             DateTime dateUpdated)
         {
@@ -194,24 +194,24 @@
                 }
             }
 
-            if (cleanPreference != null && cleanPreference.Days > 0)
-            {
-                var dateCanBeRemoved = dateUpdated.AddDays(cleanPreference.Days);
+            //if (cleanPreference != null && cleanPreference.Days > 0)
+            //{
+            //    var dateCanBeRemoved = dateUpdated.AddDays(cleanPreference.Days);
 
-                if (dateCanBeRemoved.Date <= now)
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                var dateCanBeRemoved = dateUpdated.AddDays(1);
+            //    if (dateCanBeRemoved.Date <= now)
+            //    {
+            //        return true;
+            //    }
+            //}
+            //else
+            //{
+            //    var dateCanBeRemoved = dateUpdated.AddDays(1);
 
-                if (dateCanBeRemoved.Date <= now)
-                {
-                    return true;
-                }
-            }
+            //    if (dateCanBeRemoved.Date <= now)
+            //    {
+            //        return true;
+            //    }
+            //}
 
             return false;
         }

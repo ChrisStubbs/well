@@ -89,15 +89,13 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
         AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        DeliveryIssuesComponent, AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, RoutesComponent, SingleRouteComponent, UserPreferenceComponent,
-        WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
-        WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
+        AccountComponent, ApprovalsComponent, BranchSelectionComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent,
+        CreditThresholdRemoveModalComponent, CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, RoutesComponent, SingleRouteComponent,
+        UserPreferenceComponent, WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent,
+        UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
         StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
         ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
-        CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent
-        BranchDateThresholdComponent
+        CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
@@ -106,8 +104,7 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        UserService, WidgetWarningService, DeliveryService, LookupService,
-        UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
+        UserService, WidgetWarningService, LookupService, UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

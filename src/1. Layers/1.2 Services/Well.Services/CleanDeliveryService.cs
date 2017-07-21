@@ -24,7 +24,7 @@
 
         private readonly IRouteToRemoveRepository routeToRemoveRepository;
 
-        private readonly ICleanPreferenceRepository cleanPreferenceRepository;
+        //private readonly ICleanPreferenceRepository cleanPreferenceRepository;
 
         private readonly ISeasonalDateRepository seasonalDateRepository;
 
@@ -37,7 +37,7 @@
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
             IRouteToRemoveRepository routeToRemoveRepository,
-            ICleanPreferenceRepository cleanPreferenceRepository,
+            //ICleanPreferenceRepository cleanPreferenceRepository,
             ISeasonalDateRepository seasonalDateRepository,
             IAmendmentService amendmentService)
         {
@@ -47,7 +47,7 @@
             this.jobRepository = jobRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.routeToRemoveRepository = routeToRemoveRepository;
-            this.cleanPreferenceRepository = cleanPreferenceRepository;
+            //this.cleanPreferenceRepository = cleanPreferenceRepository;
             this.seasonalDateRepository = seasonalDateRepository;
             this.amendmentService = amendmentService;
         }

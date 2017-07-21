@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using PH.Well.Common.Contracts;
 using PH.Well.Domain;
@@ -13,15 +14,16 @@ namespace PH.Well.Repositories
         {
         }
 
-        public void Delete(int branchId)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CleanPreferenceDelete)
-                .AddParameter("branchId", branchId, System.Data.DbType.Int32).Execute();
-        }
-        
         public IList<DateThreshold> Get()
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThreshold).Query<DateThreshold>().ToList();
+        }
+
+        protected override void UpdateExisting(DateThreshold entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThresholdUpdate)
+                .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
+                .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute();
         }
     }
 }

@@ -410,7 +410,7 @@
             }
             else
             {
-                this.logger.LogError("ADAM error occurred writing pod! Remaining amend details recorded.");
+                this.logger.LogError("ADAM error occurred writing amendment! Remaining amend details recorded.");
                 return AdamResponse.AdamDown;
             }
 

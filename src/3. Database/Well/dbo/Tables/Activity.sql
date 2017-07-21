@@ -17,3 +17,7 @@
 )
 GO
 CREATE NONCLUSTERED INDEX [IDX_Activity_DocumentNumber]	ON [dbo].[Activity] ([DocumentNumber])
+GO
+CREATE NONCLUSTERED INDEX [Idx_Activity_InitialDocument_ActivityTypeId_LocationId] ON [dbo].[Activity] ([InitialDocument],[ActivityTypeId],[LocationId]) 
+INCLUDE ([Id])
+GO

@@ -57,17 +57,8 @@
 
         public void InsertGrnEvent(GrnEvent grnEvent,DateTime dateCanBeProcessed)
         {
-            var grnEventJson = JsonConvert.SerializeObject(grnEvent);
-
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", grnEventJson, DbType.String)
-                .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
-                .AddParameter("DateCanBeProcessed", dateCanBeProcessed, DbType.DateTime)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .Execute();
+            // GrnEvent.Id is the same as related job id
+            InsertEvent(EventAction.Grn, grnEvent, dateCanBeProcessed, grnEvent.Id.ToString());
         }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
@@ -87,21 +78,11 @@
         
         public void InsertPodEvent(PodEvent podEvent)
         {
-            var podEventJson = JsonConvert.SerializeObject(podEvent);
-
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", podEventJson, DbType.String)
-                .AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32)
-                //  .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
-                .AddParameter("DateCanBeProcessed", DateTime.Now.Date.AddDays(1), DbType.DateTime)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .Execute();
+            // PodEvent.Id is the same as related job id
+            InsertEvent(EventAction.Pod, podEvent, entityId: podEvent.Id.ToString());
         }
 
-        public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null)
+        public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null,string entityId = null)
         {
             var eventDataJson = JsonConvert.SerializeObject(eventData);
 
@@ -113,7 +94,21 @@
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .AddParameter("EntityId", entityId, DbType.String, size: 50)
                 .Execute();
+        }
+
+        public IEnumerable<ExceptionEvent> GetEventsByEntityId(string entityId, EventAction action)
+        {
+            if (string.IsNullOrWhiteSpace(entityId))
+            {
+                throw new ArgumentNullException(nameof(entityId));
+            }
+
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetByEntityId)
+                .AddParameter("EntityId", entityId, DbType.String, size: 50)
+                .AddParameter("ExceptionActionId", (int) action, DbType.Int32)
+                .Query<ExceptionEvent>();
         }
 
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)

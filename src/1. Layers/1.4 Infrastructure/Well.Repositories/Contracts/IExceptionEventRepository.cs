@@ -25,6 +25,10 @@ namespace PH.Well.Repositories.Contracts
         void InsertPodTransaction(PodTransaction podTransaction);
 
         void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
-        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null);
+
+        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null,
+            string entityId = null);
+
+        IEnumerable<ExceptionEvent> GetEventsByEntityId(string entityId, EventAction action);
     }
 }

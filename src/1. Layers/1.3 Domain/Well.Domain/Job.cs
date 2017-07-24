@@ -48,6 +48,15 @@
 
         public int? ProofOfDelivery { get; set; }
 
+        public bool IsProofOfDelivery
+        {
+            get
+            {
+                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int) Enums.ProofOfDelivery.Lucozade ||
+                                                    ProofOfDelivery == (int) Enums.ProofOfDelivery.CocaCola);
+            }
+        }
+
         public int? OrdOuters { get; set; }
 
         public int? InvOuters { get; set; }

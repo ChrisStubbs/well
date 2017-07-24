@@ -86,6 +86,7 @@
         public const string EventInsert = "EventInsert";
         public const string EventSetProcessed = "EventSetProcessed";
         public const string EventGetUnprocessed = "EventGetUnprocessed";
+        public const string EventGetByEntityId = "EventGetByEntityId";
         public const string MarkEventAsProcessed = "MarkEventAsProcessed";
         public const string SaveNotification = "Notification_Save";
         public const string GetNotifications = "Notifications_Get";

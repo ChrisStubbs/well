@@ -41,6 +41,7 @@ export class ActionEditComponent implements IObservableAlive {
     private creditAction: number;
     private closeAction: number;
     private bypassValue = 2;
+    private closeActionValue = 2;
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
 
@@ -210,6 +211,7 @@ export class ActionEditComponent implements IObservableAlive {
 
     private createLineItemActionFromGroup(item: LineItemAction) {
         const validator = new LineItemActionValidator(item);
+        const isCloseAction = Number(item.deliveryAction) == this.closeActionValue;
 
         const action = this.formBuilder.control({
                 value: item.deliveryAction,
@@ -218,7 +220,7 @@ export class ActionEditComponent implements IObservableAlive {
             Validators.required);
         const quantity = this.formBuilder.control({
                 value: item.quantity,
-                disabled: !this.source.canEditActions
+                disabled: (!this.source.canEditActions || isCloseAction)
             },
             [Validators.pattern('^[0-9]+$')]);
         const commentReason = this.formBuilder.control({
@@ -227,20 +229,21 @@ export class ActionEditComponent implements IObservableAlive {
         });
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
-            disabled: (this.isBaypassExceptionType(item.exceptionType) || !this.source.canEditActions)
+            disabled: (this.isBaypassExceptionType(item.exceptionType) || !this.source.canEditActions || isCloseAction)
         });
         const source = this.formBuilder.control({
             value: item.source,
-            disabled: !this.source.canEditActions
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
         const reason = this.formBuilder.control({
             value: item.reason,
-            disabled: !this.source.canEditActions
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
 
         action.valueChanges.subscribe((value) => {
             // When status is close - disable other fields
-            if (Number(value) == 2) {
+            const actionValue = Number(value);
+            if (actionValue == this.closeActionValue) {
                 quantity.disable();
                 commentReason.disable();
                 exceptionType.disable();
@@ -254,11 +257,18 @@ export class ActionEditComponent implements IObservableAlive {
                 reason.setValue(undefined);
             } else {
                 quantity.enable();
-                commentReason.enable();
                 exceptionType.enable();
                 source.enable();
                 reason.enable();
             }
+
+            // Enable comment when action is different than previous
+            if (actionValue == item.deliveryAction) {
+                commentReason.disable();
+            } else {
+                commentReason.enable();
+            }
+
         });
 
         quantity.valueChanges.subscribe((value) => {

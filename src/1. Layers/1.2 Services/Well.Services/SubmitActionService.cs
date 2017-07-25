@@ -76,7 +76,11 @@
 
                             if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
                             {
-                                SubmitCredits(job);
+                                if (!job.IsProofOfDelivery)
+                                {
+                                    SubmitCredits(job);
+                                }
+                               
                                 job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
                             }

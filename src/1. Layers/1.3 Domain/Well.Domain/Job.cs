@@ -89,6 +89,11 @@
 
         public string GrnNumber { get; set; }
 
+        public bool IsGrnNumberRequired
+        {
+            get { return !string.IsNullOrWhiteSpace(GrnNumber) && GrnProcessType == 1; }
+        }
+
         public string GrnRefusedReason { get; set; }
 
         public int? OuterCountUpdate { get; set; }

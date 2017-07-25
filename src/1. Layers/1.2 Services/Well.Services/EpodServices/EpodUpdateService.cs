@@ -251,8 +251,8 @@
 
             this.jobService.DetermineStatus(existingJob, branchId);
 
-            if (!string.IsNullOrWhiteSpace(jobDto.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn &&
-                !exceptionEventRepository.GetEventsByEntityId(existingJob.Id.ToString(), EventAction.Grn).Any())
+            if (existingJob.IsGrnNumberRequired && !exceptionEventRepository
+                    .GetEventsByEntityId(existingJob.Id.ToString(), EventAction.Grn).Any())
             {
                 var grnEvent = new GrnEvent {Id = existingJob.Id, BranchId = branchId};
 
@@ -265,7 +265,7 @@
                 existingJob.Id);
 
             if (existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper &&
-                !exceptionEventRepository.GetEventsByEntityId(existingJob.Id.ToString(), EventAction.Grn).Any())
+                !exceptionEventRepository.GetEventsByEntityId(existingJob.Id.ToString(), EventAction.Pod).Any())
             {
                 var podEvent = new PodEvent
                 {

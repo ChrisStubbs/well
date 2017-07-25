@@ -53,7 +53,7 @@
                     <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
                     <li>&nbsp;</li>
                     <li>
-                        <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
+                        <label>Shorts To Be Advised:&nbsp;</label>{{(stop.tba > 0)? stop.tba : 0}}
                     </li>
                 </ul>
             </div>

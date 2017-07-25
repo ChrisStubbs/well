@@ -106,7 +106,7 @@
                                             <tr [formGroupName]="i">
                                                 <td>
                                                     <select class="form-control" formControlName="action">
-                                                        <option *ngFor="let action of deliveryActions" [value]="action.key">
+                                                        <option *ngFor="let action of getDeliveryActions()" [value]="action.key">
                                                             {{ action.value }}
                                                         </option>
                                                     </select>

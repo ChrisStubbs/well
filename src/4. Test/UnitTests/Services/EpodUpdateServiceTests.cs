@@ -274,10 +274,6 @@
 
             var existingJob = new Job { ProofOfDelivery = (int)ProofOfDelivery.CocaCola, ResolutionStatus = ResolutionStatus.Imported};
 
-            this.exceptionEventRepository.Setup(
-                    x => x.GetEventsByEntityId(It.IsAny<string>(), It.IsAny<EventAction>()))
-                .Returns(Enumerable.Empty<ExceptionEvent>);
-
             this.exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
 
             this.routeHeaderRepository.Setup(
@@ -346,12 +342,6 @@
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
 
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
-
-            this.exceptionEventRepository.Verify(x => x.GetEventsByEntityId(It.IsAny<string>(), EventAction.Grn),
-                Times.Never);
-
-            this.exceptionEventRepository.Verify(x => x.GetEventsByEntityId(It.IsAny<string>(), EventAction.Pod),
-                Times.Once);
 
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 

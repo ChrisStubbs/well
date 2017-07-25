@@ -26,9 +26,6 @@ namespace PH.Well.Repositories.Contracts
 
         void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
 
-        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null,
-            string entityId = null);
-
-        IEnumerable<ExceptionEvent> GetEventsByEntityId(string entityId, EventAction action);
+        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null);
     }
 }

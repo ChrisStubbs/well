@@ -58,7 +58,7 @@
         public void InsertGrnEvent(GrnEvent grnEvent,DateTime dateCanBeProcessed)
         {
             // GrnEvent.Id is the same as related job id
-            InsertEvent(EventAction.Grn, grnEvent, dateCanBeProcessed, grnEvent.Id.ToString());
+            InsertEvent(EventAction.Grn, grnEvent, dateCanBeProcessed);
         }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
@@ -79,10 +79,10 @@
         public void InsertPodEvent(PodEvent podEvent)
         {
             // PodEvent.Id is the same as related job id
-            InsertEvent(EventAction.Pod, podEvent, entityId: podEvent.Id.ToString());
+            InsertEvent(EventAction.Pod, podEvent);
         }
 
-        public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null,string entityId = null)
+        public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null)
         {
             var eventDataJson = JsonConvert.SerializeObject(eventData);
 
@@ -94,21 +94,7 @@
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .AddParameter("EntityId", entityId, DbType.String, size: 50)
                 .Execute();
-        }
-
-        public IEnumerable<ExceptionEvent> GetEventsByEntityId(string entityId, EventAction action)
-        {
-            if (string.IsNullOrWhiteSpace(entityId))
-            {
-                throw new ArgumentNullException(nameof(entityId));
-            }
-
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetByEntityId)
-                .AddParameter("EntityId", entityId, DbType.String, size: 50)
-                .AddParameter("ExceptionActionId", (int) action, DbType.Int32)
-                .Query<ExceptionEvent>();
         }
 
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)

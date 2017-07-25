@@ -418,7 +418,6 @@
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <None Include="Post-Deployement\PostDeployment.sql" />
-    <Build Include="dbo\StoredProcedures\EventGetByEntityId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

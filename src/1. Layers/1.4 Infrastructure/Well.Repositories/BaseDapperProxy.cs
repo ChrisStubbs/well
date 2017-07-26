@@ -5,6 +5,7 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
+    using System.Threading.Tasks;
     using Contracts;
     using Dapper;
 
@@ -19,6 +20,19 @@
         public IEnumerable<TEntity> Query<TEntity>()
         {
             return this.QueryDapper<TEntity>();
+        }
+
+        public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName)
+        {
+            //System.Threading.Interlocked.Exchange<DynamicParameters>()
+
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                return await connection.QueryAsync<TEntity>(storeProcedureName,
+                    parameters,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: DbConfiguration.CommandTimeout);
+            }
         }
 
         public IEnumerable<TEntity> SqlQuery<TEntity>(string sql)
@@ -71,6 +85,14 @@
             }
         }
 
+        public async Task ExecuteAsync(DynamicParameters parameters, string storeProcedureName)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                await connection.ExecuteAsync(storeProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout); 
+            }
+        }
+        
         public void ExecuteSql(string sql)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))

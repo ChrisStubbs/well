@@ -125,7 +125,7 @@ export class ActionEditComponent implements IObservableAlive {
     }
 
     public save(): void {
-        if (this.actionsForm.valid && !this.hasBaypassActions()) {
+        if (this.actionsForm.valid) {
 
             _.each(this.actionsForm.controls['actionsGroup'].value,
                 (value: any, index: number) => {
@@ -135,6 +135,10 @@ export class ActionEditComponent implements IObservableAlive {
                     lineItemAction.quantity = (value.quantity) ? Number(value.quantity) : 0;
                     lineItemAction.source = (value.source) ? Number(value.source) : 0;
                     lineItemAction.reason = (value.reason) ? Number(value.reason) : 0;
+
+                    if (!this.isBaypassExceptionType(lineItemAction.exceptionType)) {
+                        lineItemAction.exceptionType = (value.exceptionType) ? Number(value.exceptionType) : 0;
+                    }
 
                     if (value.commentReason) {
                         lineItemAction.commentReason = value.commentReason;
@@ -165,11 +169,12 @@ export class ActionEditComponent implements IObservableAlive {
         this.actionsGroup = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
             function (item: LineItemAction) {
 
-                if (Number(item.exceptionType) == self.bypassValue) {
-                    return self.createBypassLineItemActionFormGroup(item);
-                } else {
-                    return self.createLineItemActionFromGroup(item);
-                }
+                return self.createLineItemActionFromGroup(item);
+                //if (Number(item.exceptionType) == self.bypassValue) {
+                //    return self.createBypassLineItemActionFormGroup(item);
+                //} else {
+                //    return self.createLineItemActionFromGroup(item);
+                //}
             }),
             (control) => this.validateTotalQuantity(control));
 
@@ -183,13 +188,11 @@ export class ActionEditComponent implements IObservableAlive {
         const action = this.formBuilder.control({
             value: item.deliveryAction,
             disabled: true
-        },
-            Validators.required);
+        }, Validators.required);
         const quantity = this.formBuilder.control({
             value: item.quantity,
             disabled: true
-        },
-            [Validators.pattern('^[0-9]+$')]);
+        }, [Validators.pattern('^[0-9]+$')]);
         const commentReason = this.formBuilder.control({
             value: item.commentReason,
             disabled: true
@@ -223,7 +226,8 @@ export class ActionEditComponent implements IObservableAlive {
     }
 
     private createLineItemActionFromGroup(item: LineItemAction) {
-        const validator = new LineItemActionValidator(item);
+        const isBypassExceptionType = this.isBaypassExceptionType(item.exceptionType);
+        const validator = new LineItemActionValidator(item, isBypassExceptionType);
         const isCloseAction = Number(item.deliveryAction) == this.closeActionValue;
 
         const action = this.formBuilder.control({
@@ -242,7 +246,7 @@ export class ActionEditComponent implements IObservableAlive {
         });
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
-            disabled: (this.isBaypassExceptionType(item.exceptionType) || !this.source.canEditActions || isCloseAction)
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
         const source = this.formBuilder.control({
             value: item.source,
@@ -265,18 +269,25 @@ export class ActionEditComponent implements IObservableAlive {
                 //Set default values
                 quantity.setValue(undefined);
                 commentReason.setValue(undefined);
-                exceptionType.setValue(undefined);
                 source.setValue(undefined);
                 reason.setValue(undefined);
+
+                if (!isBypassExceptionType) {
+                    exceptionType.setValue(undefined);
+                }
+
             } else {
                 quantity.enable();
-                exceptionType.enable();
                 source.enable();
                 reason.enable();
+
+                if (!isBypassExceptionType) {
+                    exceptionType.enable();
+                }
             }
 
             // Enable comment when action is different than previous
-            if (actionValue == item.deliveryAction) {
+            if (actionValue == this.closeAction || actionValue == item.deliveryAction) {
                 commentReason.disable();
             } else {
                 commentReason.enable();
@@ -285,7 +296,8 @@ export class ActionEditComponent implements IObservableAlive {
         });
 
         quantity.valueChanges.subscribe((value) => {
-            if (!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) {
+            if ((!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) ||
+                Number(action.value) != item.deliveryAction) {
                 commentReason.enable();
             } else {
                 commentReason.setValue(undefined);
@@ -342,7 +354,7 @@ export class ActionEditComponent implements IObservableAlive {
 }
 
 class LineItemActionValidator implements Validator {
-    constructor(private lineItemAction: LineItemAction) { }
+    constructor(private lineItemAction: LineItemAction, private shouldValidateExceptionType: boolean) { }
 
     public validate(group: FormGroup): ValidationErrors {
         const actionValue = group.value.action;
@@ -417,11 +429,14 @@ class LineItemActionValidator implements Validator {
 
     private validateExceptionType(group: FormGroup): void {
         // Exception type required
-        const exceptionTypeCtrl = group.controls['exceptionType'];
-        const exceptionTypeRequired = Validators.required(exceptionTypeCtrl);
-        if (exceptionTypeRequired) {
-            exceptionTypeCtrl.setErrors(exceptionTypeRequired);
+        if (this.shouldValidateExceptionType) {
+            const exceptionTypeCtrl = group.controls['exceptionType'];
+            const exceptionTypeRequired = Validators.required(exceptionTypeCtrl);
+            if (exceptionTypeRequired) {
+                exceptionTypeCtrl.setErrors(exceptionTypeRequired);
+            }
         }
+      
     }
 
     public quantityDifferentFromOriginal(value: number): boolean {

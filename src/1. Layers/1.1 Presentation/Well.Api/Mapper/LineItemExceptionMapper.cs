@@ -74,7 +74,7 @@
                 Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
                 Bypass = totals?.BypassTotal ?? 0,
                 IsProofOfDelivery = job.IsProofOfDelivery,
-                CanEditActions = (jobService.CanEditActions(job, this.userNameProvider.GetUserName()) && line.LineItemActions.All(x => x.ExceptionType != ExceptionType.Bypass))
+                CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

@@ -26,8 +26,34 @@ namespace PH.Well.Domain
         public string JobStatus { get; set; }
         public bool Cod { get; set; }
         public bool Pod { get; set; }
-        public int Exceptions { get; set; }
-        public int Clean { get; set; }
+
+        private int exceptions;
+        public int Exceptions
+        {
+            get
+            {
+                if (ResolutionStatus == ResolutionStatus.Imported)
+                {
+                    return 0;
+                }
+                return exceptions;
+            }
+            set { exceptions = value; }
+        }
+
+        private int clean;
+        public int Clean
+        {
+            get
+            {
+                if (ResolutionStatus == ResolutionStatus.Imported)
+                {
+                    return 0;
+                }
+                return clean;
+            }
+            set { clean = value; }
+        }
         public int Tba { get; set; }
         public decimal Credit { get; set; }
         public ResolutionStatus ResolutionStatus { get; set; }

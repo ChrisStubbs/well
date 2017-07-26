@@ -208,6 +208,7 @@
     <Compile Include="Controllers\SeasonalDateController.cs" />
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\StopsController.cs" />
+    <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
     <Compile Include="Mapper\Contracts\ICleanPreferenceMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />

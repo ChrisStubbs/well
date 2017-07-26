@@ -425,6 +425,12 @@
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <None Include="Post-Deployement\PostDeployment.sql" />
+    <Build Include="dbo\Views\NonSoftDeletedRoutesJobsView.sql" />
+    <Build Include="dbo\Types\EventTableType.sql" />
+    <Build Include="dbo\StoredProcedures\EventInsertBulk.sql" />
+    <Build Include="dbo\StoredProcedures\CleanJobs.sql" />
+    <Build Include="dbo\StoredProcedures\CleanStops.sql" />
+    <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

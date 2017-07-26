@@ -1,12 +1,16 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Transactions;
     using Common.Contracts;
     using Contracts;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
 
-    public class WellCleanUpService
+    public class WellCleanUpService : IWellCleanUpService
     {
         private readonly ILogger logger;
         private readonly IWellCleanUpRepository wellCleanUpRepository;
@@ -25,41 +29,104 @@
             this.amendmentService = amendmentService;
         }
 
-        public void SoftDelete()
+        public async Task SoftDelete()
         {
-            this.logger.LogDebug("Start soft delete");
+            logger.LogDebug("Start soft delete");
 
-            var routesAvailableForSoftDelete = wellCleanUpRepository.GetNonSoftDeletedRoutes()
-                .Where(r => r.RouteDate >= dateThresholdService.RouteGracePeriodEnd(r.RouteDate, r.BranchId));
+            var routesData = this.GetJobsFromRoutes();
 
-            // need to get more info here so we can see if the jonb has passed its Grace Period
-            var jobIdsToDelete = wellCleanUpRepository.GetJobsWithNoOustandingExceptions(routesAvailableForSoftDelete.Select(x => x.RouteId)).ToArray();
-
-            using (var transactionScope = new TransactionScope())
+            try
             {
-                logger.LogDebug("Start generating amendments delete");
-                amendmentService.ProcessAmendments(jobIdsToDelete);
-                logger.LogDebug("Finished generating amendments");
+                var data = await this.FilterLookup(routesData);
+                var jobsToDelete = data
+                    .Select(p => p.JobId)
+                    .ToList();
 
-                logger.LogDebug("Start soft delete jobs activities and children");
-                wellCleanUpRepository.SoftDeleteJobsActivitiesAndChildren(jobIdsToDelete);
-                logger.LogDebug("Finished soft delete jobs activities and children");
+                using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    logger.LogDebug("Start generating amendments delete");
+                    await amendmentService.ProcessAmendmentsAsync(jobsToDelete);
+                    logger.LogDebug("Finished generating amendments");
 
-                transactionScope.Complete();
+                    logger.LogDebug("Start soft delete jobs activities and children");
+                    await wellCleanUpRepository.SoftDelete(jobsToDelete);
+                    logger.LogDebug("Finished soft delete jobs activities and children");
+
+                    transactionScope.Complete();
+                }
+            }
+            catch (System.AggregateException ex)
+            {
+                //i have to handle the exception
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //i have to handle the exception
+                throw;
             }
 
-            
-            
-
+            logger.LogDebug("Start soft completed");
         }
 
+        private Task<List<NonSoftDeletedRoutesJobs>> FilterLookup(ILookup<int, NonSoftDeletedRoutesJobs> data)
+        {
+            return Task.Run<List<NonSoftDeletedRoutesJobs>>(() =>
+            {
+                var values = new List<NonSoftDeletedRoutesJobs>();
+                var tasks = new Task<List<NonSoftDeletedRoutesJobs>>[data.Count];
+                var index = 0;
 
+                foreach (var item in data)
+                {
+                    tasks[index] = this.HandleBranchRoutes(item.ToList());
+                    
+                    index++;
+                }
 
+                foreach (var t in tasks)
+                {
+                    values.AddRange(t.Result);
+                }
+
+                return values;
+            });
+        }
+
+        private Task<List<NonSoftDeletedRoutesJobs>> HandleBranchRoutes(IList<NonSoftDeletedRoutesJobs> data)
+        {
+            return Task.Run(async () =>
+            {
+                var values = new List<NonSoftDeletedRoutesJobs>();
+
+                foreach (var item in data)
+                {
+                    DateTime compareDate;
+
+                    if (item.JobRoyaltyCodeId.HasValue)
+                    {
+                        compareDate = await dateThresholdService.GracePeriodEndAsync(item.RouteDate, item.BranchId, item.JobRoyaltyCodeId.Value);
+                    }
+                    else
+                    {
+                        compareDate = await dateThresholdService.RouteGracePeriodEndAsync(item.RouteDate, item.BranchId);
+                    }
+
+                    if (compareDate <= DateTime.Now)
+                    {
+                        values.Add(item);
+                    }
+                }
+
+                return values;
+            });
+        }
+
+        private ILookup<int, NonSoftDeletedRoutesJobs> GetJobsFromRoutes()
+        {
+            return wellCleanUpRepository.GetNonSoftDeletedRoutes()
+                .ToLookup(k => k.BranchId);
+        }
     }
-
-
-
-
-
 }
 

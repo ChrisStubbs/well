@@ -78,6 +78,9 @@
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
+        public const string CleanJobs = "CleanJobs";
+        public const string CleanStops = "CleanStops";
+        public const string CleanRoutes = "CleanRoutes";
 
         public const string UsersGet = "Users_Get";
         public const string UserSave = "UserSave";
@@ -85,6 +88,8 @@
         public const string UnAssignJobToUser = "UserJob_Delete";
         public const string UserByCreditThresholdGet = "UserByCreditThresholdGet";
         public const string EventInsert = "EventInsert";
+        public const string EventInsertBulk = "EventInsertBulk";
+        
         public const string EventSetProcessed = "EventSetProcessed";
         public const string EventGetUnprocessed = "EventGetUnprocessed";
         public const string MarkEventAsProcessed = "MarkEventAsProcessed";

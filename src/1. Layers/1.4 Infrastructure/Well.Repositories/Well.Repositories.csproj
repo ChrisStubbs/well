@@ -159,6 +159,7 @@
     <Compile Include="StoredProcedures.cs" />
     <Compile Include="UserStatsRepository.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="WellCleanUpRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
     <Compile Include="WidgetRepository.cs" />

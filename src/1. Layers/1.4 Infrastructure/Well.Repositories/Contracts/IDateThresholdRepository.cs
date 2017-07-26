@@ -10,6 +10,7 @@ namespace PH.Well.Repositories.Contracts
     public interface IDateThresholdRepository
     {
         IList<DateThreshold> Get();
+        Task<IEnumerable<DateThreshold>> GetAsync();
         void Delete(int branchId);
     }
 }

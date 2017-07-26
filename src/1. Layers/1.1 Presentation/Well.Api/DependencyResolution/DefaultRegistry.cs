@@ -73,6 +73,11 @@ namespace PH.Well.Api.DependencyResolution
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
             For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+            For<IWellCleanUpService>().Use<WellCleanUpService>();
+            For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+            For<IAmendmentService>().Use<AmendmentService>();
+            For<IAmendmentRepository>().Use<AmendmentRepository>();
+            For<IAmendmentFactory>().Use<AmendmentFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();

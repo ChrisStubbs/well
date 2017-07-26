@@ -17,7 +17,7 @@ export class Route
     public get dateFormatted(): string
     {
         return this.datePipe.transform(this.routeDate, 'yyyy-MM-dd');
-    };
+    }
     public stopCount: number;
     public routeStatusId: number;
     public routeStatus: string;

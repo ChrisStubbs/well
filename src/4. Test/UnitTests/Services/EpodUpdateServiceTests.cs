@@ -343,6 +343,8 @@
 
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
+            this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
+
             this.postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<List<int>>()), Times.Once);
             this.postImportRepository.Verify(x => x.PostTranSendImportForTobacco(It.IsAny<List<int>>()), Times.Once);

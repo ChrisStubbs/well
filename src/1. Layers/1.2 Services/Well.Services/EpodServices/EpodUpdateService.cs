@@ -238,22 +238,22 @@
                 }
 
                 existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
-                updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate));
+                updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate, true));
 
             }
 
             return updatedJobs;
         }
 
-        public Job UpdateJob(JobDTO jobDto, Job existingJob, int branchId, DateTime routeDate)
+        public Job UpdateJob(JobDTO jobDto, Job existingJob, int branchId, DateTime routeDate,bool createEvents)
         {
             this.routeMapper.Map(jobDto, existingJob);
 
             this.jobService.DetermineStatus(existingJob, branchId);
 
-            if (!string.IsNullOrWhiteSpace(jobDto.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
+            if (createEvents && existingJob.IsGrnNumberRequired)
             {
-                var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                var grnEvent = new GrnEvent {Id = existingJob.Id, BranchId = branchId};
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
                     dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()));
@@ -263,9 +263,7 @@
                 jobDto.JobDetails,
                 existingJob.Id);
 
-            var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
-
-            if ((pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade) && existingJob.JobStatus != JobStatus.CompletedOnPaper)
+            if (createEvents && existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper)
             {
                 var podEvent = new PodEvent
                 {

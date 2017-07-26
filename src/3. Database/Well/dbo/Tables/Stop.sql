@@ -34,3 +34,6 @@
 )
 GO
 CREATE NONCLUSTERED INDEX [IDX_Stop_RouteHeaderId] ON [dbo].[Stop] ([RouteHeaderId]) INCLUDE ([Id])
+GO
+CREATE NONCLUSTERED INDEX [idx_Stop_LocationId] ON [dbo].[Stop] ([Location_Id])
+GO

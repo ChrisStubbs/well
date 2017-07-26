@@ -9,7 +9,6 @@ import {BranchService} from './branchService';
 export class BranchNameComponent {
     @Input() public branchId: number;
     @Output() public branchName: string;
-    @Output() public branchDisplayName: string;
 
     constructor(private branchService: BranchService) {
 
@@ -18,7 +17,7 @@ export class BranchNameComponent {
     public ngOnChanges() {
         if (this.branchId) {
             this.branchService.getById(this.branchId).subscribe((branch): void => {
-                this.branchName = branch.name + '(' + branch.id + ')';
+                this.branchName = branch.name;
             });
         }
     }

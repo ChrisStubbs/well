@@ -27,3 +27,6 @@
 GO
 -- used for search
 CREATE NONCLUSTERED INDEX [IDX_Account_StopId] ON [dbo].[Account] ([StopId])INCLUDE ([Code],[Name])
+GO
+CREATE NONCLUSTERED INDEX [Idx_Account_LocationId] ON [dbo].[Account] ([LocationId])
+GO

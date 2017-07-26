@@ -8,9 +8,7 @@ IF OBJECT_ID ('Audit_BranchCreditApproval', 'TR') IS NOT NULL DROP TRIGGER dbo.A
 IF OBJECT_ID ('Audit_ByPassReasons', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_ByPassReasons;
 IF OBJECT_ID ('Audit_CashOnDeliveryType', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CashOnDeliveryType;
 IF OBJECT_ID ('Audit_Version', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_Version;
-IF OBJECT_ID ('Audit_CleanPreference', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CleanPreference;
 IF OBJECT_ID ('Audit_ScriptsRun', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_ScriptsRun;
-IF OBJECT_ID ('Audit_CleanPreferenceToBranch', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CleanPreferenceToBranch;
 IF OBJECT_ID ('Audit_ScriptsRunErrors', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_ScriptsRunErrors;
 IF OBJECT_ID ('Audit_CommodityType', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CommodityType;
 IF OBJECT_ID ('Audit_CreditThreshold', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CreditThreshold;
@@ -23,7 +21,6 @@ IF OBJECT_ID ('Audit_GrnRefused', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_GrnRe
 IF OBJECT_ID ('Audit___RefactorLog', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit___RefactorLog;
 IF OBJECT_ID ('Audit_HolidayExceptions', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_HolidayExceptions;
 IF OBJECT_ID ('Audit_Account_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_Account_Audit;
-IF OBJECT_ID ('Audit_CleanPreference_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CleanPreference_Audit;
 IF OBJECT_ID ('Audit_CreditThreshold_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CreditThreshold_Audit;
 IF OBJECT_ID ('Audit_JobDetailAction', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_JobDetailAction;
 IF OBJECT_ID ('Audit_Job_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_Job_Audit;

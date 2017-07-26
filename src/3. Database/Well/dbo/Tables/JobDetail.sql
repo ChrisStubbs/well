@@ -46,3 +46,11 @@ GO
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])
 GO
 CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])
+GO
+
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode])
+INCLUDE ([LineItemId])
+GO
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode])
+INCLUDE ([Id])
+GO

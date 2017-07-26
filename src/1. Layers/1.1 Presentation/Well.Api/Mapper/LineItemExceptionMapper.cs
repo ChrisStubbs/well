@@ -73,7 +73,8 @@
                 Damages = totals?.DamageTotal ?? jobDetail.DamageQty,
                 Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
                 Bypass = totals?.BypassTotal ?? 0,
-                CanEditActions = (jobService.CanEditActions(job, this.userNameProvider.GetUserName()) && line.LineItemActions.Any(x=> x.ExceptionType != ExceptionType.Bypass))
+                IsProofOfDelivery = job.IsProofOfDelivery,
+                CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;
             editLineItemException.Exceptions = line.LineItemActions

@@ -109,14 +109,8 @@
         public const string CreditThresholdSave = "CreditThresholdSave";
         public const string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
         public const string ThresholdLevelSave = "ThresholdLevelSave";
-        public const string CleanPreferencesGetAll = "CleanPreferencesGetAll";
-        public const string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
-        public const string CleanPreferenceSave = "CleanPreferenceSave";
-        public const string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
-        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
-        public const string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";
         public const string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
         public const string WidgetWarningGetAll = "WidgetWarning_GetAll";
@@ -186,5 +180,6 @@
         //DateThreshold
         public const string DateThreshold = "DateThreshold_Get";
         public const string DateThresholdDelete = "DateThreshold_Delete";
+        public const string DateThresholdUpdate = "DateThreshold_Update";
     }
 }

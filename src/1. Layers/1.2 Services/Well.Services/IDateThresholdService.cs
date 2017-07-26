@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using PH.Well.Domain;
 
 namespace PH.Well.Services
 {
@@ -9,5 +11,7 @@ namespace PH.Well.Services
         Task<DateTime> RouteGracePeriodEndAsync(DateTime routeDate, int branchId);
         DateTime GracePeriodEnd(DateTime routeDate, int branchId, int royaltyCode);
         Task<DateTime> GracePeriodEndAsync(DateTime routeDate, int branchId, int royaltyCode);
+        IList<DateThreshold> GetAll();
+        void Update(DateThreshold dateThreshold);
     }
 }

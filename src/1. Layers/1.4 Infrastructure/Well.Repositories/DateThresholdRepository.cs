@@ -20,19 +20,24 @@ namespace PH.Well.Repositories
                 .AddParameter("branchId", branchId, System.Data.DbType.Int32).Execute();
         }
 
-        private IDapperProxy LoadStoreProcedure()
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThreshold);
-        }
-
         public Task<IEnumerable<DateThreshold>> GetAsync()
         {
             return this.dapperProxy.QueryAsync<DateThreshold>(null, StoredProcedures.DateThreshold);
         }
 
-        public IList<DateThreshold> Get()
+		public IList<DateThreshold> Get()
         {
-            return this.LoadStoreProcedure().Query<DateThreshold>().ToList();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThreshold).Query<DateThreshold>().ToList();
         }
+
+        protected override void UpdateExisting(DateThreshold entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThresholdUpdate)
+                .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
+                .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute();
+        }
+		
     }
 }
+
+

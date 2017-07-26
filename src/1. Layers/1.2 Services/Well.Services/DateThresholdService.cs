@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Services
+﻿using System.Collections.Generic;
+using PH.Well.Domain;
+
+namespace PH.Well.Services
 {
     using System;
     using Repositories.Contracts;
@@ -79,6 +82,20 @@
             var endDate = routeDate.Date.AddDays(gracePeriodDays).Date;
 
             return endDate.AddDays(AddNonWorkingDays(GetSeasonalDates(branchId), routeDate, endDate));
+        }
+
+        public IList<DateThreshold> GetAll()
+        {
+            return dateThresholdRepository.Get();
+        }
+
+        public void Update(DateThreshold dateThreshold)
+        {
+            if (dateThreshold.NumberOfDays < 2)
+            {
+                throw new ArgumentException(nameof(dateThreshold.NumberOfDays));
+            }
+            dateThresholdRepository.Update(dateThreshold);
         }
 
         private Task<IEnumerable<SeasonalDate>> GetSeasonalDatesAsync(int branchId)

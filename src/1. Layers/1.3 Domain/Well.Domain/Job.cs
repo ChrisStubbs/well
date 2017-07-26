@@ -48,6 +48,15 @@
 
         public int? ProofOfDelivery { get; set; }
 
+        public bool IsProofOfDelivery
+        {
+            get
+            {
+                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int) Enums.ProofOfDelivery.Lucozade ||
+                                                    ProofOfDelivery == (int) Enums.ProofOfDelivery.CocaCola);
+            }
+        }
+
         public int? OrdOuters { get; set; }
 
         public int? InvOuters { get; set; }
@@ -79,6 +88,11 @@
         public string GrnNumberUpdate { get; set; }
 
         public string GrnNumber { get; set; }
+
+        public bool IsGrnNumberRequired
+        {
+            get { return !string.IsNullOrWhiteSpace(GrnNumber) && GrnProcessType == 1; }
+        }
 
         public string GrnRefusedReason { get; set; }
 

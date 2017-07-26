@@ -19,7 +19,7 @@
         public AmendmentTransaction Build(Amendment amendment)
         {
             var user = this.userRepository.GetByIdentity(amendment.AmenderName);
-            var initials = user.FriendlyName.GetInitials();
+            var initials = user.Name.GetInitials();
 
             var acno = (int)(Convert.ToDecimal(amendment.AccountNumber) * 1000);
             var today = DateTime.Now.ToShortDateString();
@@ -52,7 +52,7 @@
             }
 
             var header =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber}, {lineCount});";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{amendment.CustomerReference}');";
 
             var amendmentTransaction = new AmendmentTransaction
             {

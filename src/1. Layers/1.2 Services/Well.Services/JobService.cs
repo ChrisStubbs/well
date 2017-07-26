@@ -171,7 +171,8 @@
 
         private ResolutionStatus AfterCompletionStep(ResolutionStatus currentCompletionStatus, Job job)
         {
-            if (job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
+            // ProofOfDelivery jobs shouldn't be set to ActionRequired
+            if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
             {
                 return ResolutionStatus.ActionRequired;
             }
@@ -263,7 +264,8 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                if (actions.Any())
+                // ProofOfDelivery jobs shouldn't be set to ActionRequired
+                if (!job.IsProofOfDelivery && actions.Any())
                 {
                     if (actions.Any(p => p.DeliveryAction == DeliveryAction.NotDefined))
                     {

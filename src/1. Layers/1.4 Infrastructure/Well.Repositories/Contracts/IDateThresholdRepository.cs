@@ -11,6 +11,6 @@ namespace PH.Well.Repositories.Contracts
     {
         IList<DateThreshold> Get();
         Task<IEnumerable<DateThreshold>> GetAsync();
-        void Delete(int branchId);
+        void Update(DateThreshold dateThreshold);
     }
 }

@@ -88,7 +88,9 @@
     <None Include="ManualStep\runRoundhouse.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ManualStep\scripts\up\020_DropCleanPreferenceTables.sql" />
+    <None Include="ManualStep\scripts\up\020_DropCleanPreferenceTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -418,6 +420,9 @@
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
+    <None Include="ManualStep\scripts\up\021_DeleteBranch99Data.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

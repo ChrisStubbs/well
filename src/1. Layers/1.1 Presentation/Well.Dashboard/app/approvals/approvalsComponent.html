@@ -21,14 +21,9 @@
                 <input type="hidden" [(ngModel)]="filters.creditValue" >
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-                    <button type="button" class="btn btn-success" (click)="submitActions()">Submit</button>
-                </div>
-                <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
-            </div>
+        <div class="col-md-6 text-right">
+            <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+            <button type="button" class="btn btn-success" (click)="submitActions()">Submit</button>
         </div>
     </div>
     <div class="row">

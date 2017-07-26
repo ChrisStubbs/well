@@ -181,5 +181,7 @@
         public const string DateThreshold = "DateThreshold_Get";
         public const string DateThresholdDelete = "DateThreshold_Delete";
         public const string DateThresholdUpdate = "DateThreshold_Update";
+
+        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
     }
 }

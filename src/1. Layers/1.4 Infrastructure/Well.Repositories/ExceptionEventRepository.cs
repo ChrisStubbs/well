@@ -52,8 +52,7 @@
 
         public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed)
         {
-            // GrnEvent.Id is the same as related job id
-            InsertEvent(EventAction.Grn, grnEvent, dateCanBeProcessed);
+            var grnEventJson = JsonConvert.SerializeObject(grnEvent);
             this.PrepareStoredProcedure(grnEventJson, EventAction.Grn, dateCanBeProcessed)
             .Execute();
         }
@@ -68,15 +67,13 @@
 
         public void InsertPodEvent(PodEvent podEvent)
         {
-            // PodEvent.Id is the same as related job id
-            InsertEvent(EventAction.Pod, podEvent);
-            this.PrepareStoredProcedure(podEventJson, EventAction.Pod, DateTime.Now.Date.AddDays(1))
+            var podEventJson = JsonConvert.SerializeObject(podEvent);
+            this.PrepareStoredProcedure(podEventJson, EventAction.Pod, DateTime.Now.Date.AddDays(1));
         }
 
         public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null)
         {
             var eventDataJson = JsonConvert.SerializeObject(eventData);
-
             this.PrepareStoredProcedure(eventDataJson, action, dateCanBeProcessed ?? DateTime.Now)
             .Execute();
         }

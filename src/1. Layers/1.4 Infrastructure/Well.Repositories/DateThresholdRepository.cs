@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using PH.Well.Common.Contracts;
@@ -36,7 +37,6 @@ namespace PH.Well.Repositories
                 .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
                 .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute();
         }
-		
     }
 }
 

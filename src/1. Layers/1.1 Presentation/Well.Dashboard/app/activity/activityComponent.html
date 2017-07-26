@@ -2,6 +2,9 @@
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li>
+                <a [routerLink]="['/locations']">Locations</a>
+            </li>
+            <li>
                 <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: source.primaryAccount, branchId: source.branchId}">Location {{source.primaryAccount}}</a>
             </li>
             <li class="active" *ngIf="source.isInvoice">Invoice {{source.itemNumber}}</li>

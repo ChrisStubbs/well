@@ -16,4 +16,5 @@ AS Source
 
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT (BranchId, NumberOfDays, CreatedBy, DateCreated, UpdatedBy, DateUpdated)
-	VALUES (BranchId, NumberOfDays, CreatedBy, DateCreated, UpdatedBy, DateUpdated);
+	VALUES (BranchId, NumberOfDays, CreatedBy, DateCreated, UpdatedBy, DateUpdated)
+WHEN NOT MATCHED BY SOURCE THEN DELETE;

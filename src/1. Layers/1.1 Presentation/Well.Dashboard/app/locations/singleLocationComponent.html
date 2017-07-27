@@ -1,3 +1,14 @@
+<div class="row">
+    <div class="col-xs-12">
+        <ol class="breadcrumb">
+            <li>
+                <a routerLink="/locations" routerLinkActive="active">Locations</a>
+            </li>
+            <li class="active">Location {{source.accountNumber}}</li>
+        </ol>
+    </div>
+</div>
+
 <div class="content">
     <div class="row">
         <div class="col-md-5">
@@ -171,7 +182,7 @@
                                 <div *ngIf="item.isInvoice; then isInvoice else notInvoice"></div>
                                 <ng-template #isInvoice><span>Invoice: </span></ng-template>
                                 <ng-template #notInvoice><span>Uplift: </span></ng-template>
-                                <a [routerLink]="['/invoice', item.invoice, source.branchId]">{{item.invoice}}</a>
+                                <a [routerLink]="['/invoice', item.invoice, source.branchId]" *ngIf="item.invoice">{{item.invoice}}</a>
                                 &nbsp;
                                 <span>Account Number: </span>
                                 <span>{{item.accountNumber}}</span>

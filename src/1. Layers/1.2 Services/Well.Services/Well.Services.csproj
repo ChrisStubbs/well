@@ -60,6 +60,7 @@
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkCreditService.cs" />
     <Compile Include="BulkEditService.cs" />
+    <Compile Include="Contracts\IWellCleanUpService.cs" />
     <Compile Include="Contracts\IAmendmentService.cs" />
     <Compile Include="Contracts\IBulkEditService.cs" />
     <Compile Include="Contracts\IPatchSummaryMapper.cs" />

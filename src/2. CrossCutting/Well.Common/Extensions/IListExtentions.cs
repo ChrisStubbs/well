@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace PH.Well.Common.Extensions
 {
-
     public static class IListExtentions
     {
         public static DataTable ToIntDataTables(this IList<int> data, string columnName) 

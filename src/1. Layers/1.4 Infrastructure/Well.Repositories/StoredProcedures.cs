@@ -23,12 +23,12 @@
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public const string StopInsert = "Stop_Insert";
         public const string StopUpdate = "Stop_Update";
-        public const string StopGetById = "Stop_GetById";
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
         public const string StopGetByJob = "StopGetByJob";
         public const string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public const string StopGetByJobId = "Stop_GetByJobId";
+        public const string StopsGetByIds = "Stops_GetByIds";
         public const string StopDeleteById = "Stop_DeleteById";
         public const string AccountDeleteByStopId = "Account_DeleteByStopId";
         public const string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";

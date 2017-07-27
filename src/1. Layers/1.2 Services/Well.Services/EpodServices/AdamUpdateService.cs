@@ -53,7 +53,7 @@
             foreach (var stop in route.Stops)
             {
                 var action = GetOrderUpdateAction(stop.ActionIndicator);
-
+                
                 switch (action)
                 {
                     case OrderActionIndicator.Insert:

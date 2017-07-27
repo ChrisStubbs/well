@@ -115,7 +115,6 @@
     <Build Include="dbo\StoredProcedures\Routes_CheckDuplicate.sql" />
     <Build Include="dbo\StoredProcedures\Routes_GetById.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_GetById.sql" />
-    <Build Include="dbo\StoredProcedures\Stop_GetById.sql" />
     <Build Include="dbo\StoredProcedures\JobDetail_Insert.sql" />
     <Build Include="dbo\Tables\RouteAttributeExceptions.sql" />
     <None Include="Post-Deployement\Populate-PerformanceStatus.sql" />
@@ -220,7 +219,7 @@
     <Build Include="dbo\Functions\WidgetType_Assigned.sql" />
     <Build Include="dbo\Functions\WidgetType_Notifications.sql" />
     <Build Include="dbo\StoredProcedures\WidgetWarningLevelsByUserGet.sql" />
-    <Build Include="dbo\StoredProcedures\Stop_GetByOrderUpdateDetails.sql" />
+    <Build Include="dbo\StoredProcedures\StopIds_GetByTransportOrderReference.sql" />
     <Build Include="dbo\StoredProcedures\RouteHeader_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Stop_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Account_Insert.sql" />
@@ -417,7 +416,13 @@
     <None Include="Post-Deployement\Populate-VisitTypes.sql" />
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
-    <None Include="Post-Deployement\PostDeployment.sql" />
+    <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
+    <None Include="ManualStep\scripts\up\17_CustomerRoyaltyExceptionCleanUp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Build Include="dbo\StoredProcedures\Stops_GetByIds.sql" />
+    <None Include="ManualStep\scripts\up\021_Drop_Not_Needed_StopProcedures.sql" />
+    <Build Include="dbo\Types\StringTableType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

@@ -37,6 +37,6 @@ BEGIN
   AND 
 	[RouteDate] = @RouteDate
   AND
-	[StartDepotCode] = @BranchId
+	[RouteOwnerId] = @BranchId
 END
 

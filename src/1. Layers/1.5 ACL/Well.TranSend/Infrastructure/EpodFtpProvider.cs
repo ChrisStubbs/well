@@ -74,7 +74,7 @@
                 if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
                     this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
 
                     continue;
                 }

@@ -30,7 +30,6 @@
         private readonly IPostImportRepository postImportRepository;
         private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IDateThresholdService dateThresholdService;
-        private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
         public EpodUpdateService(
@@ -84,8 +83,10 @@
                                       $"RouteNumber: {header.RouteNumber.Substring(2)} " +
                                       $"RouteDate: {header.RouteDate} " +
                                       $"FileName: {fileName}";
+
                         logger.LogDebug(message);
-                        eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
+
+                        eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.EpodUpdateIgnored);
 
                         continue;
                     }
@@ -102,7 +103,7 @@
                 {
                     var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({header.RouteNumber}) file {fileName}";
                     this.logger.LogDebug(message);
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
                 }
 
             }
@@ -174,7 +175,7 @@
                             this.eventLogger.TryWriteToEventLog(
                                 EventSource.WellAdamXmlImport,
                                 $"Existing stop not found with transport order reference {stop.TransportOrderReference}",
-                                7666);
+                                EventId.ImportIgnored);
 
                             continue;
                         }
@@ -197,7 +198,7 @@
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Stop has an error on Epod update! Stop Id ({stop.Id}), Transport order reference ({stop.TransportOrderReference})",
-                        9859);
+                        EventId.ImportStopException);
                 }
             }
 
@@ -232,7 +233,7 @@
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})",
-                        9860);
+                        EventId.ImportIgnored);
 
                     continue;
                 }

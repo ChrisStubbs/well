@@ -54,6 +54,7 @@
         public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public const string JobGetByIds = "Job_GetByIds";
         public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
+        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobType";
         public const string JobDetailGet = "JobDetail_Get";
         public const string JobDetailInsert = "JobDetail_Insert";
         public const string JobDetailUpdate = "JobDetail_Update";
@@ -171,6 +172,7 @@
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
         public const string JobsToBeApproved = "JobsToBeApproved";
         public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
+        public const string GetJobIdsByStopIds = "JobIds_GetByStopIds";
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
@@ -183,5 +185,6 @@
         public const string DateThresholdUpdate = "DateThreshold_Update";
 
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
+        
     }
 }

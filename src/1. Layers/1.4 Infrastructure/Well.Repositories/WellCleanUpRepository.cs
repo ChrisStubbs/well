@@ -48,37 +48,40 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        private void DeleteJobs(IList<int> jobIds)
+        private void DeleteJobs(IList<int> jobIds, string deletedBy)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobs)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
                 .Execute();
         }
 
-        private void DeleteStops(IList<int> jobIds)
+        private void DeleteStops(IList<int> jobIds, string deletedBy)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanStops)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
                 .Execute();
         }
 
-        private void DeleteRoutes(IList<int> jobIds)
+        private void DeleteRoutes(IList<int> jobIds, string deletedBy)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanRoutes)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
                 .Execute();
         }
 
-        public Task SoftDelete(IList<int> jobIds)
+        public Task SoftDelete(IList<int> jobIds, string deletedBy)
         {
             return Task.Run(() =>
             {
-                this.DeleteJobs(jobIds);
-                this.DeleteStops(jobIds);
-                this.DeleteRoutes(jobIds);
+                this.DeleteJobs(jobIds, deletedBy);
+                this.DeleteStops(jobIds, deletedBy);
+                this.DeleteRoutes(jobIds, deletedBy);
             });
         }
     }

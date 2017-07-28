@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE CleanStops
     @JobIds IntTableType READONLY,
-    @DateDeleted DateTime
+    @DateDeleted DateTime,
+	@UpdatedBy VARCHAR(50)
 AS
     DECLARE @MinDeletedDate DateTime = '19000101'
 
@@ -24,5 +25,6 @@ AS
     )
     UPDATE Stop
     SET DateDeleted = @DateDeleted
+		,UpdatedBy	= @UpdatedBy
     WHERE 
         ID IN (SELECT Id FROM Data WHERE MinDateDeleted != @MinDeletedDate)

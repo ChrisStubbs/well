@@ -56,3 +56,7 @@ GO
 CREATE NONCLUSTERED INDEX [IDX_Job_StopId] ON [dbo].[Job] ([StopId]) INCLUDE ([Id],[JobTypeCode])
 GO
 GO CREATE NONCLUSTERED INDEX [IDX_Job_ActivityId] ON [dbo].[Job] ([ActivityId]) INCLUDE ([Id],[JobTypeCode],[StopId],[ResolutionStatusId])
+GO
+CREATE NONCLUSTERED INDEX [IDX_Job_DateDeleted] ON [dbo].[Job] ([DateDeleted]) INCLUDE ([JobTypeCode],[PHAccount],[PickListRef],[StopId])
+GO
+CREATE NONCLUSTERED INDEX [IDX_Job_JobTypeCode_PHAccount_PickListRef_DateDeleted] ON [dbo].[Job] ([JobTypeCode],[PHAccount],[PickListRef],[DateDeleted])INCLUDE ([StopId])

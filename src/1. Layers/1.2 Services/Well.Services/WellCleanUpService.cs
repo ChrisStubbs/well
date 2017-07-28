@@ -16,6 +16,7 @@
         private readonly IWellCleanUpRepository wellCleanUpRepository;
         private readonly IDateThresholdService dateThresholdService;
         private readonly IAmendmentService amendmentService;
+        private static string user = "WellCleanUpService";
 
         public WellCleanUpService(
             ILogger logger,
@@ -49,7 +50,7 @@
                     logger.LogDebug("Finished generating amendments");
 
                     logger.LogDebug("Start soft delete jobs activities and children");
-                    await wellCleanUpRepository.SoftDelete(jobsToDelete);
+                    await wellCleanUpRepository.SoftDelete(jobsToDelete, user);
                     logger.LogDebug("Finished soft delete jobs activities and children");
 
                     transactionScope.Complete();

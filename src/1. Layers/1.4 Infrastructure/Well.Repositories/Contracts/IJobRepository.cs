@@ -5,6 +5,7 @@ namespace PH.Well.Repositories.Contracts
     using System.Collections.Generic;
     using System.Data;
     using Domain;
+    using Domain.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -15,7 +16,10 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<Job> GetByIds(IEnumerable<int> jobIds);
 
         IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId);
-       
+
+        IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId);
+
+
         Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
         IEnumerable<Job> GetByStopId(int id);
@@ -55,5 +59,8 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<JobToBeApproved> GetJobsToBeApproved();
 
         Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
+
+        IEnumerable<Job> GetExistingJobs(int branchId, IEnumerable<Job> jobs);
+
     }
 }

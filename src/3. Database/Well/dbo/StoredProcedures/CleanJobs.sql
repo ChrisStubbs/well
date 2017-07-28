@@ -1,8 +1,9 @@
 ﻿CREATE PROCEDURE CleanJobs
     @JobIds IntTableType READONLY,
-    @DateDeleted DateTime
+    @DateDeleted DateTime,
+	@UpdatedBy VARCHAR(50)
 AS
-    DECLARE @TableIds TABLE (Id Int, AdicionalId INT NULL)
+    DECLARE @TableIds TABLE (Id Int, Additional INT NULL)
 
     /************************************************/
     /*** Set resolution status close to open jobs ***/
@@ -18,6 +19,7 @@ AS
     -------------------
     UPDATE job
     SET DateDeleted = @DateDeleted
+		,UpdatedBy	= @UpdatedBy
     WHERE Job.Id IN (SELECT value FROM @JobIds)
 
     ------------------------
@@ -25,6 +27,7 @@ AS
     ------------------------
     UPDATE JobDetail 
     SET DateDeleted = @DateDeleted
+		,UpdatedBy	= @UpdatedBy
     OUTPUT inserted.Id, inserted.LineItemId INTO @TableIds
     WHERE JobId IN (SELECT value FROM @JobIds) 
 
@@ -33,6 +36,7 @@ AS
     ------------------------------
     UPDATE JobDetailDamage 
     SET DateDeleted = @DateDeleted
+		,UpdatedBy	= @UpdatedBy
     WHERE JobDetailId IN (SELECT Id FROM @TableIds)
 
     --reset the stored ids
@@ -43,14 +47,16 @@ AS
     -----------------------
     UPDATE LineItem
     SET DateDeleted = @DateDeleted
+		,LastUpdatedBy	= @UpdatedBy
     OUTPUT inserted.Id, NULL INTO @TableIds
-    WHERE Id IN (SELECT AdicionalId FROM @TableIds)
+    WHERE Id IN (SELECT Additional FROM @TableIds)
 
     -----------------------------
     --- Delete LineItemAction ---
     -----------------------------
     UPDATE LineItemAction
     SET DateDeleted = @DateDeleted
+		,LastUpdatedBy	= @UpdatedBy
     OUTPUT inserted.Id, inserted.Id INTO @TableIds
     WHERE LineItemId IN (SELECT Id FROM @TableIds)
 
@@ -59,4 +65,5 @@ AS
     ------------------------------------
     UPDATE LineItemActionComment
     SET DateDeleted = @DateDeleted
-    WHERE LineItemActionId IN (SELECT AdicionalId FROM @TableIds)
+		,UpdatedBy	= @UpdatedBy
+    WHERE LineItemActionId IN (SELECT Additional FROM @TableIds)

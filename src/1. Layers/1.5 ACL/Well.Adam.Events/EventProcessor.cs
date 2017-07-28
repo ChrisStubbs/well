@@ -40,7 +40,7 @@
 
         public void Process()
         {
-            this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", 5655, EventLogEntryType.Information);
+            this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", EventId.EventProcessorLog, EventLogEntryType.Information);
 
             var username = "Event Processor";
             var eventsToProcess = this.exceptionEventRepository.GetAllUnprocessed();

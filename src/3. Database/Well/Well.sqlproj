@@ -422,7 +422,7 @@
     <None Include="ManualStep\scripts\up\17_CustomerRoyaltyExceptionCleanUp.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-     <None Include="ManualStep\scripts\up\021_DeleteBranch99Data.sql">
+    <None Include="ManualStep\scripts\up\021_DeleteBranch99Data.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\Stops_GetByIds.sql" />
@@ -434,6 +434,8 @@
     <Build Include="dbo\StoredProcedures\CleanJobs.sql" />
     <Build Include="dbo\StoredProcedures\CleanStops.sql" />
     <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
+    <Build Include="dbo\Types\IdentifyJobTableType.sql" />
+    <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

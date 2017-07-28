@@ -4,7 +4,7 @@
   "author": "Palmer and Harvey",
   "description": "Package for the Orderwell application",
   "scripts": {
-    "buildProduction": "webpack -p",
+    "buildProduction": "webpack -p --progress --profile",
     "build": "webpack -d -w --progress --profile",
     "typings": "typings",
     "postinstall": "typings install"

@@ -113,10 +113,6 @@ export class ActivityComponent implements IObservableAlive
                 this.source = res[1];
                 this.buildGridSource();
 
-
-
-
-
                 this.tobaccoBags = _.chain(this.source.details)
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>

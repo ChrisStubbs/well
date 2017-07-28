@@ -42,8 +42,7 @@
             <div class="row">
                 <label class="col-md-4 col-form-label">Primary Account Number</label>
                 <div class="col-md-8">
-                    {{source.primaryAccount}}
-                    <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                    <crmLink [accountNumber]="source.accountNumber" [branchId]="source.branchId" [linkText]="source.primaryAccount"></crmLink>
                 </div>
             </div>
             <div class="row">

@@ -65,7 +65,6 @@
     <Compile Include="Contracts\IBulkEditService.cs" />
     <Compile Include="Contracts\IPatchSummaryMapper.cs" />
     <Compile Include="DateThresholdService.cs" />
-    <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
     <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Contracts\IAdamImportService.cs" />
     <Compile Include="Contracts\IAdamUpdateService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
-    <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\IDeliveryLinesAction.cs" />

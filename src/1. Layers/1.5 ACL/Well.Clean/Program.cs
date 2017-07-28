@@ -2,12 +2,12 @@
 {
     using System.Diagnostics;
 
-    using PH.Well.Common;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Repositories;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services;
-    using PH.Well.Services.Contracts;
+    using Common;
+    using Common.Contracts;
+    using Repositories;
+    using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
 
     using StructureMap;
 
@@ -25,8 +25,8 @@
                 2123,
                 EventLogEntryType.Information);
 
-            var cleanWell = container.GetInstance<ICleanWell>();
-            cleanWell.Process(container);
+            container.GetInstance<IWellCleanUpService>().SoftDelete();
+
         }
 
         /// <summary>
@@ -37,29 +37,16 @@
             return new Container(
                 x =>
                 {
-                    x.For<ICleanWell>().Use<CleanWell>();
-                    x.For<ILogger>().Use<NLogger>();
-                    x.For<IWellDapperProxy>().Use<WellDapperProxy>();
-                    x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
-                    x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
-                    x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IStopRepository>().Use<StopRepository>();
-                    x.For<IJobRepository>().Use<JobRepository>();
-                    x.For<IJobDetailRepository>().Use<JobDetailRepository>();
-                    x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
-                    x.For<IAccountRepository>().Use<AccountRepository>();
-                    x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();
-                    x.For<IRouteToRemoveRepository>().Use<RouteToRemoveRepository>();
-                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
-                    x.For<IDapperProxy>().Use<WellDapperProxy>();
-                    x.For<IEventLogger>().Use<EventLogger>();
-                    x.For<IUserNameProvider>().Use<UserNameProvider>();
-                    x.For<IAmendmentService>().Use<AmendmentService>();
-                    x.For<IAmendmentRepository>().Use<AmendmentRepository>();
-                    x.For<IAmendmentFactory>().Use<AmendmentFactory>();
-                    x.For<IUserRepository>().Use<UserRepository>();
-                    x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+                    x.Scan(p =>
+                    {
+                        p.AssemblyContainingType<IWellCleanUpService>();
+                        p.AssemblyContainingType<IStopRepository>();
+                        p.AssemblyContainingType<IEventLogger>();
+                        
+                        p.WithDefaultConventions();
+                        p.RegisterConcreteTypesAgainstTheFirstInterface();
+                        p.SingleImplementationsOfInterface();
+                    });
                 });
         }
     }

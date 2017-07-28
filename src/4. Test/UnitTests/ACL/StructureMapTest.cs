@@ -25,15 +25,7 @@
             IAdamFileMonitorService monitorService;
             Assert.DoesNotThrow(() => monitorService = container.GetInstance<IAdamFileMonitorService>());
         }
-
-        [Test]
-        public void CheckWellCleanIoc()
-        {
-            var container = PH.Well.Clean.Program.InitIoc();
-            ICleanWell cleanWell;
-            Assert.DoesNotThrow(() => cleanWell = container.GetInstance<ICleanWell>());
-        }
-
+        
         [Test]
         public void CheckWellTransendIoc()
         {

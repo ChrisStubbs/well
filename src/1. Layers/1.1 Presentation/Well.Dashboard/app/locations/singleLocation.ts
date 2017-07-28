@@ -113,7 +113,7 @@ export class SingleLocationFilter implements IFilter
                         return sourceRow.exceptions > 0;
                     }
 
-                    return sourceRow.clean > 0;
+                    return sourceRow.exceptions == 0;
                 };
 
             case 'resolutionId':
@@ -177,7 +177,7 @@ export class LocationFilter implements  IFilter
                        return sourceRow.exceptions > 0;
                    }
 
-                   return sourceRow.cleans > 0;
+                   return sourceRow.exceptions == 0;
                 };
         }
 

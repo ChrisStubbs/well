@@ -201,7 +201,6 @@
     <Compile Include="Services\AppSearchServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\BulkEditServiceTests.cs" />
-    <Compile Include="Services\CleanDeliveryServiceTests.cs" />
     <Compile Include="Services\DateThresholdServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />

@@ -39,6 +39,7 @@
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
+        public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
         public const string SaveGrn = "SaveGrn";
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
@@ -79,7 +80,7 @@
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
-        public const string CleanJobs = "CleanJobs";
+        public const string CleanJobsSetResolutionStatusClosed = "CleanJobsSetResolutionStatusClosed";
         public const string CleanStops = "CleanStops";
         public const string CleanRoutes = "CleanRoutes";
 

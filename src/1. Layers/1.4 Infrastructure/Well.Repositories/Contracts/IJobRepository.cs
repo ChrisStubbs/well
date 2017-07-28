@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace PH.Well.Repositories.Contracts
+﻿namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
-    using System.Data;
     using Domain;
-    using Domain.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -18,7 +14,6 @@ namespace PH.Well.Repositories.Contracts
         IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId);
 
         IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId);
-
 
         Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
 
@@ -61,6 +56,10 @@ namespace PH.Well.Repositories.Contracts
         Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
 
         IEnumerable<Job> GetExistingJobs(int branchId, IEnumerable<Job> jobs);
+
+        void CascadeSoftDeleteJobs(IList<int> jobIds, string deletedBy);
+
+        void JobsSetResolutionStatusClosed(IList<int> jobIds, string deletedBy);
 
     }
 }

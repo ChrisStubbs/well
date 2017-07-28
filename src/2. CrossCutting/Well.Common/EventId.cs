@@ -16,5 +16,6 @@
         public const int FtpException = 8555;
         public const int EpodUpdateIgnored = 9682;
         public const int ImportStopException = 9853;
+        public const int ImportException = 9854;
     }
 }

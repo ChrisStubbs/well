@@ -48,16 +48,7 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        private void DeleteJobs(IList<int> jobIds, string deletedBy)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobs)
-                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
-                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", deletedBy, DbType.String)
-                .Execute();
-        }
-
-        private void DeleteStops(IList<int> jobIds, string deletedBy)
+        public void DeleteStops(IList<int> jobIds, string deletedBy)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanStops)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
@@ -66,7 +57,7 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
-        private void DeleteRoutes(IList<int> jobIds, string deletedBy)
+        public void DeleteRoutes(IList<int> jobIds, string deletedBy)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanRoutes)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
@@ -75,14 +66,5 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
-        public Task SoftDelete(IList<int> jobIds, string deletedBy)
-        {
-            return Task.Run(() =>
-            {
-                this.DeleteJobs(jobIds, deletedBy);
-                this.DeleteStops(jobIds, deletedBy);
-                this.DeleteRoutes(jobIds, deletedBy);
-            });
-        }
     }
 }

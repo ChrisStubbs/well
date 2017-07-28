@@ -58,7 +58,7 @@ namespace PH.Well.Repositories
 
         public IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId)
         {
-            return  dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
                 .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
                 .Query<int>();
         }
@@ -330,8 +330,25 @@ namespace PH.Well.Repositories
                 .AddParameter("IdentifyJobTable", data, DbType.Object)
                 .Query<int>();
 
-            return GetByIds(jobIds); 
+            return GetByIds(jobIds);
         }
 
+        public void CascadeSoftDeleteJobs(IList<int> jobIds, string deletedBy)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobsCascadeSoftDelete)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .Execute();
+        }
+
+        public void JobsSetResolutionStatusClosed(IList<int> jobIds, string deletedBy)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobsSetResolutionStatusClosed)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .Execute();
+        }
     }
 }

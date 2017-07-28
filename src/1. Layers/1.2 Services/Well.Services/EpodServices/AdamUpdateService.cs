@@ -94,7 +94,7 @@
         private void Update(StopUpdate stop)
         {
             var job = stop.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stop.StartDepotCode));
 
             if (existingStop == null)
             {
@@ -130,7 +130,7 @@
                 {
                     var job = stopUpdate.Jobs.First();
 
-                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode));
 
                     this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
 
@@ -210,7 +210,7 @@
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
             var job = stopInsert.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.RouteOwnerId);
 
             if (existingStop != null)
             {

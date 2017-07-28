@@ -4,8 +4,8 @@ import {Component, Input} from '@angular/core';
 @Component({
     selector: 'crmLink',
     template: '<span (click)="openLink()" style="cursor: pointer">' +
-    '<a target="_blank" href="#">{{linkText}}</a> ' +
-    '<span class="glyphicon glyphicon-new-window"></span>' +
+        '<a target="_blank" href="#">{{linkText}}</a> ' +
+        '<span class="glyphicon glyphicon-new-window"></span>' +
     '</span>',
 })
 export class CrmLinkController

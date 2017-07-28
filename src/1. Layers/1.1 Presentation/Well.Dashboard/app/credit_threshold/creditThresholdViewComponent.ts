@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CreditThresholdService} from './creditThresholdService';
 import {CreditThresholdAddModalComponent} from './creditThresholdAddModalComponent';
 import {CreditThresholdRemoveModalComponent} from './creditThresholdRemoveModalComponent';

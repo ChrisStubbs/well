@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';

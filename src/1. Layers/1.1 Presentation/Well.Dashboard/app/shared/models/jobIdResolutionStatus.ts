@@ -1,4 +1,4 @@
-﻿import {IResolutionStatus} from './resolutionStatus';
+import {IResolutionStatus} from './resolutionStatus';
 
 export interface IJobIdResolutionStatus
 {

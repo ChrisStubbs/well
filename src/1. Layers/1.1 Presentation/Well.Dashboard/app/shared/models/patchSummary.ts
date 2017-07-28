@@ -1,4 +1,4 @@
-﻿export interface IPatchSummary
+export interface IPatchSummary
 {
     message: string;
     manuallyCompleteMessage: string;

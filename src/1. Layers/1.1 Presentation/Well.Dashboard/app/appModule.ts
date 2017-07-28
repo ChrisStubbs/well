@@ -79,7 +79,7 @@ import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 import { SingleLocationComponent, LocationsService, LocationsComponent } from './locations/locations';
-import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
+import { CrmLinkController } from './shared/crm/CrmLinkController';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
 import { BranchNameComponent } from './shared/branch/branchNameComponent';
 import { BranchDateThresholdComponent, BranchDateThresholdService } from './branch-role/branchDateThresholdModule';
@@ -95,7 +95,7 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
         UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
         StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
         ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
-        CrmLinkPipe, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent
+        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

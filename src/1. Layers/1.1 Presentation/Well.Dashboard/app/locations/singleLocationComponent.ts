@@ -24,7 +24,6 @@ import { AssignModalResult, AssignModel }                   from '../shared/comp
 import { Branch }                                           from '../shared/branch/branch';
 import { ISubmitActionResult, ISubmitActionResultDetails }  from '../shared/action/submitActionModel';
 import {IBulkEditResult}                                    from '../shared/action/bulkEditItem';
-import {AccountReference}                                   from '../shared/crm/crmLinkPipe';
 import {ManualCompletionModal}                              from '../shared/manualCompletion/manualCompletionModal';
 import {SubmitActionModal}                                  from '../shared/action/submitActionModal';
 import {ManualCompletionType}                               from '../shared/manualCompletion/manualCompletionRequest';
@@ -54,7 +53,6 @@ export class SingleLocationComponent implements IObservableAlive
     private filters = new SingleLocationFilter();
     private source: SingleLocationHeader = new SingleLocationHeader();
     private isReadOnlyUser: boolean = false;
-    private accountReference: AccountReference = new AccountReference('', 0);
     private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
                                        'Edit Exceptions', 'Submit Exceptions'];
 
@@ -98,7 +96,6 @@ export class SingleLocationComponent implements IObservableAlive
                 this.wellStatus = res[3];
                 this.drivers = [];
                 this.assignees = [];
-                this.accountReference = new AccountReference(this.source.accountNumber, this.source.branchId);
 
                 _.forEach(this.source.details, (current: SingleLocation) =>
                 {

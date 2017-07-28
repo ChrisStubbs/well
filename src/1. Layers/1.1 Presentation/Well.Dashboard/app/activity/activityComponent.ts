@@ -28,7 +28,6 @@ import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import { AccountReference } from '../shared/crm/crmLinkPipe';
 import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
 import { SubmitActionModal } from '../shared/action/submitActionModal';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
@@ -75,7 +74,6 @@ export class ActivityComponent implements IObservableAlive
     private inputFilterTimer: any;
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
-    private accountReference: AccountReference = new AccountReference('', 0);
     private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
         'Edit Exceptions', 'Submit Exceptions'];
 
@@ -114,8 +112,6 @@ export class ActivityComponent implements IObservableAlive
                 this.resolutionStatuses = res[0];
                 this.source = res[1];
                 this.buildGridSource();
-
-                this.accountReference = new AccountReference(this.source.accountNumber, this.source.branchId);
 
                 this.tobaccoBags = _.chain(this.source.details)
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])

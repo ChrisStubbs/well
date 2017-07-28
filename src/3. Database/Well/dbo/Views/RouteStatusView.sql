@@ -26,7 +26,7 @@
 
 	SELECT rh.id AS RouteHeaderId,
 		CASE
-			WHEN rjb.BypassJobCount = rjc.JobCount THEN 8  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
+			WHEN rjb.BypassJobCount = rjc.JobCount THEN 4  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
 			WHEN rh.RouteStatusCode = 'NDEPA' THEN 1  -- not departed = planned
 			WHEN rh.RouteStatusCode = 'INPRO' THEN 5 -- in progress
 			WHEN rh.RouteStatusCode = 'COMPL' THEN 3 -- complete

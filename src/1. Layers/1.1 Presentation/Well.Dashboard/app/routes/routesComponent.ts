@@ -89,7 +89,10 @@ export class RoutesComponent implements IObservableAlive
             .takeWhile(() => this.isAlive)
             .subscribe((result: Route[]) =>
             {
-                this.routes = result;
+                this.routes = _.orderBy(result, [function(route: Route) {
+                    return route.routeDate;
+                }, 'routeNumber'], ['desc', 'asc']);
+
                 this.fillGridSource();
 
                 _.forEach(this.routes, (current: Route) =>

@@ -1,9 +1,14 @@
-﻿namespace PH.Well.Services
+﻿using System.Collections.Generic;
+using PH.Well.Domain;
+
+namespace PH.Well.Services
 {
     using System;
     using Repositories.Contracts;
     using System.Linq;
     using Domain;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class DateThresholdService : IDateThresholdService
     {
@@ -30,11 +35,17 @@
             return GetGracePeriodEndDate(routeDate, branch.NumberOfDays, branchId);
         }
 
+        public async Task<DateTime> RouteGracePeriodEndAsync(DateTime routeDate, int branchId)
+        {
+            var branch = await GetBranchDateThresholdAsync(branchId);
+            return await GetGracePeriodEndDateAsync(routeDate, branch.NumberOfDays, branchId);
+        }
+
         public DateTime GracePeriodEnd(DateTime routeDate, int branchId, int royaltyCode)
         {
             var branch = GetBranchDateThreshold(branchId);
             var gracePeriodDays = branch.NumberOfDays;
-           var customerRoyaltyException = GetCustomerRoyaltyException(royaltyCode);
+            var customerRoyaltyException = GetCustomerRoyaltyException(royaltyCode);
 
             if (customerRoyaltyException != null && customerRoyaltyException.ExceptionDays > gracePeriodDays)
             {
@@ -44,36 +55,60 @@
             return GetGracePeriodEndDate(routeDate, gracePeriodDays, branchId);
         }
 
-        private DateThreshold GetBranchDateThreshold(int branchId)
+        public async Task<DateTime> GracePeriodEndAsync(DateTime routeDate, int branchId, int royaltyCode)
         {
-            var branch = this.dateThresholdRepository.Get().FirstOrDefault(p => p.BranchId == branchId);
+            var branch = await GetBranchDateThresholdAsync(branchId);
+            var gracePeriodDays = branch.NumberOfDays;
+            var customerRoyaltyException = GetCustomerRoyaltyException(royaltyCode);
 
-            if (branch == null)
+            if (customerRoyaltyException != null && customerRoyaltyException.ExceptionDays > gracePeriodDays)
             {
-                throw new Exception(string.Format(ErrorMessage, branchId));
+                gracePeriodDays = customerRoyaltyException.ExceptionDays;
             }
 
-            return branch;
+            return await GetGracePeriodEndDateAsync(routeDate, gracePeriodDays, branchId);
         }
 
-        private CustomerRoyaltyException GetCustomerRoyaltyException(int royaltyCode)
+        private async Task<DateTime> GetGracePeriodEndDateAsync(DateTime routeDate, byte gracePeriodDays, int branchId)
         {
-            if (customerRoyaltyExceptions == null)
-            {
-                customerRoyaltyExceptions = customerRoyaltyExceptionRepository.GetCustomerRoyaltyExceptions().ToArray();
-            }
+            var endDate = routeDate.Date.AddDays(gracePeriodDays).Date;
+            var values = await this.GetSeasonalDatesAsync(branchId);
 
-            return customerRoyaltyExceptions.FirstOrDefault(x => x.RoyaltyCode == royaltyCode);
+            return endDate.AddDays(AddNonWorkingDays(values, routeDate, endDate));
         }
 
-        public DateTime GetGracePeriodEndDate(DateTime routeDate, byte gracePeriodDays, int branchId)
+        private DateTime GetGracePeriodEndDate(DateTime routeDate, byte gracePeriodDays, int branchId)
         {
             var endDate = routeDate.Date.AddDays(gracePeriodDays).Date;
 
-            return endDate.AddDays(AddNonWorkingDays(routeDate, endDate, branchId));
+            return endDate.AddDays(AddNonWorkingDays(GetSeasonalDates(branchId), routeDate, endDate));
         }
 
-        private int AddNonWorkingDays(DateTime start, DateTime end, int branchId)
+        public IList<DateThreshold> GetAll()
+        {
+            return dateThresholdRepository.Get();
+        }
+
+        public void Update(DateThreshold dateThreshold)
+        {
+            if (dateThreshold.NumberOfDays < 2)
+            {
+                throw new ArgumentException(nameof(dateThreshold.NumberOfDays));
+            }
+            dateThresholdRepository.Update(dateThreshold);
+        }
+
+        private Task<IEnumerable<SeasonalDate>> GetSeasonalDatesAsync(int branchId)
+        {
+            return this.seasonalDate.GetByBranchIdAsync(branchId);
+        }
+
+        private IEnumerable<SeasonalDate> GetSeasonalDates(int branchId)
+        {
+            return this.seasonalDate.GetByBranchId(branchId);
+        }
+
+        private int AddNonWorkingDays(IEnumerable<SeasonalDate> dates, DateTime start, DateTime end)
         {
             /* possible scenarios */
             /*
@@ -96,7 +131,7 @@
             _______________________
             1Day                  5Day
             */
-            return this.seasonalDate.GetByBranchId(branchId)
+            return dates
                 .Where(p => (p.From.Date >= start && p.From.Date <= end)
                          || (p.To.Date >= start && p.To.Date <= end))
                 .Select(p => new
@@ -108,6 +143,41 @@
                     //the same goes for 10-10-2008 to 15-10-2008 it be 5 but i need to count it as 6
                 })
                 .Sum(p => (p.to - p.from).Days);
+        }
+
+        private async Task<DateThreshold> GetBranchDateThresholdAsync(int branchId)
+        {
+            var all = await this.dateThresholdRepository.GetAsync();
+            var branch = all.FirstOrDefault(p => p.BranchId == branchId);
+
+            if (branch == null)
+            {
+                throw new Exception(string.Format(ErrorMessage, branchId));
+            }
+
+            return branch;
+        }
+
+        private DateThreshold GetBranchDateThreshold(int branchId)
+        {
+            var branch = this.dateThresholdRepository.Get().FirstOrDefault(p => p.BranchId == branchId);
+
+            if (branch == null)
+            {
+                throw new Exception(string.Format(ErrorMessage, branchId));
+            }
+
+            return branch;
+        }
+
+        private CustomerRoyaltyException GetCustomerRoyaltyException(int royaltyCode)
+        {
+            if (customerRoyaltyExceptions == null)
+            {
+                customerRoyaltyExceptions = customerRoyaltyExceptionRepository.GetCustomerRoyaltyExceptions().ToArray();
+            }
+
+            return customerRoyaltyExceptions.FirstOrDefault(x => x.RoyaltyCode == royaltyCode);
         }
     }
 }

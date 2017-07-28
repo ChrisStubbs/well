@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label>Bypass:</label>
-                                <span *ngIf="hasBaypassActions()">{{source.bypass}}</span>
+                                <span>{{source.bypass}}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -106,7 +106,7 @@
                                             <tr [formGroupName]="i">
                                                 <td>
                                                     <select class="form-control" formControlName="action">
-                                                        <option *ngFor="let action of deliveryActions" [value]="action.key">
+                                                        <option *ngFor="let action of getDeliveryActions()" [value]="action.key">
                                                             {{ action.value }}
                                                         </option>
                                                     </select>

@@ -122,10 +122,10 @@
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                epodUpdateService.Verify(x => x.UpdateJob(It.IsAny<JobDTO>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job1.Id), job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job2.Id), job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job3.Id), job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate), Times.Never);
+                epodUpdateService.Verify(x => x.UpdateJob(It.IsAny<JobDTO>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(),false), Times.Exactly(2));
+                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job1.Id), job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate, false), Times.Once);
+                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job2.Id), job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate, false), Times.Once);
+                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job3.Id), job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate, false), Times.Never);
             }
 
             [Test]

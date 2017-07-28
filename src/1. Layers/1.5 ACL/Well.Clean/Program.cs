@@ -48,7 +48,6 @@
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
-                    x.For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
                     x.For<ICleanDeliveryService>().Use<CleanDeliveryService>();
                     x.For<IRouteToRemoveRepository>().Use<RouteToRemoveRepository>();
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();

@@ -6,6 +6,7 @@
 	[RouteHeaderCode] VARCHAR(10)  NULL,
 	[RouteHeaderId] INT NOT NULL,
 	[DropId] VARCHAR(2) NULL,
+	[Previously] VARCHAR(50) NULL,
 	[LocationId] VARCHAR(20) NULL,
 	[DeliveryDate] DATETIME NULL,
 	[ShellActionIndicator] varchar(100) NULL,
@@ -37,3 +38,4 @@ CREATE NONCLUSTERED INDEX [IDX_Stop_RouteHeaderId] ON [dbo].[Stop] ([RouteHeader
 GO
 CREATE NONCLUSTERED INDEX [idx_Stop_LocationId] ON [dbo].[Stop] ([Location_Id])
 GO
+CREATE NONCLUSTERED INDEX Idx_Stop_TransportOrderReference ON [dbo].[Stop] ([TransportOrderReference]) INCLUDE ([Id])

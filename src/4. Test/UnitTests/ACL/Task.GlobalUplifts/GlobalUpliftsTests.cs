@@ -272,8 +272,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             Assert.False(transaction.LineDidWrite);
             Assert.False(transaction.HeaderDidWrite);
 
-            _eventRepositoryMock.Verify(x => x.InsertEvent(EventAction.GlobalUplift, It.IsAny<object>(), null),
-                Times.Once);
+            _eventRepositoryMock.Verify(x => x.InsertEvent(EventAction.GlobalUplift, It.IsAny<object>(), null),Times.Once);
         }
     }
 }

@@ -5,6 +5,8 @@ using PH.Well.Domain;
 
 namespace PH.Well.UnitTests.Factories
 {
+    using Well.Domain.Enums;
+
     public class StopFactoryDTO : EntityFactory<StopFactoryDTO, StopDTO>
     {
         public StopFactoryDTO()
@@ -22,7 +24,7 @@ namespace PH.Well.UnitTests.Factories
             this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<JobDTO>();
-            this.Entity.WellStatusId = 3;
+            this.Entity.WellStatus = WellStatus.Complete;
 
             this.Entity.Account = new AccountDTO
             {

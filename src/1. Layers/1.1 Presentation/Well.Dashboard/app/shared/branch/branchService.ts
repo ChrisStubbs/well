@@ -72,17 +72,6 @@ export class BranchService
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]>
-    {
-
-        return this.http.get(
-            this.globalSettingsService.globalSettings.apiUrl
-            + 'branch-clean-preference?cleanPreferenceId='
-            + cleanPreferenceId)
-            .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
     public saveBranches(branches: Branch[], username, domain): Observable<any>
     {
         const body = JSON.stringify(branches);

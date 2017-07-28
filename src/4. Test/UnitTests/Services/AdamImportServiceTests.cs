@@ -73,40 +73,40 @@
         {
             var route = new RouteDelivery();
 
-            var header = new RouteHeader { RouteNumber = "001", RouteDate = DateTime.Now, StartDepotCode = "21" };
+            var header = new RouteHeader { RouteNumber = "001", RouteDate = DateTime.Now, RouteOwnerId = 21 };
 
             route.RouteHeaders.Add(header);
 
-            this.routeHeaderRepository.Setup(x => x.GetByNumberDateBranch(header.RouteNumber, header.RouteDate.Value, header.StartDepot)).Returns(new RouteHeader());
+            this.routeHeaderRepository.Setup(x => x.GetByNumberDateBranch(header.RouteNumber, header.RouteDate.Value, header.RouteOwnerId)).Returns(new RouteHeader());
 
             this.logger.Setup(
                 x =>
                     x.LogDebug(
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})"));
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})"));
 
             this.eventLogger.Setup(
                 x =>
                     x.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})",
                         7776, EventLogEntryType.Error)).Returns(true);
 
             this.postImportRepository.Setup(x => x.PostImportUpdate());
 
             this.service.Import(route);
 
-            this.routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(header.RouteNumber, header.RouteDate.Value, header.StartDepot), Times.Once);
+            this.routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(header.RouteNumber, header.RouteDate.Value, header.RouteOwnerId), Times.Once);
 
             this.logger.Verify(
                 x =>
                     x.LogDebug(
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})"), Times.Once);
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})"), Times.Once);
 
             this.eventLogger.Verify(
                 x =>
                     x.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})",
                         7776, EventLogEntryType.Error), Times.Once);
         }
 

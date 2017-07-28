@@ -1,9 +1,12 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Contracts;
     using Repositories;
     using Repositories.Contracts;
+    using System.Linq;
 
     public class AmendmentService : IAmendmentService
     {
@@ -16,6 +19,18 @@
             this.amendmentRepository = amendmentRepository;
             this.amendmentFactory = amendmentFactory;
             this.exceptionEventRepository = exceptionEventRepository;
+        }
+
+        public Task ProcessAmendmentsAsync(IEnumerable<int> jobIds)
+        {
+            var amendments = this.amendmentRepository.GetAmendments(jobIds).ToList();
+
+            var data = amendments
+                .Where(p => p.AmendmentLines.Count > 0)
+                .Select(p => this.amendmentFactory.Build(p))
+                .ToList();
+
+            return exceptionEventRepository.InsertAmendmentTransactionAsync(data);
         }
 
         public void ProcessAmendments(IEnumerable<int> jobIds)

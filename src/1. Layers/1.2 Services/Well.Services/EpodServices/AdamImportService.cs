@@ -54,14 +54,14 @@
                 var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
                     header.RouteNumber,
                     header.RouteDate.Value,
-                    header.StartDepot);
+                    header.RouteOwnerId); 
 
                 if (existingRouteHeader != null)
                 {
-                    this.logger.LogDebug($"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})");
+                    this.logger.LogDebug($"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})");
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})",
                         7776);
                     continue;
                 }

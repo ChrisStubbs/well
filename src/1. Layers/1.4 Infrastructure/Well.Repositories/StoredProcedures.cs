@@ -23,12 +23,12 @@
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public const string StopInsert = "Stop_Insert";
         public const string StopUpdate = "Stop_Update";
-        public const string StopGetById = "Stop_GetById";
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
         public const string StopGetByJob = "StopGetByJob";
         public const string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
         public const string StopGetByJobId = "Stop_GetByJobId";
+        public const string StopsGetByIds = "Stops_GetByIds";
         public const string StopDeleteById = "Stop_DeleteById";
         public const string AccountDeleteByStopId = "Account_DeleteByStopId";
         public const string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
@@ -78,6 +78,9 @@
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
+        public const string CleanJobs = "CleanJobs";
+        public const string CleanStops = "CleanStops";
+        public const string CleanRoutes = "CleanRoutes";
 
         public const string UsersGet = "Users_Get";
         public const string UserSave = "UserSave";
@@ -85,6 +88,8 @@
         public const string UnAssignJobToUser = "UserJob_Delete";
         public const string UserByCreditThresholdGet = "UserByCreditThresholdGet";
         public const string EventInsert = "EventInsert";
+        public const string EventInsertBulk = "EventInsertBulk";
+        
         public const string EventSetProcessed = "EventSetProcessed";
         public const string EventGetUnprocessed = "EventGetUnprocessed";
         public const string MarkEventAsProcessed = "MarkEventAsProcessed";
@@ -104,14 +109,8 @@
         public const string CreditThresholdSave = "CreditThresholdSave";
         public const string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
         public const string ThresholdLevelSave = "ThresholdLevelSave";
-        public const string CleanPreferencesGetAll = "CleanPreferencesGetAll";
-        public const string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
-        public const string CleanPreferenceSave = "CleanPreferenceSave";
-        public const string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
-        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
-        public const string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";
         public const string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
         public const string WidgetWarningGetAll = "WidgetWarning_GetAll";
@@ -181,5 +180,8 @@
         //DateThreshold
         public const string DateThreshold = "DateThreshold_Get";
         public const string DateThresholdDelete = "DateThreshold_Delete";
+        public const string DateThresholdUpdate = "DateThreshold_Update";
+
+        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
     }
 }

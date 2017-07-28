@@ -65,7 +65,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
-            For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
             For<IJobDetailActionRepository>().Use<JobDetailActionRepository>();
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
@@ -73,13 +72,17 @@ namespace PH.Well.Api.DependencyResolution
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
             For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+            For<IWellCleanUpService>().Use<WellCleanUpService>();
+            For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+            For<IAmendmentService>().Use<AmendmentService>();
+            For<IAmendmentRepository>().Use<AmendmentRepository>();
+            For<IAmendmentFactory>().Use<AmendmentFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
             For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
-            For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();

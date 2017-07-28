@@ -38,7 +38,10 @@
 
         public void Map(StopUpdate from, Stop to)
         {
-            to.PlannedStopNumber = from.PlannedStopNumber;
+            if (!string.IsNullOrEmpty(from.PlannedStopNumber))
+            {
+                to.PlannedStopNumber = from.PlannedStopNumber;
+            }
             to.ShellActionIndicator = from.ShellActionIndicator;
         }
 

@@ -8,5 +8,9 @@
     public interface IBranchModelMapper
     {
         IEnumerable<BranchModel> Map(IEnumerable<Branch> branches, IEnumerable<Branch> userBranches);
+
+        BranchDateThresholdModel MapDateThreshold(DateThreshold dateThreshold);
+
+        DateThreshold MapDateThreshold(BranchDateThresholdModel branchDateThresholdModel);
     }
 }

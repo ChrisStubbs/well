@@ -4,7 +4,7 @@ using PH.Well.Domain.Enums;
 namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
-
+    using System.Threading.Tasks;
     using PH.Well.Domain;
     using PH.Well.Domain.ValueObjects;
 
@@ -25,6 +25,9 @@ namespace PH.Well.Repositories.Contracts
         void InsertPodTransaction(PodTransaction podTransaction);
 
         void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
+
+        Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent);
+
         void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null);
     }
 }

@@ -117,7 +117,9 @@ export class SingleRouteFilter implements IFilter
 
             case 'wellStatus':
             case 'assignee':
-                return  GridHelpersFunctions.isEqualFilter;
+                return (value: any, valu2: any) => {
+                    return GridHelpersFunctions.isEqualFilter(String(value), String(valu2));
+                };
 
             case 'exceptions':
                 return (value: number, value2: number, sourceRow: SingleRouteItem) => {
@@ -127,7 +129,7 @@ export class SingleRouteFilter implements IFilter
                         return sourceRow.exceptions > 0;
                     }
 
-                    return sourceRow.clean > 0;
+                    return sourceRow.exceptions == 0;
                 };
 
             case 'resolutionId':

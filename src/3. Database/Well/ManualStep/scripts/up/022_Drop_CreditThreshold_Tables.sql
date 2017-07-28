@@ -13,5 +13,5 @@ BEGIN
 	
 	DROP TABLE dbo.ThresholdLevel;
 
-	EXEC sp_RENAME 'CreditThreshold.ThresholdLevelId', 'Level', 'COLUMN' -- Rename column which previously was FK of Threshold level. Data should match actual level value
+	DELETE FROM [dbo].[CreditThreshold]
 END

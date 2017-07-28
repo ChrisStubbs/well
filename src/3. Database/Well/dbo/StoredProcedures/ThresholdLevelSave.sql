@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE  [dbo].[ThresholdLevelSave]
-	@ThresholdLevelId INT,
+	@CreditThresholdId INT,
 	@UserId INT
 AS
 BEGIN
-	UPDATE [dbo].[User] SET [ThresholdLevelId] = @ThresholdLevelId WHERE Id = @UserId
+	UPDATE [dbo].[User] SET [CreditThresholdId] = @CreditThresholdId WHERE Id = @UserId
 END

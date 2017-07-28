@@ -14,7 +14,7 @@ BEGIN
 	Insert INTO @UserIdsTable
 	SELECT Distinct u.[Id] 
 	  FROM [dbo].[User] u
-	  LEFT JOIN dbo.CreditThreshold ct on ct.ThresholdLevelId = u.ThresholdLevelId
+	  LEFT JOIN dbo.CreditThreshold ct on ct.Id = u.CreditThresholdId
 	  LEFT JOIN [dbo].[UserBranch] ub on u.Id = ub.UserId
 	  WHERE 
 	  (@CreditThresholdId is null or ct.Id = @CreditThresholdId)
@@ -29,7 +29,7 @@ BEGIN
 		u.[IdentityName],
 		u.[JobDescription],
 		u.[Domain],
-		u.[ThresholdLevelId],
+		u.[CreditThresholdId],
 		u.[CreatedBy],
 		u.[DateCreated],
 		u.[UpdatedBy],
@@ -40,7 +40,7 @@ BEGIN
 
 	  SELECT
 		[Id], 
-		[ThresholdLevelId], 
+		[Level], 
 		[Threshold], 
 		[CreatedBy], 
 		[CreatedDate], 
@@ -48,7 +48,4 @@ BEGIN
 		[LastUpdatedDate]
 	FROM
 		[dbo].[CreditThreshold] 
-		   
-
-
 END

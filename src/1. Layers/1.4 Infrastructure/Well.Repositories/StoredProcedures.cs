@@ -106,7 +106,6 @@
         public const string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
         public const string CreditThresholdDelete = "CreditThresholdDelete";
         public const string CreditThresholdSave = "CreditThresholdSave";
-        public const string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
         public const string ThresholdLevelSave = "ThresholdLevelSave";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";

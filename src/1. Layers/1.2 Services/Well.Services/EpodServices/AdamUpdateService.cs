@@ -94,7 +94,10 @@
         private void Update(StopUpdate stop)
         {
             var job = stop.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stop.StartDepotCode));
+
+            var branch =  (int)Enum.Parse(typeof(Branches), stop.StartDepotCode, true);
+
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
 
             if (existingStop == null)
             {
@@ -124,13 +127,15 @@
         {
             Stop stop = null;
 
+            var branch = (int)Enum.Parse(typeof(Branches), stopUpdate.StartDepotCode, true);
+
             try
             {
                 using (var transactionScope = new TransactionScope())
                 {
                     var job = stopUpdate.Jobs.First();
 
-                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode));
+                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
 
                     this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
 

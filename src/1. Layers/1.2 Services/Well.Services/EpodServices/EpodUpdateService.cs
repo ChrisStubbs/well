@@ -165,7 +165,7 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         var job = stop.Jobs.First();
-                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branchId);
 
                         if (existingStop == null)
                         {
@@ -224,6 +224,7 @@
                     continue;
                 }
 
+                //todo or bypassed/manually bypassed
                 if (existingJob.ResolutionStatus != ResolutionStatus.Imported)
                 {
                     this.logger.LogError(

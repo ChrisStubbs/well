@@ -34,12 +34,13 @@
             return this.GetByIds(stopIds);
         }
         
-        public Stop GetByJobDetails(string picklist, string account)
+        public Stop GetByJobDetails(string picklist, string account, int branchId)
         {
             var stopIds =
                 dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJob)
                     .AddParameter("Picklist", picklist, DbType.String)
                     .AddParameter("Account", account, DbType.String)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
                     .Query<int>();
 
             return GetByIds(stopIds).FirstOrDefault();

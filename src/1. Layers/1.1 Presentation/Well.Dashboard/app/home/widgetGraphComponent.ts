@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output, ViewChild }  from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild }  from '@angular/core';
 import { BaseChartComponent } from 'ng2-charts/ng2-charts';
 
 @Component({

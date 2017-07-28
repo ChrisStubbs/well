@@ -1,3 +1,3 @@
-﻿export class Threshold {
+export class Threshold {
     public thresholdAmount: number;
 }

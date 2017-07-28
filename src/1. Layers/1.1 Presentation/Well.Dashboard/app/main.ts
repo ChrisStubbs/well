@@ -1,4 +1,4 @@
-﻿//declare var require;
+//declare var require;
 import core_js from 'core-js/client/shim.min.js';
 
 import 'reflect-metadata';

@@ -1,4 +1,4 @@
-﻿export enum ResolutionStatusEnum {
+export enum ResolutionStatusEnum {
     Imported = 1,
     DriverCompleted = 2,
     ActionRequired = 4,

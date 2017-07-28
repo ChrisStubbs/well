@@ -1,4 +1,4 @@
-﻿import { Component, Output, Input } from '@angular/core';
+import { Component, Output, Input } from '@angular/core';
 import {BranchService} from './branchService';
 
 @Component({

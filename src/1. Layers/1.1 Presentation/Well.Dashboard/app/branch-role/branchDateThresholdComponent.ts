@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { SecurityService } from '../shared/security/securityService';
 import { GlobalSettingsService } from '../shared/globalSettings';

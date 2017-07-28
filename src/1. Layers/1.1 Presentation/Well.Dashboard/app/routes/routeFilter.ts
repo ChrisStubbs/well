@@ -1,4 +1,4 @@
-﻿import { IFilter }              from '../shared/gridHelpers/IFilter';
+import { IFilter }              from '../shared/gridHelpers/IFilter';
 import * as _                   from 'lodash';
 import { AppSearchParameters }  from '../shared/appSearch/appSearchParameters';
 import { DatePipe }             from '@angular/common';
@@ -61,7 +61,7 @@ export class RouteFilter implements IFilter
                         return sourceRow.exceptionCount > 0;
                     }
 
-                    return sourceRow.cleanCount > 0;
+                    return sourceRow.exceptionCount == 0;
                 };
         }
 

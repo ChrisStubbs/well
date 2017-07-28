@@ -176,12 +176,19 @@
                             var today = DateTime.Now.ToShortDateString();
                             var now = DateTime.Now.ToShortTimeString();
 
+                            var grnNumeric = 0;
+                            var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
+                            if (!result)
+                            {
+                                 grnNumeric = 0;
+                            }
+
                             var commandString =
                                 string.Format(
                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
                                     now, (int) EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
-                                    delivery.GrnProcessType, delivery.GrnNumber);
+                                    delivery.GrnProcessType, grnNumeric);
 
                             command.CommandText = commandString;
                             command.ExecuteNonQuery();

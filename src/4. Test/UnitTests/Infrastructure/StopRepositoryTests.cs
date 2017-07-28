@@ -124,6 +124,8 @@
                         .With(x => x.PhAccount = "55444.333")
                         .Build();
 
+                var branchId = 2;
+
                 SetUpGetByIds();
 
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob))
@@ -135,13 +137,17 @@
                 this.dapperProxy.Setup(x => x.AddParameter("Account", job.PhAccount, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(x => x.AddParameter("BranchId", branchId, DbType.Int32, null))
+              .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Query<int>()).Returns(new[] { 1 });
 
-                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount);
+                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount, branchId);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob), Times.Once);
                 this.dapperProxy.Verify(x => x.AddParameter("Picklist", job.PickListRef, DbType.String, null), Times.Once);
                 this.dapperProxy.Verify(x => x.AddParameter("Account", job.PhAccount, DbType.String, null), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("BranchId", branchId, DbType.Int32, null), Times.Once);
                 this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("Stops_GetByIds"), Times.Once);

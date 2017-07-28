@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WidgetWarning } from './widgetWarning';
 
 import { WidgetWarningService } from './widgetWarningService';

@@ -1,4 +1,4 @@
-﻿export class IAccount {
+export class IAccount {
      
     public code: string;
     public name: string;

@@ -15,7 +15,7 @@ namespace PH.Well.Repositories.Contracts
 
         Stop GetById(int id);
 
-        Stop GetByJobDetails(string picklist, string account);
+        Stop GetByJobDetails(string picklist, string account, int branchId);
 
         Stop GetByJobId(int jobId);
 

@@ -1,4 +1,4 @@
-﻿export interface IManualCompletionRequest
+export interface IManualCompletionRequest
 {
     jobIds: number[];
     manualCompletionType: ManualCompletionType;

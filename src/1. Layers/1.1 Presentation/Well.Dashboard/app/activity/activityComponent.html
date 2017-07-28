@@ -42,8 +42,7 @@
             <div class="row">
                 <label class="col-md-4 col-form-label">Primary Account Number</label>
                 <div class="col-md-8">
-                    {{source.primaryAccount}}
-                    <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                    <crmLink [accountNumber]="source.accountNumber" [branchId]="source.branchId" [linkText]="source.primaryAccount"></crmLink>
                 </div>
             </div>
             <div class="row">
@@ -188,8 +187,7 @@
                             <div class="form-control-placeholder"></div>
                         </th>
                         <th class="exceptionsFilter" colspan="2">
-                            <div class="text-center col-md-6">Damages</div>
-                            <div class="text-center col-md-6">Shorts</div>
+                            <div class="text-center">Shorts Damages</div>
                             <div>
                                 <select class="form-control" [(ngModel)]="filters.exceptionsFilter" (change)="buildGridSource()" title="">
                                     <option value>All</option>
@@ -249,8 +247,8 @@
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
                             <td class="text-right">{{item.totalActual}}</td>
-                            <td class="text-right">{{item.totalDamaged}}</td>
                             <td class="text-right">{{item.totalShorts}}</td>
+                            <td class="text-right">{{item.totalDamaged}}</td>
                             <td colspan="2"></td>
                             <td class="text-right">{{item.resolution}}</td>
                             <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>

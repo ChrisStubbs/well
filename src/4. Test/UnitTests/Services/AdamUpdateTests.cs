@@ -182,7 +182,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode)))
                     .Returns(new Stop());
 
 
@@ -251,7 +251,7 @@
                             stopUpdate.DeliveryDate.Value,
                             int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount))
+                this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount, routeHeader.RouteOwnerId))
                     .Returns((Stop)null);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, It.IsAny<Stop>()));
@@ -337,7 +337,7 @@
 
                 stopUpdate.Jobs.Add(job);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode)))
                     .Returns((Stop)null);
 
                 this.logger.Setup(
@@ -358,7 +358,7 @@
                 this.service.Update(routeUpdate);
 
                 //ASSERT
-                this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+                this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode)), Times.Once);
 
                 this.logger.Verify(
                     x =>
@@ -400,7 +400,7 @@
 
                 this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
 
-                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount)).Returns(stop);
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode))).Returns(stop);
 
                 this.mapper.Setup(x => x.Map(stopUpdate, stop));
 
@@ -450,7 +450,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount)).Returns(stop);
+                stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount, int.Parse(stopUpdate.StartDepotCode))).Returns(stop);
 
                 stopRepository.Setup(x => x.DeleteStopByTransportOrderReference(stop.TransportOrderReference));
 

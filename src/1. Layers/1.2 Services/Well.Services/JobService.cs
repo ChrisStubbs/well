@@ -264,8 +264,7 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                // ProofOfDelivery jobs shouldn't be set to ActionRequired
-                if (!job.IsProofOfDelivery && actions.Any())
+                if (actions.Any())
                 {
                     if (actions.Any(p => p.DeliveryAction == DeliveryAction.NotDefined))
                     {

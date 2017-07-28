@@ -1,4 +1,4 @@
-﻿import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Response} from '@angular/http';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {HttpResponse} from '../shared/httpResponse';

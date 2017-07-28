@@ -1,4 +1,4 @@
-﻿export class Widget {
+export class Widget {
     public name: string;
     public linkText: string;
     public link: string;

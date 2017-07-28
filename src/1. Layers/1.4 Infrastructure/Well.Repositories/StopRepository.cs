@@ -91,12 +91,13 @@ namespace PH.Well.Repositories
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
         }
 
-        public Stop GetByJobDetails(string picklist, string account)
+        public Stop GetByJobDetails(string picklist, string account, int branchId)
         {
             return
                dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByJob)
                    .AddParameter("Picklist", picklist, DbType.String)
                    .AddParameter("Account", account, DbType.String)
+                   .AddParameter("BranchId", branchId, DbType.Int32)
                    .Query<Stop>()
                    .FirstOrDefault();
         }

@@ -7,6 +7,8 @@
     public interface IWellCleanUpRepository
     {
         IList<NonSoftDeletedRoutesJobs> GetNonSoftDeletedRoutes();
-        Task SoftDelete(IList<int> jobIds);
+        //Task SoftDelete(IList<int> jobIds, string deletedBy);
+        void DeleteStops(IList<int> jobIds, string deletedBy);
+        void DeleteRoutes(IList<int> jobIds, string deletedBy);
     }
 }

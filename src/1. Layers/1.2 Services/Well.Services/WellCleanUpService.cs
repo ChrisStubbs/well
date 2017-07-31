@@ -16,17 +16,21 @@
         private readonly IWellCleanUpRepository wellCleanUpRepository;
         private readonly IDateThresholdService dateThresholdService;
         private readonly IAmendmentService amendmentService;
+        private readonly IJobRepository jobRepository;
+        private static string user = "WellCleanUpService";
 
         public WellCleanUpService(
             ILogger logger,
             IWellCleanUpRepository wellCleanUpRepository,
             IDateThresholdService dateThresholdService,
-            IAmendmentService amendmentService)
+            IAmendmentService amendmentService,
+            IJobRepository jobRepository)
         {
             this.logger = logger;
             this.wellCleanUpRepository = wellCleanUpRepository;
             this.dateThresholdService = dateThresholdService;
             this.amendmentService = amendmentService;
+            this.jobRepository = jobRepository;
         }
 
         public async Task SoftDelete()
@@ -49,7 +53,11 @@
                     logger.LogDebug("Finished generating amendments");
 
                     logger.LogDebug("Start soft delete jobs activities and children");
-                    await wellCleanUpRepository.SoftDelete(jobsToDelete);
+                    await this.SoftDelete(jobsToDelete, user);
+
+
+
+
                     logger.LogDebug("Finished soft delete jobs activities and children");
 
                     transactionScope.Complete();
@@ -126,6 +134,17 @@
         {
             return wellCleanUpRepository.GetNonSoftDeletedRoutes()
                 .ToLookup(k => k.BranchId);
+        }
+
+        private Task SoftDelete(IList<int> jobIds, string deletedBy)
+        {
+            return Task.Run(() =>
+            {
+                jobRepository.JobsSetResolutionStatusClosed(jobIds, deletedBy);
+                jobRepository.CascadeSoftDeleteJobs(jobIds, deletedBy);
+                wellCleanUpRepository.DeleteStops(jobIds, deletedBy);
+                wellCleanUpRepository.DeleteRoutes(jobIds, deletedBy);
+            });
         }
     }
 }

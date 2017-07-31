@@ -39,6 +39,7 @@
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
+        public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
         public const string SaveGrn = "SaveGrn";
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
@@ -54,6 +55,7 @@
         public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public const string JobGetByIds = "Job_GetByIds";
         public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
+        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobType";
         public const string JobDetailGet = "JobDetail_Get";
         public const string JobDetailInsert = "JobDetail_Insert";
         public const string JobDetailUpdate = "JobDetail_Update";
@@ -78,7 +80,7 @@
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
-        public const string CleanJobs = "CleanJobs";
+        public const string CleanJobsSetResolutionStatusClosed = "CleanJobsSetResolutionStatusClosed";
         public const string CleanStops = "CleanStops";
         public const string CleanRoutes = "CleanRoutes";
 
@@ -171,6 +173,7 @@
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
         public const string JobsToBeApproved = "JobsToBeApproved";
         public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
+        public const string GetJobIdsByStopIds = "JobIds_GetByStopIds";
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
@@ -183,5 +186,6 @@
         public const string DateThresholdUpdate = "DateThreshold_Update";
 
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
+        
     }
 }

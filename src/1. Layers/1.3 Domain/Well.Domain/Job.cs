@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Contracts;
     using Enums;
     using ValueObjects;
 
     [Serializable()]
     public class Job : Entity<int>
     {
+        public const string DocumentPickListReference = "9999999";
         public Job()
         {
             JobDetails = new List<JobDetail>();
@@ -52,8 +54,8 @@
         {
             get
             {
-                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int) Enums.ProofOfDelivery.Lucozade ||
-                                                    ProofOfDelivery == (int) Enums.ProofOfDelivery.CocaCola);
+                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int)Enums.ProofOfDelivery.Lucozade ||
+                                                    ProofOfDelivery == (int)Enums.ProofOfDelivery.CocaCola);
             }
         }
 

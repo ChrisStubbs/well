@@ -68,7 +68,8 @@
         public void InsertPodEvent(PodEvent podEvent)
         {
             var podEventJson = JsonConvert.SerializeObject(podEvent);
-            this.PrepareStoredProcedure(podEventJson, EventAction.Pod, DateTime.Now.Date.AddDays(1));
+            this.PrepareStoredProcedure(podEventJson, EventAction.Pod, DateTime.Now.Date.AddDays(1))
+            .Execute();
         }
 
         public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null)

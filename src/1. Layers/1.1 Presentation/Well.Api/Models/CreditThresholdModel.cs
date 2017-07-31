@@ -1,4 +1,5 @@
 ﻿using PH.Well.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace PH.Well.Api.Models
 {
@@ -10,6 +11,8 @@ namespace PH.Well.Api.Models
 
         public ThresholdLevel ThresholdLevel { get; set; }
 
+        [Required]
+        [Range(1, 1000000)]
         public decimal? Threshold { get; set; }
     }
 }

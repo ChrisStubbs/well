@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Services.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -20,24 +22,23 @@
         private readonly ICreditThresholdRepository creditThresholdRepository;
         private readonly ILogger logger;
         private readonly ICreditThresholdMapper mapper;
-        private readonly ICreditThresholdValidator validator;
         private readonly IUserRepository userRepository;
+        private readonly IUserThresholdService userThresholdService;
 
         public CreditThresholdController(
             ICreditThresholdRepository creditThresholdRepository, 
             ILogger logger, 
             ICreditThresholdMapper mapper,
-            ICreditThresholdValidator validator,
             IUserRepository userRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IUserThresholdService userThresholdService)
             : base(userNameProvider)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
             this.mapper = mapper;
-            this.validator = validator;
             this.userRepository = userRepository;
-
+            this.userThresholdService = userThresholdService;
             //////this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
 
@@ -45,7 +46,7 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var creditThresholds = this.creditThresholdRepository.GetAll().OrderBy(x => x.ThresholdLevelId).ToList();
+            var creditThresholds = this.creditThresholdRepository.GetAll().ToList();
 
             var model = new List<CreditThresholdModel>();
 
@@ -83,11 +84,6 @@
         {
             try
             {
-                if (!this.validator.IsValid(model, isUpdate))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
-                } 
-                
                 var creditThreshold = this.mapper.Map(model);
                 this.creditThresholdRepository.Save(creditThreshold);
 
@@ -108,8 +104,7 @@
         {
             try
             {
-                var threshold = this.userRepository.GetCreditThresholds(this.UserIdentityName);
-
+                var threshold = userThresholdService.GetCreditThreshold(this.UserIdentityName);
                 return this.Request.CreateResponse(HttpStatusCode.OK, threshold);
             }
             catch (Exception exception)

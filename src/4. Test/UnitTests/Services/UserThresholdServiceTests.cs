@@ -37,13 +37,11 @@
             [Test]
             public void ShouldReturnTrueWhenUserCanCreditBelowTheThresholdAmount()
             {
-                var user = new User { ThresholdLevelId = 5 };
-                var threshold = new CreditThreshold { ThresholdLevelId = 5, Threshold = 100 };
-                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Threshold = 101 };
-
+                var threshold = new CreditThreshold { Id = 5, Threshold = 100 };
+                var threshold2 = new CreditThreshold { Id = 50, Threshold = 101 };
+                var user = new User {CreditThresholdId = threshold.Id};
                 var thresholds = new List<CreditThreshold> { threshold, threshold2 };
 
-                //var username = "foo";
                 var creditValue = 100;
 
                 this.userRepository.Setup(x => x.GetByIdentity(It.IsAny<string>())).Returns(user);
@@ -60,10 +58,9 @@
             [Test]
             public void ShouldReturnFalseWhenUserCanNotCreditAboveTheThresholdAmount()
             {
-                var user = new User { ThresholdLevelId = 5 };
-                var threshold = new CreditThreshold { ThresholdLevelId = 5, Threshold = 101 };
-                var threshold2 = new CreditThreshold { ThresholdLevelId = 50, Threshold = 100 };
-
+                var threshold = new CreditThreshold { Id = 5, Threshold = 100 };
+                var threshold2 = new CreditThreshold { Id = 50, Threshold = 101 };
+                var user = new User { CreditThresholdId = threshold.Id };
                 var thresholds = new List<CreditThreshold> { threshold, threshold2 };
 
                 var username = "foo";
@@ -78,36 +75,6 @@
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
                 this.creditThresholdRepository.Verify(x => x.GetAll(), Times.Once);
-            }
-        }
-
-        public class TheAssignPendingCreditMethod : UserThresholdServiceTests
-        {
-            [Test]
-            public void ShouldAssignLevel2ThresholdToUser()
-            {
-                var branchId = 22;
-                var totalThresholdAmount = 100;
-                var jobId = 33;
-
-                var level2Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level2, Threshold = 100 };
-
-                this.creditThresholdRepository.Setup(x => x.GetByBranch(branchId)).Returns(new List<CreditThreshold> { level2Threshold });
-
-                this.creditThresholdRepository.Setup(x => x.PendingCreditInsert(jobId));
-
-                this.userRepository.Setup(x => x.UnAssignJobToUser(jobId));
-
-                this.service.AssignPendingCredit(branchId, totalThresholdAmount, jobId);
-
-                this.creditThresholdRepository.Verify(x => x.GetByBranch(branchId), Times.Once);
-
-                this.creditThresholdRepository.Verify(x => x.PendingCreditInsert(jobId), Times.Once);
-            }
-
-            public void ShouldAssignLevel1ThresholdToUser()
-            {
-                var level1Threshold = new CreditThreshold { ThresholdLevelId = (int)ThresholdLevel.Level1 };
             }
         }
 
@@ -158,21 +125,27 @@
 
             private Job GetJobWithCredit()
             {
-              return new Job
+                return new Job
                 {
-                    LineItems = new List<LineItem> { new LineItem{
+                    LineItems = new List<LineItem>
+                    {
+                        new LineItem
+                        {
                             NetPrice = 10M,
                             LineItemActions = new List<LineItemAction>
                             {
-                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity  = 10}
-                            } },
-                        new LineItem{
+                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity = 10}
+                            }
+                        },
+                        new LineItem
+                        {
                             NetPrice = 20M,
                             LineItemActions = new List<LineItemAction>
                             {
-                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity  = 2},
-                                new LineItemAction {DeliveryAction = DeliveryAction.Close, Quantity  = 2}
-                            } }
+                                new LineItemAction {DeliveryAction = DeliveryAction.Credit, Quantity = 2},
+                                new LineItemAction {DeliveryAction = DeliveryAction.Close, Quantity = 2}
+                            }
+                        }
                     }
                 };
             }

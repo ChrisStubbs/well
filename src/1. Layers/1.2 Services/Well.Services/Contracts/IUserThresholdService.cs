@@ -13,5 +13,9 @@
         Decimal GetUserCreditThresholdValue();
 
         bool UserHasRequiredCreditThreshold(Job job);
+
+        void SetThresholdLevel(string userName, int creditThresholdId);
+
+        CreditThreshold GetCreditThreshold(string userName);
     }
 }

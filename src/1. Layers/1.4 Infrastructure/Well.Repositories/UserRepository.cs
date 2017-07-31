@@ -39,28 +39,12 @@
             return Get(null, null, null, null, branchId);
         }
 
-        public IEnumerable<decimal> GetCreditThresholds(string user)
-        {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetCreditThreshold)
-                    .AddParameter("Username", user, DbType.String)
-                    .Query<decimal>();
-        }
-
         public IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds)
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.GetUserJobsByJobIds)
                 .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<UserJob>();
-        }
-
-        public void SetThresholdLevel(User user, ThresholdLevel thresholdLevel)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.ThresholdLevelSave)
-                .AddParameter("ThresholdLevelId", (int) thresholdLevel, DbType.Int32)
-                .AddParameter("UserId", user.Id, DbType.Int32)
-                .Execute();
-        }
+        }  
 
         protected override void SaveNew(User entity)
         {
@@ -98,11 +82,6 @@
                 .Execute();
         }
 
-        public User GetUserByCreditThreshold(CreditThreshold creditThreshold)
-        {
-            return Get(null, null, null, creditThreshold.Id, null).FirstOrDefault();
-        }
-
         private IEnumerable<User> Get(int? id, string identity, string name, int? creditThresholdId, int? branchId)
         {
             IEnumerable<User> users = new List<User>();
@@ -125,9 +104,9 @@
             var creditThresholds = gridReader.Read<CreditThreshold>().ToList();
             if (creditThresholds.Any())
             {
-                foreach (var u in users.Where(u => u.ThresholdLevelId.HasValue))
+                foreach (var u in users.Where(u => u.CreditThresholdId.HasValue))
                 {
-                    u.CreditThreshold = creditThresholds.FirstOrDefault(x => x.ThresholdLevelId == u.ThresholdLevelId.Value);
+                    u.CreditThreshold = creditThresholds.FirstOrDefault(x => x.Id == u.CreditThresholdId.Value);
                 }
             }
 

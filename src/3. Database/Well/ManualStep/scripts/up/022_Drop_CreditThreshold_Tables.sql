@@ -15,3 +15,40 @@ BEGIN
 
 	DELETE FROM [dbo].[CreditThreshold]
 END
+
+-- Drop stored procedures
+IF OBJECT_ID('CreditThresholdByBranch', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE CreditThresholdByBranch
+END
+
+IF OBJECT_ID('CreditThresholdToBranchSave', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE CreditThresholdToBranchSave
+END
+
+IF OBJECT_ID('CreditThresholdToBranch', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE CreditThresholdToBranch
+END
+
+IF OBJECT_ID('CreditThresholdBranchesGet', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE CreditThresholdBranchesGet
+END
+
+IF OBJECT_ID('ThresholdLevelSave', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE ThresholdLevelSave
+END
+
+IF OBJECT_ID('User_GetCreditThreshold', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE User_GetCreditThreshold
+END
+
+IF OBJECT_ID('User_SetCreditThreshold', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE User_SetCreditThreshold
+END
+

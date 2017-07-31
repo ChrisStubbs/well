@@ -103,10 +103,8 @@
         public const string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
         public const string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
         public const string CreditThresholdGetAll = "CreditThresholdGetAll";
-        public const string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
         public const string CreditThresholdDelete = "CreditThresholdDelete";
         public const string CreditThresholdSave = "CreditThresholdSave";
-        public const string ThresholdLevelSave = "ThresholdLevelSave";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";
@@ -118,7 +116,6 @@
         public const string PendingCreditInsert = "PendingCreditInsert";
         public const string CreditJob = "Job_CreditLines";
         public const string RemovePendingCredit = "RemovePendingCredit";
-        public const string UserGetCreditThreshold = "User_GetCreditThreshold";
         public const string GetUserJobsByJobIds = "UserJobs_GetbyJobIds";
         public const string GetBranchIdForJob = "GetBranchIdForJob";
         public const string GetBranchIdForStop = "GetBranchIdForStop";

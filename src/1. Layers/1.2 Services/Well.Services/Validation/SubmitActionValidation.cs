@@ -117,7 +117,7 @@
                 return new SubmitActionResult { Message = $"User not found ({username})" };
             }
 
-            if (user.ThresholdLevelId == null)
+            if (!user.CreditThresholdId.HasValue)
             {
                 return new SubmitActionResult { Message = $"You must be assigned a threshold level before crediting." };
             }

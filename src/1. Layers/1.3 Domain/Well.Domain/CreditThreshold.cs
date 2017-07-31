@@ -9,5 +9,7 @@
         public ThresholdLevel Level { get; set; }
 
         public decimal Threshold { get; set; }
+
+        public string Description { get; set; }
     }
 }

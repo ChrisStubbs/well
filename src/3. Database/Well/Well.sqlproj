@@ -189,7 +189,6 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdGetAll.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdDelete.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdSave.sql" />
-    <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />

@@ -52,3 +52,13 @@ BEGIN
 	DROP PROCEDURE User_SetCreditThreshold
 END
 
+IF OBJECT_ID('GetBranchesForCreditThreshold', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE GetBranchesForCreditThreshold
+END
+
+IF OBJECT_ID('UserByCreditThresholdGet', 'P') IS NOT NULL 
+BEGIN
+	DROP PROCEDURE UserByCreditThresholdGet
+END
+

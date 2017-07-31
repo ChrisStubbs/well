@@ -76,7 +76,6 @@
         public const string SaveUserBranch = "UserBranchInsert";
         public const string GetBranchesForUser = "GetBranchesForUser";
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
-        public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
         public const string CleanJobs = "CleanJobs";
         public const string CleanStops = "CleanStops";
@@ -86,7 +85,6 @@
         public const string UserSave = "UserSave";
         public const string AssignJobToUser = "UserJob_Insert";
         public const string UnAssignJobToUser = "UserJob_Delete";
-        public const string UserByCreditThresholdGet = "UserByCreditThresholdGet";
         public const string EventInsert = "EventInsert";
         public const string EventInsertBulk = "EventInsertBulk";
         

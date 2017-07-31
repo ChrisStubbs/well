@@ -65,14 +65,6 @@
                     .Query<Branch>();
         }
 
-        public IEnumerable<Branch> GetBranchesForCreditThreshold(int creditThresholdId)
-        {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForCreditThreshold)
-                    .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
-                    .Query<Branch>();
-        }
-
         public int GetBranchIdForJob(int jobId)
         {
             return

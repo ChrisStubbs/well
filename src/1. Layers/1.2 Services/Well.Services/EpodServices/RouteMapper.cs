@@ -51,7 +51,7 @@
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
             to.JobDetails = Mapper.Map<List<JobDetailDTO>, List<JobDetail>>(from.JobDetails);
-            to.GrnNumberUpdate = from.GrnNumber;
+            to.GrnNumber = from.GrnNumber;
             to.OuterCount = from.OuterCount;
            // to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;

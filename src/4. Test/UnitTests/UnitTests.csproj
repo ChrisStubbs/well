@@ -159,6 +159,7 @@
     <Compile Include="Factories\BulkEditPatchRequestFactory.cs" />
     <Compile Include="Factories\LineItemActionFactory.cs" />
     <Compile Include="Factories\LineItemFactory.cs" />
+    <Compile Include="Factories\NonSoftDeletedRoutesJobsFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
+    <Compile Include="Services\WellCleanUpServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">

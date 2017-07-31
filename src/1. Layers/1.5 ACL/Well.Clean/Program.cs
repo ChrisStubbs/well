@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Clean
 {
     using System.Diagnostics;
-
+    using System.Threading.Tasks;
     using Common;
     using Common.Contracts;
     using Repositories;
@@ -15,6 +15,11 @@
     {
         public static void Main(string[] args)
         {
+            SoftDelete().Wait();
+        }
+
+        private static Task SoftDelete()
+        {
             var container = InitIoc();
 
             var eventLogger = container.GetInstance<IEventLogger>();
@@ -25,8 +30,7 @@
                 2123,
                 EventLogEntryType.Information);
 
-            container.GetInstance<IWellCleanUpService>().SoftDelete();
-
+            return container.GetInstance<IWellCleanUpService>().SoftDelete();
         }
 
         /// <summary>

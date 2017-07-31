@@ -56,7 +56,6 @@
             {
                 try
                 {
-
                     using (var transactionScope = new TransactionScope())
                     {
                         this.ImportRouteHeader(header, route.RouteId);
@@ -72,7 +71,6 @@
                         msg,
                         EventId.ImportException);
                 }
-
             }
         }
 

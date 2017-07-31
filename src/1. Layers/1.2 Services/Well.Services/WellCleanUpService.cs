@@ -9,6 +9,7 @@
     using Contracts;
     using Domain.ValueObjects;
     using Repositories.Contracts;
+    using System.Collections.Concurrent;
 
     public class WellCleanUpService : IWellCleanUpService
     {
@@ -43,6 +44,7 @@
             {
                 var data = await this.FilterLookup(routesData);
                 var jobsToDelete = data
+                    .SelectMany(p => p)
                     .Select(p => p.JobId)
                     .ToList();
 
@@ -54,10 +56,7 @@
 
                     logger.LogDebug("Start soft delete jobs activities and children");
                     await this.SoftDelete(jobsToDelete, user);
-
-
-
-
+                    
                     logger.LogDebug("Finished soft delete jobs activities and children");
 
                     transactionScope.Complete();
@@ -77,35 +76,16 @@
             logger.LogDebug("Start soft completed");
         }
 
-        private Task<List<NonSoftDeletedRoutesJobs>> FilterLookup(ILookup<int, NonSoftDeletedRoutesJobs> data)
+        private Task<List<NonSoftDeletedRoutesJobs>[]> FilterLookup(ILookup<int, NonSoftDeletedRoutesJobs> data)
         {
-            return Task.Run<List<NonSoftDeletedRoutesJobs>>(() =>
-            {
-                var values = new List<NonSoftDeletedRoutesJobs>();
-                var tasks = new Task<List<NonSoftDeletedRoutesJobs>>[data.Count];
-                var index = 0;
-
-                foreach (var item in data)
-                {
-                    tasks[index] = this.HandleBranchRoutes(item.ToList());
-                    
-                    index++;
-                }
-
-                foreach (var t in tasks)
-                {
-                    values.AddRange(t.Result);
-                }
-
-                return values;
-            });
+            return Task.WhenAll(data.Select(p => this.HandleBranchRoutes(p.ToList())).ToList());
         }
 
         private Task<List<NonSoftDeletedRoutesJobs>> HandleBranchRoutes(IList<NonSoftDeletedRoutesJobs> data)
         {
             return Task.Run(async () =>
             {
-                var values = new List<NonSoftDeletedRoutesJobs>();
+                var values = new ConcurrentBag<NonSoftDeletedRoutesJobs>();
 
                 foreach (var item in data)
                 {
@@ -124,9 +104,9 @@
                     {
                         values.Add(item);
                     }
-                }
+                };
 
-                return values;
+                return values.ToList();
             });
         }
 

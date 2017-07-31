@@ -32,7 +32,7 @@ namespace PH.Well.UnitTests.Services
         private Mock<IBranchRepository> branchRepository;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IJobService> deliveryStatusService;
-        private Mock<IDateThresholdService> _dateThresholdService;
+        private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserThresholdService> userThresholdService;
 
         [SetUp]
@@ -46,8 +46,9 @@ namespace PH.Well.UnitTests.Services
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
             deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
-            _dateThresholdService = new Mock<IDateThresholdService>();
+            dateThresholdService = new Mock<IDateThresholdService>();
             userThresholdService = new Mock<IUserThresholdService>();
+            userRepo = new Mock<IUserRepository>();
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
@@ -57,7 +58,7 @@ namespace PH.Well.UnitTests.Services
                 deliveryReadRepository.Object,
                 branchRepository.Object,
                 this.deliveryStatusService.Object,
-                _dateThresholdService.Object,
+                dateThresholdService.Object,
                 userThresholdService.Object);
         }
 

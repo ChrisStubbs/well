@@ -1,4 +1,4 @@
-﻿import {Component, OnInit}  from '@angular/core';
+import {Component, OnInit}  from '@angular/core';
 import {SecurityService} from '../shared/security/securityService';
 import {GlobalSettingsService} from '../shared/globalSettings';
 

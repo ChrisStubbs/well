@@ -13,8 +13,6 @@ import { routing, appRoutingProviders } from './appRoutes';
 import { ApprovalsComponent } from './approvals/approvalsComponent';
 import { AccountComponent } from './account/accountComponent';
 import { BranchSelectionComponent } from './branch/branchSelectionComponent';
-import { DeliveryComponent } from './delivery/deliveryComponent';
-import { DeliveryIssuesComponent } from './delivery/deliveryIssuesComponent';
 import { LoadingComponent } from './shared/loadingComponent';
 import { NotificationsComponent } from './notifications/notificationsComponent';
 import { UserPreferenceComponent } from './user_preferences/userPreferenceComponent';
@@ -26,10 +24,6 @@ import { BranchCheckboxComponent } from './shared/branch/branchCheckboxComponent
 import { BranchRoleComponent } from './branch-role/branchRoleComponent';
 import { UserThresholdComponent } from './user_threshold/userThresholdComponent';
 import { UserThresholdLevelComponent } from './user_threshold/userThresholdLevelComponent';
-import { CleanPreferenceComponent } from './clean_preferences/cleanPreferenceComponent';
-import { CleanPreferenceAddModalComponent } from './clean_preferences/cleanPreferenceAddModalComponent';
-import { CleanPreferenceRemoveModalComponent } from './clean_preferences/cleanPreferenceRemoveModalComponent';
-import { CleanPreferenceEditModalComponent } from './clean_preferences/cleanPreferenceEditModalComponent';
 import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
@@ -64,11 +58,8 @@ import { SecurityService } from './shared/security/securityService';
 import { WidgetService } from './home/widgetService';
 import { SeasonalDateService } from './seasonal_dates/seasonalDateService';
 import { CreditThresholdService } from './credit_threshold/creditThresholdService';
-import { CleanPreferenceService } from './clean_preferences/cleanPreferenceService';
 import { UserService } from './shared/userService';
 import { WidgetWarningService } from './widget_warnings/widgetWarningService';
-import { DeliveryService } from './delivery/deliveryService';
-import { BulkCreditConfirmModal } from './exceptions/bulkCreditConfirmModal';
 import { UserPreferenceService } from './user_preferences/userPreferenceService';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -88,24 +79,23 @@ import { JobService, AssignGrnModal } from './job/job';
 import AppRoutes = require('./appRoutes');
 import { BulkEditActionModal } from './shared/action/bulkEditActionModal';
 import { SingleLocationComponent, LocationsService, LocationsComponent } from './locations/locations';
-import { CrmLinkPipe } from './shared/crm/crmLinkPipe';
+import { CrmLinkController } from './shared/crm/CrmLinkController';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
+import { BranchNameComponent } from './shared/branch/branchNameComponent';
+import { BranchDateThresholdComponent, BranchDateThresholdService } from './branch-role/branchDateThresholdModule';
 
 @NgModule({
     declarations: [LoadingComponent,
         AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
         AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
         SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        CleanPreferenceEditModalComponent, DeliveryIssuesComponent, CleanPreferenceRemoveModalComponent,
-        AccountComponent, ApprovalsComponent, BranchSelectionComponent, DeliveryComponent,
-        NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent, CreditThresholdRemoveModalComponent,
-        CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, CleanPreferenceComponent, CleanPreferenceAddModalComponent,
-        RoutesComponent, SingleRouteComponent, UserPreferenceComponent, WidgetComponent,
-        AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent, UserThresholdLevelComponent,
-        WidgetWarningsViewComponent, WidgetWarningAddModalComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent,
-        AccountFlagsComponent, BulkCreditConfirmModal, ButtonDropDownComponent, StopComponent, SubmitActionModal, EditExceptionsComponent,
-        EditExceptionsModal, ActionEditComponent, ActivityComponent, AssignGrnModal, BulkEditActionModal,
-        SingleLocationComponent, ManualCompletionModal, CrmLinkPipe, LocationsComponent, ManualCompletionModal
+        AccountComponent, ApprovalsComponent, BranchSelectionComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent,
+        CreditThresholdRemoveModalComponent, CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, RoutesComponent, SingleRouteComponent,
+        UserPreferenceComponent, WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent,
+        UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
+        StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
+        ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
+        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,
@@ -114,8 +104,7 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        CleanPreferenceService, UserService, WidgetWarningService, DeliveryService, LookupService,
-        CleanPreferenceService, UserService, UserPreferenceService, ActivityService, JobService, LocationsService,
+        UserService, WidgetWarningService, LookupService, UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

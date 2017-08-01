@@ -1,4 +1,4 @@
-﻿export interface IResolutionStatus {
+export interface IResolutionStatus {
     value: number;
     description: string;
 }

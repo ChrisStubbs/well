@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SeasonalDateService} from './seasonalDateService';
 import {SeasonalDatesEditModalComponent} from './seasonalDatesEditModalComponent';
 import {SeasonalDatesAddModalComponent} from './seasonalDatesAddModalComponent';

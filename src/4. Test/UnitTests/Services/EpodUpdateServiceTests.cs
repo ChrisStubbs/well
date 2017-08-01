@@ -176,7 +176,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -220,7 +220,7 @@
 
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
 
-            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId), Times.Once);
 
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
 
@@ -283,7 +283,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -329,7 +329,7 @@
 
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
 
-            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId), Times.Once);
 
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
 
@@ -340,6 +340,8 @@
             this.mapper.Verify(x => x.Map(job, existingJob), Times.Once);
 
             this.jobRepository.Verify(x => x.Update(existingJob), Times.Once);
+
+            this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
             this.exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
 
@@ -386,7 +388,7 @@
 
             this.routeHeaderRepository.Setup(x => x.Update(existingRouteHeader));
 
-            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount))
+            this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId))
                 .Returns(existingStop);
 
             this.mapper.Setup(x => x.Map(stop, existingStop));
@@ -429,7 +431,7 @@
 
             this.mapper.Verify(x => x.Map(routeHeader, existingRouteHeader), Times.Once);
             this.routeHeaderRepository.Verify(x => x.Update(existingRouteHeader), Times.Once);
-            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount), Times.Once);
+            this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, branchId), Times.Once);
             this.mapper.Verify(x => x.Map(stop, existingStop), Times.Once);
             this.stopRepository.Verify(x => x.Update(existingStop), Times.Once);
             this.jobRepository.Verify(x => x.GetJobByRefDetails(job.JobTypeCodeTransend, job.PhAccount, job.PickListRef, 0), Times.Once);

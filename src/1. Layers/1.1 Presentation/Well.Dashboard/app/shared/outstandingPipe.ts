@@ -1,4 +1,4 @@
-﻿import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe } from '@angular/core';
 import * as moment from 'moment/moment';
 
 @Pipe({

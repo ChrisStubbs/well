@@ -24,7 +24,7 @@ INNER JOIN dbo.JobStatus js on j.JobStatusId = js.Id
 GO
 --Create index on the view
 
-CREATE UNIQUE CLUSTERED INDEX JobStatusView_Ix   
+CREATE UNIQUE CLUSTERED INDEX Idx_JobStatusView_JobId
     ON [dbo].[JobStatusView] (JobId);  
 
 

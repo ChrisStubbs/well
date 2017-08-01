@@ -61,6 +61,7 @@
                     x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
                 });
         }
     }

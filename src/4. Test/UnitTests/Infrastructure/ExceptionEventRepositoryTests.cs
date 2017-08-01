@@ -163,6 +163,9 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(x => x.AddParameter("EntityId", It.IsAny<string>(), DbType.String, 50))
+                    .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Execute());
 
                 this.repository.InsertGrnEvent(grnEvent, DateTime.Now);

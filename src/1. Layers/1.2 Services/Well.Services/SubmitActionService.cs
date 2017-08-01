@@ -76,7 +76,11 @@
 
                             if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
                             {
-                                SubmitCredits(job);
+                                if (!job.IsProofOfDelivery)
+                                {
+                                    SubmitCredits(job);
+                                }
+                               
                                 job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
                             }
@@ -128,7 +132,7 @@
             }
         }
 
-        private void CreditJobInAdam(Job job)
+        public virtual void CreditJobInAdam(Job job)
         {
             var credits = deliveryLineCreditMapper.Map(job);
             var creditEventTransaction = this.creditTransactionFactory.Build(credits, job.JobRoute.BranchId);

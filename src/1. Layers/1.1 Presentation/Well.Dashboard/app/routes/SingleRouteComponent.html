@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-6">
             <ul class="list-unstyled">
-                <li><label>Branch:&nbsp;</label>{{branchId}}</li>
+                <li><label>Branch:&nbsp;</label>{{branch}}</li>
                 <li><label>Driver:&nbsp;</label>{{driver}}</li>
                 <li><label>Date:&nbsp;</label>{{routeDate | date:'dd MMM yyyy'}}</li>
             </ul>
@@ -26,9 +26,6 @@
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 </div>
                 <ow-button-dropdown [options]="actionOptions" [disabled]="selectedItems().length == 0"(onOptionClicked)="submitAction($event)"></ow-button-dropdown>
-                <!--<div class="btn-group">
-                    <button type="button" class="btn btn-warning" (click)="bulkEdit()" [disabled]="selectedItems().length == 0">Edit Exceptions</button>
-                </div>-->
                 <div class="btn-group">
                 </div>
             </div>
@@ -88,25 +85,14 @@
                         <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                         <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                     </th>
-                    <th style="width: 7%">
-                        <div class="text-center">Exceptions</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">With exceptions</option>
-                                <option value="false">No exceptions</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th style="width: 7%">
-                        <div class="text-center">Clean</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.clean" (change)="fillGridSource()" title="">
-                                <option value>All</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
+                    <th style="width: 14%" colspan="2">
+                        <div class="text-center col-md-6">Exceptions</div>
+                        <div class="text-center col-md-6">Clean</div>
+                        <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">
+                            <option value>All</option>
+                            <option value="1">With Exceptions</option>
+                            <option value="2">All Clean</option>
+                        </select>
                     </th>
                     <th style="width: 7%">
                         <div class="text-center">T.B.A.</div>
@@ -171,12 +157,12 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">
+                            <td colspan="2" class="text-right">
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: detail.primaryAccountNumber, branchId: branchId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a [routerLink]="['/invoice', item.invoice, branchId]">{{item.invoice}}</a>
-                                <assignGrn-Modal *ngIf="isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
+                                <a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
+                                <assignGrn-Modal *ngIf="detail.invoice && isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
                             </td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.wellStatusDescription}}</td>

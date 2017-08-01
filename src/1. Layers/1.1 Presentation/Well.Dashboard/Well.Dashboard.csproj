@@ -197,6 +197,10 @@
     <TypeScriptCompile Include="app\activity\activityService.ts" />
     <TypeScriptCompile Include="app\activity\activitySource.ts" />
     <TypeScriptCompile Include="app\approvals\approvals.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThreshold.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdComponent.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdModule.ts" />
+    <TypeScriptCompile Include="app\branch-role\branchDateThresholdService.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsComponent.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsModal.ts" />
     <TypeScriptCompile Include="app\exceptions\editExceptionsService.ts" />
@@ -214,6 +218,7 @@
     <TypeScriptCompile Include="app\routes\singleRouteComponent.ts" />
     <TypeScriptCompile Include="app\shared\action\action.ts" />
     <TypeScriptCompile Include="app\shared\action\actionEditComponent.ts" />
+    <Content Include="app\branch-role\branchDateThresholdComponent.html" />
     <Content Include="app\locations\locationsComponent.html" />
     <Content Include="app\locations\singleLocationComponent.html" />
     <Content Include="app\shared\action\actionEditComponent.css" />
@@ -221,6 +226,7 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\branch\branchNameComponent.ts" />
     <TypeScriptCompile Include="app\shared\crm\crmLinkPipe.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionRequest.ts" />
     <TypeScriptCompile Include="app\shared\manualCompletion\manualCompletionService.ts" />
@@ -275,17 +281,10 @@
     <Content Include="app\approvals\approvalsComponent.html" />
     <Content Include="app\branch-role\branch-role.html" />
     <Content Include="app\branch\branch-list.html" />
-    <Content Include="app\clean_preferences\clean-preferences-add-modal.html" />
-    <Content Include="app\clean_preferences\clean-preferences-view.html" />
-    <Content Include="app\clean_preferences\clean-preference-remove-modal.html" />
-    <Content Include="app\clean_preferences\clean-preference-edit-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-view.html" />
     <Content Include="app\credit_threshold\credit-threshold-remove-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-add-modal.html" />
     <Content Include="app\credit_threshold\credit-threshold-edit-modal.html" />
-    <Content Include="app\delivery\delivery-issues.html" />
-    <Content Include="app\delivery\delivery.html" />
-    <Content Include="app\exceptions\bulkCreditConfirmModal.html" />
     <Content Include="app\exceptions\editExceptionsComponent.html" />
     <Content Include="app\exceptions\exceptions-confirm-modal.html" />
     <Content Include="app\job\assignGrnModal.html" />
@@ -295,6 +294,7 @@
     <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
+    <Content Include="app\shared\branch\branch-name.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\buttonDropDownComponent.html" />
@@ -302,15 +302,9 @@
     <Content Include="app\shared\manualCompletion\manualCompletionModal.html" />
     <Content Include="app\stops\stopComponent.html" />
     <Content Include="Content\css\font-awesome.min.css" />
-    <Content Include="Content\css\theme.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="tsconfig.json" />
-    <Content Include="app\clean_preferences\cleanPreferenceAddModalComponent.ts" />
-    <Content Include="app\clean_preferences\cleanPreferenceRemoveModalComponent.ts" />
-    <Content Include="app\clean_preferences\cleanPreferenceEditModalComponent.ts" />
-    <Content Include="app\delivery\model\jobDetailSource.ts" />
-    <Content Include="app\delivery\deliveryIssuesComponent.ts" />
     <Content Include="app\home\widgetGraph.html" />
     <Content Include="app\notifications\notification-archive-modal.html" />
     <Content Include="app\notifications\notifications-list.html" />
@@ -338,9 +332,7 @@
     <Content Include="Content\css\bootstrap.flatten.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\imports.css" />
-    <Content Include="Content\css\primeng.css" />
     <Content Include="Content\css\Site.css" />
-    <Content Include="Content\css\ngprime-theme.css" />
     <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\actions.png">
@@ -472,16 +464,12 @@
     <Content Include="app\appComponent.ts" />
     <Content Include="app\appRoutes.ts" />
     <Content Include="app\branch-role\branchRoleComponent.ts" />
-    <Content Include="app\clean_preferences\cleanPreference.ts" />
-    <Content Include="app\clean_preferences\cleanPreferenceComponent.ts" />
-    <Content Include="app\clean_preferences\cleanPreferenceService.ts" />
     <Content Include="app\credit_threshold\creditThresholdViewComponent.ts" />
     <Content Include="app\credit_threshold\creditThreshold.ts" />
     <Content Include="app\credit_threshold\creditThresholdService.ts" />
     <Content Include="app\credit_threshold\creditThresholdRemoveModalComponent.ts" />
     <Content Include="app\credit_threshold\creditThresholdAddModalComponent.ts" />
     <Content Include="app\credit_threshold\creditThresholdEditModalComponent.ts" />
-    <Content Include="app\delivery\model\action.ts" />
     <Content Include="app\notifications\notificationModalComponent.ts" />
     <Content Include="app\seasonal_dates\seasonalDate.ts" />
     <Content Include="app\seasonal_dates\seasonalDatesAddModalComponent.ts" />
@@ -492,16 +480,10 @@
     <Content Include="app\shared\branch\branch.ts" />
     <Content Include="app\branch\branchSelectionComponent.ts" />
     <Content Include="app\shared\branch\branchService.ts" />
-    <Content Include="app\delivery\model\jobDetailReason.ts" />
-    <Content Include="app\delivery\model\delivery.ts" />
-    <Content Include="app\delivery\deliveryComponent.ts" />
-    <Content Include="app\delivery\model\deliveryLine.ts" />
-    <Content Include="app\delivery\deliveryService.ts" />
     <Content Include="app\home\widgetGraphComponent.ts" />
     <Content Include="app\main.ts">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Content>
-    <Content Include="app\delivery\model\damage.ts" />
     <Content Include="app\notifications\notification.ts" />
     <Content Include="app\notifications\notificationsComponent.ts" />
     <Content Include="app\notifications\notificationsService.ts" />
@@ -553,9 +535,6 @@
     <Content Include="app\approvals\approvalsComponent.ts" />
     <Content Include="app\approvals\approval.ts" />
     <Content Include="app\approvals\approvalsService.ts" />
-    <TypeScriptCompile Include="app\delivery\model\deliveryAction.ts" />
-    <TypeScriptCompile Include="app\exceptions\bulkCredit.ts" />
-    <TypeScriptCompile Include="app\exceptions\bulkCreditConfirmModal.ts" />
     <Content Include="app\shared\customDatePipe.ts" />
     <Content Include="app\routes\routesComponent.ts" />
     <TypeScriptCompile Include="app\routes\routeFilter.ts" />

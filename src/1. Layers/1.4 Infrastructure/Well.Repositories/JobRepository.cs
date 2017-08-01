@@ -10,6 +10,7 @@ namespace PH.Well.Repositories
     using Common.Extensions;
     using Contracts;
     using Domain;
+    using Domain.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -55,50 +56,16 @@ namespace PH.Well.Repositories
                 .Query<JobDetailLineItemTotals>();
         }
 
-
-        public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
+        public IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId)
         {
-            var customerRoyaltyException =
-                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
-                    .Query<CustomerRoyaltyException>();
-
-            return customerRoyaltyException;
-        }
-
-        public CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty)
-        {
-            var customerRoyaltyException =
-                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGetByRoyalty)
-                .AddParameter("RoyaltyId", royalty, DbType.String)
-                    .Query<CustomerRoyaltyException>();
-
-            return customerRoyaltyException.FirstOrDefault();
-        }
-
-        public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
-               .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
-               .AddParameter("Customer", royaltyException.Customer, DbType.String)
-               .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
-               .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
-        }
-
-        public void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionUpdate)
-                .AddParameter("Id", royaltyException.Id, DbType.Int32)
-                .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
-                .AddParameter("Customer", royaltyException.Customer, DbType.String)
-                .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
+                .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+                .Query<int>();
         }
 
         public IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId)
         {
-            var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
-                .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
-                .Query<int>();
+            var jobIds = GetJobIdsByRouteHeaderId(routeHeaderId);
 
             return GetByIds(jobIds);
         }
@@ -347,6 +314,41 @@ namespace PH.Well.Repositories
             this.dapperProxy.ExecuteSql(strSQL, new { RouteHeaderId = routeHeaderId }, callBack);
 
             return result;
+        }
+
+        public IEnumerable<Job> GetExistingJobs(int branchId, IEnumerable<Job> jobs)
+        {
+            var data = jobs.Select(p => new
+            {
+                p.PhAccount,
+                p.PickListRef,
+                p.JobTypeCode
+            }).ToList().ToDataTables();
+
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .AddParameter("IdentifyJobTable", data, DbType.Object)
+                .Query<int>();
+
+            return GetByIds(jobIds);
+        }
+
+        public void CascadeSoftDeleteJobs(IList<int> jobIds, string deletedBy)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobsCascadeSoftDelete)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .Execute();
+        }
+
+        public void JobsSetResolutionStatusClosed(IList<int> jobIds, string deletedBy)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobsSetResolutionStatusClosed)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .Execute();
         }
     }
 }

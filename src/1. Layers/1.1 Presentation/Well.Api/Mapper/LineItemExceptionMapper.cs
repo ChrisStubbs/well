@@ -72,6 +72,8 @@
                 Invoiced = jobDetail.OriginalDespatchQty,
                 Damages = totals?.DamageTotal ?? jobDetail.DamageQty,
                 Shorts = totals?.ShortTotal ?? jobDetail.ShortQty,
+                Bypass = totals?.BypassTotal ?? 0,
+                IsProofOfDelivery = job.IsProofOfDelivery,
                 CanEditActions = jobService.CanEditActions(job, this.userNameProvider.GetUserName())
             };
             editLineItemException.LineItemActions = line.LineItemActions;

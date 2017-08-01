@@ -1,22 +1,23 @@
 import {
-        Component,
-        ViewChild,
-        ElementRef,
-        EventEmitter,
-        Output,
-        ViewEncapsulation
-}                                           from '@angular/core';
-import { NgForm }                           from '@angular/forms';
-import { IObservableAlive }                 from '../IObservableAlive';
-import * as _                               from 'lodash';
-import { ILookupValue }                     from '../services/ILookupValue';
-import { LookupsEnum }                      from '../services/lookupsEnum';
-import { LookupService }                    from '../services/lookupService';
-import { EditExceptionsService }            from '../../exceptions/editExceptionsService';
-import { Observable }                       from 'rxjs';
-import { LineItemAction }                   from '../../exceptions/lineItemAction';
-import { EditLineItemException }            from '../../exceptions/editLineItemException';
-import { LineItemActionComment }            from '../../exceptions/lineItemAction';
+    Component,
+    ViewChild,
+    ElementRef,
+    EventEmitter,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
+import { AbstractControl, FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, Validator }
+    from '@angular/forms';
+import { IObservableAlive } from '../IObservableAlive';
+import * as _ from 'lodash';
+import { ILookupValue } from '../services/ILookupValue';
+import { LookupsEnum } from '../services/lookupsEnum';
+import { LookupService } from '../services/lookupService';
+import { EditExceptionsService } from '../../exceptions/editExceptionsService';
+import { Observable } from 'rxjs';
+import { LineItemAction } from '../../exceptions/lineItemAction';
+import { EditLineItemException } from '../../exceptions/editLineItemException';
+import { LineItemActionComment } from '../../exceptions/lineItemAction';
 
 @Component({
     selector: 'action-edit',
@@ -25,42 +26,38 @@ import { LineItemActionComment }            from '../../exceptions/lineItemActio
     styleUrls: ['app/shared/action/actionEditComponent.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class ActionEditComponent implements IObservableAlive
-{
+export class ActionEditComponent implements IObservableAlive {
+    @Output() public onSave = new EventEmitter<EditLineItemException>();
+    @ViewChild('showEditActionsModal') public showModal: ElementRef;
+    @ViewChild('closeModal') public closeModal: ElementRef;
     public isAlive: boolean = true;
     public source: EditLineItemException = new EditLineItemException();
-    public originalLineItems: Array<LineItemAction> = [];
-
-    @Output() public onSave = new EventEmitter<EditLineItemException>();
-    @ViewChild('showModal') public showModal: ElementRef;
-    @ViewChild('closeModal') public closeModal: ElementRef;
-    @ViewChild('actionEditForm') private currentForm: NgForm;
-
     private deliveryActions: Array<ILookupValue>;
     private sources: Array<ILookupValue>;
     private reasons: Array<ILookupValue>;
     private exceptionTypes: Array<ILookupValue>;
     private commentReasons: Array<ILookupValue>;
-    private lineItemActionsToRemove: Array<LineItemAction> = [];
     private lineItemActions: Array<LineItemAction> = [];
-    private errorInvoiceQty: string = 'The total exception quantity cannot exceed the invoiced quantity';
-    private errorCommentRequired: string = 'When editing a quantity a comment is required';
     private creditAction: number;
     private closeAction: number;
+    private bypassValue = 2;
+    private closeActionValue = 2;
+    private creditActionValue = 1;
+    private actionsForm: FormGroup;
+    private actionsGroup: FormArray;
 
     constructor(
         private lookupService: LookupService,
-        private editExceptionsService: EditExceptionsService) { }
+        private editExceptionsService: EditExceptionsService,
+        private formBuilder: FormBuilder) { }
 
-    public ngOnInit()
-    {
+    public ngOnInit() {
         this.fillLookups();
+        this.createLineItemActionsForm(new EditLineItemException());
     }
 
-    private fillLookups(): void
-    {
-        if (_.isNil(this.deliveryActions))
-        {
+    private fillLookups(): void {
+        if (_.isNil(this.deliveryActions)) {
             this.deliveryActions = [];
             Observable.forkJoin(
                 this.lookupService.get(LookupsEnum.DeliveryAction),
@@ -71,67 +68,89 @@ export class ActionEditComponent implements IObservableAlive
 
             )
                 .takeWhile(() => this.isAlive)
-                .subscribe(value =>
-                {
+                .subscribe(value => {
                     this.deliveryActions = value[0];
                     this.exceptionTypes = value[1];
                     this.sources = value[2];
                     this.reasons = value[3];
-                    this.commentReasons = JSON.parse(JSON.stringify(value[4]));
-                    this.commentReasons.unshift({ key: undefined, value: undefined });
+                    this.commentReasons = value[4];
 
                     this.creditAction = +this.deliveryActions.
                         find((current: ILookupValue) => current.value == 'Credit').key;
 
                     this.closeAction = +this.deliveryActions.
-                    find((current: ILookupValue) => current.value == 'Close').key;
+                        find((current: ILookupValue) => current.value == 'Close').key;
                 });
         }
     }
 
-    public ngOnDestroy()
-    {
+    private getDeliveryActions() {
+        const self = this;
+        if (this.source.isProofOfDelivery) {
+            return _.filter(this.deliveryActions,
+                (action: ILookupValue) => {
+                    return Number(action.key) != self.creditActionValue;
+                });
+        } else {
+            return this.deliveryActions;
+        }
+    }
+
+    public ngOnDestroy() {
         this.isAlive = false;
     }
 
-    public addAction(): void
-    {
-        this.lineItemActions.push(new LineItemAction());
+    public addAction(): void {
+        const lineItemAction = new LineItemAction();
+        this.lineItemActions.push(lineItemAction);
+        const group = this.createLineItemActionFromGroup(lineItemAction);
+        this.actionsGroup.push(group);
     }
 
-    public removeItem(index: number): void
-    {
-        const item = this.lineItemActions.splice(index, 1);
-        this.lineItemActionsToRemove.push(item[0]);
+    public removeItem(index: number): void {
+        this.lineItemActions.splice(index, 1);
+        this.actionsGroup.removeAt(index);
     }
 
-    public show(editLineItemException: EditLineItemException)
-    {
+    public show(editLineItemException: EditLineItemException) {
         this.loadSource(editLineItemException);
+
+        this.createLineItemActionsForm(editLineItemException);
+
         this.showModal.nativeElement.click();
     }
 
-    public close(): void
-    {
-        this.lineItemActions = [];
+    public close(): void {
         this.closeModal.nativeElement.click();
     }
 
-    public save(): void
-    {
-        if (this.currentForm.form.valid)
-        {
-            _.map(this.lineItemActions, (current: LineItemAction) => {
-                if (current.deliveryAction == this.closeAction)
-                {
-                    current.quantity = 0;
-                }
-            });
+    public save(): void {
+        if (this.actionsForm.valid) {
+
+            _.each(this.actionsForm.controls['actionsGroup'].value,
+                (value: any, index: number) => {
+                    const lineItemAction = this.lineItemActions[index];
+                    // patch line item actions
+                    lineItemAction.deliveryAction = Number(value.action);
+                    lineItemAction.quantity = (value.quantity) ? Number(value.quantity) : 0;
+                    lineItemAction.source = (value.source) ? Number(value.source) : 0;
+                    lineItemAction.reason = (value.reason) ? Number(value.reason) : 0;
+
+                    if (!this.isBaypassExceptionType(lineItemAction.exceptionType)) {
+                        lineItemAction.exceptionType = (value.exceptionType) ? Number(value.exceptionType) : 0;
+                    }
+
+                    if (value.commentReason) {
+                        lineItemAction.commentReason = value.commentReason;
+                        const newComment = new LineItemActionComment();
+                        newComment.commentReasonId = Number(value.commentReason);
+                        lineItemAction.comments.push(newComment);
+                    }
+                });
 
             this.editExceptionsService.patch(this.source)
                 .takeWhile(() => this.isAlive)
-                .subscribe((responseData: EditLineItemException) =>
-                {
+                .subscribe((responseData: EditLineItemException) => {
                     this.loadSource(responseData);
                     this.onSave.emit(responseData);
                     this.close();
@@ -139,156 +158,292 @@ export class ActionEditComponent implements IObservableAlive
         }
     }
 
-    private loadSource(editLineItemException: EditLineItemException): void
-    {
+    private loadSource(editLineItemException: EditLineItemException): void {
         this.source = editLineItemException;
-        this.originalLineItems = JSON.parse(JSON.stringify(editLineItemException.lineItemActions));
         this.lineItemActions = this.source.lineItemActions || [];
     }
 
-    private actionClose: number = 2;
-    private qtyChanged(item: LineItemAction, index: number): void
-    {
-        if (this.isOriginalQuantity(item))
-        {
-            item.commentReason = undefined;
-        }
+    private createLineItemActionsForm(editLineItemException: EditLineItemException) {
+        const self = this;
 
-        this.validate(item, index);
+        this.actionsGroup = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
+            function (item: LineItemAction) {
+
+                return self.createLineItemActionFromGroup(item);
+                //if (Number(item.exceptionType) == self.bypassValue) {
+                //    return self.createBypassLineItemActionFormGroup(item);
+                //} else {
+                //    return self.createLineItemActionFromGroup(item);
+                //}
+            }),
+            (control) => this.validateTotalQuantity(control));
+
+        this.actionsForm = this.formBuilder.group({
+            actionsGroup: this.actionsGroup
+        });
     }
 
-    private validate(item: LineItemAction, index: number): void
-    {
-        this.validateTotalQty();
-        this.validateComment(item, index);
+    private createBypassLineItemActionFormGroup(item: LineItemAction) {
+
+        const action = this.formBuilder.control({
+            value: item.deliveryAction,
+            disabled: true
+        }, Validators.required);
+        const quantity = this.formBuilder.control({
+            value: item.quantity,
+            disabled: true
+        }, [Validators.pattern('^[0-9]+$')]);
+        const commentReason = this.formBuilder.control({
+            value: item.commentReason,
+            disabled: true
+        });
+        const exceptionType = this.formBuilder.control({
+            value: item.exceptionType,
+            disabled: true
+        });
+        const source = this.formBuilder.control({
+            value: item.source,
+            disabled: true
+        });
+        const reason = this.formBuilder.control({
+            value: item.reason,
+            disabled: true
+        });
+        const originator = this.formBuilder.control({
+            value: item.originator,
+            disabled: true
+        });
+
+        return this.formBuilder.group({
+            action: action,
+            quantity: quantity,
+            commentReason: commentReason,
+            exceptionType: exceptionType,
+            source: source,
+            reason: reason,
+            originator
+        });
     }
 
-    private validateTotalQty(): void
-    {
-        const form = this.currentForm.form;
-        const totalLineQty = _.sumBy(this.lineItemActions, x => x.quantity);
+    private createLineItemActionFromGroup(item: LineItemAction) {
+        const isBypassExceptionType = this.isBaypassExceptionType(item.exceptionType);
+        const validator = new LineItemActionValidator(item, isBypassExceptionType);
+        const isCloseAction = Number(item.deliveryAction) == this.closeActionValue;
 
-        this.deleteError(form, this.errorInvoiceQty);
-        if (totalLineQty > this.source.invoiced)
-        {
-            this.setError(form, this.errorInvoiceQty);
-        }
-    }
+        const action = this.formBuilder.control({
+            value: item.deliveryAction,
+            disabled: !this.source.canEditActions
+        },
+            Validators.required);
+        const quantity = this.formBuilder.control({
+            value: item.quantity,
+            disabled: (!this.source.canEditActions || isCloseAction)
+        },
+            [Validators.pattern('^[0-9]+$')]);
+        const commentReason = this.formBuilder.control({
+            value: item.commentReason,
+            disabled: true
+        });
+        const exceptionType = this.formBuilder.control({
+            value: item.exceptionType,
+            disabled: (!this.source.canEditActions || isCloseAction)
+        });
+        const source = this.formBuilder.control({
+            value: item.source,
+            disabled: (!this.source.canEditActions || isCloseAction)
+        });
+        const reason = this.formBuilder.control({
+            value: item.reason,
+            disabled: (!this.source.canEditActions || isCloseAction)
+        });
 
-    public setError(ctl: any, error: string) 
-    {
-        if (!ctl.errors)
-        {
-            ctl.setErrors({ key: error });
-        }
-        else
-        {
-            ctl.errors.key = ctl.errors.key + ', ' + error;
-        }
-    }
+        action.valueChanges.subscribe((value) => {
+            // When status is close - disable other fields
+            const actionValue = Number(value);
+            if (actionValue == this.closeActionValue) {
+                quantity.disable();
+                commentReason.disable();
+                exceptionType.disable();
+                source.disable();
+                reason.disable();
+                //Set default values
+                quantity.setValue(undefined);
+                commentReason.setValue(undefined);
+                source.setValue(undefined);
+                reason.setValue(undefined);
 
-    public deleteError(ctl: any, error: string)
-    {
-        if (ctl.errors)
-        {
-            const array = ctl.errors.key.split(', ');
-            _.filter(array, x => x === error);
-            if (array.length === 0)
-            {
-                delete ctl.errors[error];
+                if (!isBypassExceptionType) {
+                    exceptionType.setValue(undefined);
+                }
 
-            } else
-            {
-                ctl.errors.key = array.join(', ');
+            } else {
+                quantity.enable();
+                source.enable();
+                reason.enable();
+
+                if (!isBypassExceptionType) {
+                    exceptionType.enable();
+                }
             }
-        }
-    }
 
-    private getFormValidationErrors()
-    {
-        let errors = [];
-        const form = this.currentForm.form;
-        if (form.errors != undefined)
-        {
-            errors = form.errors.key.split(', ');
-        }
-        return errors;
-    }
-
-    private getOriginalItem(id: number): LineItemAction
-    {
-        return _.find(this.originalLineItems, x => x.id === id);
-    }
-
-    private isOriginalQuantity(item: LineItemAction): boolean
-    {
-        const originalItem = this.getOriginalItem(item.id);
-        return !_.isNil(originalItem) && originalItem.quantity === item.quantity;
-    }
-
-    private isCommentMandatory(item: LineItemAction): boolean
-    {
-        return !this.isOriginalQuantity(item)
-            && item.deliveryAction != this.actionClose
-            && item.id != 0;
-    }
-
-    private validateComment(item: LineItemAction, index: number)
-    {
-        const form = this.currentForm.form;
-        if (item.id !== 0)
-        {
-            const commentCtl = form.controls['commentReasonId' + index];
-
-            this.deleteError(form, this.errorCommentRequired);
-            this.deleteError(commentCtl, this.errorCommentRequired);
-
-            if (!this.isOriginalQuantity(item) && (!commentCtl.value || commentCtl.value === 'undefined'))
-            {
-                this.setError(form, this.errorCommentRequired);
-                this.setError(commentCtl, this.errorCommentRequired);
-            }
-        }
-    }
-
-    private deliveryActionChange(item: LineItemAction, index: number): void
-    {
-        if (Number(item.deliveryAction) === this.actionClose) {
-            item.quantity = 0;
-            this.validate(item, index);
-        }
-    }
-
-    private commentChange(item: LineItemAction, event, index: number): void
-    {
-        let newComment = _.find(item.comments, x => x.id === 0);
-        if (_.isNil(newComment))
-        {
-            if (!item.comments)
-            {
-                item.comments = [];
+            // Enable comment when action is different than previous
+            if (actionValue == this.closeAction || actionValue == item.deliveryAction) {
+                commentReason.disable();
+            } else {
+                commentReason.enable();
             }
 
-            newComment = new LineItemActionComment();
-            item.comments.push(newComment);
-        }
-        newComment.commentReasonId = +event.target.value;
+        });
 
-        if (event.target.value === 'undefined')
-        {
-            item.comments.pop();
-        }
+        quantity.valueChanges.subscribe((value) => {
+            if ((!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) ||
+                Number(action.value) != item.deliveryAction) {
+                commentReason.enable();
+            } else {
+                commentReason.setValue(undefined);
+                commentReason.disable();
+            }
+        });
 
-        this.validate(item, index);
+        return this.formBuilder.group({
+            action: action,
+            quantity: quantity,
+            commentReason: commentReason,
+            exceptionType: exceptionType,
+            source: source,
+            reason: reason
+        },
+            { validator: (control) => validator.validate(control) });
     }
 
-    private isFormValid()
-    {
-        return this.currentForm.form.valid;
+    private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
+        const sum = _.sumBy(formArray.value,
+            item => {
+                return item.quantity || 0;
+            });
+
+        if (sum > this.source.invoiced) {
+            return {
+                totalQuantity: true,
+                message: 'Total quantity (' + sum + ') is greater than invoiced (' + this.source.invoiced + ')'
+            };
+        }
+
+        return undefined;
     }
 
     private hasComments(item: LineItemAction): boolean {
         const existingComments = _.filter(item.comments, x => x.id !== 0);
         return existingComments.length > 0;
+    }
+
+    private isBaypassExceptionType(value: any): boolean {
+        return Number(value) == this.bypassValue;
+    }
+
+    private hasBaypassActions() {
+        const baypassActions = _.filter(this.source.lineItemActions,
+            (item: LineItemAction) => {
+                if (this.isBaypassExceptionType(item.exceptionType)) {
+                    return item;
+                }
+            });
+
+        return baypassActions.length > 0;
+    }
+}
+
+class LineItemActionValidator implements Validator {
+    constructor(private lineItemAction: LineItemAction, private shouldValidateExceptionType: boolean) { }
+
+    public validate(group: FormGroup): ValidationErrors {
+        const actionValue = group.value.action;
+
+        switch (Number(actionValue)) {
+            case 0:
+                return this.validateNotDefinedAction(group);
+            case 1:
+                return this.validateCreditAction(group);
+            case 2:
+                return this.validateCloseAction(group);
+            default:
+                throw new Error('Unknown action type : ' + actionValue);
+        }
+    }
+
+    private validateNotDefinedAction(group: FormGroup): ValidationErrors {
+        this.validateQuantity(group);
+        this.validateComment(group);
+        this.validateExceptionType(group);
+
+        // May want to aggregate errors here for whole group
+        return undefined;
+    }
+
+    private validateCreditAction(group: FormGroup): ValidationErrors {
+        this.validateQuantity(group);
+        this.validateComment(group);
+        this.validateExceptionType(group);
+
+        // Source required
+        const sourceCtrl = group.controls['source'];
+        if (Number(sourceCtrl.value) == 0) {
+            sourceCtrl.setErrors({ required: true });
+        }
+
+        // Reason required
+        const reasonCtrl = group.controls['reason'];
+        if (Number(reasonCtrl.value) == 0) {
+            reasonCtrl.setErrors({ required: true });
+        }
+
+        return undefined;
+    }
+
+    private validateCloseAction(group: FormGroup): ValidationErrors {
+        // No validation
+        return undefined;
+    }
+
+    private validateQuantity(group: FormGroup): void {
+        // Quantity required
+        const quantityCtrl = group.controls['quantity'];
+        const quantityRequired = Validators.required(quantityCtrl);
+        if (quantityRequired) {
+            quantityCtrl.setErrors(quantityRequired);
+        }
+    }
+
+    private validateComment(group: FormGroup): void {
+        // Comment required for new or when quantity changes
+        if (this.isNewLineItemAction() ||
+            this.quantityDifferentFromOriginal(group.value.quantity)) {
+
+            const commentReasonCtrl = group.controls['commentReason'];
+            const commentRequired = Validators.required(commentReasonCtrl);
+            if (commentRequired) {
+                commentReasonCtrl.setErrors(commentRequired);
+            }
+        }
+    }
+
+    private validateExceptionType(group: FormGroup): void {
+        // Exception type required
+        if (this.shouldValidateExceptionType) {
+            const exceptionTypeCtrl = group.controls['exceptionType'];
+            const exceptionTypeRequired = Validators.required(exceptionTypeCtrl);
+            if (exceptionTypeRequired) {
+                exceptionTypeCtrl.setErrors(exceptionTypeRequired);
+            }
+        }
+      
+    }
+
+    public quantityDifferentFromOriginal(value: number): boolean {
+        return value != this.lineItemAction.quantity;
+    }
+
+    public isNewLineItemAction(): boolean {
+        return (!this.lineItemAction.id || this.lineItemAction.id == 0);
     }
 }

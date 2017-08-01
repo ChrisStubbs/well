@@ -20,7 +20,7 @@
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
         private readonly IJobService jobStatusService;
-        private readonly IDateThresholdService _dateThresholdService;
+        private readonly IDateThresholdService dateThresholdService;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
@@ -42,12 +42,12 @@
             this.deliveryReadRepository = deliveryReadRepository;
             this.branchRepository = branchRepository;
             this.jobStatusService = jobStatusService;
-            _dateThresholdService = dateThresholdService;
+            this.dateThresholdService = dateThresholdService;
         }
 
         public IList<Delivery> GetExceptions(string username)
         {
-           
+
             var exceptionDeliveries = deliveryReadRepository.GetByStatuses(username, ExceptionStatuses.JobStatuses).ToList();
             exceptionDeliveries = exceptionDeliveries.Where(e => e.IsPendingCredit == false).ToList();
             return exceptionDeliveries;
@@ -87,11 +87,11 @@
 
             Stop stop = this.stopRepository.GetByJobId(jobDetailUpdates.JobId);
             Job job = this.jobRepository.GetById(jobDetail.JobId);
-            
+
             var branchId = this.branchRepository.GetBranchIdForJob(job.Id);
 
             bool isCleanBeforeUpdate = job.JobStatus == JobStatus.Clean;
-            
+
             jobDetail.ShortQty = jobDetailUpdates.ShortQty;
             jobDetail.JobDetailDamages = jobDetailUpdates.JobDetailDamages;
             jobDetail.JobDetailReasonId = jobDetailUpdates.JobDetailReasonId;
@@ -117,25 +117,25 @@
                     job.JobStatus = JobStatus.Resolved;
                 }
                 jobRepository.UpdateStatus(job.Id, job.JobStatus);
-                
+
                 transactionScope.Complete();
             }
         }
-        
+
         public void SaveGrn(int jobId, string grn, int branchId, string username)
         {
-            //////this.jobRepository.CurrentUser = username;
-
             using (var transactionScope = new TransactionScope())
             {
                 this.jobRepository.SaveGrn(jobId, grn);
+
+                var job = jobRepository.GetById(jobId);
                 var jobRoute = jobRepository.GetJobRoute(jobId);
 
                 var grnEvent = new GrnEvent();
                 grnEvent.Id = jobId;
                 grnEvent.BranchId = branchId;
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    _dateThresholdService.EarliestSubmitDate(jobRoute.RouteDate, branchId));
+                    dateThresholdService.GracePeriodEnd(jobRoute.RouteDate, branchId, job.GetRoyaltyCode()));
 
                 transactionScope.Complete();
 

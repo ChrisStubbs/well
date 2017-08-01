@@ -74,7 +74,7 @@
                 if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
                     this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
 
                     continue;
                 }
@@ -99,7 +99,8 @@
                     }
 
                     this.ftpClient.DeleteFile(filename);
-                    this.fileModule.MoveFile(downloadedFile, Configuration.ArchiveLocation);
+                    this.fileModule.MoveFile(downloadedFile,
+                        Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd")));
 
                     logger.LogDebug($"File {listing.Filename} imported!");
                 }

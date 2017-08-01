@@ -47,15 +47,15 @@ namespace PH.Well.UnitTests.Services
 
             assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
-            this.service = new JobService(this.jobRepository.Object, 
-                userThreshold.Object, 
-                dateThresholdService.Object, 
-                assigneeReadRepository.Object, 
+            this.service = new JobService(this.jobRepository.Object,
+                userThreshold.Object,
+                dateThresholdService.Object,
+                assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
                 userRepository.Object);
 
-           
+
         }
 
         public class TheDetermineStatusMethod : JobServiceTests
@@ -500,14 +500,18 @@ namespace PH.Well.UnitTests.Services
         public void SetGrnShouldFailAfterSubmissionDate()
         {
             var job = JobFactory.New.Build();
+            var jobs = new[] { job };
             var routeDate = DateTime.Now;
+            var routes = new[] {new JobRoute() {JobId = job.Id, RouteDate = routeDate}};
 
-            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
-            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => new JobRoute(){ RouteDate = routeDate });
-            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, job.Id))
+            jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
+
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, job.Id, 0))
                 .Returns<DateTime>(x => routeDate.AddHours(-1));
 
             Assert.Throws<Exception>(() => service.SetGrn(job.Id, "123"));
+
         }
 
         [Test]
@@ -515,13 +519,15 @@ namespace PH.Well.UnitTests.Services
         {
             var routeDate = DateTime.Now;
             var job = JobFactory.New.Build();
-            var jobRoute = new JobRoute() {RouteDate = routeDate, BranchId = 1};
-          
-            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
-            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => jobRoute);
+            var jobs = new[] { job };
+            var routes = new[] { new JobRoute() { JobId = job.Id, RouteDate = routeDate, BranchId = 1 } };
+
+            jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
+
             jobRepository.Setup(x => x.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
             //Return submission date greater than now
-            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, jobRoute.BranchId))
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, routes[0].BranchId, 0))
                 .Returns(routeDate.AddHours(1));
 
             service.SetGrn(job.Id, "123");

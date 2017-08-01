@@ -2,7 +2,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
 import {ApprovalsComponent} from './approvals/approvalsComponent';
 import {BranchSelectionComponent} from './branch/branchSelectionComponent';
-import {DeliveryComponent} from './delivery/deliveryComponent';
 import {NotificationsComponent} from './notifications/notificationsComponent';
 import {UserPreferenceComponent} from './user_preferences/userPreferenceComponent';
 import {RoutesComponent } from './routes/routesComponent';
@@ -24,7 +23,6 @@ const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
-    { path: 'delivery/:id', component: DeliveryComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'routes', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },

@@ -14,6 +14,7 @@
         public string AccountNumber { get; set; }
         public int BranchId { get; set; }
         public string AmenderName { get; set; }
+        public string CustomerReference { get; set; }
 
         public List<AmendmentLine> AmendmentLines { get; set; }
     }

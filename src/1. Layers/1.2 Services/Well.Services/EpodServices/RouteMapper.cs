@@ -38,7 +38,10 @@
 
         public void Map(StopUpdate from, Stop to)
         {
-            to.PlannedStopNumber = from.PlannedStopNumber;
+            if (!string.IsNullOrEmpty(from.PlannedStopNumber))
+            {
+                to.PlannedStopNumber = from.PlannedStopNumber;
+            }
             to.ShellActionIndicator = from.ShellActionIndicator;
         }
 
@@ -48,7 +51,7 @@
             to.PerformanceStatus = from.PerformanceStatus;
             to.InvoiceNumber = from.InvoiceNumber;
             to.JobDetails = Mapper.Map<List<JobDetailDTO>, List<JobDetail>>(from.JobDetails);
-            to.GrnNumberUpdate = from.GrnNumber;
+            to.GrnNumber = from.GrnNumber;
             to.OuterCount = from.OuterCount;
            // to.OuterDiscrepancyUpdate = from.OuterDiscrepancyFound;
             to.TotalOutersOverUpdate = from.TotalOutersOver;

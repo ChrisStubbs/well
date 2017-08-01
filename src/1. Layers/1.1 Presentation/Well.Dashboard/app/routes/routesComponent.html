@@ -26,7 +26,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>
+                    <th style="width: 13%">
                         <div class="text-center">Branch</div>
                         <div>
                             <select class="form-control"
@@ -38,7 +38,7 @@
                             </select>
                         </div>
                     </th>
-                    <th>
+                    <th style="width: 7%">
                         <div class="text-center">Route</div>
                         <div>
                             <select class="form-control"
@@ -51,16 +51,17 @@
                             </select>
                         </div>
                     </th>
-                    <th>
-                        <div class="text-center">Date</div>
-                        <div>
-                            <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                    <th style="width: 14%">
+                        <div style="width: 12em"><div class="text-center">Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
                         </div>
                     </th>
-                    <th>
-                        <div class="text-center">No. of Stops</div>
+                    <th style="width: 7%">
+                        <div class="text-center" style="width: 3em">No. of Stops</div>
                     </th>
-                    <th>
+                    <th style="width: 13%">
                         <div class="text-center">Status</div>
                         <div>
                             <select class="form-control" id="searchStatus"
@@ -73,31 +74,16 @@
                             </select>
                         </div>
                     </th>
-                    <th>
-                        <div class="text-center">Clean</div>
-                        <div>
-                            <select class="form-control"
-                                    (change)="fillGridSource()"
-                                    [(ngModel)]="routeFilter.cleanCount">
-                                <option value>All</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
+                    <th style="width: 14%" colspan="2">
+                        <div class="text-center col-md-6">Exceptions</div>
+                        <div class="text-center col-md-6">Clean</div>
+                        <select class="form-control" [(ngModel)]="routeFilter.exceptionCount" (change)="fillGridSource()" title="">
+                            <option value>All</option>
+                            <option value="1">With Exceptions</option>
+                            <option value="2">All Clean</option>
+                        </select>
                     </th>
-                    <th>
-                        <div class="text-center">Exceptions</div>
-                        <div>
-                            <select class="form-control"
-                                    (change)="fillGridSource()"
-                                    [(ngModel)]="routeFilter.exceptionCount">
-                                <option value>All</option>
-                                <option value="true">With Exceptions</option>
-                                <option value="false">Without Exceptions</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th>
+                    <th style="width: 16%">
                         <div class="text-center">Driver</div>
                         <div>
                             <select class="form-control"
@@ -110,7 +96,7 @@
                             </select>
                         </div>
                     </th>
-                    <th>
+                    <th style="width: 16%">
                         <div class="text-center">Assignee</div>
                         <div>
                             <select class="form-control"
@@ -132,10 +118,10 @@
                         <a routerLink="/singleroute/{{item.id}}" routerLinkActive="active">{{item.routeNumber}}</a>
                     </td>
                     <td class="text-center">{{item.routeDate | date:'dd MMM yyyy' }}</td>
-                    <td class="text-center">{{item.stopCount}}</td>
+                    <td class="text-right">{{item.stopCount}}</td>
                     <td>{{item.routeStatus}}</td>
-                    <td class="text-right">{{item.cleanCount}}</td>
                     <td class="text-right">{{item.exceptionCount}}</td>
+                    <td class="text-right">{{item.cleanCount}}</td>
                     <td>{{item.driverName}}</td>
                     <td><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal></td>
                 </tr>

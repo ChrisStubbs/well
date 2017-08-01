@@ -1,8 +1,14 @@
 <div class="row">
     <div class="col-xs-12">
         <ol class="breadcrumb">
-            <li class="active" *ngIf="source.isInvoice">Invoice</li>
-            <li class="active" *ngIf="!source.isInvoice">Uplift</li>
+            <li>
+                <a [routerLink]="['/locations']">Locations</a>
+            </li>
+            <li>
+                <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: source.primaryAccount, branchId: source.branchId}">Location {{source.primaryAccount}}</a>
+            </li>
+            <li class="active" *ngIf="source.isInvoice">Invoice {{source.itemNumber}}</li>
+            <li class="active" *ngIf="!source.isInvoice">Uplift {{source.itemNumber}}</li>
         </ol>
     </div>
 </div>
@@ -11,7 +17,7 @@
         <div class="col-md-3">
             <div class="row">
                 <label class="col-md-4">Branch</label>
-                <div class="col-md-8">{{source.branch}}</div>
+                <div class="col-md-8">{{source.branch}}&nbsp;({{source.branchId}})</div>
             </div>
             <div class="row">
                 <label class="col-md-4">
@@ -36,8 +42,7 @@
             <div class="row">
                 <label class="col-md-4 col-form-label">Primary Account Number</label>
                 <div class="col-md-8">
-                    {{source.primaryAccount}}
-                    <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
+                    <crmLink [accountNumber]="source.accountNumber" [branchId]="source.branchId" [linkText]="source.primaryAccount"></crmLink>
                 </div>
             </div>
             <div class="row">
@@ -108,7 +113,7 @@
                         <th class="colProduct">
                             <div class="text-center">Product</div>
                             <div>
-                                <input type="text" [(ngModel)]="filters.product" (keyup)="filterFreeText()" class="form-control">
+                                <input [(ngModel)]="filters.product" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
                         <th class="colType">
@@ -182,8 +187,7 @@
                             <div class="form-control-placeholder"></div>
                         </th>
                         <th class="exceptionsFilter" colspan="2">
-                            <div class="text-center col-md-6">Damages</div>
-                            <div class="text-center col-md-6">Shorts</div>
+                            <div class="text-center">Shorts Damages</div>
                             <div>
                                 <select class="form-control" [(ngModel)]="filters.exceptionsFilter" (change)="buildGridSource()" title="">
                                     <option value>All</option>
@@ -242,9 +246,9 @@
                                 <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
-                            <td class="text-right">{{item.totalExpected - (item.totalDamaged + item.totalShorts)}}</td>
-                            <td class="text-right">{{item.totalDamaged}}</td>
+                            <td class="text-right">{{item.totalActual}}</td>
                             <td class="text-right">{{item.totalShorts}}</td>
+                            <td class="text-right">{{item.totalDamaged}}</td>
                             <td colspan="2"></td>
                             <td class="text-right">{{item.resolution}}</td>
                             <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
@@ -253,14 +257,14 @@
                             <td colspan="2">{{detail.product}}</td>
                             <td>{{detail.type}}</td>
                             <td>
-                                <div *ngIf="item.barCode != 'NoBarCode'" class="hideOverflow" title="{{item.barCode}}">
-                                    <abbr>{{ item.barCode | slice:-12 }}</abbr>
+                                <div *ngIf="detail.barCode != 'NoBarCode'" class="hideOverflow" title="{{detail.barCode}}">
+                                    <abbr>{{ detail.barCode | slice:-12 }}</abbr>
                                 </div>
                             </td>
                             <td>{{detail.description}}</td>
                             <td class="text-right">{{detail.value | currency:'GBP':true }}</td>
                             <td class="text-right">{{detail.expected}}</td>
-                            <td class="text-right">{{detail.expected - (detail.damaged + detail.shorts)}}</td>
+                            <td class="text-right">{{detail.actual}}</td>
                             <td class="text-right">{{detail.damaged}}</td>
                             <td class="text-right">{{detail.shorts}}</td>
                             <td class="text-center"><span *ngIf="detail.checked" class="glyphicon glyphicon-ok"></span></td>

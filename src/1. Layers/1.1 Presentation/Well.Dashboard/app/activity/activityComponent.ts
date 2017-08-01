@@ -28,7 +28,6 @@ import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
 import { IBulkEditResult } from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import { AccountReference } from '../shared/crm/crmLinkPipe';
 import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
 import { SubmitActionModal } from '../shared/action/submitActionModal';
 import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
@@ -75,7 +74,6 @@ export class ActivityComponent implements IObservableAlive
     private inputFilterTimer: any;
     private jobTypes: Array<ILookupValue> = [];
     private tobaccoBags: Array<[string, string]>;
-    private accountReference: AccountReference = new AccountReference('', 0);
     private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
         'Edit Exceptions', 'Submit Exceptions'];
 
@@ -115,8 +113,6 @@ export class ActivityComponent implements IObservableAlive
                 this.source = res[1];
                 this.buildGridSource();
 
-                this.accountReference = new AccountReference(this.source.accountNumber, this.source.branchId);
-
                 this.tobaccoBags = _.chain(this.source.details)
                     .map((value: ActivitySourceDetail) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
@@ -154,18 +150,21 @@ export class ActivityComponent implements IObservableAlive
         let totalDamaged: number = 0;
         let totalShorts: number = 0;
         let totalExpected: number = 0;
+        let totalActual: number = 0;
 
         _.forEach(data, (current: ActivitySourceDetail) =>
         {
             totalDamaged += current.damaged;
             totalShorts += current.shorts;
             totalExpected += current.expected;
+            totalActual += current.actual;
         });
 
         return {
             totalDamaged: totalDamaged,
             totalShorts: totalShorts,
-            totalExpected: totalExpected
+            totalExpected: totalExpected,
+            totalActual: totalActual
         };
     }
 
@@ -194,6 +193,7 @@ export class ActivityComponent implements IObservableAlive
                 item.totalExpected = summary.totalExpected;
                 item.totalDamaged = summary.totalDamaged;
                 item.totalShorts = summary.totalShorts;
+                item.totalActual = summary.totalActual;
                 item.isExpanded = _.includes(expanded, item.jobId);
                 item.details = current;
 

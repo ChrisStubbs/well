@@ -1,4 +1,4 @@
-﻿import {IJobIdResolutionStatus} from '../models/jobIdResolutionStatus';
+import {IJobIdResolutionStatus} from '../models/jobIdResolutionStatus';
 
 export interface IBulkEditPatchRequest
 {

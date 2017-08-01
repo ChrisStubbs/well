@@ -64,7 +64,7 @@
                 using (var transactionScope = new TransactionScope())
                 {
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
-                    epodUpdateService.UpdateJob(dto, job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
+                    epodUpdateService.UpdateJob(dto, job, job.JobRoute.BranchId, job.JobRoute.RouteDate, false);
                     completedJobs.AddRange(epodUpdateService.RunPostInvoicedProcessing(new List<int> { job.Id }));
                     transactionScope.Complete();
                 }

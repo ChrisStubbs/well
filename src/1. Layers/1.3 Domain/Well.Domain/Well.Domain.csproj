@@ -50,12 +50,13 @@
     <Compile Include="Audit.cs" />
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Branch.cs" />
-    <Compile Include="CleanPreference.cs" />
     <Compile Include="CommentReason.cs" />
+    <Compile Include="Constants\RouteStatusCode.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
     <Compile Include="DateThreshold.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
     <Compile Include="JobResolutionStatus.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="ValueObjects\JobResolutionStatus.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
+    <Compile Include="ValueObjects\RouteBranch.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />
     <Compile Include="ValueObjects\SubmitActionResult.cs" />
     <Compile Include="ValueObjects\EditLineItemException.cs" />

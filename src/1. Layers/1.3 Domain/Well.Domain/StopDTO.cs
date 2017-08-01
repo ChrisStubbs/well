@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 
 namespace PH.Well.Domain
 {
+    using Enums;
+
     public class StopDTO
     {
         public StopDTO()
@@ -131,6 +133,7 @@ namespace PH.Well.Domain
         public decimal ActualPaymentCard => EntityAttribute.ParseDecimal(this.EntityAttributes.FirstOrDefault(x => x.Code == "ACTPAYCARD"));
         public decimal AccountBalance => EntityAttribute.ParseDecimal(this.EntityAttributes.FirstOrDefault(x => x.Code == "ACCBAL"));
         
-        public int WellStatusId { get; set; }
+        public WellStatus WellStatus { get; set; }
+     
     }
 }

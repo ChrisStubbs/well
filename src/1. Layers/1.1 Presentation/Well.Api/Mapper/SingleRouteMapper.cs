@@ -81,7 +81,7 @@
                                 ToBeAdvisedCount = y.Key.ToBeAdvisedCount
                             }).ToList();
 
-                var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
+                var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatus);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
                 foreach (var job in stopJobs)

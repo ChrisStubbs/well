@@ -1,9 +1,7 @@
-import {LineItemAction} from './lineItemAction';
+import { LineItemAction } from './lineItemAction';
 
-export class EditLineItemException
-{
-    constructor()
-    {
+export class EditLineItemException {
+    constructor() {
         this.isSelected = false;
         this.isExpanded = false;
     }
@@ -24,16 +22,16 @@ export class EditLineItemException
     public delivered?: number;
     public damages: number;
     public shorts: number;
+    public bypass: number;
     public exceptions: Array<EditLineItemExceptionDetail>;
     public lineItemActions: Array<LineItemAction>;
     public isExpanded: boolean;
     public canEditActions: boolean;
     public hasUnresolvedActions: boolean;
-
+    public readonly isProofOfDelivery: boolean;
 }
 
-export class EditLineItemExceptionDetail
-{
+export class EditLineItemExceptionDetail {
     public id: number;
     public lineItemId: number;
     public quantity: number;
@@ -46,5 +44,4 @@ export class EditLineItemExceptionDetail
     public actionedby: string;
     public approvedby: string;
     public comments: Array<string>;
-   
 }

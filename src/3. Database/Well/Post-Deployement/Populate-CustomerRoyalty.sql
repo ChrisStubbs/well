@@ -564,11 +564,11 @@ USING	(VALUES	 (1,7,'MOTO HOSPITALITY', 0, 'deployment',GETDATE(),'deployment',G
 
 
 )
-AS Source ([Id],[RoyaltyId],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+AS Source ([Id],[RoyaltyCode],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
 	ON Target.[Id] = Source.[Id]
 
 WHEN NOT MATCHED BY TARGET THEN
-	INSERT ([Id],[RoyaltyId],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
-	VALUES ([Id],[RoyaltyId],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated]);
+	INSERT ([Id],[RoyaltyCode],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated])
+	VALUES ([Id],[RoyaltyCode],[Customer],[ExceptionDays],[CreatedBy],[DateCreated],[UpdatedBy],[DateUpdated]);
 
 SET IDENTITY_INSERT [CustomerRoyaltyException] OFF

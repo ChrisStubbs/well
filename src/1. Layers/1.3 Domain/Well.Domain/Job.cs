@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Contracts;
     using Enums;
     using ValueObjects;
 
     [Serializable()]
     public class Job : Entity<int>
     {
+        public const string DocumentPickListReference = "9999999";
         public Job()
         {
             JobDetails = new List<JobDetail>();
@@ -48,6 +50,15 @@
 
         public int? ProofOfDelivery { get; set; }
 
+        public bool IsProofOfDelivery
+        {
+            get
+            {
+                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int)Enums.ProofOfDelivery.Lucozade ||
+                                                    ProofOfDelivery == (int)Enums.ProofOfDelivery.CocaCola);
+            }
+        }
+
         public int? OrdOuters { get; set; }
 
         public int? InvOuters { get; set; }
@@ -79,6 +90,11 @@
         public string GrnNumberUpdate { get; set; }
 
         public string GrnNumber { get; set; }
+
+        public bool IsGrnNumberRequired
+        {
+            get { return !string.IsNullOrWhiteSpace(GrnNumber) && GrnProcessType == 1; }
+        }
 
         public string GrnRefusedReason { get; set; }
 
@@ -147,5 +163,19 @@
 
         public IEnumerable<JobResolutionStatus> ResolutionStatusHistory;
 
+        public int GetRoyaltyCode()
+        {
+            if (!string.IsNullOrWhiteSpace(RoyaltyCode))
+            {
+                var royaltyParts = RoyaltyCode.Split(' ');
+                int tryParseCode;
+                if (int.TryParse(royaltyParts[0], out tryParseCode))
+                {
+                    return tryParseCode;
+                }
+            }
+            return default(int);
+
+        }
     }
 }

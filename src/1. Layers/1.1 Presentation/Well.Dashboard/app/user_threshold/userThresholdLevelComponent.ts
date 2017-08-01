@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster/angular2-toaster';
@@ -6,6 +6,7 @@ import { UserPreferenceService } from '../user_preferences/userPreferenceService
 import { CreditThresholdService } from '../credit_threshold/creditThresholdService';
 import { HttpResponse } from '../shared/httpResponse';
 import {User} from '../user_preferences/User';
+import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-user-threshold-level',
@@ -23,7 +24,8 @@ export class UserThresholdLevelComponent implements OnInit
         private route: ActivatedRoute,
         private creditThresholdService: CreditThresholdService,
         private userPreferenceService: UserPreferenceService,
-        private toasterService: ToasterService) { }
+        private toasterService: ToasterService,
+        private globalServiceComponent: GlobalSettingsService) { }
 
     public ngOnInit(): void
     {
@@ -34,7 +36,6 @@ export class UserThresholdLevelComponent implements OnInit
                 u =>
                 {
                     this.user = u;
-                    console.log(this.user);
                     if (this.user.thresholdLevelId != 0) {
                         this.thresholdLevel = 'Level ' + this.user.thresholdLevelId;
                     }
@@ -57,6 +58,8 @@ export class UserThresholdLevelComponent implements OnInit
                 if (this.httpResponse.success)
                 {
                     this.toasterService.pop('success', 'Threshold level has been saved.', '');
+                    // Force reloading settings. there should be better way to do this
+                    this.globalServiceComponent.getSettings();
                 }
                 if (this.httpResponse.failure)
                 {

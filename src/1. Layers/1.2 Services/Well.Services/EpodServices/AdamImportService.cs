@@ -9,6 +9,7 @@
     using Domain.Enums;
     using Repositories.Contracts;
     using Contracts;
+    using Domain.Constants;
     using static Domain.Mappers.AutoMapperConfig;
 
     public class AdamImportService : IAdamImportService
@@ -54,15 +55,15 @@
                 var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
                     header.RouteNumber,
                     header.RouteDate.Value,
-                    header.StartDepot);
+                    header.RouteOwnerId); 
 
                 if (existingRouteHeader != null)
                 {
-                    this.logger.LogDebug($"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})");
+                    this.logger.LogDebug($"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})");
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
-                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.StartDepot})",
-                        7776);
+                        $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})",
+                        EventId.ImportIgnored);
                     continue;
                 }
 
@@ -122,7 +123,7 @@
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Stop has an error on import! Stop Id ({stop.Id})",
-                        9853);
+                        EventId.ImportStopException);
                 }
             }
         }

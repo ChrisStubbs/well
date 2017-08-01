@@ -66,6 +66,7 @@
         {
             var filename = Path.GetFileName(filePath);
             var fileType = this.fileTypeService.DetermineFileType(filename);
+            var adicionalDataPath = string.Empty;
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
@@ -74,16 +75,22 @@
                 case EpodFileType.AdamInsert:
                     this.AdamInsert(filePath, filename);
                     break;
+
                 case EpodFileType.AdamUpdate:
                     this.AdamUpdate(filePath, filename);
                     break;
+
                 case EpodFileType.Unknown:
                     this.logger.LogDebug($"File ({filePath}) is not recognised!");
                     this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"File ({filePath}) is not recognised!", 5049);
+                    adicionalDataPath = "UnknownFiles";
                     break;
             }
 
-            this.fileModule.MoveFile(filePath, Configuration.ArchiveLocation);
+            this.fileModule.MoveFile(
+                filePath,
+                Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd"), adicionalDataPath));
+
             this.logger.LogDebug($"{filePath} processed!");
         }
 

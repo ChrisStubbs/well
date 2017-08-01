@@ -8,6 +8,7 @@ SELECT
 	,j.PHAccount AS AccountNumber
 	,rh.RouteOwnerId AS BranchId
 	,u.IdentityName AS AmenderName
+	,j.CustomerRef AS CustomerReference
 	FROM 
 		dbo.Job j
 		INNER JOIN @Ids ids ON ids.Value = j.Id	
@@ -36,5 +37,5 @@ INNER JOIN dbo.[User] u ON u.Id = uj.UserId
 LEFT JOIN dbo.JobDetail jd ON jd.JobId = j.Id
 LEFT JOIN dbo.JobDetailTotalsView jdtv on jdtv.JobDetailId = jd.Id
 LEFT JOIN dbo.LineItemAmendmentsView liav on liav.LineItemId = jd.LineItemId
-WHERE jdtv.ShortTotal != liav.ShortTotal OR jdtv.DamageTotal != liav.DamageTotal OR jdtv.RejectedTotal != liav.RejectedTotal
+WHERE (jdtv.ShortTotal != liav.ShortTotal OR jdtv.DamageTotal != liav.DamageTotal OR jdtv.RejectedTotal != liav.RejectedTotal)
 AND j.JobTypeCode != 'DEL-DOC' 

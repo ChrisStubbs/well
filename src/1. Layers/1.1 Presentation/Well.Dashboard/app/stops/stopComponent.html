@@ -31,9 +31,8 @@
         <div class="col-md-3">
             <address>
                 <strong>
-                    {{customerAccount.name}}
+                    <crmLink [accountNumber]="customerAccount.code" [branchId]="stop.branchId" [linkText]="customerAccount.name"></crmLink>
                 </strong>
-                <a class="fa fa-address-card-o" target="_blank" href="{{accountReference | crmLink}}"></a>
                 <br />
                 <span>{{customerAccount.address1}}</span><br />
                 <span>{{customerAccount.address2}}</span><br />
@@ -52,7 +51,7 @@
                     <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
                     <li>&nbsp;</li>
                     <li>
-                        <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
+                        <label>Shorts To Be Advised:&nbsp;</label>{{(stop.tba > 0)? stop.tba : 0}}
                     </li>
                 </ul>
             </div>
@@ -163,8 +162,7 @@
                                 <div class="form-control-placeholder"></div>
                             </th>
                             <th class="exceptionsFilter" colspan="2">
-                                <div class="text-center col-md-6">Damages</div>
-                                <div class="text-center col-md-6">Shorts</div>
+                                <div class="text-center">Shorts Damages</div>
                                 <div>
                                     <select class="form-control" [(ngModel)]="filters.exceptionsFilter" (change)="fillGridSource()" title="">
                                         <option value>All</option>
@@ -236,8 +234,8 @@
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
                                 <td class="text-right">{{(item.resolutionId != 1)? item.totalInvoiced - (item.totalDamages + item.totalShorts) : 0}}</td>
-                                <td class="text-right">{{item.totalDamages}}</td>
                                 <td class="text-right">{{item.totalShorts}}</td>
+                                <td class="text-right">{{item.totalDamages}}</td>
                                 <td></td>
                                 <td></td>
                                 <td>{{item.resolution}}</td>

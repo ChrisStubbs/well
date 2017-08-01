@@ -30,7 +30,6 @@
         private readonly IPostImportRepository postImportRepository;
         private readonly IGetJobResolutionStatus jobResolutionStatus;
         private readonly IDateThresholdService dateThresholdService;
-        private const int EventLogErrorId = 9682;
         private const int ProcessTypeForGrn = 1;
 
         public EpodUpdateService(
@@ -84,8 +83,10 @@
                                       $"RouteNumber: {header.RouteNumber.Substring(2)} " +
                                       $"RouteDate: {header.RouteDate} " +
                                       $"FileName: {fileName}";
+
                         logger.LogDebug(message);
-                        eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
+
+                        eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.EpodUpdateIgnored);
 
                         continue;
                     }
@@ -102,7 +103,7 @@
                 {
                     var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({header.RouteNumber}) file {fileName}";
                     this.logger.LogDebug(message);
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventLogErrorId);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
                 }
 
             }
@@ -122,7 +123,7 @@
             {
                 throw new ArgumentNullException(nameof(updatedJobIds));
             }
-                
+
             // update JobResolutionStatus for jobs with LineItemActions
             if (updatedJobIds.Count != 0)
             {
@@ -165,7 +166,7 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         var job = stop.Jobs.First();
-                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+                        var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branchId);
 
                         if (existingStop == null)
                         {
@@ -174,7 +175,7 @@
                             this.eventLogger.TryWriteToEventLog(
                                 EventSource.WellAdamXmlImport,
                                 $"Existing stop not found with transport order reference {stop.TransportOrderReference}",
-                                7666);
+                                EventId.ImportIgnored);
 
                             continue;
                         }
@@ -197,7 +198,7 @@
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Stop has an error on Epod update! Stop Id ({stop.Id}), Transport order reference ({stop.TransportOrderReference})",
-                        9859);
+                        EventId.ImportStopException);
                 }
             }
 
@@ -224,48 +225,47 @@
                     continue;
                 }
 
+                //todo or bypassed/manually bypassed
                 if (existingJob.ResolutionStatus != ResolutionStatus.Imported)
                 {
                     this.logger.LogError(
                         $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})");
-                      
+
                     this.eventLogger.TryWriteToEventLog(
                         EventSource.WellAdamXmlImport,
                         $"Job update ignored because the job has moved on from imported status ({existingJob.Id}), StopId ({existingJob.StopId})",
-                        9860);
+                        EventId.ImportIgnored);
 
                     continue;
                 }
 
                 existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
-                updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate));
+                updatedJobs.Add(UpdateJob(jobDto, existingJob, branchId, routeDate, true));
 
             }
 
             return updatedJobs;
         }
 
-        public Job UpdateJob(JobDTO jobDto, Job existingJob, int branchId, DateTime routeDate)
+        public Job UpdateJob(JobDTO jobDto, Job existingJob, int branchId, DateTime routeDate,bool createEvents)
         {
             this.routeMapper.Map(jobDto, existingJob);
 
             this.jobService.DetermineStatus(existingJob, branchId);
 
-            if (!string.IsNullOrWhiteSpace(jobDto.GrnNumber) && existingJob.GrnProcessType == ProcessTypeForGrn)
+            if (createEvents && existingJob.IsGrnNumberRequired)
             {
-                var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                var grnEvent = new GrnEvent {Id = existingJob.Id, BranchId = branchId};
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.EarliestSubmitDate(routeDate, branchId));
+                    dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()));
             }
 
             this.UpdateJobDetails(
                 jobDto.JobDetails,
                 existingJob.Id);
 
-            var pod = existingJob.ProofOfDelivery.GetValueOrDefault();
-
-            if ((pod == (int)ProofOfDelivery.CocaCola || pod == (int)ProofOfDelivery.Lucozade) && existingJob.JobStatus != JobStatus.CompletedOnPaper)
+            if (createEvents && existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper)
             {
                 var podEvent = new PodEvent
                 {

@@ -82,18 +82,30 @@ namespace PH.Well.Api.Controllers
         [HttpPost]
         public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
             try
             {
                 var creditThreshold = this.mapper.Map(model);
-                this.creditThresholdRepository.Save(creditThreshold);
 
+                if (isUpdate)
+                {
+                    creditThresholdRepository.Update(creditThreshold);
+                }
+                else
+                {
+                    creditThresholdRepository.Save(creditThreshold);
+                }
+                
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
             }
             catch (Exception exception)
             {
                 this.logger.LogError("Error when trying to save credit threshold date", exception);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+                throw;
             }
         }
 

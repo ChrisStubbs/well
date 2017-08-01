@@ -427,6 +427,7 @@
     <Build Include="dbo\StoredProcedures\CleanJobs.sql" />
     <Build Include="dbo\StoredProcedures\CleanStops.sql" />
     <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

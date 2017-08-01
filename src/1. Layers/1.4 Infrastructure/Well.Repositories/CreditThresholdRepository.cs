@@ -36,6 +36,16 @@
             return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>();
         }
 
+        protected override void UpdateExisting(CreditThreshold entity)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("Threshold", entity.Threshold, DbType.Decimal)
+                .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, 50)
+                .Execute();
+        }
+
         public void Delete(int id)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdDelete)

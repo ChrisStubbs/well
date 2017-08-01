@@ -103,6 +103,7 @@
         public const string CreditThresholdGetAll = "CreditThresholdGetAll";
         public const string CreditThresholdDelete = "CreditThresholdDelete";
         public const string CreditThresholdSave = "CreditThresholdSave";
+        public const string CreditThresholdUpdate = "CreditThresholdUpdate";
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";

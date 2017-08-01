@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-    using AutoMapper;
     using Common;
     using Common.Contracts;
     using Contracts;
@@ -12,6 +11,7 @@
     using Domain.Constants;
     using Domain.Enums;
     using Repositories.Contracts;
+    using static Domain.Mappers.AutoMapperConfig;
 
     public class RouteImportService : IAdamImportService
     {
@@ -76,6 +76,9 @@
 
         public void ImportRouteHeader(RouteHeader header, int routeId)
         {
+            header.RoutesId = routeId;
+            header.RouteOwnerId = GetRouteOwnerId(header);
+
             var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
                 header.RouteNumber,
                 header.RouteDate.Value,
@@ -83,7 +86,9 @@
 
             if (existingRouteHeader != null)
             {
-                if (header.RouteStatusCode.Equals(RouteStatusCode.Completed))
+                header.Id = existingRouteHeader.Id;
+
+                if (existingRouteHeader.RouteStatusCode.Equals(RouteStatusCode.Completed))
                 {
                     var message = $"Ignoring Route update. Route is Complete  " +
                                   $"route header id ({header.Id}) " +
@@ -95,7 +100,7 @@
                     return;
                 }
 
-                header.Id = existingRouteHeader.Id;
+                
                 routeHeaderRepository.Update(header);
                 logger.LogDebug(
                     $"Updating Route  " +
@@ -108,11 +113,6 @@
             else
             {
                 header.RouteStatusDescription = "Not Started";
-                header.RoutesId = routeId;
-                header.RouteOwnerId = string.IsNullOrWhiteSpace(header.RouteOwner)
-                    ? (int)Branches.NotDefined
-                    : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
-
                 routeHeaderRepository.Save(header);
 
                 logger.LogDebug(
@@ -124,11 +124,32 @@
                 );
             }
 
+            AddHeaderInformationToStops(header);
+
             ImportStops(header);
+        }
+
+        private int GetRouteOwnerId(RouteHeader header)
+        {
+           return string.IsNullOrWhiteSpace(header.RouteOwner)
+                ? (int)Branches.NotDefined
+                : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
+        }
+
+        private void AddHeaderInformationToStops(RouteHeader header)
+        {
+            header.Stops.ForEach(
+                x =>
+                {
+                    x.RouteHeaderId = header.Id;
+                    x.RouteHeaderCode = header.RouteNumber;
+                    x.DeliveryDate = header.RouteDate;
+                });
         }
 
         private void ImportStops(RouteHeader fileRouteHeader)
         {
+            
             var existRouteStops = stopRepository.GetStopByRouteHeaderId(fileRouteHeader.Id);
 
             var existingStops = stopRepository.GetByTransportOrderReferences(

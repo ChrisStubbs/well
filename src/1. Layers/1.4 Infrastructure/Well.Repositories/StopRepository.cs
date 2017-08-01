@@ -27,8 +27,8 @@
 
         public IList<Stop> GetByTransportOrderReferences(IList<string> transportOrderReferences)
         {
-            var stopIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopGetByOrderUpdateDetails)
-                .AddParameter("transportOrderReferences", transportOrderReferences, DbType.String)
+            var stopIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopIdsGetByTransportOrderReference)
+                .AddParameter("transportOrderReferences", transportOrderReferences.ToDataTables(), DbType.Object)
                 .Query<int>();
 
             return this.GetByIds(stopIds);

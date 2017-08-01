@@ -26,7 +26,7 @@
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
         public const string StopGetByJob = "StopGetByJob";
-        public const string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
+        public const string StopIdsGetByTransportOrderReference = "StopIds_GetByTransportOrderReference";
         public const string StopGetByJobId = "Stop_GetByJobId";
         public const string StopsGetByIds = "Stops_GetByIds";
         public const string StopDeleteById = "Stop_DeleteById";

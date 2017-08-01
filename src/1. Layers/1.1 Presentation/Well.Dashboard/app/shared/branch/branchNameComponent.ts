@@ -3,7 +3,7 @@ import {BranchService} from './branchService';
 
 @Component({
     selector: 'ow-branch-name',
-    templateUrl: './app/shared/branch/branch-name.html',
+    template: '{{branchName}} ({{branchId}})',
     providers: [BranchService]
 })
 export class BranchNameComponent {

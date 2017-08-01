@@ -57,9 +57,8 @@
             {
                 var creditThreshold = new CreditThreshold()
                 {
-                    ThresholdLevelId = int.Parse(tableRow["Level"]),
+                    Level = (ThresholdLevel) int.Parse(tableRow["Level"]),
                     Threshold = decimal.Parse(tableRow["Threshold"]),
-                    Branches = new Collection<Branch>(branches.ToList())
                 };
                 creditThresholdRepository.Save(creditThreshold);
             }
@@ -71,6 +70,7 @@
         {
             var user = userRepository.GetByIdentity(WindowsIdentity.GetCurrent().Name);
             var thresholdLevel = EnumExtensions.GetValueFromDescription<ThresholdLevel>(level);
+            
             userRepository.SetThresholdLevel(user, thresholdLevel);
         }
 

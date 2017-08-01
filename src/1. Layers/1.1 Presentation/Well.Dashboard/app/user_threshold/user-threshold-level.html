@@ -1,32 +1,31 @@
 <ol class="breadcrumb">
     <li class="active">User Threshold Levels</li>
 </ol>
-<div class="jumbotron">
+<div class="content">
     <div class="alert alert-info">
         <strong>Select the threshold level to set up for {{username}}</strong>
         <br/>
     </div>
     <div class="well">
         <div class="form-group">
-            <div class="btn-group">
-                <div class="dropdown">
-                    <button class="btn btn-primary btn-sm dropdown-toggle enabled-action"
-                            id="credit-threshold-dropdown"
-                            type="button"
-                            data-toggle="dropdown" aria-haspopup="true">{{thresholdLevel}} <span class="caret"></span></button>
-                    <ul class="dropdown-menu" aria-labelledby="filter-option">
-                        <li><a id="credit-threshold-level1" (click)="setSelectedLevel('Level 1')">Level <span class="badge">1</span></a></li>
-                        <li><a id="credit-threshold-level2" (click)="setSelectedLevel('Level 2')">Level <span class="badge">2</span></a></li>
-                        <li><a id="credit-threshold-level3" (click)="setSelectedLevel('Level 3')">Level <span class="badge">3</span></a></li>
-                    </ul>
-                </div>
+
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle enabled-action"
+                        id="credit-threshold-dropdown"
+                        type="button"
+                        data-toggle="dropdown" aria-haspopup="true">
+                    <span *ngIf="currentThreshold">{{currentThreshold.description}} <span class="caret"></span></span>
+                    <span *ngIf="!currentThreshold">Select threshold <span class="caret"></span></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="filter-option">
+                    <li *ngFor="let threshold of creditThresholds"><a (click)="setSelectedLevel(threshold)">{{threshold.description}} <span class="badge">{{threshold.threshold}}</span></a></li>
+                </ul>
             </div>
-            <div class="btn-group"><h6><i>Note: Level 1 is the highest threshold</i></h6>
-            </div>
+
         </div>
     </div>
-    <div class="btn-group pull-right">
-        <button class="btn btn-primary" (click)="save()" id="save">Save</button>
+    <div class="text-right">
+        <button class="btn btn-primary" (click)="save()" [disabled]="!currentThreshold">Save</button>
     </div>
 </div>
 

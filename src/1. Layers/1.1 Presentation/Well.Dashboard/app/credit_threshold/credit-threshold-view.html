@@ -4,8 +4,7 @@
         <tr>
             <th>Level</th>
             <th>Credit Threshold</th>
-            <th>Branches</th>
-            <th style="text-align: right;"><button id="add-credit-threshold" type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+           <!-- <th style="text-align: right;"><button id="add-credit-threshold" type="button" class="btn btn-primary" (click)="add()">Add</button></th>-->
         </tr>
         </thead>
         <tbody>
@@ -15,8 +14,7 @@
         <tr class="grid-row" *ngFor="let x of credits">
             <td id="threshold-level-{{x.id}}" (click)="selectCredit(x)">{{x.thresholdLevel}}</td>
             <td id="threshold-amount-{{x.id}}" (click)="selectCredit(x)">{{x.threshold}}</td>
-            <td id="threshold-branches-{{x.id}}" (click)="selectCredit(x)">{{x.branchName}}</td>
-            <td id="threshold-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+            <!--<td id="threshold-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>-->
         </tr>
         </tbody>
     </table>

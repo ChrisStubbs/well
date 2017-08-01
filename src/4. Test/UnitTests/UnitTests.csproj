@@ -127,7 +127,6 @@
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
     <Compile Include="Api\Controllers\StopsControllerTests.cs" />
     <Compile Include="Api\Controllers\SingleRouteControllerTests.cs" />
-    <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="Api\Mapper\SingleRouteMapperTests.cs" />
     <Compile Include="Api\Mapper\StopMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
-    <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />

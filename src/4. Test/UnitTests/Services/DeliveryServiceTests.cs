@@ -32,7 +32,8 @@ namespace PH.Well.UnitTests.Services
         private Mock<IBranchRepository> branchRepository;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IJobService> deliveryStatusService;
-        private Mock<IDateThresholdService> _dateThresholdService;
+        private Mock<IDateThresholdService> dateThresholdService;
+        private Mock<IUserThresholdService> userThresholdService;
 
         [SetUp]
         public void Setup()
@@ -41,23 +42,24 @@ namespace PH.Well.UnitTests.Services
             jobDetailDamageRepo = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             jobRepo = new Mock<IJobRepository>(MockBehavior.Strict);
             stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
-            userRepo = new Mock<IUserRepository>(MockBehavior.Strict);
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
             deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
-            _dateThresholdService = new Mock<IDateThresholdService>();
+            dateThresholdService = new Mock<IDateThresholdService>();
+            userThresholdService = new Mock<IUserThresholdService>();
+            userRepo = new Mock<IUserRepository>();
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
                 jobRepo.Object,
                 stopRepo.Object,
-                userRepo.Object,
                 exceptionEventRepo.Object,
                 deliveryReadRepository.Object,
                 branchRepository.Object,
                 this.deliveryStatusService.Object,
-                _dateThresholdService.Object);
+                dateThresholdService.Object,
+                userThresholdService.Object);
         }
 
         public class GetExceptionsTests : DeliveryServiceTests

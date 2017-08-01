@@ -93,16 +93,19 @@
             var user = userRepository.GetByIdentity(userName);
             if (user.CreditThresholdId.HasValue)
             {
-                return creditThresholdRepository.GetById(user.CreditThresholdId.Value);
+                return creditThresholdRepository.GetByUserId(user.Id);
             }
-            return null;}
+            return null;
+        }
 
         public void SetThresholdLevel(string userName, int creditThresholdId)
         {
             var user = userRepository.GetByIdentity(userName);
             var threshold = creditThresholdRepository.GetById(creditThresholdId);
+
+            // If username or creditThresholdId are wrong it will throw null ref that's actually ok
+            creditThresholdRepository.SetForUser(user.Id, threshold.Id);
             user.CreditThresholdId = threshold.Id;
-            userRepository.Update(user);
         }
     }
 }

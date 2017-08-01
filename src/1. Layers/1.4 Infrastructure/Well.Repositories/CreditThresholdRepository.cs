@@ -65,5 +65,29 @@
                 .AddParameter("originator", this.CurrentUser, DbType.String)
                 .Execute();
         }
+
+
+        public CreditThreshold GetByUserId(int userId)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetByUser).Query<CreditThreshold>()
+                .FirstOrDefault();
+        }
+
+        public void SetForUser(int userId, int creditThresholdId)
+        {
+            // Delete previously assigned threshold
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserDelete)
+                .AddParameter("UserId",userId,DbType.Int32).Execute();
+
+            var now = DateTime.Now;
+            var user = CurrentUser;
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserInsert)
+                .AddParameter("UserId", userId, DbType.Int32)
+                .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
+                .AddParameter("DateCreated", now, DbType.DateTime)
+                .AddParameter("DateUpdated", now, DbType.DateTime)
+                .AddParameter("CreatedBy", user, DbType.String, size: 50)
+                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute();
+        }
     }
 }

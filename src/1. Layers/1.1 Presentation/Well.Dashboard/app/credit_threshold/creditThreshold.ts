@@ -2,4 +2,5 @@
     public id: number;
     public thresholdLevel: number;
     public threshold: number;
+    public description: string;
 }  

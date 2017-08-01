@@ -14,11 +14,11 @@
                         id="credit-threshold-dropdown"
                         type="button"
                         data-toggle="dropdown" aria-haspopup="true">
-                    <span *ngIf="currentThreshold">Level {{currentThreshold.thresholdLevel}} <span class="caret"></span></span>
+                    <span *ngIf="currentThreshold">{{currentThreshold.description}} <span class="caret"></span></span>
                     <span *ngIf="!currentThreshold">Select threshold <span class="caret"></span></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="filter-option">
-                    <li *ngFor="let threshold of creditThresholds"><a (click)="setSelectedLevel(threshold)">Level {{threshold.thresholdLevel}} <span class="badge">{{threshold.threshold}}</span></a></li>
+                    <li *ngFor="let threshold of creditThresholds"><a (click)="setSelectedLevel(threshold)">{{threshold.description}} <span class="badge">{{threshold.threshold}}</span></a></li>
                 </ul>
             </div>
 

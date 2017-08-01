@@ -36,6 +36,10 @@ namespace PH.Well.Domain.Enums
 
         public static string Description(this ExceptionType value)
         {
+            // Equivalent of previous implementation, will cause NotDefined Text display for actions that will have null description
+            //string description = null;
+            //descriptions.TryGetValue((int)value, out description);
+            //return description;
             return descriptions[(int)value];
         }
     }

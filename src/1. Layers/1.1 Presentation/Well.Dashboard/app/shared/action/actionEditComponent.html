@@ -144,13 +144,13 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" formControlName="exceptionType" *ngIf="!isBaypassExceptionType(lineItemActions[i].exceptionType)">
+                                                    <select class="form-control" formControlName="exceptionType" *ngIf="!isBypassExceptionType(lineItemActions[i].exceptionType)">
                                                         <option></option>
                                                         <option *ngFor="let et of exceptionTypes" [value]="et.key">
                                                             {{et.value}}
                                                         </option>
                                                     </select>
-                                                    <label *ngIf="isBaypassExceptionType(lineItemActions[i].exceptionType)">Baypass</label>
+                                                    <label *ngIf="isBypassExceptionType(lineItemActions[i].exceptionType)">Bypass</label>
                                                 </td>
                                                 <td>
                                                     <select class="form-control" formControlName="source">

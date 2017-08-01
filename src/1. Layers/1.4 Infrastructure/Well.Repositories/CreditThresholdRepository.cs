@@ -69,7 +69,9 @@
 
         public CreditThreshold GetByUserId(int userId)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetByUser).Query<CreditThreshold>()
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetByUser)
+                .AddParameter("UserId", userId, DbType.Int32)
+                .Query<CreditThreshold>()
                 .FirstOrDefault();
         }
 

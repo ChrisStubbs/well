@@ -39,7 +39,6 @@ namespace PH.Well.Api.Controllers
             this.mapper = mapper;
             this.userRepository = userRepository;
             this.userThresholdService = userThresholdService;
-            //////this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
         }
 
         [Route("credit-threshold")]

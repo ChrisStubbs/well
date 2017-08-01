@@ -45,14 +45,14 @@
                 var creditValue = 100;
 
                 userRepository.Setup(x => x.GetByIdentity(It.IsAny<string>())).Returns(user);
-                creditThresholdRepository.Setup(x => x.GetById(userThreshold.Id)).Returns(userThreshold);
+                creditThresholdRepository.Setup(x => x.GetByUserId(user.Id)).Returns(userThreshold);
 
                 var thresholdResponse = service.CanUserCredit(creditValue);
 
                 Assert.IsTrue(thresholdResponse.CanUserCredit);
 
                 userRepository.Verify(x => x.GetByIdentity(It.IsAny<string>()), Times.Once);
-                creditThresholdRepository.Verify(x => x.GetById(userThreshold.Id), Times.Once);
+                creditThresholdRepository.Verify(x => x.GetByUserId(user.Id), Times.Once);
             }
 
             [Test]
@@ -67,14 +67,14 @@
                 var creditValue = 102;
 
                 userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
-                creditThresholdRepository.Setup(x => x.GetById(userThreshold.Id)).Returns(userThreshold);
+                creditThresholdRepository.Setup(x => x.GetByUserId(user.Id)).Returns(userThreshold);
 
                 var thresholdResponse = service.CanUserCredit(creditValue);
 
                 Assert.IsFalse(thresholdResponse.CanUserCredit);
 
                 userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
-                creditThresholdRepository.Verify(x => x.GetById(userThreshold.Id), Times.Once);
+                creditThresholdRepository.Verify(x => x.GetByUserId(user.Id), Times.Once);
             }
         }
 

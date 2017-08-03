@@ -1,4 +1,9 @@
-﻿namespace PH.Well.UnitTests.Api.Mapper
+﻿using Moq;
+using PH.Well.Common;
+using PH.Well.Common.Contracts;
+using PH.Well.Services.Contracts;
+
+namespace PH.Well.UnitTests.Api.Mapper
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -17,11 +22,13 @@
         private readonly RouteHeader routeHeader = new RouteHeaderFactory().Build();
         private List<Branch> branches;
         private StopMapper mapper;
+        private Mock<IUserNameProvider> userNameProvider = new Mock<IUserNameProvider>();
+        private Mock<IJobService> jobService = new Mock<IJobService>();
 
         [SetUp]
         public void SetUp()
         {
-            mapper = new StopMapper();
+            mapper = new StopMapper(jobService.Object, userNameProvider.Object);
             branches = new List<Branch> { branch };
         }
 
@@ -189,6 +196,18 @@
             Assert.That(item.Checked, Is.True);
             Assert.That(item.HighValue, Is.True);
             Assert.That(item.BarCode, Is.EqualTo("12478459554678952"));
+        }
+
+        [Test]
+        public void ShouldUseJobServiceToAssignCanEdit()
+        {
+            var job = JobFactory.New.With(j => j.JobDetails = new List<JobDetail>() {JobDetailFactory.New.Build()})
+                .Build();
+            var result = mapper.Map(branches, routeHeader, StopFactory.New.Build(), new List<Job> {job},
+                new List<Assignee>(),
+                new List<JobDetailLineItemTotals>());
+
+            jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
         }
     }
 }

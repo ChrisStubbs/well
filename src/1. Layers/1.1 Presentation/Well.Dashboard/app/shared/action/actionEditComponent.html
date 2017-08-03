@@ -73,9 +73,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid">
+                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid && actionsForm.controls.actionsGroup.errors">
                                 <h4>Form contains invalid data</h4>
-                                <ul *ngIf="actionsForm.controls.actionsGroup.errors">
+                                <ul>
                                     <li>
                                         <strong>{{actionsForm.controls.actionsGroup.errors.message}}</strong>
                                     </li>

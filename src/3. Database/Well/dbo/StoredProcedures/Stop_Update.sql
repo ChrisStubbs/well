@@ -23,7 +23,8 @@
 		@ActualPaymentCard DECIMAL(7,2),
 		@AccountBalance DECIMAL(7,2),
 		@UpdatedBy VARCHAR(50),
-		@DateUpdated DATETIME
+		@DateUpdated DATETIME,
+		@DeletedByImport BIT
 		--@Location_Id INT
 AS
 BEGIN
@@ -54,6 +55,7 @@ BEGIN
 		  ,[AccountBalance]					= @AccountBalance
 		  ,[UpdatedBy]						= @UpdatedBy
 		  ,[DateUpdated]					= @DateUpdated
+		  ,[DeletedByImport]				= @DeletedByImport
 		 -- ,[Location_Id]					= @Location_Id
 	 WHERE
 		Id = @Id

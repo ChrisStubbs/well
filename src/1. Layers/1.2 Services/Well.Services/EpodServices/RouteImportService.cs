@@ -10,6 +10,8 @@
     using Domain;
     using Domain.Constants;
     using Domain.Enums;
+    using Domain.Extensions;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
     using static Domain.Mappers.AutoMapperConfig;
 
@@ -24,8 +26,7 @@
         private readonly IJobService jobService;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
-
-        private const string User = "RouteImportService";
+        private readonly IPostImportRepository postImportRepository;
 
         public RouteImportService(
             ILogger logger,
@@ -36,8 +37,9 @@
             IJobRepository jobRepository,
             IJobService jobService,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepository jobDetailDamageRepository
-            )
+            IJobDetailDamageRepository jobDetailDamageRepository,
+            IPostImportRepository postImportRepository
+        )
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -48,6 +50,7 @@
             this.jobService = jobService;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.postImportRepository = postImportRepository;
         }
 
         public void Import(RouteDelivery route)
@@ -59,6 +62,9 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         this.ImportRouteHeader(header, route.RouteId);
+
+                        // updates Location/Activity/LineItem/Bag tables from imported data
+                        this.postImportRepository.PostImportUpdate();
                         transactionScope.Complete();
                     }
                 }
@@ -72,6 +78,7 @@
                         EventId.ImportException);
                 }
             }
+
         }
 
         public void ImportRouteHeader(RouteHeader header, int routeId)
@@ -86,28 +93,28 @@
 
             if (existingRouteHeader != null)
             {
-                header.Id = existingRouteHeader.Id;
-
-                if (existingRouteHeader.RouteStatusCode.Equals(RouteStatusCode.Completed))
+                if (existingRouteHeader.IsCompleted)
                 {
                     var message = $"Ignoring Route update. Route is Complete  " +
-                                  $"route header id ({header.Id}) " +
-                                  $"number ({header.RouteNumber}), " +
-                                  $"route date ({header.RouteDate.Value}), " +
-                                  $"branch ({header.RouteOwnerId})";
+                                  $"route header id ({existingRouteHeader.Id}) " +
+                                  $"number ({existingRouteHeader.RouteNumber}), " +
+                                  $"route date ({existingRouteHeader.RouteDate.Value}), " +
+                                  $"branch ({existingRouteHeader.RouteOwnerId})";
                     logger.LogDebug(message);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
                     return;
                 }
 
-                
-                routeHeaderRepository.Update(header);
+                header.Id = existingRouteHeader.Id;
+                existingRouteHeader = MapRouteHeader(header, existingRouteHeader);
+
+                routeHeaderRepository.Update(existingRouteHeader);
                 logger.LogDebug(
                     $"Updating Route  " +
-                    $"route header id ({header.Id}) " +
-                    $"number ({header.RouteNumber}), " +
-                    $"route date ({header.RouteDate.Value}), " +
-                    $"branch ({header.RouteOwnerId})"
+                    $"route header id ({existingRouteHeader.Id}) " +
+                    $"number ({existingRouteHeader.RouteNumber}), " +
+                    $"route date ({existingRouteHeader.RouteDate.Value}), " +
+                    $"branch ({existingRouteHeader.RouteOwnerId})"
                 );
             }
             else
@@ -125,44 +132,23 @@
             }
 
             AddHeaderInformationToStops(header);
-
             ImportStops(header);
-        }
-
-        private int GetRouteOwnerId(RouteHeader header)
-        {
-           return string.IsNullOrWhiteSpace(header.RouteOwner)
-                ? (int)Branches.NotDefined
-                : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
-        }
-
-        private void AddHeaderInformationToStops(RouteHeader header)
-        {
-            header.Stops.ForEach(
-                x =>
-                {
-                    x.RouteHeaderId = header.Id;
-                    x.RouteHeaderCode = header.RouteNumber;
-                    x.DeliveryDate = header.RouteDate;
-                });
         }
 
         private void ImportStops(RouteHeader fileRouteHeader)
         {
-            
-            var existRouteStops = stopRepository.GetStopByRouteHeaderId(fileRouteHeader.Id);
+            var existingRouteStopsFromDb = stopRepository.GetStopByRouteHeaderId(fileRouteHeader.Id);
 
-            var existingStops = stopRepository.GetByTransportOrderReferences(
-                        fileRouteHeader.Stops.Select(s => s.TransportOrderReference).Distinct().ToList()).ToArray();
+            IList<Stop> existingStopsBothSources = GetExistingStops(fileRouteHeader.Stops.Select(s => s.TransportOrderReference).Distinct().ToList());
+                
+            var savedStops = new List<Stop>();
 
-            var fileStops = new List<Stop>();
-
+            //loop throught all stops in the file
             foreach (var s in fileRouteHeader.Stops)
             {
                 Stop fileStop = Mapper.Map<StopDTO, Stop>(s);
-                fileStops.Add(fileStop);
 
-                Stop originalStop = FindOriginalStop(existingStops, fileStop);
+                var originalStop = FindOriginalStop(existingStopsBothSources, fileStop);
 
                 fileStop.Id = originalStop?.Id ?? 0;
 
@@ -170,52 +156,71 @@
                 if (fileStop.IsTransient())
                 {
                     stopRepository.Save(fileStop);
+
                     fileStop.Jobs.ForEach(x => x.StopId = fileStop.Id);
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Save(fileStop.Account);
+                    savedStops.Add(fileStop);
                 }
                 // Update Existing
                 else if (!HasStopBeenCompleted(originalStop))
                 {
-                    fileStop.SetPreviously(originalStop);
+                    fileStop.Previously = originalStop.SetPreviously(fileStop);
                     stopRepository.Update(fileStop);
+
+                    fileStop.Jobs.ForEach(x => x.StopId = fileStop.Id);
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Update(fileStop.Account);
+                    savedStops.Add(fileStop);
+                }
+                else
+                {
+                    var message = $"Ignoring Stop update. Stop is Complete  " +
+                                  $"stop id ({originalStop.Id}) " +
+                                  $"identifier ({originalStop.Identifier()}), " +
+                                  $"route header Id ({originalStop.RouteHeaderId})";
+                    logger.LogDebug(message);
                 }
             }
 
-            ImportJobs(fileRouteHeader.Id, fileRouteHeader.RouteOwnerId, fileStops.SelectMany(j => j.Jobs).ToList());
+            ImportJobs(fileRouteHeader.Id, fileRouteHeader.RouteOwnerId, savedStops.SelectMany(j => j.Jobs).ToList());
 
             //Delete Stops Not In File
-            IEnumerable<Stop> stopsToBeDeleted = GetStopsToBeDeleted(existRouteStops, fileRouteHeader.Stops);
+            IEnumerable<Stop> stopsToBeDeleted = GetStopsToBeDeleted(existingRouteStopsFromDb, fileRouteHeader.Stops);
 
             foreach (var stopToBeDeleted in stopsToBeDeleted)
             {
                 if (!HasStopBeenCompleted(stopToBeDeleted))
                 {
-                    //TODO: ??Do we need to check that all Jobs in stop have been deleted 
-                    stopToBeDeleted.DateDeleted = DateTime.Now;
-                    stopRepository.Update(stopToBeDeleted);
+                    var stopJobs = jobRepository.GetByStopId(stopToBeDeleted.Id);
+                    if (stopJobs.All(CanWeUpdateJob))
+                    {
+                        stopToBeDeleted.DateDeleted = DateTime.Now;
+                        stopToBeDeleted.DeletedByImport = true;
+                        stopRepository.Update(stopToBeDeleted);
+                    }
                 }
             }
         }
 
-        private IEnumerable<Stop> GetStopsToBeDeleted(IEnumerable<Stop> existRouteStops, List<StopDTO> fileStops)
+        private IList<Stop> GetExistingStops(List<string> transportOrderReference)
         {
-            return existRouteStops.Where(x => !fileStops.Select(s => x.TransportOrderReference).Distinct().Contains(x.TransportOrderReference));
+            var stopIds = stopRepository.GetStopByTransportOrderRefIncludingSoftDeleted(transportOrderReference).ToList();
+            stopRepository.ReinstateStopSoftDeletedByImport(stopIds);
+            return stopRepository.GetByIds(stopIds);
         }
 
         private void ImportJobs(int routeHeaderId, int branchId, IList<Job> jobs)
         {
-            var existingJobs = jobRepository.GetExistingJobs(branchId, jobs.Where(x => x.PickListRef != Job.DocumentPickListReference)).ToList();
-            var existingJobsInStops = jobRepository.GetJobIdsByRouteHeaderId(routeHeaderId);
+            var existingStopJobsIds = jobRepository.GetJobIdsByRouteHeaderId(routeHeaderId);
+
+            var existingJobsBothSources = GetExistingJobs(branchId, jobs);
 
             foreach (var job in jobs)
             {
-                var originalJob = FindOriginalJob(existingJobs, job);
-                job.Id = originalJob?.Id ?? 0;
+                var originalJob = FindOriginalJob(existingJobsBothSources, job);
 
-                if (job.IsTransient())
+                if (originalJob == null)
                 {
                     jobService.SetInitialJobStatus(job);
                     job.ResolutionStatus = ResolutionStatus.Imported;
@@ -234,28 +239,106 @@
                     this.ImportJobDetails(job.JobDetails);
                 }
 
-                // Update Existing
+                // Update Existings
                 else if (CanWeUpdateJob(originalJob))
                 {
-                    jobRepository.Update(job);
-                    job.JobDetails.ForEach(
-                        x =>
-                        {
-                            x.JobId = job.Id;
-                        });
-                    //TODO: IF EPOD File Update JobDetails with epod details
+                    originalJob.StopId = job.StopId;
+                    jobRepository.Update(originalJob);
+                }
+                else
+                {
+                    var message = $"Ignoring Job update. Job is Complete  " +
+                                  $"job id ({originalJob.Id}) " +
+                                  $"identifier ({job.Identifier()}), " +
+                                  $"branch id  ({branchId})";
+                    logger.LogDebug(message);
                 }
             }
 
             //Delete Jobs Not In File
-            var jobsToBeDeleted = jobRepository.GetByIds(existingJobsInStops.Where(x => !existingJobs.Select(ej => ej.Id).Contains(x))).ToList();
+            var jobsToBeDeleted = jobRepository.GetByIds(
+                GetJobsIdsToBeDeleted(existingStopJobsIds, existingJobsBothSources.Select(x => x.Id))
+            ).ToList();
+
+            DeleteJobs(jobsToBeDeleted);
+           
+        }
+
+        private void DeleteJobs(List<Job> jobsToBeDeleted)
+        {
             foreach (var jobToDelete in jobsToBeDeleted)
             {
-                if (CanWeUpdateJob(jobToDelete))
+                if (jobToDelete.IsDocumentDelivery() || CanWeUpdateJob(jobToDelete))
                 {
-                    this.jobRepository.CascadeSoftDeleteJobs(jobsToBeDeleted.Select(x => x.Id).Distinct().ToList(), User);
+                    this.jobRepository.CascadeSoftDeleteJobs(new[] { jobToDelete.Id }, true);
                 }
             }
+        }
+
+        private RouteHeader MapRouteHeader(RouteHeader source, RouteHeader destination)
+        {
+            destination.StartDepotCode = source.StartDepotCode;
+            destination.RouteDate = source.RouteDate;
+            destination.RouteNumber = source.RouteNumber;
+            destination.PlannedStops = source.PlannedStops;
+            destination.RouteOwnerId = source.RouteOwnerId;
+            return destination;
+        }
+
+        private int GetRouteOwnerId(RouteHeader header)
+        {
+            return string.IsNullOrWhiteSpace(header.RouteOwner)
+                 ? (int)Branches.NotDefined
+                 : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
+        }
+
+        private void AddHeaderInformationToStops(RouteHeader header)
+        {
+            header.Stops.ForEach(
+                x =>
+                {
+                    x.RouteHeaderId = header.Id;
+                    x.RouteHeaderCode = header.RouteNumber;
+                    x.DeliveryDate = header.RouteDate;
+                });
+        }
+
+        private IEnumerable<Stop> GetStopsToBeDeleted(IEnumerable<Stop> existRouteStops, List<StopDTO> fileStops)
+        {
+            var fileTransportOrderRef = fileStops
+                .Select(s => s.TransportOrderReference)
+                .Distinct()
+                .ToDictionary(k => k, v => v, StringComparer.OrdinalIgnoreCase);
+
+            return existRouteStops
+                .Where(x => !fileTransportOrderRef.ContainsKey(x.TransportOrderReference));
+
+            //return existRouteStops
+            //    .Where(x => !fileStops.Select(s => x.TransportOrderReference)
+            //                          .Distinct()
+            //                          .Contains(x.TransportOrderReference)
+            //          );
+        }
+
+        private IList<Job> GetExistingJobs(int branchId, IList<Job> jobs)
+        {
+            var existing = jobRepository.
+                             GetExistingJobsIdsIncludingSoftDeleted(branchId,
+                             jobs.Where(x => !x.IsDocumentDelivery())
+                             ).ToList();
+
+            jobRepository.ReinstateJobsSoftDeletedByImport(existing);
+
+            return jobRepository.GetByIds(existing).ToList();
+        }
+
+        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds, IEnumerable<int> existingJobIdsBothSources)
+        {
+            var existing = existingJobIdsBothSources.ToDictionary(k => k);
+
+
+            return existingStopJobIds.Where(x => !existing.ContainsKey(x));
+            //return jobRepository.GetByIds(existingJobsInStops.Where(x => !existingJobsFromDb.Select(ej => ej.Id).Contains(x))).ToList();
         }
 
         private void ImportJobDetails(IEnumerable<JobDetail> jobDetails)
@@ -310,9 +393,7 @@
         private Job FindOriginalJob(IList<Job> existingJobs, Job job)
         {
             return existingJobs.FirstOrDefault(x =>
-                x.PhAccount == job.PhAccount
-                && x.PickListRef == job.PickListRef
-                && x.JobTypeCode == job.JobTypeCode
+                x.Identifier() == job.Identifier()
             );
         }
     }

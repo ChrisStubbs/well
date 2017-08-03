@@ -7,7 +7,5 @@ BEGIN
 	  [Id]
   FROM [dbo].[Stop] s 
 	INNER JOIN @transportOrderReferences tor ON tor.Value = s.TransportOrderReference
-  WHERE
-	 s.DeliveryDate IS NULL
 
 END

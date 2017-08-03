@@ -12,8 +12,10 @@
 	@DamagesAccepted		INT,
 	@DriverName VARCHAR(255),
 	@UpdatedBy VARCHAR(50),
-	@UpdatedDate DATETIME
-AS
+	@UpdatedDate DATETIME,
+	@StartDepotCode			INT,
+	@PlannedStops			TINYINT
+AS	
 BEGIN
 	SET NOCOUNT ON;
 
@@ -29,7 +31,9 @@ BEGIN
 		DamagesAccepted = @DamagesAccepted,
 		DriverName = @DriverName,
 		UpdatedBy = @UpdatedBy,
-		DateUpdated = @UpdatedDate
+		DateUpdated = @UpdatedDate,
+		StartDepotCode = @StartDepotCode,
+		PlannedStops = @PlannedStops
 	WHERE Id = @Id
 
 END

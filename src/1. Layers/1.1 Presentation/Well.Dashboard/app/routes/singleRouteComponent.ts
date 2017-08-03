@@ -254,6 +254,7 @@ export class SingleRouteComponent implements IObservableAlive
 
                 item.stopId = singleItem.stopId;
                 item.stop = singleItem.stop;
+                item.previously = singleItem.previously;
                 item.stopStatus = singleItem.stopStatus;
                 item.totalExceptions = summary.totalExceptions;
                 item.totalClean = summary.totalClean;

@@ -435,8 +435,11 @@
     <Build Include="dbo\StoredProcedures\CleanStops.sql" />
     <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
     <Build Include="dbo\Types\IdentifyJobTableType.sql" />
-    <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobType.sql" />
+    <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_CascadeSoftDelete.sql" />
+    <Build Include="dbo\StoredProcedures\Account_Update.sql" />
+    <Build Include="dbo\StoredProcedures\Jobs_ReinstateSoftDeletedByImport.sql" />
+    <Build Include="dbo\StoredProcedures\Stops_ReinstateSoftDeletedByImport.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

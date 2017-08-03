@@ -55,5 +55,29 @@
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Query<int>().FirstOrDefault();
         }
+
+        protected override void UpdateExisting(Account entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.AccountUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("Code", entity.Code, DbType.String)
+                .AddParameter("AccountTypeCode", entity.AccountTypeCode, DbType.String)
+                .AddParameter("DepotId", entity.DepotId, DbType.Int32)
+                .AddParameter("Name", entity.Name, DbType.String)
+                .AddParameter("Address1", entity.Address1, DbType.String)
+                .AddParameter("Address2", entity.Address2, DbType.String)
+                .AddParameter("PostCode", entity.PostCode, DbType.String)
+                .AddParameter("ContactName", entity.ContactName, DbType.String)
+                .AddParameter("ContactNumber", entity.ContactNumber, DbType.String)
+                .AddParameter("ContactNumber2", entity.ContactNumber2, DbType.String)
+                .AddParameter("ContactEmailAddress", entity.ContactEmailAddress, DbType.String)
+                .AddParameter("StopId", entity.StopId, DbType.Int32)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
+                .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("DateDeleted", entity.DateDeleted, DbType.DateTime)
+                .AddParameter("LocationId", entity.LocationId, DbType.Int32)
+                .Execute();
+        }
     }
 }
+

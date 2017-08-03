@@ -103,6 +103,7 @@
                         StopId = job.StopId,
                         Stop = stop.DropId,
                         StopStatus = status,
+                        Previously = stop.Previously,
                         //StopExceptions = jobExceptions,
                         //StopClean = stopClean,
                         Tba = jobGroupToBeAdvised

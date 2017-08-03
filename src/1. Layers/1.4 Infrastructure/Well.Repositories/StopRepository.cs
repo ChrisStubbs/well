@@ -25,13 +25,12 @@
             return this.GetByIds(stopIds);
         }
 
-        public IList<Stop> GetByTransportOrderReferences(IList<string> transportOrderReferences)
+        public IList<int> GetStopByTransportOrderRefIncludingSoftDeleted(IList<string> transportOrderReferences)
         {
-            var stopIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.StopIdsGetByTransportOrderReference)
-                .AddParameter("transportOrderReferences", transportOrderReferences.ToDataTables(), DbType.Object)
-                .Query<int>();
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.StopIdsGetByTransportOrderReference)
+                .AddParameter("transportOrderReferences", transportOrderReferences.ToSingleColumnDataTable("transportOrderRef"), DbType.Object)
+                .Query<int>().ToList();
 
-            return this.GetByIds(stopIds);
         }
         
         public Stop GetByJobDetails(string picklist, string account, int branchId)
@@ -138,6 +137,7 @@
                 .AddParameter("AccountBalance", entity.AccountBalance, DbType.Decimal)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("DeletedByImport", entity.DeletedByImport, DbType.Boolean)
                 //.AddParameter("Location_Id", entity.LocationId, DbType.Int32)
                 .Execute();
         }
@@ -162,6 +162,14 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.AccountDeleteByStopId)
                 .AddParameter("StopId", stopId, DbType.Int32)
+                .Execute();
+        }
+
+        public void ReinstateStopSoftDeletedByImport(IList<int> stopIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.StopsReinstateSoftDeletedByImport)
+                .AddParameter("StopIds", stopIds.ToIntDataTables("StopIds"), DbType.Object)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
     }

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[JobIds_GetByBranchAccountPickListRefAndJobType]
+﻿CREATE PROCEDURE [dbo].[JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted]
 	@BranchId AS INT,
 	@IdentifyJobTable dbo.IdentifyJobTableType	READONLY
 AS
@@ -13,6 +13,4 @@ AS
 				and idt.JobTypeCode = j.JobTypeCode
 	WHERE 
 		rh.RouteOwnerId = @BranchId
-	AND
-		j.DateDeleted IS NOT NULL
 		

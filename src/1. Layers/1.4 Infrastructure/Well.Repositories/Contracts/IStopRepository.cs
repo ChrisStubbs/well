@@ -9,7 +9,7 @@ namespace PH.Well.Repositories.Contracts
     {
         IEnumerable<Stop> GetStopByRouteHeaderId(int routeHeaderId);
 
-        IList<Stop> GetByTransportOrderReferences(IList<string> transportOrderReferences);
+        IList<int> GetStopByTransportOrderRefIncludingSoftDeleted(IList<string> transportOrderReferences);
 
         IList<Stop> GetByIds(IEnumerable<int> stopIds);
 
@@ -22,6 +22,8 @@ namespace PH.Well.Repositories.Contracts
         void DeleteStopById(int id);
 
         void DeleteStopByTransportOrderReference(string transportOrderReference);
+
+        void ReinstateStopSoftDeletedByImport(IList<int> stopIds);
 
     }
 }

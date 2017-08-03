@@ -134,7 +134,7 @@
                                 </a>
                             </td>
                             <td colspan="3">
-                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}} - {{item.accountName}}</a>
+                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}} - {{item.accountName}} <span *ngIf="item.previously"> - ({{item.previously}})</span></a>
                             </td>
                             <td colspan="2">
                                 {{item.stopStatus}}

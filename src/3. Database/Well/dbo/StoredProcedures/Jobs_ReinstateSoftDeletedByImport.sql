@@ -1,67 +1,76 @@
-﻿CREATE PROCEDURE [dbo].[Jobs_CascadeSoftDelete]
+﻿CREATE PROCEDURE [dbo].[Jobs_ReinstateSoftDeletedByImport]
 	@JobIds IntTableType READONLY,
-    @DateDeleted DateTime,
-	@UpdatedBy VARCHAR(50),
-	@DeletedByImport BIT = 0
+	@UpdatedBy VARCHAR(50)
 AS
 	
 	DECLARE @TableIds TABLE (Id Int, Additional INT NULL)
 	-------------------
-    --- Delete Jobs ---
+    --- Reinstate Jobs ---
     -------------------
     UPDATE job
-    SET DateDeleted = @DateDeleted
-		,UpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		UpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     WHERE Job.Id IN (SELECT value FROM @JobIds)
-
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1
     ------------------------
-    --- Delete JobDetail ---
+    --- Reinstate JobDetail ---
     ------------------------
     UPDATE JobDetail 
-    SET DateDeleted = @DateDeleted
-		,UpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		UpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     OUTPUT inserted.Id, inserted.LineItemId INTO @TableIds
     WHERE JobId IN (SELECT value FROM @JobIds) 
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1
 
     ------------------------------
-    --- Delete JobDetailDamage ---
+    --- Reinstate JobDetailDamage ---
     ------------------------------
     UPDATE JobDetailDamage 
-    SET DateDeleted = @DateDeleted
-		,UpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		UpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     WHERE JobDetailId IN (SELECT Id FROM @TableIds)
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1
 
     --reset the stored ids
     delete @TableIds
 
     -----------------------
-    --- Delete LineItem ---
+    --- Reinstate LineItem ---
     -----------------------
     UPDATE LineItem
-    SET DateDeleted = @DateDeleted
-		,LastUpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		LastUpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     OUTPUT inserted.Id, NULL INTO @TableIds
     WHERE Id IN (SELECT Additional FROM @TableIds)
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1
 
     -----------------------------
-    --- Delete LineItemAction ---
+    --- Reinstate LineItemAction ---
     -----------------------------
     UPDATE LineItemAction
-    SET DateDeleted = @DateDeleted
-		,LastUpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		LastUpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     OUTPUT inserted.Id, inserted.Id INTO @TableIds
     WHERE LineItemId IN (SELECT Id FROM @TableIds)
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1
 
     ------------------------------------
-    --- Delete LineItemActionComment ---
+    --- Reinstate LineItemActionComment ---
     ------------------------------------
     UPDATE LineItemActionComment
-    SET DateDeleted = @DateDeleted
-		,UpdatedBy	= @UpdatedBy
-		,DeletedByImport = @DeletedByImport
+    SET DateDeleted = NULL,
+		UpdatedBy	= @UpdatedBy,
+		DeletedByImport = 0
     WHERE LineItemActionId IN (SELECT Additional FROM @TableIds)
+	AND DateDeleted IS NOT NULL
+	AND DeletedByImport = 1

@@ -446,55 +446,77 @@ namespace PH.Well.UnitTests.Services
 
         }
 
-        [Test]
-        [TestCase("User", ExpectedResult = true)]
-        [TestCase("", ExpectedResult = false)]
-        [Category("JobService")]
-        public bool CanEditActions_Should_Check_User(string user)
+        public class TheCanEditActionsMethod : JobServiceTests
         {
-            var job = new Job
-            {
-                ResolutionStatus = ResolutionStatus.DriverCompleted
-            };
 
-            return this.service.CanEditActions(job, user);
+            [Test]
+            [TestCase("User", ExpectedResult = true)]
+            [TestCase("", ExpectedResult = false)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_User(string user)
+            {
+                var job = new Job
+                {
+                    ResolutionStatus = ResolutionStatus.DriverCompleted
+                };
+
+                return this.service.CanEdit(job, user);
+            }
+
+            [Test]
+            [Category("JobService")]
+            public void CanEditActions_Should_Check_ResolutionStatus()
+            {
+                var job = new Job
+                {
+                    ResolutionStatus = ResolutionStatus.DriverCompleted
+                };
+
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.ActionRequired;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.PendingSubmission;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.PendingApproval;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Imported;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Approved;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Credited;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Resolved;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Closed;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+            }
+
+            [Test]
+            [TestCase("UPL-GLO", ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
+            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_JobType(string jobType)
+            {
+                var job = new Job
+                {
+                    JobStatus = JobStatus.InComplete,
+                    InvoiceNumber = "123",
+                    JobTypeCode = jobType,
+                    ResolutionStatus = ResolutionStatus.ActionRequired
+                };
+
+                return service.CanEdit(job, "User");
+            }
         }
 
-        [Test]
-        [Category("JobService")]
-        public void CanEditActions_Should_Check_ResolutionStatus()
-        {
-            var job = new Job
-            {
-                ResolutionStatus = ResolutionStatus.DriverCompleted
-            };
-
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.ActionRequired;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.PendingSubmission;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.PendingApproval;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.Imported;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.Approved;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.Credited;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.Resolved;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
-
-            job.ResolutionStatus = ResolutionStatus.Closed;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
-        }
 
         [Test]
         public void SetGrnShouldFailAfterSubmissionDate()

@@ -15,15 +15,18 @@
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly IDateThresholdService dateThresholdService;
+        private readonly IJobService jobService;
 
 
         public SubmitActionValidation(IUserNameProvider userNameProvider,
             IUserRepository userRepository,
-            IDateThresholdService dateThresholdService)
+            IDateThresholdService dateThresholdService,
+            IJobService jobService)
         {
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
             this.dateThresholdService = dateThresholdService;
+            this.jobService = jobService;
         }
 
         public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
@@ -70,7 +73,12 @@
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);
+            if (!result.IsValid)
+            {
+                return result;
+            }
 
+            result = ValidateJobsCanBeEdited(pendingSubmissionJobs);
             if (!result.IsValid)
             {
                 return result;
@@ -123,6 +131,32 @@
             }
 
             return new SubmitActionResult { IsValid = true };
+        }
+
+        public SubmitActionResult ValidateJobsCanBeEdited(IEnumerable<Job> jobs)
+        {
+            var result = new SubmitActionResult
+            {
+                IsValid = true,
+            };
+            var user = userNameProvider.GetUserName();
+            var nonEditableJobs = new List<Job>();
+            foreach (var job in jobs)
+            {
+                if (jobService.CanEdit(job, user))
+                {
+                    result.IsValid = false;
+                    nonEditableJobs.Add(job);
+                }
+            }
+
+            if (!result.IsValid)
+            {
+                result.Message =
+                    "Can not submit exceptions for jobs. Following jobs are not editable " +
+                    $"{string.Join(",", nonEditableJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "))}";
+            }
+            return result;
         }
     }
 }

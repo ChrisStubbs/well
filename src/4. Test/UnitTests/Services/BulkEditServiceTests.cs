@@ -23,7 +23,7 @@
         private Mock<ILineItemActionRepository> lineItemActionRepository;
         private Mock<IJobService> jobService;
         private BulkEditService bulkEditService;
-     
+        private Mock<IUserNameProvider> userNameProvider;
         public User User = new User { Id = 1 };
 
         [SetUp]
@@ -32,16 +32,18 @@
             logger = new Mock<ILogger>();
             jobRepository = new Mock<IJobRepository>();
             mapper = new Mock<IPatchSummaryMapper>();
+            userNameProvider = new Mock<IUserNameProvider>();
            
             lineItemActionRepository = new Mock<ILineItemActionRepository>(MockBehavior.Strict);
             jobService = new Mock<IJobService>(MockBehavior.Strict);
-            
+
             bulkEditService = new BulkEditService(
                 logger.Object,
                 jobService.Object,
                 jobRepository.Object,
                 mapper.Object,
-                lineItemActionRepository.Object
+                lineItemActionRepository.Object,
+                userNameProvider.Object
                 );
         }
 
@@ -86,9 +88,8 @@
             [Test]
             public void ShouldReturnEditableJobs()
             {
-                var userJobIds = jobList.Select(j =>  j.Id );
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> {1, 3, 4})).Returns(userJobIds);
+                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
               
                 var editableJobs = bulkEditService.GetEditableJobs(jobList).ToArray();
 
@@ -101,30 +102,17 @@
             [Test]
             public void ShouldReturnEditableJobsWhereLineItemInList()
             {
-                var userJobIds = jobList.Select(j => j.Id);
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> { 1, 3})).Returns(userJobIds);
+                var expectedJobs = new List<Job>(new[] {job1, job3});
+                jobService.Setup(x => x.CanEdit(It.Is<Job>(y => expectedJobs.Contains(y)), It.IsAny<string>()))
+                    .Returns(true);
 
-                var editableJobs = bulkEditService.GetEditableJobs(jobList, new List<int> { 2020, 2021 }).ToArray();
+                var editableJobs = bulkEditService.GetEditableJobs(jobList, new List<int> {2020, 2021}).ToArray();
 
                 Assert.That(editableJobs.Count(), Is.EqualTo(2));
                 Assert.That(editableJobs[0], Is.EqualTo(job1));
                 Assert.That(editableJobs[1], Is.EqualTo(job3));
             }
-
-            [Test]
-            public void ShouldReturnEditableJobsWhereBelongToUser()
-            {
-                var userJobIds = jobList.Select(j => j.Id);
-                jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(new List<int> { 1, 3, 4 })).Returns(userJobIds.Where(x => x == 4));
-
-                var editableJobs = bulkEditService.GetEditableJobs(jobList).ToArray();
-
-                Assert.That(editableJobs.Count(), Is.EqualTo(1));
-                Assert.That(editableJobs[0], Is.EqualTo(job4));
-            }
-
         }
 
         public class TheUpdateMethod : BulkEditServiceTests
@@ -140,7 +128,8 @@
                     jobService.Object,
                     jobRepository.Object,
                     mapper.Object,
-                    lineItemActionRepository.Object
+                    lineItemActionRepository.Object,
+                    userNameProvider.Object
                     )
                 { CallBase = true };
             }

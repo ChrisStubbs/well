@@ -62,7 +62,7 @@
                 var j = new Job {ResolutionStatus = ResolutionStatus.Imported};
                 jobRepository.Setup(x => x.GetById(2)).Returns(j);
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                jobService.Setup(x => x.CanEditActions(j, "Me")).Returns(false);
+                jobService.Setup(x => x.CanEdit(j, "Me")).Returns(false);
         
                 Assert.That(() => Controller.Patch(update), Throws.Exception);
             }
@@ -77,7 +77,7 @@
 
                 jobRepository.Setup(x => x.GetById(2)).Returns(j);
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                jobService.Setup(x => x.CanEditActions(j, "Me")).Returns(true);
+                jobService.Setup(x => x.CanEdit(j, "Me")).Returns(true);
 
 
                 lineItemActionService.Setup(x => x.SaveLineItemActions(j, update.Id, update.LineItemActions)).Returns(li);

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Domain
+﻿using PH.Well.Domain.Extensions;
+
+namespace PH.Well.Domain
 {
     using System;
     using System.Collections.Generic;
@@ -23,6 +25,13 @@
         public string JobTypeCode { get; set; }
 
         public string JobType { get; set; }
+
+        /// <summary>
+        /// Helper property to get jobType as enum value
+        /// Current JobType property should be renamed to JobTypeDescription
+        /// JobTypeEnumValue should be then called JobType and mapped from JobType database value
+        /// </summary>
+        public JobType JobTypeEnumValue { get { return EnumExtensions.GetValueFromDescription<JobType>(JobTypeCode); } }
 
         public string JobTypeAbbreviation { get; set; }
 

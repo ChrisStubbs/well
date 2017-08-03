@@ -138,10 +138,12 @@
             }
         }
 
-        public bool CanEditActions(Job job, string userName)
+        public bool CanEdit(Job job, string userName)
         {
             return job.ResolutionStatus.IsEditable()
-                && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
+                   && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName,
+                       StringComparison.OrdinalIgnoreCase)
+                   && job.JobTypeEnumValue != JobType.GlobalUplift;
         }
 
         public void SetGrn(int jobId, string grn)

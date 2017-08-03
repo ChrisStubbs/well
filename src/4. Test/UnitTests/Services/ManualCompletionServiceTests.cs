@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +23,7 @@
         private Mock<IEpodUpdateService> epodUpdateService;
         private Mock<ILineItemActionRepository> lineItemActionRepository;
         private ManualCompletionService manualCompletionService;
+        private Mock<IUserNameProvider> userNameProvider;
 
         [SetUp]
         public virtual void SetUp()
@@ -28,7 +31,9 @@
             jobService = new Mock<IJobService>();
             epodUpdateService = new Mock<IEpodUpdateService>();
             lineItemActionRepository = new Mock<ILineItemActionRepository>();
-            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object, lineItemActionRepository.Object);
+            userNameProvider = new Mock<IUserNameProvider>();
+            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object,
+                lineItemActionRepository.Object, userNameProvider.Object);
         }
 
         public class TheCompleteAsBypassedMethod : ManualCompletionServiceTests
@@ -52,6 +57,8 @@
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
+                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+
                 manualCompletionService.CompleteAsBypassed(jobIds);
 
                 Assert.That(job.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
@@ -78,6 +85,7 @@
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
+                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
 
                 manualCompletionService.CompleteAsClean(jobIds);
 
@@ -116,6 +124,7 @@
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
+                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
             }
 
             [Test]
@@ -208,6 +217,35 @@
                 Assert.True(jobsAvailableForCompletion.All(x => x.WellStatus == WellStatus.Invoiced || x.JobStatus == JobStatus.CompletedOnPaper));
 
             }
+
+            [Test]
+            public void ShouldExcludeGlobalUpliftJobs()
+            {
+                var globalUpliftJob = JobFactory.New.With(x => x.WellStatus = WellStatus.Complete)
+                    .With(x => x.JobTypeCode = "UPL-GLO").Build();
+
+                var expectedEditableJobs = new[] {job1, job2, job3};
+                var allJobs = new[] {globalUpliftJob}.Concat(expectedEditableJobs);
+
+                // Set up to return allJobs
+                jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(allJobs);
+
+                // Set up to try represent actual implementation - we wold probably want actual JobService implementation here since ManualCompletionService depends on it.
+                jobService.Setup(x => x.CanEdit(It.IsIn(expectedEditableJobs), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanEdit(globalUpliftJob, It.IsAny<string>())).Returns(false);
+
+                var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(allJobs.Select(x => x.Id));
+
+                CollectionAssert.AreEqual(expectedEditableJobs, jobsAvailableForCompletion);
+            }
+        }
+
+        [Test]
+        public void CanManuallyComplete_ShouldCallJobService()
+        {
+            var job = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
+            manualCompletionService.CanManuallyComplete(job);
+            jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
         }
     }
 }

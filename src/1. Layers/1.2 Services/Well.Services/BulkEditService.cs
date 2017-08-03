@@ -19,6 +19,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IPatchSummaryMapper mapper;
         private readonly ILineItemActionRepository lineItemActionRepository;
+        private readonly IUserNameProvider userNameProvider;
         private readonly IJobService jobService;
 
         public BulkEditService(
@@ -26,14 +27,17 @@
             IJobService jobService,
             IJobRepository jobRepository,
             IPatchSummaryMapper mapper,
-            ILineItemActionRepository lineItemActionRepository)
+            ILineItemActionRepository lineItemActionRepository,
+            IUserNameProvider userNameProvider)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.mapper = mapper;
             this.lineItemActionRepository = lineItemActionRepository;
+            this.userNameProvider = userNameProvider;
             this.jobService = jobService;
         }
+
         public PatchSummary GetByLineItems(IEnumerable<int> lineItemIds)
         {
             lineItemIds = lineItemIds.ToArray();
@@ -99,13 +103,12 @@
 
         public IEnumerable<Job> GetEditableJobs(IEnumerable<Job> jobs, IEnumerable<int> lineItemIds = null)
         {
+            var username = this.userNameProvider.GetUserName();
             var editableJobs = jobService.PopulateLineItemsAndRoute(jobs).ToList()
                 .Where(x => x.ResolutionStatus.IsEditable() &&
                             LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
-            var userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(editableJobs.Select(x => x.Id));
-                
-            return editableJobs.Where(x => userJobsIds.Contains(x.Id));
+            return editableJobs.Where(x => jobService.CanEdit(x, username));
         }
 
         public virtual IEnumerable<LineItemAction> LineItemActionsToUpdate(IEnumerable<Job> jobsToEdit, IEnumerable<int> lineItemIds)

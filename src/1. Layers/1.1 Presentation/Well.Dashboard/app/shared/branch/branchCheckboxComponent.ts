@@ -18,19 +18,7 @@ export class BranchCheckboxComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.creditThresholdId) {
-            this.branchService.getBranchesWithCreditThreshold(this.creditThresholdId)
-                .subscribe(branches => {
-                    this.branches = branches;
-                    this.branches.forEach(branch => {
-                        if (branch.selected) {
-                            this.selectedBranches.push(branch);
-                        }
-                    });
-
-                    if (this.branches.every(x => x.selected)) {
-                        this.selectAllCheckbox = true;
-                    }
-                });
+            throw Error('getBranchesWithCreditThreshold should no longer be used');
 
         }  else if (this.seasonalDateId) {
             this.branchService.getBranchesWithSeasonalDate(this.seasonalDateId)

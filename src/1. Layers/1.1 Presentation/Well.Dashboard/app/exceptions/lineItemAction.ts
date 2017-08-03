@@ -4,7 +4,7 @@ export class LineItemAction
     public lineItemId: number = 0;
     public deliveryAction: number = 0;
     public exceptionType: number = 0;
-    public quantity: number;
+    public quantity: number = 0;
     public source: number = 0;
     public reason: number = 0;
     public originator: number = 1; // default to Customer

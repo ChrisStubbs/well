@@ -51,6 +51,7 @@ export class StopItem implements IGrnAssignable
     public grnProcessType: number;
     public hasUnresolvedActions: boolean;
     public grnNumber: string;
+    public readonly canEdit: boolean;
  
     public get barCode(): string
     {

@@ -136,7 +136,7 @@ export class ActionEditComponent implements IObservableAlive {
                     lineItemAction.source = (value.source) ? Number(value.source) : 0;
                     lineItemAction.reason = (value.reason) ? Number(value.reason) : 0;
 
-                    if (!this.isBaypassExceptionType(lineItemAction.exceptionType)) {
+                    if (!this.isBypassExceptionType(lineItemAction.exceptionType)) {
                         lineItemAction.exceptionType = (value.exceptionType) ? Number(value.exceptionType) : 0;
                     }
 
@@ -226,7 +226,7 @@ export class ActionEditComponent implements IObservableAlive {
     }
 
     private createLineItemActionFromGroup(item: LineItemAction) {
-        const isBypassExceptionType = this.isBaypassExceptionType(item.exceptionType);
+        const isBypassExceptionType = this.isBypassExceptionType(item.exceptionType);
         const validator = new LineItemActionValidator(item, isBypassExceptionType);
         const isCloseAction = Number(item.deliveryAction) == this.closeActionValue;
 
@@ -337,19 +337,19 @@ export class ActionEditComponent implements IObservableAlive {
         return existingComments.length > 0;
     }
 
-    private isBaypassExceptionType(value: any): boolean {
+    private isBypassExceptionType(value: any): boolean {
         return Number(value) == this.bypassValue;
     }
 
-    private hasBaypassActions() {
-        const baypassActions = _.filter(this.source.lineItemActions,
+    private hasBypassActions() {
+        const bypassActions = _.filter(this.source.lineItemActions,
             (item: LineItemAction) => {
-                if (this.isBaypassExceptionType(item.exceptionType)) {
+                if (this.isBypassExceptionType(item.exceptionType)) {
                     return item;
                 }
             });
 
-        return baypassActions.length > 0;
+        return bypassActions.length > 0;
     }
 }
 

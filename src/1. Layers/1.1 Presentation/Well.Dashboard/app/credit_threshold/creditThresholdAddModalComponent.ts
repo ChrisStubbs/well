@@ -24,7 +24,6 @@ export class CreditThresholdAddModalComponent {
     public show() {
         this.clear();
         this.isVisible = true;
-        this.creditThreshold.thresholdLevel = 'Level';
     }
 
     public hide() {

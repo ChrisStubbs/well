@@ -294,7 +294,6 @@
     <Content Include="app\shared\action\submitActionModal.html" />
     <Content Include="app\shared\appSearch\appSearchComponent.html" />
     <Content Include="app\shared\appSearch\menuBarAppSearchComponent.html" />
-    <Content Include="app\shared\branch\branch-name.html" />
     <Content Include="app\shared\components\accountFlagsComponent.html" />
     <Content Include="app\shared\components\assign-modal.html" />
     <Content Include="app\shared\buttonDropDownComponent.html" />

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -15,6 +17,7 @@
         private readonly IJobService jobService;
         private readonly IEpodUpdateService epodUpdateService;
         private readonly ILineItemActionRepository lineItemActionRepository;
+        private readonly IUserNameProvider userNameProvider;
 
         public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
         {
@@ -32,11 +35,13 @@
         public ManualCompletionService(
             IJobService jobService, 
             IEpodUpdateService epodUpdateService, 
-            ILineItemActionRepository lineItemActionRepository)
+            ILineItemActionRepository lineItemActionRepository,
+            IUserNameProvider userNameProvider)
         {
             this.jobService = jobService;
             this.epodUpdateService = epodUpdateService;
             this.lineItemActionRepository = lineItemActionRepository;
+            this.userNameProvider = userNameProvider;
         }
 
         public IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds)
@@ -92,10 +97,14 @@
         {
             IEnumerable<int> userJobsIds = jobService.GetJobsIdsAssignedToCurrentUser(jobIds);
             return jobService.GetJobsWithRoute(userJobsIds)
-                .Where(x => x.WellStatus == WellStatus.Invoiced
-                || x.JobStatus == JobStatus.CompletedOnPaper)
+                .Where(CanManuallyComplete)
                 .ToList();
         }
 
+        public bool CanManuallyComplete(Job job)
+        {
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) &&
+                   jobService.CanEdit(job, userNameProvider.GetUserName());
+        }
     }
 }

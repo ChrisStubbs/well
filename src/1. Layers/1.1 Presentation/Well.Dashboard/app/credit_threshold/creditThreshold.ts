@@ -1,9 +1,6 @@
-import {Branch} from '../shared/branch/branch';
-
 export class CreditThreshold {
     public id: number;
-    public branchName: string;
-    public thresholdLevel: string;
+    public thresholdLevel: number;
     public threshold: number;
-    public branches: Branch[];
+    public description: string;
 }  

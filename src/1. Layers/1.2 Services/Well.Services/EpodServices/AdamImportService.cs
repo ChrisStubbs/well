@@ -12,6 +12,7 @@
     using Domain.Constants;
     using static Domain.Mappers.AutoMapperConfig;
 
+    [Obsolete]
     public class AdamImportService : IAdamImportService
     {
         private readonly IRouteHeaderRepository routeHeaderRepository;

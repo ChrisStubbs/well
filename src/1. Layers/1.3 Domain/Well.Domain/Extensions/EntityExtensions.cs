@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
+    using Enums;
 
     public static class StopExtensions
     {
@@ -35,6 +36,5 @@
             return job.PickListRef == Job.DocumentPickListReference;
         }
     }
-
 
 }

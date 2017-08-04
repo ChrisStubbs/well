@@ -10,7 +10,9 @@
 
         /// <summary>
         /// Global uplift background task
-        /// </summary>
-        WellGlobalUpliftTask = 4
+        /// </summary>,
+        WellGlobalUpliftTask = 4,
+
+        WellEpodXmlImport = 5
     }
 }

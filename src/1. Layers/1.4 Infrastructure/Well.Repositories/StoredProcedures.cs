@@ -25,6 +25,7 @@
         public const string StopUpdate = "Stop_Update";
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
+        public const string AccountUpdate = "Account_Update";
         public const string StopGetByJob = "StopGetByJob";
         public const string StopIdsGetByTransportOrderReference = "StopIds_GetByTransportOrderReference";
         public const string StopGetByJobId = "Stop_GetByJobId";
@@ -40,6 +41,8 @@
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
         public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
+        public const string JobsReinstateSoftDeletedByImport = "Jobs_ReinstateSoftDeletedByImport";
+        public const string StopsReinstateSoftDeletedByImport = "Stops_ReinstateSoftDeletedByImport";
         public const string SaveGrn = "SaveGrn";
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
@@ -55,7 +58,7 @@
         public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public const string JobGetByIds = "Job_GetByIds";
         public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
-        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobType";
+        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted";
         public const string JobDetailGet = "JobDetail_Get";
         public const string JobDetailInsert = "JobDetail_Insert";
         public const string JobDetailUpdate = "JobDetail_Update";

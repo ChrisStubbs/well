@@ -24,6 +24,7 @@ SELECT [Id]
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[LocationId]
  FROM [dbo].[Account]
  WHERE [Code] = @Code
  AND [StopId] = @StopId

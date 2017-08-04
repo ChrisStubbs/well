@@ -26,6 +26,7 @@
 	[PerformanceStatusId] INT NULL,
 	[Reason] VARCHAR(255) NULL,
     [DateDeleted] DATETIME NULL, 
+	[DeletedByImport] BIT DEFAULT 0,
 	[StopId] INT NOT NULL,
 	[ActionLogNumber] VARCHAR(50) NULL,
 	[OuterCount] INT NULL,

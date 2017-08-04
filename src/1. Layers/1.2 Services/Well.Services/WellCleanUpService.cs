@@ -18,7 +18,6 @@
         private readonly IDateThresholdService dateThresholdService;
         private readonly IAmendmentService amendmentService;
         private readonly IJobRepository jobRepository;
-        private static string user = "WellCleanUpService";
 
         public WellCleanUpService(
             ILogger logger,
@@ -55,7 +54,7 @@
                     logger.LogDebug("Finished generating amendments");
 
                     logger.LogDebug("Start soft delete jobs activities and children");
-                    await this.SoftDelete(jobsToDelete, user);
+                    await this.SoftDelete(jobsToDelete);
                     
                     logger.LogDebug("Finished soft delete jobs activities and children");
 
@@ -116,14 +115,14 @@
                 .ToLookup(k => k.BranchId);
         }
 
-        private Task SoftDelete(IList<int> jobIds, string deletedBy)
+        private Task SoftDelete(IList<int> jobIds)
         {
             return Task.Run(() =>
             {
-                jobRepository.JobsSetResolutionStatusClosed(jobIds, deletedBy);
-                jobRepository.CascadeSoftDeleteJobs(jobIds, deletedBy);
-                wellCleanUpRepository.DeleteStops(jobIds, deletedBy);
-                wellCleanUpRepository.DeleteRoutes(jobIds, deletedBy);
+                jobRepository.JobsSetResolutionStatusClosed(jobIds);
+                jobRepository.CascadeSoftDeleteJobs(jobIds);
+                wellCleanUpRepository.DeleteStops(jobIds);
+                wellCleanUpRepository.DeleteRoutes(jobIds);
             });
         }
     }

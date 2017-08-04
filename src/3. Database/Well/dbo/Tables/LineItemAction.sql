@@ -20,6 +20,7 @@
 	[LastUpdatedDate] DATETIME NOT NULL,
     [DateDeleted] DATETIME NULL, 
 	[Version] [TIMESTAMP] NOT NULL,
+	[DeletedByImport] BIT DEFAULT 0,
     CONSTRAINT [PK_LineItemAction] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_LineItemAction_LineItem] FOREIGN KEY ([LineItemId]) REFERENCES [dbo].[LineItem] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_LineItemAction_ExceptionType] FOREIGN KEY ([ExceptionTypeId]) REFERENCES [dbo].[ExceptionType] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,

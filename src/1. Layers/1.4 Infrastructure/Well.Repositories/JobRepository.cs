@@ -316,7 +316,7 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        public IEnumerable<Job> GetExistingJobs(int branchId, IEnumerable<Job> jobs)
+        public IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs)
         {
             var data = jobs.Select(p => new
             {
@@ -325,29 +325,38 @@ namespace PH.Well.Repositories
                 p.JobTypeCode
             }).ToList().ToDataTables();
 
-            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
                 .AddParameter("BranchId", branchId, DbType.Int32)
                 .AddParameter("IdentifyJobTable", data, DbType.Object)
                 .Query<int>();
 
-            return GetByIds(jobIds);
+            //return GetByIds(jobIds);
         }
 
-        public void CascadeSoftDeleteJobs(IList<int> jobIds, string deletedBy)
+        public void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobsCascadeSoftDelete)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .AddParameter("DeletedByImport", deletedByImport, DbType.Boolean)
                 .Execute();
         }
 
-        public void JobsSetResolutionStatusClosed(IList<int> jobIds, string deletedBy)
+        public void ReinstateJobsSoftDeletedByImport(IList<int> jobIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .Execute();
+        }
+
+        public void JobsSetResolutionStatusClosed(IList<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobsSetResolutionStatusClosed)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
     }

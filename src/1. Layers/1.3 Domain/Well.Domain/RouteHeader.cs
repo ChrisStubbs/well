@@ -290,11 +290,12 @@
 
         [XmlIgnore]
         public int TotalDrops { get; set; }
-        
-        public bool TryParseBranchIdFromRouteNumber(out int branchId )
+
+        public bool TryParseBranchIdFromRouteNumber(out int branchId)
         {
             return int.TryParse(RouteNumber.Substring(0, 2), out branchId);
         }
 
+        public bool IsCompleted => !string.IsNullOrEmpty(RouteStatusCode) && RouteStatusCode.Equals(Constants.RouteStatusCode.Completed);
     }
 }

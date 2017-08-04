@@ -46,11 +46,11 @@
                         p.AssemblyContainingType<IWellCleanUpService>();
                         p.AssemblyContainingType<IStopRepository>();
                         p.AssemblyContainingType<IEventLogger>();
-                        
                         p.WithDefaultConventions();
                         p.RegisterConcreteTypesAgainstTheFirstInterface();
                         p.SingleImplementationsOfInterface();
                     });
+                    x.For<IUserNameProvider>().Use<WellCleanUserNameProvider>();
                 });
         }
     }

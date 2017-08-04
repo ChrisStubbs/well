@@ -15,7 +15,7 @@
 
         IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId);
 
-        Job GetJobByRefDetails(string jobTypeCode,string phAccount, string pickListRef, int stopId);
+        Job GetJobByRefDetails(string jobTypeCode, string phAccount, string pickListRef, int stopId);
 
         IEnumerable<Job> GetByStopId(int id);
 
@@ -50,16 +50,18 @@
         IEnumerable<Job> GetJobsByLineItemIds(IEnumerable<int> lineItemIds);
 
         IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds);
-        
+
         IEnumerable<JobToBeApproved> GetJobsToBeApproved();
 
         Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
 
-        IEnumerable<Job> GetExistingJobs(int branchId, IEnumerable<Job> jobs);
+        IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs);
 
-        void CascadeSoftDeleteJobs(IList<int> jobIds, string deletedBy);
+        void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false);
 
-        void JobsSetResolutionStatusClosed(IList<int> jobIds, string deletedBy);
+        void ReinstateJobsSoftDeletedByImport(IList<int> jobIds);
+
+        void JobsSetResolutionStatusClosed(IList<int> jobIds);
 
     }
 }

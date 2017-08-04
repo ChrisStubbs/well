@@ -4,6 +4,7 @@
 	[JobDetailId] INT NOT NULL,
 	[Qty] INT NULL,
 	[DateDeleted] DATETIME NULL, 
+	[DeletedByImport] BIT DEFAULT 0,
 	JobDetailSourceId TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailSource REFERENCES [dbo].JobDetailSource (Id),
 	JobDetailReasonId TINYINT NULL CONSTRAINT FK_JobDetailDamage_JobDetailReason REFERENCES [dbo].[JobDetailReason] (Id),
 	DamageActionId INT NULL CONSTRAINT FK_JobDetailDamage_DeliveryAction REFERENCES [dbo].[DeliveryAction] (Id),

@@ -46,6 +46,8 @@
 
             return sb.ToString();
         }
+
+        public int? LocationId { get; set; }
     }
 }
 

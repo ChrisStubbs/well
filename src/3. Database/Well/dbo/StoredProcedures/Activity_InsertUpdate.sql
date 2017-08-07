@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Activity_InsertUpdate]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
@@ -28,6 +29,7 @@ BEGIN
 	INSERT INTO @Jobs(DocumentNumber, InitialDocument, ActivityType, RouteOwnerId, AccountCode, DeliveryDate, LocationId, JobId, ActivityId)
 	SELECT j.InvoiceNumber,j.PickListRef, jt.ActivityTypeId , rh.routeownerId,  j.PHAccount, s.DeliveryDate, s.Location_Id, j.id, a.Id 
 	FROM Job j
+	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	INNER JOIN [Stop] s ON s.Id = j.Stopid
 	INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId
 	INNER JOIN JobType jt ON j.JobTypeCode = jt.Code
@@ -42,11 +44,12 @@ BEGIN
 	SELECT DocumentNumber,InitialDocument, ActivityType, LocationId ,COUNT(1), ActivityId 
 	FROM @jobs
 	GROUP BY  DocumentNumber,InitialDocument, ActivityType, LocationId, ActivityId
-	
+
 
 	-- Update the Activity table 
 	MERGE INTO Activity AS Target
-	USING (SELECT  DocumentNumber ,InitialDocument, ActivityType, LocationId , ActivityId FROM @JobsToActivity) AS Source
+	USING ( SELECT  DocumentNumber ,InitialDocument, ActivityType, LocationId , ActivityId 
+			FROM @JobsToActivity) AS Source
 	( DocumentNumber ,InitialDocument, ActivityType, LocationId, ActivityId )
 	ON Target.Id = Source.ActivityId
 	WHEN MATCHED THEN

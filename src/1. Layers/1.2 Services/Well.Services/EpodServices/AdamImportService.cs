@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Transactions;
     using Common;
     using Common.Contracts;
@@ -70,8 +71,6 @@
 
                 this.ImportRouteHeader(header, route.RouteId);
             }
-            // updates Location/Activity/LineItem/Bag tables from imported data
-            this.postImportRepository.PostImportUpdate();
         }
 
         public void ImportRouteHeader(RouteHeader header, int routeId)
@@ -114,6 +113,8 @@
                         this.accountRepository.Save(stop.Account);
 
                         this.ImportJobs(stop.Jobs);
+                        // updates Location/Activity/LineItem/Bag tables from imported data
+                        this.postImportRepository.PostImportUpdate(stop.Jobs.Select(x=> x.Id).Distinct());
 
                         transactionScope.Complete();
                     }

@@ -1,17 +1,13 @@
 ﻿namespace PH.Well.Services.EpodServices
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Transactions;
     using Common;
     using Common.Contracts;
     using Contracts;
     using Domain;
     using Domain.Enums;
-    using Domain.Extensions;
     using Repositories.Contracts;
-    using static Domain.Mappers.AutoMapperConfig;
 
     public class RouteImportService : IAdamImportService
     {
@@ -44,9 +40,6 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         this.ImportRouteHeader(header, route.RouteId);
-
-                        // updates Location/Activity/LineItem/Bag tables from imported data
-                        this.postImportRepository.PostImportUpdate();
                         transactionScope.Complete();
                     }
                 }

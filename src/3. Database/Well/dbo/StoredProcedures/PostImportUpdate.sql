@@ -1,10 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[PostImportUpdate]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	
-	EXECUTE Location_Insert
-	EXECUTE Activity_InsertUpdate
-	EXECUTE LineItem_InsertUpdate
-	EXECUTE Bag_InsertUpdate
+	EXECUTE Location_Insert @JobIds
+	EXECUTE Activity_InsertUpdate @JobIds
+	EXECUTE LineItem_InsertUpdate @JobIds
+	EXECUTE Bag_InsertUpdate @JobIds
 
 END

@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AutoMapper;
     using Common.Contracts;
     using Contracts;
     using Domain;
     using Domain.Enums;
     using Domain.Extensions;
     using Repositories.Contracts;
+    using static Domain.Mappers.AutoMapperConfig;
 
     public class ImportService : IImportService
     {
@@ -20,6 +20,7 @@
         private readonly IJobService jobService;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+        private readonly IPostImportRepository postImportRepository;
 
         public ImportService(
             ILogger logger,
@@ -28,7 +29,8 @@
             IJobRepository jobRepository,
             IJobService jobService,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepository jobDetailDamageRepository
+            IJobDetailDamageRepository jobDetailDamageRepository,
+            IPostImportRepository postImportRepository
             )
         {
             this.logger = logger;
@@ -38,6 +40,7 @@
             this.jobService = jobService;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.postImportRepository = postImportRepository;
         }
         public virtual void ImportStops(RouteHeader fileRouteHeader)
         {
@@ -108,10 +111,11 @@
         }
         public void ImportJobs(int routeHeaderId, int branchId, IList<Job> jobs)
         {
+            
             var existingStopJobsIds = jobRepository.GetJobIdsByRouteHeaderId(routeHeaderId);
-
             var existingJobsBothSources = GetExistingJobs(branchId, jobs);
 
+            List<int> updateJobIds = new List<int>();
             foreach (var job in jobs)
             {
                 var originalJob = FindOriginalJob(existingJobsBothSources, job);
@@ -122,6 +126,7 @@
                     job.ResolutionStatus = ResolutionStatus.Imported;
                     jobRepository.Save(job);
                     jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                    updateJobIds.Add(job.Id);
 
                     job.JobDetails.ForEach(
                         x =>
@@ -140,6 +145,7 @@
                 {
                     originalJob.StopId = job.StopId;
                     jobRepository.Update(originalJob);
+                    updateJobIds.Add(originalJob.Id);
                 }
                 else
                 {
@@ -150,6 +156,10 @@
                     logger.LogDebug(message);
                 }
             }
+
+            // updates Location/Activity/LineItem/Bag tables from imported data
+            this.postImportRepository.PostImportUpdate(updateJobIds);
+            // may need to do the other Post Import!!
 
             //Delete Jobs Not In File
             var jobsToBeDeleted = jobRepository.GetByIds(

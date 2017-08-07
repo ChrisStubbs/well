@@ -53,7 +53,7 @@
             foreach (var stop in route.Stops)
             {
                 var action = GetOrderUpdateAction(stop.ActionIndicator);
-                
+
                 switch (action)
                 {
                     case OrderActionIndicator.Insert:
@@ -68,7 +68,7 @@
                 }
             }
             // updates Location/Activity/LineItem/Bag tables from imported data
-            this.postImportRepository.PostImportUpdate();
+            // this.postImportRepository.PostImportUpdate();
         }
 
         private void Insert(StopUpdate stop)
@@ -95,7 +95,7 @@
         {
             var job = stop.Jobs.First();
 
-            var branch =  (int)Enum.Parse(typeof(Branches), stop.StartDepotCode, true);
+            var branch = (int)Enum.Parse(typeof(Branches), stop.StartDepotCode, true);
 
             var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
 
@@ -116,9 +116,10 @@
             using (var transactionScope = new TransactionScope())
             {
                 this.stopRepository.Update(existingStop);
-
-                this.UpdateJobs(stop.Jobs, existingStop.Id);
-
+                IList<int> updatedJobIds;
+                this.UpdateJobs(stop.Jobs, existingStop.Id, out updatedJobIds);
+                // updates Location/Activity/LineItem/Bag tables from imported data
+                this.postImportRepository.PostImportUpdate(updatedJobIds);
                 transactionScope.Complete();
             }
         }
@@ -152,11 +153,12 @@
             }
         }
 
-        private void UpdateJobs(IEnumerable<JobUpdate> jobs, int stopId)
+        private void UpdateJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
         {
+            updatedJobIds = new List<int>();
             foreach (var job in jobs)
             {
-                var existingJob = this.jobRepository.GetJobByRefDetails(job.JobTypeCode,job.PhAccount, job.PickListRef, stopId);
+                var existingJob = this.jobRepository.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stopId);
 
                 if (existingJob != null)
                 {
@@ -167,6 +169,7 @@
                     this.jobRepository.Update(existingJob);
 
                     this.UpdateJobDetails(job.JobDetails, existingJob.Id);
+                    updatedJobIds.Add(existingJob.Id);
                 }
                 else
                 {
@@ -184,6 +187,7 @@
                     newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
                     this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
+                    updatedJobIds.Add(newJob.Id);
                 }
             }
         }
@@ -242,14 +246,18 @@
 
                 this.stopRepository.Save(stop);
 
-                this.InsertJobs(stopInsert.Jobs, stop.Id);
-
+                IList<int> insertedJobIds;
+                this.InsertJobs(stopInsert.Jobs, stop.Id, out insertedJobIds);
+                // updates Location/Activity/LineItem/Bag tables from imported data
+                this.postImportRepository.PostImportUpdate(insertedJobIds);
+                
                 transactionScope.Complete();
             }
         }
 
-        private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId)
+        private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> insertedJobIds)
         {
+            insertedJobIds = new List<int>();
             foreach (var update in jobs)
             {
                 var job = new Job { StopId = stopId };
@@ -263,6 +271,7 @@
                 this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
+                insertedJobIds.Add(job.Id);
             }
         }
 

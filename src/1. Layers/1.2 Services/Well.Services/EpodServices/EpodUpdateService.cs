@@ -15,6 +15,7 @@
     using PH.Well.Services.Contracts;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
+    [Obsolete]
     public class EpodUpdateService : IEpodUpdateService
     {
         private readonly ILogger logger;
@@ -65,7 +66,6 @@
 
         public void Update(RouteDelivery route, string fileName)
         {
-            var updatedJobIds = new List<int>();
             foreach (var header in route.RouteHeaders)
             {
                 int branchId;
@@ -95,9 +95,8 @@
 
                     this.routeHeaderRepository.Update(existingHeader);
 
-                    var jobIdsForHeader = this.UpdateStops(header, branchId);
+                   this.UpdateStops(header, branchId);
 
-                    updatedJobIds.AddRange(jobIdsForHeader);
                 }
                 else
                 {
@@ -108,12 +107,6 @@
 
             }
 
-            //On AdamImport
-            // updates Location/Activity/LineItem/Bag tables from imported data
-            this.postImportRepository.PostImportUpdate();
-
-            //On Transend Import
-            RunPostInvoicedProcessing(updatedJobIds);
         }
 
         public IEnumerable<Job> RunPostInvoicedProcessing(List<int> updatedJobIds)
@@ -155,14 +148,15 @@
             return jobs;
         }
 
-        private List<int> UpdateStops(RouteHeader routeHeader, int branchId)
+        private void UpdateStops(RouteHeader routeHeader, int branchId)
         {
-            var updatedJobIds = new List<int>();
+           
 
             foreach (var stop in routeHeader.Stops)
             {
                 try
                 {
+                 
                     using (var transactionScope = new TransactionScope())
                     {
                         var job = stop.Jobs.First();
@@ -185,7 +179,11 @@
                         this.stopRepository.Update(existingStop);
 
                         var updateJobs = this.UpdateJobs(stop.Jobs, existingStop.Id, branchId, routeHeader.RouteDate.Value);
-                        updatedJobIds.AddRange(updateJobs.Select(x => x.Id).Distinct());
+                        var updatedJobIds = updateJobs.Select(x => x.Id).Distinct().ToList();
+                        // updates Location/Activity/LineItem/Bag tables from imported data
+                        this.postImportRepository.PostImportUpdate(updatedJobIds);
+                        //On Transend Import
+                        RunPostInvoicedProcessing(updatedJobIds);
 
                         transactionScope.Complete();
                     }
@@ -201,8 +199,6 @@
                         EventId.ImportStopException);
                 }
             }
-
-            return updatedJobIds;
         }
 
         private IEnumerable<Job> UpdateJobs(IEnumerable<JobDTO> jobDtOs, int stopId, int branchId, DateTime routeDate)

@@ -54,3 +54,6 @@ GO
 CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode])
 INCLUDE ([Id])
 GO
+
+CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
+GO

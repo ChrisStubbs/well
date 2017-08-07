@@ -15,9 +15,10 @@
             this.dapperProxy = dapperProxy;
         }
 
-        public void PostImportUpdate()
+        public void PostImportUpdate(IEnumerable<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.PostImportUpdate)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("JobIds"), DbType.Object)
                 .Execute();
         }
 

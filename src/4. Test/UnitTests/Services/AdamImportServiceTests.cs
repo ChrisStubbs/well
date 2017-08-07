@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
     using Moq;
@@ -91,7 +92,7 @@
                         $"Will not import route header as already exists from route number ({header.RouteNumber}), route date ({header.RouteDate.Value}), branch ({header.RouteOwnerId})",
                         7776, EventLogEntryType.Error)).Returns(true);
 
-            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
             this.service.Import(route);
 
@@ -135,7 +136,7 @@
             this.jobDetailRepository.Setup(x => x.Save(It.IsAny <JobDetail>()));
             this.jobDetailDamageRepository.Setup(x => x.Save(It.IsAny <JobDetailDamage>()));
             this.jobStatusService.Setup(x => x.SetInitialJobStatus(It.IsAny<Job>()));
-            this.postImportRepository.Setup(x => x.PostImportUpdate());
+            this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
             this.jobRepository.Setup(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()));
 
             this.service.Import(route);
@@ -147,7 +148,7 @@
             this.jobDetailRepository.Verify(x => x.Save(It.IsAny<JobDetail>()), Times.Once);
             this.jobDetailDamageRepository.Verify(x => x.Save(It.IsAny<JobDetailDamage>()), Times.Once);
             this.jobStatusService.Verify(x => x.SetInitialJobStatus(It.IsAny<Job>()), Times.Once);
-            this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+            this.postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Once);
             this.jobRepository.Verify(x => x.SetJobResolutionStatus(job.Id, It.IsAny<string>()), Times.Once);
         }
     }

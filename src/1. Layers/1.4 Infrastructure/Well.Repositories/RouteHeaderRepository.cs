@@ -161,7 +161,9 @@
                 .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DriverName", entity.DriverName, DbType.String)
-                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)
+                .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16).Execute();
         }
 
         public RouteHeader GetRouteHeaderByRoute(int branchId, string routeNumber, DateTime? routeDate)

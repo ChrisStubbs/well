@@ -112,31 +112,6 @@ namespace PH.Well.Api.Controllers
             }
         }
 
-        [Route("branch-credit-threshold")]
-        [HttpGet]
-        public HttpResponseMessage GetCreditThresholdBranches(int creditThresholdId)
-        {
-            try
-            {
-                var branches = this.branchRespository.GetAllValidBranches();
-
-                if (branches.Any())
-                {
-                    var userBranches = this.branchRespository.GetBranchesForCreditThreshold(creditThresholdId);
-
-                    IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
-
-                    return this.Request.CreateResponse(HttpStatusCode.OK, model);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
-            }
-        }
-
         [Authorize(Roles = SecurityPermissions.BranchSelection)]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches)

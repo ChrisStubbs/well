@@ -19,7 +19,7 @@
 
         public IEnumerable<Branch> GetAll()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).QueryMultiples(GetFromGrid);
+            return dapperProxy.WithStoredProcedure(StoredProcedures.BranchesGet).Query<Branch>().ToList();
         }
 
         public IEnumerable<Branch> GetAllValidBranches()
@@ -65,14 +65,6 @@
                     .Query<Branch>();
         }
 
-        public IEnumerable<Branch> GetBranchesForCreditThreshold(int creditThresholdId)
-        {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.GetBranchesForCreditThreshold)
-                    .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
-                    .Query<Branch>();
-        }
-
         public int GetBranchIdForJob(int jobId)
         {
             return
@@ -89,20 +81,6 @@
                     .AddParameter("stopId", stopId, DbType.Int32)
                     .Query<int>()
                     .Single();
-        }
-
-
-        private IEnumerable<Branch> GetFromGrid(SqlMapper.GridReader grid)
-        {
-            var branches = grid.Read<Branch>().ToList();
-            var creditThresholds = grid.Read<BranchCreditThreshold>().ToList();
-
-            foreach (var branch in branches)
-            {
-                branch.CreditThresholds = creditThresholds.Where(c => c.BranchId == branch.Id).ToList();
-            }
-
-            return branches;
         }
     }
 }

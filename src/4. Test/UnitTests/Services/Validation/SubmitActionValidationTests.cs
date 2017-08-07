@@ -1,4 +1,7 @@
-﻿namespace PH.Well.UnitTests.Services.Validation
+﻿using PH.Well.Services.Contracts;
+using PH.Well.UnitTests.Factories;
+
+namespace PH.Well.UnitTests.Services.Validation
 {
     using System;
     using System.Collections.Generic;
@@ -19,6 +22,7 @@
         private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserRepository> userRepository;
         private SubmitActionValidation validator;
+        private Mock<IJobService> jobService;
 
         [SetUp]
         public virtual void SetUp()
@@ -26,9 +30,10 @@
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>();
             dateThresholdService = new Mock<IDateThresholdService>();
+            jobService = new Mock<IJobService>();
 
             validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object,
-                dateThresholdService.Object);
+                dateThresholdService.Object, jobService.Object);
         }
 
         public class TheValidateUserForCreditingMethod : SubmitActionValidationTests
@@ -38,7 +43,6 @@
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
                 userRepository.Setup(x => x.GetByIdentity("Me")).Returns((User)null);
-
                 var result = validator.ValidateUserForCrediting();
 
                 Assert.That(result.IsValid, Is.False);
@@ -48,7 +52,7 @@
             public void ShouldReturnInvalidIfNoThresholdLevel()
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { ThresholdLevelId = null });
+                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = null });
 
                 var result = validator.ValidateUserForCrediting();
 
@@ -59,8 +63,7 @@
             public void ShouldReturnValidIfUserFoundAndThresholdLevelSet()
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { ThresholdLevelId = 1 });
-
+                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = 1 });
                 var result = validator.ValidateUserForCrediting();
 
                 Assert.That(result.IsValid, Is.True);
@@ -80,10 +83,10 @@
                 jobs = new List<Job>();
                 submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 } };
                 this.userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                user = new User { Id = 1, ThresholdLevelId = 1 };
+                user = new User { Id = 1, CreditThresholdId = 1 };
                 stubbedValidator = new Mock<SubmitActionValidation>(userNameProvider.Object, userRepository.Object,
-                    dateThresholdService.Object)
-                { CallBase = true };
+                        dateThresholdService.Object, jobService.Object)
+                    {CallBase = true};
             }
 
             [Test]
@@ -257,7 +260,6 @@
             }
         }
 
-
         public class TheHaveItemsToCreditMethod : SubmitActionValidationTests
         {
             [Test]
@@ -284,5 +286,15 @@
 
         }
 
+        public class TheValidateJobsCanBeEdited : SubmitActionValidationTests
+        {
+            [Test(Description = "Job service should be used to detemine whether jobs can be edited or not")]
+            public void ShouldUseJobServiceToValidateCanBeEdited()
+            {
+                var job = JobFactory.New.Build();
+                validator.ValidateJobsCanBeEdited(new[] {job});
+                jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
+            }
+        }
     }
 }

@@ -91,6 +91,7 @@
     <None Include="ManualStep\scripts\up\020_DropCleanPreferenceTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\022_Drop_CreditThreshold_Tables.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -184,16 +185,10 @@
     <Build Include="dbo\StoredProcedures\SeasonalDatesToBranchSave.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\GetBranchesForSeasonalDate.sql" />
-    <Build Include="dbo\Tables\ThresholdLevel.sql" />
     <Build Include="dbo\Tables\CreditThreshold.sql" />
-    <Build Include="dbo\Tables\CreditThresholdToBranch.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdGetAll.sql" />
-    <Build Include="dbo\StoredProcedures\CreditThresholdBranchesGet.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdDelete.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdSave.sql" />
-    <Build Include="dbo\StoredProcedures\CreditThresholdToBranchSave.sql" />
-    <Build Include="dbo\StoredProcedures\GetBranchesForCreditThreshold.sql" />
-    <Build Include="dbo\StoredProcedures\ThresholdLevelSave.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
@@ -212,10 +207,8 @@
     <Build Include="dbo\Tables\PendingCredit.sql" />
     <Build Include="dbo\StoredProcedures\EventInsert.sql" />
     <Build Include="dbo\StoredProcedures\EventSetProcessed.sql" />
-    <Build Include="dbo\StoredProcedures\CreditThresholdByBranch.sql" />
     <Build Include="dbo\StoredProcedures\PendingCreditInsert.sql" />
     <Build Include="dbo\StoredProcedures\RemovePendingCredit.sql" />
-    <Build Include="dbo\StoredProcedures\User_GetCreditThreshold.sql" />
     <Build Include="dbo\Functions\WidgetType_Exceptions.sql" />
     <Build Include="dbo\Functions\WidgetType_Outstanding.sql" />
     <Build Include="dbo\Functions\WidgetType_Assigned.sql" />
@@ -414,7 +407,7 @@
     <None Include="Post-Deployement\Populate-RouteHeaderExceptions.sql" />
     <None Include="Post-Deployement\Populate-RoutePerformanceStatus.sql" />
     <None Include="Post-Deployement\Populate-RouteStatus.sql" />
-    <None Include="Post-Deployement\Populate-ThresholdLevels.sql" />
+    <None Include="Post-Deployement\Populate-CreditThresholds.sql" />
     <None Include="Post-Deployement\Populate-VisitTypes.sql" />
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
@@ -435,8 +428,16 @@
     <Build Include="dbo\StoredProcedures\CleanStops.sql" />
     <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
     <Build Include="dbo\Types\IdentifyJobTableType.sql" />
-    <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobType.sql" />
+    <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_CascadeSoftDelete.sql" />
+    <Build Include="dbo\StoredProcedures\Account_Update.sql" />
+    <Build Include="dbo\StoredProcedures\Jobs_ReinstateSoftDeletedByImport.sql" />
+    <Build Include="dbo\StoredProcedures\Stops_ReinstateSoftDeletedByImport.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdUserInsert.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdGetByUser.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\CreditThresholdUserDelete.sql" />
+    <Build Include="dbo\Tables\CreditThresholdUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

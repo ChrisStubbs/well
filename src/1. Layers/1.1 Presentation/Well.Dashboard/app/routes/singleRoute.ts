@@ -24,6 +24,7 @@ export class SingleRouteItem implements IGrnAssignable
     public jobId: number;
     public stopId: number;
     public stop: string;
+    public previously: string;
     public stopStatus: string;
     public tba: number;
     public stopAssignee: string;
@@ -65,6 +66,7 @@ export class SingleRouteSource
 
     public stopId: number;
     public stop: string;
+    public previously: string;
     public stopStatus: string;
     public totalExceptions: number;
     public totalClean: number;

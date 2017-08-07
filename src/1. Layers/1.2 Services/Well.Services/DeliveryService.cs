@@ -15,34 +15,34 @@
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IJobRepository jobRepository;
         private readonly IStopRepository stopRepository;
-        private readonly IUserRepository userRepository;
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryReadRepository deliveryReadRepository;
         private readonly IBranchRepository branchRepository;
         private readonly IJobService jobStatusService;
         private readonly IDateThresholdService dateThresholdService;
+        private readonly IUserThresholdService userThresholdService;
 
         public DeliveryService(IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
             IJobRepository jobRepository,
             IStopRepository stopRepository,
-            IUserRepository userRepository,
             IExceptionEventRepository exceptionEventRepository,
             IDeliveryReadRepository deliveryReadRepository,
             IBranchRepository branchRepository,
             IJobService jobStatusService,
-            IDateThresholdService dateThresholdService)
+            IDateThresholdService dateThresholdService,
+            IUserThresholdService userThresholdService)
         {
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.jobRepository = jobRepository;
             this.stopRepository = stopRepository;
-            this.userRepository = userRepository;
             this.exceptionEventRepository = exceptionEventRepository;
             this.deliveryReadRepository = deliveryReadRepository;
             this.branchRepository = branchRepository;
             this.jobStatusService = jobStatusService;
             this.dateThresholdService = dateThresholdService;
+            this.userThresholdService = userThresholdService;
         }
 
         public IList<Delivery> GetExceptions(string username)
@@ -59,19 +59,14 @@
             var approvals = deliveryReadRepository.GetByStatuses(username, statuses);
             approvals = approvals.Where(j => j.IsPendingCredit);
 
-            //Populate Thresholds
-            var branches = branchRepository.GetAllValidBranches();
-            foreach (var approval in approvals)
+            var userCreditThreshold = userThresholdService.GetCreditThreshold(username);
+            if (userCreditThreshold != null)
             {
-                var branch = branches.SingleOrDefault(b => b.Id == approval.BranchId);
-                if (branch == null)
+                foreach (var approval in approvals)
                 {
-                    continue;
+                    approval.ThresholdLevel = userCreditThreshold.Level;
+                    approval.ThresholdAmount = userCreditThreshold.Threshold;
                 }
-                var threshold = branch.CreditThresholds.OrderBy(t => t.Threshold)
-                    .FirstOrDefault(t => t.Threshold >= approval.TotalCreditValueForThreshold);
-
-                approval.ThresholdLevel = threshold?.ThresholdLevel;
             }
 
             return approvals.ToList();

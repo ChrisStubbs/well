@@ -58,14 +58,12 @@
     <Compile Include="AmendmentService.cs" />
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
-    <Compile Include="BulkCreditService.cs" />
     <Compile Include="BulkEditService.cs" />
     <Compile Include="Contracts\IWellCleanUpService.cs" />
     <Compile Include="Contracts\IAmendmentService.cs" />
     <Compile Include="Contracts\IBulkEditService.cs" />
     <Compile Include="Contracts\IPatchSummaryMapper.cs" />
     <Compile Include="DateThresholdService.cs" />
-    <Compile Include="CleanDeliveryService.cs" />
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
     <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
@@ -75,7 +73,6 @@
     <Compile Include="Contracts\IAdamImportService.cs" />
     <Compile Include="Contracts\IAdamUpdateService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
-    <Compile Include="Contracts\ICleanDeliveryService.cs" />
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\IDeliveryLinesAction.cs" />
@@ -92,7 +89,6 @@
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
-    <Compile Include="Contracts\IBulkCreditService.cs" />
     <Compile Include="Contracts\IAppSearchService.cs" />
     <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="Contracts\ILineItemActionService.cs" />

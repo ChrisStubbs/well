@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Api.Mapper
+﻿using PH.Well.Common.Contracts;
+using PH.Well.Services.Contracts;
+
+namespace PH.Well.Api.Mapper
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -12,7 +15,14 @@
 
     public class StopMapper : IStopMapper
     {
-        
+        private readonly IJobService jobService;
+        private readonly IUserNameProvider userNameProvider;
+
+        public StopMapper(IJobService jobService, IUserNameProvider userNameProvider)
+        {
+            this.jobService = jobService;
+            this.userNameProvider = userNameProvider;
+        }
 
         public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees,
             IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
@@ -45,17 +55,12 @@
         private IList<StopModelItem> MapItems(List<Job> jobs, IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
             return jobs
-                .Select(p => new
-                {
-                    jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode),
-                    job = p
-                })
-                .Where(p => p.jobType != JobType.Documents)
+                .Where(p => p.JobTypeEnumValue != JobType.Documents)
                 .SelectMany(p =>
                 {
-                    var jobDetails = p.job.JobDetails;
+                    var jobDetails = p.JobDetails;
 
-                    if (p.jobType == JobType.Tobacco)
+                    if (p.JobTypeEnumValue == JobType.Tobacco)
                     {
                         jobDetails = jobDetails
                         .Where(x => !x.IsTobaccoBag())
@@ -68,27 +73,28 @@
                             DetailId = line.Id,
                             StopModelItem = new StopModelItem
                             {
-                                JobId = p.job.Id,
-                                Invoice = p.job.InvoiceNumber,
-                                Type = p.job.JobType,
-                                JobTypeAbbreviation = p.job.JobTypeAbbreviation,
-                                Account = p.job.PhAccount,
-                                AccountID = p.job.PhAccountId,
+                                JobId = p.Id,
+                                Invoice = p.InvoiceNumber,
+                                Type = p.JobType,
+                                JobTypeAbbreviation = p.JobTypeAbbreviation,
+                                Account = p.PhAccount,
+                                AccountID = p.PhAccountId,
                                 JobDetailId = line.Id,
                                 Product = line.PhProductCode,
                                 Description = line.ProdDesc,
-                                Value =  line.NetPrice?? 0,
+                                Value = line.NetPrice ?? 0,
                                 Invoiced = line.OriginalDespatchQty,
                                 Delivered = line.DeliveredQty,
                                 Checked = line.IsChecked,
                                 HighValue = line.IsHighValue,
                                 BarCode = line.SSCCBarcode,
                                 LineItemId = line.LineItemId,
-                                Resolution = p.job.ResolutionStatus.Description,
-                                ResolutionId = p.job.ResolutionStatus.Value,
-                                GrnProcessType = p.job.GrnProcessType ?? 0,
-                                HasUnresolvedActions = HasUnresolvedAction(p.job, line.LineItemId),
-                                GrnNumber = p.job.GrnNumber
+                                Resolution = p.ResolutionStatus.Description,
+                                ResolutionId = p.ResolutionStatus.Value,
+                                GrnProcessType = p.GrnProcessType ?? 0,
+                                HasUnresolvedActions = HasUnresolvedAction(p, line.LineItemId),
+                                GrnNumber = p.GrnNumber,
+                                CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName())
                             }
                         })
                         .ToList();

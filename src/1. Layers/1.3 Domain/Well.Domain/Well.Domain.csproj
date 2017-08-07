@@ -56,6 +56,7 @@
     <Compile Include="DateThreshold.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
@@ -147,7 +148,6 @@
     <Compile Include="ValueObjects\EditLineItemException.cs" />
     <Compile Include="ValueObjects\LineItemActionUpdate.cs" />
     <Compile Include="ValueObjects\PodDeliveryLineCredit.cs" />
-    <Compile Include="ValueObjects\BranchCreditThreshold.cs" />
     <Compile Include="ValueObjects\PodTransaction.cs" />
     <Compile Include="ValueObjects\CreditTransaction.cs" />
     <Compile Include="ValueObjects\CreditLines.cs" />

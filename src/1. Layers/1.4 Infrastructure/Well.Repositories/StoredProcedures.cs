@@ -25,8 +25,9 @@
         public const string StopUpdate = "Stop_Update";
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
+        public const string AccountUpdate = "Account_Update";
         public const string StopGetByJob = "StopGetByJob";
-        public const string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
+        public const string StopIdsGetByTransportOrderReference = "StopIds_GetByTransportOrderReference";
         public const string StopGetByJobId = "Stop_GetByJobId";
         public const string StopsGetByIds = "Stops_GetByIds";
         public const string StopDeleteById = "Stop_DeleteById";
@@ -40,6 +41,8 @@
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
         public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
+        public const string JobsReinstateSoftDeletedByImport = "Jobs_ReinstateSoftDeletedByImport";
+        public const string StopsReinstateSoftDeletedByImport = "Stops_ReinstateSoftDeletedByImport";
         public const string SaveGrn = "SaveGrn";
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
@@ -55,7 +58,7 @@
         public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public const string JobGetByIds = "Job_GetByIds";
         public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
-        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobType";
+        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted";
         public const string JobDetailGet = "JobDetail_Get";
         public const string JobDetailInsert = "JobDetail_Insert";
         public const string JobDetailUpdate = "JobDetail_Update";
@@ -78,7 +81,6 @@
         public const string SaveUserBranch = "UserBranchInsert";
         public const string GetBranchesForUser = "GetBranchesForUser";
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
-        public const string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
         public const string CleanJobsSetResolutionStatusClosed = "CleanJobsSetResolutionStatusClosed";
         public const string CleanStops = "CleanStops";
@@ -88,7 +90,6 @@
         public const string UserSave = "UserSave";
         public const string AssignJobToUser = "UserJob_Insert";
         public const string UnAssignJobToUser = "UserJob_Delete";
-        public const string UserByCreditThresholdGet = "UserByCreditThresholdGet";
         public const string EventInsert = "EventInsert";
         public const string EventInsertBulk = "EventInsertBulk";
         
@@ -105,12 +106,14 @@
         public const string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
         public const string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
         public const string CreditThresholdGetAll = "CreditThresholdGetAll";
-        public const string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
         public const string CreditThresholdDelete = "CreditThresholdDelete";
-        public const string CreditThresholdByBranch = "CreditThresholdByBranch";
         public const string CreditThresholdSave = "CreditThresholdSave";
-        public const string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
-        public const string ThresholdLevelSave = "ThresholdLevelSave";
+        public const string CreditThresholdUpdate = "CreditThresholdUpdate";
+        public const string CreditThresholdGetByUser = "CreditThresholdGetByUser";
+        public const string CreditThresholdUserDelete = "CreditThresholdUserDelete";
+        public const string CreditThresholdUserInsert = "CreditThresholdUserInsert";
+
+
         public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
         public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
         public const string WidgetWarningSave = "WidgetWarning_Save";
@@ -122,7 +125,6 @@
         public const string PendingCreditInsert = "PendingCreditInsert";
         public const string CreditJob = "Job_CreditLines";
         public const string RemovePendingCredit = "RemovePendingCredit";
-        public const string UserGetCreditThreshold = "User_GetCreditThreshold";
         public const string GetUserJobsByJobIds = "UserJobs_GetbyJobIds";
         public const string GetBranchIdForJob = "GetBranchIdForJob";
         public const string GetBranchIdForStop = "GetBranchIdForStop";

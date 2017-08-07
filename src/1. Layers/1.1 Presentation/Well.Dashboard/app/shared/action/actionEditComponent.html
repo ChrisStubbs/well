@@ -73,9 +73,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid">
+                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid && actionsForm.controls.actionsGroup.errors">
                                 <h4>Form contains invalid data</h4>
-                                <ul *ngIf="actionsForm.controls.actionsGroup.errors">
+                                <ul>
                                     <li>
                                         <strong>{{actionsForm.controls.actionsGroup.errors.message}}</strong>
                                     </li>
@@ -144,13 +144,13 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" formControlName="exceptionType" *ngIf="!isBaypassExceptionType(lineItemActions[i].exceptionType)">
+                                                    <select class="form-control" formControlName="exceptionType" *ngIf="!isBypassExceptionType(lineItemActions[i].exceptionType)">
                                                         <option></option>
                                                         <option *ngFor="let et of exceptionTypes" [value]="et.key">
                                                             {{et.value}}
                                                         </option>
                                                     </select>
-                                                    <label *ngIf="isBaypassExceptionType(lineItemActions[i].exceptionType)">Baypass</label>
+                                                    <label *ngIf="isBypassExceptionType(lineItemActions[i].exceptionType)">Bypass</label>
                                                 </td>
                                                 <td>
                                                     <select class="form-control" formControlName="source">

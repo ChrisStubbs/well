@@ -10,6 +10,7 @@
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
 	[DateDeleted] DATETIME NULL,
+	[DeletedByImport] BIT DEFAULT 0,
 	[Version] [TIMESTAMP] NOT NULL,
 	CONSTRAINT [PK_LineItemActionComment] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_LineItemActionComment_LineItemAction] FOREIGN KEY ([LineItemActionId]) REFERENCES [dbo].[LineItemAction] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,

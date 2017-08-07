@@ -54,8 +54,8 @@ BEGIN
 			INNER JOIN UserBranch ub on b.Id = ub.BranchId
 			INNER JOIN [User] u on u.Id = ub.UserId
 			INNER JOIN JobStatus jb on jb.Id = j.JobStatusId
-			LEFT JOIN ThresholdLevel tl on tl.Id = u.ThresholdLevelId
-			LEFT JOIN CreditThreshold ct on ct.ThresholdLevelId = tl.Id
+			LEFT JOIN CreditThresholdUser ctu on ctu.UserId = u.Id
+			LEFT JOIN CreditThreshold ct on ct.Id = ctu.CreditThresholdId
 			LEFT JOIN UserJob uj on uj.JobId = j.Id 
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
 			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.DateDeleted IS NULL

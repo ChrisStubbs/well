@@ -10,13 +10,17 @@ using PH.Well.Common.Extensions;
 
 namespace PH.Well.Repositories
 {
+    using Common.Contracts;
+
     public class WellCleanUpRepository : IWellCleanUpRepository
     {
         private readonly IDapperProxy dapperProxy;
+        private readonly IUserNameProvider userNameProvider;
 
-        public WellCleanUpRepository(IDapperProxy dapperProxy)
+        public WellCleanUpRepository(IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
         {
             this.dapperProxy = dapperProxy;
+            this.userNameProvider = userNameProvider;
         }
 
         public IList<NonSoftDeletedRoutesJobs> GetNonSoftDeletedRoutes()
@@ -48,21 +52,21 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        public void DeleteStops(IList<int> jobIds, string deletedBy)
+        public void DeleteStops(IList<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanStops)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .AddParameter("UpdatedBy", userNameProvider.GetUserName(), DbType.String)
                 .Execute();
         }
 
-        public void DeleteRoutes(IList<int> jobIds, string deletedBy)
+        public void DeleteRoutes(IList<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.CleanRoutes)
                 .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", deletedBy, DbType.String)
+                .AddParameter("UpdatedBy", userNameProvider.GetUserName(), DbType.String)
                 .Execute();
         }
 

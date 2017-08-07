@@ -69,15 +69,6 @@
 
         public string Previously { get; set; }
 
-        public void SetPreviously(Stop original)
-        {
-            if (!original.DeliveryDate.ToShortDateString().Equals(DeliveryDate.ToShortDateString(), StringComparison.InvariantCultureIgnoreCase))
-            {
-                Previously = $"{original.DropId} - {original.DeliveryDate.ToShortDateString()}";
-            }
-
-            Previously = $"{DropId} ";
-        }
-
+        public bool DeletedByImport { get; set; }
     }
 }

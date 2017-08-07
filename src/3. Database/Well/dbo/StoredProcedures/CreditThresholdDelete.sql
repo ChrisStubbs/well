@@ -2,15 +2,8 @@
 	@Id INT
 AS
 BEGIN
-
-DELETE FROM
-	 [dbo].[CreditThresholdToBranch]
-WHERE
-	CreditThresholdId = @Id
-
 DELETE FROM
 	 [dbo].[CreditThreshold]
 WHERE
-	Id = @Id
-		   		   
+	Id = @Id		   		   
 END

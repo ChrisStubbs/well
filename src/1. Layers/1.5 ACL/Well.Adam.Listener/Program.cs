@@ -57,7 +57,8 @@
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
-                    x.For<IAdamImportService>().Use<AdamImportService>();
+                    //x.For<IAdamImportService>().Use<AdamImportService>();
+                    x.For<IAdamImportService>().Use<RouteImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();

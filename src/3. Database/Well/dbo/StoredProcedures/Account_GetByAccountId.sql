@@ -15,6 +15,7 @@ BEGIN
 		  ,[ContactNumber2]
 		  ,[ContactEmailAddress]
 		  ,[DepotId]
+		  ,[LocationId]
 	  FROM [dbo].[Account]
 	  WHERE Id = @AccountId
 

@@ -127,7 +127,6 @@
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
     <Compile Include="Api\Controllers\StopsControllerTests.cs" />
     <Compile Include="Api\Controllers\SingleRouteControllerTests.cs" />
-    <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="Api\Mapper\SingleRouteMapperTests.cs" />
     <Compile Include="Api\Mapper\StopMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
-    <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
@@ -159,6 +157,7 @@
     <Compile Include="Factories\BulkEditPatchRequestFactory.cs" />
     <Compile Include="Factories\LineItemActionFactory.cs" />
     <Compile Include="Factories\LineItemFactory.cs" />
+    <Compile Include="Factories\NonSoftDeletedRoutesJobsFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
@@ -215,6 +214,7 @@
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
+    <Compile Include="Services\WellCleanUpServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">

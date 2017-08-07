@@ -1,9 +1,12 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Text;
+    using System.Web;
     using System.Web.Http;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
@@ -29,6 +32,7 @@
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
 
+
         [Route("notification")]
         [HttpGet]
         public HttpResponseMessage Get()
@@ -48,7 +52,9 @@
 
         }
 
-        [Route("notification/adamError")]
+        // AllowAnonymous to let ADAM post errors - do not remove
+        [AllowAnonymous]
+        [Route("notification/adamerror")]
         [HttpPost]
         public HttpResponseMessage Post(AdamFail failure)
         {
@@ -60,11 +66,10 @@
                     int type;
                     Int32.TryParse(substrings[0], out type);
 
-
                     var notification = new Notification
                     {
                         JobId = failure.JobId,
-                        ErrorMessage = failure.ErrorMessage, 
+                        ErrorMessage = failure.ErrorMessage,
                         Type = type,
                         Branch = substrings[1],
                         Account = substrings[2],

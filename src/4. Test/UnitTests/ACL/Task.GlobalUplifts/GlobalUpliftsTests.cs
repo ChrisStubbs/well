@@ -22,7 +22,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
     [TestFixture]
     public class GlobalUpliftsTests
     {
-        private string _csvHeader = @"BRANCH,ACC NO,CREDIT REASON CODE,PRODUCT CODE,QTY,Start Date,End Date";
+        private string _csvHeader = @"BRANCH,ACC NO,CREDIT REASON CODE,PRODUCT CODE,QTY,Start Date,End Date,Ref";
 
         [Test]
         public void AllFieldsInvalidTest()
@@ -103,7 +103,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         public void GlobalUpliftTransactionFactoryTest()
         {
             var transaction = new GlobalUpliftTransaction(101231, 123, "123.001", "Global Uplift", 14472, 2,
-                DateTime.Now, DateTime.Now.AddHours(1));
+                DateTime.Now, DateTime.Now.AddHours(1), 123456, "customer ref");
             var globalUpliftTransactionFactory = new GlobalUpliftTransactionFactory();
 
             var lineSql = globalUpliftTransactionFactory.LineSql(transaction);
@@ -116,7 +116,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         {
             //Transaction specifies that header and line shouldn't be written
             var transaction = new GlobalUpliftTransaction(101231, 123, "123.001", "Global Uplift", 14472, 2,
-                DateTime.Now, DateTime.Now.AddHours(1), false, false);
+                DateTime.Now, DateTime.Now.AddHours(1), false, false, 0, "customer ref");
 
             var globalUpliftTransactionFactory = new GlobalUpliftTransactionFactory();
 
@@ -149,7 +149,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             };
 
             var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
-                DateTime.Now.AddDays(1));
+                DateTime.Now.AddDays(1), 0, "customer ref");
 
             _adamRepositoryMock
                 .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
@@ -195,7 +195,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 
             //Create transaction that specifies to write header only
             var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
-                DateTime.Now.AddDays(1), false, true);
+                DateTime.Now.AddDays(1), false, true, 0, "customer ref");
 
             _adamRepositoryMock
                 .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))
@@ -243,7 +243,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             };
 
             var transaction = new GlobalUpliftTransaction(1, 1, "123", "Global Uplift", 123, 1, DateTime.Now,
-                DateTime.Now.AddDays(1));
+                DateTime.Now.AddDays(1), 0, "customer ref");
 
             _adamRepositoryMock
                 .Setup(x => x.WriteGlobalUpliftLine(It.IsAny<GlobalUpliftTransaction>(), It.IsAny<AdamSettings>()))

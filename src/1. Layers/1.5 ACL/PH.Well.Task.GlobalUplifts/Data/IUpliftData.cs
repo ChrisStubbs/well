@@ -26,5 +26,7 @@ namespace PH.Well.Task.GlobalUplifts.Data
         DateTime StartDate { get; }
 
         DateTime EndDate { get; }
+
+        string CustomerReference { get; }
     }
 }

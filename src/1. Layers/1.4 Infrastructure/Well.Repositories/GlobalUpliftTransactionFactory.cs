@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 
@@ -46,10 +42,10 @@ namespace PH.Well.Repositories
             }
 
             var sql =
-                $@"INSERT INTO WELLHEAD (WELLHDGUID, WELLHDRCDTYPE, WELLHDBRANCH, WELLHDACNO, WELLHDFLAG, WELLHDNEWDELDATE, WELLHDREVDELDATE, WELLHDLINECOUNT )
+                $@"INSERT INTO WELLHEAD (WELLHDGUID, WELLHDRCDTYPE, WELLHDBRANCH, WELLHDACNO, WELLHDFLAG, WELLHDNEWDELDATE, WELLHDREVDELDATE, WELLHDLINECOUNT, WELLHDINVNO, WELLHDTEXT1 )
                   VALUES ({transaction.Id},'{GlobalUpliftTransaction.WELLHDRCDTYPE}',{transaction.BranchId},{
                         GetAccountNumber(transaction.AccountNumber)
-                    },0,'{transaction.StartDate.ToShortDateString()}','{transaction.EndDate.ToShortDateString()}',1);";
+                    },0,'{transaction.StartDate.ToShortDateString()}','{transaction.EndDate.ToShortDateString()}',1, {transaction.CsfNumber}, '{transaction.CustomerReference}');";
 
             return sql;
         }

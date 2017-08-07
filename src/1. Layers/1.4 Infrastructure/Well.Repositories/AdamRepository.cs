@@ -463,7 +463,8 @@
                     StartDate = transaction.StartDate,
                     EndDate = transaction.EndDate,
                     WriteLine = writeLine,
-                    WriteHeader = writeHeader
+                    WriteHeader = writeHeader,
+                    CsfNumber = transaction.CsfNumber
                 };
 
                 // Insert uplift event
@@ -552,50 +553,6 @@
         }
 
         #endregion Global Uplift
-        /*     public AdamResponse CreditForPod(Job job, AdamSettings adamSettings, int branchId)
-             {
-
-                 return AdamResponse.Unknown;
-             }
-
-             public AdamResponse CleanPod(Job job, AdamSettings adamSettings, int branchId)
-             {
-                 using (var connection = new AdamConnection(GetConnection(adamSettings)))
-                 {
-                     try
-                     {
-                         connection.Open();
-
-                         using (var command = new AdamCommand(connection))
-                         {
-                             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
-                             var today = DateTime.Now.ToShortDateString();
-                             var now = DateTime.Now.ToShortTimeString();
-
-                             var commandString =
-                                 string.Format(
-                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDPODCODE, WELLHDCRDNUMREAS, WELLHDLINECOUNT) " +
-                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9}, {10});", job.Id, today, now, (int)EventAction.Pod, "WELL", branchId, acno, job.InvoiceNumber, job.ProofOfDelivery, 0, 0);
-
-                             command.CommandText = commandString;
-                             command.ExecuteNonQuery();
-
-                         }
-                         return AdamResponse.Success;
-                     }
-                     catch (AdamProviderException adamException)
-                     {
-                         this.logger.LogError("ADAM error occurred!", adamException);
-
-                         if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
-                         {
-                             return AdamResponse.AdamDown;
-                         }
-                     }
-                     return AdamResponse.Unknown;
-                 }
-             }*/
-
 
         private static string GetConnection(AdamSettings settings)
         {

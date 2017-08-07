@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 namespace PH.Well.Domain.ValueObjects
 {
+    using Common.Extensions;
+    using Enums;
+
     public class GlobalUpliftTransaction
     {
         /// <summary>
         /// ADAM process type
         /// </summary>
-        public const int WELLHDRCDTYPE = 10;
+        public const int WELLHDRCDTYPE = (int)EventAction.GlobalUplift;
 
-        /// <summary>
-        /// ADAM credit reason code
-        /// </summary>
-        public const int WELLINECRDREASON = 24;
+    /// <summary>
+    /// ADAM credit reason code
+    /// </summary>
+    public const int WELLINECRDREASON = 24;
 
         /// <summary>
         /// This constructor allows to create transaction and specify which lines should be written
@@ -31,8 +34,10 @@ namespace PH.Well.Domain.ValueObjects
         /// <param name="endDate"></param>
         /// <param name="writeLine"></param>
         /// <param name="writeHeader"></param>
+        /// <param name="csfNumber"></param>
+        /// <param name="customerReference"></param>
         public GlobalUpliftTransaction(int id, int branchId, string accountNumber, string creditReason, int productCode,
-            int quantity, DateTime startDate, DateTime endDate, bool writeLine, bool writeHeader)
+            int quantity, DateTime startDate, DateTime endDate, bool writeLine, bool writeHeader, int csfNumber, string customerReference)
         {
             Id = id;
             BranchId = branchId;
@@ -44,6 +49,8 @@ namespace PH.Well.Domain.ValueObjects
             EndDate = endDate;
             WriteLine = writeLine;
             WriteHeader = writeHeader;
+            CsfNumber = csfNumber;
+            CustomerReference = customerReference;
         }
 
         /// <summary>
@@ -57,10 +64,12 @@ namespace PH.Well.Domain.ValueObjects
         /// <param name="quantity"></param>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
+        /// <param name="csfNumber"></param>
+        /// <param name="customerReference"></param>
         public GlobalUpliftTransaction(int id, int branchId, string accountNumber, string creditReason, int productCode,
-            int quantity, DateTime startDate, DateTime endDate) : this(id, branchId, accountNumber, creditReason,
+            int quantity, DateTime startDate, DateTime endDate, int csfNumber, string customerReference) : this(id, branchId, accountNumber, creditReason,
             productCode,
-            quantity, startDate, endDate, true, true)
+            quantity, startDate, endDate, true, true, csfNumber, customerReference)
         {
             Id = id;
             BranchId = branchId;
@@ -70,6 +79,8 @@ namespace PH.Well.Domain.ValueObjects
             Quantity = quantity;
             StartDate = startDate;
             EndDate = endDate;
+            CsfNumber = csfNumber;
+            CustomerReference = customerReference;
         }
 
         public int Id { get; }
@@ -87,6 +98,10 @@ namespace PH.Well.Domain.ValueObjects
         public DateTime StartDate { get; }
 
         public DateTime EndDate { get; }
+
+        public int CsfNumber { get; }
+
+        public string CustomerReference { get; }
 
         /// <summary>
         /// Should write line

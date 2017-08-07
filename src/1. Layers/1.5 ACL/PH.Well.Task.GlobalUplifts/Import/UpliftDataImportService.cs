@@ -61,7 +61,7 @@ namespace PH.Well.Task.GlobalUplifts.Import
                         var transaction = new GlobalUpliftTransaction(GenerateTransactionId(r, route.Id), r.BranchId,
                             r.AccountNumber,
                             r.CreditReasonCode,
-                            r.ProductCode, r.Quantity, r.StartDate, r.EndDate);
+                            r.ProductCode, r.Quantity, r.StartDate, r.EndDate, 0, r.CustomerReference);
 
                         //Write to adam
                         var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(r.BranchId));

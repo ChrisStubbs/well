@@ -24,6 +24,10 @@ namespace PH.Well.Domain.ValueObjects
 
         public DateTime EndDate { get; set; }
 
+        public int CsfNumber { get; set; }
+
+        public string CustomerReference { get; set; }
+
         /// <summary>
         /// Has line been written
         /// </summary>

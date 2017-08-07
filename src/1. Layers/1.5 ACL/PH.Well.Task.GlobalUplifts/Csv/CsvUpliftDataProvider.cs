@@ -31,7 +31,8 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private int _quantityIndex;
         private int _startDateIndex;
         private int _endDateIndex;
-       
+        private int _referenceIndex;
+
 
         public CsvUpliftDataProvider(string filePath,string archivePath) : this()
         {
@@ -85,6 +86,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             _quantityIndex = FindHeaderIndex("QTY");
             _startDateIndex = FindHeaderIndex("Start Date");
             _endDateIndex = FindHeaderIndex("End Date");
+            _referenceIndex = FindHeaderIndex("Ref");
 
             var recordCount = 1;
             foreach (var line in lines)
@@ -98,6 +100,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 var quantityString = line[_quantityIndex]?.Trim();
                 var startDateString = line[_startDateIndex]?.Trim();
                 var endDateString = line[_endDateIndex]?.Trim();
+                var referenceString = line[_referenceIndex]?.Trim();
 
                 // Validation logic could be broken down into parsing errors and data errors
                 int branchNumber = 0;
@@ -157,7 +160,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 {
                     records.Add(new UpliftDataBase(recordCount, branchNumber, accountNumberString, creditReasonString,
                         productCode,
-                        quantity, startDate, endDate));
+                        quantity, startDate, endDate, referenceString));
                 }
 
                 recordCount++;

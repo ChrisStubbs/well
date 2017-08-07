@@ -84,7 +84,7 @@
                             var transaction = new GlobalUpliftTransaction(upliftEvent.Id, upliftEvent.BranchId,
                                 upliftEvent.AccountNumber, upliftEvent.CreditReasonCode, upliftEvent.ProductCode,
                                 upliftEvent.Quantity, upliftEvent.StartDate, upliftEvent.EndDate,
-                                upliftEvent.WriteLine, upliftEvent.WriteHeader);
+                                upliftEvent.WriteLine, upliftEvent.WriteHeader, upliftEvent.CsfNumber, upliftEvent.CustomerReference);
 
                             // Process event
                             adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));

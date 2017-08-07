@@ -275,6 +275,49 @@
                 this.exceptionEventRepository.InsertPodEvent(podEvent);
             }
 
+            if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed)
+            {
+                var globalJobDetail = existingJob.JobDetails.FirstOrDefault();
+
+                int csfNumber = 0;
+
+                if (!Int32.TryParse(existingJob.PickListRef, out csfNumber))
+                {
+                    //maybe picklist reference, not invoice number
+                    //log error?
+                    this.logger.LogError(
+                    $"(No csf number for global uplift ({existingJob.Id}))");
+
+                    csfNumber = 0;
+                }
+
+                int productCode = 0;
+
+                if (!Int32.TryParse(globalJobDetail.PhProductCode, out productCode))
+                {
+                    //log error?
+                    this.logger.LogError(
+                    $"(No product code for global uplift ({existingJob.Id}))");
+                    productCode = 0;
+                }
+
+                var globalUpliftEvent = new GlobalUpliftEvent
+                {
+                    BranchId = branchId,
+                    Id = existingJob.Id,
+                    AccountNumber = existingJob.PhAccount,
+                    CreditReasonCode = "24",
+                    CsfNumber = csfNumber,
+                    ProductCode = productCode,
+                    Quantity = globalJobDetail.DeliveredQty,
+                    WriteLine = true,
+                    WriteHeader = true
+                };
+
+                this.exceptionEventRepository.InsertEvent(EventAction.GlobalUplift, globalUpliftEvent);
+                // insert a report event?
+            }
+
             this.jobRepository.Update(existingJob);
             this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
             return existingJob;

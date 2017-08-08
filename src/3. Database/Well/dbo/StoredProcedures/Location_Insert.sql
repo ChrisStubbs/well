@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Location_Insert]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -24,6 +25,8 @@ BEGIN
 		,a.PostCode
 	FROM Account a
 	JOIN [Stop] s ON s.Id = a.StopId
+	JOIN [Job] j on j.StopId = s.id
+	JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	JOIN [RouteHeader] rh ON rh.Id = s.RouteHeaderId
 	JOIN [Branch] b ON b.Id = rh.RouteOwnerId
 	WHERE s.Location_Id IS NULL
@@ -32,7 +35,8 @@ BEGIN
 	-- match on the branch & account code in Location
 	-- insert the location if there is no match
 	MERGE INTO Location AS Target
-	USING (SELECT BranchId, AccountCode, Name, AddressLine1, AddressLine2, Postcode FROM @AccountsToUpdate) AS Source
+	USING (	SELECT BranchId, AccountCode, Name, AddressLine1, AddressLine2, Postcode 
+			FROM @AccountsToUpdate) AS Source
 	(BranchId, AccountCode, Name, AddressLine1, AddressLine2, Postcode)
 	ON Target.BranchId = Source.BranchId AND Target.AccountCode = Source.AccountCode
 	WHEN MATCHED THEN
@@ -52,6 +56,8 @@ BEGIN
 		,l.Id
 	FROM Account a
 	INNER JOIN [Stop] s ON s.Id = a.StopId
+	INNER JOIN [Job] j on j.StopId = s.id
+	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	INNER JOIN [RouteHeader] rh ON rh.Id = s.RouteHeaderId
 	INNER JOIN [Branch] b ON b.Id = rh.RouteOwnerId
 	INNER JOIN [Location] l ON l.BranchId = b.Id AND l.AccountCode = a.Code
@@ -70,13 +76,13 @@ BEGIN
 	SELECT a.Id, s.Location_Id
 	FROM Account a
 	JOIN [Stop] s on s.Id = a.StopId
+	INNER JOIN [Job] j on j.StopId = s.Id
+	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	WHERE a.LocationId IS NULL
 
 	UPDATE a1
 	SET LocationId = a2.LocationId 
 	FROM Account a1
 	INNER JOIN @Accounts a2 ON a2.AccountId = a1.Id 
-
-    RETURN 0;
 
 END

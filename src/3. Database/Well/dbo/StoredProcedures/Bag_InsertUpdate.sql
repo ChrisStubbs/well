@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Bag_InsertUpdate]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
@@ -13,13 +14,15 @@ BEGIN
 	INSERT INTO @BagDetails(JobDetailId, Barcode, [Description])
 	SELECT jd.Id, jd.PHProductCode, jd.ProdDesc
 	FROM JobDetail jd
-	JOIN Job j ON j.Id = jd.JobId
+	INNER JOIN Job j ON j.Id = jd.JobId
+	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	WHERE jd.LineItemId IS NULL
-	AND jd.ProdDesc LIKE '%Tobacco bag%' 
+	AND jd.ProdDesc LIKE 'Tobacco bag%' 
 
-	    -- Update the Bag table 
+	-- Update the Bag table 
 	MERGE INTO Bag AS Target
-	USING (SELECT  Barcode, [Description] FROM @BagDetails) AS Source
+	USING (SELECT  Barcode, [Description] 
+		   FROM @BagDetails) AS Source
 	(  Barcode, [Description])
 	ON Target.Barcode = Source.Barcode AND Target.[Description] = Source.[Description]
 	WHEN NOT MATCHED BY TARGET THEN
@@ -36,6 +39,7 @@ BEGIN
 	SELECT b.Id, jd.LineItemId
 	FROM Bag b
 	INNER JOIN JobDetail jd ON jd.SSCCBarcode = b.Barcode 
+	INNER JOIN @JobIds jobIds ON jobIds.Value = jd.JobId
 
 	-- update LineItem with the Bag Id
 	UPDATE li
@@ -52,6 +56,7 @@ BEGIN
 	SELECT b.Id, jd.Id
 	FROM Bag b
 	INNER JOIN JobDetail jd ON jd.PHProductCode = b.Barcode 
+	INNER JOIN @JobIds jobIds ON jobIds.Value = jd.JobId
 
 	-- update the JobDetail table with the bag ids
 	UPDATE jd

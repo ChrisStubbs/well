@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[LineItem_InsertUpdate]
+	@JobIds dbo.IntTableType READONLY
 AS
 BEGIN
 	DECLARE @process VARCHAR(20) = 'WellUpdate'
@@ -12,16 +13,19 @@ BEGIN
 
 	-- find all the job details with no LINEITEM id that are no tobacco bags
 	INSERT INTO @JobDetails(JobDetailId, LineNumber, ProductCode, ProductDescription, ActivityId)
-	SELECT jd.Id, jd.LineNumber, jd.PHProductCode, jd.ProdDesc, j.ActivityId FROM JobDetail jd
-	JOIN Job j ON j.Id = jd.JobId
+	SELECT	jd.Id, jd.LineNumber, jd.PHProductCode, jd.ProdDesc, j.ActivityId 
+	FROM	JobDetail jd
+	INNER JOIN Job j ON j.Id = jd.JobId
+	INNER JOIN @JobIds jobIds ON jobIds.Value = j.Id
 	WHERE LineItemId IS NULL
 	AND ProdDesc NOT LIKE '%Tobacco bag%' 
 	AND j.JobTypeCode NOT IN ('DEL-DOC', 'UPL-SAN', 'UPL-ASS')  -- no need to create line item or actions for these job types
 
 	-- Update the Line Item table 
 	MERGE INTO LineItem AS Target
-	USING (SELECT LineNumber,ProductCode, ProductDescription, ActivityId FROM @JobDetails) AS Source
-	( LineNumber, ProductCode, ProductDescription, ActivityId)
+	USING (	SELECT LineNumber,ProductCode, ProductDescription, ActivityId 
+			FROM @JobDetails) AS Source
+	(LineNumber, ProductCode, ProductDescription, ActivityId)
 	ON Target.ActivityId = Source.ActivityId AND Target.ProductCode = Source.ProductCode AND Target.LineNumber = Source.LineNumber
 	WHEN MATCHED THEN
 	UPDATE SET ProductDescription = Source.ProductDescription, LastUpdatedBy = @process, LastUpdatedDate =  GETDATE()
@@ -46,7 +50,6 @@ BEGIN
 	FROM JobDetail jd
 	INNER JOIN @JobDetailsToUpdate jtu ON jd.Id = jtu.JobDetailId
 
-	RETURN 0
 END
 
 

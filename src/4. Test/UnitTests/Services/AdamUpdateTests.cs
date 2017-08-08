@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using Moq;
 
@@ -110,7 +111,7 @@
                             EventLogEntryType.Error)).Returns(true);
 
 
-                postImportRepository.Setup(x => x.PostImportUpdate());
+                //postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
                 this.service.Update(routeUpdate);
@@ -136,7 +137,7 @@
                             3215,
                             EventLogEntryType.Error), Times.Once);
 
-                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+                //postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
             }
 
             [Test]
@@ -186,7 +187,7 @@
                     .Returns(new Stop());
 
 
-                postImportRepository.Setup(x => x.PostImportUpdate());
+                //postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
                 this.service.Update(routeUpdate);
@@ -213,7 +214,7 @@
                             EventLogEntryType.Error), Times.Once);
 
 
-                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
             }
 
             [Test]
@@ -280,7 +281,7 @@
 
                 this.jobStatusService.Setup(x => x.SetInitialJobStatus(It.IsAny<Job>()));
 
-                this.postImportRepository.Setup(x => x.PostImportUpdate());
+                this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
                 this.service.Update(routeUpdate);
@@ -310,7 +311,7 @@
 
                 this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
 
-                this.postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+                this.postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Once);
             }
         }
 
@@ -352,7 +353,7 @@
                             $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error)).Returns(true);
 
-                postImportRepository.Setup(x => x.PostImportUpdate());
+                postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
                 this.service.Update(routeUpdate);
@@ -372,7 +373,7 @@
                             $"Existing stop not found for picklist ({job.PickListRef}), account ({job.PhAccount})",
                             7222, EventLogEntryType.Error), Times.Once);
 
-                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
             }
 
             [Test]
@@ -414,7 +415,7 @@
 
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
-                this.postImportRepository.Setup(x => x.PostImportUpdate());
+                this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
                 this.service.Update(routeUpdate);
@@ -422,7 +423,7 @@
                 //ASSERT
                 this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
 
-                postImportRepository.Verify(x => x.PostImportUpdate(),Times.Once);
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()),Times.Once);
             }
         }
 
@@ -454,13 +455,13 @@
 
                 stopRepository.Setup(x => x.DeleteStopByTransportOrderReference(stop.TransportOrderReference));
 
-                postImportRepository.Setup(x => x.PostImportUpdate());
+                postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 service.Update(routeUpdate);
 
                 stopRepository.Verify(x => x.DeleteStopByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
 
-                postImportRepository.Verify(x => x.PostImportUpdate(), Times.Once);
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
             }
         }
     }

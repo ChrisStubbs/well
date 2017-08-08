@@ -48,7 +48,13 @@ BEGIN
 		jd.OriginalDespatchQty AS Expected,
 		lie.DamageTotal AS Damaged,
 		lie.ShortTotal + lie.BypassTotal AS Shorts,
-		CASE WHEN jd.LineDeliveryStatus = 'Delivered' OR LineDeliveryStatus = 'Exception' THEN 1 ELSE 0 END AS Checked,
+		CASE WHEN jd.LineDeliveryStatus = 'Delivered' 
+			OR LineDeliveryStatus = 'Exception' 
+			OR (jd.LineDeliveryStatus = 'Unknown' AND jd.ShortQty > 0) 
+			OR (jd.LineDeliveryStatus = 'Unknown' AND lie.DamageTotal = jd.OriginalDespatchQty)
+			THEN 1 
+			ELSE 0 
+			END AS Checked,
 		jd.IsHighValue AS HighValue,
 		j.StopId,
 		s.DropId as Stop,

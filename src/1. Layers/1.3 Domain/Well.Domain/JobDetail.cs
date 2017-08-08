@@ -71,7 +71,7 @@
 
         public string LineDeliveryStatus { get; set; }
 
-        public bool IsChecked => LineDeliveryStatus == "Exception" || LineDeliveryStatus == "Delivered";
+        public bool IsChecked => LineDeliveryStatus == "Exception" || LineDeliveryStatus == "Delivered" || (LineDeliveryStatus == "Unknown" && ShortQty > 0) || (LineDeliveryStatus == "Unknown" && DamageQty == OriginalDespatchQty);
 
         public int JobId { get; set; }
 

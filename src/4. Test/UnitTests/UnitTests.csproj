@@ -205,13 +205,15 @@
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryServiceTests.cs" />
+    <Compile Include="Services\EpodServices\EpodFileImportCommandTests.cs" />
+    <Compile Include="Services\EpodServices\EpodImportMapperTests.cs" />
+    <Compile Include="Services\EpodServices\EpodImportServiceTests.cs" />
     <Compile Include="Services\JobResolutionStatusTests.cs" />
     <Compile Include="Services\JobStatusServiceTests.cs" />
-    <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
     <Compile Include="Services\ManualCompletionServiceTests.cs" />
     <Compile Include="Services\RouteImportServiceTests.cs" />
-    <Compile Include="Services\RouteMapperTests.cs" />
+    <Compile Include="Services\OrderImportMapperTests.cs" />
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />

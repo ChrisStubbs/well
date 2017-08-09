@@ -8,27 +8,30 @@
     using Domain;
     using Repositories.Contracts;
 
-    public class EpodImportService
+    public class EpodImportService : IEpodImportService
     {
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
-        private readonly IRouteMapper routeMapper;
         private readonly IImportService importService;
+        private readonly IEpodImportMapper epodImportMapper;
+        private readonly IEpodFileImportCommands importCommands;
 
         public EpodImportService(
             ILogger logger,
             IEventLogger eventLogger,
             IRouteHeaderRepository routeHeaderRepository,
-            IRouteMapper routeMapper,
-            IImportService importService
+            IImportService importService,
+            IEpodImportMapper epodImportMapper,
+            IEpodFileImportCommands importCommands
             )
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
-            this.routeMapper = routeMapper;
             this.importService = importService;
+            this.epodImportMapper = epodImportMapper;
+            this.importCommands = importCommands;
         }
         public void Import(RouteDelivery route, string fileName)
         {
@@ -45,8 +48,8 @@
                 catch (Exception exception)
                 {
                     string msg = $"Route has an error on import! Route Id ({route.RouteId})";
-                    this.logger.LogError(msg, exception);
-                    this.eventLogger.TryWriteToEventLog(
+                    logger.LogError(msg, exception);
+                    eventLogger.TryWriteToEventLog(
                         EventSource.WellEpodXmlImport,
                         msg,
                         EventId.ImportException);
@@ -54,22 +57,22 @@
             }
         }
 
-        public void ImportRouteHeader(RouteHeader header, string fileName)
+        public void ImportRouteHeader(RouteHeader fileHeader, string fileName)
         {
             int branchId;
 
-            if (header.TryParseBranchIdFromRouteNumber(out branchId))
+            if (fileHeader.TryParseBranchIdFromRouteNumber(out branchId))
             {
-                var existingHeader = this.routeHeaderRepository.GetRouteHeaderByRoute(
+                var existingHeader = routeHeaderRepository.GetRouteHeaderByRoute(
                     branchId,
-                    header.RouteNumber.Substring(2),
-                    header.RouteDate);
+                    fileHeader.RouteNumber.Substring(2),
+                    fileHeader.RouteDate);
                 if (existingHeader == null)
                 {
                     var message = $"RouteDelivery Ignored could not find matching RouteHeader," +
                                   $"Branch: {branchId} " +
-                                  $"RouteNumber: {header.RouteNumber.Substring(2)} " +
-                                  $"RouteDate: {header.RouteDate} " +
+                                  $"RouteNumber: {fileHeader.RouteNumber.Substring(2)} " +
+                                  $"RouteDate: {fileHeader.RouteDate} " +
                                   $"FileName: {fileName}";
 
                     logger.LogDebug(message);
@@ -79,15 +82,16 @@
                     return;
                 }
 
-                this.routeMapper.Map(header, existingHeader);
-                this.routeHeaderRepository.Update(existingHeader);
-                importService.ImportStops(header);
+                epodImportMapper.MergeRouteHeader(fileHeader, existingHeader);
+                routeHeaderRepository.Update(existingHeader);
+                
+                importService.ImportStops(fileHeader, epodImportMapper, importCommands);
             }
             else
             {
-                var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({header.RouteNumber}) file {fileName}";
-                this.logger.LogDebug(message);
-                this.eventLogger.TryWriteToEventLog(EventSource.WellEpodXmlImport, message, EventId.ImportIgnored);
+                var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({fileHeader.RouteNumber}) file {fileName}";
+                logger.LogDebug(message);
+                eventLogger.TryWriteToEventLog(EventSource.WellEpodXmlImport, message, EventId.ImportIgnored);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace PH.Well.Domain
     using ValueObjects;
 
     [Serializable()]
-    public class Job : Entity<int>
+    public class Job : Entity<int> 
     {
         public const string DocumentPickListReference = "9999999";
         public Job()

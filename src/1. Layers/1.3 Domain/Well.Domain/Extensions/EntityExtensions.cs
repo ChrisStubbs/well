@@ -6,7 +6,7 @@
     public static class StopExtensions
     {
 
-        public static string SetPreviously(this Stop currentStop, Stop originalStop)
+        public static string GetPreviously(this Stop currentStop, Stop originalStop)
         {
             if (originalStop.Identifier().Equals(currentStop.Identifier()))
             {
@@ -22,6 +22,11 @@
         {
             return $"{stop.RouteHeaderCode} - {stop.DropId} - {stop.DeliveryDate.ToShortDateString()}";
         }
+
+        public static bool HasStopBeenCompleted(this Stop stop)
+        {
+            return stop.WellStatus == WellStatus.Complete;
+        }
     }
 
     public static class JobExtensions
@@ -34,6 +39,20 @@
         public static bool IsDocumentDelivery(this Job job)
         {
             return job.PickListRef == Job.DocumentPickListReference;
+        }
+
+        public static bool CanWeUpdateJobOnImport(this Job job)
+        {
+            switch (job.WellStatus)
+            {
+                case WellStatus.Complete:
+                    return false;
+                case WellStatus.Bypassed:
+                    return true;
+                default:
+                    return true;
+            }
+
         }
     }
 

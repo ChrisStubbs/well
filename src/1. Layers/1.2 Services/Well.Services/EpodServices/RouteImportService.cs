@@ -15,20 +15,23 @@
         private readonly ILogger logger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IImportService importService;
-        private readonly IPostImportRepository postImportRepository;
+        private readonly IRouteImportMapper routeImportMapper;
+        private readonly IRouteFileImportCommands importCommands;
 
         public RouteImportService(
             ILogger logger,
             IEventLogger eventLogger,
             IRouteHeaderRepository routeHeaderRepository,
             IImportService importService,
-            IPostImportRepository postImportRepository)
+            IRouteImportMapper routeImportMapper,
+            IRouteFileImportCommands importCommands)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.importService = importService;
-            this.postImportRepository = postImportRepository;
+            this.routeImportMapper = routeImportMapper;
+            this.importCommands = importCommands;
         }
 
         public void Import(RouteDelivery route)
@@ -80,7 +83,7 @@
                 }
 
                 header.Id = existingRouteHeader.Id;
-                existingRouteHeader = MapRouteHeader(header, existingRouteHeader);
+                existingRouteHeader = routeImportMapper.MapRouteHeader(header, existingRouteHeader);
 
                 routeHeaderRepository.Update(existingRouteHeader);
                 logger.LogDebug(
@@ -105,18 +108,7 @@
                 );
             }
 
-            AddHeaderInformationToStops(header);
-            importService.ImportStops(header);
-        }
-
-        private RouteHeader MapRouteHeader(RouteHeader source, RouteHeader destination)
-        {
-            destination.StartDepotCode = source.StartDepotCode;
-            destination.RouteDate = source.RouteDate;
-            destination.RouteNumber = source.RouteNumber;
-            destination.PlannedStops = source.PlannedStops;
-            destination.RouteOwnerId = source.RouteOwnerId;
-            return destination;
+            importService.ImportStops(header, routeImportMapper, importCommands);
         }
 
         public virtual int GetRouteOwnerId(RouteHeader header)
@@ -126,16 +118,6 @@
                  : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
         }
 
-        private void AddHeaderInformationToStops(RouteHeader header)
-        {
-            header.Stops.ForEach(
-                x =>
-                {
-                    x.RouteHeaderId = header.Id;
-                    x.RouteHeaderCode = header.RouteNumber;
-                    x.DeliveryDate = header.RouteDate;
-                });
-        }
 
     }
 }

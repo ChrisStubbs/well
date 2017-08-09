@@ -22,9 +22,7 @@
             amendmentRepository = new Mock<IAmendmentRepository>(MockBehavior.Strict);
             amendmentFactory = new Mock<IAmendmentFactory>(MockBehavior.Strict);
             exceptionRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
-
-            service = new AmendmentService(amendmentRepository.Object, amendmentFactory.Object,
-                exceptionRepository.Object);
+            service = new AmendmentService(amendmentRepository.Object, amendmentFactory.Object, exceptionRepository.Object);
         }
 
         public class TheProcessAmendmentsMethod : AmendmentServiceTests

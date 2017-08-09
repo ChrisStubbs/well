@@ -15,15 +15,15 @@
 
     public class EpodFileProvider : IEpodProvider
     {
-        private readonly IEpodUpdateService epodUpdateService;
+        private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IFileModule fileModule;
 
-        public EpodFileProvider(IEpodUpdateService epodUpdateService, ILogger logger, IRouteHeaderRepository routeHeaderRepository,
+        public EpodFileProvider(IEpodImportService epodImportService, ILogger logger, IRouteHeaderRepository routeHeaderRepository,
             IFileModule fileModule)
         {
-            this.epodUpdateService = epodUpdateService;
+            this.epodImportService = epodImportService;
             this.logger = logger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.fileModule = fileModule;
@@ -50,7 +50,7 @@
 
                         routes.RouteId = route.Id;
 
-                        this.epodUpdateService.Update(routes, filename);
+                        this.epodImportService.Import(routes, filename);
                     }
 
                     fileModule.MoveFile(file, Configuration.ArchiveLocation);

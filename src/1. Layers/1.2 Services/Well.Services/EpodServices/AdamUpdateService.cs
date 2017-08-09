@@ -22,7 +22,7 @@
         private readonly IStopRepository stopRepository;
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
-        private readonly IRouteMapper mapper;
+        private readonly IOrderImportMapper mapper;
         private readonly IJobService jobStatusService;
         private readonly IPostImportRepository postImportRepository;
 
@@ -33,7 +33,7 @@
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
-            IRouteMapper mapper,
+            IOrderImportMapper mapper,
             IJobService jobStatusService,
             IPostImportRepository postImportRepository)
         {
@@ -67,8 +67,7 @@
                         break;
                 }
             }
-            // updates Location/Activity/LineItem/Bag tables from imported data
-            // this.postImportRepository.PostImportUpdate();
+       
         }
 
         private void Insert(StopUpdate stop)

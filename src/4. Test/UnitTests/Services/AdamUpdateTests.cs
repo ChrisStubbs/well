@@ -32,7 +32,7 @@
 
         private Mock<IJobDetailRepository> jobDetailRepository;
 
-        private Mock<IRouteMapper> mapper;
+        private Mock<IOrderImportMapper> mapper;
 
         private AdamUpdateService service;
 
@@ -53,7 +53,7 @@
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.eventLogger = new Mock<IEventLogger>(MockBehavior.Strict);
-            this.mapper = new Mock<IRouteMapper>(MockBehavior.Strict);
+            this.mapper = new Mock<IOrderImportMapper>(MockBehavior.Strict);
             this.jobStatusService = new Mock<IJobService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);

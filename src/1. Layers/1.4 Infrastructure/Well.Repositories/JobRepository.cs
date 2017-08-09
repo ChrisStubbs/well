@@ -329,8 +329,6 @@ namespace PH.Well.Repositories
                 .AddParameter("BranchId", branchId, DbType.Int32)
                 .AddParameter("IdentifyJobTable", data, DbType.Object)
                 .Query<int>();
-
-            //return GetByIds(jobIds);
         }
 
         public void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false)

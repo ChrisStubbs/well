@@ -141,9 +141,21 @@
         public bool CanEdit(Job job, string userName)
         {
             return job.ResolutionStatus.IsEditable()
-                   && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName,
-                       StringComparison.OrdinalIgnoreCase)
+                    && IsJobAssignedToUser(job, userName)
                    && job.JobTypeEnumValue != JobType.GlobalUplift;
+        }
+
+        public bool CanManuallyComplete(Job job, string userName)
+        {
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) 
+                && IsJobAssignedToUser(job,userName)
+                && job.JobTypeEnumValue != JobType.GlobalUplift;
+        }
+
+        private bool IsJobAssignedToUser(Job job, string userName)
+        {
+            return userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName,
+                StringComparison.OrdinalIgnoreCase);
         }
 
         public void SetGrn(int jobId, string grn)

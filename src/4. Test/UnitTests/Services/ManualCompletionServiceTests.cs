@@ -58,7 +58,7 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
                
                 manualCompletionService.CompleteAsBypassed(jobIds);
 
@@ -86,7 +86,7 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
 
                 manualCompletionService.CompleteAsClean(jobIds);
 
@@ -125,7 +125,9 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job1, It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job2, It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job3, It.IsAny<string>())).Returns(false);
             }
 
             [Test]
@@ -216,28 +218,6 @@ namespace PH.Well.UnitTests.Services
                 var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(jobIds);
 
                 Assert.True(jobsAvailableForCompletion.All(x => x.WellStatus == WellStatus.Invoiced || x.JobStatus == JobStatus.CompletedOnPaper));
-
-            }
-
-            [Test]
-            public void ShouldExcludeGlobalUpliftJobs()
-            {
-                var globalUpliftJob = JobFactory.New.With(x => x.WellStatus = WellStatus.Complete)
-                    .With(x => x.JobTypeCode = "UPL-GLO").Build();
-
-                var expectedEditableJobs = new[] { job1, job2, job3 };
-                var allJobs = new[] { globalUpliftJob }.Concat(expectedEditableJobs);
-
-                // Set up to return allJobs
-                jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(allJobs);
-
-                // Set up to try represent actual implementation - we wold probably want actual JobService implementation here since ManualCompletionService depends on it.
-                jobService.Setup(x => x.CanEdit(It.IsIn(expectedEditableJobs), It.IsAny<string>())).Returns(true);
-                jobService.Setup(x => x.CanEdit(globalUpliftJob, It.IsAny<string>())).Returns(false);
-
-                var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(allJobs.Select(x => x.Id));
-
-                CollectionAssert.AreEqual(expectedEditableJobs, jobsAvailableForCompletion);
             }
         }
 
@@ -246,7 +226,7 @@ namespace PH.Well.UnitTests.Services
         {
             var job = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
             manualCompletionService.CanManuallyComplete(job);
-            jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
+            jobService.Verify(x => x.CanManuallyComplete(job, It.IsAny<string>()), Times.Once);
         }
     }
 }

@@ -103,8 +103,7 @@ namespace PH.Well.Services
 
         public bool CanManuallyComplete(Job job)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) &&
-                   jobService.CanEdit(job, userNameProvider.GetUserName());
+            return  jobService.CanManuallyComplete(job, userNameProvider.GetUserName());
         }
     }
 }

@@ -17,6 +17,7 @@ namespace PH.Well.UnitTests.Services
     using System.Threading.Tasks;
 
     using PH.Well.Domain.Enums;
+    using Well.Domain.Extensions;
     using Well.Domain.ValueObjects;
     using Well.Services.Contracts;
 
@@ -448,7 +449,6 @@ namespace PH.Well.UnitTests.Services
 
         public class TheCanEditActionsMethod : JobServiceTests
         {
-
             [Test]
             [TestCase("User", ExpectedResult = true)]
             [TestCase("", ExpectedResult = false)]
@@ -501,6 +501,93 @@ namespace PH.Well.UnitTests.Services
 
             [Test]
             [TestCase("UPL-GLO", ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
+            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_JobType(string jobType)
+            {
+                var job = new Job
+                {
+                    JobStatus = JobStatus.InComplete,
+                    InvoiceNumber = "123",
+                    JobTypeCode = jobType,
+                    ResolutionStatus = ResolutionStatus.ActionRequired
+                };
+
+                return service.CanEdit(job, "User");
+            }
+        }
+
+        public class CanManuallyCompleteMethod : JobServiceTests
+        {
+
+            [Test]
+            [TestCase("User", ExpectedResult = true)]
+            [TestCase("", ExpectedResult = false)]
+            [Category("JobService")]
+            public bool CanManuallyComplete_Should_Check_User(string user)
+            {
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Invoiced
+                };
+
+                return this.service.CanManuallyComplete(job, user);
+            }
+
+            [Test]
+            [Category("JobService")]
+            public void CanManuallyComplete_Should_Check_WellStatus()
+            {
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Planned
+                };
+
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+
+                job.WellStatus = WellStatus.Invoiced;
+
+                Assert.IsTrue(this.service.CanManuallyComplete(job, "User"));
+
+                job.WellStatus = WellStatus.Complete;
+
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+
+                job.WellStatus = WellStatus.Bypassed;
+
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+
+                job.WellStatus = WellStatus.RouteInProgress;
+
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+            }
+
+            [Test]
+            [Category("JobService")]
+            public void CanEditActions_Should_Check_JobStatus()
+            {
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Planned,
+                };
+
+                foreach (JobStatus jobStatus in Enum.GetValues(typeof(JobStatus)))
+                {
+                    job.JobStatus = jobStatus;
+                    if (jobStatus == JobStatus.CompletedOnPaper)
+                    {
+                        Assert.IsTrue(this.service.CanManuallyComplete(job, "User"));
+                    }
+                    else
+                    {
+                        Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+                    }
+
+                }
+            }
+
+            [Test]
+            [TestCase("UPL-GLO", ExpectedResult = false, Description = "Global uplift jobs should not be editable")]
             [TestCase("DEL-ALC", ExpectedResult = true)]
             [Category("JobService")]
             public bool CanEditActions_Should_Check_JobType(string jobType)

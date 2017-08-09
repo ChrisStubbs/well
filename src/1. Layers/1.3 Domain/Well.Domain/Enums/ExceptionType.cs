@@ -7,6 +7,9 @@ namespace PH.Well.Domain.Enums
 
     public enum ExceptionType
     {
+        [Description("Not Defined")]
+        NotDefined = 0,
+
         [Description("Short")]
         Short = 1,
 

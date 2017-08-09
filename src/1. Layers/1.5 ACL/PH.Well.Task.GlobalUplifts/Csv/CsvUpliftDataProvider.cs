@@ -136,9 +136,9 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 {
                     memberErrors.Add($"Invalid start date {startDateString}");
                 }
-                else if (startDate > MaxUpliftStartDate)
+                else if (startDate < MaxUpliftStartDate)
                 {
-                    memberErrors.Add($"Invalid start date {startDateString}");
+                    memberErrors.Add($"Start date < max start date {startDateString}");
                 }
 
 

@@ -28,7 +28,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         public void AllFieldsInvalidTest()
         {
             var maxUpliftStartDate = DateTime.Parse("2017-03-08 16:00:00Z");
-            var startDate = "2017-03-09 16:00:00Z";
+            var startDate = "2017-03-07 16:00:00Z";
             //15 days difference 
             var endDate = "2017-03-24 16:00:00Z";
 
@@ -53,7 +53,8 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         public void AllFieldsValidTest()
         {
             var maxUpliftStartDate = DateTime.Parse("2017-03-09 16:00:00Z");
-            var startDate = "2017-03-08 16:00:00Z";
+            var startDate = "2017-03-09 16:00:00Z";
+
             //14 days difference 
             var endDate = "2017-03-22 16:00:00Z";
 

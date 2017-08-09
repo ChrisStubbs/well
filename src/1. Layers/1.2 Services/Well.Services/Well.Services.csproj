@@ -116,7 +116,6 @@
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="DeliveryService.cs" />
     <Compile Include="JobService.cs" />
-    <Compile Include="EpodServices\AdamImportService.cs" />
     <Compile Include="EpodServices\AdamUpdateService.cs" />
     <Compile Include="EpodServices\EpodUpdateService.cs" />
     <Compile Include="EpodServices\OrderImportMapper.cs" />

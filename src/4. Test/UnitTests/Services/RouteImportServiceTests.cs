@@ -17,7 +17,9 @@
         private Mock<IEventLogger> eventLogger;
         private Mock<IRouteHeaderRepository> routeHeaderRepository;
         private Mock<IImportService> importService;
-        private Mock<IPostImportRepository> postImportRepository;
+        private Mock<IRouteImportMapper> routeImportMapper;
+        private Mock<IRouteFileImportCommands> importCommands;
+
         private Mock<RouteImportService> mockRouteImportService;
 
         [SetUp]
@@ -27,14 +29,16 @@
             eventLogger = new Mock<IEventLogger>();
             routeHeaderRepository = new Mock<IRouteHeaderRepository>();
             importService = new Mock<IImportService>();
-            postImportRepository = new Mock<IPostImportRepository>();
+            routeImportMapper = new Mock<IRouteImportMapper>();
+            importCommands = new Mock<IRouteFileImportCommands>();
 
-            mockRouteImportService = new Mock<RouteImportService>(
+             mockRouteImportService = new Mock<RouteImportService>(
                 logger.Object,
                 eventLogger.Object,
                 routeHeaderRepository.Object,
                 importService.Object,
-                postImportRepository.Object
+                routeImportMapper.Object,
+                importCommands.Object
             );
         }
 

@@ -10,10 +10,8 @@ AS
         j.RoyaltyCode
     FROM 
         RouteHeader rh
-        inner join Stop s
-            ON rh.id = s.Id
-        inner join Job j
-            on s.id = j.StopId
+        inner join Stop s ON rh.id = s.RouteHeaderId
+        inner join Job j ON s.id = j.StopId
     WHERE
         rh.DateDeleted IS NULL
         AND j.ResolutionStatusId IN 

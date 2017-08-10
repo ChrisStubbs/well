@@ -176,10 +176,9 @@
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IEventLogger>().Use<EventLogger>();
-                                                x.For<IAdamImportService>().Use<AdamImportService>();
+                                                x.For<IAdamImportService>().Use<RouteImportService>();
                                                 x.For<IAdamUpdateService>().Use<AdamUpdateService>();
-                                                x.For<IEpodUpdateService>().Use<EpodUpdateService>();
-                                                x.For<IRouteMapper>().Use<RouteMapper>();
+                                                x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
                                                 x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();

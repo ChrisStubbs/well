@@ -8,7 +8,7 @@ export class LineItemAction
     public source: number = 0;
     public reason: number = 0;
     public originator: number = 1; // default to Customer
-    public comments: Array<LineItemActionComment>;
+    public comments: Array<LineItemActionComment> = [];
     public commentReason: string;
 }
 

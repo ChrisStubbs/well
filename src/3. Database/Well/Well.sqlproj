@@ -438,6 +438,9 @@
     <Build Include="dbo\StoredProcedures\CreditThresholdUpdate.sql" />
     <Build Include="dbo\StoredProcedures\CreditThresholdUserDelete.sql" />
     <Build Include="dbo\Tables\CreditThresholdUser.sql" />
+    <None Include="ManualStep\scripts\up\023_Drop_Proc_JobIds_GetByBranchAccountPickListRefAndJobType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

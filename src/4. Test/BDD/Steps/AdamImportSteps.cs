@@ -38,7 +38,7 @@
         private IAdamUpdateService adamUpdateService;
         private IFileTypeService fileTypeService;
         private IRouteHeaderRepository routeHeaderRepository;
-        private IEpodUpdateService epodUpdateService;
+        private IEpodImportService epodImportService;
         private AdamFileMonitorService adamFileMonitorService;
         private IUserNameProvider userNameProvider;
         private ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
@@ -59,7 +59,7 @@
             this.fileTypeService = this.container.GetInstance<IFileTypeService>();
             this.adamImportService = this.container.GetInstance<IAdamImportService>();
             this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
-            this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
+            this.epodImportService = this.container.GetInstance<IEpodImportService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
             this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             this.customerRoyaltyExceptionRepository = this.container.GetInstance<ICustomerRoyaltyExceptionRepository>();
@@ -235,7 +235,7 @@
             using (var reader = new StreamReader(Path.Combine(filePath, epodFile)))
             {
                 var routes = (RouteDelivery)xmlSerializer.Deserialize(reader);
-                this.epodUpdateService.Update(routes, epodFile);
+                this.epodImportService.Import(routes, epodFile);
             }
         }
 

@@ -67,7 +67,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobDetailActionRepository>().Use<JobDetailActionRepository>();
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
-            For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
             For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
@@ -88,7 +87,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
             For<IStopMapper>().Use<StopMapper>();
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
-            For<IRouteMapper>().Use<RouteMapper>();
+            For<IOrderImportMapper>().Use<OrderImportMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
@@ -133,6 +132,9 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IDateThresholdRepository>().Use<DateThresholdRepository>();
             For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+
+            For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
+            For<IEpodImportMapper>().Use<EpodImportMapper>();
         }
     }
 }

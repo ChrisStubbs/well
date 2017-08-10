@@ -20,7 +20,7 @@ namespace PH.Well.UnitTests.Services
     public class ManualCompletionServiceTests
     {
         private Mock<IJobService> jobService;
-        private Mock<IEpodUpdateService> epodUpdateService;
+        private Mock<IEpodFileImportCommands> epodFileImportCommands;
         private Mock<ILineItemActionRepository> lineItemActionRepository;
         private ManualCompletionService manualCompletionService;
         private Mock<IUserNameProvider> userNameProvider;
@@ -29,11 +29,12 @@ namespace PH.Well.UnitTests.Services
         public virtual void SetUp()
         {
             jobService = new Mock<IJobService>();
-            epodUpdateService = new Mock<IEpodUpdateService>();
+            epodFileImportCommands = new Mock<IEpodFileImportCommands>();
             lineItemActionRepository = new Mock<ILineItemActionRepository>();
             userNameProvider = new Mock<IUserNameProvider>();
-            manualCompletionService = new ManualCompletionService(jobService.Object, epodUpdateService.Object,
+            manualCompletionService = new ManualCompletionService(jobService.Object, epodFileImportCommands.Object,
                 lineItemActionRepository.Object, userNameProvider.Object);
+            epodFileImportCommands.Setup(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>())).Returns(new List<Job>());
         }
 
         public class TheCompleteAsBypassedMethod : ManualCompletionServiceTests
@@ -57,8 +58,8 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
-
+                jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+               
                 manualCompletionService.CompleteAsBypassed(jobIds);
 
                 Assert.That(job.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
@@ -85,7 +86,7 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
 
                 manualCompletionService.CompleteAsClean(jobIds);
 
@@ -124,17 +125,19 @@ namespace PH.Well.UnitTests.Services
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job1, It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job2, It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(job3, It.IsAny<string>())).Returns(false);
             }
 
             [Test]
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                epodUpdateService.Verify(x => x.UpdateJob(It.IsAny<JobDTO>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(),false), Times.Exactly(2));
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job1.Id), job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate, false), Times.Once);
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job2.Id), job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate, false), Times.Once);
-                epodUpdateService.Verify(x => x.UpdateJob(It.Is<JobDTO>(dto => dto.Id == job3.Id), job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate, false), Times.Never);
+                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
+                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
+                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
+                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate), Times.Never);
             }
 
             [Test]
@@ -145,7 +148,7 @@ namespace PH.Well.UnitTests.Services
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job1.Id), Times.Exactly(1));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job2.Id), Times.Exactly(1));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job3.Id), Times.Never);
-               
+
             }
 
             [Test]
@@ -160,10 +163,10 @@ namespace PH.Well.UnitTests.Services
             public void ShouldRunPostImvoiceProcessingOnceForEachJob()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>()), Times.Exactly(2));
-                epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job1.Id) && jobs.Count == 1)), Times.Once);
-                epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job2.Id) && jobs.Count == 1)), Times.Once);
-                epodUpdateService.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job3.Id) && jobs.Count == 1)), Times.Never);
+                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>()), Times.Exactly(2));
+                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job1.Id) && jobs.Count == 1)), Times.Once);
+                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job2.Id) && jobs.Count == 1)), Times.Once);
+                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job3.Id) && jobs.Count == 1)), Times.Never);
             }
 
             private void DoNothingAction(IEnumerable<Job> invoicedJobs) { }
@@ -215,28 +218,6 @@ namespace PH.Well.UnitTests.Services
                 var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(jobIds);
 
                 Assert.True(jobsAvailableForCompletion.All(x => x.WellStatus == WellStatus.Invoiced || x.JobStatus == JobStatus.CompletedOnPaper));
-
-            }
-
-            [Test]
-            public void ShouldExcludeGlobalUpliftJobs()
-            {
-                var globalUpliftJob = JobFactory.New.With(x => x.WellStatus = WellStatus.Complete)
-                    .With(x => x.JobTypeCode = "UPL-GLO").Build();
-
-                var expectedEditableJobs = new[] {job1, job2, job3};
-                var allJobs = new[] {globalUpliftJob}.Concat(expectedEditableJobs);
-
-                // Set up to return allJobs
-                jobService.Setup(x => x.GetJobsWithRoute(It.IsAny<IEnumerable<int>>())).Returns(allJobs);
-
-                // Set up to try represent actual implementation - we wold probably want actual JobService implementation here since ManualCompletionService depends on it.
-                jobService.Setup(x => x.CanEdit(It.IsIn(expectedEditableJobs), It.IsAny<string>())).Returns(true);
-                jobService.Setup(x => x.CanEdit(globalUpliftJob, It.IsAny<string>())).Returns(false);
-
-                var jobsAvailableForCompletion = manualCompletionService.GetJobsAvailableForCompletion(allJobs.Select(x => x.Id));
-
-                CollectionAssert.AreEqual(expectedEditableJobs, jobsAvailableForCompletion);
             }
         }
 
@@ -245,7 +226,7 @@ namespace PH.Well.UnitTests.Services
         {
             var job = JobFactory.New.With(x => x.WellStatus = WellStatus.Invoiced).Build();
             manualCompletionService.CanManuallyComplete(job);
-            jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
+            jobService.Verify(x => x.CanManuallyComplete(job, It.IsAny<string>()), Times.Once);
         }
     }
 }

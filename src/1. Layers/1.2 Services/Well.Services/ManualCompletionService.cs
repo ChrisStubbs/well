@@ -15,7 +15,7 @@ namespace PH.Well.Services
     public class ManualCompletionService : IManualCompletionService
     {
         private readonly IJobService jobService;
-        private readonly IEpodUpdateService epodUpdateService;
+        private readonly IEpodFileImportCommands epodFileImportCommands;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IUserNameProvider userNameProvider;
 
@@ -33,13 +33,14 @@ namespace PH.Well.Services
         }
 
         public ManualCompletionService(
-            IJobService jobService, 
-            IEpodUpdateService epodUpdateService, 
+            IJobService jobService,
+            IEpodFileImportCommands epodFileImportCommands, 
             ILineItemActionRepository lineItemActionRepository,
             IUserNameProvider userNameProvider)
         {
             this.jobService = jobService;
-            this.epodUpdateService = epodUpdateService;
+            this.epodFileImportCommands = epodFileImportCommands;
+
             this.lineItemActionRepository = lineItemActionRepository;
             this.userNameProvider = userNameProvider;
         }
@@ -63,14 +64,13 @@ namespace PH.Well.Services
 
             foreach (var job in invoicedJobs)
             {
-                var dto = Mapper.Map<Job, JobDTO>(job);
                 job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
 
                 using (var transactionScope = new TransactionScope())
                 {
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
-                    epodUpdateService.UpdateJob(dto, job, job.JobRoute.BranchId, job.JobRoute.RouteDate, false);
-                    completedJobs.AddRange(epodUpdateService.RunPostInvoicedProcessing(new List<int> { job.Id }));
+                    epodFileImportCommands.UpdateWithoutEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
+                    completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
                     transactionScope.Complete();
                 }
             }
@@ -103,8 +103,7 @@ namespace PH.Well.Services
 
         public bool CanManuallyComplete(Job job)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) &&
-                   jobService.CanEdit(job, userNameProvider.GetUserName());
+            return  jobService.CanManuallyComplete(job, userNameProvider.GetUserName());
         }
     }
 }

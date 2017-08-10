@@ -9,7 +9,7 @@ AS
 	-------------------
     --- Delete Jobs ---
     -------------------
-    UPDATE job
+    UPDATE Job
     SET DateDeleted = @DateDeleted
 		,UpdatedBy	= @UpdatedBy
 		,DeletedByImport = @DeletedByImport

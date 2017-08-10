@@ -72,6 +72,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
             For<IWellCleanUpService>().Use<WellCleanUpService>();
             For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+            For<IWellCleanConfig>().Use<WellCleanConfig>();
             For<IAmendmentService>().Use<AmendmentService>();
             For<IAmendmentRepository>().Use<AmendmentRepository>();
             For<IAmendmentFactory>().Use<AmendmentFactory>();
@@ -129,12 +130,11 @@ namespace PH.Well.Api.DependencyResolution
             For<IPostImportRepository>().Use<PostImportRepository>();
             For<IManualCompletionService>().Use<ManualCompletionService>();
             For<ICommentReasonRepository>().Use<CommentReasonRepository>();
-
             For<IDateThresholdRepository>().Use<DateThresholdRepository>();
             For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
-
             For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
             For<IEpodImportMapper>().Use<EpodImportMapper>();
+
         }
     }
 }

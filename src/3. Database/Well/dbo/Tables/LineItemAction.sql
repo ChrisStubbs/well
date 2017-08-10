@@ -27,6 +27,9 @@
 	CONSTRAINT [FK_LineItemAction_DeliveryAction] FOREIGN KEY ([DeliveryActionId]) REFERENCES [dbo].[DeliveryAction] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 GO
-CREATE NONCLUSTERED INDEX [Idx_LineItemAction_DateDeleted]ON [dbo].[LineItemAction] ([DateDeleted])
+CREATE NONCLUSTERED INDEX [Idx_LineItemAction_DateDeleted] ON [dbo].[LineItemAction] ([DateDeleted])
 INCLUDE ([Id],[LineItemId])
+GO
+CREATE NONCLUSTERED INDEX [Idx_LineItemAction_LineItemId] ON [dbo].[LineItemAction] ([LineItemId])
+INCLUDE ([Id],[DateDeleted])
 GO

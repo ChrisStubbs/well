@@ -25,7 +25,7 @@
         public IEnumerable<JobToBeApproved> Get()
         {
             var jobs = jobRepository.GetJobsToBeApproved();
-            var assignees = assigneeRepository.GetByJobIds(jobs.Select(p => p.JobId));
+            var assignees = assigneeRepository.GetByJobIds(jobs.Select(p => p.JobId).Distinct());
 
             return jobs
                 .Select(p =>

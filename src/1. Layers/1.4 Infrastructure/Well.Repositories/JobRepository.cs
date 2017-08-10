@@ -211,7 +211,7 @@ namespace PH.Well.Repositories
             IEnumerable<Job> jobs = new List<Job>();
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByIds)
-                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("Ids", jobIds.Distinct().ToList().ToIntDataTables("Ids"), DbType.Object)
                 .QueryMultiple(x => jobs = GetJobsByGrid(x));
 
             return jobs;

@@ -32,6 +32,14 @@
             var container = DependancyRegister.InitIoc();
             ITransendImport import;
             Assert.DoesNotThrow(() => import = container.GetInstance<ITransendImport>());
+        }
+
+        [Test]
+        public void CheckWellCleanIoc()
+        {
+            var container = Clean.Program.InitIoc();
+            IWellCleanUpService clean;
+            Assert.DoesNotThrow(() => clean = container.GetInstance<IWellCleanUpService>());
 
         }
     }

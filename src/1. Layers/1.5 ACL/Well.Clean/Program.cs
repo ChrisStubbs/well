@@ -51,6 +51,7 @@
                         p.SingleImplementationsOfInterface();
                     });
                     x.For<IUserNameProvider>().Use<WellCleanUserNameProvider>();
+                    x.For<IWellCleanConfig>().Use<Configuration>();
                 });
         }
     }

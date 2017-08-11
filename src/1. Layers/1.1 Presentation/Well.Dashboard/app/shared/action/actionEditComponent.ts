@@ -38,10 +38,6 @@ export class ActionEditComponent implements IObservableAlive {
     private exceptionTypes: Array<ILookupValue>;
     private commentReasons: Array<ILookupValue>;
     private lineItemActions: Array<LineItemAction> = [];
-    private creditAction: number;
-    private closeAction: number;
-    private bypassValue = 2;
-    private closeActionValue = 2;
     private creditActionValue = 1;
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
@@ -74,12 +70,6 @@ export class ActionEditComponent implements IObservableAlive {
                     this.sources = value[2];
                     this.reasons = value[3];
                     this.commentReasons = value[4];
-
-                    this.creditAction = +this.deliveryActions.
-                        find((current: ILookupValue) => current.value == 'Credit').key;
-
-                    this.closeAction = +this.deliveryActions.
-                        find((current: ILookupValue) => current.value == 'Close').key;
                 });
         }
     }
@@ -136,7 +126,7 @@ export class ActionEditComponent implements IObservableAlive {
                     lineItemAction.source = (value.source) ? Number(value.source) : 0;
                     lineItemAction.reason = (value.reason) ? Number(value.reason) : 0;
 
-                    if (!this.isBypassExceptionType(lineItemAction.exceptionType)) {
+                    if (!LineItemActionValidator.isBypassExceptionType(lineItemAction.exceptionType)) {
                         lineItemAction.exceptionType = (value.exceptionType) ? Number(value.exceptionType) : 0;
                     }
 
@@ -170,11 +160,6 @@ export class ActionEditComponent implements IObservableAlive {
             function (item: LineItemAction) {
 
                 return self.createLineItemActionFromGroup(item);
-                //if (Number(item.exceptionType) == self.bypassValue) {
-                //    return self.createBypassLineItemActionFormGroup(item);
-                //} else {
-                //    return self.createLineItemActionFromGroup(item);
-                //}
             }),
             (control) => this.validateTotalQuantity(control));
 
@@ -183,52 +168,9 @@ export class ActionEditComponent implements IObservableAlive {
         });
     }
 
-    private createBypassLineItemActionFormGroup(item: LineItemAction) {
-
-        const action = this.formBuilder.control({
-            value: item.deliveryAction,
-            disabled: true
-        }, Validators.required);
-        const quantity = this.formBuilder.control({
-            value: item.quantity,
-            disabled: true
-        }, [Validators.pattern('^[0-9]+$')]);
-        const commentReason = this.formBuilder.control({
-            value: item.commentReason,
-            disabled: true
-        });
-        const exceptionType = this.formBuilder.control({
-            value: item.exceptionType,
-            disabled: true
-        });
-        const source = this.formBuilder.control({
-            value: item.source,
-            disabled: true
-        });
-        const reason = this.formBuilder.control({
-            value: item.reason,
-            disabled: true
-        });
-        const originator = this.formBuilder.control({
-            value: item.originator,
-            disabled: true
-        });
-
-        return this.formBuilder.group({
-            action: action,
-            quantity: quantity,
-            commentReason: commentReason,
-            exceptionType: exceptionType,
-            source: source,
-            reason: reason,
-            originator
-        });
-    }
-
     private createLineItemActionFromGroup(item: LineItemAction) {
-        const isBypassExceptionType = this.isBypassExceptionType(item.exceptionType);
-        const validator = new LineItemActionValidator(item, isBypassExceptionType);
-        const isCloseAction = Number(item.deliveryAction) == this.closeActionValue;
+        const validator = new LineItemActionValidator(item);
+        const isCloseAction = Number(item.deliveryAction) == LineItemActionValidator.closeActionValue;
 
         const action = this.formBuilder.control({
             value: item.deliveryAction,
@@ -257,63 +199,28 @@ export class ActionEditComponent implements IObservableAlive {
             disabled: (!this.source.canEditActions || isCloseAction)
         });
 
-        action.valueChanges.subscribe((value) => {
-            // When status is close - disable other fields
-            const actionValue = Number(value);
-            if (actionValue == this.closeActionValue) {
-                quantity.disable();
-                commentReason.disable();
-                exceptionType.disable();
-                source.disable();
-                reason.disable();
-                //Set default values
-                quantity.setValue(undefined);
-                commentReason.setValue(undefined);
-                source.setValue(undefined);
-                reason.setValue(undefined);
+        //return this.formBuilder.group({
+        //        action: action,
+        //        quantity: quantity,
+        //        commentReason: commentReason,
+        //        exceptionType: exceptionType,
+        //        source: source,
+        //        reason: reason
+        //    },
+        //    { validator: (control) => validator.validate(control) });
 
-                if (!isBypassExceptionType) {
-                    exceptionType.setValue(undefined);
-                }
-
-            } else {
-                quantity.enable();
-                source.enable();
-                reason.enable();
-
-                if (!isBypassExceptionType) {
-                    exceptionType.enable();
-                }
-            }
-
-            // Enable comment when action is different than previous
-            if (actionValue == this.closeAction || actionValue == item.deliveryAction) {
-                commentReason.disable();
-            } else {
-                commentReason.enable();
-            }
-
-        });
-
-        quantity.valueChanges.subscribe((value) => {
-            if ((!validator.isNewLineItemAction() && validator.quantityDifferentFromOriginal(value)) ||
-                Number(action.value) != item.deliveryAction) {
-                commentReason.enable();
-            } else {
-                commentReason.setValue(undefined);
-                commentReason.disable();
-            }
-        });
-
-        return this.formBuilder.group({
+        const group = this.formBuilder.group({
             action: action,
             quantity: quantity,
             commentReason: commentReason,
             exceptionType: exceptionType,
             source: source,
             reason: reason
-        },
-            { validator: (control) => validator.validate(control) });
+        });
+
+        validator.applyToLineItemActionFrom(group);
+
+        return group;
     }
 
     private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
@@ -335,26 +242,21 @@ export class ActionEditComponent implements IObservableAlive {
     private hasComments(item: LineItemAction): boolean {
         const existingComments = _.filter(item.comments, x => x.id !== 0);
         return existingComments.length > 0;
-    }
+    }  
 
-    private isBypassExceptionType(value: any): boolean {
-        return Number(value) == this.bypassValue;
-    }
-
-    private hasBypassActions() {
-        const bypassActions = _.filter(this.source.lineItemActions,
-            (item: LineItemAction) => {
-                if (this.isBypassExceptionType(item.exceptionType)) {
-                    return item;
-                }
-            });
-
-        return bypassActions.length > 0;
+    private isBypassExceptionType(item: LineItemAction): boolean {
+        return LineItemActionValidator.isBypassExceptionType(item);
     }
 }
 
 class LineItemActionValidator implements Validator {
-    constructor(private lineItemAction: LineItemAction, private shouldValidateExceptionType: boolean) { }
+    public static bypassValue = 2;
+    public static closeActionValue = 2;
+    private isBypassExceptionType: boolean;
+
+    constructor(private lineItemAction: LineItemAction) {
+        this.isBypassExceptionType = LineItemActionValidator.isBypassExceptionType(lineItemAction.exceptionType);
+    }
 
     public validate(group: FormGroup): ValidationErrors {
         const actionValue = group.value.action;
@@ -429,7 +331,7 @@ class LineItemActionValidator implements Validator {
 
     private validateExceptionType(group: FormGroup): void {
         // Exception type required
-        if (this.shouldValidateExceptionType) {
+        if (this.isBypassExceptionType) {
             const exceptionTypeCtrl = group.controls['exceptionType'];
             const exceptionTypeRequired = Validators.required(exceptionTypeCtrl);
             if (exceptionTypeRequired) {
@@ -445,5 +347,69 @@ class LineItemActionValidator implements Validator {
 
     public isNewLineItemAction(): boolean {
         return (!this.lineItemAction.id || this.lineItemAction.id == 0);
+    }
+
+    public applyToLineItemActionFrom(group: FormGroup) {
+        group.setValidators((control: FormGroup) => this.validate(control));
+
+        const action = group.controls['action'];
+        const quantity = group.controls['quantity'];
+        const commentReason = group.controls['commentReason'];
+        const exceptionType = group.controls['exceptionType'];
+        const source = group.controls['source'];
+        const reason = group.controls['reason'];
+
+        action.valueChanges.subscribe((value) => {
+            // When status is close - disable other fields
+            const actionValue = Number(value);
+            if (actionValue == LineItemActionValidator.closeActionValue) {
+                quantity.disable();
+                commentReason.disable();
+                exceptionType.disable();
+                source.disable();
+                reason.disable();
+                //Set default values
+                quantity.setValue(undefined);
+                commentReason.setValue(undefined);
+                source.setValue(undefined);
+                reason.setValue(undefined);
+
+                if (!this.isBypassExceptionType) {
+                    exceptionType.setValue(undefined);
+                }
+
+            } else {
+                quantity.enable();
+                source.enable();
+                reason.enable();
+
+                if (!this.isBypassExceptionType) {
+                    exceptionType.enable();
+                }
+            }
+
+            // Enable comment when action is different than previous
+            if (actionValue == LineItemActionValidator.closeActionValue ||
+                actionValue == this.lineItemAction.deliveryAction) {
+                commentReason.disable();
+            } else {
+                commentReason.enable();
+            }
+
+        });
+
+        quantity.valueChanges.subscribe((value) => {
+            if ((!this.isNewLineItemAction() && this.quantityDifferentFromOriginal(value)) ||
+                Number(action.value) != this.lineItemAction.deliveryAction) {
+                commentReason.enable();
+            } else {
+                commentReason.setValue(undefined);
+                commentReason.disable();
+            }
+        });
+    }
+
+    public static isBypassExceptionType(value: any): boolean {
+        return Number(value) == this.bypassValue;
     }
 }

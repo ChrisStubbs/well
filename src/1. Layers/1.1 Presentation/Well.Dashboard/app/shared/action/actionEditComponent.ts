@@ -161,7 +161,7 @@ export class ActionEditComponent implements IObservableAlive {
 
                 return self.createLineItemActionFromGroup(item);
             }),
-            (control) => this.validateTotalQuantity(control));
+            (control) => this.validateOverallQuantity(control));
 
         this.actionsForm = this.formBuilder.group({
             actionsGroup: this.actionsGroup
@@ -213,26 +213,42 @@ export class ActionEditComponent implements IObservableAlive {
         return group;
     }
 
-    private validateTotalQuantity(formArray: AbstractControl): ValidationErrors {
+    private validateOverallQuantity(formArray: AbstractControl): ValidationErrors {
+        const errors = new Array<ValidationErrors>();
         const sum = _.sumBy(formArray.value,
             item => {
                 return item.quantity || 0;
             });
 
         if (sum > this.source.invoiced) {
-            return {
+            const totalError = {
                 totalQuantity: true,
                 message: 'Total quantity (' + sum + ') is greater than invoiced (' + this.source.invoiced + ')'
             };
+
+            errors.push(totalError);
         }
 
-        return undefined;
+        if (_.find(formArray.value, item => item.quantity < 0)) {
+            const negativeQuantityError = {
+                totalQuantity: true,
+                message: 'Quantity field should not be a negative number'
+            };
+
+            errors.push(negativeQuantityError);
+        }
+
+        if (errors.length > 0) {
+            return errors;
+        } else {
+            return undefined;
+        }
     }
 
     private hasComments(item: LineItemAction): boolean {
         const existingComments = _.filter(item.comments, x => x.id !== 0);
         return existingComments.length > 0;
-    }  
+    }
 
     private isBypassExceptionType(item: LineItemAction): boolean {
         return LineItemActionValidator.isBypassExceptionType(item);
@@ -329,7 +345,7 @@ class LineItemActionValidator implements Validator {
                 exceptionTypeCtrl.setErrors(exceptionTypeRequired);
             }
         }
-      
+
     }
 
     public quantityDifferentFromOriginal(value: number): boolean {

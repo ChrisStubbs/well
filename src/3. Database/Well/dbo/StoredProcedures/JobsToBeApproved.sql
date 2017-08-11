@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE JobsToBeApproved
 AS
-	DECLARE @ResolutionStatus Int = (SELECT id FROM ResolutionStatus WHERE Description = 'Pending Approval')
+	DECLARE @PendingApproval varchar(50) = 'Pending Approval' 
+	DECLARE @ResolutionStatus Int = (SELECT id FROM ResolutionStatus WHERE Description = @PendingApproval)
 	DECLARE @DecliveryAction Int = (SELECT id FROM DeliveryAction WHERE Description = 'Credit')
 
 	;WITH SubmittedInfo([By], [On], JobId) AS
@@ -20,6 +21,7 @@ AS
 			) MaxDates
 				ON jrs.[On] = MaxDates.[On]
 				AND jrs.Job = MaxDates.Job
+				AND jrs.Status = @PendingApproval
 	)
 	SELECT 
 		j.id AS JobId,

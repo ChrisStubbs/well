@@ -18,19 +18,22 @@
         private readonly IDateThresholdService dateThresholdService;
         private readonly IAmendmentService amendmentService;
         private readonly IJobRepository jobRepository;
+        private readonly IWellCleanConfig configuration;
 
         public WellCleanUpService(
             ILogger logger,
             IWellCleanUpRepository wellCleanUpRepository,
             IDateThresholdService dateThresholdService,
             IAmendmentService amendmentService,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IWellCleanConfig configuration)
         {
             this.logger = logger;
             this.wellCleanUpRepository = wellCleanUpRepository;
             this.dateThresholdService = dateThresholdService;
             this.amendmentService = amendmentService;
             this.jobRepository = jobRepository;
+            this.configuration = configuration;
         }
 
         public async Task SoftDelete()
@@ -55,7 +58,7 @@
 
                     logger.LogDebug("Start soft delete jobs activities and children");
                     await this.SoftDelete(jobsToDelete);
-                    
+
                     logger.LogDebug("Finished soft delete jobs activities and children");
 
                     transactionScope.Complete();
@@ -69,10 +72,11 @@
             catch (Exception ex)
             {
                 //i have to handle the exception
+                logger.LogError("WellCleanUp Service has thrown an exception", ex);
                 throw;
             }
 
-            logger.LogDebug("Start soft completed");
+            logger.LogDebug("Start delete completed");
         }
 
         private Task<List<NonSoftDeletedRoutesJobs>[]> FilterLookup(ILookup<int, NonSoftDeletedRoutesJobs> data)
@@ -119,11 +123,34 @@
         {
             return Task.Run(() =>
             {
-                jobRepository.JobsSetResolutionStatusClosed(jobIds);
-                jobRepository.CascadeSoftDeleteJobs(jobIds);
-                wellCleanUpRepository.DeleteStops(jobIds);
-                wellCleanUpRepository.DeleteRoutes(jobIds);
+                SoftDeleteInBatches(jobIds, configuration.SoftDeleteBatchSize);
             });
+        }
+
+        public void SoftDeleteInBatches(IList<int> jobIds, int batchSize)
+        {
+            if (batchSize <= 0)
+            {
+                throw  new ArgumentException("Batchsize must be greater than 0");
+            }
+
+            int offset = 0;
+            int totalRecords = jobIds.Count;
+
+            while (offset < totalRecords)
+            {
+                var jobIdBatch = jobIds.Skip(offset).Take(batchSize).ToList();
+                DoSoftDelete(jobIdBatch);
+                offset += batchSize;
+            }
+        }
+
+        private void DoSoftDelete(List<int> jobIdBatch)
+        {
+            jobRepository.JobsSetResolutionStatusClosed(jobIdBatch);
+            jobRepository.CascadeSoftDeleteJobs(jobIdBatch);
+            wellCleanUpRepository.DeleteStops(jobIdBatch);
+            wellCleanUpRepository.DeleteRoutes(jobIdBatch);
         }
     }
 }

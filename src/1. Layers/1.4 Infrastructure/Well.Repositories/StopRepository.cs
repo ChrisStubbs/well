@@ -32,7 +32,7 @@
                 .Query<int>().ToList();
 
         }
-        
+
         public Stop GetByJobDetails(string picklist, string account, int branchId)
         {
             var stopIds =
@@ -50,7 +50,7 @@
             IList<Stop> stops = new List<Stop>();
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.StopsGetByIds)
-                .AddParameter("Ids", stopIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("Ids", stopIds.Distinct().ToList().ToIntDataTables("Ids"), DbType.Object)
                 .QueryMultiple(x => stops = GetFromGrid(x));
 
             return stops;

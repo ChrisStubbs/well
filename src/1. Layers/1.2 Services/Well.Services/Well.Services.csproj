@@ -62,6 +62,7 @@
     <Compile Include="Contracts\IEpodFileImportCommands.cs" />
     <Compile Include="Contracts\IImportCommands.cs" />
     <Compile Include="Contracts\IRouteFileImportCommands.cs" />
+    <Compile Include="Contracts\IWellCleanConfig.cs" />
     <Compile Include="Contracts\IWellCleanUpService.cs" />
     <Compile Include="Contracts\IAmendmentService.cs" />
     <Compile Include="Contracts\IBulkEditService.cs" />

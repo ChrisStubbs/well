@@ -42,3 +42,5 @@ Post-Deployment Script Template
 :r .\Populate-CommentReason.sql
 :r .\Populate-ResolutionStatus.sql
 :r .\Populate-BranchDateThreshold.sql
+
+exec sp_updatestats

@@ -70,7 +70,6 @@
                 // Update Existing
                 else if (!originalStop.HasStopBeenCompleted())
                 {
-                    //fileStop.Previously = originalStop.GetPreviously(fileStop);
                     originalStop.Previously = originalStop.GetPreviously(fileStop);
 
                     importMapper.MapStop(fileStop, originalStop);

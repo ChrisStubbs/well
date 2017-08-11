@@ -26,6 +26,7 @@
             destination.TotalOutersShort = source.TotalOutersShort;
             destination.DetailOutersOverUpdate = source.DetailOutersOver;
             destination.DetailOutersShortUpdate = source.DetailOutersShort;
+           
         }
 
         public void MergeRouteHeader(RouteHeader fileRouteHeader, RouteHeader dbRouteHeader)
@@ -47,6 +48,11 @@
             fileRouteHeader.RouteNumber = dbRouteHeader.RouteNumber;
         }
 
+        public void MapJobDetail(JobDetail source, JobDetail destination)
+        {
+            destination.ShortQty = source.ShortQty;
+            destination.DeliveredQty = source.DeliveredQty;
+        }
     }
     
 }

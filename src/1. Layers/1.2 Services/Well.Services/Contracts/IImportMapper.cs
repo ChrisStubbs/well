@@ -1,8 +1,7 @@
 ﻿namespace PH.Well.Services.Contracts
 {
-    using System.Collections.Generic;
     using Domain;
-    using Domain.ValueObjects;
+
 
     public interface IImportMapper
     {
@@ -18,5 +17,7 @@
     {
         void MapJob(Job source, Job destination);
         void MergeRouteHeader(RouteHeader fileRouteHeader, RouteHeader dbRouteHeader);
+        void MapJobDetail(JobDetail source, JobDetail destination);
     }
+        
 }

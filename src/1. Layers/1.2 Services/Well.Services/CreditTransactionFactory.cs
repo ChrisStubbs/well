@@ -36,7 +36,7 @@
             var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
 
-            var initials = user.FriendlyName.GetInitials();
+            var initials = user.Name.GetInitials();
             var wellName = "The Well";
 
             var job = this.jobRepository.GetById(deliveryLines[0].JobId);

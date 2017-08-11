@@ -9,10 +9,10 @@
     using Domain.Enums;
     using Domain.ValueObjects;
     using Repositories.Contracts;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class EpodFileImportCommands : IEpodFileImportCommands
     {
-
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
         private readonly IEpodImportMapper epodImportMapper;
@@ -158,15 +158,13 @@
                     continue;
                 }
 
-                //this.routeMapper.Map(detail, existingJobDetail);
-
+                epodImportMapper.MapJobDetail(detail, existingJobDetail);
                 existingJobDetail.SkuGoodsValue = detail.SkuGoodsValue;
 
                 if (existingJobDetail.ShortQty > 0)
                 {
                     existingJobDetail.JobDetailReason = JobDetailReason.NotDefined;
                     existingJobDetail.JobDetailSource = JobDetailSource.NotDefined;
-
                 }
 
                 this.jobDetailRepository.Update(existingJobDetail);

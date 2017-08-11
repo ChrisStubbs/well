@@ -9,5 +9,6 @@ export class Notification {
     adamErrorNumber: string;
     adamCrossReference: string;
     userName: string;
+    notificationDate: string;
    
 }

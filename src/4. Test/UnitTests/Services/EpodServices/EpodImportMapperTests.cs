@@ -77,7 +77,6 @@ namespace PH.Well.UnitTests.Services.EpodServices
             Assert.That(to.StopByPassReason, Is.EqualTo(from.StopByPassReason));
         }
 
-
         [Test]
         public void JobMapper()
         {
@@ -94,5 +93,23 @@ namespace PH.Well.UnitTests.Services.EpodServices
             Assert.That(to.PerformanceStatus, Is.EqualTo(from.PerformanceStatus));
             Assert.That(to.InvoiceNumber, Is.EqualTo(from.InvoiceNumber));
         }
+
+        [Test]
+        public void JobDetailMapper()
+        {
+            var from = new JobDetail();
+
+            from.ShortQty = 3;
+            from.DeliveredQty = 5;
+
+            var to = new JobDetail();
+
+
+            new EpodImportMapper().MapJobDetail(from, to);
+
+            Assert.That(to.ShortQty, Is.EqualTo(from.ShortQty));
+            Assert.That(to.DeliveredQty, Is.EqualTo(from.DeliveredQty));
+        }
+
     }
 }

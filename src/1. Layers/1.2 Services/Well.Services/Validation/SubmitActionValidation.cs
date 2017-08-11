@@ -143,7 +143,7 @@
             var nonEditableJobs = new List<Job>();
             foreach (var job in jobs)
             {
-                if (jobService.CanEdit(job, user))
+                if (!jobService.CanEdit(job, user))
                 {
                     result.IsValid = false;
                     nonEditableJobs.Add(job);

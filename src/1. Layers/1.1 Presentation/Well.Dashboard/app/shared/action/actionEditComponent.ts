@@ -199,16 +199,6 @@ export class ActionEditComponent implements IObservableAlive {
             disabled: (!this.source.canEditActions || isCloseAction)
         });
 
-        //return this.formBuilder.group({
-        //        action: action,
-        //        quantity: quantity,
-        //        commentReason: commentReason,
-        //        exceptionType: exceptionType,
-        //        source: source,
-        //        reason: reason
-        //    },
-        //    { validator: (control) => validator.validate(control) });
-
         const group = this.formBuilder.group({
             action: action,
             quantity: quantity,
@@ -249,6 +239,7 @@ export class ActionEditComponent implements IObservableAlive {
     }
 }
 
+// This class along with createLineItemActionFromGroup should probably be refactored into component
 class LineItemActionValidator implements Validator {
     public static bypassValue = 2;
     public static closeActionValue = 2;
@@ -364,13 +355,11 @@ class LineItemActionValidator implements Validator {
             const actionValue = Number(value);
             if (actionValue == LineItemActionValidator.closeActionValue) {
                 quantity.disable();
-                commentReason.disable();
                 exceptionType.disable();
                 source.disable();
                 reason.disable();
                 //Set default values
                 quantity.setValue(undefined);
-                commentReason.setValue(undefined);
                 source.setValue(undefined);
                 reason.setValue(undefined);
 
@@ -387,20 +376,15 @@ class LineItemActionValidator implements Validator {
                     exceptionType.enable();
                 }
             }
-
-            // Enable comment when action is different than previous
-            if (actionValue == LineItemActionValidator.closeActionValue ||
-                actionValue == this.lineItemAction.deliveryAction) {
-                commentReason.disable();
-            } else {
-                commentReason.enable();
-            }
-
         });
 
         quantity.valueChanges.subscribe((value) => {
-            if ((!this.isNewLineItemAction() && this.quantityDifferentFromOriginal(value)) ||
-                Number(action.value) != this.lineItemAction.deliveryAction) {
+            if (quantity.disabled) {
+                commentReason.disable();
+                return;
+            }
+
+            if ((!this.isNewLineItemAction() && this.quantityDifferentFromOriginal(value))) {
                 commentReason.enable();
             } else {
                 commentReason.setValue(undefined);

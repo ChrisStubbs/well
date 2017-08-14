@@ -1,4 +1,4 @@
-﻿import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
+import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
 import {Response} from '@angular/http';
 import {CreditThreshold} from './creditThreshold';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
@@ -24,7 +24,6 @@ export class CreditThresholdAddModalComponent {
     public show() {
         this.clear();
         this.isVisible = true;
-        this.creditThreshold.thresholdLevel = 'Level';
     }
 
     public hide() {
@@ -38,7 +37,7 @@ export class CreditThresholdAddModalComponent {
     }
 
     public save() {
-        this.creditThreshold.branches = this.branch.selectedBranches;
+        //this.creditThreshold.branches = this.branch.selectedBranches;
 
         this.creditThresholdService.saveCreditThreshold(this.creditThreshold, false)
             .subscribe((res: Response) => {

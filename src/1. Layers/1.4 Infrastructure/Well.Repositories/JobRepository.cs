@@ -10,6 +10,7 @@ namespace PH.Well.Repositories
     using Common.Extensions;
     using Contracts;
     using Domain;
+    using Domain.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
 
@@ -55,50 +56,16 @@ namespace PH.Well.Repositories
                 .Query<JobDetailLineItemTotals>();
         }
 
-
-        public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
+        public IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId)
         {
-            var customerRoyaltyException =
-                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
-                    .Query<CustomerRoyaltyException>();
-
-            return customerRoyaltyException;
-        }
-
-        public CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty)
-        {
-            var customerRoyaltyException =
-                dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGetByRoyalty)
-                .AddParameter("RoyaltyId", royalty, DbType.String)
-                    .Query<CustomerRoyaltyException>();
-
-            return customerRoyaltyException.FirstOrDefault();
-        }
-
-        public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
-               .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
-               .AddParameter("Customer", royaltyException.Customer, DbType.String)
-               .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
-               .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
-        }
-
-        public void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionUpdate)
-                .AddParameter("Id", royaltyException.Id, DbType.Int32)
-                .AddParameter("RoyaltyId", royaltyException.RoyaltyId, DbType.String)
-                .AddParameter("Customer", royaltyException.Customer, DbType.String)
-                .AddParameter("ExceptionDays", royaltyException.ExceptionDays, DbType.Int32)
-                .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
+                .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
+                .Query<int>();
         }
 
         public IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId)
         {
-            var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
-                .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
-                .Query<int>();
+            var jobIds = GetJobIdsByRouteHeaderId(routeHeaderId);
 
             return GetByIds(jobIds);
         }
@@ -153,7 +120,7 @@ namespace PH.Well.Repositories
                 .AddParameter("CreatedDate", entity.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
-                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value , DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -185,15 +152,13 @@ namespace PH.Well.Repositories
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
-                // .AddParameter("OuterCount", entity.OuterCountUpdate, DbType.Int32)
                 .AddParameter("OuterCount", entity.OuterCount, DbType.Int32)
-                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyUpdate, DbType.Boolean)
+                .AddParameter("OuterDiscrepancyFound", entity.OuterDiscrepancyFound, DbType.Boolean)
                 .AddParameter("TotalOutersOver", entity.TotalOutersOverUpdate, DbType.Int32)
-              //  .AddParameter("TotalOutersShort", entity.TotalOutersShortUpdate, DbType.Int32)
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
                 .AddParameter("InvoiceValue", entity.InvoiceValueUpdate, DbType.Decimal)
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
-                .AddParameter("DetailOutersShort", entity.DetailOutersShortUpdate, DbType.Int16)
+                .AddParameter("DetailOutersShort", entity.DetailOutersShort, DbType.Int16)
                 .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
                 .Execute();
         }
@@ -246,7 +211,7 @@ namespace PH.Well.Repositories
             IEnumerable<Job> jobs = new List<Job>();
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByIds)
-                .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("Ids", jobIds.Distinct().ToList().ToIntDataTables("Ids"), DbType.Object)
                 .QueryMultiple(x => jobs = GetJobsByGrid(x));
 
             return jobs;
@@ -289,7 +254,7 @@ namespace PH.Well.Repositories
 
         public JobRoute GetJobRoute(int jobId)
         {
-            return GetJobsRoute(new[] {jobId}).FirstOrDefault();
+            return GetJobsRoute(new[] { jobId }).FirstOrDefault();
         }
 
         public void SaveJobResolutionStatus(Job job)
@@ -297,13 +262,100 @@ namespace PH.Well.Repositories
             this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
         }
 
+        public IEnumerable<JobToBeApproved> GetJobsToBeApproved()
+        {
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
+                    .Query<JobToBeApproved>();
+        }
+
         public IEnumerable<Job> GetJobsByResolutionStatus(ResolutionStatus resolutionStatus)
         {
-            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByResolutionStatus)
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
                 .AddParameter("ResolutionStatusId", resolutionStatus.Value, DbType.Int32)
                 .Query<int>();
 
             return GetByIds(jobIds);
+        }
+
+        public IEnumerable<Job> GetJobsByLineItemIds(IEnumerable<int> lineItemIds)
+        {
+            var jobIds = this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByLineItemIds)
+                .AddParameter("Ids", lineItemIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<int>();
+
+            return GetByIds(jobIds);
+        }
+
+        public IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds)
+        {
+            var idsForAction = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobGetWithLineItemActions)
+              .AddParameter("Ids", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+              .Query<int>();
+
+            return idsForAction;
+        }
+
+        public Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId)
+        {
+            var strSQL = "select j.id, a.Code " +
+                         "from Job j " +
+                         "INNER JOIN Stop s ON j.StopId = s.id AND s.RouteHeaderId = @RouteHeaderId " +
+                         "INNER JOIN Account a ON a.StopId = s.Id ";
+            var result = new Dictionary<int, string>();
+
+            Action<IDataReader> callBack = reader =>
+            {
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(0), reader.GetString(1));
+                }
+            };
+
+            this.dapperProxy.ExecuteSql(strSQL, new { RouteHeaderId = routeHeaderId }, callBack);
+
+            return result;
+        }
+
+        public IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs)
+        {
+            var data = jobs.Select(p => new
+            {
+                p.PhAccount,
+                p.PickListRef,
+                p.JobTypeCode
+            }).ToList().ToDataTables();
+
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .AddParameter("IdentifyJobTable", data, DbType.Object)
+                .Query<int>();
+        }
+
+        public void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobsCascadeSoftDelete)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .AddParameter("DeletedByImport", deletedByImport, DbType.Boolean)
+                .Execute();
+        }
+
+        public void ReinstateJobsSoftDeletedByImport(IList<int> jobIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .Execute();
+        }
+
+        public void JobsSetResolutionStatusClosed(IList<int> jobIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.CleanJobsSetResolutionStatusClosed)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .Execute();
         }
     }
 }

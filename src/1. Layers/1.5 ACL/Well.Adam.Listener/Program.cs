@@ -37,7 +37,7 @@
         /// <summary>
         /// IOC Dependency Registration
         /// </summary>
-        private static Container InitIoc()
+        public static Container InitIoc()
         {
             return new Container(
                 x =>
@@ -53,11 +53,12 @@
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
                     x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
-                    x.For<IRouteMapper>().Use<RouteMapper>();
+                    x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
-                    x.For<IAdamImportService>().Use<AdamImportService>();
+                    x.For<IAdamImportService>().Use<RouteImportService>();
+                    x.For<IImportService>().Use<ImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
@@ -72,6 +73,11 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+                    x.For<IRouteImportMapper>().Use<RouteImportMapper>();
+                    x.For<IRouteFileImportCommands>().Use<RouteFileImportCommands>();
                 });
         }
     }

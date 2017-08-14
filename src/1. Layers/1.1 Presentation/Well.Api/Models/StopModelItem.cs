@@ -12,11 +12,12 @@
         public int JobDetailId { get; set; }
         public string Product { get; set; }
         public string Description { get; set; }
-        public double Value { get; set; }
+        public decimal Value { get; set; }
         public int Invoiced { get; set; }
         public int Delivered { get; set; }
         public int Damages { get; set; }
         public int Shorts { get; set; }
+        public int Bypassed { get; set; }
         public bool Checked { get; set; }
         public bool HighValue { get; set; }
         public string BarCode { get; set; }
@@ -26,5 +27,6 @@
         public bool HasUnresolvedActions { get; set; }
         public int GrnProcessType { get; set; }
         public string GrnNumber { get; set; }
+        public bool CanEdit { get; set; }
     }
 }

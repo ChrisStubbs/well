@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using Contracts;
     using Domain;
@@ -14,14 +15,11 @@
 
     public class PodTransactionFactory : IPodTransactionFactory
     {
-        private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAccountRepository accountRepository;
 
-        public PodTransactionFactory(IAccountRepository accountRepository,
-             IJobDetailRepository jobDetailRepository)
+        public PodTransactionFactory(IAccountRepository accountRepository)
         {
             this.accountRepository = accountRepository;
-            this.jobDetailRepository = jobDetailRepository;
         }
 
         public PodTransaction Build(Job job, int branchId)
@@ -40,8 +38,7 @@
 
             var lineDictionary = new Dictionary<int, string>();
 
-            var proofOfDelivery = job.ProofOfDelivery.GetValueOrDefault();
-            var podLines = GetPodDeliveryLineCredits(job.Id, (int)job.JobStatus, proofOfDelivery);
+            var podLines = GetPodDeliveryLineCredits(job).ToList();
 
             var podCount = podLines.Count();
 
@@ -54,7 +51,7 @@
                 }
                 var podCreditLine =
                     string.Format(
-                        "INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINEPODREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5}, {6});",
+                        "INSERT INTO WELLLINE.WELLINEREC (WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINEPODREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({0}, {1},' {2} ', {3}, {4}, {5}, {6});",
                         job.Id, (int) EventAction.Pod, lineCount, line.Reason, line.Quantity, line.ProductCode, endFlag);
 
                 lineDictionary.Add(lineCount, podCreditLine);
@@ -75,74 +72,79 @@
             return podTransaction;
         }
 
-        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(int jobId, int jobStatus,
-            int proofOfDelivery)
+        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCredits(Job job)
         {
-            var jobDetails = this.jobDetailRepository.GetByJobId(jobId);
+            // PODs send to ADAM the quantity DELIVERED not the quantity SHORT/DAMAGED
             var podLines = new List<PodDeliveryLineCredit>();
 
-            if (proofOfDelivery == (int)ProofOfDelivery.CocaCola)
+            if (job.ProofOfDelivery.GetValueOrDefault() == (int)ProofOfDelivery.CocaCola)
             {
-                podLines = GetPodDeliveryLineCreditsForCCE(jobDetails, jobStatus).ToList();
+                podLines = GetPodDeliveryLineCreditsForCCE(job).ToList();
             }
             else
             {
-                podLines = GetPodDeliveryLineCreditsForLRS(jobDetails, jobStatus).ToList();
+                podLines = GetPodDeliveryLineCreditsForLRS(job).ToList();
             }
 
             return podLines;
         }
 
-        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCreditsForCCE(IEnumerable<JobDetail> jobDetails, int jobStatus)
+        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCreditsForCCE(Job job)
         {
             var podLines = new List<PodDeliveryLineCredit>();
-
-            foreach (var line in jobDetails)
+            
+            foreach (var line in job.LineItems)
             {
-                // is it short, is it damaged, or bypassed?
-                // if so create the pod line
-                if (line.JobDetailDamages.Any())
+                var deliveredQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).DeliveredQty;
+                
+                foreach (var action in line.LineItemActions)
                 {
-                    foreach (var damage in line.JobDetailDamages)
+                    var quantity = 0;
+                    quantity = line.AmendedDeliveryQuantity ?? deliveredQuantity;
+
+                    if (action.ExceptionType == ExceptionType.Damage)
                     {
                         var reason = 0;
-                        if (!string.IsNullOrWhiteSpace(damage.PdaReasonDescription) && damage.PdaReasonDescription.ToLower().Replace(" ", string.Empty).Contains("notrequired"))
-                        {
-                            reason = (int)PodReason.Refused;
-                        }
+                        if (!string.IsNullOrWhiteSpace(action.PdaReasonDescription) && action.PdaReasonDescription.ToLower().Replace(" ", string.Empty).Contains("notrequired"))
+                            {
+                                reason = (int)PodReason.Refused;
+                            }
                         else
-                        {
-                            reason = (int) PodReason.Damaged;
-                        }
-                        var podLine = new PodDeliveryLineCredit { JobId = line.JobId, Reason = reason, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
+                            {
+                                reason = (int)PodReason.Damaged;
+                            }
+
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = quantity };
+                        podLines.Add(podLine);
+                    }
+
+                    if (action.ExceptionType == ExceptionType.Short || action.ExceptionType == ExceptionType.Bypass)
+                    {
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.ProductCode, Quantity = quantity };
                         podLines.Add(podLine);
                     }
                 }
-
-                if (line.ShortQty > 0 || jobStatus == (int)JobStatus.Bypassed)
-                {
-                   var podLine = new PodDeliveryLineCredit { JobId = line.JobId, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
-                   podLines.Add(podLine);
-                }
             }
 
             return podLines;
         }
 
-        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCreditsForLRS(IEnumerable<JobDetail> jobDetails, int jobStatus)
+
+        public IEnumerable<PodDeliveryLineCredit> GetPodDeliveryLineCreditsForLRS(Job job)
         {
             var podLines = new List<PodDeliveryLineCredit>();
 
-            foreach (var line in jobDetails)
+            foreach (var line in job.LineItems)
             {
-                // is it short, is it damaged, or bypassed?
-                // if so create the pod line
-                if (line.JobDetailDamages.Any())
+                var deliveredQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).DeliveredQty;
+                foreach (var action in line.LineItemActions)
                 {
-                    foreach (var damage in line.JobDetailDamages)
+                    var quantity = 0;
+                    quantity = line.AmendedDeliveryQuantity ?? deliveredQuantity;
+                    if (action.ExceptionType == ExceptionType.Damage)
                     {
                         var reason = 0;
-                        if (!string.IsNullOrWhiteSpace(damage.PdaReasonDescription) && damage.PdaReasonDescription.ToLower().Replace(" ", string.Empty).Contains("notrequired"))
+                        if (!string.IsNullOrWhiteSpace(action.PdaReasonDescription) && action.PdaReasonDescription.ToLower().Replace(" ", string.Empty).Contains("notrequired"))
                         {
                             reason = (int)PodReason.Refused;
                         }
@@ -150,28 +152,29 @@
                         {
                             reason = (int)PodReason.Damaged;
                         }
-                        var podLine = new PodDeliveryLineCredit { JobId = line.JobId, Reason = reason, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
+
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = quantity };
                         podLines.Add(podLine);
                     }
-                }
 
-                if (line.ShortQty > 0)
-                {
-                    var podLine = new PodDeliveryLineCredit { JobId = line.JobId, Reason = (int)PodReason.PickingError, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
-                    podLines.Add(podLine);
-                }
+                    if (action.ExceptionType == ExceptionType.Short)
+                    {
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.PickingError, ProductCode = line.ProductCode, Quantity = quantity };
+                        podLines.Add(podLine);
+                    }
 
-                if (jobStatus == (int)JobStatus.Bypassed)
-                {
-                    var podLine = new PodDeliveryLineCredit { JobId = line.JobId, Reason = (int)PodReason.UnableToOffload, ProductCode = line.PhProductCode, Quantity = line.DeliveredQty };
-                    podLines.Add(podLine);
+                    if (action.ExceptionType == ExceptionType.Bypass)
+                    {
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.UnableToOffload, ProductCode = line.ProductCode, Quantity = quantity };
+                        podLines.Add(podLine);
+                    }
                 }
             }
 
             return podLines;
         }
 
-        private string TruncateString(string input, int maxLength)
+      private string TruncateString(string input, int maxLength)
         {
             if (!string.IsNullOrEmpty(input) && input.Length > maxLength)
             {

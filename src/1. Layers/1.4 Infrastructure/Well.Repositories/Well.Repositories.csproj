@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdamDotNetProvider">
+    <Reference Include="AdamDotNetProvider, Version=14.4.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\AdamDotNetProvider.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -66,17 +67,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuditRepository.cs" />
+    <Compile Include="ActivityRepository.cs" />
+    <Compile Include="AmendmentFactory.cs" />
+    <Compile Include="AmendmentRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
-    <Compile Include="CleanPreferenceRepository.cs" />
+    <Compile Include="CommentReasonRepository.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\IActivityReadRepository.cs" />
-    <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
+    <Compile Include="Contracts\IActivityRepository.cs" />
+    <Compile Include="Contracts\IAmendmentFactory.cs" />
+    <Compile Include="Contracts\IAmendmentRepository.cs" />
+    <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\ICustomerRoyaltyExceptionRepository.cs" />
+    <Compile Include="Contracts\IDateThresholdRepository.cs" />
+    <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
     <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />
@@ -90,7 +99,6 @@
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
-    <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
@@ -104,11 +112,15 @@
     <Compile Include="Contracts\IRouteHeaderRepository.cs" />
     <Compile Include="Contracts\IUserStatsRepository.cs" />
     <Compile Include="Contracts\IUserRepository.cs" />
+    <Compile Include="Contracts\IWellCleanUpRepository.cs" />
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
+    <Compile Include="CustomerRoyaltyExceptionRepository.cs" />
+    <Compile Include="DateThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
+    <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="LineItemActionCommentRepository.cs" />
@@ -145,6 +157,7 @@
     <Compile Include="StoredProcedures.cs" />
     <Compile Include="UserStatsRepository.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="WellCleanUpRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
     <Compile Include="WidgetRepository.cs" />

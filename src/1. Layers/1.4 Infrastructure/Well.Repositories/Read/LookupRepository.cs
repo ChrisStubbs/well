@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Well.Domain;
 using PH.Well.Repositories.Contracts;
 
 namespace PH.Well.Repositories.Read
@@ -54,7 +55,9 @@ namespace PH.Well.Repositories.Read
         public IList<KeyValuePair<string, string>> CommentReason()
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.CommentReason)
-                .Query<KeyValuePair<string, string>>()
+                .Query<CommentReason>()
+                .Where(x => !x.IsDefault)
+                .Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Description))
                 .ToList();
         }
     }

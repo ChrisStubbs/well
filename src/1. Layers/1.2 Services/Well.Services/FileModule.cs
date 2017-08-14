@@ -4,6 +4,7 @@
 
     using PH.Well.Services.Contracts;
 
+    //to unit tests this we could use NuGet package System.IO.Abstractions
     public class FileModule : IFileModule
     {
         public FileStream Open(string path, FileMode mode, FileAccess access, FileShare share)

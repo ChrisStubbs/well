@@ -17,6 +17,7 @@ namespace PH.Well.UnitTests.Services
     using System.Threading.Tasks;
 
     using PH.Well.Domain.Enums;
+    using Well.Domain.Extensions;
     using Well.Domain.ValueObjects;
     using Well.Services.Contracts;
 
@@ -27,9 +28,11 @@ namespace PH.Well.UnitTests.Services
         private JobService service;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IAssigneeReadRepository> assigneeReadRepository;
-        private Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
-        private Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
-        private Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+        private readonly Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
+        private readonly Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
+        private readonly Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+        private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
+
         [SetUp]
         public void Setup()
         {
@@ -41,12 +44,19 @@ namespace PH.Well.UnitTests.Services
 
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             this.assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
 
             assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
-            this.service = new JobService(this.jobRepository.Object, userThreshold.Object, dateThresholdService.Object, assigneeReadRepository.Object, lineItemRepository.Object);
+            this.service = new JobService(this.jobRepository.Object,
+                userThreshold.Object,
+                dateThresholdService.Object,
+                assigneeReadRepository.Object,
+                lineItemRepository.Object,
+                userNameProvider.Object,
+                userRepository.Object);
 
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+
         }
 
         public class TheDetermineStatusMethod : JobServiceTests
@@ -437,68 +447,180 @@ namespace PH.Well.UnitTests.Services
 
         }
 
-        [Test]
-        [TestCase("User", ExpectedResult = true)]
-        [TestCase("", ExpectedResult = false)]
-        [Category("JobService")]
-        public bool CanEditActions_Should_Check_User(string user)
+        public class TheCanEditActionsMethod : JobServiceTests
         {
-            var job = new Job
+            [Test]
+            [TestCase("User", ExpectedResult = true)]
+            [TestCase("", ExpectedResult = false)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_User(string user)
             {
-                ResolutionStatus = ResolutionStatus.DriverCompleted
-            };
+                var job = new Job
+                {
+                    ResolutionStatus = ResolutionStatus.DriverCompleted
+                };
 
-            return this.service.CanEditActions(job, user);
+                return this.service.CanEdit(job, user);
+            }
+
+            [Test]
+            [Category("JobService")]
+            public void CanEditActions_Should_Check_ResolutionStatus()
+            {
+                var job = new Job
+                {
+                    ResolutionStatus = ResolutionStatus.DriverCompleted
+                };
+
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.ActionRequired;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.PendingSubmission;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.PendingApproval;
+                Assert.IsTrue(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Imported;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Approved;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Credited;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Resolved;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+
+                job.ResolutionStatus = ResolutionStatus.Closed;
+                Assert.IsFalse(this.service.CanEdit(job, "User"));
+            }
+
+            [Test]
+            [TestCase("UPL-GLO", ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
+            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_JobType(string jobType)
+            {
+                var job = new Job
+                {
+                    JobStatus = JobStatus.InComplete,
+                    InvoiceNumber = "123",
+                    JobTypeCode = jobType,
+                    ResolutionStatus = ResolutionStatus.ActionRequired
+                };
+
+                return service.CanEdit(job, "User");
+            }
         }
 
-        [Test]
-        [Category("JobService")]
-        public void CanEditActions_Should_Check_ResolutionStatus()
+        public class CanManuallyCompleteMethod : JobServiceTests
         {
-            var job = new Job
+
+            [Test]
+            [TestCase("User", ExpectedResult = true)]
+            [TestCase("", ExpectedResult = false)]
+            [Category("JobService")]
+            public bool CanManuallyComplete_Should_Check_User(string user)
             {
-                ResolutionStatus = ResolutionStatus.DriverCompleted
-            };
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Invoiced
+                };
 
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+                return this.service.CanManuallyComplete(job, user);
+            }
 
-            job.ResolutionStatus = ResolutionStatus.ActionRequired;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+            [Test]
+            [Category("JobService")]
+            public void CanManuallyComplete_Should_Check_WellStatus()
+            {
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Planned
+                };
 
-            job.ResolutionStatus = ResolutionStatus.PendingSubmission;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
 
-            job.ResolutionStatus = ResolutionStatus.PendingApproval;
-            Assert.IsTrue(this.service.CanEditActions(job, "User"));
+                job.WellStatus = WellStatus.Invoiced;
 
-            job.ResolutionStatus = ResolutionStatus.Imported;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+                Assert.IsTrue(this.service.CanManuallyComplete(job, "User"));
 
-            job.ResolutionStatus = ResolutionStatus.Approved;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+                job.WellStatus = WellStatus.Complete;
 
-            job.ResolutionStatus = ResolutionStatus.Credited;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
 
-            job.ResolutionStatus = ResolutionStatus.Resolved;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+                job.WellStatus = WellStatus.Bypassed;
 
-            job.ResolutionStatus = ResolutionStatus.Closed;
-            Assert.IsFalse(this.service.CanEditActions(job, "User"));
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+
+                job.WellStatus = WellStatus.RouteInProgress;
+
+                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+            }
+
+            [Test]
+            [Category("JobService")]
+            public void CanEditActions_Should_Check_JobStatus()
+            {
+                var job = new Job
+                {
+                    WellStatus = WellStatus.Planned,
+                };
+
+                foreach (JobStatus jobStatus in Enum.GetValues(typeof(JobStatus)))
+                {
+                    job.JobStatus = jobStatus;
+                    if (jobStatus == JobStatus.CompletedOnPaper)
+                    {
+                        Assert.IsTrue(this.service.CanManuallyComplete(job, "User"));
+                    }
+                    else
+                    {
+                        Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+                    }
+
+                }
+            }
+
+            [Test]
+            [TestCase("UPL-GLO", ExpectedResult = false, Description = "Global uplift jobs should not be editable")]
+            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [Category("JobService")]
+            public bool CanEditActions_Should_Check_JobType(string jobType)
+            {
+                var job = new Job
+                {
+                    JobStatus = JobStatus.InComplete,
+                    InvoiceNumber = "123",
+                    JobTypeCode = jobType,
+                    ResolutionStatus = ResolutionStatus.ActionRequired
+                };
+
+                return service.CanEdit(job, "User");
+            }
         }
+
 
         [Test]
         public void SetGrnShouldFailAfterSubmissionDate()
         {
             var job = JobFactory.New.Build();
+            var jobs = new[] { job };
             var routeDate = DateTime.Now;
+            var routes = new[] {new JobRoute() {JobId = job.Id, RouteDate = routeDate}};
 
-            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
-            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => new JobRoute(){ RouteDate = routeDate });
-            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, job.Id))
+            jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
+
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, job.Id, 0))
                 .Returns<DateTime>(x => routeDate.AddHours(-1));
 
             Assert.Throws<Exception>(() => service.SetGrn(job.Id, "123"));
+
         }
 
         [Test]
@@ -506,13 +628,15 @@ namespace PH.Well.UnitTests.Services
         {
             var routeDate = DateTime.Now;
             var job = JobFactory.New.Build();
-            var jobRoute = new JobRoute() {RouteDate = routeDate, BranchId = 1};
-          
-            jobRepository.Setup(x => x.GetById(job.Id)).Returns<Job>(x => job);
-            jobRepository.Setup(x => x.GetJobRoute(job.Id)).Returns(() => jobRoute);
+            var jobs = new[] { job };
+            var routes = new[] { new JobRoute() { JobId = job.Id, RouteDate = routeDate, BranchId = 1 } };
+
+            jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
+
             jobRepository.Setup(x => x.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
             //Return submission date greater than now
-            dateThresholdService.Setup(x => x.EarliestSubmitDate(routeDate, jobRoute.BranchId))
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, routes[0].BranchId, 0))
                 .Returns(routeDate.AddHours(1));
 
             service.SetGrn(job.Id, "123");

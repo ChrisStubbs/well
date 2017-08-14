@@ -1,4 +1,4 @@
-﻿<div class="row">
+<div class="row">
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li class="active">Routes</li>
@@ -19,111 +19,120 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12"> &nbsp;</div>
+        <div class="col-md-12">&nbsp;</div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <p-dataTable [value]="routes" [rows]="rowCount" [paginator]="true"
-                         [pageLinks]="pageLinks" [rowsPerPageOptions]="rowsPerPageOptions"
-                         #dt>
-                <p-column header="Id" field="id" filter="true" filterMatchMode="in" [hidden]="true"></p-column>
-                <p-column header="Branch" field="branchId" [sortable]="true" filter="true" filterMatchMode="equals">
-                    <ng-template pTemplate="filter" let-col>
-                        <select class="form-control" id="searchBranch"
-                                (change)="refreshData($event)"
-                                [ngModel]="routeFilter.branchId ? routeFilter.branchId.value : ''">
-                            <option *ngFor="let branch of branches" [value]="branch[0] || '' ">
-                                {{ branch[1] }}
-                            </option>
-                        </select>
-                    </ng-template>
-
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            {{route.branch}}
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="Route" field="routeNumber" [sortable]="true" [filter]="true" filterMatchMode="contains">
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            <a routerLink="/singleroute/{{route.id}}" routerLinkActive="active">{{route.routeNumber}}</a>
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="Date" field="routeDate" [sortable]="true" [style]="{'overflow':'visible','width':'150px'}" [filter]="true" filterMatchMode="contains">
-                    <ng-template pTemplate="filter" let-col>
-                        <ow-date (change)="dt.filter($event.target.value,col.field,col.filterMatchMode)"
-                                 value="{{routeFilter.routeDate ? routeFilter.routeDate.value : '' }}">
-                        </ow-date>
-                    </ng-template>
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            {{route.routeDate | date:'dd MMM yyyy' }}
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="Stops" field="stopCount" [sortable]="true" [filter]="true" filterMatchMode="equals"></p-column>
-                <p-column header="rsId" field="routeStatusId" [hidden]="true"></p-column>
-                <p-column header="Status" field="routeStatus" [sortable]="true" [filter]="true" filterMatchMode="equals">
-                    <ng-template pTemplate="filter" let-col>
-                        <select class="form-control" id="searchStatus"
-                                (change)="dt.filter($event.target.value,'routeStatusId',col.filterMatchMode)"
-                                [ngModel]="routeFilter.routeStatusId ? routeFilter.routeStatusId.value : ''">
+        <div class="col-md-12 clearfix table-container">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 13%">
+                        <div class="text-center">Branch</div>
+                        <div>
+                            <select class="form-control"
+                                    (change)="refreshData($event)"
+                                    [(ngModel)]="routeFilter.branchId">
+                                <option *ngFor="let branch of branches" [value]="branch[0]">
+                                    {{ branch[1] }}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 7%">
+                        <div class="text-center">Route</div>
+                        <div>
+                            <select class="form-control"
+                                    (change)="fillGridSource()"
+                                    [(ngModel)]="routeFilter.routeNumber">
+                                <option value>All</option>
+                                <option *ngFor="let item of routeNumbers" [value]="item">
+                                    {{ item }}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 14%">
+                        <div style="width: 12em"><div class="text-center">Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="routeFilter.dateFormatted" (change)="fillGridSource()" class="form-control">
+                            </div>
+                        </div>
+                    </th>
+                    <th style="width: 7%">
+                        <div class="text-center" style="width: 3em">No. of Stops</div>
+                    </th>
+                    <th style="width: 13%">
+                        <div class="text-center">Status</div>
+                        <div>
+                            <select class="form-control" id="searchStatus"
+                                    (change)="fillGridSource()"
+                                    [(ngModel)]="routeFilter.routeStatusId">
+                                <option value>All</option>
+                                <option *ngFor="let status of routeStatus" [value]="status.key">
+                                    {{ status.value }}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 14%" colspan="2">
+                        <div class="text-center col-md-6">Exceptions</div>
+                        <div class="text-center col-md-6">Clean</div>
+                        <select class="form-control" [(ngModel)]="routeFilter.exceptionCount" (change)="fillGridSource()" title="">
                             <option value>All</option>
-                            <option *ngFor="let status of routeStatus" [value]="status.key">
-                                {{ status.value }}
-                            </option>
+                            <option value="1">With Exceptions</option>
+                            <option value="2">All Clean</option>
                         </select>
-                    </ng-template>
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            {{route.routeStatus}}
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="c" field="hasClean" [hidden]="true"></p-column>
-                <p-column header="Clean" field="cleanCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
-                    <ng-template pTemplate="filter" let-col>
-                        <select class="form-control" id="cleanFilterCtl"
-                                (change)="dt.filter($event.target.value,'hasClean','equals')"
-                                [ngModel]="routeFilter.hasClean ? routeFilter.hasClean.value : ''">
-                            <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
-                                {{yesNoFilterItem[1]}}
-                            </option>
-                        </select>
-                    </ng-template>
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            {{route.cleanCount}}
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="e" field="hasExceptions" [hidden]="true"> </p-column>
-                <p-column header="Exceptions" field="exceptionCount" [sortable]="true" [filter]="true" filterMatchMode="equals">
-                    <ng-template pTemplate="filter" let-col>
-                        <select class="form-control" id="exceptionFilterCtl"
-                                (change)="dt.filter($event.target.value,'hasExceptions','equals')"
-                                [ngModel]="routeFilter.hasExceptions ? routeFilter.hasExceptions.value : ''">
-                            <option *ngFor="let yesNoFilterItem of yesNoFilterItems" [value]="yesNoFilterItem[0]">
-                                {{yesNoFilterItem[1]}}
-                            </option>
-                        </select>
-                    </ng-template>
-
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <span>
-                            {{route.exceptionCount}}
-                        </span>
-                    </ng-template>
-                </p-column>
-                <p-column header="Driver" field="driverName" [sortable]="true" [filter]="true" filterMatchMode="contains"></p-column>
-                <p-column header="Assignee" field="assignee" [sortable]="true" [filter]="true" filterMatchMode="contains">
-                    <ng-template let-route="rowData" pTemplate="body">
-                        <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(route)"></assign-modal>
-                    </ng-template>
-                </p-column>
-            </p-dataTable>
+                    </th>
+                    <th style="width: 16%">
+                        <div class="text-center">Driver</div>
+                        <div>
+                            <select class="form-control"
+                                    (change)="fillGridSource()"
+                                    [(ngModel)]="routeFilter.driverName">
+                                <option value>All</option>
+                                <option *ngFor="let item of drivers" [value]="item">
+                                    {{ item }}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 16%">
+                        <div class="text-center">Assignee</div>
+                        <div>
+                            <select class="form-control"
+                                    (change)="fillGridSource()"
+                                    [(ngModel)]="routeFilter.assignee">
+                                <option value>All</option>
+                                <option *ngFor="let item of assignees" [value]="item">
+                                    {{item}}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of gridSource | paginate: { itemsPerPage: rowCount, currentPage: p }">
+                    <td>{{item.branch}}</td>
+                    <td class="text-right">
+                        <a routerLink="/singleroute/{{item.id}}" routerLinkActive="active">{{item.routeNumber}}</a>
+                    </td>
+                    <td class="text-center">{{item.routeDate | date:'dd MMM yyyy' }}</td>
+                    <td class="text-right">{{item.stopCount}}</td>
+                    <td>{{item.routeStatus}}</td>
+                    <td class="text-right">{{item.exceptionCount}}</td>
+                    <td class="text-right">{{item.cleanCount}}</td>
+                    <td>{{item.driverName}}</td>
+                    <td><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal></td>
+                </tr>
+                </tbody>
+            </table>
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
+    </div>
+    <div class="text-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

@@ -6,3 +6,5 @@
 	[By]				VARCHAR(50) NOT NULL,
 	[On]				SmallDateTime NOT NULL
 )
+GO
+CREATE NONCLUSTERED INDEX [Idx_JobResolutionStatus_Job] ON [dbo].[JobResolutionStatus] ([Job]) INCLUDE ([Id],[Status],[By],[On])

@@ -38,9 +38,10 @@
         private IAdamUpdateService adamUpdateService;
         private IFileTypeService fileTypeService;
         private IRouteHeaderRepository routeHeaderRepository;
-        private IEpodUpdateService epodUpdateService;
+        private IEpodImportService epodImportService;
         private AdamFileMonitorService adamFileMonitorService;
         private IUserNameProvider userNameProvider;
+        private ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
 
         public AdamImportSteps()
         {
@@ -58,9 +59,10 @@
             this.fileTypeService = this.container.GetInstance<IFileTypeService>();
             this.adamImportService = this.container.GetInstance<IAdamImportService>();
             this.adamUpdateService = this.container.GetInstance<IAdamUpdateService>();
-            this.epodUpdateService = this.container.GetInstance<IEpodUpdateService>();
+            this.epodImportService = this.container.GetInstance<IEpodImportService>();
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
             this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
+            this.customerRoyaltyExceptionRepository = this.container.GetInstance<ICustomerRoyaltyExceptionRepository>();
 
             this.logger.LogDebug("Calling file monitor service");
             adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
@@ -233,7 +235,7 @@
             using (var reader = new StreamReader(Path.Combine(filePath, epodFile)))
             {
                 var routes = (RouteDelivery)xmlSerializer.Deserialize(reader);
-                this.epodUpdateService.Update(routes, epodFile);
+                this.epodImportService.Import(routes, epodFile);
             }
         }
 
@@ -246,14 +248,13 @@
             }
         }
 
-
         [Given(@"I have an exception royalty of (.*) days for royalty (.*)")]
-        public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(int exceptionDays, int royaltyCode)
+        public void GivenIHaveAnExceptionRoyaltyOfDaysForRoyalty(byte exceptionDays, int royaltyCode)
         {
             var jobRepository = container.GetInstance<IJobRepository>();
-            var customerRoyalty = jobRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
+            var customerRoyalty = customerRoyaltyExceptionRepository.GetCustomerRoyaltyExceptionsByRoyalty(royaltyCode);
             customerRoyalty.ExceptionDays = exceptionDays;
-            jobRepository.UpdateCustomerRoyaltyException(customerRoyalty);
+            customerRoyaltyExceptionRepository.UpdateCustomerRoyaltyException(customerRoyalty);
         }
 
         [Then(@"there should be (.*) exception lines left for a Job with an Id of (.*)")]

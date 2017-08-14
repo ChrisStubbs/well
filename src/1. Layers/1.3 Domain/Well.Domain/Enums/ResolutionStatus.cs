@@ -2,14 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
 
+    [Serializable]
     public sealed class ResolutionStatus
     {
         private int value;
         private string description;
-        public static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
+        private static Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
         {
             { 1, new ResolutionStatus(1, "Imported")},
             { 2, new ResolutionStatus(2, "Driver Completed")},
@@ -20,6 +20,7 @@
             { 64, new ResolutionStatus(64, "Credited")},
             { 128, new ResolutionStatus(128, "Resolved")},
             { 256, new ResolutionStatus(256, "Closed")},
+            { 512, new ResolutionStatus(512, "Manually Completed")},
         };
 
         private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256 };
@@ -59,6 +60,14 @@
             get
             {
                 return Values[2];
+            }
+        }
+
+        public static ResolutionStatus ManuallyCompleted
+        {
+            get
+            {
+                return Values[512];
             }
         }
 
@@ -123,6 +132,16 @@
             get
             {
                 return new ResolutionStatus(0, "Invalid");
+            }
+        }
+
+        public static IList<ResolutionStatus> AllStatus
+        {
+            get
+            {
+                return ResolutionStatus.Values
+                    .Select(p => p.Value)
+                    .ToList();
             }
         }
 
@@ -227,5 +246,6 @@
         {
             return $"{this.Value} - {this.Description}";
         }
+
     }
 }

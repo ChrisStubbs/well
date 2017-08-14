@@ -1,14 +1,18 @@
-﻿namespace PH.Well.Domain
+﻿using PH.Well.Domain.Extensions;
+
+namespace PH.Well.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Contracts;
     using Enums;
     using ValueObjects;
 
     [Serializable()]
-    public class Job : Entity<int>
+    public class Job : Entity<int> 
     {
+        public const string DocumentPickListReference = "9999999";
         public Job()
         {
             JobDetails = new List<JobDetail>();
@@ -22,6 +26,13 @@
 
         public string JobType { get; set; }
 
+        /// <summary>
+        /// Helper property to get jobType as enum value
+        /// Current JobType property should be renamed to JobTypeDescription
+        /// JobTypeEnumValue should be then called JobType and mapped from JobType database value
+        /// </summary>
+        public JobType JobTypeEnumValue { get { return EnumExtensions.GetValueFromDescription<JobType>(JobTypeCode); } }
+
         public string JobTypeAbbreviation { get; set; }
 
         public string PickListRef { get; set; }
@@ -31,6 +42,8 @@
         public string PhAccount { get; set; }
 
         public int PhAccountId { get; set; }
+
+        public string PhAccountName { get; set; }
 
         public decimal CreditValue { get; set; }
 
@@ -45,6 +58,15 @@
         public int? GrnProcessType { get; set; }
 
         public int? ProofOfDelivery { get; set; }
+
+        public bool IsProofOfDelivery
+        {
+            get
+            {
+                return ProofOfDelivery.HasValue && (ProofOfDelivery == (int)Enums.ProofOfDelivery.Lucozade ||
+                                                    ProofOfDelivery == (int)Enums.ProofOfDelivery.CocaCola);
+            }
+        }
 
         public int? OrdOuters { get; set; }
 
@@ -78,6 +100,11 @@
 
         public string GrnNumber { get; set; }
 
+        public bool IsGrnNumberRequired
+        {
+            get { return !string.IsNullOrWhiteSpace(GrnNumber) && GrnProcessType == 1; }
+        }
+
         public string GrnRefusedReason { get; set; }
 
         public int? OuterCountUpdate { get; set; }
@@ -87,18 +114,6 @@
         public bool OuterDiscrepancyUpdate { get; set; }
 
         public bool OuterDiscrepancyFound { get; set; }
-
-
-        //public bool OuterDiscrepancyFound
-        //{
-        //    get
-        //    {
-        //        int totalShort = TotalOutersShort ?? 0;
-        //        int detailShort = DetailOutersShort ?? 0;
-
-        //        return (totalShort - detailShort) > 0;
-        //    }
-        //}
 
         public int? TotalOutersOverUpdate { get; set; }
 
@@ -131,6 +146,7 @@
 
         public bool HasDamages => this.JobDetails.SelectMany(x => x.JobDetailDamages).Sum(q => q.Qty) > 0;
 
+        // detail outers short & OuterDiscrepancyFound is calculated and updated after import from transend
         public int ToBeAdvisedCount => OuterDiscrepancyFound ? (TotalOutersShort.GetValueOrDefault() - DetailOutersShort.GetValueOrDefault()) : 0;
 
         public WellStatus WellStatus { get; set; }
@@ -138,7 +154,7 @@
         public ResolutionStatus ResolutionStatus { get; set; }
 
         public IList<LineItem> LineItems { get; set; }
-        
+
         public IList<LineItemAction> GetAllLineItemActions()
         {
             return LineItems.SelectMany(x => x.LineItemActions).ToList();
@@ -155,5 +171,20 @@
         public JobRoute JobRoute { get; set; }
 
         public IEnumerable<JobResolutionStatus> ResolutionStatusHistory;
+
+        public int GetRoyaltyCode()
+        {
+            if (!string.IsNullOrWhiteSpace(RoyaltyCode))
+            {
+                var royaltyParts = RoyaltyCode.Split(' ');
+                int tryParseCode;
+                if (int.TryParse(royaltyParts[0], out tryParseCode))
+                {
+                    return tryParseCode;
+                }
+            }
+            return default(int);
+
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
@@ -52,7 +51,7 @@
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            if (!this.jobService.CanEditActions(job, this.userNameProvider.GetUserName()))
+            if (!this.jobService.CanEdit(job, this.userNameProvider.GetUserName()))
             {
                 throw new HttpResponseException(new HttpResponseMessage
                 {

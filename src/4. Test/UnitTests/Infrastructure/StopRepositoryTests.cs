@@ -1,7 +1,9 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
+    using Dapper;
     using PH.Well.Common.Contracts;
     using Moq;
     using NUnit.Framework;
@@ -32,20 +34,31 @@
             this.repository = new StopRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
+        protected void SetUpGetByIds()
+        {
+            dapperProxy.Setup(x => x.WithStoredProcedure("Stops_GetByIds")).Returns(this.dapperProxy.Object);
+            dapperProxy.Setup(x => x.AddParameter("Ids", It.IsAny<DataTable>(), DbType.Object, null)).Returns(this.dapperProxy.Object);
+            dapperProxy.Setup(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IList<Stop>>>())).Returns(new List<Stop>());
+        }
+
         public class TheGetStopByRouteHeaderId : StopRepositoryTests
         {
             [Test]
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 const int routeHeaderId = 1;
+                SetUpGetByIds();
                 dapperProxy.Setup(x => x.WithStoredProcedure("Stops_GetByRouteHeaderId")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("routeHeaderId", routeHeaderId, DbType.Int32,null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
+                dapperProxy.Setup(x => x.AddParameter("routeHeaderId", routeHeaderId, DbType.Int32, null)).Returns(this.dapperProxy.Object);
+                dapperProxy.Setup(x => x.Query<int>()).Returns(new[] { 1, 2 });
+
                 var result = repository.GetStopByRouteHeaderId(1);
 
-                dapperProxy.Verify(x=> x.WithStoredProcedure("Stops_GetByRouteHeaderId"),Times.Once);
+                dapperProxy.Verify(x => x.WithStoredProcedure("Stops_GetByRouteHeaderId"), Times.Once);
                 dapperProxy.Verify(x => x.AddParameter("routeHeaderId", routeHeaderId, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
+                dapperProxy.Verify(x => x.Query<int>(), Times.Once());
+
+
             }
         }
 
@@ -55,16 +68,19 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 const int id = 1;
-                dapperProxy.Setup(x => x.WithStoredProcedure("Stop_GetById")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("Id", id, DbType.Int32, null)).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop>());
+                SetUpGetByIds();
                 var result = repository.GetById(id);
 
-                dapperProxy.Verify(x => x.WithStoredProcedure("Stop_GetById"), Times.Once);
-                dapperProxy.Verify(x => x.AddParameter("Id", id, DbType.Int32, null), Times.Once);
-                dapperProxy.Verify(x => x.Query<Stop>(), Times.Once());
-            }
+                dapperProxy.Verify(x => x.WithStoredProcedure("Stops_GetByIds"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("Ids", It.Is<DataTable>(dt => (int)dt.Rows[0][0] == 1 && dt.Rows.Count == 1), DbType.Object, null), Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IList<Stop>>>()), Times.Once());
 
+                dapperProxy.Verify(x => x.WithStoredProcedure("Stops_GetByIds"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("Ids", It.Is<DataTable>(dt => 
+                                (int)dt.Rows[0][0] == 1
+                                && dt.Rows.Count == 1), DbType.Object, null), Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IList<Stop>>>()), Times.Once());
+            }
         }
 
         public class TheDeleteStopByIdMethod : StopRepositoryTests
@@ -107,7 +123,11 @@
                     new JobFactory().With(x => x.PickListRef = "12221")
                         .With(x => x.PhAccount = "55444.333")
                         .Build();
-                
+
+                var branchId = 2;
+
+                SetUpGetByIds();
+
                 this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob))
                     .Returns(this.dapperProxy.Object);
 
@@ -117,17 +137,22 @@
                 this.dapperProxy.Setup(x => x.AddParameter("Account", job.PhAccount, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<Stop>()).Returns(new List<Stop> { new Stop() });
+                this.dapperProxy.Setup(x => x.AddParameter("BranchId", branchId, DbType.Int32, null))
+              .Returns(this.dapperProxy.Object);
 
-                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount);
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new[] { 1 });
+
+                this.repository.GetByJobDetails(job.PickListRef, job.PhAccount, branchId);
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.StopGetByJob), Times.Once);
-
                 this.dapperProxy.Verify(x => x.AddParameter("Picklist", job.PickListRef, DbType.String, null), Times.Once);
-
                 this.dapperProxy.Verify(x => x.AddParameter("Account", job.PhAccount, DbType.String, null), Times.Once);
+                this.dapperProxy.Verify(x => x.AddParameter("BranchId", branchId, DbType.Int32, null), Times.Once);
+                this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
 
-                this.dapperProxy.Verify(x => x.Query<Stop>(), Times.Once);
+                dapperProxy.Verify(x => x.WithStoredProcedure("Stops_GetByIds"), Times.Once);
+                dapperProxy.Verify(x => x.AddParameter("Ids", It.Is<DataTable>(dt => (int)dt.Rows[0][0] == 1 && dt.Rows.Count == 1), DbType.Object, null), Times.Once);
+                dapperProxy.Verify(x => x.QueryMultiple(It.IsAny<Func<SqlMapper.GridReader, IList<Stop>>>()), Times.Once());
             }
         }
     }

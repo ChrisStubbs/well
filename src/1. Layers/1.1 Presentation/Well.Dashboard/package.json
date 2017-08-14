@@ -4,7 +4,7 @@
   "author": "Palmer and Harvey",
   "description": "Package for the Orderwell application",
   "scripts": {
-    "buildProduction": "webpack -p",
+    "buildProduction": "webpack -p --progress --profile",
     "build": "webpack -d -w --progress --profile",
     "typings": "typings",
     "postinstall": "typings install"
@@ -36,7 +36,6 @@
     "ng2-tabs": "0.0.11",
     "ngx-tooltip": "0.0.9",
     "ngx-webstorage": "^1.8.0",
-    "primeng": "^4.0.0-rc.3",
     "reflect-metadata": "0.1.3",
     "rxjs": "^5.0.1",
     "tslint": "^4.2.0",

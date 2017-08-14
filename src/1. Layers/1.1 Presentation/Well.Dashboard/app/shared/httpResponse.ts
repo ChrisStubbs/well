@@ -1,4 +1,4 @@
-﻿export class HttpResponse {
+export class HttpResponse {
     public success: boolean;
     public failure: boolean;
     public notAcceptable: boolean;

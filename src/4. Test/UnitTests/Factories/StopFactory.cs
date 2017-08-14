@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Well.Domain;
+    using Well.Domain.Enums;
 
     public class StopFactory : EntityFactory<StopFactory, Stop>
     {
@@ -21,7 +22,7 @@
             this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<Job>();
-            this.Entity.WellStatusId = 3;
+            this.Entity.WellStatus = WellStatus.Complete;
 
             this.Entity.Account = new Account
             {

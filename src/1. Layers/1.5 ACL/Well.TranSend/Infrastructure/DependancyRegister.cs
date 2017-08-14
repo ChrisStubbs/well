@@ -23,8 +23,9 @@
             return new Container(
                 x =>
                 {
+                    x.For<ITransendImport>().Use<TransendImport>();
                     x.For<IEventLogger>().Use<EventLogger>();
-                    x.For<IEpodUpdateService>().Use<EpodUpdateService>();
+                    //x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
@@ -39,15 +40,13 @@
                     x.For<IFtpClient>().Use<FtpClient>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IFileModule>().Use<FileModule>();
-                    x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-                   // x.For<IDapperProxy>().Use<WellDapperProxy>();
-                    x.For<IRouteMapper>().Use<RouteMapper>();
+                    x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
-                    x.For<IJobResolutionStatus>().Use<JobService>();
+                    x.For<IGetJobResolutionStatus>().Use<JobService>();
                     x.For<IUserThresholdService>().Use<UserThresholdService>();
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IUserRepository>().Use<UserRepository>();
@@ -56,12 +55,24 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+
+                    x.For<IEpodImportService>().Use<EpodImportService>();
+                    x.For<IImportService>().Use<ImportService>();
+                    x.For<IEpodImportMapper>().Use<EpodImportMapper>();
+                    x.For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
+
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
 #endif
                 });
+                
+                
+                
         }
     }
 }

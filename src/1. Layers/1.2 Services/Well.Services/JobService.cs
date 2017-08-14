@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
+    using Common.Contracts;
+    using Domain.Extensions;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
-    public partial class JobService : IJobService, IJobResolutionStatus
+    public partial class JobService : IJobService
     {
         private readonly IJobRepository jobRepository;
         private readonly List<Func<Job, ResolutionStatus>> evaluators;
@@ -18,12 +20,17 @@
         private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
         private readonly IAssigneeReadRepository assigneeReadRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
+        private readonly IUserNameProvider userNameProvider;
+        private readonly IUserRepository userRepository;
 
-        public JobService(IJobRepository jobRepository, 
-            IUserThresholdService userThresholdService, 
+        public JobService(IJobRepository jobRepository,
+            IUserThresholdService userThresholdService,
             IDateThresholdService dateThresholdService,
             IAssigneeReadRepository assigneeReadRepository,
-            ILineItemSearchReadRepository lineItemRepository)
+            ILineItemSearchReadRepository lineItemRepository,
+            IUserNameProvider userNameProvider,
+            IUserRepository userRepository
+            )
         {
             this.jobRepository = jobRepository;
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
@@ -32,6 +39,8 @@
             this.dateThresholdService = dateThresholdService;
             this.assigneeReadRepository = assigneeReadRepository;
             this.lineItemRepository = lineItemRepository;
+            this.userNameProvider = userNameProvider;
+            this.userRepository = userRepository;
         }
 
         #region IJobService
@@ -55,7 +64,9 @@
                 return job;
             }
 
-            if (job.PerformanceStatus == PerformanceStatus.Abypa || job.PerformanceStatus == PerformanceStatus.Nbypa)
+            if (job.PerformanceStatus == PerformanceStatus.Abypa
+                || job.PerformanceStatus == PerformanceStatus.Nbypa
+                || job.PerformanceStatus == PerformanceStatus.Wbypa)
             {
                 job.JobStatus = JobStatus.Bypassed;
                 return job;
@@ -121,67 +132,95 @@
 
         public void SetIncompleteJobStatus(Job job)
         {
-            //  if (job.JobStatus == JobStatus.AwaitingInvoice && !string.IsNullOrWhiteSpace(job.InvoiceNumber))
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber)  || (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)))
+            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) || (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)))
             {
                 job.JobStatus = JobStatus.InComplete;
             }
         }
 
-        public bool CanEditActions(Job job, string userName)
+        public bool CanEdit(Job job, string userName)
         {
-            var editableStatuses = new List<ResolutionStatus>
-                {
-                   ResolutionStatus.DriverCompleted,
-                   ResolutionStatus.ActionRequired,
-                   ResolutionStatus.PendingSubmission,
-                   ResolutionStatus.PendingApproval,
-                };
+            return job.ResolutionStatus.IsEditable()
+                    && IsJobAssignedToUser(job, userName)
+                   && job.JobTypeEnumValue != JobType.GlobalUplift;
+        }
 
-            return editableStatuses.Select(x => x.Value).Contains(job.ResolutionStatus.Value)
-                && userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName, StringComparison.OrdinalIgnoreCase);
+        public bool CanManuallyComplete(Job job, string userName)
+        {
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) 
+                && IsJobAssignedToUser(job,userName)
+                && job.JobTypeEnumValue != JobType.GlobalUplift;
+        }
+
+        private bool IsJobAssignedToUser(Job job, string userName)
+        {
+            return userName.Equals(assigneeReadRepository.GetByJobId(job.Id)?.IdentityName,
+                StringComparison.OrdinalIgnoreCase);
         }
 
         public void SetGrn(int jobId, string grn)
         {
-            var jobRoute = jobRepository.GetJobRoute(jobId);
-            var earliestSubmitDate = dateThresholdService.EarliestSubmitDate(jobRoute.RouteDate, jobRoute.BranchId);
-            if (earliestSubmitDate < DateTime.Now)
+            var job = GetJobsWithRoute(new[] { jobId }).FirstOrDefault();
+            if (job != null)
             {
-                throw new Exception("GRN can no longer be modified");
+                var jobRoute = job.JobRoute;
+                var earliestSubmitDate = dateThresholdService.GracePeriodEnd(
+                                                    jobRoute.RouteDate, 
+                                                    jobRoute.BranchId, 
+                                                    job.GetRoyaltyCode());
+
+                if (earliestSubmitDate < DateTime.Now)
+                {
+                    throw new Exception("GRN can no longer be modified");
+                }
+
+                jobRepository.SaveGrn(jobId, grn);
             }
 
-            jobRepository.SaveGrn(jobId, grn);
         }
 
         #endregion
 
         #region IJobResolutionStatus
 
+        private ResolutionStatus AfterCompletionStep(ResolutionStatus currentCompletionStatus, Job job)
+        {
+            // ProofOfDelivery jobs shouldn't be set to ActionRequired
+            if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
+            {
+                return ResolutionStatus.ActionRequired;
+            }
+
+            if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
+            {
+                return ResolutionStatus.Closed | currentCompletionStatus;
+            }
+
+            return currentCompletionStatus;
+        }
+
         private void fillSteps()
         {
             steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
 
-            steps.Add(ResolutionStatus.DriverCompleted, job =>
-            {
-                if (job.LineItems.SelectMany(p => p.LineItemActions).Any())
-                {
-                    return ResolutionStatus.ActionRequired;
-                }
-                else if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
-                {
-                    return ResolutionStatus.Closed | ResolutionStatus.DriverCompleted;
-                }
+            steps.Add(ResolutionStatus.DriverCompleted, job => AfterCompletionStep(ResolutionStatus.DriverCompleted, job));
 
-                return ResolutionStatus.DriverCompleted;
-            });
+            steps.Add(ResolutionStatus.ManuallyCompleted, job => AfterCompletionStep(ResolutionStatus.ManuallyCompleted, job));
 
-            steps.Add(ResolutionStatus.ActionRequired, job =>
-            {
-                return GetCurrentResolutionStatus(job);
-            });
+            steps.Add(ResolutionStatus.ActionRequired, GetCurrentResolutionStatus);
 
             steps.Add(ResolutionStatus.PendingSubmission, job =>
+            {
+
+                if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
+                {
+                    return ResolutionStatus.Approved;
+                }
+
+                return ResolutionStatus.PendingApproval;
+            });
+
+            steps.Add(ResolutionStatus.PendingApproval, job =>
             {
 
                 if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
@@ -204,7 +243,7 @@
 
             steps.Add(ResolutionStatus.Credited, job =>
             {
-                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
                 {
                     return ResolutionStatus.Closed | ResolutionStatus.Credited;
                 }
@@ -214,7 +253,7 @@
 
             steps.Add(ResolutionStatus.Resolved, job =>
             {
-                if (dateThresholdService.EarliestSubmitDate(job.JobRoute.RouteDate, job.JobRoute.BranchId) < DateTime.Now)
+                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
                 {
                     return ResolutionStatus.Closed | ResolutionStatus.Resolved;
                 }
@@ -234,7 +273,7 @@
                 return null;
             });
 
-            //ActionRequired
+            //ActionRequired 
             this.evaluators.Add(job =>
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
@@ -255,7 +294,7 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                if (actions.Any() && job.ResolutionStatus <= ResolutionStatus.PendingSubmission)
+                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission || job.ResolutionStatus == ResolutionStatus.ManuallyCompleted))
                 {
                     if (actions.All(p => p.DeliveryAction != DeliveryAction.NotDefined))
                     {
@@ -375,10 +414,13 @@
             return ResolutionStatus.Invalid;
         }
 
+        #endregion
+
         public IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs)
         {
             var jobList = jobs.ToList();
-            var lineItems = lineItemRepository.GetLineItemByJobIds(jobList.Select(x=> x.Id));
+            var lineItems = lineItemRepository.GetLineItemByJobIds(jobList.Select(x => x.Id));
+
             var jobRoutes = jobRepository.GetJobsRoute(jobList.Select(x => x.Id));
 
             jobList.ForEach(job =>
@@ -393,9 +435,28 @@
 
         public Job PopulateLineItemsAndRoute(Job job)
         {
-            return PopulateLineItemsAndRoute(new[] {job}).First();
+            return PopulateLineItemsAndRoute(new[] { job }).First();
         }
 
-        #endregion
+        public IEnumerable<Job> GetJobsWithRoute(IEnumerable<int> jobIds)
+        {
+            var jobs = jobRepository.GetByIds(jobIds).ToList();
+            var jobRoutes = jobRepository.GetJobsRoute(jobs.Select(x => x.Id));
+            jobs.ForEach(job =>
+                {
+                    job.JobRoute = jobRoutes.Single(x => x.JobId == job.Id);
+                }
+            );
+            return jobs;
+        }
+
+        public IEnumerable<int> GetJobsIdsAssignedToCurrentUser(IEnumerable<int> jobIds)
+        {
+            var username = this.userNameProvider.GetUserName();
+            var user = this.userRepository.GetByIdentity(username);
+            return userRepository.GetUserJobsByJobIds(jobIds)
+                .Where(x => x.UserId == user.Id).Select(x => x.JobId);
+        }
+
     }
 }

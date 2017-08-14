@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-xs-12">
+        <ol class="breadcrumb">
+            <li class="active">Locations</li>
+        </ol>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-11">
+        </div>
+        <div class="col-md-1 pull-right">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 clearfix table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 13%">
+                            <div class="text-center">Branch</div>
+                            <div>
+                                <select class="form-control" (change)="loadData($event.target.value)">
+                                    <option *ngFor="let branch of branches" [value]="branch[0]">
+                                        {{ branch[1] }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th style="width: 15%">
+                            <div class="text-center">Primary Account Number</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.primaryAccountNumber" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th style="width: 11%">
+                            <div class="text-center">Account Number</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.accountNumber" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th style="width: 16%">
+                            <div class="text-center">Account Name</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.accountName" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th style="width: 15%">
+                            <div class="text-center">Address</div>
+                            <div>
+                                <input type="text" [(ngModel)]="filters.address" (keyup)="filterFreeText()" class="form-control">
+                            </div>
+                        </th>
+                        <th style="width: 6%">
+                            <div class="text-center">Invoices</div>
+                            <div class="form-control-placeholder">&nbsp;</div>
+                        </th>
+                        <th style="width: 14%" colspan="2">
+                            <div class="text-center col-md-6">Exceptions</div>
+                            <div class="text-center col-md-6">Clean</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGrid()" title="">
+                                    <option value>All</option>
+                                    <option value="1">With Exceptions</option>
+                                    <option value="2">All Clean</option>
+                                </select>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of gridSource | paginate: { itemsPerPage: 10, currentPage: p }">
+                        <td><span>{{item.branch}}</span>&nbsp;(<span>{{item.branchId}}</span>)</td>
+                        <td><a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.primaryAccountNumber, branchId: item.branchId}">{{item.primaryAccountNumber}}</a></td>
+                        <td>{{item.accountNumber}}</td>
+                        <td>{{item.accountName}}</td>
+                        <td>{{item.address}}</td>
+                        <td class="text-right">{{item.totalInvoices}}</td>
+                        <td class="text-right">{{item.exceptions}}</td>
+                        <td class="text-right">{{item.cleans}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="gridSource.length == 0; else paginator">
+                <div class="alert alert-warning" role="alert">
+                    <strong>No matching results</strong>
+                </div>
+            </div>
+            <ng-template #paginator>
+            <div class="text-right">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </ng-template>
+        </div>
+    </div>
+</div>

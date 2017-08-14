@@ -13,12 +13,12 @@ BEGIN
 	SELECT DISTINCT 
 		rh.Id as RouteId
 		,s.Id as StopId
-		--,rh.RouteOwnerId as BranchId
+		,rh.RouteOwnerId as BranchId
 		--,rh.RouteDate
 		--,j.PHAccount
 		--,a.Code
 		--,a.Name
-		--,j.InvoiceNumber
+		,j.InvoiceNumber as InvoiceNumber
 		--,rh.RouteNumber
 		--,rh.DriverName
 		----,jt.Id

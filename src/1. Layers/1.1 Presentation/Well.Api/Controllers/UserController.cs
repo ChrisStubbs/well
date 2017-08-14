@@ -72,7 +72,9 @@
 
                 // this method is used via the BDD for setting up test users so we are just defaulting 
                 // the threshold level to max for now
-                user.ThresholdLevelId = (int)ThresholdLevel.Level1;
+
+                // KD - BDD isn't run as far as i know if we need default thresholds it would need to be implemented differently
+                // user.ThresholdLevelId = (int)ThresholdLevel.Level1;
 
                 ////// DIJ - Why are we changing current user?
                 //////this.userRepository.CurrentUser = userIdentity;

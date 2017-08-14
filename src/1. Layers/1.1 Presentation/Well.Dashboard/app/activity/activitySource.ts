@@ -11,7 +11,7 @@ export class ActivitySource
 
     public branch: string;
     public branchId: number;
-    public primnaryAccount: string;
+    public primaryAccount: string;
     public accountName: string;
     public accountNumber: string;
     public accountAddress: string;
@@ -23,6 +23,8 @@ export class ActivitySource
     public driver: string;
     public assignee: string;
     public tba: number;
+    public resolution: string;
+    public resolutionId: number;
     public details: Array<ActivitySourceDetail>;
 }
 
@@ -35,12 +37,17 @@ export class ActivitySourceGroup
 
     public isExpanded: boolean;
     public stopId: number;
+    public stop: string;
     public stopDate: Date;
     public jobId: number;
-    public totalDameged: number;
+    public type: string;
+    public totalDamaged: number;
     public totalShorts: number;
     public totalExpected: number;
+    public totalActual: number;
     public details: Array<ActivitySourceDetail>;
+    public resolution: string;
+    public resolutionId: number;
 }
 
 export class ActivitySourceDetail
@@ -56,6 +63,7 @@ export class ActivitySourceDetail
     public type: string;
     public description: string;
     public value: number;
+    public actual: number;
     public expected: number;
     public damaged: number;
     public shorts: number;
@@ -64,11 +72,13 @@ export class ActivitySourceDetail
     public resolution: string;
     public resolutionId: number;
     public stopId: number;
+    public stop: string;
     public stopDate: Date;
     public jobId: number;
     public jobType: string;
     public jobTypeAbbreviation: string;
     public lineItemId: number;
+    public hasUnresolvedActions: boolean;
 
     public get exceptionsFilter(): number
     {
@@ -140,7 +150,7 @@ export class ActivityFilter implements IFilter
     public resolutionId: number;
     public exceptionsFilter: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: ActivitySourceDetail) => boolean
     {
         switch (filterName)
         {
@@ -159,14 +169,22 @@ export class ActivityFilter implements IFilter
                 return  GridHelpersFunctions.boolFilter;
 
             case 'resolutionId':
-                return GridHelpersFunctions.enumBitwiseAndCompare;
+                return (value: number, value2: number, sourceRow: ActivitySourceDetail) => {
+                    let actionRequiredFilter: boolean = true;
+
+                    if (value2 == 4) {
+                        actionRequiredFilter = sourceRow.hasUnresolvedActions;
+                    }
+
+                    return  actionRequiredFilter && GridHelpersFunctions.enumBitwiseAndCompare(value, value2);
+                };
 
             case 'exceptionsFilter':
-                return (value: number, value2: number) =>
+                return (value: number, value2: number, sourceRow: ActivitySourceDetail) =>
                 {
                     return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
                             GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
-                }
+                };
         }
 
         return undefined;

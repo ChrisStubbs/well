@@ -1,10 +1,15 @@
-﻿namespace PH.Well.Domain.Enums
+﻿using System.Collections.Generic;
+
+namespace PH.Well.Domain.Enums
 {
     using System.ComponentModel;
     using PH.Well.Domain.Extensions;
 
     public enum ExceptionType
     {
+        [Description("Not Defined")]
+        NotDefined = 0,
+
         [Description("Short")]
         Short = 1,
 
@@ -12,38 +17,33 @@
         Bypass = 2,
 
         [Description("Damage")]
-        Damage = 3
+        Damage = 3,
+
+        [Description("Successful uplift")]
+        Uplifted = 4
     }
 
     public static class ExceptionTypeDescriptions
     {
-        private static readonly string mShort;
-        private static readonly string bypass;
-        private static readonly string damage;
+        private static readonly Dictionary<int, string> descriptions;
 
         static ExceptionTypeDescriptions()
         {
-            mShort = EnumExtensions.GetDescription(ExceptionType.Short);
-            bypass = EnumExtensions.GetDescription(ExceptionType.Bypass);
-            damage = EnumExtensions.GetDescription(ExceptionType.Damage);
+            descriptions = new Dictionary<int, string>();
+
+            foreach (ExceptionType item in System.Enum.GetValues(typeof(ExceptionType)))
+            {
+                descriptions.Add((int)item, EnumExtensions.GetDescription(item));
+            }
         }
 
         public static string Description(this ExceptionType value)
         {
-            switch (value)
-            {
-                case ExceptionType.Short:
-                    return mShort;
-
-                case ExceptionType.Bypass:
-                    return bypass;
-
-                case ExceptionType.Damage:
-                    return damage;
-
-                default:
-                    return null;
-            }
+            // Equivalent of previous implementation, will cause NotDefined Text display for actions that will have null description
+            //string description = null;
+            //descriptions.TryGetValue((int)value, out description);
+            //return description;
+            return descriptions[(int)value];
         }
     }
 }

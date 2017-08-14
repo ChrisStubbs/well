@@ -15,7 +15,11 @@
 	[LastUpdatedDate] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
     [DateDeleted] DATETIME NULL, 
+	[DeletedByImport] BIT DEFAULT 0,
     CONSTRAINT [PK_LineItem] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_LineItem_Bag] FOREIGN KEY ([BagId]) REFERENCES [dbo].[Bag] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_LineItem_Activity] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+
+GO
+CREATE NONCLUSTERED INDEX [IDX_LineItem_ActivityId] ON [dbo].[LineItem] ([ActivityId]) INCLUDE ([Id],[ProductCode],[ProductDescription])

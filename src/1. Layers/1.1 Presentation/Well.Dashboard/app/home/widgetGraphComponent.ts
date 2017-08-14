@@ -1,4 +1,4 @@
-﻿import { Component, EventEmitter, Output, ViewChild }  from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild }  from '@angular/core';
 import { BaseChartComponent } from 'ng2-charts/ng2-charts';
 
 @Component({
@@ -29,7 +29,7 @@ export class WidgetGraphComponent {
     public chartStyle: string = 'chart';
 
     public init(labels: string[], data: any[], warningLevels: boolean[], updateDate: Date): void {
-        const colors: string[] = warningLevels.map(showWarning => { return showWarning ? this.red : this.blue });
+        const colors: string[] = warningLevels.map(showWarning => { return showWarning ? this.red : this.blue; });
 
         this.barChartLabels = labels;
         this.barChartData[0].data = data;

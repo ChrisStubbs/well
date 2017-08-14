@@ -1,26 +1,32 @@
-import { Component, ViewChild, ElementRef }                     from '@angular/core';
-import { ActivatedRoute }                                       from '@angular/router';
-import { IObservableAlive }                                     from '../shared/IObservableAlive';
-import { StopService }                                          from './stopService';
-import { Stop, StopItem, StopFilter }                           from './stop';
-import * as _                                                   from 'lodash';
-import { AssignModel, AssignModalResult }                       from '../shared/components/assignModel';
-import { Branch }                                               from '../shared/branch/branch';
-import { SecurityService }                                      from '../shared/security/securityService';
-import { GlobalSettingsService }                                from '../shared/globalSettings';
-import { ILookupValue, ResolutionStatusEnum }                   from '../shared/services/services';
-import { AccountService }                                       from '../account/accountService';
-import { ContactModal }                                         from '../shared/contactModal';
-import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpers';
-import { ActionEditComponent }                                  from '../shared/action/actionEditComponent';
-import { EditExceptionsService }                                from '../exceptions/editExceptionsService';
-import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
-import { LookupService }                                        from '../shared/services/lookupService';
-import {LookupsEnum}                                            from '../shared/services/lookupsEnum';
-import { SingleRouteSource } from '../routes/singleRoute';
-import {GrnHelpers, IGrnAssignable} from '../job/job';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IObservableAlive } from '../shared/IObservableAlive';
+import { StopService } from './stopService';
+import { Stop, StopItem, StopFilter } from './stop';
+import * as _ from 'lodash';
+import { AssignModel, AssignModalResult } from '../shared/components/assignModel';
+import { Branch } from '../shared/branch/branch';
+import { SecurityService } from '../shared/security/securityService';
+import { GlobalSettingsService } from '../shared/globalSettings';
+import { ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
+import { AccountService } from '../account/accountService';
+import { ContactModal } from '../shared/contactModal';
+import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
+import { ActionEditComponent } from '../shared/action/actionEditComponent';
+import { EditExceptionsService } from '../exceptions/editExceptionsService';
+import { EditLineItemException, EditLineItemExceptionDetail } from '../exceptions/editLineItemException';
+import { LookupService } from '../shared/services/lookupService';
+import { LookupsEnum } from '../shared/services/lookupsEnum';
+import { GrnHelpers, IGrnAssignable } from '../job/job';
 import { ISubmitActionResult } from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
+import { IAccount } from '../account/account';
+import { IBulkEditResult } from '../shared/action/bulkEditItem';
+import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
+import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
+import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
+import { SubmitActionModal } from '../shared/action/submitActionModal';
 
 @Component({
     selector: 'ow-stop',
@@ -62,13 +68,18 @@ export class StopComponent implements IObservableAlive
     @ViewChild('openContact') public openContact: ElementRef;
     @ViewChild(ContactModal) private contactModal: ContactModal;
     @ViewChild(ActionEditComponent) private actionEditComponent: ActionEditComponent;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private stopId: number;
     private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
-
+    private customerAccount: IAccount = new IAccount();
+    private actionOptions: string[] = [ 'Manually Complete', 'Manually Bypass',
+                                        'Edit Exceptions', 'Submit Exceptions'];
     constructor(
         private stopService: StopService,
         private route: ActivatedRoute,
@@ -79,6 +90,23 @@ export class StopComponent implements IObservableAlive
         private lookupService: LookupService) { }
 
     public ngOnInit(): void
+    {
+
+        this.refreshStopFromApi();
+
+        this.lookupService.get(LookupsEnum.ResolutionStatus)
+            .takeWhile(() => this.isAlive)
+            .subscribe((value: ILookupValue[]) =>
+            {
+                this.resolutionStatuses = value;
+            });
+
+        this.filters = new StopFilter();
+        this.isReadOnlyUser = this.securityService
+            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshStopFromApi(): void 
     {
         this.route.params
             .flatMap(data =>
@@ -99,6 +127,7 @@ export class StopComponent implements IObservableAlive
                     .map((value: StopItem) => [value.barCodeFilter, value.tobacco])
                     .uniqWith((one: [string, string], another: [string, string]) =>
                         one[0] == another[0] && one[1] == another[1])
+                    .filter(value => value[1] != '')
                     .value();
 
                 _.chain(data.items)
@@ -118,18 +147,16 @@ export class StopComponent implements IObservableAlive
                         return current;
                     })
                     .value();
-            });
 
-        this.lookupService.get(LookupsEnum.ResolutionStatus)
-            .takeWhile(() => this.isAlive)
-            .subscribe((value: ILookupValue[]) =>
-            {
-                this.resolutionStatuses = value;
+                //Load account for first item
+                const firstItem = _.head(data.items) as StopItem;
+                this.accountService.getAccountByAccountId(firstItem.accountID)
+                    .takeWhile(() => this.isAlive)
+                    .subscribe(account =>
+                    {
+                        this.customerAccount = account;
+                    });
             });
-
-        this.filters = new StopFilter();
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public ngOnDestroy(): void
@@ -154,6 +181,21 @@ export class StopComponent implements IObservableAlive
     {
         const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
         this.stop.assignedTo = userName;
+    }
+
+    private selectAllJobs = (selected: boolean) =>
+    {
+        const jobIds = _.map(_.filter(this.gridSource, (item) => { return item.isRowGroup; }),
+            (item: StopItemSource) =>
+            {
+                return item.jobId;
+            });
+
+        _.each(jobIds,
+            (jobId: number) =>
+            {
+                this.selectJobs(selected, jobId);
+            });
     }
 
     public selectJobs(select: boolean, jobId?: number): void
@@ -183,8 +225,8 @@ export class StopComponent implements IObservableAlive
         }
 
         return _.every(
-            _.filter(this.stopsItems, filterToApply),
-            current => current.isSelected);
+            _.filter(this.gridSource, filterToApply),
+            (current: StopItemSource) => _.every(current.items, (item: StopItem) => item.isSelected));
     }
 
     public selectedItems(): Array<StopItem>
@@ -216,6 +258,9 @@ export class StopComponent implements IObservableAlive
 
     public fillGridSource(): void
     {
+        //Clear previous source selection
+        this.selectAllJobs(false);
+
         const values: Array<any> = [];
 
         _.chain(this.source)
@@ -228,7 +273,10 @@ export class StopComponent implements IObservableAlive
 
                 if (!_.isEmpty(filteredValues))
                 {
-                    values.push(value);
+                    const item = _.clone(value);
+                    item.items = filteredValues;
+
+                    values.push(item);
 
                     if (value.isExpanded)
                     {
@@ -268,11 +316,13 @@ export class StopComponent implements IObservableAlive
                 item.totalDelivered = summary.totalDelivered;
                 item.totalDamages = summary.totalDamages;
                 item.totalShorts = summary.totalShorts;
+                item.totalBypassed = summary.totalBypassed;
                 item.invoice = singleItem.invoice;
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
                 item.resolution = singleItem.resolution;
+                item.resolutionId = singleItem.resolutionId;
                 item.items = current;
                 item.types = _.chain(current)
                     .map('jobTypeAbbreviation')
@@ -320,6 +370,7 @@ export class StopComponent implements IObservableAlive
         let totalDelivered: number = 0;
         let totalDamages: number = 0;
         let totalShorts: number = 0;
+        let totalBypassed: number = 0;
 
         _.forEach(data,
             (current: StopItem) =>
@@ -328,6 +379,7 @@ export class StopComponent implements IObservableAlive
                 totalDelivered += current.delivered;
                 totalDamages += current.damages;
                 totalShorts += current.shorts;
+                totalBypassed += current.bypassed;
             });
 
         return {
@@ -335,6 +387,7 @@ export class StopComponent implements IObservableAlive
             totalDelivered: totalDelivered,
             totalDamages: totalDamages,
             totalShorts: totalShorts,
+            totalBypassed: totalBypassed,
             items: data
         };
     }
@@ -348,8 +401,7 @@ export class StopComponent implements IObservableAlive
     {
         this.editExceptionsService.get([item.lineItemId])
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Array<EditLineItemException>) =>
-            {
+            .subscribe((res: Array<EditLineItemException>) => {
                 this.actionEditComponent.show(res[0]);
             });
     }
@@ -404,6 +456,31 @@ export class StopComponent implements IObservableAlive
         job.resolution = data.resolutionStatus;
     }
 
+    public bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses, x =>
+        {
+            const job = _.find(this.gridSource, current => current.jobId == x.jobId);
+            job.resolution = x.status.description;
+
+            _.forEach(job.items,
+                item =>
+                {
+                    item.resolutionId = x.status.value;
+                    item.resolution = x.status.description;
+                    if (_.includes(result.lineItemIds, item.lineItemId)) 
+                    {
+                        item.hasUnresolvedActions = false;
+                    }
+                });
+        });
+    }
+
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
+        this.refreshStopFromApi();
+    }
+
     private jobsSubmitted(data: ISubmitActionResult): void
     {
         _.forEach(data.details, (x: ISubmitActionResultDetails) =>
@@ -421,18 +498,48 @@ export class StopComponent implements IObservableAlive
 
     public disableSubmitActions(): boolean
     {
-        if (this.selectedItems().length === 0)
+        const items = this.selectedItems();
+        if (items.length === 0)
         {
             return true;
         }
-        return _.some(this.selectedItems(),
-            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+
+        return _.some(items,
+            x => x.resolutionId !== ResolutionStatusEnum.PendingSubmission) ||
+            (this.stop.assignedTo || '') != this.globalSettingsService.globalSettings.userName;
     }
 
-    private isGrnRequired = (item: StopItemSource): boolean => {
+    private isGrnRequired = (item: StopItemSource): boolean =>
+    {
         return GrnHelpers.isGrnRequired(item);
     }
 
+    private disableBulkEdit(): boolean
+    {
+        return (this.selectedItems().length === 0
+            || this.getAssignModel().assigned !== this.globalSettingsService.globalSettings.userName);
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 interface IDictionarySource
@@ -455,12 +562,14 @@ class StopItemSource implements IGrnAssignable
     public totalDelivered: number;
     public totalDamages: number;
     public totalShorts: number;
+    public totalBypassed: number;
     public invoice: string;
     public account: string;
     public accountID: number;
     public jobId: number;
     public types: string;
     public resolution: string;
+    public resolutionId: number;
     public items: Array<StopItem>;
     public grnNumber: string;
     public grnProcessType: number;

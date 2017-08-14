@@ -10,23 +10,23 @@
     using Domain;
     using Domain.Enums;
 
-    
     public class SubmitActionValidation : ISubmitActionValidation
     {
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
         private readonly IDateThresholdService dateThresholdService;
-        private readonly ICreditThresholdRepository _creditThresholdRepository;
+        private readonly IJobService jobService;
+
 
         public SubmitActionValidation(IUserNameProvider userNameProvider,
             IUserRepository userRepository,
             IDateThresholdService dateThresholdService,
-            ICreditThresholdRepository creditThresholdRepository)
+            IJobService jobService)
         {
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
             this.dateThresholdService = dateThresholdService;
-            _creditThresholdRepository = creditThresholdRepository;
+            this.jobService = jobService;
         }
 
         public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
@@ -37,32 +37,48 @@
 
             if (user == null)
             {
-                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit actions" };
+                return new SubmitActionResult { Message = $"User not found ({username}). Can not submit exceptions" };
             }
 
             var userJobs = userRepository.GetUserJobsByJobIds(submitAction.JobIds);
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {
-                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit actions" };
+                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit exceptions" };
             }
 
-            var pendingSubmissionJobs = jobList.Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission).ToList();
+            var pendingSubmissionJobs = jobList
+                .Where(x => x.ResolutionStatus == ResolutionStatus.PendingSubmission || x.ResolutionStatus == ResolutionStatus.PendingApproval
+                ).ToList();
 
             if (!pendingSubmissionJobs.Any())
             {
                 return new SubmitActionResult { Message = $"There are no jobs 'Pending Submission' for the selected items" };
             }
 
-            var incorrectStateJobs = jobList.Where(x => x.ResolutionStatus != ResolutionStatus.PendingSubmission);
+            var ids = pendingSubmissionJobs.Select(p => p.Id).ToList();
+            var incorrectStateJobs = jobList
+                .Where(x => !ids.Contains(x.Id))
+                .ToList();
+
             if (incorrectStateJobs.Any())
             {
-                var incorrectStateJobstring = string.Join(",",incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
-                return new SubmitActionResult { Message = $"Can not submit actions for jobs. The following jobs are not in Pending Submission State {incorrectStateJobstring}." };
+                var incorrectStateJobstring = string.Join(",", incorrectStateJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "));
+                return new SubmitActionResult
+                {
+                    Message = $"Can not submit exceptions for jobs. " +
+                                                          $"The following jobs are not in Pending Submission / Pending Approval State " +
+                                                          $"{incorrectStateJobstring}."
+                };
             }
 
             var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);
+            if (!result.IsValid)
+            {
+                return result;
+            }
 
+            result = ValidateJobsCanBeEdited(pendingSubmissionJobs);
             if (!result.IsValid)
             {
                 return result;
@@ -72,20 +88,20 @@
             {
                 result = ValidateUserForCrediting();
             }
-            
+
             return result;
         }
 
         public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs)
         {
-            var jobRoutes = unsubmittedJobs.Select(x => x.JobRoute);
-
-            var jobsBeforeEarliestSubmitDate = jobRoutes.Where(x=> DateTime.Now < dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)).ToArray();
+            var jobsBeforeEarliestSubmitDate =
+                unsubmittedJobs.Where(x => DateTime.Now < dateThresholdService.GracePeriodEnd(
+                                               x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())).ToArray();
 
             if (jobsBeforeEarliestSubmitDate.Any())
             {
                 var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
-                    x => $"{x.JobId}: earliest credit date: {dateThresholdService.EarliestSubmitDate(x.RouteDate, x.BranchId)}"
+                    x => $"{x.Id}: earliest credit date: {dateThresholdService.GracePeriodEnd(x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())}"
                 ).Distinct());
 
                 return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };
@@ -94,7 +110,7 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        public virtual bool HaveItemsToCredit(IList<Job>jobs)
+        public virtual bool HaveItemsToCredit(IList<Job> jobs)
         {
             return jobs.Any(job => job.GetAllLineItemActions().Any(x => x.DeliveryAction == DeliveryAction.Credit));
         }
@@ -109,7 +125,7 @@
                 return new SubmitActionResult { Message = $"User not found ({username})" };
             }
 
-            if (user.ThresholdLevelId == null)
+            if (!user.CreditThresholdId.HasValue)
             {
                 return new SubmitActionResult { Message = $"You must be assigned a threshold level before crediting." };
             }
@@ -117,16 +133,30 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        //public virtual SubmitActionResult ValidateUserForCreditingJobs(IList<Job> jobs)
-        //{
-        //    var validateForCreditingResult = ValidateUserForCrediting();
-        //    if (!validateForCreditingResult.IsValid)
-        //    {
-        //        return validateForCreditingResult;
-        //    }
+        public SubmitActionResult ValidateJobsCanBeEdited(IEnumerable<Job> jobs)
+        {
+            var result = new SubmitActionResult
+            {
+                IsValid = true,
+            };
+            var user = userNameProvider.GetUserName();
+            var nonEditableJobs = new List<Job>();
+            foreach (var job in jobs)
+            {
+                if (!jobService.CanEdit(job, user))
+                {
+                    result.IsValid = false;
+                    nonEditableJobs.Add(job);
+                }
+            }
 
-        //    return new SubmitActionResult { IsValid = true };
-        //}
-
+            if (!result.IsValid)
+            {
+                result.Message =
+                    "Can not submit exceptions for jobs. Following jobs are not editable " +
+                    $"{string.Join(",", nonEditableJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "))}";
+            }
+            return result;
+        }
     }
 }

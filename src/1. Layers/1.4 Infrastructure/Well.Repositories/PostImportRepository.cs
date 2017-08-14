@@ -15,21 +15,24 @@
             this.dapperProxy = dapperProxy;
         }
 
-        public void PostImportUpdate()
+        public void PostImportUpdate(IEnumerable<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.PostImportUpdate)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("JobIds"), DbType.Object)
                 .Execute();
         }
 
-        public void PostTranSendImportForTobacco()
+        public void PostTranSendImportForTobacco(IEnumerable<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTobaccoUpdate)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("JobIds"), DbType.Object)
                 .Execute();
         }
 
-        public void PostTranSendImport()
+        public void PostTranSendImport(IEnumerable<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionInsert)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("JobIds"), DbType.Object)
                 .Execute();
         }
 

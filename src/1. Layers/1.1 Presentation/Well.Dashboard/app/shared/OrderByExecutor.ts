@@ -1,4 +1,4 @@
-import { ISort }                from './IOptionFilter'
+import { ISort }                from './IOptionFilter';
 import * as _                   from 'lodash';
 
 export class OrderByExecutor

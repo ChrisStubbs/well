@@ -25,7 +25,8 @@ CREATE TABLE [dbo].[JobDetail]
 	[LineDeliveryStatus] VARCHAR(20) NULL,
 	[IsHighValue]  BIT NOT NULL DEFAULT 0,
 	[DateLife] DATETIME NULL,
-	[DateDeleted] DATETIME NULL, 
+	[DateDeleted] DATETIME NULL,
+	[DeletedByImport] BIT DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
@@ -44,3 +45,16 @@ CREATE TABLE [dbo].[JobDetail]
 )
 GO
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])
+GO
+CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])
+GO
+
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode])
+INCLUDE ([LineItemId])
+GO
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode])
+INCLUDE ([Id])
+GO
+
+CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
+GO

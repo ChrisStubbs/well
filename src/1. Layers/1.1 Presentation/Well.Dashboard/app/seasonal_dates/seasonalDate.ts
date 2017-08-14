@@ -1,4 +1,4 @@
-﻿import {Branch} from '../shared/branch/branch';
+import {Branch} from '../shared/branch/branch';
 
 export class SeasonalDate {
     public id: number;

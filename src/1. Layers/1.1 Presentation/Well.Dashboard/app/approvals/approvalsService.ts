@@ -1,5 +1,5 @@
-﻿import { Injectable } from '@angular/core';
-import { Response } from '@angular/http'
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../shared/httpService';
 import { GlobalSettingsService } from '../shared/globalSettings';
@@ -21,7 +21,12 @@ export class ApprovalsService
         return this.http.get(url)
             .map((response: Response) =>
             {
-                return (response.json() as Approval[]);
+                const resp = (response.json() as Approval[]);
+
+                return (resp as any[]).map((obj) =>
+                {
+                    return Object.assign(new Approval(), obj);
+                }) as Approval[];
             })
             .catch(e => this.httpErrorService.handleError(e));
     }

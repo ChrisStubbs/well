@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Common
 {
     using System;
+    using System.Diagnostics.Eventing.Reader;
     using System.IO;
     using System.Net;
 
@@ -44,7 +45,7 @@
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
                     $"Error when trying to FTP to {this.FtpLocation} for {this.FtpUserName} - {this.FtpPassword}",
-                    8555);
+                    EventId.FtpException);
 
                 return null;
             }

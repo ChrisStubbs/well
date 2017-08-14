@@ -21,7 +21,8 @@
                 8773,
                 EventLogEntryType.Information);
 
-            new Import().Process(container);      
+            var import = container.GetInstance<ITransendImport>();
+            import.Process();
         }
     }
 }

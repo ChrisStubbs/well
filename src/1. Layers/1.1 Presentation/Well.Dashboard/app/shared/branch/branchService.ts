@@ -1,4 +1,4 @@
-﻿import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Branch } from './branch';
@@ -21,9 +21,14 @@ export class BranchService
 
     public getBranches(username): Observable<Branch[]>
     {
-
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getById(id: number): Observable<Branch> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch/' + id)
+            .map((response: Response) => <Branch>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -38,7 +43,7 @@ export class BranchService
                 {
                     if (current.selected)
                     {
-                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')']);
                     }
                 });
 
@@ -52,28 +57,6 @@ export class BranchService
 
         return this.http.get(
             this.globalSettingsService.globalSettings.apiUrl + 'branch-season?seasonalDateId=' + seasonalDateId)
-            .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
-    public getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]>
-    {
-
-        return this.http.get(
-            this.globalSettingsService.globalSettings.apiUrl
-            + 'branch-credit-threshold?creditThresholdId='
-            + creditThresholdId)
-            .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
-    public getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]>
-    {
-
-        return this.http.get(
-            this.globalSettingsService.globalSettings.apiUrl
-            + 'branch-clean-preference?cleanPreferenceId='
-            + cleanPreferenceId)
             .map((response: Response) => <Branch[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

@@ -24,25 +24,27 @@
         private readonly IEventLogger eventLogger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IFileModule fileModule;
+        private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
-        private readonly IEpodUpdateService epodUpdateService;
+        
 
         public EpodFtpProvider(
             ILogger logger,
-            IEpodUpdateService epodUpdateService,
             IFtpClient ftpClient,
             IWebClient webClient,
             IEventLogger eventLogger,
             IRouteHeaderRepository routeHeaderRepository,
-            IFileModule fileModule)
+            IFileModule fileModule,
+            IEpodImportService epodImportService
+            )
         {
             this.logger = logger;
-            this.epodUpdateService = epodUpdateService;
             this.ftpClient = ftpClient;
             this.webClient = webClient;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.fileModule = fileModule;
+            this.epodImportService = epodImportService;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
@@ -74,7 +76,7 @@
                 if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
                     this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
 
                     continue;
                 }
@@ -95,11 +97,13 @@
 
                         routes.RouteId = route.Id;
 
-                        this.epodUpdateService.Update(routes, filename);
+                        epodImportService.Import(routes,filename);
+                        
                     }
 
                     this.ftpClient.DeleteFile(filename);
-                    this.fileModule.MoveFile(downloadedFile, Configuration.ArchiveLocation);
+                    this.fileModule.MoveFile(downloadedFile,
+                        Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd")));
 
                     logger.LogDebug($"File {listing.Filename} imported!");
                 }

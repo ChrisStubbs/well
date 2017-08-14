@@ -16,5 +16,6 @@ namespace PH.Well.Api.Models
         public string Driver { get; set; }
         public DateTime? RouteDate { get; set; }
         public IList<SingleRouteItem> Items { get; set; }
+
     }
 }

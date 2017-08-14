@@ -10,6 +10,8 @@
     using Well.Domain;
     using Well.Domain.ValueObjects;
     using Stop = Well.Domain.Stop;
+    using Factories;
+    using System.Linq;
 
     [TestFixture]
     public class SingleRouteControllerTests : BaseControllerTests<SingleRouteController>
@@ -49,7 +51,7 @@
             private readonly List<Job> jobs = new List<Job>();
             private readonly SingleRoute singleRoute = new SingleRoute();
             private List<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader;
-
+            private Dictionary<int, string> jobPrimaryAccountNumber;
             private const int RouteHeaderId = 10;
 
 
@@ -58,19 +60,27 @@
             {
                 base.Setup();
 
+                var job = JobFactory.New
+                    .Build();
+
+                jobs.Add(job);
+                jobDetailTotalsPerRouteHeader = new List<JobDetailLineItemTotals>();
+                this.jobPrimaryAccountNumber = jobs.Select(p => p.Id).ToDictionary(k => k, v => v.ToString());
+
                 routeHeaderRepository.Setup(x => x.GetRouteHeaderById(RouteHeaderId)).Returns(routeHeader);
                 branchRepository.Setup(x => x.GetAll()).Returns(branches);
                 stopRepository.Setup(x => x.GetStopByRouteHeaderId(RouteHeaderId)).Returns(stops);
+
                 jobRepository.Setup(x => x.GetByRouteHeaderId(RouteHeaderId)).Returns(jobs);
+                jobRepository.Setup(x => x.JobDetailTotalsPerRouteHeader(RouteHeaderId)).Returns(jobDetailTotalsPerRouteHeader);
+                jobRepository.Setup(x => x.GetPrimaryAccountNumberByRouteHeaderId(RouteHeaderId)).Returns(jobPrimaryAccountNumber);
+
                 assigneeRepository.Setup(x => x.GetByRouteHeaderId(RouteHeaderId)).Returns(assignees);
 
-                jobDetailTotalsPerRouteHeader = new List<JobDetailLineItemTotals>();
-
-                mapper.Setup(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader)).Returns(singleRoute);
+                mapper.Setup(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber)).Returns(singleRoute);
             }
 
             [Test]
-            [Ignore("We need to deploy. After deploy the test wil be fixed")]
             public void ShouldCallMapperWithCorrectValuesAndReturnSingleRoute()
             {
                 var response = this.Controller.Get(RouteHeaderId);
@@ -80,7 +90,7 @@
                 stopRepository.Verify(x => x.GetStopByRouteHeaderId(RouteHeaderId), Times.Once);
                 jobRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
                 assigneeRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
-                mapper.Verify(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader), Times.Once);
+                mapper.Verify(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber), Times.Once);
 
                 Assert.That(response, Is.EqualTo(singleRoute));
             }

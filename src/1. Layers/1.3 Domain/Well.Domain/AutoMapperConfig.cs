@@ -2,7 +2,7 @@
 
 namespace PH.Well.Domain.Mappers
 {
-    public static class AutoMapperConfig 
+    public static class AutoMapperConfig
     {
         private static IMapper config;
         public static IMapper Mapper
@@ -25,7 +25,16 @@ namespace PH.Well.Domain.Mappers
                 cfg.CreateMap<AccountDTO, Account>();
                 cfg.CreateMap<Account, AccountDTO>();
 
-                cfg.CreateMap<JobDTO, Job>();
+                cfg.CreateMap<JobDTO, Job>()
+                 .ForMember(m => m.JobTypeCode, p => p.ResolveUsing((s, d) =>
+                 {
+                     if (!string.IsNullOrWhiteSpace(s.JobTypeCode))
+                     {
+                         return s.JobTypeCode;
+                     }
+                     return s.JobTypeCodeTransend;
+                 }));
+
                 cfg.CreateMap<Job, JobDTO>()
                 .ForMember(m => m.OrdOuters, p => p.ResolveUsing((s, d) =>
                 {
@@ -174,9 +183,12 @@ namespace PH.Well.Domain.Mappers
                 .ForMember(m => m.Reason, c => c.MapFrom(m => m.Reason));
 
                 cfg.CreateMap<JobDetailDTO, JobDetail>()
-                .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))
-                .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
-                .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions));
+                    .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))
+                    .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
+                    .ForMember(m => m.Actions, c => c.MapFrom(m => m.Actions))
+                    .ForMember(m => m.OriginalDespatchQty, c => c.MapFrom(p => System.Math.Abs(p.OriginalDespatchQty)))
+                    .ForMember(m => m.DeliveredQty, c => c.MapFrom(p => System.Math.Abs(p.DeliveredQty)));
+
 
                 cfg.CreateMap<JobDetail, JobDetailDTO>()
                 .ForMember(m => m.JobDetailDamages, c => c.MapFrom(m => m.JobDetailDamages))
@@ -202,7 +214,7 @@ namespace PH.Well.Domain.Mappers
                 .ForMember(m => m.CustUnatt, p => p.ResolveUsing((s, d) =>
                 {
                     if (s.CustUnatt)
-                        d.EntityAttributes.Add(new EntityAttribute { Code = "CUSTUNATT", Value = "Y"});
+                        d.EntityAttributes.Add(new EntityAttribute { Code = "CUSTUNATT", Value = "Y" });
 
                     return true;
                 }))

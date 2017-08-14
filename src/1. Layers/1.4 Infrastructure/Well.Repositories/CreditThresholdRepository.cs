@@ -21,47 +21,29 @@
 
         protected override void SaveNew(CreditThreshold entity)
         {
-            using (
-                var transactionScope = new TransactionScope(
-                    TransactionScopeOption.Required,
-                    TimeSpan.FromMinutes(Configuration.TransactionTimeout)))
-            {
-                if (!entity.IsTransient()) this.Delete(entity.Id);
-
-                entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
-                    .AddParameter("ThresholdLevelId", entity.ThresholdLevelId, DbType.Int32)
-                    .AddParameter("Value", entity.Threshold, DbType.Decimal)
-                    .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
-                    .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
-                    .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
-                    .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
-                    .Query<int>().Single();
-
-                foreach (var branch in entity.Branches)
-                {
-                    this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdToBranchSave)
-                        .AddParameter("BranchId", branch.Id, DbType.Int32)
-                        .AddParameter("CreditThresholdId", entity.Id, DbType.Int32)
-                        .Execute();
-                }
-
-                transactionScope.Complete();
-            }
+            entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
+                .AddParameter("Level", (int) entity.Level, DbType.Int32)
+                .AddParameter("Value", entity.Threshold, DbType.Decimal)
+                .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
+                .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
+                .Query<int>().Single();
         }
 
         public IEnumerable<CreditThreshold> GetAll()
         {
-            var thresholds = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>();
+        }
 
-            foreach (var threshold in thresholds)
-            {
-                var branches = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdBranchesGet)
-                    .AddParameter("creditThresholdId", threshold.Id, DbType.Int32).Query<Branch>();
-
-                branches.ForEach(x => threshold.Branches.Add(x));
-            }
-
-            return thresholds;
+        protected override void UpdateExisting(CreditThreshold entity)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUpdate)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("Threshold", entity.Threshold, DbType.Decimal)
+                .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, 50)
+                .Execute();
         }
 
         public void Delete(int id)
@@ -70,27 +52,10 @@
                 .AddParameter("Id", id, DbType.Int32).Execute();
         }
 
-        public IEnumerable<CreditThreshold> GetByBranch(int branchId)
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdByBranch)
-                .AddParameter("branchId", branchId, DbType.Int32)
-                .Query<CreditThreshold>();
-        }
-
         public CreditThreshold GetById(int thresholdId)
         {
-            CreditThreshold threshold = null;
-            threshold = dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>()
-                .FirstOrDefault(x => x.ThresholdLevelId == thresholdId);
-
-            if (threshold != null)
-            {
-                var branches = dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdBranchesGet)
-                    .AddParameter("creditThresholdId", threshold.Id, DbType.Int32).Query<Branch>();
-                branches.ForEach(b => threshold.Branches.Add(b));
-            }
-
-            return threshold;
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>()
+                .FirstOrDefault(x => x.Id == thresholdId);
         }
 
         public void PendingCreditInsert(int jobId)
@@ -101,5 +66,30 @@
                 .Execute();
         }
 
+
+        public CreditThreshold GetByUserId(int userId)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetByUser)
+                .AddParameter("UserId", userId, DbType.Int32)
+                .Query<CreditThreshold>()
+                .FirstOrDefault();
+        }
+
+        public void SetForUser(int userId, int creditThresholdId)
+        {
+            // Delete previously assigned threshold
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserDelete)
+                .AddParameter("UserId",userId,DbType.Int32).Execute();
+
+            var now = DateTime.Now;
+            var user = CurrentUser;
+            dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserInsert)
+                .AddParameter("UserId", userId, DbType.Int32)
+                .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
+                .AddParameter("DateCreated", now, DbType.DateTime)
+                .AddParameter("DateUpdated", now, DbType.DateTime)
+                .AddParameter("CreatedBy", user, DbType.String, size: 50)
+                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute();
+        }
     }
 }

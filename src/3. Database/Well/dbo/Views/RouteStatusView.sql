@@ -9,6 +9,7 @@
 		INNER JOIN [Stop] s ON s.RouteHeaderId = rh.Id
 		INNER JOIN Job j ON j.StopId = s.Id
 		WHERE J.JobStatusId = 8
+		AND J.JobTypeCode != 'DEL-DOC'
 		GROUP by rh.id, rh.RouteStatusCode)
 	, -- this is the count of jobs for a route
 		RouteJobCount (RouteId, RouteStatusCode, JobCount) AS 
@@ -18,12 +19,14 @@
 		FROM RouteHeader rh
 		INNER JOIN [Stop] s on s.RouteHeaderId = rh.Id
 		INNER JOIN Job j on j.StopId = s.Id
+		WHERE
+			J.JobTypeCode != 'DEL-DOC'
 		GROUP by rh.id, rh.RouteStatusCode
 		)
 
 	SELECT rh.id AS RouteHeaderId,
 		CASE
-			WHEN rjb.BypassJobCount = rjc.JobCount THEN 8  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
+			WHEN rjb.BypassJobCount = rjc.JobCount THEN 4  -- route is bypassed if all jobs are bypassed otherwise use the TranSend status for the route
 			WHEN rh.RouteStatusCode = 'NDEPA' THEN 1  -- not departed = planned
 			WHEN rh.RouteStatusCode = 'INPRO' THEN 5 -- in progress
 			WHEN rh.RouteStatusCode = 'COMPL' THEN 3 -- complete

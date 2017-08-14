@@ -21,6 +21,7 @@ namespace PH.Well.UnitTests.Factories
         {
             this.Entity.LineItemActions.Add(new LineItemAction
             {
+                LineItemId = this.Entity.Id,
                 DeliveryAction = Well.Domain.Enums.DeliveryAction.Credit,
                 Reason = JobDetailReason.AccumulatedDamages,
                 Source = JobDetailSource.Checker,
@@ -34,6 +35,7 @@ namespace PH.Well.UnitTests.Factories
         {
             this.Entity.LineItemActions.Add(new LineItemAction
             {
+                LineItemId = this.Entity.Id,
                 DeliveryAction = Well.Domain.Enums.DeliveryAction.Close,
                 Quantity = 0
             });
@@ -45,6 +47,7 @@ namespace PH.Well.UnitTests.Factories
         {
             this.Entity.LineItemActions.Add(new LineItemAction
             {
+                LineItemId = this.Entity.Id,
                 DeliveryAction = Well.Domain.Enums.DeliveryAction.NotDefined,
                 Quantity = 10
             });

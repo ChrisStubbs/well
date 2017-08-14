@@ -33,7 +33,7 @@ Post-Deployment Script Template
 :r .\Populate-PODCreditActions.sql
 :r .\Populate-CSFRejection.sql
 :r .\Populate-GrnRefused.sql
-:r .\Populate-ThresholdLevels.sql
+:r .\Populate-CreditThresholds.sql
 :r .\Populate-CommodityType.sql
 :r .\Populate-WidgetType.sql
 :r .\Populate-DeliveryAction.sql
@@ -41,3 +41,6 @@ Post-Deployment Script Template
 :r .\Populate-WellStatus.sql
 :r .\Populate-CommentReason.sql
 :r .\Populate-ResolutionStatus.sql
+:r .\Populate-BranchDateThreshold.sql
+
+exec sp_updatestats

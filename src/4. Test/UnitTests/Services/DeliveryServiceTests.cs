@@ -24,7 +24,6 @@ namespace PH.Well.UnitTests.Services
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepo;
         private Mock<IJobRepository> jobRepo;
-        private Mock<IAuditRepository> auditRepo;
         private Mock<IStopRepository> stopRepo;
         private Mock<IJobDetailActionRepository> jobDetailActionRepo;
         private Mock<IUserRepository> userRepo;
@@ -33,7 +32,8 @@ namespace PH.Well.UnitTests.Services
         private Mock<IBranchRepository> branchRepository;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IJobService> deliveryStatusService;
-        private Mock<IDateThresholdService> _dateThresholdService;
+        private Mock<IDateThresholdService> dateThresholdService;
+        private Mock<IUserThresholdService> userThresholdService;
 
         [SetUp]
         public void Setup()
@@ -41,26 +41,25 @@ namespace PH.Well.UnitTests.Services
             jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             jobDetailDamageRepo = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             jobRepo = new Mock<IJobRepository>(MockBehavior.Strict);
-            auditRepo = new Mock<IAuditRepository>(MockBehavior.Strict);
             stopRepo = new Mock<IStopRepository>(MockBehavior.Strict);
-            userRepo = new Mock<IUserRepository>(MockBehavior.Strict);
             exceptionEventRepo = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
             deliveryReadRepository = new Mock<IDeliveryReadRepository>(MockBehavior.Strict);
             branchRepository =  new Mock<IBranchRepository>(MockBehavior.Strict);
             deliveryStatusService = new Mock<IJobService>(MockBehavior.Strict);
-            _dateThresholdService = new Mock<IDateThresholdService>();
+            dateThresholdService = new Mock<IDateThresholdService>();
+            userThresholdService = new Mock<IUserThresholdService>();
+            userRepo = new Mock<IUserRepository>();
 
             service = new DeliveryService(jobDetailRepository.Object,
                 jobDetailDamageRepo.Object,
                 jobRepo.Object,
-                auditRepo.Object,
                 stopRepo.Object,
-                userRepo.Object,
                 exceptionEventRepo.Object,
                 deliveryReadRepository.Object,
                 branchRepository.Object,
                 this.deliveryStatusService.Object,
-                _dateThresholdService.Object);
+                dateThresholdService.Object,
+                userThresholdService.Object);
         }
 
         public class GetExceptionsTests : DeliveryServiceTests
@@ -138,7 +137,6 @@ namespace PH.Well.UnitTests.Services
                 jobDetailRepository.Setup(r => r.GetByJobLine(jobDetail.JobId, jobDetail.LineNumber))
                     .Returns(new JobDetail() {ShortQty = 3});
                 stopRepo.Setup(r => r.GetByJobId(jobDetail.JobId)).Returns(new Stop());
-                auditRepo.Setup(a => a.Save(It.IsAny<Audit>()));
 
                 this.userRepo.Setup(x => x.UnAssignJobToUser(0));
 
@@ -157,7 +155,6 @@ namespace PH.Well.UnitTests.Services
                 jobRepo.Verify(j => j.UpdateStatus(It.IsAny<int>(),
                     It.Is<JobStatus>(jo => jo == JobStatus.Resolved)));
 
-                auditRepo.Verify(r => r.Save(It.Is<Audit>(a => a.HasEntry)));
             }
         }
     }

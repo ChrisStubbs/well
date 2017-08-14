@@ -40,22 +40,24 @@ export class StopItem implements IGrnAssignable
     public delivered: number;
     public damages: number;
     public shorts: number;
+    public bypassed: number;
     public checked: boolean;
     public highValue: boolean;
-    private mBarCode: string;
+    private mBarCode: string = '';
     public isSelected: boolean;
     public lineItemId: number;
-    private resolution: string;
+    public resolution: string;
     public resolutionId: number;
     public grnProcessType: number;
     public hasUnresolvedActions: boolean;
     public grnNumber: string;
+    public readonly canEdit: boolean;
  
     public get barCode(): string
     {
-        if (_.isNil(this.mBarCode))
+        if (_.isNil(this.mBarCode) || _.isEmpty(this.mBarCode))
         {
-            this.mBarCode = this.noBarCode;
+            return '';
         }
 
         return this.mBarCode;
@@ -78,6 +80,11 @@ export class StopItem implements IGrnAssignable
 
     public get tobacco(): string
     {
+        if (this.barCode.length == 0)
+        {
+            return '';
+        }
+
         return this.barCode.substr(this.barCode.length - 4, 4);
     }
 
@@ -117,7 +124,7 @@ export class StopFilter implements IFilter
     public resolutionId: number;
     public exceptionsFilter: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: StopItem) => boolean
     {
         switch (filterName)
         {
@@ -136,14 +143,22 @@ export class StopFilter implements IFilter
                 return  GridHelpersFunctions.boolFilter;
 
             case 'resolutionId':
-                return GridHelpersFunctions.enumBitwiseAndCompare;
+                return (value: number, value2: number, sourceRow: StopItem) => {
+                    let actionRequiredFilter: boolean = true;
+
+                    if (value2 == 4) {
+                        actionRequiredFilter = sourceRow.hasUnresolvedActions;
+                    }
+
+                    return  actionRequiredFilter && GridHelpersFunctions.enumBitwiseAndCompare(value, value2);
+                };
 
             case 'exceptionsFilter':
-                return (value: number, value2: number) =>
+                return (value: number, value2: number, sourceRow: StopItem) =>
                 {
-                    return  GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                    return GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
                         GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
-                }
+                };
         }
 
         return undefined;

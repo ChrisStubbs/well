@@ -38,7 +38,7 @@
         public IEnumerable<Assignee> GetByJobIds(IEnumerable<int> jobIds)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.AssigneeGetByJobIds)
-                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .AddParameter("JobIds", jobIds.Distinct().ToList().ToIntDataTables("Ids"), DbType.Object)
                 .Query<Assignee>();
         }
     }

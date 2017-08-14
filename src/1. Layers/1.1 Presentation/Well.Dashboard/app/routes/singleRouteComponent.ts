@@ -1,22 +1,34 @@
-import { Component } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import { RoutesService } from './routesService';
-import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
-import { ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import { AssignModel, AssignModalResult } from '../shared/components/components';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { SingleRouteItem } from './singleRoute';
-import { LookupService, LookupsEnum, ILookupValue, ResolutionStatusEnum } from '../shared/services/services';
-import { Observable } from 'rxjs';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
+import { Component, ViewChild }                               from '@angular/core';
+import { CurrencyPipe }                                       from '@angular/common';
+import { RoutesService }                                      from './routesService';
+import { SingleRoute, SingleRouteSource, SingleRouteFilter }  from './singleRoute';
+import { ActivatedRoute }                                     from '@angular/router';
+import * as _                                                 from 'lodash';
+import { AssignModel, AssignModalResult }                     from '../shared/components/components';
+import { Branch }                                             from '../shared/branch/branch';
+import { SecurityService }                                    from '../shared/security/securityService';
+import { GlobalSettingsService }                              from '../shared/globalSettings';
+import { IObservableAlive }                                   from '../shared/IObservableAlive';
+import { SingleRouteItem }                                    from './singleRoute';
+import
+{
+    LookupService,
+    LookupsEnum,
+    ILookupValue,
+    ResolutionStatusEnum
+}                                                             from '../shared/services/services';
+import { Observable }                                         from 'rxjs';
+import { GridHelpersFunctions }                               from '../shared/gridHelpers/gridHelpersFunctions';
+import { ISubmitActionResult }                                from '../shared/action/submitActionModel';
+import { JobService, GrnHelpers }                             from '../job/job';
+import { ISubmitActionResultDetails }                         from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult }                                    from '../shared/action/bulkEditItem';
 import 'rxjs/add/operator/mergeMap';
-import { ISubmitActionResult } from '../shared/action/submitActionModel';
-import {JobService, GrnHelpers} from '../job/job';
-import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
+import { ManualCompletionModal }                              from '../shared/manualCompletion/manualCompletionModal';
+import { SubmitActionModal }                                  from '../shared/action/submitActionModal';
+import {ManualCompletionType}                                 from '../shared/manualCompletion/manualCompletionRequest';
+import {IJobIdResolutionStatus}                               from '../shared/models/jobIdResolutionStatus';
 
 @Component({
     selector: 'ow-route',
@@ -26,6 +38,7 @@ import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
 export class SingleRouteComponent implements IObservableAlive
 {
     public branchId: number;
+    public branch: string;
     public driver: string;
     public routeDate: Date;
     public routeNumber: string;
@@ -41,6 +54,11 @@ export class SingleRouteComponent implements IObservableAlive
     private gridSource = Array<SingleRouteSource>();
     private filters = new SingleRouteFilter();
     private inputFilterTimer: any;
+    @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
+    @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
+    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
+        'Edit Exceptions', 'Submit Exceptions'];
 
     constructor(
         private lookupService: LookupService,
@@ -52,24 +70,7 @@ export class SingleRouteComponent implements IObservableAlive
 
     public ngOnInit()
     {
-        this.route.params
-            .flatMap(data =>
-            {
-                this.routeId = data.id;
-
-                return this.routeService.getSingleRoute(this.routeId);
-            })
-            .takeWhile(() => this.isAlive)
-            .subscribe((data: SingleRoute) =>
-            {
-                this.branchId = data.branchId;
-                this.routeNumber = data.routeNumber;
-                this.driver = data.driver;
-                this.routeDate = data.routeDate;
-
-                this.source = this.buildGridSource(data.items);
-                this.fillGridSource();
-            });
+        this.refreshRouteFromApi();
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
@@ -86,6 +87,29 @@ export class SingleRouteComponent implements IObservableAlive
 
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    private refreshRouteFromApi(): void
+    {
+        this.route.params
+            .flatMap(data =>
+            {
+                this.routeId = data.id;
+
+                return this.routeService.getSingleRoute(this.routeId);
+            })
+            .takeWhile(() => this.isAlive)
+            .subscribe((data: SingleRoute) =>
+            {
+                this.branchId = data.branchId;
+                this.routeNumber = data.routeNumber;
+                this.driver = data.driver;
+                this.routeDate = data.routeDate;
+                this.branch = data.branch;
+
+                this.source = this.buildGridSource(data.items);
+                this.fillGridSource();
+            });
     }
 
     public ngOnDestroy(): void
@@ -123,7 +147,8 @@ export class SingleRouteComponent implements IObservableAlive
         this.fillGridSource();
     }
 
-    public clearFilter(): void {
+    public clearFilter(): void
+    {
         this.jobService.setGrnForJob(1, 'test').subscribe();
         this.filters = new SingleRouteFilter();
         this.fillGridSource();
@@ -198,7 +223,12 @@ export class SingleRouteComponent implements IObservableAlive
         _.forEach(data, (current: SingleRouteItem) =>
         {
             totalExceptions += current.exceptions;
-            totalClean += current.clean;
+            //if job in resolution = imported or status = bypassed just don't print the value, print 0 instead-
+            if (!(current.resolutionId == 1 || current.jobStatus == 8))
+            {
+                totalClean += current.clean;
+            }
+
             totalTBA += current.tba;
         });
 
@@ -215,7 +245,7 @@ export class SingleRouteComponent implements IObservableAlive
         this.assignees = [];
 
         _.chain(data)
-            .groupBy(current => current.stop)
+            .groupBy(current => current.stopId)
             .map((current: Array<SingleRouteItem>) =>
             {
                 const item = new SingleRouteSource();
@@ -224,13 +254,14 @@ export class SingleRouteComponent implements IObservableAlive
 
                 item.stopId = singleItem.stopId;
                 item.stop = singleItem.stop;
+                item.previously = singleItem.previously;
                 item.stopStatus = singleItem.stopStatus;
                 item.totalExceptions = summary.totalExceptions;
                 item.totalClean = summary.totalClean;
-            
                 item.totalTBA = singleItem.tba;
                 item.stopAssignee = singleItem.stopAssignee;
                 item.items = current;
+                item.accountName = singleItem.accountName;
 
                 result.push(item);
             })
@@ -264,10 +295,21 @@ export class SingleRouteComponent implements IObservableAlive
         const assignees = [];
         _.map(this.source, (current: SingleRouteSource) =>
         {
+            if (!current.stopAssignee)
+            {
+                current.stopAssignee = 'Unallocated';
+
+                _.each(current.items,
+                    (item: SingleRouteItem) =>
+                    {
+                        item.assignee = 'Unallocated';
+                    });
+            }
+
             const filteredValues =
                 GridHelpersFunctions.applyGridFilter<SingleRouteItem, SingleRouteFilter>(current.items, this.filters);
 
-            assignees.push(current.stopAssignee || 'Unallocated');
+            assignees.push(current.stopAssignee);
 
             if (!_.isEmpty(filteredValues))
             {
@@ -305,8 +347,9 @@ export class SingleRouteComponent implements IObservableAlive
         {
             return true;
         }
-        return _.some(this.selectedItems(), x =>
-            x.resolutionId !== ResolutionStatusEnum.PendingSubmission);
+        return _.some(this.selectedItems(), (x: SingleRouteItem) =>
+            x.resolutionId !== ResolutionStatusEnum.PendingSubmission ||
+            (x.stopAssignee || '') != this.globalSettingsService.globalSettings.userName);
     }
 
     private jobsSubmitted(data: ISubmitActionResult): void
@@ -320,7 +363,45 @@ export class SingleRouteComponent implements IObservableAlive
             });
     }
 
-    private isGrnRequired = (item: SingleRouteItem): boolean => {
+    private bulkEditSave(result: IBulkEditResult): void
+    {
+        _.forEach(result.statuses,
+            x =>
+            {
+                const job = _.find(this.selectedItems(), current => current.jobId === x.jobId);
+                job.resolution = x.status.description;
+                job.resolutionId = x.status.value;
+            });
+    }
+
+    private isGrnRequired = (item: SingleRouteItem): boolean =>
+    {
         return GrnHelpers.isGrnRequired(item);
+    }
+
+    public manualCompletionSubmitted(results: IJobIdResolutionStatus[]): void
+    {
+        this.refreshRouteFromApi();
+    }
+
+    private submitAction(action: string): void
+    {
+        switch (action)
+        {
+            case 'Manually Complete':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsClean);
+                break;
+            case 'Manually Bypass':
+                this.manualCompletionModal.show(ManualCompletionType.CompleteAsBypassed);
+                break;
+            case 'Edit Exceptions':
+                this.bulkEditActionModal.show();
+                break;
+            case 'Submit Exceptions':
+                this.submitActionModal.show();
+                break;
+            default:
+                return;
+        }
     }
 }

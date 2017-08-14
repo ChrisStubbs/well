@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using Contracts;
     using Enums;
 
-    public class LineItemAction: Entity<int>
+    public class LineItemAction: Entity<int>, ILineItemActionResolution
     {
         public LineItemAction()
         {
@@ -22,7 +23,8 @@
         public string ActionedBy { get; set; }
         public Originator Originator { get; set; }
         public DeliveryAction DeliveryAction { get; set; }
-        public IEnumerable<LineItemActionComment> Comments { get; set; }
+        public IList<LineItemActionComment> Comments { get; set; }
+        public string PdaReasonDescription { get; set; }
 
         public bool HasChanges(LineItemAction item)
         {

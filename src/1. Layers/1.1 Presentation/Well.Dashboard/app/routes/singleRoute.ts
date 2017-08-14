@@ -24,9 +24,8 @@ export class SingleRouteItem implements IGrnAssignable
     public jobId: number;
     public stopId: number;
     public stop: string;
+    public previously: string;
     public stopStatus: string;
-    public stopExceptions: number;
-    public stopClean: number;
     public tba: number;
     public stopAssignee: string;
     public resolution: string;
@@ -50,10 +49,12 @@ export class SingleRouteItem implements IGrnAssignable
     public jobStatus: number;
     public isSelected: boolean;
     public account: string;
+    public accountName: string;
     public wellStatus: number;
     public wellStatusDescription: string;
     public grnNumber: string;
     public grnProcessType: number;
+    public primaryAccountNumber: string;
 }
 
 export class SingleRouteSource
@@ -65,6 +66,7 @@ export class SingleRouteSource
 
     public stopId: number;
     public stop: string;
+    public previously: string;
     public stopStatus: string;
     public totalExceptions: number;
     public totalClean: number;
@@ -72,6 +74,7 @@ export class SingleRouteSource
     public stopAssignee: string;
     public isExpanded: boolean;
     public items: Array<SingleRouteItem>;
+    public accountName: string;
 }
 
 export class SingleRouteFilter implements IFilter
@@ -80,24 +83,22 @@ export class SingleRouteFilter implements IFilter
     {
         this.account = '';
         this.invoice = '';
-        this.jobType = '';
+        this.jobTypeId = undefined;
         this.wellStatus = '';
         this.exceptions = undefined;
-        this.clean = undefined;
         this.assignee = '';
         this.resolutionId = undefined;
     }
 
     public account: string;
     public invoice: string;
-    public jobType: string = '';
+    public jobTypeId?: number = undefined;
     public wellStatus: string;
     public exceptions: boolean;
-    public clean: boolean;
     public assignee: string;
     public resolutionId: number;
 
-    public getFilterType(filterName: string): (value: any, value2: any) => boolean
+    public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
         switch (filterName)
         {
@@ -105,28 +106,34 @@ export class SingleRouteFilter implements IFilter
             case 'invoice':
                 return  GridHelpersFunctions.containsFilter;
 
-            case 'jobType':
-                return GridHelpersFunctions.startsWithFilter;
+            case 'jobTypeId':
+                 return (value: number, value2: number) =>
+                    {
+                        const v = +value;
+                        const v2 = +value2;
+
+                        const f = GridHelpersFunctions.isEqualFilter;
+
+                        return  f(v, v2);
+                    };
 
             case 'wellStatus':
             case 'assignee':
-                return  GridHelpersFunctions.isEqualFilter;
+                return (value: any, valu2: any) => {
+                    return GridHelpersFunctions.isEqualFilter(String(value), String(valu2));
+                };
 
             case 'exceptions':
-            case 'clean':
-                return (value: number, value2?: boolean) =>
-                {
-                    if (_.isNull(value2))
+                return (value: number, value2: number, sourceRow: SingleRouteItem) => {
+
+                    if (+value2 == 1)
                     {
-                        return true;
-                    }
-                    if (value2.toString() == 'true')
-                    {
-                        return value > 0;
+                        return sourceRow.exceptions > 0;
                     }
 
-                    return value == 0;
+                    return sourceRow.exceptions == 0;
                 };
+
             case 'resolutionId':
                 return GridHelpersFunctions.enumBitwiseAndCompare;
         }

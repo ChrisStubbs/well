@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Services.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Net;
@@ -13,31 +15,23 @@
 
     public class ThresholdLevelController : BaseApiController
     {
-        private readonly IUserRepository userRepository;
-
         private readonly ILogger logger;
+        private readonly IUserThresholdService userThresholdService;
 
-        public ThresholdLevelController(IUserRepository userRepository, ILogger logger, IUserNameProvider userNameProvider):
+        public ThresholdLevelController(ILogger logger, IUserNameProvider userNameProvider,IUserThresholdService userThresholdService):
             base(userNameProvider)
         {
-            this.userRepository = userRepository;
             this.logger = logger;
+            this.userThresholdService = userThresholdService;
         }
 
         [Route("threshold-level")]
         [HttpPost]
-        public HttpResponseMessage Post(string threshold, string username)
+        public HttpResponseMessage Post(int thresholdId, string username)
         {
             try
             {
-                var user = this.userRepository.GetByName(username);
-
-                if (user == null) throw new UserNotFoundException();
-
-                var thresholdLevel = EnumExtensions.GetValueFromDescription<ThresholdLevel>(threshold);
-
-                this.userRepository.SetThresholdLevel(user, thresholdLevel);
-
+                userThresholdService.SetThresholdLevel(username, thresholdId);
                 return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
             }
             catch (UserNotFoundException)
@@ -47,7 +41,7 @@
             catch (Exception exception)
             {
                 this.logger.LogError(
-                    $"Error occured when trying to save a threshold level ({threshold}) for user ({username})",
+                    $"Error occured when trying to save a threshold with id ({thresholdId}) for user ({username})",
                     exception);
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }

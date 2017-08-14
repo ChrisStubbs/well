@@ -1,4 +1,4 @@
-﻿export class Notification {
+export class Notification {
     id: number;
     jobId: number;
     type: number;
@@ -9,5 +9,6 @@
     adamErrorNumber: string;
     adamCrossReference: string;
     userName: string;
+    notificationDate: string;
    
 }

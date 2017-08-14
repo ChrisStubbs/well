@@ -1,4 +1,4 @@
-﻿import {Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
@@ -38,10 +38,10 @@ export class CreditThresholdService {
             .map((res: Response) => <CreditThreshold>res.json());
     }
 
-    public saveThresholdLevel(threshold: string, username: string): Observable<any> {
+    public saveThresholdLevel(thresholdId: number, username: string): Observable<any> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl +
-                'threshold-level?threshold=' +
-                threshold +
+                'threshold-level?thresholdId=' +
+                thresholdId +
                 '&username=' +
                 username,
                 undefined,

@@ -71,6 +71,7 @@
     <Compile Include="Contracts\IUserNameProvider.cs" />
     <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
+    <Compile Include="EventId.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

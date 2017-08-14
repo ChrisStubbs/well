@@ -27,7 +27,8 @@ namespace PH.Well.Api.DependencyResolution
         public DefaultRegistry()
         {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
                 });
@@ -49,7 +50,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
-            For<IBulkCreditService>().Use<BulkCreditService>();
 
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
@@ -62,29 +62,33 @@ namespace PH.Well.Api.DependencyResolution
             For<INotificationRepository>().Use<NotificationRepository>();
             For<IUserRoleProvider>().Use<UserRoleProvider>();
             For<IUserStatsRepository>().Use<UserStatsRepository>();
-            For<IAuditRepository>().Use<AuditRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
-            For<ICleanPreferenceRepository>().Use<CleanPreferenceRepository>();
             For<IJobDetailActionRepository>().Use<JobDetailActionRepository>();
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
-            For<IEpodUpdateService>().Use<EpodUpdateService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();
             For<IPodTransactionFactory>().Use<PodTransactionFactory>();
+            For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+            For<IWellCleanUpService>().Use<WellCleanUpService>();
+            For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+            For<IWellCleanConfig>().Use<WellCleanConfig>();
+            For<IAmendmentService>().Use<AmendmentService>();
+            For<IAmendmentRepository>().Use<AmendmentRepository>();
+            For<IAmendmentFactory>().Use<AmendmentFactory>();
 
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
             For<ISeasonalDateMapper>().Use<SeasonalDateMapper>();
             For<ICreditThresholdMapper>().Use<CreditThresholdMapper>();
-            For<ICleanPreferenceMapper>().Use<CleanPreferenceMapper>();
             For<IWidgetWarningMapper>().Use<WidgetWarningMapper>();
             For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
             For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
             For<ISingleRouteMapper>().Use<SingleRouteMapper>();
             For<IStopMapper>().Use<StopMapper>();
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
+            For<IOrderImportMapper>().Use<OrderImportMapper>();
 
             //delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
@@ -98,7 +102,7 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
             For<IStopStatusService>().Use<StopStatusService>();
-            
+
             //Location/activity/line item
             For<ILocationRepository>().Use<LocationRepository>();
             For<IActivityReadRepository>().Use<ActivityReadRepository>();
@@ -119,7 +123,18 @@ namespace PH.Well.Api.DependencyResolution
             For<ILineItemActionCommentRepository>().Use<LineItemActionCommentRepository>();
             For<IDateThresholdService>().Use<DateThresholdService>();
 
-            For<IJobResolutionStatus>().Use<JobService>();
+            For<IGetJobResolutionStatus>().Use<JobService>();
+            For<IActivityRepository>().Use<ActivityRepository>();
+            For<IBulkEditService>().Use<BulkEditService>();
+            For<IPatchSummaryMapper>().Use<PatchSummaryMapper>();
+            For<IPostImportRepository>().Use<PostImportRepository>();
+            For<IManualCompletionService>().Use<ManualCompletionService>();
+            For<ICommentReasonRepository>().Use<CommentReasonRepository>();
+            For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+            For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+            For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
+            For<IEpodImportMapper>().Use<EpodImportMapper>();
+
         }
     }
 }

@@ -6,6 +6,7 @@
 	[RouteHeaderCode] VARCHAR(10)  NULL,
 	[RouteHeaderId] INT NOT NULL,
 	[DropId] VARCHAR(2) NULL,
+	[Previously] VARCHAR(500) NULL,
 	[LocationId] VARCHAR(20) NULL,
 	[DeliveryDate] DATETIME NULL,
 	[ShellActionIndicator] varchar(100) NULL,
@@ -17,7 +18,8 @@
 	[PerformanceStatusCode] VARCHAR(50) NULL,
 	[PerformanceStatusDescription] VARCHAR(255) NULL,
 	[Reason] VARCHAR(255) NULL,
-    [DateDeleted] DATETIME NULL, 
+    [DateDeleted] DATETIME NULL,
+	[DeletedByImport] BIT DEFAULT 0,
 	[ActualPaymentCash] DECIMAL(7,2) NULL,
 	[ActualPaymentCheque] DECIMAL(7,2) NULL,
 	[ActualPaymentCard] DECIMAL(7,2) NULL,
@@ -32,3 +34,9 @@
 	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Stop_Location] FOREIGN KEY ([Location_Id]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+GO
+CREATE NONCLUSTERED INDEX [IDX_Stop_RouteHeaderId] ON [dbo].[Stop] ([RouteHeaderId]) INCLUDE ([Id])
+GO
+CREATE NONCLUSTERED INDEX [idx_Stop_LocationId] ON [dbo].[Stop] ([Location_Id])
+GO
+CREATE NONCLUSTERED INDEX Idx_Stop_TransportOrderReference ON [dbo].[Stop] ([TransportOrderReference]) INCLUDE ([Id])

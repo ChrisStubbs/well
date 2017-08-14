@@ -19,23 +19,39 @@
         </ol>
     </div>
 </div>
-
 <div class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <ul class="list-unstyled">
                 <li><label>Branch:&nbsp;</label>{{stop.branch}}</li>
                 <li><label>Driver:&nbsp;</label>{{stop.driver}}</li>
                 <li><label>Date:&nbsp;</label>{{stop.routeDate | date:'dd MMM yy'}}</li>
             </ul>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
+            <address>
+                <strong>
+                    <crmLink [accountNumber]="customerAccount.code" [branchId]="stop.branchId" [linkText]="customerAccount.name"></crmLink>
+                </strong>
+                <br />
+                <span>{{customerAccount.address1}}</span><br />
+                <span>{{customerAccount.address2}}</span><br />
+                <span>{{customerAccount.postCode}}</span><br />
+            </address>
+        </div>
+        <div class="col-md-3">
+            <strong>{{customerAccount.contactName}}</strong><br />
+            <label>Phone :</label><span> {{customerAccount.contactNumber}}</span><br />
+            <label>Alt Phone :</label><span> {{customerAccount.contactNumber2}}</span><br />
+            <label>Email :</label><a href="mailto:{{customerAccount.contactEmailAddress}}"> {{customerAccount.contactEmailAddress}}</a><br />
+        </div>
+        <div class="col-md-3">
             <div class="pull-right">
                 <ul class="list-unstyled">
                     <li *ngIf="stop.branchId"><label>Assigned to:&nbsp;</label><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></li>
                     <li>&nbsp;</li>
                     <li>
-                        <label>Shorts To Be Advised:&nbsp;</label>{{stop.tba}}
+                        <label>Shorts To Be Advised:&nbsp;</label>{{(stop.tba > 0)? stop.tba : 0}}
                     </li>
                 </ul>
             </div>
@@ -46,10 +62,9 @@
             <div class="col-md-12 clearfix">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>&nbsp;
-                        <action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </action-Modal>
+                        <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                     </div>
-                    <!--<button #btt type="button" [disabled]="selectedItems().length == 0" class="btn btn-success" (click)="isActionMode = true">Edit</button>-->
+                    <ow-button-dropdown [options]="actionOptions" [disabled]="disableBulkEdit()" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
                 </div>
             </div>
         </div>
@@ -147,8 +162,7 @@
                                 <div class="form-control-placeholder"></div>
                             </th>
                             <th class="exceptionsFilter" colspan="2">
-                                <div class="text-center col-md-6">Damages</div>
-                                <div class="text-center col-md-6">Shorts</div>
+                                <div class="text-center">Shorts Damages</div>
                                 <div>
                                     <select class="form-control" [(ngModel)]="filters.exceptionsFilter" (change)="fillGridSource()" title="">
                                         <option value>All</option>
@@ -180,7 +194,9 @@
                                 </div>
                             </th>
                             <th class="colNumbers">
-                                <div class="text-center">Resolution</div>
+                                <div class="text-center">
+                                    Exception Resolution
+                                </div>
                                 <div>
                                     <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
                                         <option value>All</option>
@@ -191,7 +207,7 @@
                                 </div>
                             </th>
                             <th class="colCheckbox">
-                                <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)">
+                                <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectAllJobs($event.target.checked)">
                             </th>
                         </tr>
                     </thead>
@@ -205,7 +221,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Invoice: </label>
-                                    {{item.invoice}}
+                                    <a *ngIf="item.invoice" [routerLink]="['/invoice', item.invoice, stop.branchId]">{{item.invoice}}</a>
                                 </td>
                                 <td>
                                     <label>Type: </label>
@@ -213,14 +229,13 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Account: </label>
-                                    {{item.account}}
-                                    <button type="button" class="btn btn-sm btn-info contact-info" (click)="openModal(item.accountID)">Info</button>
+                                    <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: item.account, branchId: stop.branchId}">{{item.account}}</a>
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
-                                <td class="text-right">{{item.totalInvoiced - (item.totalDamages + item.totalShorts)}}</td>
-                                <td class="text-right">{{item.totalDamages}}</td>
+                                <td class="text-right">{{(item.resolutionId != 1)? item.totalInvoiced - (item.totalDamages + item.totalShorts) : 0}}</td>
                                 <td class="text-right">{{item.totalShorts}}</td>
+                                <td class="text-right">{{item.totalDamages}}</td>
                                 <td></td>
                                 <td></td>
                                 <td>{{item.resolution}}</td>
@@ -236,17 +251,17 @@
                                     </div>
                                 </td>
                                 <td>{{item.description}}</td>
-                                <td class="text-right">{{item.value}}</td>
+                                <td class="text-right">{{item.value | currency:'GBP':true}}</td>
                                 <td class="text-right">{{item.invoiced}}</td>
-                                <td class="text-right">{{item.invoiced - (item.damages + item.shorts)}}</td>
-                                <td class="text-right">{{item.damages}}</td>
+                                <td class="text-right">{{(item.resolutionId != 1)? item.invoiced - (item.damages + item.shorts) : 0}}</td>
                                 <td class="text-right">{{item.shorts}}</td>
+                                <td class="text-right">{{item.damages}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
-                                <td class="text-left"><span *ngIf="item.hasUnresolvedActions">{{item.resolution}}</span></td>
+                                <td class="text-left"><span *ngIf="item.hasUnresolvedActions">Action Required</span></td>
                                 <td>
-                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId !=0">
-                                        <span class="glyphicon glyphicon-pencil" ></span>
+                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId != 0">
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <input type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>
@@ -268,5 +283,8 @@
         </div>
     </div>
 </div>
-<action-edit (onSave)="lineItemSaved($event)"></action-edit>
 <contact-modal></contact-modal>
+<action-edit (onSave)="lineItemSaved($event)"></action-edit>
+<bulk-edit-action-modal [lineItemIds]="selectedLineItems()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
+<manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
+<submit-action-Modal [disabled]="disableSubmitActions()" [jobIds]="getSelectedJobIds()" (onSubmitted)="jobsSubmitted($event)"> </submit-action-Modal>

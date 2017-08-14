@@ -1,5 +1,5 @@
-﻿import {Injectable, Compiler } from '@angular/core';
-import {Response, RequestOptions, Headers} from '@angular/http'
+import {Injectable, Compiler } from '@angular/core';
+import {Response, RequestOptions, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorService} from '../shared/httpErrorService';
 import { HttpService } from './httpService';
@@ -12,7 +12,7 @@ export class GlobalSettings {
     public identityName: string;
     public permissions: string[];
     public user: User;
-  
+    public crmBaseUrl: string;
 }
 
 @Injectable() 
@@ -56,6 +56,8 @@ export class GlobalSettingsService {
         this.globalSettings.userName = settings.userName;
         this.globalSettings.identityName = settings.identityName;
         this.globalSettings.permissions = settings.permissions;
+        this.globalSettings.user = settings.user;
+        this.globalSettings.crmBaseUrl = settings.crmBaseUrl;
         return this.globalSettings;
     }
 

@@ -16,8 +16,8 @@
         public static void Main(string[] args)
         {
             var container = InitIoc();
-
-            new EventProcessor(container).Process();
+            IEventProcessor eventProcessor = container.GetInstance<IEventProcessor>();
+            eventProcessor.Process();
         }
 
         /// <summary>
@@ -28,6 +28,7 @@
             return new Container(
                 x =>
                 {
+                    x.For<IEventProcessor>().Use<EventProcessor>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
@@ -51,6 +52,16 @@
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
                     x.For<IDbConfiguration>().Use<WellDbConfiguration>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
+                    x.For<IJobService>().Use<JobService>();
+                    x.For<IDateThresholdService>().Use<DateThresholdService>();
+                    x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<IAdamRepository>().Use<AdamRepository>();
+                    x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
                 });
         }
     }

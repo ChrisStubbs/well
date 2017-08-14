@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Branch} from './branch';
 import {BranchService} from './branchService';
 
@@ -13,48 +13,20 @@ export class BranchCheckboxComponent implements OnInit {
     @Input() public username: string;
     @Input() public seasonalDateId: number;
     @Input() public creditThresholdId: number;
-    @Input() public cleanPreferenceId: number;
 
     constructor(private branchService: BranchService) {}
 
     public ngOnInit(): void {
         if (this.creditThresholdId) {
-            this.branchService.getBranchesWithCreditThreshold(this.creditThresholdId)
-                .subscribe(branches => {
-                    this.branches = branches;
-                    this.branches.forEach(branch => {
-                        if (branch.selected) {
-                            this.selectedBranches.push(branch)
-                        }
-                    });
+            throw Error('getBranchesWithCreditThreshold should no longer be used');
 
-                    if (this.branches.every(x => x.selected)) {
-                        this.selectAllCheckbox = true;
-                    }
-                });
-
-        } else if (this.cleanPreferenceId) {
-            this.branchService.getBranchesWithCleanPreference(this.cleanPreferenceId)
-                .subscribe(branches => {
-                    this.branches = branches;
-                    this.branches.forEach(branch => {
-                        if (branch.selected) {
-                            this.selectedBranches.push(branch)
-                        }
-                    });
-
-                    if (this.branches.every(x => x.selected)) {
-                        this.selectAllCheckbox = true;
-                    }
-                });
-
-        } else if (this.seasonalDateId) {
+        }  else if (this.seasonalDateId) {
             this.branchService.getBranchesWithSeasonalDate(this.seasonalDateId)
                 .subscribe(branches => {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 
@@ -69,7 +41,7 @@ export class BranchCheckboxComponent implements OnInit {
                     this.branches = branches;
                     this.branches.forEach(branch => {
                         if (branch.selected) {
-                            this.selectedBranches.push(branch)
+                            this.selectedBranches.push(branch);
                         }
                     });
 

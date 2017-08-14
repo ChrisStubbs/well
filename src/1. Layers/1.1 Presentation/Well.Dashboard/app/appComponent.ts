@@ -1,7 +1,7 @@
-﻿import { Component }            from '@angular/core';
+import { Component }            from '@angular/core';
 import {GlobalSettingsService}  from './shared/globalSettings';
 import {BranchService}          from './shared/branch/branchService';
-import {SecurityService}        from './shared/security/securityService'
+import {SecurityService}        from './shared/security/securityService';
 import 'rxjs/Rx';   // Load all features
 
 @Component({

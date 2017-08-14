@@ -15,24 +15,32 @@
 
     using StructureMap;
 
-    public class EventProcessor
+    public class EventProcessor : IEventProcessor
     {
         private readonly IExceptionEventRepository exceptionEventRepository;
         private readonly IDeliveryLineActionService deliveryLineActionService;
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
+        private IAdamRepository adamRepository;
 
-        public EventProcessor(IContainer container)
+        public EventProcessor(
+            IExceptionEventRepository exceptionEventRepository,
+            IDeliveryLineActionService deliveryLineActionService,
+            ILogger logger,
+            IEventLogger eventLogger,
+            IAdamRepository adamRepository
+            )
         {
-            this.exceptionEventRepository = container.GetInstance<IExceptionEventRepository>();
-            this.deliveryLineActionService = container.GetInstance<IDeliveryLineActionService>();
-            this.logger = container.GetInstance<ILogger>();
-            this.eventLogger = container.GetInstance<IEventLogger>();
+            this.exceptionEventRepository = exceptionEventRepository;
+            this.deliveryLineActionService = deliveryLineActionService;
+            this.logger = logger;
+            this.eventLogger = eventLogger;
+            this.adamRepository = adamRepository;
         }
 
         public void Process()
         {
-            this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", 5655, EventLogEntryType.Information);
+            this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", EventId.EventProcessorLog, EventLogEntryType.Information);
 
             var username = "Event Processor";
             var eventsToProcess = this.exceptionEventRepository.GetAllUnprocessed();
@@ -65,6 +73,25 @@
                             var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
                             this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
                             break;
+                        case EventAction.Amendment:
+                            var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
+                            this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id, GetAdamSettings(amendmentTransaction.BranchId));
+                            break;
+                        case EventAction.GlobalUplift:
+                            var upliftEvent =
+                                JsonConvert.DeserializeObject<GlobalUpliftEvent>(eventToProcess.Event);
+                            // Create transaction from event
+                            var transaction = new GlobalUpliftTransaction(upliftEvent.Id, upliftEvent.BranchId,
+                                upliftEvent.AccountNumber, upliftEvent.CreditReasonCode, upliftEvent.ProductCode,
+                                upliftEvent.Quantity, upliftEvent.StartDate, upliftEvent.EndDate,
+                                upliftEvent.WriteLine, upliftEvent.WriteHeader, upliftEvent.CsfNumber, upliftEvent.CustomerReference);
+
+                            // Process event
+                            adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
+                            // Delete event
+                            exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
+                            break;
+
                     }
                 }
             }

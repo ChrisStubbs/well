@@ -1,10 +1,19 @@
 ﻿namespace PH.Well.Clean
 {
     using System.Configuration;
-
-    public struct Configuration
+    using Services.Contracts;
+    public class Configuration : IWellCleanConfig
     {
-        public static string WellConnection => ConfigurationManager.ConnectionStrings["Well"].ConnectionString;
+        public Configuration()
+        {
+            var x = 0;
+            if (int.TryParse(ConfigurationManager.AppSettings["SoftDeleteBatchSize"], out x))
+            {
+                SoftDeleteBatchSize = x;
+            }
+            
+        }
+
+        public int SoftDeleteBatchSize { get; set; } = 1000;
     }
 }
- 

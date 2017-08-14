@@ -10,7 +10,8 @@ USING	(VALUES	(1,'NARRI','Not Arrived','deployment',GETDATE(),'deployment',GETDA
 				(0,'NOTDEF','Not Defined','deployment',GETDATE(),'deployment',GETDATE()),
 				(7,'RESOLVED','Resolved','deployment',GETDATE(),'deployment',GETDATE()),
 				(8,'PENDING','Pending Authorisation','deployment',GETDATE(),'deployment',GETDATE()),
-				(9,'SUBMITTED','Submitted','deployment',GETDATE(),'deployment',GETDATE())
+				(9,'SUBMITTED','Submitted','deployment',GETDATE(),'deployment',GETDATE()),
+				(10,'WBYPA','Well ByPass','deployment',GETDATE(),'deployment',GETDATE())
 		)
 AS Source ([Id],[Code],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]

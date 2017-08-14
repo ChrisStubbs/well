@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -56,6 +57,15 @@
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionSubmitModelGetUnsubmitted)
                 .AddParameter("DeliveryActionId", deliveryAction, DbType.Int32)
                 .Query<LineItemActionSubmitModel>().ToList();
+        }
+
+        public void DeleteAllLineItemActionsForJob(int jobId)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionDeleteForJob)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .AddParameter("UpdatedDate", DateTime.Now, DbType.DateTime)
+                .Execute();
         }
 
         protected override void UpdateExisting(LineItemAction entity)

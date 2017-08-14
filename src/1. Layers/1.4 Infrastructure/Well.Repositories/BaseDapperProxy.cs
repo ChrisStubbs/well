@@ -5,6 +5,7 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
+    using System.Threading.Tasks;
     using Contracts;
     using Dapper;
 
@@ -21,11 +22,33 @@
             return this.QueryDapper<TEntity>();
         }
 
+        public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName)
+        {
+            //System.Threading.Interlocked.Exchange<DynamicParameters>()
+
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                return await connection.QueryAsync<TEntity>(storeProcedureName,
+                    parameters,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: DbConfiguration.CommandTimeout);
+            }
+        }
+
         public IEnumerable<TEntity> SqlQuery<TEntity>(string sql)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
                 return connection.Query<TEntity>(sql, param: null, commandType: CommandType.Text, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
+            }
+        }
+
+        public void ExecuteSql(string statement, object parameters, Action<IDataReader> callBack)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                var reader = connection.ExecuteReader(statement, parameters);
+                callBack(reader);
             }
         }
 
@@ -62,6 +85,14 @@
             }
         }
 
+        public async Task ExecuteAsync(DynamicParameters parameters, string storeProcedureName)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                await connection.ExecuteAsync(storeProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout); 
+            }
+        }
+        
         public void ExecuteSql(string sql)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))

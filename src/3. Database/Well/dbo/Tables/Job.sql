@@ -26,6 +26,7 @@
 	[PerformanceStatusId] INT NULL,
 	[Reason] VARCHAR(255) NULL,
     [DateDeleted] DATETIME NULL, 
+	[DeletedByImport] BIT DEFAULT 0,
 	[StopId] INT NOT NULL,
 	[ActionLogNumber] VARCHAR(50) NULL,
 	[OuterCount] INT NULL,
@@ -44,15 +45,21 @@
 	[Version] [TIMESTAMP] NOT NULL,
 	[JobStatusId] TINYINT NOT NULL DEFAULT 1,
 	[ActivityId] INT NULL,
-	ResolutionStatusId SmallInt NULL CONSTRAINT FK_Job_ResolutionStatus FOREIGN KEY REFERENCES ResolutionStatus(Id), 
+	ResolutionStatusId INT NULL CONSTRAINT FK_Job_ResolutionStatus FOREIGN KEY REFERENCES ResolutionStatus(Id), 
     CONSTRAINT [PK_Job] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_Job_Stop] FOREIGN KEY ([StopId]) REFERENCES [dbo].[Stop] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Job_JobStatus] FOREIGN KEY ([JobStatusId]) REFERENCES [dbo].[JobStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_Job_ActivityId] FOREIGN KEY ([ActivityId]) REFERENCES [dbo].[Activity] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 GO
-/*Included for Search */
 CREATE NONCLUSTERED INDEX [IDX_Job_JobStatusId] ON [dbo].[Job] ([JobStatusId]) INCLUDE ([JobTypeCode],[InvoiceNumber],[StopId])
 GO
 CREATE NONCLUSTERED INDEX [IDX_Job_StopId] ON [dbo].[Job] ([StopId]) INCLUDE ([Id],[JobTypeCode])
 GO
+GO CREATE NONCLUSTERED INDEX [IDX_Job_ActivityId] ON [dbo].[Job] ([ActivityId]) INCLUDE ([Id],[JobTypeCode],[StopId],[ResolutionStatusId])
+GO
+CREATE NONCLUSTERED INDEX [IDX_Job_DateDeleted] ON [dbo].[Job] ([DateDeleted]) INCLUDE ([JobTypeCode],[PHAccount],[PickListRef],[StopId])
+GO
+CREATE NONCLUSTERED INDEX [IDX_Job_JobTypeCode_PHAccount_PickListRef_DateDeleted] ON [dbo].[Job] ([JobTypeCode],[PHAccount],[PickListRef],[DateDeleted])INCLUDE ([StopId])
+GO
+CREATE NONCLUSTERED INDEX [IDX_Job_DateDelete_ResolutionStatus] ON [dbo].[Job] ([DateDeleted],[ResolutionStatusId])INCLUDE ([Id],[PHAccount],[InvoiceNumber],[StopId])

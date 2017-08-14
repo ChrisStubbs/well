@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
+import { Component, OnInit, ViewChild}  from '@angular/core';
 import { Response } from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';   // Load all features

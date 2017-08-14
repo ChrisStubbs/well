@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using PH.Well.Services.Contracts;
+using PH.Well.UnitTests.Factories;
 
 namespace PH.Well.UnitTests.Services.Validation
 {
@@ -17,13 +18,11 @@ namespace PH.Well.UnitTests.Services.Validation
     [TestFixture]
     public class SubmitActionValidationTests
     {
-
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IDateThresholdService> dateThresholdService;
         private Mock<IUserRepository> userRepository;
-        private Mock<ICreditThresholdRepository> _creditThresholdRepository;
         private SubmitActionValidation validator;
-      
+        private Mock<IJobService> jobService;
 
         [SetUp]
         public virtual void SetUp()
@@ -31,10 +30,10 @@ namespace PH.Well.UnitTests.Services.Validation
             userNameProvider = new Mock<IUserNameProvider>();
             userRepository = new Mock<IUserRepository>();
             dateThresholdService = new Mock<IDateThresholdService>();
-            _creditThresholdRepository = new Mock<ICreditThresholdRepository>();
+            jobService = new Mock<IJobService>();
 
             validator = new SubmitActionValidation(userNameProvider.Object, userRepository.Object,
-                dateThresholdService.Object, _creditThresholdRepository.Object);
+                dateThresholdService.Object, jobService.Object);
         }
 
         public class TheValidateUserForCreditingMethod : SubmitActionValidationTests
@@ -44,7 +43,6 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
                 userRepository.Setup(x => x.GetByIdentity("Me")).Returns((User)null);
-
                 var result = validator.ValidateUserForCrediting();
 
                 Assert.That(result.IsValid, Is.False);
@@ -54,7 +52,7 @@ namespace PH.Well.UnitTests.Services.Validation
             public void ShouldReturnInvalidIfNoThresholdLevel()
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { ThresholdLevelId = null });
+                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = null });
 
                 var result = validator.ValidateUserForCrediting();
 
@@ -65,8 +63,7 @@ namespace PH.Well.UnitTests.Services.Validation
             public void ShouldReturnValidIfUserFoundAndThresholdLevelSet()
             {
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { ThresholdLevelId = 1 });
-
+                userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = 1 });
                 var result = validator.ValidateUserForCrediting();
 
                 Assert.That(result.IsValid, Is.True);
@@ -86,9 +83,10 @@ namespace PH.Well.UnitTests.Services.Validation
                 jobs = new List<Job>();
                 submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 } };
                 this.userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
-                user = new User { Id = 1 ,ThresholdLevelId = 1};
+                user = new User { Id = 1, CreditThresholdId = 1 };
                 stubbedValidator = new Mock<SubmitActionValidation>(userNameProvider.Object, userRepository.Object,
-                    dateThresholdService.Object, _creditThresholdRepository.Object) {CallBase = true};
+                        dateThresholdService.Object, jobService.Object)
+                    {CallBase = true};
             }
 
             [Test]
@@ -97,7 +95,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns((User)null);
                 var result = validator.Validate(submitAction, jobs);
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"User not found (Me). Can not submit actions"));
+                Assert.That(result.Message, Is.EqualTo($"User not found (Me). Can not submit exceptions"));
             }
 
             [Test]
@@ -108,7 +106,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 var result = validator.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"User not assigned to all the items selected can not submit actions"));
+                Assert.That(result.Message, Is.EqualTo($"User not assigned to all the items selected can not submit exceptions"));
             }
 
             [Test]
@@ -130,13 +128,14 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
-                this.jobs.Add(new Job { Id = 1,InvoiceNumber="Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
+                this.jobs.Add(new Job { Id = 1, InvoiceNumber = "Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
+                this.jobs.Add(new Job { Id = 4, InvoiceNumber = "sd", ResolutionStatus = ResolutionStatus.PendingApproval });
 
                 var result = validator.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"Can not submit actions for jobs. " +
-                                                       $"The following jobs are not in Pending Submission State " +
+                Assert.That(result.Message, Is.EqualTo($"Can not submit exceptions for jobs. " +
+                                                       $"The following jobs are not in Pending Submission / Pending Approval State " +
                                                        $"JobId:1 Invoice:Inv1 Status: 4 - Action Required ."));
             }
 
@@ -194,14 +193,12 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
-                this._creditThresholdRepository.Setup(x => x.GetById(user.ThresholdLevelId.Value))
-                    .Returns(new CreditThreshold {ThresholdLevelId = user.ThresholdLevelId.Value, Threshold = 100});
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
                 stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = true });
-                
+
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
                 Assert.That(result.IsValid, Is.True);
@@ -222,12 +219,12 @@ namespace PH.Well.UnitTests.Services.Validation
             [Test]
             public void ShouldReturnInvalidIfRouteDateGreaterThatEarliestCreditDate()
             {
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
-                unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 3, BranchId = 1, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 1, JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 2, JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
+                unsubmittedJobs.Add(new Job { Id = 3, JobRoute = new JobRoute { JobId = 3, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 1, 0)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
@@ -241,8 +238,8 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 1, 0)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 
@@ -254,15 +251,14 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 unsubmittedJobs.Add(new Job { JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today.AddDays(-1) } });
 
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 1)).Returns(DateTime.Today);
-                dateThresholdService.Setup(x => x.EarliestSubmitDate(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
+                dateThresholdService.Setup(x => x.RouteGracePeriodEnd(DateTime.Today, 1)).Returns(DateTime.Today);
+                dateThresholdService.Setup(x => x.RouteGracePeriodEnd(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
                 var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
 
                 Assert.That(result.IsValid, Is.True);
             }
         }
-
 
         public class TheHaveItemsToCreditMethod : SubmitActionValidationTests
         {
@@ -290,5 +286,15 @@ namespace PH.Well.UnitTests.Services.Validation
 
         }
 
+        public class TheValidateJobsCanBeEdited : SubmitActionValidationTests
+        {
+            [Test(Description = "Job service should be used to detemine whether jobs can be edited or not")]
+            public void ShouldUseJobServiceToValidateCanBeEdited()
+            {
+                var job = JobFactory.New.Build();
+                validator.ValidateJobsCanBeEdited(new[] {job});
+                jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
+            }
+        }
     }
 }

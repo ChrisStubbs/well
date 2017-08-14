@@ -127,6 +127,7 @@ export class SingleLocationFilter implements IFilter
 export class Locations
 {
     public branch: string;
+    public id: number;
     public branchId: number;
     public primaryAccountNumber: string;
     public accountNumber: string;
@@ -134,10 +135,8 @@ export class Locations
     public address: string;
     public totalInvoices: number;
     public exceptions: number;
-    public get cleans(): number
-    {
-        return this.totalInvoices - this.exceptions;
-    }
+    public invoiced: number;
+    public cleans: number;
 }
 
 export class LocationFilter implements  IFilter

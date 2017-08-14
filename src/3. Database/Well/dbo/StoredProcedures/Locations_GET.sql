@@ -49,8 +49,6 @@ FROM Location l
 		Branch b ON b.Id = l.BranchId
 WHERE
 	(a.ActivityTypeId = 1 OR a.ActivityTypeId = 2)
-	AND
-	l.Id = 197
 GROUP BY 
 	l.Id
 	,l.BranchId

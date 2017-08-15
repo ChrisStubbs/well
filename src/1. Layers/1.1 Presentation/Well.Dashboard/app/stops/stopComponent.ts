@@ -133,7 +133,7 @@ export class StopComponent implements IObservableAlive
                 _.chain(data.items)
                     .map((current: StopItem) =>
                     {
-                        return current.type + ' (' + current.jobTypeAbbreviation + ')';
+                        return current.type;
                     })
                     .uniq()
                     .map((current: string) =>

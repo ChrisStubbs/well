@@ -67,6 +67,7 @@ export class SingleLocation
     public resolutionId: number;
     public isInvoice: boolean;
     public accountNumber: string;
+    public activityId: number;
 }
 
 export class SingleLocationFilter implements IFilter

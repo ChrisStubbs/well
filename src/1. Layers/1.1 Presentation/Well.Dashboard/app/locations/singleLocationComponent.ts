@@ -121,7 +121,7 @@ export class SingleLocationComponent implements IObservableAlive
         this.gridSource = [];
 
         _.chain(this.fillGridSource())
-            .groupBy((current: SingleLocation) => current.invoice)
+            .groupBy((current: SingleLocation) => current.activityId)
             .forEach(current =>
             {
                 const accumulator = new SingleLocationGroup();

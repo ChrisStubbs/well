@@ -22,6 +22,8 @@ namespace PH.Well.Domain
 
         public int Sequence { get; set; }
 
+        public int ActivityId { get; set; }
+
         public string JobTypeCode { get; set; }
 
         public string JobType { get; set; }

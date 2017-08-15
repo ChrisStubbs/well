@@ -19,7 +19,8 @@ BEGIN
 		rh.DriverName AS Driver,
 		rh.RouteDate AS [Date],
 		CASE WHEN j.OuterDiscrepancyFound = 1 THEN (TotalOutersShort - DetailOutersShort) ELSE 0 END AS Tba,
-		j.ResolutionStatusId ResolutionStatus
+		j.ResolutionStatusId ResolutionStatus,
+		s.Location_Id as LocationId
 	FROM Activity av 
 		INNER JOIN Job j ON j.ActivityId = av.Id
 		INNER JOIN Account a on a.LocationId = av.LocationId and a.StopId = j.StopId

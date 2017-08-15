@@ -56,17 +56,10 @@
             foreach (var stop in stops)
             {
                 var stopJobs = jobs
-                    .Select(p => new
-                    {
-                        obj = p,
-                        jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode)
-                    })
-                    .Where(p => p.jobType != JobType.Documents && p.obj.StopId == stop.Id)
-                    .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
+                    .Where(j => j.JobTypeEnumValue != JobType.Documents && j.StopId == stop.Id)
                     .ToList();
                 
               //  var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
-
                 // jobs may be grouped together for delivery, indicated by the OuterCount (ie all jobs
                 // counted together for a stop have the same OuterCount)
                 // All the jobs grouped together should have the same to be advised count 

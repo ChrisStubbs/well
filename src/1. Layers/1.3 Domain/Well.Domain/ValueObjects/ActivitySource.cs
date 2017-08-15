@@ -31,7 +31,7 @@
         public ResolutionStatus ResolutionStatus { get; set; }
         public string Resolution => ResolutionStatus.Description;
         public int ResolutionId => ResolutionStatus.Value;
-
+        public int LocationId { get; set; }
     }
 
     public class ActivitySourceDetail

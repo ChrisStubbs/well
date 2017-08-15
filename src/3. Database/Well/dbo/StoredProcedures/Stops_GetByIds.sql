@@ -31,7 +31,7 @@ BEGIN
 		  ,s.[DateCreated]
 		  ,s.[UpdatedBy]
 		  ,s.[DateUpdated]
-		  ,s.[Location_Id]
+		  ,s.[Location_Id] as LocationId
 		  ,ssv.WellStatusId as WellStatus
 	FROM 
 		[dbo].[Stop] s

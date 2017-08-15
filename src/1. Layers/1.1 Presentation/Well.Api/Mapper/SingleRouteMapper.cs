@@ -129,7 +129,8 @@
                         WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus),
                         GrnProcessType =  job.GrnProcessType ?? 0,
                         GrnNumber =  job.GrnNumber,
-                        PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id]
+                        PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id],
+                        LocationId = stop.LocationId
                     };
 
                     singleRoute.Items.Add(item);

@@ -150,7 +150,10 @@
                 return new ActionSubmitSummary { Summary = result.Message };
             }
 
-            return actionSummaryMapper.Map(submitAction, isStopLevel, jobs);
+            var summary = actionSummaryMapper.Map(submitAction, isStopLevel, jobs);
+            summary.Warnings = result.Warnings;
+
+            return summary;
         }
 
     }

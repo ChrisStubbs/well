@@ -71,14 +71,14 @@
                                                           $"{incorrectStateJobstring}."
                 };
             }
-
-            var result = HasEarliestSubmitDateBeenReached(pendingSubmissionJobs);
+            var result = new SubmitActionResult {IsValid = true};
+            HasEarliestSubmitDateBeenReached(pendingSubmissionJobs, result);
             if (!result.IsValid)
             {
                 return result;
             }
 
-            result = ValidateJobsCanBeEdited(pendingSubmissionJobs);
+            ValidateJobsCanBeEdited(pendingSubmissionJobs, result);
             if (!result.IsValid)
             {
                 return result;
@@ -86,28 +86,22 @@
 
             if (HaveItemsToCredit(jobList))
             {
-                result = ValidateUserForCrediting();
+                ValidateUserForCrediting(result);
             }
 
             return result;
         }
 
-        public virtual SubmitActionResult HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs)
+        public virtual void HasEarliestSubmitDateBeenReached(IList<Job> unsubmittedJobs, SubmitActionResult result)
         {
             var jobsBeforeEarliestSubmitDate =
                 unsubmittedJobs.Where(x => DateTime.Now < dateThresholdService.GracePeriodEnd(
                                                x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())).ToArray();
-
             if (jobsBeforeEarliestSubmitDate.Any())
             {
-                var jobError = string.Join(",", jobsBeforeEarliestSubmitDate.Select(
-                    x => $"{x.Id}: earliest credit date: {dateThresholdService.GracePeriodEnd(x.JobRoute.RouteDate, x.JobRoute.BranchId, x.GetRoyaltyCode())}"
-                ).Distinct());
-
-                return new SubmitActionResult { IsValid = false, Message = $"Job nos: '{jobError}' have not reached the earliest credit date so can not be submitted." };
+                result.Warnings.Add(
+                    @"Please note: Invoice(s) still within grace period. If you continue, any additional credits for this invoice(s) will require manual processing");
             }
-
-            return new SubmitActionResult { IsValid = true };
         }
 
         public virtual bool HaveItemsToCredit(IList<Job> jobs)
@@ -115,30 +109,27 @@
             return jobs.Any(job => job.GetAllLineItemActions().Any(x => x.DeliveryAction == DeliveryAction.Credit));
         }
 
-        public virtual SubmitActionResult ValidateUserForCrediting()
+        public virtual void ValidateUserForCrediting(SubmitActionResult result)
         {
             var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
 
             if (user == null)
             {
-                return new SubmitActionResult { Message = $"User not found ({username})" };
+                result.IsValid = false;
+                result.Message = $"User not found ({username})";
+                return;
             }
 
             if (!user.CreditThresholdId.HasValue)
             {
-                return new SubmitActionResult { Message = $"You must be assigned a threshold level before crediting." };
+                result.IsValid = false;
+                result.Message = $"You must be assigned a threshold level before crediting.";
             }
-
-            return new SubmitActionResult { IsValid = true };
         }
 
-        public virtual SubmitActionResult ValidateJobsCanBeEdited(IEnumerable<Job> jobs)
+        public virtual void ValidateJobsCanBeEdited(IEnumerable<Job> jobs, SubmitActionResult result)
         {
-            var result = new SubmitActionResult
-            {
-                IsValid = true,
-            };
             var user = userNameProvider.GetUserName();
             var nonEditableJobs = new List<Job>();
             foreach (var job in jobs)
@@ -156,7 +147,6 @@
                     "Can not submit exceptions for jobs. Following jobs are not editable " +
                     $"{string.Join(",", nonEditableJobs.Select(x => $"JobId:{x.Id} Invoice:{x.InvoiceNumber} Status: {x.ResolutionStatus} "))}";
             }
-            return result;
         }
     }
 }

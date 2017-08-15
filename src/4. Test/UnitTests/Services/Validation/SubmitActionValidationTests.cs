@@ -1,4 +1,5 @@
-﻿using PH.Well.Services.Contracts;
+﻿using System.Linq;
+using PH.Well.Services.Contracts;
 using PH.Well.UnitTests.Factories;
 
 namespace PH.Well.UnitTests.Services.Validation
@@ -41,9 +42,10 @@ namespace PH.Well.UnitTests.Services.Validation
             [Test]
             public void ShouldReturnInvalidIfUserNotFound()
             {
+                SubmitActionResult result = new SubmitActionResult {IsValid = true};
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
                 userRepository.Setup(x => x.GetByIdentity("Me")).Returns((User)null);
-                var result = validator.ValidateUserForCrediting();
+                validator.ValidateUserForCrediting(result);
 
                 Assert.That(result.IsValid, Is.False);
             }
@@ -51,10 +53,10 @@ namespace PH.Well.UnitTests.Services.Validation
             [Test]
             public void ShouldReturnInvalidIfNoThresholdLevel()
             {
+                var result = new SubmitActionResult { IsValid = true };
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
                 userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = null });
-
-                var result = validator.ValidateUserForCrediting();
+                validator.ValidateUserForCrediting(result);
 
                 Assert.That(result.IsValid, Is.False);
             }
@@ -62,9 +64,10 @@ namespace PH.Well.UnitTests.Services.Validation
             [Test]
             public void ShouldReturnValidIfUserFoundAndThresholdLevelSet()
             {
+                var result = new SubmitActionResult() {IsValid = true};
                 userNameProvider.Setup(x => x.GetUserName()).Returns("Me");
                 userRepository.Setup(x => x.GetByIdentity("Me")).Returns(new User { CreditThresholdId = 1 });
-                var result = validator.ValidateUserForCrediting();
+                validator.ValidateUserForCrediting(result);
 
                 Assert.That(result.IsValid, Is.True);
             }
@@ -140,18 +143,25 @@ namespace PH.Well.UnitTests.Services.Validation
             }
 
             [Test]
-            public void ShouldReturnInvalidIfEarliestSubmissionDateHasNotBeenReached()
+            public void ShouldReturnValidWithWarningIfEarliestSubmissionDateHasNotBeenReached()
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
-                this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
+                this.jobs.Add(
+                    new Job {ResolutionStatus = ResolutionStatus.PendingSubmission, JobRoute = new JobRoute()});
 
-                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = false, Message = "Error" });
+                var date = DateTime.Now;
+                dateThresholdService
+                    .Setup(x => x.GracePeriodEnd(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(date.AddDays(1));
+
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(It.IsAny<IEnumerable<Job>>(),
+                    It.IsAny<SubmitActionResult>()));
 
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
-                Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"Error"));
+                Assert.True(result.IsValid);
+                Assert.True(result.Warnings.Any());
             }
 
             [Test]
@@ -161,14 +171,14 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
-                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
+                var setResultValid = new Action<IEnumerable<Job>, SubmitActionResult>((j, r) => r.IsValid = true);
+                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(false);
-                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
-                stubbedValidator.Verify(x => x.ValidateUserForCrediting(), Times.Never);
+                stubbedValidator.Verify(x => x.ValidateUserForCrediting(new SubmitActionResult()), Times.Never);
                 Assert.That(result.IsValid, Is.True);
-
             }
 
             [Test]
@@ -178,13 +188,18 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
-                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
-                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
+                var setResultValid = new Action<IEnumerable<Job>, SubmitActionResult>((j, r) => r.IsValid = true);
+                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
+
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
-                stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = false, Message = "User Not Valid" });
+                stubbedValidator.Setup(x => x.ValidateUserForCrediting(It.IsAny<SubmitActionResult>())).Callback<SubmitActionResult>(r =>
+                {
+                    r.IsValid = false;
+                    r.Message = "User Not Valid";
+                });
 
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
-
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"User Not Valid"));
@@ -197,10 +212,13 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
-                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
-                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
+                stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs, It.IsAny<SubmitActionResult>()))
+                    .Callback<IList<Job>, SubmitActionResult>((j, r) => r.IsValid = true);
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs, It.IsAny<SubmitActionResult>()))
+                    .Callback<IEnumerable<Job>, SubmitActionResult>((j, r) => r.IsValid = true);
+                stubbedValidator.Setup(x => x.ValidateUserForCrediting(It.IsAny<SubmitActionResult>()))
+                    .Callback<SubmitActionResult>(r => r.IsValid = true);
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
-                stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = true });
 
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
@@ -220,7 +238,7 @@ namespace PH.Well.UnitTests.Services.Validation
             }
 
             [Test]
-            public void ShouldReturnInvalidIfRouteDateGreaterThatEarliestCreditDate()
+            public void ShouldReturnValidWithWarningIfRouteDateGreaterThatEarliestCreditDate()
             {
                 unsubmittedJobs.Add(new Job { Id = 1, JobRoute = new JobRoute { JobId = 1, BranchId = 1, RouteDate = DateTime.Today } });
                 unsubmittedJobs.Add(new Job { Id = 2, JobRoute = new JobRoute { JobId = 2, BranchId = 2, RouteDate = DateTime.Today } });
@@ -229,11 +247,11 @@ namespace PH.Well.UnitTests.Services.Validation
                 dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 1, 0)).Returns(DateTime.Today);
                 dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
+                var result = new SubmitActionResult {IsValid = true};
+                validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray(), result);
 
-                var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
-
-                Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"Job nos: '2: earliest credit date: {DateTime.Today.AddDays(1)}' have not reached the earliest credit date so can not be submitted."));
+                Assert.That(result.IsValid, Is.True);
+                Assert.True(result.Warnings.Any());
             }
 
             [Test]
@@ -244,7 +262,8 @@ namespace PH.Well.UnitTests.Services.Validation
                 dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 1, 0)).Returns(DateTime.Today);
                 dateThresholdService.Setup(x => x.GracePeriodEnd(DateTime.Today, 2, 0)).Returns(DateTime.Today.AddDays(1));
 
-                var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
+                var result = new SubmitActionResult { IsValid = true };
+                validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray(), result);
 
                 Assert.That(result.IsValid, Is.True);
             }
@@ -257,7 +276,8 @@ namespace PH.Well.UnitTests.Services.Validation
                 dateThresholdService.Setup(x => x.RouteGracePeriodEnd(DateTime.Today, 1)).Returns(DateTime.Today);
                 dateThresholdService.Setup(x => x.RouteGracePeriodEnd(DateTime.Today, 2)).Returns(DateTime.Today.AddDays(1));
 
-                var result = validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray());
+                var result = new SubmitActionResult { IsValid = true };
+                validator.HasEarliestSubmitDateBeenReached(unsubmittedJobs.ToArray(), result);
 
                 Assert.That(result.IsValid, Is.True);
             }
@@ -295,7 +315,7 @@ namespace PH.Well.UnitTests.Services.Validation
             public void ShouldUseJobServiceToValidateCanBeEdited()
             {
                 var job = JobFactory.New.Build();
-                validator.ValidateJobsCanBeEdited(new[] {job});
+                validator.ValidateJobsCanBeEdited(new[] {job}, new SubmitActionResult());
                 jobService.Verify(x => x.CanEdit(job, It.IsAny<string>()), Times.Once);
             }
         }

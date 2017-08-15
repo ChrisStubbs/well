@@ -28,5 +28,6 @@
         public int GrnProcessType { get; set; }
         public string GrnNumber { get; set; }
         public bool CanEdit { get; set; }
+        public int LocationId { get; set; }
     }
 }

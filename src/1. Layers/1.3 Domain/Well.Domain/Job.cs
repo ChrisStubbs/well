@@ -188,5 +188,7 @@ namespace PH.Well.Domain
             return default(int);
 
         }
+
+        public int LocationId { get; set; }
     }
 }

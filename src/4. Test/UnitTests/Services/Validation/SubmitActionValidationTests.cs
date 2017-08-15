@@ -163,6 +163,7 @@ namespace PH.Well.UnitTests.Services.Validation
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(false);
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 var result = stubbedValidator.Object.Validate(submitAction, jobs);
 
                 stubbedValidator.Verify(x => x.ValidateUserForCrediting(), Times.Never);
@@ -178,6 +179,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
                 stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = false, Message = "User Not Valid" });
 
@@ -196,6 +198,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.PendingSubmission });
 
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs)).Returns(new SubmitActionResult { IsValid = true });
+                stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs)).Returns(new SubmitActionResult { IsValid = true });
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
                 stubbedValidator.Setup(x => x.ValidateUserForCrediting()).Returns(new SubmitActionResult { IsValid = true });
 

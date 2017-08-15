@@ -32,5 +32,6 @@
         public int GrnProcessType { get; set; }
         public string GrnNumber { get; set; }
         public string PrimaryAccountNumber { get; set; }
+        public int LocationId { get; set; }
     }
 }

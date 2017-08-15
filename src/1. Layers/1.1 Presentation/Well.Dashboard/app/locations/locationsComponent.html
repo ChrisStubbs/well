@@ -36,35 +36,35 @@
                                 </select>
                             </div>
                         </th>
-                        <th style="width: 15%">
+                        <!--<th style="width: 15%">
                             <div class="text-center">Primary Account Number</div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.primaryAccountNumber" (keyup)="filterFreeText()" class="form-control">
                             </div>
-                        </th>
-                        <th style="width: 11%">
+                        </th>-->
+                        <th>
                             <div class="text-center">Account Number</div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.accountNumber" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
-                        <th style="width: 16%">
+                        <th>
                             <div class="text-center">Account Name</div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.accountName" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
-                        <th style="width: 15%">
+                        <th>
                             <div class="text-center">Address</div>
                             <div>
                                 <input type="text" [(ngModel)]="filters.address" (keyup)="filterFreeText()" class="form-control">
                             </div>
                         </th>
-                        <th style="width: 6%">
+                        <th>
                             <div class="text-center">Invoices</div>
                             <div class="form-control-placeholder">&nbsp;</div>
                         </th>
-                        <th style="width: 14%" colspan="2">
+                        <th colspan="2">
                             <div class="text-center col-md-6">Exceptions</div>
                             <div class="text-center col-md-6">Clean</div>
                             <div>
@@ -79,11 +79,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of gridSource | paginate: { itemsPerPage: 10, currentPage: p }">
-                        <td><span>{{item.branch}}</span>&nbsp;(<span>{{item.branchId}}</span>)</td>
-                        <td><a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.primaryAccountNumber, branchId: item.branchId}">{{item.primaryAccountNumber}}</a></td>
+                        <td><span>{{item.branch}}</span></td>
+                        <!--<td><a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.primaryAccountNumber, branchId: item.branchId}">{{item.primaryAccountNumber}}</a></td>-->
                         <td>{{item.accountNumber}}</td>
                         <td>{{item.accountName}}</td>
-                        <td>{{item.address}}</td>
+                        <td><a [routerLink]="['/singlelocation']" [queryParams]="{locationId: item.id}">{{item.address}}</a></td>
                         <td class="text-right">{{item.totalInvoices}}</td>
                         <td class="text-right">{{item.exceptions}}</td>
                         <td class="text-right">{{item.cleans}}</td>

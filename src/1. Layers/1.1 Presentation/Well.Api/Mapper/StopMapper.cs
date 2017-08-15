@@ -94,7 +94,8 @@ namespace PH.Well.Api.Mapper
                                 GrnProcessType = p.GrnProcessType ?? 0,
                                 HasUnresolvedActions = HasUnresolvedAction(p, line.LineItemId),
                                 GrnNumber = p.GrnNumber,
-                                CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName())
+                                CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
+                                LocationId = p.LocationId
                             }
                         })
                         .ToList();

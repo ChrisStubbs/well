@@ -83,7 +83,7 @@ export class SingleLocationComponent implements IObservableAlive
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
                     this.lookupService.get(LookupsEnum.JobType),
-                    this.locationsService.getSingleLocation(data.id, data.accountNumber, <number>data.branchId),
+                    this.locationsService.getSingleLocation((<any>data).locationId),
                     this.lookupService.get(LookupsEnum.WellStatus)
                 );
             })
@@ -121,7 +121,7 @@ export class SingleLocationComponent implements IObservableAlive
         this.gridSource = [];
 
         _.chain(this.fillGridSource())
-            .groupBy((current: SingleLocation) => current.invoice)
+            .groupBy((current: SingleLocation) => current.activityId)
             .forEach(current =>
             {
                 const accumulator = new SingleLocationGroup();

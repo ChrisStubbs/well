@@ -47,6 +47,8 @@ AS
 		,jb.Abbreviation AS JobTypeAbbreviation
 		,CAST(j.ResolutionStatusId as INTEGER) AS ResolutionStatus
 		,OuterCount
+		,j.ActivityId
+		,ac.LocationId
 	FROM 
 		dbo.Job j
 		INNER JOIN @Ids ids ON ids.Value = j.Id
@@ -76,6 +78,7 @@ AS
 				j.JobId
 		) credit
 			ON credit.JobId = j.Id
+		LEFT JOIN Activity ac on ac.Id = j.ActivityId
 
 	SELECT  d.Id, d.LineNumber, d.PHProductCode, d.OriginalDespatchQty, d.DeliveredQty, d.ProdDesc, d.OrderedQty, d.ShortQty, d.ShortsActionId, d.JobDetailReasonId, d.JobDetailSourceId, d.UnitMeasure, 
             d.PHProductType, 

@@ -133,7 +133,7 @@
             return new SubmitActionResult { IsValid = true };
         }
 
-        public SubmitActionResult ValidateJobsCanBeEdited(IEnumerable<Job> jobs)
+        public virtual SubmitActionResult ValidateJobsCanBeEdited(IEnumerable<Job> jobs)
         {
             var result = new SubmitActionResult
             {

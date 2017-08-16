@@ -297,7 +297,14 @@
             {
                 var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "AGENCYDRV");
 
-                return attribute?.Value;
+                if (attribute?.Value != null)
+                {
+                    return "AGENCY- " + attribute?.Value;
+                }
+                else
+                {
+                    return attribute?.Value;
+                }
             }
         }
 

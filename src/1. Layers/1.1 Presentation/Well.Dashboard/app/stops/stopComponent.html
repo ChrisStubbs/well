@@ -229,7 +229,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Account: </label>
-                                    <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: item.account, branchId: stop.branchId}">{{item.account}}</a>
+                                    <a [routerLink]="['/singlelocation']" [queryParams]="{locationId: item.locationId}">{{item.account}}</a>
                                     <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>

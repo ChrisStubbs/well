@@ -133,7 +133,7 @@ export class StopComponent implements IObservableAlive
                 _.chain(data.items)
                     .map((current: StopItem) =>
                     {
-                        return current.type + ' (' + current.jobTypeAbbreviation + ')';
+                        return current.type;
                     })
                     .uniq()
                     .map((current: string) =>
@@ -331,6 +331,7 @@ export class StopComponent implements IObservableAlive
                     .value();
                 item.grnProcessType = singleItem.grnProcessType;
                 item.grnNumber = singleItem.grnNumber;
+                item.locationId = singleItem.locationId;
 
                 values[singleItem.jobId] = item;
             })
@@ -573,4 +574,5 @@ class StopItemSource implements IGrnAssignable
     public items: Array<StopItem>;
     public grnNumber: string;
     public grnProcessType: number;
+    public locationId: number;
 }

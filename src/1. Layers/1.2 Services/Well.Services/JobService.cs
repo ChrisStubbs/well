@@ -130,9 +130,12 @@
                 : JobStatus.AwaitingInvoice;
         }
 
+        // global uplift never has an invoice number, standard uplift may not have an invoice number
         public void SetIncompleteJobStatus(Job job)
         {
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) || (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)))
+            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) || 
+                (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)) ||
+                (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-std", StringComparison.OrdinalIgnoreCase)))
             {
                 job.JobStatus = JobStatus.InComplete;
             }

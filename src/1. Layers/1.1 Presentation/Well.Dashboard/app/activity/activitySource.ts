@@ -25,6 +25,7 @@ export class ActivitySource
     public tba: number;
     public resolution: string;
     public resolutionId: number;
+    public locationId: number;
     public details: Array<ActivitySourceDetail>;
 }
 

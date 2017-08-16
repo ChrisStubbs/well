@@ -1,3 +1,5 @@
+using PH.Shared.Well.Data.EF;
+
 namespace PH.Well.Api.DependencyResolution
 {
     using Mapper;
@@ -34,6 +36,7 @@ namespace PH.Well.Api.DependencyResolution
                 });
 
             For<IUserNameProvider>().Use<UserNameProvider>();
+            For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<UserNameProvider>();
             For<IWellDbConfiguration>().Use<WellDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
@@ -50,7 +53,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
-
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -77,6 +79,9 @@ namespace PH.Well.Api.DependencyResolution
             For<IAmendmentRepository>().Use<AmendmentRepository>();
             For<IAmendmentFactory>().Use<AmendmentFactory>();
 
+            // EF Contexts
+            For<WellEntities>().Use<WellEntities>();
+
             // Mappers
             For<IBranchModelMapper>().Use<BranchModelMapper>();
             For<IDeliveryToDetailMapper>().Use<DeliveryToDetailMapper>();
@@ -90,20 +95,20 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
             For<IOrderImportMapper>().Use<OrderImportMapper>();
 
-            //delivery lines
+            // delivery lines
             For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
 
-            //routes
+            // routes
             For<IRouteReadRepository>().Use<RouteReadRepository>();
 
-            //search
+            // search
             For<IAppSearchService>().Use<AppSearchService>();
             For<IAppSearchReadRepository>().Use<AppSearchReadRepository>();
 
             For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
             For<IStopStatusService>().Use<StopStatusService>();
 
-            //Location/activity/line item
+            // Location/activity/line item
             For<ILocationRepository>().Use<LocationRepository>();
             For<IActivityReadRepository>().Use<ActivityReadRepository>();
             For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
@@ -112,7 +117,7 @@ namespace PH.Well.Api.DependencyResolution
             For<ILineItemActionRepository>().Use<LineItemActionRepository>();
             For<ILineItemActionService>().Use<LineItemActionService>();
 
-            //lookup
+            // lookup
             For<ILookupService>().Use<LookupService>();
             For<ILookupRepository>().Use<LookupRepository>();
 

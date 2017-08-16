@@ -441,6 +441,9 @@
     <None Include="ManualStep\scripts\up\023_Drop_Proc_JobIds_GetByBranchAccountPickListRefAndJobType.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\024_AddJobTypeIdToJob.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

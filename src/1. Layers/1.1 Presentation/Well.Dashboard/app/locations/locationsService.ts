@@ -32,16 +32,10 @@ export class LocationsService
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getSingleLocation(locationId?: string, account?: string, branchId?: number): Observable<SingleLocationHeader>
-    {
-        let url: string = this.globalSettingsService.globalSettings.apiUrl + 'SingleLocation?';
-
-        if (_.isNil(locationId)) {
-            url = url + 'accountNumber=' + encodeURIComponent(account) + '&branchId=' + branchId.toString();
-        }
-        else {
-            url = url + 'locationId=' + locationId.toString();
-        }
+    public getSingleLocation(locationId: number): Observable<SingleLocationHeader> {
+        const url: string = this.globalSettingsService.globalSettings.apiUrl +
+            'SingleLocation?locationId=' +
+            locationId.toString();
 
         return this.http.get(url)
             .map((response: Response) =>

@@ -185,6 +185,15 @@
                     }
                     newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
+                    foreach (var detail in job.JobDetails)
+                    {
+                        var newDetail = new JobDetail();
+                        this.mapper.Map(detail, newDetail);
+                        newDetail.JobId = newJob.Id;
+                        newDetail.ShortsStatus = JobDetailStatus.UnRes;
+                        this.jobDetailRepository.Save(newDetail);
+                    }
+
                     this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
                     updatedJobIds.Add(newJob.Id);
                 }

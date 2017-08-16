@@ -158,7 +158,7 @@
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
                             <td colspan="2" class="text-right">
-                                <a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: detail.primaryAccountNumber, branchId: branchId}">{{detail.account}}</a>
+                                <a [routerLink]="['/singlelocation']"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
                             </td>
                             <td>
                                 <a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>

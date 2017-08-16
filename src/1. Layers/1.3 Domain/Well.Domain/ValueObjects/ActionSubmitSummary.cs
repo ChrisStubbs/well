@@ -13,5 +13,6 @@
         public List<int> JobIds { get; set; }
         public string Summary { get; set; }
         public List<ActionSubmitSummaryItem> Items { get; set; }
+        public IList<string> Warnings { get; set; }
     }
 }

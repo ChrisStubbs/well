@@ -262,7 +262,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null))
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? "Unknown", DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -347,7 +347,7 @@
                         x => x.AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null), Times.Once);
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? "Unknown", DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16, null), Times.Once);

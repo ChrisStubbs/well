@@ -75,6 +75,7 @@ namespace PH.Well.Domain
         }
         public string Invoice { get; set; }
         public int JobId { get; set; }
+        public int ActivityId { get; set; }
         public string Assignee { get; set; }
         public bool IsInvoice { get; set; }
         public string AccountNumber { get; set; }

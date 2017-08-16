@@ -17,7 +17,7 @@ namespace PH.Well.UnitTests.Factories
             this.Entity.RouteHeaderId = 1;
             this.Entity.RouteHeaderCode = "0001";
             this.Entity.DropId = "01";
-            this.Entity.LocationId = "LOC001";
+            this.Entity.LocationId = 1;
             this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.ShellActionIndicator = "N";
             this.Entity.StopStatusCode = "a status";

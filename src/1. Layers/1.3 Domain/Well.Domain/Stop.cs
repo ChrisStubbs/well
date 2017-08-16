@@ -27,7 +27,7 @@
 
         public string DropId { get; set; }
 
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
 
         public DateTime? DeliveryDate { get; set; }
 

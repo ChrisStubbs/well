@@ -55,6 +55,7 @@ export class SingleRouteItem implements IGrnAssignable
     public grnNumber: string;
     public grnProcessType: number;
     public primaryAccountNumber: string;
+    public locationId: number;
 }
 
 export class SingleRouteSource

@@ -5,7 +5,7 @@
                 <a [routerLink]="['/locations']">Locations</a>
             </li>
             <li>
-                <a [routerLink]="['/singlelocation']" [queryParams]="{accountNumber: source.primaryAccount, branchId: source.branchId}">Location {{source.primaryAccount}}</a>
+                <a [routerLink]="['/singlelocation']" [queryParams]="{locationId: source.locationId}">Location {{source.primaryAccount}}</a>
             </li>
             <li class="active" *ngIf="source.isInvoice">Invoice {{source.itemNumber}}</li>
             <li class="active" *ngIf="!source.isInvoice">Uplift {{source.itemNumber}}</li>

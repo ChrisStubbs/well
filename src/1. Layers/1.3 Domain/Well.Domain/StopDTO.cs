@@ -67,7 +67,7 @@ namespace PH.Well.Domain
         }
 
         [XmlIgnore]
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
 
         [XmlIgnore]
         public DateTime? DeliveryDate { get; set; }

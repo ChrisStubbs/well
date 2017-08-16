@@ -13,6 +13,7 @@
         {
             this.Stops = new List<StopDTO>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlIgnore]
@@ -271,8 +272,12 @@
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
 
-        [XmlIgnore]
-        public object EntityAttributeValues { get; set; }
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
+
+        //[XmlIgnore]
+        //public object EntityAttributeValues { get; set; }
 
         [XmlIgnore]
         public string RouteOwner
@@ -280,6 +285,17 @@
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ROUTEOWNER");
+
+                return attribute?.Value;
+            }
+        }
+
+        [XmlIgnore]
+        public string AgencyDriverName
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "AGENCYDRV");
 
                 return attribute?.Value;
             }

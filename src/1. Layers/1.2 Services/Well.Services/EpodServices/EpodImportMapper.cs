@@ -41,7 +41,7 @@
             dbRouteHeader.DamagesRejected = fileRouteHeader.DamagesRejected;
             dbRouteHeader.DamagesAccepted = fileRouteHeader.DamagesAccepted;
             dbRouteHeader.ActualStopsCompleted = fileRouteHeader.ActualStopsCompleted;
-            dbRouteHeader.DriverName = fileRouteHeader.DriverName;
+            dbRouteHeader.DriverName = fileRouteHeader.AgencyDriverName ?? fileRouteHeader.DriverName;
 
             fileRouteHeader.Id = dbRouteHeader.Id;
             fileRouteHeader.RouteOwnerId = dbRouteHeader.RouteOwnerId;

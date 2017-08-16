@@ -230,7 +230,7 @@
                                 <td colspan="2">
                                     <label>Account: </label>
                                     <a [routerLink]="['/singlelocation']" [queryParams]="{locationId: item.locationId}">{{item.account}}</a>
-                                    <assignGrn-Modal *ngIf="isGrnRequired(item)" [model]="item"></assignGrn-Modal>
+                                    <assignGrn-Modal [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
                                 <td class="text-right">{{(item.resolutionId != 1)? item.totalInvoiced - (item.totalDamages + item.totalShorts) : 0}}</td>

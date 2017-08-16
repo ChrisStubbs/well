@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'crmLink',
-    template: '<span (click)="openLink()" style="cursor: pointer">' +
+    template: '<span (click)="openLink($event)" style="cursor: pointer">' +
         '<a target="_blank" href="#">{{linkText}}</a> ' +
         '<span class="glyphicon glyphicon-new-window"></span>' +
     '</span>',
@@ -26,8 +26,10 @@ export class CrmLinkController
             this.accountNumber);
     }
 
-    private openLink()
+    private openLink(event: any)
     {
         window.open(this.crmURL(), '_blank', '');
+
+        event.preventDefault();
     }
 }

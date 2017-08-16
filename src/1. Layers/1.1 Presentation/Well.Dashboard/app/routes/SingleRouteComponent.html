@@ -157,12 +157,13 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2" class="text-right">
+                            <td>&nbsp;</td>
+                            <td>
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
-                                <assignGrn-Modal *ngIf="detail.invoice && isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
+                                <div><a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a></div>
+                                <div><assignGrn-Modal *ngIf="detail.invoice" [model]="detail"></assignGrn-Modal></div>
                             </td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.wellStatusDescription}}</td>

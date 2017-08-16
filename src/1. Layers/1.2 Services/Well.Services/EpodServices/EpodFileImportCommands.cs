@@ -133,7 +133,7 @@
                     WriteHeader = true
                 };
 
-                this.exceptionEventRepository.InsertEvent(EventAction.GlobalUplift, globalUpliftEvent);
+                this.exceptionEventRepository.InsertGlobalUpliftEvent(globalUpliftEvent);
                 // insert a report event?
             }
 

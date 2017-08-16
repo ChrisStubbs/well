@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using PH.Shared.Well.Data.EF;
+
+namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -16,9 +18,12 @@
 
     public class ExceptionEventRepository : DapperRepository<ExceptionEvent, int>, IExceptionEventRepository
     {
-        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+        private readonly WellEntities wellEntities;
+
+        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider, WellEntities wellEntities)
             : base(logger, dapperProxy, userNameProvider)
         {
+            this.wellEntities = wellEntities;
         }
 
         public void InsertCreditEventTransaction(CreditTransaction creditTransaction)
@@ -50,33 +55,37 @@
                 .Execute();
         }
 
-        public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed)
+        public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed,string jobId)
         {
-            var grnEventJson = JsonConvert.SerializeObject(grnEvent);
-            this.PrepareStoredProcedure(grnEventJson, EventAction.Grn, dateCanBeProcessed)
-            .Execute();
+            InsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
+        }
+
+        public ExceptionEvent GetGrnExceptionEvent(string jobId)
+        {
+            var exceptionEvent = wellEntities.ExceptionEvent.FirstOrDefault(
+                x => x.ExceptionActionId == (int) EventAction.Grn && x.SourceId == jobId);
+
+
+        }
+
+        public ExceptionEvent GetPodExceptionEvent(string jobId)
+        {
+            throw new NotImplementedException();
         }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
         {
-            var podEventJson = JsonConvert.SerializeObject(podTransaction);
-
-            this.PrepareStoredProcedure(podEventJson, EventAction.PodTransaction, DateTime.Now)
-            .Execute();
+            InsertEvent(podTransaction,EventAction.PodTransaction, DateTime.Now);
         }
 
-        public void InsertPodEvent(PodEvent podEvent)
+        public void InsertPodEvent(PodEvent podEvent, string jobId)
         {
-            var podEventJson = JsonConvert.SerializeObject(podEvent);
-            this.PrepareStoredProcedure(podEventJson, EventAction.Pod, DateTime.Now.Date.AddDays(1))
-            .Execute();
+            InsertEvent(podEvent, EventAction.Pod, DateTime.Now.Date.AddDays(1), jobId);
         }
 
-        public void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null)
+        public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent)
         {
-            var eventDataJson = JsonConvert.SerializeObject(eventData);
-            this.PrepareStoredProcedure(eventDataJson, action, dateCanBeProcessed ?? DateTime.Now)
-            .Execute();
+            InsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now);
         }
 
         public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)
@@ -104,10 +113,27 @@
 
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
         {
-            var amendmentEventJson = JsonConvert.SerializeObject(amendmentEvent);
+            InsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
+        }
 
-            this.PrepareStoredProcedure(amendmentEventJson, EventAction.Amendment, DateTime.Now)
-            .Execute();
+        private void InsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,
+            string sourceId = null)
+        {
+            string eventDataJson = null;
+            if (eventData != null)
+            {
+                eventDataJson = JsonConvert.SerializeObject(eventData);
+            }
+
+            wellEntities.ExceptionEvent.Add(new Shared.Well.Data.EF.ExceptionEvent
+            {
+                Event = eventDataJson,
+                ExceptionActionId = (int) action,
+                DateCanBeProcessed = dateCanBeProcessed,
+                SourceId = sourceId
+            });
+
+            wellEntities.SaveChanges();
         }
 
         private IDapperProxy PrepareStoredProcedure(string stringEvent, EventAction action, DateTime dateCanBeProcessed)

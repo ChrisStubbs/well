@@ -18,16 +18,20 @@ namespace PH.Well.Repositories.Contracts
 
         void RemovedPendingCredit(int jobId);
 
-        void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed);
+        void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed, string jobId);
 
-        void InsertPodEvent(PodEvent podEvent);
+        ExceptionEvent GetGrnExceptionEvent(string jobId);
+
+        void InsertPodEvent(PodEvent podEvent, string jobId);
+
+        ExceptionEvent GetPodExceptionEvent(string jobId);
 
         void InsertPodTransaction(PodTransaction podTransaction);
 
         void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
 
-        Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent);
+        void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent);
 
-        void InsertEvent(EventAction action, object eventData, DateTime? dateCanBeProcessed = null);
+        Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent);
     }
 }

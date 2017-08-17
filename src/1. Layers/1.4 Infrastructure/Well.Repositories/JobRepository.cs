@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using PH.Shared.Well.Data.EF;
 
 namespace PH.Well.Repositories
 {
@@ -16,9 +18,12 @@ namespace PH.Well.Repositories
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
-        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider)
+        private readonly WellEntities wellEntities;
+
+        public JobRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider, WellEntities wellEntities)
             : base(logger, dapperProxy, userNameProvider)
         {
+            this.wellEntities = wellEntities;
         }
 
         public Job GetById(int id)
@@ -35,11 +40,38 @@ namespace PH.Well.Repositories
             return GetByIds(jobIds);
         }
 
+        private IEnumerable<JobDetailLineItemTotals> ToLineItemTotals(IEnumerable<JobDetail> )
+
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)
+            wellEntities.Database.Log = Console.WriteLine;
+
+            var totals = wellEntities.JobDetail.Where(x => x.Job.StopId == stopId).Select(x => new
+            {
+                x.Id,
+                BypassTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Bypass)
+                    .Sum(y => (int?) y.Quantity),
+                DamageTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Damage)
+                    .Sum(y => (int?) y.Quantity),
+                ShortTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Short)
+                    .Sum(y => (int?) y.Quantity),
+                TotalExceptions = x.LineItem.LineItemAction.Count(),
+            }).Select(x => new JobDetailLineItemTotals
+            {
+                JobDetailId = x.Id,
+                BypassTotal = x.BypassTotal ?? 0,
+                DamageTotal = x.DamageTotal ?? 0,
+                ShortTotal = x.ShortTotal ?? 0,
+                TotalExceptions = x.TotalExceptions,
+            });
+
+            return totals;
+
+            var result = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)
                .AddParameter("StopId", stopId, DbType.Int32)
                .Query<JobDetailLineItemTotals>();
+
+            return result;
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)

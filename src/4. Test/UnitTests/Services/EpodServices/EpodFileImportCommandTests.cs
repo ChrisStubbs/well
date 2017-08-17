@@ -74,7 +74,7 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(),It.IsAny<string>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var routeHeader = RouteHeaderFactory.New.Build();
@@ -94,7 +94,7 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithoutEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(),It.IsAny<string>()));
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var branchId = 22;
                 var routeDate = DateTime.Now;
@@ -115,7 +115,7 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var routeHeader = RouteHeaderFactory.New.Build();
@@ -132,7 +132,7 @@
             [Test]
             public void ShouldNotInsertEventForCompletedOnPaperPod()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New
                                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
@@ -142,13 +142,13 @@
                 var routeHeader = RouteHeaderFactory.New.Build();
 
                 commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
-                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Never);
+                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()), Times.Never);
             }
 
             [Test]
             public void ShouldInsertEventForPod()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New
                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
@@ -159,8 +159,8 @@
                 commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
                 exceptionEventRepository.Verify(x => x.InsertPodEvent(It.Is<PodEvent>(
                     pod => pod.Id == existingJob.Id && pod.BranchId == routeHeader.RouteOwnerId
-                )), Times.Once);
-                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>()), Times.Once);
+                ), It.IsAny<string>()), Times.Once);
+                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()), Times.Once);
             }
         }
 

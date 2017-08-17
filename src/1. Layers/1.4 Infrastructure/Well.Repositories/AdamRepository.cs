@@ -468,7 +468,7 @@
                 };
 
                 // Insert uplift event
-                eventRepository.InsertEvent(EventAction.GlobalUplift, upliftEvent);
+                eventRepository.InsertGlobalUpliftEvent(upliftEvent);
             }
 
             return result;

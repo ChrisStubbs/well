@@ -44,6 +44,7 @@
                     x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();
                     x.For<IGetJobResolutionStatus>().Use<JobService>();

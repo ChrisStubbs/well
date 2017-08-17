@@ -54,6 +54,11 @@
             UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false);
         }
 
+        public void UpdateWithEvents(Job existingJob, int branchId, DateTime routeDate)
+        {
+            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true);
+        }
+
         public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
             UpdateExistingJobWithEvents(fileJob, existingJob, routeHeader);
@@ -69,32 +74,37 @@
         public virtual void UpdateExistingJob(Job fileJob, Job existingJob, int branchId, DateTime routeDate, bool createEvents)
         {
             this.epodImportMapper.MapJob(fileJob, existingJob);
-           
+
             this.jobService.DetermineStatus(existingJob, branchId);
 
-            if (createEvents && existingJob.IsGrnNumberRequired)
+            if (createEvents && existingJob.IsGrnNumberRequired &&
+                !exceptionEventRepository.GrnEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()));
+                    dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()),
+                    existingJob.Id.ToString());
             }
 
             this.UpdateJobDetails(
                 fileJob.JobDetails,
                 existingJob.Id);
 
-            if (createEvents && existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper)
+            if (createEvents && existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper &&
+                !exceptionEventRepository.PodEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var podEvent = new PodEvent
                 {
                     BranchId = branchId,
                     Id = existingJob.Id
                 };
-                this.exceptionEventRepository.InsertPodEvent(podEvent);
+                this.exceptionEventRepository.InsertPodEvent(podEvent, existingJob.Id.ToString());
             }
 
-            if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed)
+            // GRN event shouldn probably be created during epod update
+            if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed &&
+                !exceptionEventRepository.GlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var globalJobDetail = existingJob.JobDetails.FirstOrDefault();
 
@@ -133,7 +143,7 @@
                     WriteHeader = true
                 };
 
-                this.exceptionEventRepository.InsertEvent(EventAction.GlobalUplift, globalUpliftEvent);
+                this.exceptionEventRepository.InsertGlobalUpliftEvent(globalUpliftEvent, existingJob.Id.ToString());
                 // insert a report event?
             }
 

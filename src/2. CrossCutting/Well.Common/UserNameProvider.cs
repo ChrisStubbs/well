@@ -5,7 +5,7 @@
 
     using PH.Well.Common.Contracts;
 
-    public class UserNameProvider : IUserNameProvider
+    public class UserNameProvider : IUserNameProvider, PH.Common.Security.Interfaces.IUserNameProvider
     {
         public string GetUserName()
         {

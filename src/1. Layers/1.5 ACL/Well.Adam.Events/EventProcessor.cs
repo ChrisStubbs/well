@@ -87,9 +87,16 @@
                                 upliftEvent.WriteLine, upliftEvent.WriteHeader, upliftEvent.CsfNumber, upliftEvent.CustomerReference);
 
                             // Process event
-                            adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
-                            // Delete event
-                            exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
+                            var result = adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
+                            if (result == AdamResponse.Success)
+                            {
+                                exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
+                            }
+                            else
+                            { 
+                                // Delete event since it will be recreated in adam repository
+                                exceptionEventRepository.Delete(eventToProcess.Id);
+                            }
                             break;
 
                     }

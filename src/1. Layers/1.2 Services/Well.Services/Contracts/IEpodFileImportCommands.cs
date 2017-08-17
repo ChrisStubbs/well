@@ -10,6 +10,8 @@
 
         void UpdateWithoutEvents(Job existingJob, int branchId, DateTime routeDate);
 
+        void UpdateWithEvents(Job existingJob, int branchId, DateTime routeDate);
+
         IList<Job> RunPostInvoicedProcessing(IList<int> updatedJobIds);
     }
 }

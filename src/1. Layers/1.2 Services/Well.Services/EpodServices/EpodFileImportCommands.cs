@@ -54,6 +54,11 @@
             UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false);
         }
 
+        public void UpdateWithEvents(Job existingJob, int branchId, DateTime routeDate)
+        {
+            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true);
+        }
+
         public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
             UpdateExistingJobWithEvents(fileJob, existingJob, routeHeader);

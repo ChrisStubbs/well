@@ -73,10 +73,5 @@
         {
             return "AdamEventUpdater";
         }
-
-        public string ChangeUserName(string userName)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

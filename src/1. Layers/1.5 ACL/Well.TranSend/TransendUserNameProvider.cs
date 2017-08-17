@@ -13,10 +13,5 @@ namespace PH.Well.TranSend
         {
             return "TransendImport";
         }
-
-        public string ChangeUserName(string userName)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

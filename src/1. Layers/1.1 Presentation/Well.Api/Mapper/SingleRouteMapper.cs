@@ -97,8 +97,6 @@
                         Stop = stop.DropId,
                         StopStatus = status,
                         Previously = stop.Previously,
-                        //StopExceptions = jobExceptions,
-                        //StopClean = stopClean,
                         Tba = jobGroupToBeAdvised
                             .Where(x => x.OuterCountId == job.OuterCount)
                             .Select(y => y.ToBeAdvisedCount).FirstOrDefault(),
@@ -123,7 +121,8 @@
                         GrnProcessType =  job.GrnProcessType ?? 0,
                         GrnNumber =  job.GrnNumber,
                         PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id],
-                        LocationId = stop.LocationId
+                        LocationId = stop.LocationId,
+                        HasUnresolvedActions = job.HasLineItemsWithUnresolvedAction(),
                     };
 
                     singleRoute.Items.Add(item);

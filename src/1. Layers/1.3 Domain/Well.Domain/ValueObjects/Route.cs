@@ -54,6 +54,9 @@ namespace PH.Well.Domain.ValueObjects
         public List<Assignee> Assignees { get; set; }
 
         public List<int> JobIds { get; set; }
-    }
 
+        public bool HasNotDefinedDeliveryAction { get; set; }
+
+        public bool NoGRNButNeeds { get; set; }
+    }
 }

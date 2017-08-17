@@ -1,4 +1,4 @@
-<span type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>
+<span *ngIf="linkText() != notRequired" type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>
 
 <div *ngIf="isVisible" class="modal fade in show" id="assignGrn-Modal">
     <div class="modal-dialog">

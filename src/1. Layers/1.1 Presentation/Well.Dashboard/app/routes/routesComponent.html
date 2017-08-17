@@ -9,6 +9,16 @@
 <div class="content">
     <div class="row">
         <div class="col-md-11">
+            <tooltip-content #uncompletedJobs placement="top">
+                <span>Only show routes with one or more jobs with pending actions or empty but mandatory GRN</span>
+            </tooltip-content>
+            <label for="filterUncompletedJobs">Show pending action Jobs</label>
+            <input id="filterUncompletedJobs" type="checkbox" (change)="filterUncompletedJob()" [(ngModel)]="routeFilter.uncompletedJob">
+            <a href="#" aria-hidden="true" (click)="$event.preventDefault()"
+               [tooltip]="uncompletedJobs"
+               tooltipPlacement="right">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
         </div>
         <div class="col-md-1 pull-right">
             <div class="pull-right">

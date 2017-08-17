@@ -92,7 +92,7 @@ namespace PH.Well.Api.Mapper
                                 Resolution = p.ResolutionStatus.Description,
                                 ResolutionId = p.ResolutionStatus.Value,
                                 GrnProcessType = p.GrnProcessType ?? 0,
-                                HasUnresolvedActions = HasUnresolvedAction(p, line.LineItemId),
+                                HasUnresolvedActions = p.HasLineItemsWithUnresolvedAction(line.LineItemId),
                                 GrnNumber = p.GrnNumber,
                                 CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
                                 LocationId = p.LocationId
@@ -111,16 +111,6 @@ namespace PH.Well.Api.Mapper
                     return line.StopModelItem;
                 })
                 .ToList();
-        }
-
-        private static bool HasUnresolvedAction(Job job, int lineItemId)
-        {
-            var lineItems = job.LineItems.Where(x => x.Id == lineItemId).ToArray();
-            if (lineItems.Any())
-            {
-                return lineItems.Any(x => x.LineItemActions.Any(y => y.DeliveryAction == DeliveryAction.NotDefined));
-            }
-            return false;
         }
     }
 }

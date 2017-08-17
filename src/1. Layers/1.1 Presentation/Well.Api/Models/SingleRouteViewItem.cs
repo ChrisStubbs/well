@@ -33,5 +33,6 @@
         public string GrnNumber { get; set; }
         public string PrimaryAccountNumber { get; set; }
         public int LocationId { get; set; }
+        public bool HasUnresolvedActions { get; set; }
     }
 }

@@ -11,6 +11,7 @@ export class AssignGrnModal {
     @Output() public onGrnAssigned = new EventEmitter<IGrnAssignable>();
     private isVisible: boolean = false;
     public grnNumber: string;
+    private notRequired: string = 'Not required';
 
     constructor(private jobService: JobService) {
 
@@ -41,7 +42,7 @@ export class AssignGrnModal {
         if (this.model.grnNumber) {
             return this.model.grnNumber;
         } else {
-            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : 'Not required';
+            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : this.notRequired;
         }
     }
 }

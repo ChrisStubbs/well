@@ -150,7 +150,9 @@
 
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper || job.JobStatus == JobStatus.Bypassed) 
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper )
+                //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
+                //|| job.JobStatus == JobStatus.Bypassed) 
                 && IsJobAssignedToUser(job,userName)
                 && job.JobTypeEnumValue != JobType.GlobalUplift;
         }

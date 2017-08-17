@@ -14,6 +14,7 @@ SELECT n.[Id]
 		  ,n.AdamErrorNumber
 		  ,n.AdamCrossReference
 		  ,n.UserName
+		  ,n.CreatedDate AS NotificationDate
 	  FROM [dbo].[Notification] n
 	  WHERE IsArchived = 0
 

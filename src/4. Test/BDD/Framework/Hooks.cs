@@ -186,7 +186,7 @@
                                                 x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                                                 x.For<IBranchRepository>().Use<BranchRepository>();
                                                 x.For<IWebClientHelper>().Use<WebClientHelper>();
-                                                x.For<IUserNameProvider>().Use<UserNameProvider>();
+                                                //x.For<IUserNameProvider>().Use<UserNameProvider>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

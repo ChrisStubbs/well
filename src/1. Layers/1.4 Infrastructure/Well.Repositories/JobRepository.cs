@@ -71,26 +71,17 @@ namespace PH.Well.Repositories
         {
             var totals = ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.StopId == stopId));
             return totals;
-
-            var result = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)
-               .AddParameter("StopId", stopId, DbType.Int32)
-               .Query<JobDetailLineItemTotals>();
-
-            return result;
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerRouteHeader)
-               .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
-               .Query<JobDetailLineItemTotals>();
+            var totals = ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.Stop.RouteHeaderId == routeHeaderId));
+            return totals;
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerJobIds)
-                .AddParameter("jobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
-                .Query<JobDetailLineItemTotals>();
+            return ToLineItemTotals(wellEntities.JobDetail.Where(x => jobIds.Contains(x.Job.Id)));
         }
 
         public IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId)

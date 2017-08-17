@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+
+namespace PH.Well.Repositories
 {
     public struct StoredProcedures
     {
@@ -47,8 +49,12 @@
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public const string JobGetByStopId = "Job_GetByStopId";
+
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerJobIds = "JobDetailTotalsPerJobIds";
         public const string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public const string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";

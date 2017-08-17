@@ -14,23 +14,27 @@ namespace PH.Well.Repositories.Contracts
 
         void MarkEventAsProcessed(int eventId);
 
+        void Delete(int id);
+
         IEnumerable<ExceptionEvent> GetAllUnprocessed();
 
         void RemovedPendingCredit(int jobId);
 
         void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed, string jobId);
 
-        ExceptionEvent GetGrnExceptionEvent(string jobId);
+        bool GrnEventCreatedForJob(string jobId);
 
         void InsertPodEvent(PodEvent podEvent, string jobId);
 
-        ExceptionEvent GetPodExceptionEvent(string jobId);
+        bool PodEventCreatedForJob(string jobId);
 
         void InsertPodTransaction(PodTransaction podTransaction);
 
         void InsertAmendmentTransaction(AmendmentTransaction amendmentTransaction);
 
-        void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent);
+        void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string jobId = null);
+
+        bool GlobalUpliftEventCreatedForJob(string jobId);
 
         Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent);
     }

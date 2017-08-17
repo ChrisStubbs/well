@@ -126,11 +126,15 @@
                 var job = jobRepository.GetById(jobId);
                 var jobRoute = jobRepository.GetJobRoute(jobId);
 
-                var grnEvent = new GrnEvent();
-                grnEvent.Id = jobId;
-                grnEvent.BranchId = branchId;
-                this.exceptionEventRepository.InsertGrnEvent(grnEvent,
-                    dateThresholdService.GracePeriodEnd(jobRoute.RouteDate, branchId, job.GetRoyaltyCode()));
+                if (!exceptionEventRepository.GrnEventCreatedForJob(job.Id.ToString()))
+                {
+                    var grnEvent = new GrnEvent();
+                    grnEvent.Id = jobId;
+                    grnEvent.BranchId = branchId;
+                    this.exceptionEventRepository.InsertGrnEvent(grnEvent,
+                        dateThresholdService.GracePeriodEnd(jobRoute.RouteDate, branchId, job.GetRoyaltyCode()),
+                        job.Id.ToString());
+                }
 
                 transactionScope.Complete();
 

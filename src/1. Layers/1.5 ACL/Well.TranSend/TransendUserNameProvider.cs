@@ -7,11 +7,16 @@ using PH.Well.Common.Contracts;
 
 namespace PH.Well.TranSend
 {
-    public class TranSendUserNameProvider: IUserNameProvider
+    public class TranSendUserNameProvider: IUserNameProvider, PH.Common.Security.Interfaces.IUserNameProvider
     {
         public string GetUserName()
         {
             return "TransendImport";
+        }
+
+        public string ChangeUserName(string userName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -47,6 +47,7 @@
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
                     x.For<IUserNameProvider>().Use<AdamEventsUserNameProvider>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<AdamEventsUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
@@ -66,11 +67,16 @@
         }
     }
 
-    public class AdamEventsUserNameProvider : IUserNameProvider
+    public class AdamEventsUserNameProvider : IUserNameProvider, PH.Common.Security.Interfaces.IUserNameProvider
     {
         public string GetUserName()
         {
             return "AdamEventUpdater";
+        }
+
+        public string ChangeUserName(string userName)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

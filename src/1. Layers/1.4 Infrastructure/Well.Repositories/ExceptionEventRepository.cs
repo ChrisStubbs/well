@@ -43,6 +43,13 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
+        public void Delete(int id)
+        {
+            var exceptionEvent = wellEntities.ExceptionEvent.Single(x => x.Id == id);
+            wellEntities.ExceptionEvent.Remove(exceptionEvent);
+            wellEntities.SaveChanges();
+        }
+
         public IEnumerable<ExceptionEvent> GetAllUnprocessed()
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetUnprocessed).Query<ExceptionEvent>();
@@ -60,17 +67,14 @@ namespace PH.Well.Repositories
             InsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
         }
 
-        public ExceptionEvent GetGrnExceptionEvent(string jobId)
+        public bool GrnEventCreatedForJob(string jobId)
         {
-            var exceptionEvent = wellEntities.ExceptionEvent.FirstOrDefault(
-                x => x.ExceptionActionId == (int) EventAction.Grn && x.SourceId == jobId);
-
-
+           return ExceptionEventCreatedForSourceId(jobId, EventAction.Grn);
         }
 
-        public ExceptionEvent GetPodExceptionEvent(string jobId)
+        public bool PodEventCreatedForJob(string jobId)
         {
-            throw new NotImplementedException();
+           return ExceptionEventCreatedForSourceId(jobId, EventAction.Pod);
         }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
@@ -82,12 +86,8 @@ namespace PH.Well.Repositories
         {
             InsertEvent(podEvent, EventAction.Pod, DateTime.Now.Date.AddDays(1), jobId);
         }
-
-        public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent)
-        {
-            InsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now);
-        }
-
+        
+      
         public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)
         {
             var data = amendmentEvent
@@ -114,6 +114,16 @@ namespace PH.Well.Repositories
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
         {
             InsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
+        }
+
+        public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string sourceId = null)
+        {
+            InsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
+        }
+
+        public bool GlobalUpliftEventCreatedForJob(string jobId)
+        {
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.GlobalUplift);
         }
 
         private void InsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,
@@ -146,6 +156,39 @@ namespace PH.Well.Repositories
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime);
+        }
+
+        private ExceptionEvent GetExceptionEventBySourceId(string sourceId,EventAction eventAction)
+        {
+            ExceptionEvent result = null;
+            var exceptionEvent = wellEntities.ExceptionEvent.FirstOrDefault(
+                x => x.ExceptionActionId == (int)eventAction && x.SourceId == sourceId);
+
+            if (exceptionEvent != null)
+            {
+                result = new ExceptionEvent
+                {
+                    Id = exceptionEvent.Id,
+                    DateCanBeProcessed = exceptionEvent.DateCanBeProcessed,
+                    ExceptionActionId = exceptionEvent.ExceptionActionId,
+                    SourceId = exceptionEvent.SourceId,
+                    UpdatedBy = exceptionEvent.UpdatedBy,
+                    Event = exceptionEvent.Event,
+                    Version = exceptionEvent.Version,
+                    DateUpdated = exceptionEvent.DateUpdated,
+                    CreatedBy = exceptionEvent.CreatedBy,
+                    DateCreated = exceptionEvent.DateCreated,
+                    Processed = exceptionEvent.Processed
+                };
+            }
+
+            return result;
+        }
+
+        private bool ExceptionEventCreatedForSourceId(string sourceId, EventAction eventAction)
+        {
+            return wellEntities.ExceptionEvent.Any(
+                x => x.ExceptionActionId == (int)eventAction && x.SourceId == sourceId);
         }
     }
 }

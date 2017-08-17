@@ -111,23 +111,23 @@ export class AppSearch implements IObservableAlive {
 
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
-            .subscribe((result: IAppSearchResultSummary) => {
-                if (result.stopIds.length === 0 && result.routeIds.length === 0 && result.invoices.length == 0) {
+            .subscribe((result: IAppSearchResultSummary) => 
+            {
+                if (!result.locationIds.length && !result.routeIds.length && !result.invoiceIds.length) {
                     this.toasterService.pop('warning', 'No results found for your search criteria');
                     this.onSearch.emit();
                     return;
                 }
 
                 //If user searched by invoice and single result was found - navigate to invoice screen
-                if (parameters.invoice && result.invoices.length == 1) {
-                    const invoice = result.invoices[0];
-                    this.router.navigateByUrl('/invoice/' + invoice.invoiceNumber + '/' + invoice.branchId);
+                if (parameters.invoice && result.invoiceIds.length === 1) {
+                    this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
                     this.onSearch.emit();
                     return;
                 }
 
-                if (result.stopIds.length === 1) {
-                    this.router.navigateByUrl('/stops/' + result.stopIds[0]);
+                if (result.locationIds.length === 1) {
+                    this.router.navigateByUrl('/location/' + result.locationIds[0]);
                     this.onSearch.emit();
                     return;
                 }

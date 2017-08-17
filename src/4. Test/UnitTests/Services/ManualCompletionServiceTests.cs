@@ -134,10 +134,10 @@ namespace PH.Well.UnitTests.Services
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
                 manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
-                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
-                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
-                epodFileImportCommands.Verify(x => x.UpdateWithoutEvents(job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate), Times.Never);
+                epodFileImportCommands.Verify(x => x.UpdateWithEvents(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
+                epodFileImportCommands.Verify(x => x.UpdateWithEvents(job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
+                epodFileImportCommands.Verify(x => x.UpdateWithEvents(job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
+                epodFileImportCommands.Verify(x => x.UpdateWithEvents(job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate), Times.Never);
             }
 
             [Test]

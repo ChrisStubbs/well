@@ -25,13 +25,15 @@ export class AssignGrnModal {
         this.isVisible = true;
     }
 
-    private submit = (): void => {
-
-        this.jobService.setGrnForJob(this.model.jobId, this.grnNumber).subscribe((): void => {
-            this.model.grnNumber = this.grnNumber;
-            this.onGrnAssigned.emit(this.model);
-            this.close();
-        });
+    private submit(): void
+    {
+        this.jobService.setGrnForJob(this.model.jobId, this.grnNumber)
+            .subscribe(data =>
+            {
+                this.model.grnNumber = this.grnNumber;
+                this.onGrnAssigned.emit(this.model);
+                this.close();
+            });
     }
 
     private close = (): void => {

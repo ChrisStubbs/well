@@ -3,8 +3,8 @@ import { Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { HttpErrorService } from '../shared/httpErrorService';
-import { LogService } from '../shared/logService';
 import { HttpService } from '../shared/httpService';
+import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export  class JobService {
@@ -12,17 +12,35 @@ export  class JobService {
         private globalSettingsService: GlobalSettingsService,
         private http: HttpService,
         private httpErrorService: HttpErrorService,
-        private logService: LogService) {
-        
-    }
+        private toasterService: ToasterService) { }
 
-    public setGrnForJob(jobId: number, grn: string): Observable<any> {
+    public setGrnForJob(jobId: number, grn: string): Observable<any>
+    {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'job/SetGrn';
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
+
         return this.http.post(url, JSON.stringify({ id: jobId, grn: grn }), options)
             .map((response: Response) => { return response; })
-            .do(data => this.logService.log(data))
-            .catch(e => this.httpErrorService.handleError(e));
+            .catch((e: Response) =>
+            {
+                if (e.status == 400)
+                {
+                    const msg = e.json().message ? e.json().message : undefined;
+
+                    if (msg)
+                    {
+                        const data = JSON.parse(msg);
+
+                        if (data.customError)
+                        {
+                            this.toasterService.pop('error', data.Message, '');
+                            return Observable.throw(data.Message);
+                        }
+                    }
+                }
+
+                return this.httpErrorService.handleError(e);
+            });
     }
 }

@@ -150,7 +150,7 @@
 
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper) 
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper || job.JobStatus == JobStatus.Bypassed) 
                 && IsJobAssignedToUser(job,userName)
                 && job.JobTypeEnumValue != JobType.GlobalUplift;
         }

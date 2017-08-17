@@ -70,7 +70,7 @@ namespace PH.Well.Services
                 {
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     epodFileImportCommands.UpdateWithoutEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
-                    completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
+                  //  completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
                     transactionScope.Complete();
                 }
             }

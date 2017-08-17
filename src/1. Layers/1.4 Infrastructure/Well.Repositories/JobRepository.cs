@@ -40,13 +40,14 @@ namespace PH.Well.Repositories
             return GetByIds(jobIds);
         }
 
-        private IEnumerable<JobDetailLineItemTotals> ToLineItemTotals(IEnumerable<JobDetail> )
-
-        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
+        /// <summary>
+        /// Helper method to extend qiey on job details to get JobDetailLineItemTotals
+        /// </summary>
+        /// <param name="jobDetails"></param>
+        /// <returns></returns>
+        private IList<JobDetailLineItemTotals> ToLineItemTotals(IQueryable<PH.Shared.Well.Data.EF.JobDetail> jobDetails)
         {
-            wellEntities.Database.Log = Console.WriteLine;
-
-            var totals = wellEntities.JobDetail.Where(x => x.Job.StopId == stopId).Select(x => new
+            return jobDetails.Select(x => new
             {
                 x.Id,
                 BypassTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Bypass)
@@ -63,8 +64,12 @@ namespace PH.Well.Repositories
                 DamageTotal = x.DamageTotal ?? 0,
                 ShortTotal = x.ShortTotal ?? 0,
                 TotalExceptions = x.TotalExceptions,
-            });
+            }).ToList();
+        }
 
+        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
+        {
+            var totals = ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.StopId == stopId));
             return totals;
 
             var result = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobDetailTotalsPerStop)

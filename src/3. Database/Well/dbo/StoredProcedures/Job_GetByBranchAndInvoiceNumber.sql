@@ -10,7 +10,8 @@ BEGIN
 	INNER JOIN RouteHeader r ON s.RouteHeaderId = r.Id
 	where r.RouteOwnerId = @BranchId and
 	j.InvoiceNumber = @InvoiceNumber and
-	j.Id <> @jobId;
+	j.Id <> @jobId and
+	j.JobTypeCode != 'DEL-DOC';
 
 END
 

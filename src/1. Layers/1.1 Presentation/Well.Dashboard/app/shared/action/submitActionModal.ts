@@ -76,15 +76,7 @@ export class SubmitActionModal implements IObservableAlive
     {
         if (res.isValid)
         {
-            const warningMessages = _.map(res.warnings).join(', ');
-
-            if (warningMessages)
-            {
-                this.toasterService.pop('warning', res.message, warningMessages);
-            } else
-            {
-                this.toasterService.pop('success', res.message, '');
-            }
+            this.toasterService.pop('success', res.message, '');
         }
         else
         {

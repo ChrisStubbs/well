@@ -20,7 +20,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <tooltip-content #uncompletedJobs placement="top">
+                <span>Only show stops with one or more jobs with pending actions or empty but mandatory GRN</span>
+            </tooltip-content>
+            <label for="filterUncompletedJobs">Show pending action Jobs</label>
+            <input id="filterUncompletedJobs" type="checkbox" (change)="filterUncompletedJob()" [(ngModel)]="filters.uncompletedJob">
+            <a href="#" aria-hidden="true" (click)="voidLink($event)"
+               [tooltip]="uncompletedJobs"
+               tooltipPlacement="right">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
+        </div>
+        <div class="col-md-6">
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
@@ -157,12 +169,13 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2" class="text-right">
+                            <td>&nbsp;</td>
+                            <td>
                                 <a [routerLink]="['/singlelocation']"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a>
-                                <assignGrn-Modal *ngIf="detail.invoice && isGrnRequired(detail)" [model]="detail"></assignGrn-Modal>
+                                <div><a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoice, branchId]">{{detail.invoice}}</a></div>
+                                <div><assignGrn-Modal *ngIf="detail.invoice" [model]="detail"></assignGrn-Modal></div>
                             </td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.wellStatusDescription}}</td>

@@ -11,6 +11,7 @@ export class AssignGrnModal {
     @Output() public onGrnAssigned = new EventEmitter<IGrnAssignable>();
     private isVisible: boolean = false;
     public grnNumber: string;
+    private notRequired: string = 'Not required';
 
     constructor(private jobService: JobService) {
 
@@ -24,13 +25,15 @@ export class AssignGrnModal {
         this.isVisible = true;
     }
 
-    private submit = (): void => {
-
-        this.jobService.setGrnForJob(this.model.jobId, this.grnNumber).subscribe((): void => {
-            this.model.grnNumber = this.grnNumber;
-            this.onGrnAssigned.emit(this.model);
-            this.close();
-        });
+    private submit(): void
+    {
+        this.jobService.setGrnForJob(this.model.jobId, this.grnNumber)
+            .subscribe(data =>
+            {
+                this.model.grnNumber = this.grnNumber;
+                this.onGrnAssigned.emit(this.model);
+                this.close();
+            });
     }
 
     private close = (): void => {
@@ -41,7 +44,7 @@ export class AssignGrnModal {
         if (this.model.grnNumber) {
             return this.model.grnNumber;
         } else {
-            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : 'Not required';
+            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : this.notRequired;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
+    using System.Linq;
     using Enums;
 
     public static class StopExtensions
@@ -53,6 +54,19 @@
                     return true;
             }
 
+        }
+        public static bool HasLineItemsWithUnresolvedAction(this Job job, int? lineItemId = null)
+        {
+            var data = job.LineItems.AsQueryable();
+
+            if (lineItemId.HasValue)
+            {
+                data = data.Where(x => x.Id == lineItemId);
+            }
+
+            return data
+                .SelectMany(p => p.LineItemActions)
+                .Any(p => p.DeliveryAction == DeliveryAction.NotDefined);
         }
     }
 

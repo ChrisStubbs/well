@@ -1,6 +1,6 @@
 import * as _                               from 'lodash';
 import { IFilter, GridHelpersFunctions }    from '../shared/gridHelpers/gridHelpers';
-import { IGrnAssignable }                   from '../job/job';
+import { IGrnAssignable, GrnHelpers }       from '../job/job';
 
 export class Stop
 {
@@ -17,7 +17,7 @@ export class Stop
     public items: StopItem[];
 }
 
-export class StopItem implements IGrnAssignable
+export class StopItem implements IGrnAssignable, IGrnAssignable
 {
     constructor()
     {
@@ -100,6 +100,11 @@ export class StopItem implements IGrnAssignable
         return result || 4;
     }
 
+    public get uncompletedJob(): boolean
+    {
+        return this.hasUnresolvedActions
+               || (GrnHelpers.isGrnRequired(this) && _.isEmpty(this.grnNumber));
+    }
 }
 
 export class StopFilter implements IFilter
@@ -114,6 +119,7 @@ export class StopFilter implements IFilter
         this.highValue = undefined;
         this.resolutionId = undefined;
         this.exceptionsFilter = 0;
+        this.uncompletedJob = undefined;
     }
 
     public product: string;
@@ -124,6 +130,7 @@ export class StopFilter implements IFilter
     public highValue?: boolean;
     public resolutionId: number;
     public exceptionsFilter: number;
+    public uncompletedJob: boolean;
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: StopItem) => boolean
     {
@@ -141,6 +148,7 @@ export class StopFilter implements IFilter
 
             case 'checked':
             case 'highValue':
+            case 'uncompletedJob':
                 return  GridHelpersFunctions.boolFilter;
 
             case 'resolutionId':

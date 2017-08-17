@@ -12,6 +12,7 @@
     using Stop = Well.Domain.Stop;
     using Factories;
     using System.Linq;
+    using Well.Services.Contracts;
 
     [TestFixture]
     public class SingleRouteControllerTests : BaseControllerTests<SingleRouteController>
@@ -22,6 +23,7 @@
         private Mock<IJobRepository> jobRepository;
         private Mock<IAssigneeReadRepository> assigneeRepository;
         private Mock<ISingleRouteMapper> mapper;
+        private Mock<IJobService> jobService;
 
         [SetUp]
         public virtual void Setup()
@@ -32,13 +34,17 @@
             jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
             assigneeRepository = new Mock<IAssigneeReadRepository>(MockBehavior.Strict);
             mapper = new Mock<ISingleRouteMapper>(MockBehavior.Strict);
+            jobService = new Mock<IJobService>(MockBehavior.Strict);
+
             Controller = new SingleRouteController(
                 branchRepository.Object,
                 routeHeaderRepository.Object,
                 stopRepository.Object,
                 jobRepository.Object,
                 assigneeRepository.Object,
-                mapper.Object);
+                mapper.Object,
+                jobService.Object);
+
             SetupController();
         }
 
@@ -78,6 +84,8 @@
                 assigneeRepository.Setup(x => x.GetByRouteHeaderId(RouteHeaderId)).Returns(assignees);
 
                 mapper.Setup(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber)).Returns(singleRoute);
+
+                jobService.Setup(p => p.PopulateLineItemsAndRoute(jobs)).Returns(jobs);
             }
 
             [Test]
@@ -91,6 +99,7 @@
                 jobRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
                 assigneeRepository.Verify(x => x.GetByRouteHeaderId(RouteHeaderId), Times.Once);
                 mapper.Verify(x => x.Map(branches, routeHeader, stops, jobs, assignees, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber), Times.Once);
+                jobService.Verify(p => p.PopulateLineItemsAndRoute(jobs), Times.Once);
 
                 Assert.That(response, Is.EqualTo(singleRoute));
             }

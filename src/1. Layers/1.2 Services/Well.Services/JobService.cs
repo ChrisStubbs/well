@@ -281,17 +281,11 @@
             //ActionRequired 
             this.evaluators.Add(job =>
             {
-                var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
-
-                if (actions.Any())
-                {
-                    if (actions.Any(p => p.DeliveryAction == DeliveryAction.NotDefined))
-                    {
-                        return ResolutionStatus.ActionRequired;
-                    }
-                }
-
-                return null;
+                return job.LineItems
+                    .SelectMany(p => p.LineItemActions)
+                    .Where(p => p.DeliveryAction == DeliveryAction.NotDefined)
+                    .Select(p => ResolutionStatus.ActionRequired)
+                    .FirstOrDefault();
             });
 
             //PendingSubmission

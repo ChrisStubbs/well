@@ -26,4 +26,10 @@ export class Route
     public driverName: string;
     public assignee: string;
     public jobIds: number[];
+    public hasNotDefinedDeliveryAction: boolean;
+    public nogrnButNeeds: boolean;
+    public get uncompletedJob(): boolean
+    {
+        return this.hasNotDefinedDeliveryAction || this.nogrnButNeeds;
+    }
 }

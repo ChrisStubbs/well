@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Routes_GetAllForBranch]
+﻿CREATE PROCEDURE Routes_GetAllForBranch
 	@BranchId INT,
 	@UserName VARCHAR(500)
 AS
@@ -63,6 +63,28 @@ AS
 					AND s.DateDeleted IS NULL
 		) DATA
 		GROUP BY RouteHeaderId
+    ),
+    UnresolvedAction AS
+    (
+        SELECT rh.Id, MIN(ISNULL(lia.DeliveryActionId, 0)) AS DeliveryAction
+        FROM 
+            JobDetail jd 
+            INNER JOIN LineItemAction lia ON jd.LineItemId = lia.LineItemId
+            INNER JOIN Job j ON jd.JobId = j.id
+            INNER JOIN [Stop] s ON j.StopId = s.id
+            INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+		WHERE lia.DateDeleted IS NULL
+        GROUP BY rh.Id
+    ),
+    NoGRN AS
+    (
+        SELECT rh.Id, MAX(CASE WHEN j.GrnProcessType = 1 AND j.GrnNumber IS NULL THEN 1 ELSE 0 END) AS NoGRNButNeeds
+        FROM 
+            Job j
+            INNER JOIN [Stop] s ON j.StopId = s.id
+            INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+		WHERE j.DateDeleted IS NULL
+        GROUP BY rh.Id
     )
     SELECT 
         rh.Id
@@ -76,6 +98,8 @@ AS
         ,ISNULL(rec.ExceptionCount,0) AS ExceptionCount  -- count of stops with exceptions or bypassed
         ,ISNULL(rcc.CleanCount,0) - ISNULL(rec.ExceptionCount,0) AS CleanCount  -- count of stops with all clean
         ,DriverName
+        ,CONVERT(BIT, ISNULL(UnresolvedAction.DeliveryAction, 1)) ^ 1 HasNotDefinedDeliveryAction
+        ,CONVERT(BIT, ISNULL(NoGRN.NoGRNButNeeds, 0)) AS NoGRNButNeeds
 		,rec.*
     FROM
         RouteHeader rh
@@ -84,6 +108,8 @@ AS
         LEFT JOIN RouteStopCount rcc ON rcc.RouteHeaderId = rh.Id
         LEFT JOIN RouteStatusView rsv ON rsv.RouteHeaderId = rh.Id
         LEFT JOIN WellStatus ws ON ws.Id = rsv.RouteStatus
+        LEFT JOIN UnresolvedAction ON rh.Id = UnresolvedAction.Id
+        LEFT JOIN NoGRN ON rh.Id = NoGRN.Id
     WHERE 
         rh.DateDeleted IS NULL
         AND rh.RouteOwnerId in (Select BranchId FROM #UserBranches)

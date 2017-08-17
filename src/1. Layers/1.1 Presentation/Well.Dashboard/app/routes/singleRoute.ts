@@ -1,7 +1,8 @@
 import * as _                   from 'lodash';
-import {IFilter}                from '../shared/gridHelpers/IFilter';
+import { IFilter }              from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import {IGrnAssignable} from '../job/job';
+import { IGrnAssignable }       from '../job/job';
+import { GrnHelpers }           from '../job/assignGrnModal';
 
 export interface SingleRoute
 {
@@ -56,6 +57,13 @@ export class SingleRouteItem implements IGrnAssignable
     public grnProcessType: number;
     public primaryAccountNumber: string;
     public locationId: number;
+    public hasUnresolvedActions: boolean;
+
+    public get uncompletedJob(): boolean
+    {
+        return this.hasUnresolvedActions
+            || (GrnHelpers.isGrnRequired(this) && _.isEmpty(this.grnNumber));
+    }
 }
 
 export class SingleRouteSource
@@ -89,6 +97,7 @@ export class SingleRouteFilter implements IFilter
         this.exceptions = undefined;
         this.assignee = '';
         this.resolutionId = undefined;
+        this.uncompletedJob = undefined;
     }
 
     public account: string;
@@ -98,6 +107,7 @@ export class SingleRouteFilter implements IFilter
     public exceptions: boolean;
     public assignee: string;
     public resolutionId: number;
+    public uncompletedJob: boolean;
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
@@ -106,6 +116,9 @@ export class SingleRouteFilter implements IFilter
             case 'account':
             case 'invoice':
                 return  GridHelpersFunctions.containsFilter;
+
+            case 'uncompletedJob':
+                return  GridHelpersFunctions.boolFilter;
 
             case 'jobTypeId':
                  return (value: number, value2: number) =>

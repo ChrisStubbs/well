@@ -153,6 +153,16 @@ export class RoutesComponent implements IObservableAlive
         }
     }
 
+    public filterUncompletedJob(): void
+    {
+        if (!this.routeFilter.uncompletedJob)
+        {
+            this.routeFilter.uncompletedJob = undefined;
+        }
+
+        this.fillGridSource();
+    }
+
     public refreshData(event): void
     {
         this.routeFilter.branchId = +event.target.value;

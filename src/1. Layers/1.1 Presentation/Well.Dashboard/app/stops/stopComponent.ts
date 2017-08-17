@@ -541,6 +541,16 @@ export class StopComponent implements IObservableAlive
                 return;
         }
     }
+
+    private filterUncompletedJob(): void
+    {
+        if (!this.filters.uncompletedJob)
+        {
+            this.filters.uncompletedJob = undefined;
+        }
+
+        this.fillGridSource();
+    }
 }
 
 interface IDictionarySource

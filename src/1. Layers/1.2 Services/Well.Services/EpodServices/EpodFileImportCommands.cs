@@ -96,7 +96,7 @@
 
             if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed)
             {
-                var globalJobDetail = existingJob.JobDetails.FirstOrDefault();
+                var globalJobDetail = fileJob.JobDetails.FirstOrDefault();
 
                 int csfNumber = 0;
 

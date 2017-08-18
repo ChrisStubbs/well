@@ -50,5 +50,4 @@ BEGIN
 		ct.[LastUpdatedDate]
 	FROM
 		[dbo].[CreditThreshold] ct
-	LEFT JOIN dbo.CreditThresholdUser ctu on ctu.CreditThresholdId = ct.Id
 END

@@ -32,7 +32,7 @@ const routes: Routes = [
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
     { path: 'singleroute/:id', component: SingleRouteComponent },
     { path: 'stops/:id', component: StopComponent },
-    { path: 'invoice/:number/:branchId', component: ActivityComponent },
+    { path: 'invoice/:id', component: ActivityComponent },
     { path: 'singlelocation', component: SingleLocationComponent },
     { path: 'locations', component: LocationsComponent }
 ];

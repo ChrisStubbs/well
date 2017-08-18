@@ -14,10 +14,9 @@ namespace PH.Well.Api.Controllers
             this.activityRepository = activityRepository;
         }
         
-        [Route("Activity/{invoice}/{branchId:int}")]
-        public ActivitySource Get(string invoice, int branchId)
+        public ActivitySource Get(int id)
         {
-            return this.activityRepository.GetActivitySourceByDocumentNumber(invoice, branchId);
+            return this.activityRepository.GetActivitySourceById(id);
         }
     }
 }

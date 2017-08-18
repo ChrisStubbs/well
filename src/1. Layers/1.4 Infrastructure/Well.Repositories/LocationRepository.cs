@@ -18,6 +18,22 @@
             this.dapperReadProxy = dapperReadProxy;
         }
 
+        public SingleLocation GetSingleLocationById(int locationId)
+        {
+            SingleLocation result = null;
+
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.GetSingleLocation)
+                    .AddParameter("locationId", locationId, DbType.Int32)
+                    .QueryMultiple(p =>
+                    {
+                        result = p.Read<SingleLocation>().First();
+                        result.Details = p.Read<SingleLocationItems>().ToList();
+                        return result;
+                    });
+
+            return result;
+        }
+
         public SingleLocation GetSingleLocation(int? locationId, string accountNumber = null, int? branchId = default(int?))
         {
             SingleLocation result = null;

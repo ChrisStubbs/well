@@ -19,9 +19,9 @@
             this.assigneeRepository = assigneeRepository;
         }
 
-        public SingleLocation Get([FromUri]SingleLocationQuery qs)
+        public SingleLocation Get(int id)
         {
-            var data = this.locationRepository.GetSingleLocation(qs.LocationId, qs.AccountNumber, qs.BranchId);
+            var data = this.locationRepository.GetSingleLocationById(id);
             var jobIds = data.Details.Select(p => p.JobId).Distinct();
             var assignees = assigneeRepository.GetByJobIds(jobIds).ToDictionary(k => k.JobId, v => v.Name);
 

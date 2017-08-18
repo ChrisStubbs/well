@@ -44,7 +44,7 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-12">
-                    <label class=" col-form-label">Primary Account Number:</label>
+                    <label class="col-form-label">Primary Account Number:</label>
                     <crmLink [accountNumber]="source.accountNumber" [branchId]="source.branchId" [linkText]="source.accountNumber"></crmLink>
                 </div>
             </div>
@@ -180,7 +180,7 @@
                                 <div *ngIf="item.isInvoice; then isInvoice else notInvoice"></div>
                                 <ng-template #isInvoice><span>Invoice: </span></ng-template>
                                 <ng-template #notInvoice><span>Uplift: </span></ng-template>
-                                <a [routerLink]="['/invoice', item.invoice, source.branchId]" *ngIf="item.invoice">{{item.invoice}}</a>
+                                <a [routerLink]="['/invoice', item.activityId]" *ngIf="item.invoice">{{item.invoice}}</a>
                                 &nbsp;
                                 <span>Account Number: </span>
                                 <span>{{item.accountNumber}}</span>

@@ -144,6 +144,7 @@ export class SingleLocationComponent implements IObservableAlive
                 item.details = current;
                 item.isInvoice = current[0].isInvoice;
                 item.accountNumber = current[0].accountNumber;
+                item.activityId = current[0].activityId;
 
                 this.gridSource.push(item);
             })

@@ -119,7 +119,7 @@ export class AppSearch implements IObservableAlive {
                     return;
                 }
 
-                //If user searched by invoice and single result was found - navigate to invoice screen
+                // If user searched by invoice and single result was found - navigate to invoice screen
                 if (parameters.invoice && result.invoiceIds.length === 1) {
                     this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
                     this.onSearch.emit();
@@ -127,7 +127,7 @@ export class AppSearch implements IObservableAlive {
                 }
 
                 if (result.locationIds.length === 1) {
-                    this.router.navigateByUrl('/location/' + result.locationIds[0]);
+                    this.router.navigateByUrl('/singlelocation?locationId=' + result.locationIds[0]);
                     this.onSearch.emit();
                     return;
                 }

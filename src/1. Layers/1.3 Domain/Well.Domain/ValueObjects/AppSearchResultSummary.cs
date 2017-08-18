@@ -5,15 +5,16 @@
 
     public class AppSearchResultSummary
     {
-        //public int[] StopIds { get; set; }
+        public int? BranchId { get; set; }
         public int[] RouteIds { get; set; }
         public int[] LocationIds { get; set; }
         public int[] InvoiceIds { get; set; }
 
-        public static AppSearchResultSummary Get(IEnumerable<AppSearchResult> searchResults)
+        public static AppSearchResultSummary Get(IEnumerable<AppSearchResult> searchResults, int? branchId)
         {
             var summary = new AppSearchResultSummary
             {
+                BranchId = branchId,
                 //StopIds = searchResults.Where(x => x.StopId.HasValue).Select(x => x.StopId.Value).Distinct().ToArray(),
                 RouteIds = searchResults.Where(x => x.RouteId.HasValue).Select(x => x.RouteId.Value).Distinct()
                     .ToArray(),

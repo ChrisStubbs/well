@@ -1,4 +1,5 @@
 ﻿using System;
+using PH.Well.Domain.Extensions;
 
 namespace PH.Well.Repositories
 {
@@ -86,6 +87,7 @@ namespace PH.Well.Repositories
         {
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.JobInsert)
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
+                .AddParameter("JobTypeId", (byte)EnumExtensions.GetValueFromDescription<JobType>(entity.JobTypeCode), DbType.Byte)
                 .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
                 .AddParameter("PHAccount", entity.PhAccount, DbType.String)
                 .AddParameter("PickListRef", entity.PickListRef, DbType.String)

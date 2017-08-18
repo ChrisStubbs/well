@@ -103,7 +103,7 @@ export class ActivityComponent implements IObservableAlive
             {
                 return Observable.forkJoin(
                     this.lookupService.get(LookupsEnum.ResolutionStatus),
-                    this.activityService.get(data.number, <number>data.branchId)
+                    this.activityService.get(<number>(<any>data).id)
                 );
             })
             .takeWhile(() => this.isAlive)
@@ -129,7 +129,7 @@ export class ActivityComponent implements IObservableAlive
                     .map((current: string) =>
                     {
                         this.jobTypes.push(
-                            {
+                            <any>{
                                 key: current,
                                 value: current
                             });
@@ -312,16 +312,16 @@ export class ActivityComponent implements IObservableAlive
         let shorts = 0;
         //find the line that was edited
         const lineItem = _.find(job.details, (current: ActivitySourceDetail) =>
-            current.product == data.productNumber);
+            current.product === data.productNumber);
 
         //sum the shorts and damages sent from the server
         _.forEach(data.exceptions, (current: EditLineItemExceptionDetail) =>
         {
-            if (current.exception == 'Short')
+            if (current.exception === 'Short')
             {
                 shorts += current.quantity;
             }
-            else if (current.exception == 'Damage')
+            else if (current.exception === 'Damage')
             {
                 damages += current.quantity;
             }

@@ -17,6 +17,16 @@
             this.logger = logger;
             this.dapperReadProxy = dapperReadProxy;
         }
+        public ActivitySource GetActivitySourceById(int activityId)
+        {
+            var activitySource = new ActivitySource();
+
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityGetSourceById)
+                .AddParameter("activityId", activityId, DbType.String)
+                .QueryMultiple(x => activitySource = GetActivityFromGrid(x));
+
+            return activitySource;
+        }
 
         public ActivitySource GetActivitySourceByDocumentNumber(string documentNumber, int branchId)
         {
@@ -43,5 +53,6 @@
 
             return activitySource;
         }
+
     }
 }

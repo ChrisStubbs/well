@@ -34,7 +34,7 @@ namespace PH.Well.Repositories
 
         #region GET ACTIVITY SOURCE USING EF
 
-        private ActivitySource GetActivitySourceByDocumentNumberEF(string documentNumber, int branchId)
+        private ActivitySource GetActivitySourceByIdEF(int activityId)
         {
             // Header information
             var activitySource = wellEntities.Activity
@@ -42,11 +42,12 @@ namespace PH.Well.Repositories
                 .Include("Job.Stop")
                 .Include("Job.Stop.RouteHeader")
                 .Include("Job.Stop.Account")
-                .Where(x => x.DocumentNumber == documentNumber && x.Location.BranchId == branchId)
+                .Where(x => x.Id == activityId)
                 .Select(x => new
                 {
                     ActivityId = x.Id,
                     ActivityTypeId = x.ActivityTypeId,
+                    BranchId = x.Location.Branch.Id,
                     Branch = x.Location.Branch.Name,
                     Job = x.Job.Select(y=> new
                     {
@@ -112,7 +113,7 @@ namespace PH.Well.Repositories
             {
                 ActivityId = activitySource.ActivityId,
                 Branch = activitySource.Branch,
-                BranchId = branchId,
+                BranchId = activitySource.BranchId,
                 AccountAddress = $"{activitySource.Job.Account.Address1} {activitySource.Job.Account.Address2} {activitySource.Job.Account.PostCode}",
                 AccountName = activitySource.Job.Account.Name,
                 PrimaryAccount = activitySource.Job.Account.Code,
@@ -193,27 +194,19 @@ namespace PH.Well.Repositories
 
         public ActivitySource GetActivitySourceById(int activityId)
         {
-            var activitySource = new ActivitySource();
-
-            dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityGetSourceById)
-                .AddParameter("activityId", activityId, DbType.String)
-                .QueryMultiple(x => activitySource = GetActivityFromGrid(x));
-
-            return activitySource;
+            return GetActivitySourceByIdEF(activityId);
         }
 
         public ActivitySource GetActivitySourceByDocumentNumber(string documentNumber, int branchId)
         {
-            return GetActivitySourceByDocumentNumberEF(documentNumber, branchId);
+            var activitySource = new ActivitySource();
 
-            //var activitySource = new ActivitySource();
+            dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityGetByDocumentNumber)
+                .AddParameter("documentNumber", documentNumber, DbType.String)
+                .AddParameter("branchId", branchId, DbType.Int32)
+                .QueryMultiple(x => activitySource = GetActivityFromGrid(x));
 
-            //dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityGetByDocumentNumber)
-            //    .AddParameter("documentNumber", documentNumber, DbType.String)
-            //    .AddParameter("branchId", branchId, DbType.Int32)
-            //    .QueryMultiple(x => activitySource = GetActivityFromGrid(x));
-
-            //return activitySource;
+            return activitySource;
         }
 
         public ActivitySource GetActivityFromGrid(SqlMapper.GridReader grid)

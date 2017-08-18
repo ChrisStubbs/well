@@ -36,13 +36,12 @@ namespace PH.Well.Repositories
 
         private ActivitySource GetActivitySourceByDocumentNumberEF(string documentNumber, int branchId)
         {
-
             // Header information
             var activitySource = wellEntities.Activity
-                //.Include("Job")
-                //.Include("Job.Stop")
-                //.Include("Job.Stop.RouteHeader")
-                //.Include("Job.Stop.Account")
+                .Include("Job")
+                .Include("Job.Stop")
+                .Include("Job.Stop.RouteHeader")
+                .Include("Job.Stop.Account")
                 .Where(x => x.DocumentNumber == documentNumber && x.Location.BranchId == branchId)
                 .Select(x => new
                 {
@@ -72,7 +71,7 @@ namespace PH.Well.Repositories
                 .Select(x => new
                 {
                     ActivityId = x.Id,
-                    Users = x.Job.SelectMany(y=> y.UserJob.Select(u => u.User.Name)).Distinct(),
+                    Users = x.Job.SelectMany(y => y.UserJob.Select(u => u.User.Name)).Distinct(),
                     LineDetail = x.Job.SelectMany(y => y.JobDetail.Select(z => new
                     {
                         Product = z.LineItem.ProductCode,
@@ -86,21 +85,23 @@ namespace PH.Well.Repositories
                         y.Stop,
                         JobId = y.Id,
                         JobType = y.JobTypeCode,
-                        LineItemId = z.LineItem.Id,
+                        LineItemId = (int?) z.LineItem.Id,
                         ResolutionStatus = y.ResolutionStatusId,
                         OriginalDespatchQuantity = z.OriginalDespatchQty,
+
+                        // This method can be reused globally with EF. check http://www.albahari.com/nutshell/linqkit.aspx
                         Totals = new
                         {
                             z.Id,
                             BypassTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int)ExceptionType.Bypass)
-                                .Sum(l => (int?)l.Quantity),
+                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Bypass)
+                                .Sum(l => (int?) l.Quantity),
                             DamageTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int)ExceptionType.Damage)
-                                .Sum(l => (int?)l.Quantity),
+                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Damage)
+                                .Sum(l => (int?) l.Quantity),
                             ShortTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int)ExceptionType.Short)
-                                .Sum(l => (int?)l.Quantity),
+                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Short)
+                                .Sum(l => (int?) l.Quantity),
                             TotalExceptions = z.LineItem.LineItemAction.Count(),
                         }
                     }))
@@ -142,7 +143,7 @@ namespace PH.Well.Repositories
                     StopDate = x.Stop.DeliveryDate.GetValueOrDefault(),
                     JobId = x.JobId,
                     ResolutionStatus = x.ResolutionStatus,
-                    LineItemId = x.LineItemId,
+                    LineItemId = x.LineItemId ?? -1,
                     HasUnresolvedActions = HasUnresolvedActions(x.LineDeliveryStatus,x.Totals.ShortTotal,x.Totals.DamageTotal,x.OriginalDespatchQuantity),
                     
                 }).ToList()

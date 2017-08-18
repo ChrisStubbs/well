@@ -44,8 +44,8 @@
     <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.6\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.8\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\StructureMap.4.5.1\lib\net45\StructureMap.dll</HintPath>

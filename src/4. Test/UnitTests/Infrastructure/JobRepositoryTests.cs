@@ -2,6 +2,7 @@
 
 using System;
 using Dapper;
+using PH.Shared.Well.Data.EF;
 
 namespace PH.Well.UnitTests.Infrastructure
 {
@@ -37,7 +38,7 @@ namespace PH.Well.UnitTests.Infrastructure
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
-            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object);
+            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object,new Mock<WellEntities>().Object);
             //////this.repository.CurrentUser = UserName;
         }
 

@@ -30,6 +30,7 @@ export class SingleLocationGroup
     public isExpanded: boolean;
     public isInvoice: boolean;
     public accountNumber: string;
+    public activityId: number;
 }
 
 export class SingleLocation

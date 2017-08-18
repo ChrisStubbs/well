@@ -3,14 +3,21 @@
     public class InvoiceSearchResult
     {
         public int BranchId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public int InvoiceId { get; set; }
+        //public string InvoiceNumber { get; set; }
 
         public InvoiceSearchResult(){}
 
-        public InvoiceSearchResult(int branchId, string invoiceNumber)
+        public InvoiceSearchResult(int branchId, int invoiceId)
         {
             BranchId = branchId;
-            InvoiceNumber = invoiceNumber;
+            InvoiceId = invoiceId;
         }
+
+        //public InvoiceSearchResult(int branchId, string invoiceNumber)
+        //{
+        //    BranchId = branchId;
+        //    InvoiceNumber = invoiceNumber;
+        //}
     }
 }

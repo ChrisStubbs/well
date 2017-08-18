@@ -16,10 +16,9 @@ export class ActivityService
     {
     }
 
-    public get(invoice: string, branchId: number): Observable<ActivitySource>
+    public get(id: number): Observable<ActivitySource>
     {
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'Activity/' +
-            encodeURIComponent(invoice) + '/' + branchId.toString();
+        const url = this.globalSettingsService.globalSettings.apiUrl + 'Activity/' + id;
 
         return this.http.get(url)
             .map((response: Response) =>

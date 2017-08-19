@@ -1,4 +1,8 @@
-﻿namespace PH.Well.UnitTests.ACL.AdamEvents
+﻿using System.Collections.Generic;
+using System.Linq;
+using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.UnitTests.ACL.AdamEvents
 {
     using System;
     using NUnit.Framework;
@@ -11,148 +15,146 @@
     [TestFixture]
     public class AdamSettingsFactoryTests
     {
-        [Test]
-        public void MedwayConfig()
+        private void TestSettings(string settings, string server, int port, string rfs, string username, string password)
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Medway);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerMedway));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsMedway));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortMedway));
+            AdamSettings adamSettings = AdamConfiguration.CreateSettings(settings);
+            Assert.That(adamSettings.Server, Is.EqualTo(server));
+            Assert.That(adamSettings.Port, Is.EqualTo(port));
+            Assert.That(adamSettings.Rfs, Is.EqualTo(rfs));
+            Assert.That(adamSettings.Username, Is.EqualTo(username));
+            Assert.That(adamSettings.Password, Is.EqualTo(password));
         }
 
         [Test]
-        public void CoventryConfig()
+        public void BlankConfigSetting()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Coventry);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerCoventry));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsCoventry));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortCoventry));
+            AdamSettings defaultSettings = AdamSettingsFactory.GetAdamSettings(Branch.Default);
+            TestSettings("", defaultSettings.Server, defaultSettings.Port, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
         }
 
         [Test]
-        public void FarehamConfig()
+        public void OrderedConfigSettingParsedInOrder()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Fareham);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerFareham));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsFareham));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortFareham));
+            AdamSettings defaultSettings = AdamSettingsFactory.GetAdamSettings(Branch.Default);
+            TestSettings("servername", "servername", defaultSettings.Port, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
+            TestSettings("servername:1234", "servername", 1234, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
+            TestSettings("servername:1234;rfspath", "servername", 1234, "rfspath", defaultSettings.Username, defaultSettings.Password);
+            TestSettings("servername:1234:rfspath,username", "servername", 1234, "rfspath", "username", defaultSettings.Password);
+            TestSettings("servername:1234:rfspath,username,pa$$word", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
-        public void DunfermlineConfig()
+        public void NamedConfigSettingIdentifiedSeparately()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Dunfermline);
+            AdamSettings defaults = AdamSettingsFactory.GetAdamSettings(Branch.Default);
+            // Test each parameter separately
+            TestSettings("Server=servername", "servername", defaults.Port, defaults.Rfs, defaults.Username, defaults.Password);
+            TestSettings("Port=1234", defaults.Server, 1234, defaults.Rfs, defaults.Username, defaults.Password);
+            TestSettings("Rfs=rfspath", defaults.Server, defaults.Port, "rfspath", defaults.Username, defaults.Password);
+            TestSettings("Username=userName", defaults.Server, defaults.Port, defaults.Rfs, "userName", defaults.Password);
+            TestSettings("Password=pa$$word", defaults.Server, defaults.Port, defaults.Rfs, defaults.Username, "pa$$word");
 
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerDunfermline));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsDunfermline));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortDunfermline));
+            // Test in progressively complex groups of settings in non-sequential order
+            TestSettings("Port=1234,Server=servername", "servername", 1234, defaults.Rfs, defaults.Username, defaults.Password);
+            TestSettings("Rfs=rfspath;Server=servername:Port=1234;", "servername", 1234, "rfspath", defaults.Username, defaults.Password);
+            TestSettings("Server=servername:Port=1234:Rfs=rfspath,Username=username", "servername", 1234, "rfspath", "username", defaults.Password);
+            TestSettings("Password=pa$$word;Server=servername:Port=1234:Username=username,Rfs=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
+
         }
 
         [Test]
-        public void LeedsConfig()
+        public void KeyNamesAreCaseInsensitive()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Leeds);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerLeeds));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsLeeds));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortLeeds));
+            // Test case-insensitivity of key names
+            TestSettings("PaSsWoRd=pa$$word;SeRveR=servername:PoRt=1234:UsErNaMe=username,RfS=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
-        public void HemelConfig()
+        public void KeysAndValuesAreTrimmed()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Hemel);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerHemel));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsHemel));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortHemel));
+            // Test whitespace is removed from values and key names
+            TestSettings("   Password = pa$$word ; Server = servername : Port = 1234 : Username = username, Rfs  =  rfspath ", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
-        public void BirtleyConfig()
+        public void ValuesCanContainSpecialCharacters()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Birtley);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBirtley));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBirtley));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortBirtley));
+            // Test values can contain likely special characters
+            TestSettings("Password=pa$$w!#£&*()[]~/\\;Server=servername.palmerharvey.co.uk:Port=1234:Username=first.last,Rfs=rfspath",
+                "servername.palmerharvey.co.uk", 
+                1234, 
+                "rfspath", 
+                "first.last",
+                "pa$$w!#£&*()[]~/\\");
         }
 
         [Test]
-        public void BelfastConfig()
+        public void TestCorrectBranchConfigIsReturnedFromFactoryPerBranch()
         {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Belfast);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBelfast));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBelfast));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortBelfast));
-        }
-
-        [Test]
-        public void BrandonConfig()
-        {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Brandon);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBrandon));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBrandon));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortBrandon));
-        }
-
-        [Test]
-        public void PlymouthConfig()
-        {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Plymouth);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerPlymouth));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsPlymouth));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortPlymouth));
-        }
-
-        [Test]
-        public void BristolConfig()
-        {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Bristol);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerBristol));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsBristol));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortBristol));
-        }
-
-        [Test]
-        public void HaydockConfig()
-        {
-            var config = AdamSettingsFactory.GetAdamSettings(Branch.Haydock);
-
-            Assert.That(config.Username, Is.EqualTo(Config.AdamUsername));
-            Assert.That(config.Password, Is.EqualTo(Config.AdamPassword));
-            Assert.That(config.Server, Is.EqualTo(Config.AdamServerHaydock));
-            Assert.That(config.Rfs, Is.EqualTo(Config.AdamRfsHaydock));
-            Assert.That(config.Port, Is.EqualTo(Config.AdamPortHaydock));
+            foreach (Branch branch in Enum.GetValues(typeof(Branch)))
+            {
+                AdamSettings config = null;
+                if ((int)branch <= (int)Branch.LastBranch)
+                {
+                    config = AdamSettingsFactory.GetAdamSettings(branch);
+                }
+                AdamSettings match = null;
+                switch (branch)
+                {
+                    case Branch.Medway:
+                        match = AdamConfiguration.AdamMedway;
+                        break;
+                    case Branch.Coventry:
+                        match = AdamConfiguration.AdamCoventry;
+                        break;
+                    case Branch.Fareham:
+                        match = AdamConfiguration.AdamFareham;
+                        break;
+                    case Branch.Dunfermline:
+                        match = AdamConfiguration.AdamDunfermline;
+                        break;
+                    case Branch.Leeds:
+                        match = AdamConfiguration.AdamLeeds;
+                        break;
+                    case Branch.Hemel:
+                        match = AdamConfiguration.AdamHemel;
+                        break;
+                    case Branch.Birtley:
+                        match = AdamConfiguration.AdamBirtley;
+                        break;
+                    case Branch.Belfast:
+                        match = AdamConfiguration.AdamBelfast;
+                        break;
+                    case Branch.Brandon:
+                        match = AdamConfiguration.AdamBrandon;
+                        break;
+                    case Branch.Plymouth:
+                        match = AdamConfiguration.AdamPlymouth;
+                        break;
+                    case Branch.Bristol:
+                        match = AdamConfiguration.AdamBristol;
+                        break;
+                    case Branch.Haydock:
+                        match = AdamConfiguration.AdamHaydock;
+                        break;
+                    case Branch.Default:
+                        match = AdamConfiguration.AdamDefault;
+                        break;
+                    case Branch.NotDefined:
+                        match = null;
+                        break;
+                    default:
+                        throw new ArgumentException("Branch not expected");
+                }
+                if (config != null && match != null)
+                {
+                    Assert.That(config.Username, Is.EqualTo(match.Username));
+                    Assert.That(config.Password, Is.EqualTo(match.Password));
+                    Assert.That(config.Server, Is.EqualTo(match.Server));
+                    Assert.That(config.Rfs, Is.EqualTo(match.Rfs));
+                    Assert.That(config.Port, Is.EqualTo(match.Port));
+                }
+            }
         }
 
         [Test]

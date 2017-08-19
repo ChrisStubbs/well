@@ -3,6 +3,7 @@
     public enum Branch
     {
         Medway = 2,
+        FirstBranch = Medway,
         Coventry = 3,
         Fareham = 5,
         Dunfermline = 9,
@@ -14,6 +15,8 @@
         Plymouth = 55,
         Bristol = 59,
         Haydock = 82,
-        NotDefined = 99
+        LastBranch = Haydock,
+        NotDefined = 99,
+        Default = 999,
     }
 }

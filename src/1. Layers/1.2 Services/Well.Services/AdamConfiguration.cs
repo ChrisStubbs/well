@@ -1,83 +1,118 @@
-﻿namespace PH.Well.Services
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Permissions;
+using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.Services
 {
     using System.Configuration;
 
     public struct AdamConfiguration
     {
-        public static string AdamUsername => ConfigurationManager.AppSettings["adamUserName"];
+        #region Constants
+        private static readonly char[] Delimiters = { ';', ':', ',' };
+        private const string UsernameKey = "username";
+        private const string PasswordKey = "password";
+        private const string ServerKey = "server";
+        private const string PortKey = "port";
+        private const string RfsKey = "rfs";
+        private const string MissingMessage = "adam_Default setting missing from config";
+        #endregion Constants
 
-        public static string AdamPassword => ConfigurationManager.AppSettings["adamPassword"];
+        #region Private properties
+        /// <summary>
+        /// Used to cache a single read of the default settings - accessed only by AdamDefault public property
+        /// </summary>
+        private static AdamSettings adamDefault => CreateSettings(ConfigurationManager.AppSettings["adam_Default"] ?? "Missing:12345:MissingRfs");
+        #endregion Private properties
 
-        public static string AdamServerMedway => ConfigurationManager.AppSettings["adamServerMedway"];
+        #region Public static properties
+        public static readonly AdamSettings AdamDefault = adamDefault;
+        public static AdamSettings AdamMedway => CreateSettings(ConfigurationManager.AppSettings["adamMedway"]);
+        public static AdamSettings AdamCoventry => CreateSettings(ConfigurationManager.AppSettings["adamCoventry"]);
+        public static AdamSettings AdamFareham => CreateSettings(ConfigurationManager.AppSettings["adamFareham"]);
+        public static AdamSettings AdamDunfermline => CreateSettings(ConfigurationManager.AppSettings["adamDunfermline"]);
+        public static AdamSettings AdamLeeds => CreateSettings(ConfigurationManager.AppSettings["adamLeeds"]);
+        public static AdamSettings AdamHemel => CreateSettings(ConfigurationManager.AppSettings["adamHemel"]);
+        public static AdamSettings AdamBirtley => CreateSettings(ConfigurationManager.AppSettings["adamBirtley"]);
+        public static AdamSettings AdamBelfast => CreateSettings(ConfigurationManager.AppSettings["adamBelfast"]);
+        public static AdamSettings AdamBrandon => CreateSettings(ConfigurationManager.AppSettings["adamBrandon"]);
+        public static AdamSettings AdamPlymouth => CreateSettings(ConfigurationManager.AppSettings["adamPlymouth"]);
+        public static AdamSettings AdamBristol => CreateSettings(ConfigurationManager.AppSettings["adamBristol"]);
+        public static AdamSettings AdamHaydock => CreateSettings(ConfigurationManager.AppSettings["adamHaydock"]);
+        #endregion Public static properties
 
-        public static string AdamRfsMedway => ConfigurationManager.AppSettings["adamRfsMedway"];
+        #region Private helper methods
 
-        public static int AdamPortMedway => int.Parse(ConfigurationManager.AppSettings["adamPortMedway"]);
+        /// <summary>
+        /// Create Adam Settings from a config string
+        /// </summary>
+        /// <param name="adamSetting">A connection string in customer format</param>
+        /// <returns>An Adam configuration, or the default configuration for any missing settings</returns>
+        /// <remarks>
+        /// Can be in the form
+        ///     value="servername:portnumber;rfsname"
+        /// Or in the explicit form
+        ///     value="Server=servername;Port=portnumber;Rfs=rfsname"
+        /// *Note: Server, Port and Rfs are case insensitive
+        /// </remarks>
+        public static AdamSettings CreateSettings(string adamSetting)
+        {
+            var settings = (adamSetting ?? "").Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
+            if (settings.Length > 0)
+            {
+                Dictionary<string, string> values = new Dictionary<string, string>();
+                // If the first entry has no "=", create a Key Value list from the assumed sequence
+                if (!(settings.FirstOrDefault() ?? "").Contains('='))
+                {
+                    // Plain ordered parameters
+                    values.Add(ServerKey, settings[0].Trim());
+                    if (settings.Length > 1)
+                    {
+                        values.Add(PortKey, settings[1].Trim());
+                        if (settings.Length > 2)
+                        {
+                            values.Add(RfsKey, settings[2].Trim());
+                            if (settings.Length > 3)
+                            {
+                                values.Add(UsernameKey, settings[3].Trim());
+                                if (settings.Length > 4)
+                                {
+                                    values.Add(PasswordKey, settings[4].Trim());
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Extract the key values from each segment
+                    values = settings.Select(x =>
+                    {
+                        var split = x.Split('=');
+                        return new { key = split[0].Trim().ToLower(), value = split[1].Trim() };
+                    }).ToDictionary(x => x.key, x => x.value);
+                }
 
-        public static string AdamServerCoventry => ConfigurationManager.AppSettings["adamServerCoventry"];
-
-        public static string AdamRfsCoventry => ConfigurationManager.AppSettings["adamRfsCoventry"];
-
-        public static int AdamPortCoventry => int.Parse(ConfigurationManager.AppSettings["adamPortCoventry"]);
-
-        public static string AdamServerFareham => ConfigurationManager.AppSettings["adamServerFareham"];
-
-        public static string AdamRfsFareham => ConfigurationManager.AppSettings["adamRfsFareham"];
-
-        public static int AdamPortFareham => int.Parse(ConfigurationManager.AppSettings["adamPortFareham"]);
-
-        public static string AdamServerDunfermline => ConfigurationManager.AppSettings["adamServerDunfermline"];
-
-        public static string AdamRfsDunfermline => ConfigurationManager.AppSettings["adamRfsDunfermline"];
-
-        public static int AdamPortDunfermline => int.Parse(ConfigurationManager.AppSettings["adamPortDunfermline"]);
-
-        public static string AdamServerLeeds => ConfigurationManager.AppSettings["adamServerLeeds"];
-
-        public static string AdamRfsLeeds => ConfigurationManager.AppSettings["adamRfsLeeds"];
-
-        public static int AdamPortLeeds => int.Parse(ConfigurationManager.AppSettings["adamPortLeeds"]);
-
-        public static string AdamServerHemel => ConfigurationManager.AppSettings["adamServerHemel"];
-
-        public static string AdamRfsHemel => ConfigurationManager.AppSettings["adamRfsHemel"];
-
-        public static int AdamPortHemel => int.Parse(ConfigurationManager.AppSettings["adamPortHemel"]);
-
-        public static string AdamServerBirtley => ConfigurationManager.AppSettings["adamServerBirtley"];
-
-        public static string AdamRfsBirtley => ConfigurationManager.AppSettings["adamRfsBirtley"];
-
-        public static int AdamPortBirtley => int.Parse(ConfigurationManager.AppSettings["adamPortBirtley"]);
-
-        public static string AdamServerBelfast => ConfigurationManager.AppSettings["adamServerBelfast"];
-
-        public static string AdamRfsBelfast => ConfigurationManager.AppSettings["adamRfsBelfast"];
-
-        public static int AdamPortBelfast => int.Parse(ConfigurationManager.AppSettings["adamPortBelfast"]);
-
-        public static string AdamServerBrandon => ConfigurationManager.AppSettings["adamServerBrandon"];
-
-        public static string AdamRfsBrandon => ConfigurationManager.AppSettings["adamRfsBrandon"];
-
-        public static int AdamPortBrandon => int.Parse(ConfigurationManager.AppSettings["adamPortBrandon"]);
-
-        public static string AdamServerPlymouth => ConfigurationManager.AppSettings["adamServerPlymouth"];
-
-        public static string AdamRfsPlymouth => ConfigurationManager.AppSettings["adamRfsPlymouth"];
-
-        public static int AdamPortPlymouth => int.Parse(ConfigurationManager.AppSettings["adamPortPlymouth"]);
-
-        public static string AdamServerBristol => ConfigurationManager.AppSettings["adamServerBristol"];
-
-        public static string AdamRfsBristol => ConfigurationManager.AppSettings["adamRfsBristol"];
-
-        public static int AdamPortBristol => int.Parse(ConfigurationManager.AppSettings["adamPortBristol"]);
-
-        public static string AdamServerHaydock => ConfigurationManager.AppSettings["adamServerHaydock"];
-
-        public static string AdamRfsHaydock => ConfigurationManager.AppSettings["adamRfsHaydock"];
-
-        public static int AdamPortHaydock => int.Parse(ConfigurationManager.AppSettings["adamPortHaydock"]);
+                // Add any missing values from the adamDefault or global defaults
+                AdamSettings adamSettings = new AdamSettings
+                {
+                    Username =
+                        values.ContainsKey(UsernameKey) ? values[UsernameKey] : AdamDefault?.Username ?? MissingMessage,
+                    Password =
+                        values.ContainsKey(PasswordKey) ? values[PasswordKey] : AdamDefault?.Password ?? MissingMessage,
+                    Server = 
+                        values.ContainsKey(ServerKey) ? values[ServerKey] : AdamDefault?.Server ?? MissingMessage,
+                    Port = 
+                        values.ContainsKey(PortKey) ? int.Parse(values[PortKey]) : AdamDefault?.Port ?? 0,
+                    Rfs = 
+                        values.ContainsKey(RfsKey) ? values[RfsKey] : AdamDefault?.Rfs ?? MissingMessage
+                };
+                return adamSettings;
+            }
+            return AdamDefault;
+        }
+        #endregion Private helper methods
     }
 }

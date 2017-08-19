@@ -1,87 +1,49 @@
 ﻿namespace PH.Well.Services
 {
     using System;
-
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
 
     public static class AdamSettingsFactory
     {
+        /// <summary>
+        /// Get the AdamSettings for a specified branch (or the adamDefault settings)
+        /// </summary>
+        /// <param name="branch">Branch enumeration</param>
+        /// <returns>The AdamSettings for the specified branch, or the default branch settings, or an exception</returns>
         public static AdamSettings GetAdamSettings(Branch branch)
         {
-            var settings = new AdamSettings
-            {
-                Username = AdamConfiguration.AdamUsername,
-                Password = AdamConfiguration.AdamPassword
-            };
-
             switch (branch)
             {
                 case Branch.Medway:
-                    settings.Rfs = AdamConfiguration.AdamRfsMedway;
-                    settings.Port = AdamConfiguration.AdamPortMedway;
-                    settings.Server = AdamConfiguration.AdamServerMedway;
-                    break;
+                    return AdamConfiguration.AdamMedway;
                 case Branch.Coventry:
-                    settings.Rfs = AdamConfiguration.AdamRfsCoventry;
-                    settings.Port = AdamConfiguration.AdamPortCoventry;
-                    settings.Server = AdamConfiguration.AdamServerCoventry;
-                    break;
+                    return AdamConfiguration.AdamCoventry;
                 case Branch.Fareham:
-                    settings.Rfs = AdamConfiguration.AdamRfsFareham;
-                    settings.Port = AdamConfiguration.AdamPortFareham;
-                    settings.Server = AdamConfiguration.AdamServerFareham;
-                    break;
+                    return AdamConfiguration.AdamFareham;
                 case Branch.Dunfermline:
-                    settings.Rfs = AdamConfiguration.AdamRfsDunfermline;
-                    settings.Port = AdamConfiguration.AdamPortDunfermline;
-                    settings.Server = AdamConfiguration.AdamServerDunfermline;
-                    break;
+                    return AdamConfiguration.AdamDunfermline;
                 case Branch.Leeds:
-                    settings.Rfs = AdamConfiguration.AdamRfsLeeds;
-                    settings.Port = AdamConfiguration.AdamPortLeeds;
-                    settings.Server = AdamConfiguration.AdamServerLeeds;
-                    break;
+                    return AdamConfiguration.AdamLeeds;
                 case Branch.Hemel:
-                    settings.Rfs = AdamConfiguration.AdamRfsHemel;
-                    settings.Port = AdamConfiguration.AdamPortHemel;
-                    settings.Server = AdamConfiguration.AdamServerHemel;
-                    break;
+                    return AdamConfiguration.AdamHemel;
                 case Branch.Birtley:
-                    settings.Rfs = AdamConfiguration.AdamRfsBirtley;
-                    settings.Port = AdamConfiguration.AdamPortBirtley;
-                    settings.Server = AdamConfiguration.AdamServerBirtley;
-                    break;
+                    return AdamConfiguration.AdamBirtley;
                 case Branch.Belfast:
-                    settings.Rfs = AdamConfiguration.AdamRfsBelfast;
-                    settings.Port = AdamConfiguration.AdamPortBelfast;
-                    settings.Server = AdamConfiguration.AdamServerBelfast;
-                    break;
+                    return AdamConfiguration.AdamBelfast;
                 case Branch.Brandon:
-                    settings.Rfs = AdamConfiguration.AdamRfsBrandon;
-                    settings.Port = AdamConfiguration.AdamPortBrandon;
-                    settings.Server = AdamConfiguration.AdamServerBrandon;
-                    break;
+                    return AdamConfiguration.AdamBrandon;
                 case Branch.Plymouth:
-                    settings.Rfs = AdamConfiguration.AdamRfsPlymouth;
-                    settings.Port = AdamConfiguration.AdamPortPlymouth;
-                    settings.Server = AdamConfiguration.AdamServerPlymouth;
-                    break;
+                    return AdamConfiguration.AdamPlymouth;
                 case Branch.Bristol:
-                    settings.Rfs = AdamConfiguration.AdamRfsBristol;
-                    settings.Port = AdamConfiguration.AdamPortBristol;
-                    settings.Server = AdamConfiguration.AdamServerBristol;
-                    break;
+                    return AdamConfiguration.AdamBristol;
                 case Branch.Haydock:
-                    settings.Rfs = AdamConfiguration.AdamRfsHaydock;
-                    settings.Port = AdamConfiguration.AdamPortHaydock;
-                    settings.Server = AdamConfiguration.AdamServerHaydock;
-                    break;
+                    return AdamConfiguration.AdamHaydock;
+                case Branch.Default:
+                    return AdamConfiguration.AdamDefault;
                 default:
                     throw new ArgumentException("Branch not recognised");
             }
-
-            return settings;
         }
     }
 }

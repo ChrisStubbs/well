@@ -62,6 +62,7 @@
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                     x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<AdamUserNameProvider>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<AdamUserNameProvider>();
                     x.For<IBranchRepository>().Use<BranchRepository>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IPostImportRepository>().Use<PostImportRepository>();

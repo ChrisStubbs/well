@@ -7,7 +7,7 @@ using PH.Well.Common.Contracts;
 
 namespace PH.Well.Adam.Listener
 {
-    public class AdamUserNameProvider: IUserNameProvider
+    public class AdamUserNameProvider: IUserNameProvider, PH.Common.Security.Interfaces.IUserNameProvider
     {
         public string GetUserName()
         {

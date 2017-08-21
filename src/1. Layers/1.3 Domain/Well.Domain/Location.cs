@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Domain
+﻿using PH.Well.Domain.Enums;
+
+namespace PH.Well.Domain
 {
     public class Location
     {
@@ -17,5 +19,18 @@
         public int Invoiced { get; set; }
         public int Cleans => Invoiced - Exceptions;
         public int Exceptions { get; set; }
+        public JobIssueType JobIssueType
+        {
+            get
+            {
+                return
+                    (this.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+                    (this.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+                    (this.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All);
+            }
+        }
+        public bool HasNotDefinedDeliveryAction { get; set; }
+        public bool NoGRNButNeeds { get; set; }
+        public bool PendingSubmission { get; set; }
     }
 }

@@ -116,34 +116,6 @@ namespace PH.Well.Repositories.Read
                     })
                     .ToList();
 
-//var hhhhh = routeHeaders
-//                    .Where(p => p.RouteId == 16)
-//                    .Select(item => new Route()
-//{
-//    Id = item.RouteId,
-//    BranchId = item.BranchId,
-//    BranchName = item.BranchName,
-//    RouteNumber = item.RouteNumber,
-//    RouteDate = item.RouteDate.Value,
-//    StopCount = item.StopCount,
-//    ExceptionCount = item.ExceptionCount,
-//    CleanCount = item.CleanCount,
-//    RouteStatus = item.RouteStatusDesc,
-//    RouteStatusId =
-//                        GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
-//                            item.JobIds.Count()),
-//    Assignees = item.Assignees.Select(x => new Assignee()
-//    {
-//        RouteId = item.RouteId,
-//        Name = x
-//    }).ToList(),
-//    JobIssueType =
-//                        (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
-//                        (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
-//                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All)
-//})
-//                .First();
-
                 return routeHeaders.Select(item => new Route()
                 {
                     Id = item.RouteId,

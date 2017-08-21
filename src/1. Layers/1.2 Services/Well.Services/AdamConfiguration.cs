@@ -11,13 +11,23 @@ namespace PH.Well.Services
     public struct AdamConfiguration
     {
         #region Constants
-        private static readonly char[] Delimiters = { ';', ':', ',' };
+
+        private static readonly char[] Delimiters = {';', ':', ','};
         private const string UsernameKey = "username";
         private const string PasswordKey = "password";
         private const string ServerKey = "server";
         private const string PortKey = "port";
         private const string RfsKey = "rfs";
         private const string MissingMessage = "adam_Default setting missing from config";
+        private static readonly string[] OrderedKeyNames = 
+        {
+            ServerKey,
+            PortKey,
+            RfsKey,
+            UsernameKey,
+            PasswordKey
+        };
+
         #endregion Constants
 
         #region Private properties
@@ -66,23 +76,10 @@ namespace PH.Well.Services
                 // If the first entry has no "=", create a Key Value list from the assumed sequence
                 if (!(settings.FirstOrDefault() ?? "").Contains('='))
                 {
-                    // Plain ordered parameters
-                    values.Add(ServerKey, settings[0].Trim());
-                    if (settings.Length > 1)
+                    // Convert each parameter in sequence to a named key-value entry
+                    for (int index = 0; index < OrderedKeyNames.Length && index < settings.Length; index++)
                     {
-                        values.Add(PortKey, settings[1].Trim());
-                        if (settings.Length > 2)
-                        {
-                            values.Add(RfsKey, settings[2].Trim());
-                            if (settings.Length > 3)
-                            {
-                                values.Add(UsernameKey, settings[3].Trim());
-                                if (settings.Length > 4)
-                                {
-                                    values.Add(PasswordKey, settings[4].Trim());
-                                }
-                            }
-                        }
+                        values.Add(OrderedKeyNames[index], settings[index].Trim());
                     }
                 }
                 else

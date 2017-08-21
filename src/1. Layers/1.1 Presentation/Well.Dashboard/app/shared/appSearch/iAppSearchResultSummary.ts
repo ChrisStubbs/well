@@ -1,11 +1,9 @@
-export interface  IAppSearchResultSummary
+// From AppSearchResultSummary
+export interface IAppSearchResultSummary
 {
-    stopIds: number[];
+    branchId: number;
     routeIds: number[];
-    invoices: IInvoiceSearchResult[];
+    locationIds: number[];
+    invoiceIds: number[];
 }
 
-export interface IInvoiceSearchResult  {
-    branchId: number;
-    invoiceNumber: string;
-}

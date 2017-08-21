@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Job_Insert]
 	@Sequence				INT,
+	@JobTypeId				TINYINT,
 	@JobTypeCode			VARCHAR(50),
 	@PHAccount				VARCHAR(50)=NULL,
 	@PickListRef			VARCHAR(50)=NULL,
@@ -42,6 +43,7 @@ BEGIN
 
 	INSERT [Job] (
 		[Sequence],
+		[JobTypeId],
 		[JobTypeCode],
 		[PHAccount], 
 		[PickListRef], 
@@ -79,6 +81,7 @@ BEGIN
 		[ResolutionStatusId])
 	VALUES (
 		@Sequence, 
+		@JobTypeId,
 		@JobTypeCode, 
 		@PHAccount, 
 		@PickListRef, 

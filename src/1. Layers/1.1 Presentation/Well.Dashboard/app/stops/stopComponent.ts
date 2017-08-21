@@ -111,7 +111,7 @@ export class StopComponent implements IObservableAlive
         this.route.params
             .flatMap(data =>
             {
-                this.stopId = data.id;
+                this.stopId = <number>(<any>data).id;
                 return this.stopService.getStop(this.stopId);
             })
             .takeWhile(() => this.isAlive)
@@ -139,7 +139,7 @@ export class StopComponent implements IObservableAlive
                     .map((current: string) =>
                     {
                         this.jobTypes.push(
-                            {
+                            <ILookupValue>{
                                 key: current,
                                 value: current
                             });
@@ -154,7 +154,7 @@ export class StopComponent implements IObservableAlive
                     .takeWhile(() => this.isAlive)
                     .subscribe(account =>
                     {
-                        this.customerAccount = account;
+                        this.customerAccount = <IAccount>account;
                     });
             });
     }
@@ -251,7 +251,7 @@ export class StopComponent implements IObservableAlive
             .takeWhile(() => this.isAlive)
             .subscribe(account =>
             {
-                this.contactModal.show(account);
+                this.contactModal.show(<IAccount>account);
                 this.openContact.nativeElement.click();
             });
     }

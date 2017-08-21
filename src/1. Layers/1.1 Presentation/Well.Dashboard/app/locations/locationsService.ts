@@ -34,8 +34,7 @@ export class LocationsService
 
     public getSingleLocation(locationId: number): Observable<SingleLocationHeader> {
         const url: string = this.globalSettingsService.globalSettings.apiUrl +
-            'SingleLocation?locationId=' +
-            locationId.toString();
+            'SingleLocation/' + locationId;
 
         return this.http.get(url)
             .map((response: Response) =>

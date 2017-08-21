@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+
+namespace PH.Well.Repositories
 {
     public struct StoredProcedures
     {
@@ -47,8 +49,12 @@
         public const string JobGetByRefDetails = "Job_GetByRefDetails";
         public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
         public const string JobGetByStopId = "Job_GetByStopId";
+
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
+        [Obsolete("Replaced with EF version. Should be deleted")]
         public const string JobDetailTotalsPerJobIds = "JobDetailTotalsPerJobIds";
         public const string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
         public const string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
@@ -156,9 +162,9 @@
         public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
         public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
 
-        public const string ActivityGetById = "Activity_GetById";
         public const string LocationGetById = "Location_GetById";
         public const string GetSingleLocation = "SingleLocation_Get";
+        public const string GetSingleLocationById = "SingleLocation_GetById";
         public const string GetLocations = "Locations_GET";
         
         //lookups
@@ -176,7 +182,11 @@
         public const string JobsToBeApproved = "JobsToBeApproved";
         public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
         public const string GetJobIdsByStopIds = "JobIds_GetByStopIds";
+
+        // Activities (Invoices/Uplifts etc)
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
+        public const string ActivityGetById = "Activity_GetById";
+        public const string ActivityGetSourceById = "Activity_GetSourceById";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
 

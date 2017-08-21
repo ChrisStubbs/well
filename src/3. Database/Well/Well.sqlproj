@@ -441,9 +441,14 @@
     <None Include="ManualStep\scripts\up\023_Drop_Proc_JobIds_GetByBranchAccountPickListRefAndJobType.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\024_AddJobTypeIdToJob.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Build Include="dbo\Views\RoutesWithNoGRNView.sql" />
     <Build Include="dbo\Views\RoutesWithPendingSubmitionsView.sql" />
     <Build Include="dbo\Views\RoutesWithUnresolvedActionView.sql" />
+    <Build Include="dbo\StoredProcedures\SingleLocation_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\Activity_GetSourceById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

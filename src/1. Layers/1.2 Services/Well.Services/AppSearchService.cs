@@ -17,7 +17,7 @@
         public AppSearchResultSummary GetAppSearchResult(AppSearchParameters searchParams)
         {
             var results = searchReadRepository.Search(searchParams).ToArray();
-            return AppSearchResultSummary.Get(results);
+            return AppSearchResultSummary.Get(results, searchParams.BranchId);
         }
     }
 }

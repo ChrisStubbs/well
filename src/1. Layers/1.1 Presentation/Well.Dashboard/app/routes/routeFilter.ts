@@ -14,7 +14,7 @@ export class RouteFilter implements IFilter
     public exceptionCount: boolean;
     public driverName: string;
     public assignee: string;
-    public uncompletedJob: boolean;
+    public jobIssueType: number;
 
     constructor()
     {
@@ -25,7 +25,7 @@ export class RouteFilter implements IFilter
         this.exceptionCount = undefined;
         this.driverName = '';
         this.assignee = '';
-        this.uncompletedJob = undefined;
+        this.jobIssueType = undefined;
     }
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
@@ -44,8 +44,13 @@ export class RouteFilter implements IFilter
             case 'assignee':
                 return GridHelpersFunctions.isEqualFilter;
 
-            case 'uncompletedJob':
-                return GridHelpersFunctions.boolFilter;
+            case 'jobIssueType':
+                return (value: number, value2: number) =>
+                {
+                    return +value2 == 0
+                        || (+value2 == 7 && value != 0)
+                        || GridHelpersFunctions.enumBitwiseAndCompare(+value2, +value);
+                };
 
             case 'routeStatusId':
                 return (value: number, value2: number) =>

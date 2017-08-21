@@ -26,115 +26,197 @@ namespace PH.Well.Repositories.Read
 
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
-            var routes = new List<Route>();
-            var branch = wellEntities.UserBranch.Where(x => x.User.IdentityName == username).Select(x => x.Branch).FirstOrDefault(x => x.Id == branchId);
+            var branch = wellEntities.UserBranch
+                .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
+                .Select(x => new
+                {
+                    x.Branch.Id,
+                    x.Branch.Name
+                })
+                .FirstOrDefault();
+
             if (branch != null)
             {
-                var routeHeaders = wellEntities.RouteHeader.Where(x => x.RouteOwnerId == branch.Id).Select(x => new
-                {
-                    RouteId = x.Id,
-                    BranchId = x.RouteOwnerId,
-                    Assignees = x.Stop.SelectMany(y => y.Job.SelectMany(z => z.UserJob.Select(a => a.User.Name))).Distinct(),
-                    BranchName = branch.Name,
-                    RouteNumber = x.RouteNumber,
-                    RouteDate = x.RouteDate,
-                    StopCount = x.Stop.Count,
-                    RouteStatusCode = x.RouteStatusCode,
-                    RouteStatusDesc = x.RouteStatusDescription,
-                    BypassJobCount = x.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
-                                                                        && z.JobTypeCode != "DEL-DOC"
-                                                                        && z.JobTypeCode != "NOTDEF"
-                                                                        //&& z.ResolutionStatusId > 1
-                                                                        && z.JobStatusId == (byte)JobStatus.Bypassed)),
-                    ExceptionCount = x.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
-                                                                      && z.JobTypeCode != "DEL-DOC"
-                                                                      && z.JobTypeCode != "NOTDEF"
-                                                                      && z.ResolutionStatusId > 1
-                                                                      && z.Activity.LineItem.Any(a => a.LineItemAction.Any()))),
-                    CleanCount = x.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
-                                                                      && z.JobTypeCode != "DEL-DOC"
-                                                                      && z.JobTypeCode != "NOTDEF"
-                                                                      && z.ResolutionStatusId > 1
-                                                                      && z.Activity.LineItem.Any(a => !a.LineItemAction.Any()))),
-                    DriverName = x.DriverName,
-                    JobIds = x.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
-                                                                        && z.JobTypeCode != "DEL-DOC"
-                                                                        && z.JobTypeCode != "NOTDEF").Select(a => a.Id))
-                }).ToList();
+                var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
+                .Select(p => new { p.Id, Value = p.NoGRNButNeeds, Type = "a" });
 
-                foreach (var routeHeader in routeHeaders)
-                {
-                    var route = new Route()
+                var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
+                    .Select(p => new { p.Id, Value = p.HasNotDefinedDeliveryAction, Type = "b" });
+
+                var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
+                    .Select(p => new { p.Id, Value = p.PendingSubmission, Type = "c" });
+
+                var viewsValues = routesWithUnresolvedActionView
+                    .Union(routesWithNoGRNView)
+                    .Union(routesWithPendingSubmitionsView)
+                    .GroupBy(p => p.Id)
+                    .Select(p => new
                     {
-                        Id = routeHeader.RouteId,
-                        BranchId = routeHeader.BranchId,
-                        BranchName = routeHeader.BranchName,
-                        RouteNumber = routeHeader.RouteNumber,
-                        RouteDate = routeHeader.RouteDate.Value,
-                        StopCount = routeHeader.StopCount,
-                        ExceptionCount = routeHeader.ExceptionCount,
-                        CleanCount = routeHeader.CleanCount,
-                        RouteStatus = routeHeader.RouteStatusDesc,
-                        RouteStatusId =
-                            GetWellStatus(routeHeader.RouteStatusCode, routeHeader.BypassJobCount,
-                                routeHeader.JobIds.Count()),
-                        Assignees = routeHeader.Assignees.Select(x=>new Assignee()
-                        {
-                            RouteId = routeHeader.RouteId,
-                            Name = x
-                        }).ToList()
-                    };
+                        Id = p.Key,
+                        NoGRNButNeeds = p.Where(v => v.Type == "a").Select(v => v.Value).FirstOrDefault() ?? false,
+                        HasNotDefinedDeliveryAction = p.Where(v => v.Type == "b").Select(v => v.Value).FirstOrDefault() ?? false,
+                        PendingSubmission = p.Where(v => v.Type == "c").Select(v => v.Value).FirstOrDefault() ?? false,
+                    });
 
-                    routes.Add(route);
+                var routeHeaders = wellEntities.RouteHeader
+                    .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
+                    .GroupJoin(viewsValues,
+                        p => p.Id,
+                        v => v.Id,
+                        (p, v) => v
+                                    .Select(r => new
+                                    {
+                                        Route = p,
+                                        NoGRNButNeeds = r.NoGRNButNeeds,
+                                        HasNotDefinedDeliveryAction = r.HasNotDefinedDeliveryAction,
+                                        PendingSubmission = r.PendingSubmission
+                                    })
+                                    .DefaultIfEmpty(new
+                                    {
+                                        Route = p,
+                                        NoGRNButNeeds = false,
+                                        HasNotDefinedDeliveryAction = false,
+                                        PendingSubmission = false
+                                    })
+                    )
+                    .SelectMany(p => p)
+                    .Select(x => new
+                    {
+                        x.NoGRNButNeeds,
+                        x.HasNotDefinedDeliveryAction,
+                        x.PendingSubmission,
+                        RouteId = x.Route.Id,
+                        BranchId = x.Route.RouteOwnerId,
+                        Assignees = x.Route.Stop.SelectMany(y => y.Job.SelectMany(z => z.UserJob.Select(a => a.User.Name))).Distinct(),
+                        BranchName = branch.Name,
+                        RouteNumber = x.Route.RouteNumber,
+                        RouteDate = x.Route.RouteDate,
+                        StopCount = x.Route.Stop.Count,
+                        RouteStatusCode = x.Route.RouteStatusCode,
+                        RouteStatusDesc = x.Route.RouteStatusDescription,
+                        BypassJobCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
+                                                                            && z.JobTypeCode != "DEL-DOC"
+                                                                            && z.JobTypeCode != "NOTDEF"
+                                                                            && z.JobStatusId == (byte)JobStatus.Bypassed)),
+                        ExceptionCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
+                                                                          && z.JobTypeCode != "DEL-DOC"
+                                                                          && z.JobTypeCode != "NOTDEF"
+                                                                          && z.ResolutionStatusId > 1
+                                                                          && z.Activity.LineItem.Any(a => a.LineItemAction.Any()))),
+                        CleanCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
+                                                                          && z.JobTypeCode != "DEL-DOC"
+                                                                          && z.JobTypeCode != "NOTDEF"
+                                                                          && z.ResolutionStatusId > 1
+                                                                          && z.Activity.LineItem.Any(a => !a.LineItemAction.Any()))),
+                        DriverName = x.Route.DriverName,
+                        JobIds = x.Route.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
+                                                                            && z.JobTypeCode != "DEL-DOC"
+                                                                            && z.JobTypeCode != "NOTDEF").Select(a => a.Id))
+                    })
+                    .ToList();
+
+//var hhhhh = routeHeaders
+//                    .Where(p => p.RouteId == 16)
+//                    .Select(item => new Route()
+//{
+//    Id = item.RouteId,
+//    BranchId = item.BranchId,
+//    BranchName = item.BranchName,
+//    RouteNumber = item.RouteNumber,
+//    RouteDate = item.RouteDate.Value,
+//    StopCount = item.StopCount,
+//    ExceptionCount = item.ExceptionCount,
+//    CleanCount = item.CleanCount,
+//    RouteStatus = item.RouteStatusDesc,
+//    RouteStatusId =
+//                        GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
+//                            item.JobIds.Count()),
+//    Assignees = item.Assignees.Select(x => new Assignee()
+//    {
+//        RouteId = item.RouteId,
+//        Name = x
+//    }).ToList(),
+//    JobIssueType =
+//                        (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+//                        (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+//                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All)
+//})
+//                .First();
+
+                return routeHeaders.Select(item => new Route()
+                {
+                    Id = item.RouteId,
+                    BranchId = item.BranchId,
+                    BranchName = item.BranchName,
+                    RouteNumber = item.RouteNumber,
+                    RouteDate = item.RouteDate.Value,
+                    StopCount = item.StopCount,
+                    ExceptionCount = item.ExceptionCount,
+                    CleanCount = item.CleanCount,
+                    RouteStatus = item.RouteStatusDesc,
+                    RouteStatusId =
+                        GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
+                            item.JobIds.Count()),
+                    Assignees = item.Assignees.Select(x => new Assignee()
+                    {
+                        RouteId = item.RouteId,
+                        Name = x
+                    }).ToList(),
+                    JobIssueType =
+                        (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+                        (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All)
+                })
+                .ToList();
+            }
+
+            return new List<Route>();
+        }
+
+        private int GetWellStatus(string routeStatusCode, int bypassJobCount, int jobCount)
+        {
+            if (bypassJobCount == jobCount)
+            {
+                return 4;
+            }
+            switch (routeStatusCode)
+            {
+                case "NDEPA":
+                    return 1;
+                case "INPRO":
+                    return 2;
+                case "COMPL":
+                    return 3;
+                default:
+                    return 1;
             }
         }
-            return routes;
+
+        //public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
+        //{
+        //    var routes = new List<Route>();
+        //    dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAllForBranch)
+        //            .AddParameter("BranchId", branchId, DbType.Int32)
+        //            .AddParameter("username", username, DbType.String)
+        //            .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
+
+        //    return routes;
+        //}
+
+        public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
+        {
+            var readRoutes = grid.Read<Route>().ToList();
+            var assignees = grid.Read<Assignee>().ToList();
+            var jobIds = grid.Read<RouteJob>().ToList();
+
+            foreach (var route in readRoutes)
+            {
+                route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
+                route.JobIds = jobIds.Where(x => x.RouteId == route.Id && x.JobType != JobType.Documents).Select(x => x.JobId).ToList();
+            }
+
+            return readRoutes;
         }
 
-    private int GetWellStatus(string routeStatusCode, int bypassJobCount, int jobCount)
-    {
-        if (bypassJobCount == jobCount)
-        {
-            return 4;
-        }
-        switch (routeStatusCode)
-        {
-            case "NDEPA":
-                return 1;
-            case "INPRO":
-                return 2;
-            case "COMPL":
-                return 3;
-            default:
-                return 1;
-        }
     }
-
-    //public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
-    //{
-    //    var routes = new List<Route>();
-    //    dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAllForBranch)
-    //            .AddParameter("BranchId", branchId, DbType.Int32)
-    //            .AddParameter("username", username, DbType.String)
-    //            .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
-
-    //    return routes;
-    //}
-
-    public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
-    {
-        var readRoutes = grid.Read<Route>().ToList();
-        var assignees = grid.Read<Assignee>().ToList();
-        var jobIds = grid.Read<RouteJob>().ToList();
-
-        foreach (var route in readRoutes)
-        {
-            route.Assignees = assignees.Where(x => x.RouteId == route.Id).ToList();
-            route.JobIds = jobIds.Where(x => x.RouteId == route.Id && x.JobType != JobType.Documents).Select(x => x.JobId).ToList();
-        }
-
-        return readRoutes;
-    }
-
-}
 }

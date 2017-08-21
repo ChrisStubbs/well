@@ -54,6 +54,7 @@
     <Compile Include="Constants\RouteStatusCode.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
     <Compile Include="DateThreshold.cs" />
+    <Compile Include="Enums\JobIssueType.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />

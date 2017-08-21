@@ -13,15 +13,14 @@ export class AssignGrnModal {
     public grnNumber: string;
     private notRequired: string = 'Not required';
 
-    constructor(private jobService: JobService) {
-
-    }
+    constructor(private jobService: JobService) {}
 
     public ngOnInit() {
         this.grnNumber = this.model.grnNumber;
     }
 
-    public show = (): void => {
+    public show(): void
+    {
         this.isVisible = true;
     }
 
@@ -36,11 +35,13 @@ export class AssignGrnModal {
             });
     }
 
-    private close = (): void => {
+    private close(): void
+    {
         this.isVisible = false;
     }
 
-    private linkText = (): string => {
+    private linkText (): string
+    {
         if (this.model.grnNumber) {
             return this.model.grnNumber;
         } else {

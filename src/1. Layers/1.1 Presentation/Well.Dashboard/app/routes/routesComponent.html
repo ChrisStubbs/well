@@ -8,19 +8,19 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-11">
-            <tooltip-content #uncompletedJobs placement="top">
-                <span>Only show routes with one or more jobs with pending actions or empty but mandatory GRN</span>
-            </tooltip-content>
-            <label for="filterUncompletedJobs">Show pending action Jobs</label>
-            <input id="filterUncompletedJobs" type="checkbox" (change)="filterUncompletedJob()" [(ngModel)]="routeFilter.uncompletedJob">
-            <a href="#" aria-hidden="true" (click)="$event.preventDefault()"
-               [tooltip]="uncompletedJobs"
-               tooltipPlacement="right">
-                <span class="glyphicon glyphicon-info-sign"></span>
-            </a>
+        <div class="col-md-9">
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Show pending action Jobs - {{getJobIssueTypeDescription()}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let issue of jobIssueType">
+                        <a (click)="routeFilter.jobIssueType = issue.key; fillGridSource()">{{ issue.value }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-1 pull-right">
+        <div class="col-md-3 pull-right">
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>

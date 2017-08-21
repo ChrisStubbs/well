@@ -58,5 +58,9 @@ namespace PH.Well.Domain.ValueObjects
         public bool HasNotDefinedDeliveryAction { get; set; }
 
         public bool NoGRNButNeeds { get; set; }
+
+        public bool PendingSubmission { get; set; }
+
+        public JobIssueType JobIssueType { get; set; }
     }
 }

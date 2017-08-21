@@ -13,6 +13,7 @@
         RouteStatus,
         WellStatus,
         CommentReason,
-        ResolutionStatus
+        ResolutionStatus,
+        JobIssueType
     }
 }

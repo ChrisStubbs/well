@@ -59,9 +59,26 @@ namespace PH.Well.Services
                 case LookupType.ResolutionStatus:
                     return this.GetResolutionStatus();
 
+                case LookupType.JobIssueType:
+                    return GetJobIssueType();
+
                 default:
                     throw new ArgumentException($"{lookupType}");
             }
+        }
+
+        private IList<KeyValuePair<string, string>> GetJobIssueType()
+        {
+            var sources = Enum.GetValues(typeof(JobIssueType)).Cast<JobIssueType>().ToList();
+            var values = sources
+                .Select(a => new KeyValuePair<string, string>($"{(int)a}", a.Description()))
+                .ToList();
+
+            values.Add(new KeyValuePair<string, string>(
+                ((int)(JobIssueType.ActionRequired | JobIssueType.MissingGRN | JobIssueType.PendingSubmission)).ToString(),
+                "All Outstanding"));
+
+            return values;
         }
 
         private IList<KeyValuePair<string, string>> GetJobDetailReason()

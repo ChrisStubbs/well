@@ -23,12 +23,12 @@ import { GridHelpersFunctions }                         from '../shared/gridHelp
 })
 export class RoutesComponent implements IObservableAlive
 {
-    public errorMessage: string;
     public routes: Route[];
     public gridSource: Route[] = [];
     public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
+    public jobIssueType: Array<ILookupValue>;
     public isAlive: boolean = true;
     public rowCount = 10;
 
@@ -54,7 +54,8 @@ export class RoutesComponent implements IObservableAlive
 
                 return Observable.forkJoin(
                     this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName),
-                    this.lookupService.get(LookupsEnum.RouteStatus)
+                    this.lookupService.get(LookupsEnum.RouteStatus),
+                    this.lookupService.get(LookupsEnum.JobIssueType)
                 );
             })
             .takeWhile(() => this.isAlive)
@@ -75,6 +76,8 @@ export class RoutesComponent implements IObservableAlive
 
                 this.getRoutesByBranch();
                 this.routeStatus = res[1];
+                this.jobIssueType = res[2];
+                this.routeFilter.jobIssueType = 0;
             });
     }
 
@@ -153,19 +156,23 @@ export class RoutesComponent implements IObservableAlive
         }
     }
 
-    public filterUncompletedJob(): void
-    {
-        if (!this.routeFilter.uncompletedJob)
-        {
-            this.routeFilter.uncompletedJob = undefined;
-        }
-
-        this.fillGridSource();
-    }
-
     public refreshData(event): void
     {
         this.routeFilter.branchId = +event.target.value;
         this.getRoutesByBranch();
+    }
+
+    public getJobIssueTypeDescription()
+    {
+        const result = _.filter(
+            this.jobIssueType,
+            (current: ILookupValue) => +current.key == this.routeFilter.jobIssueType);
+
+        if (!_.isEmpty(result))
+        {
+            return result[0].value;
+        }
+
+        return '';
     }
 }

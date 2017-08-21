@@ -11,5 +11,6 @@ export enum LookupsEnum
     RouteStatus,
     WellStatus,
     CommentReason,
-    ResolutionStatus
+    ResolutionStatus,
+    JobIssueType,
 }

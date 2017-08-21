@@ -32,6 +32,7 @@ export class SingleRouteItem implements IGrnAssignable
     public resolution: string;
     public resolutionId: number;
     public invoice: string;
+    public invoiceId: number;
     public jobType: string;
     public jobTypeId: number;
     public cod: string;

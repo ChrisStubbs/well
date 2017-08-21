@@ -13,6 +13,7 @@
         public string Resolution { get; set; }
         public int ResolutionId { get; set; }
         public string Invoice { get; set; }
+        public int InvoiceId { get; set; }
         public string JobType { get; set; }
         public int JobTypeId { get; set; }
         public string Cod { get; set; }

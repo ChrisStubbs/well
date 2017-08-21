@@ -6,6 +6,10 @@ import { IObservableAlive }             from '../shared/IObservableAlive';
 import { Router }                       from '@angular/router';
 import { GridHelpersFunctions }         from '../shared/gridHelpers/gridHelpersFunctions';
 import { LocationFilter, Locations }    from './singleLocation';
+import { ILookupValue }                 from '../shared/services/ILookupValue';
+import { Observable }                   from 'rxjs/Rx';
+import { LookupService, LookupsEnum }   from '../shared/services/services';
+import * as _                           from 'lodash';
 import 'rxjs/Rx';
 
 @Component({
@@ -17,6 +21,7 @@ export class LocationsComponent implements IObservableAlive
 {
     public isAlive: boolean = true;
     public branches: Array<[string, string]>;
+    public jobIssueType: Array<ILookupValue>;
 
     private filters: LocationFilter = new LocationFilter();
     private source: Array<Locations> = [];
@@ -26,7 +31,8 @@ export class LocationsComponent implements IObservableAlive
     constructor(private locationsService: LocationsService,
                 private branchService: BranchService,
                 private globalSettingsService: GlobalSettingsService,
-                private router: Router) {}
+                private router: Router,
+                private lookupService: LookupService) {}
 
     public ngOnDestroy(): void {
         this.isAlive = false;
@@ -34,11 +40,13 @@ export class LocationsComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
-        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+        Observable.forkJoin(
+            this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName),
+            this.lookupService.get(LookupsEnum.JobIssueType)
+        )
             .takeWhile(() => this.isAlive)
-            .subscribe(res =>
-            {
-                this.branches = res;
+            .subscribe(res => {
+                this.branches = res[0];
                 if (this.branches.length === 0)
                 {
                     // no branches set up
@@ -47,6 +55,8 @@ export class LocationsComponent implements IObservableAlive
                 }
 
                 this.loadData(+this.branches[0][0]);
+                this.jobIssueType = res[1];
+                this.filters.jobIssueType = 0;
             });
     }
 
@@ -76,5 +86,19 @@ export class LocationsComponent implements IObservableAlive
         GridHelpersFunctions.filterFreeText(this.inputFilterTimer)
             .then(() => this.fillGrid())
             .catch(() => this.inputFilterTimer = undefined);
+    }
+
+    public getJobIssueTypeDescription()
+    {
+        const result = _.filter(
+            this.jobIssueType,
+            (current: ILookupValue) => +current.key == this.filters.jobIssueType);
+
+        if (!_.isEmpty(result))
+        {
+            return result[0].value;
+        }
+
+        return '';
     }
 }

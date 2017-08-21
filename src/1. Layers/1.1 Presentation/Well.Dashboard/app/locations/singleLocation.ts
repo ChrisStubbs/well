@@ -139,6 +139,7 @@ export class Locations
     public exceptions: number;
     public invoiced: number;
     public cleans: number;
+    public jobIssueType: number;
 }
 
 export class LocationFilter implements  IFilter
@@ -150,6 +151,7 @@ export class LocationFilter implements  IFilter
         this.accountName = '';
         this.address = '';
         this.exceptions = undefined;
+        this.jobIssueType = 0;
     }
 
     public primaryAccountNumber: string;
@@ -157,6 +159,7 @@ export class LocationFilter implements  IFilter
     public accountName: string;
     public address: string;
     public exceptions: number;
+    public jobIssueType: number;
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
@@ -179,6 +182,14 @@ export class LocationFilter implements  IFilter
                    }
 
                    return sourceRow.exceptions == 0;
+                };
+
+            case 'jobIssueType':
+                return (value: number, value2: number) =>
+                {
+                    return +value2 == 0
+                        || (+value2 == 7 && value != 0)
+                        || GridHelpersFunctions.enumBitwiseAndCompare(+value2, +value);
                 };
         }
 

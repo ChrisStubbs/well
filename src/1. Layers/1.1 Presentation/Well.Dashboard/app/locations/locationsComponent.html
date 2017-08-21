@@ -8,9 +8,19 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-9">
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Show pending action Jobs - {{getJobIssueTypeDescription()}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let issue of jobIssueType">
+                        <a (click)="filters.jobIssueType = issue.key; fillGrid()">{{ issue.value }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-1 pull-right">
+        <div class="col-md-3 pull-right">
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
@@ -36,12 +46,6 @@
                                 </select>
                             </div>
                         </th>
-                        <!--<th style="width: 15%">
-                            <div class="text-center">Primary Account Number</div>
-                            <div>
-                                <input type="text" [(ngModel)]="filters.primaryAccountNumber" (keyup)="filterFreeText()" class="form-control">
-                            </div>
-                        </th>-->
                         <th>
                             <div class="text-center">Account Number</div>
                             <div>

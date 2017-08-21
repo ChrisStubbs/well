@@ -25,7 +25,7 @@ export class RouteFilter implements IFilter
         this.exceptionCount = undefined;
         this.driverName = '';
         this.assignee = '';
-        this.jobIssueType = undefined;
+        this.jobIssueType = 0;
     }
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean

@@ -77,7 +77,6 @@ export class RoutesComponent implements IObservableAlive
                 this.getRoutesByBranch();
                 this.routeStatus = res[1];
                 this.jobIssueType = res[2];
-                this.routeFilter.jobIssueType = 0;
             });
     }
 

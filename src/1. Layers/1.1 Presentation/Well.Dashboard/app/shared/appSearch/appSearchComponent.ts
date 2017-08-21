@@ -113,6 +113,7 @@ export class AppSearch implements IObservableAlive {
             .takeWhile(() => this.isAlive)
             .subscribe((result: IAppSearchResultSummary) => 
             {
+                // If no locations matched
                 if (!result.locationIds.length && !result.routeIds.length && !result.invoiceIds.length) {
                     this.toasterService.pop('warning', 'No results found for your search criteria');
                     this.onSearch.emit();
@@ -151,7 +152,7 @@ export class AppSearch implements IObservableAlive {
     }
 
     public isNonFilterSearch(searchParams: AppSearchParameters): boolean {
-        if (searchParams.account || searchParams.invoice || searchParams.deliveryType) {
+        if (searchParams.account || searchParams.invoice /* || searchParams.deliveryType */) {
             return true;
         }
         return false;

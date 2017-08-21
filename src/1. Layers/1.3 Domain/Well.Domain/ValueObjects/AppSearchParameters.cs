@@ -29,6 +29,7 @@
         public bool HasAccount => !string.IsNullOrEmpty(this.Account);
         public bool HasRoute=> !string.IsNullOrEmpty(this.Route);
         public bool HasDriver => !string.IsNullOrEmpty(this.Driver);
+        public bool IsRouteSearch => HasBranch && !HasInvoice && !HasAccount;
 
         public void Format()
         {

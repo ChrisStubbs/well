@@ -137,7 +137,8 @@ namespace PH.Well.Repositories.Read
                     JobIssueType =
                         (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
                         (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
-                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All)
+                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
+                    JobIds = item.JobIds.ToList()
                 })
                 .ToList();
             }

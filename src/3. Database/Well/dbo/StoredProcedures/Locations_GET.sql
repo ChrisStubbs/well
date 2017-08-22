@@ -113,6 +113,7 @@ AS
     WHERE
 	    (a.ActivityTypeId = 1 OR a.ActivityTypeId = 2)
 		AND a.DateDeleted IS NULL
+		AND l.BranchId = @BranchId
     GROUP BY 
 	    l.Id
 	    ,l.BranchId

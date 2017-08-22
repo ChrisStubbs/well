@@ -318,6 +318,7 @@ export class StopComponent implements IObservableAlive
                 item.totalShorts = summary.totalShorts;
                 item.totalBypassed = summary.totalBypassed;
                 item.invoice = singleItem.invoice;
+                item.invoiceId = singleItem.invoiceId;
                 item.account = singleItem.account;
                 item.accountID = singleItem.accountID;
                 item.jobId = singleItem.jobId;
@@ -575,6 +576,7 @@ class StopItemSource implements IGrnAssignable
     public totalShorts: number;
     public totalBypassed: number;
     public invoice: string;
+    public invoiceId: number;
     public account: string;
     public accountID: number;
     public jobId: number;

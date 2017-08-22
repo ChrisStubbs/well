@@ -182,6 +182,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             var item = stopModel.Items[0];
             Assert.That(item.JobId, Is.EqualTo(2545));
             Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
+            Assert.That(item.InvoiceId, Is.EqualTo(job.ActivityId));
             Assert.That(item.Type, Is.EqualTo("Tobacco"));
             Assert.That(item.JobTypeAbbreviation, Is.EqualTo("test"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));

@@ -75,6 +75,7 @@ namespace PH.Well.Api.Mapper
                             {
                                 JobId = p.Id,
                                 Invoice = p.InvoiceNumber,
+                                InvoiceId = p.ActivityId,
                                 Type = p.JobType,
                                 JobTypeAbbreviation = p.JobTypeAbbreviation,
                                 Account = p.PhAccount,

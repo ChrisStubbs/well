@@ -62,5 +62,7 @@ namespace PH.Well.Domain.ValueObjects
         public bool PendingSubmission { get; set; }
 
         public JobIssueType JobIssueType { get; set; }
+
+        public WellStatus RouteWellStatus { get; set; }
     }
 }

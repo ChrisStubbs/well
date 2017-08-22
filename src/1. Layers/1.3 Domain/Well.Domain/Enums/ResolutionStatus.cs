@@ -23,7 +23,7 @@
             { 512, new ResolutionStatus(512, "Manually Completed")},
         };
 
-        private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256 };
+        private static List<int> groupableValues = new List<int>() { 2, 64, 128, 256, 512 };
 
         private ResolutionStatus(int value, string description)
         {
@@ -185,6 +185,11 @@
             if (value == (Closed.Value | Resolved.Value))
             {
                 return Closed | Resolved;
+            }
+
+            if (value == (Closed.Value | ManuallyCompleted.Value))
+            {
+                return Closed | ManuallyCompleted;
             }
 
             return Invalid;

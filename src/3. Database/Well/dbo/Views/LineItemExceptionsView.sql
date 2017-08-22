@@ -23,5 +23,6 @@ AS
 		INNER JOIN LineItemAction lia ON lia.LineItemId = li.Id
 	WHERE	
 		lia.DateDeleted IS NULL
+		AND li.DateDeleted IS NULL
 	GROUP BY 
 		li.Id

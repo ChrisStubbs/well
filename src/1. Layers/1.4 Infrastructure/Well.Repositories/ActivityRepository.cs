@@ -42,70 +42,82 @@ namespace PH.Well.Repositories
                 .Include("Job.Stop")
                 .Include("Job.Stop.RouteHeader")
                 .Include("Job.Stop.Account")
-                .Where(x => x.Id == activityId)
+                .Where(x => x.Id == activityId && x.DateDeleted == null)
                 .Select(x => new
                 {
                     ActivityId = x.Id,
                     ActivityTypeId = x.ActivityTypeId,
                     BranchId = x.Location.Branch.Id,
                     Branch = x.Location.Branch.Name,
-                    Job = x.Job.Select(y=> new
-                    {
-                        y.COD,
-                        y.ProofOfDelivery,
-                        y.ResolutionStatusId,
-                        y.OuterDiscrepancyFound,
-                        y.TotalOutersShort,
-                        y.DetailOutersShort,
-                        y.Stop.RouteHeader.DriverName,
-                        y.Stop.RouteHeader.RouteDate,
-                        Account = y.Stop.Account.FirstOrDefault()
+                    Job = x.Job
+                        .Where(p => p.DateDeleted == null)
+                        .Select(y=> new
+                        {
+                            y.COD,
+                            y.ProofOfDelivery,
+                            y.ResolutionStatusId,
+                            y.OuterDiscrepancyFound,
+                            y.TotalOutersShort,
+                            y.DetailOutersShort,
+                            y.Stop.RouteHeader.DriverName,
+                            y.Stop.RouteHeader.RouteDate,
+                            Account = y.Stop.Account.FirstOrDefault()
 
-                    }).FirstOrDefault(),
+                        })
+                        .FirstOrDefault(),
                     ItemNumber = x.DocumentNumber,
                     x.LocationId
                 }).FirstOrDefault();
 
             // Grid details
             var details = wellEntities.Activity
-                .Where(x => x.Id == activitySource.ActivityId)
+                .Where(x => x.Id == activitySource.ActivityId && x.DateDeleted == null)
                 .Select(x => new
                 {
                     ActivityId = x.Id,
-                    Users = x.Job.SelectMany(y => y.UserJob.Select(u => u.User.Name)).Distinct(),
-                    LineDetail = x.Job.SelectMany(y => y.JobDetail.Select(z => new
-                    {
-                        Product = z.LineItem.ProductCode,
-                        Type = y.JobTypeCode,
-                        Barcode = z.SSCCBarcode,
-                        Description = z.LineItem.ProductDescription,
-                        Value = z.NetPrice,
-                        Expected = z.OriginalDespatchQty,
-                        LineDeliveryStatus = z.LineDeliveryStatus,
-                        z.IsHighValue,
-                        y.Stop,
-                        JobId = y.Id,
-                        JobType = y.JobTypeCode,
-                        LineItemId = (int?) z.LineItem.Id,
-                        ResolutionStatus = y.ResolutionStatusId,
-                        OriginalDespatchQuantity = z.OriginalDespatchQty,
+                    Users = x.Job
+                        .Where(p => p.DateDeleted == null)
+                        .SelectMany(y => y.UserJob.Select(u => u.User.Name))
+                        .Distinct(),
+                    LineDetail = x.Job
+                        .Where(p => p.DateDeleted == null)
+                        .SelectMany(y => y.JobDetail
+                            .Where(p => p.DateDeleted == null)
+                            .Select(z => new
+                            {
+                                Product = z.LineItem.ProductCode,
+                                Type = y.JobTypeCode,
+                                Barcode = z.SSCCBarcode,
+                                Description = z.LineItem.ProductDescription,
+                                Value = z.NetPrice,
+                                Expected = z.OriginalDespatchQty,
+                                LineDeliveryStatus = z.LineDeliveryStatus,
+                                z.IsHighValue,
+                                y.Stop,
+                                JobId = y.Id,
+                                JobType = y.JobTypeCode,
+                                LineItemId = (int?) z.LineItem.Id,
+                                ResolutionStatus = y.ResolutionStatusId,
+                                OriginalDespatchQuantity = z.OriginalDespatchQty,
 
-                        // This method can be reused globally with EF. check http://www.albahari.com/nutshell/linqkit.aspx
-                        Totals = new
-                        {
-                            z.Id,
-                            BypassTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Bypass)
-                                .Sum(l => (int?) l.Quantity),
-                            DamageTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Damage)
-                                .Sum(l => (int?) l.Quantity),
-                            ShortTotal = z.LineItem.LineItemAction
-                                .Where(l => l.ExceptionType.Id == (int) ExceptionType.Short)
-                                .Sum(l => (int?) l.Quantity),
-                            TotalExceptions = z.LineItem.LineItemAction.Count(),
-                        }
-                    }))
+                                // This method can be reused globally with EF. check http://www.albahari.com/nutshell/linqkit.aspx
+                                Totals = new
+                                {
+                                    z.Id,
+                                    BypassTotal = z.LineItem.LineItemAction
+                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Bypass)
+                                        .Sum(l => (int?) l.Quantity),
+                                    DamageTotal = z.LineItem.LineItemAction
+                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Damage)
+                                        .Sum(l => (int?) l.Quantity),
+                                    ShortTotal = z.LineItem.LineItemAction
+                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Short)
+                                        .Sum(l => (int?) l.Quantity),
+                                    TotalExceptions = z.LineItem.LineItemAction.Count(),
+                                }
+                            }
+                        )
+                    )
                 }).FirstOrDefault();
 
 

@@ -16,7 +16,8 @@ AS
         ,CONVERT(Bit, MAX(ISNULL(WithUnresolvedAction.HasNotDefinedDeliveryAction, 0))) AS HasNotDefinedDeliveryAction
         ,CONVERT(Bit, MAX(ISNULL(WithNoGRNV.NoGRNButNeeds, 0))) AS NoGRNButNeeds
         ,CONVERT(Bit, MAX(ISNULL(PendingSubmitions.PendingSubmission, 0))) AS PendingSubmission
-    FROM Location l
+    FROM 
+		Location l
 	    JOIN Activity a 
             on a.LocationId = l.Id
 	    LEFT JOIN 
@@ -29,10 +30,12 @@ AS
 		        INNER JOIN Job j on j.Id = jd.JobId
 	        WHERE 
 		        (lia.DeliveryActionId = 0 OR lia.DeliveryActionId IS NULL)
-		        AND
-		        j.ResolutionStatusId > 1
-		        AND
-		        j.JobTypeCode != 'DEL-DOC'
+		        AND j.ResolutionStatusId > 1
+		        AND j.JobTypeCode != 'DEL-DOC'
+				AND li.DateDeleted IS NULL
+				AND lia.DateDeleted IS NULL
+				AND jd.DateDeleted IS NULL
+				AND j.DateDeleted IS NULL
 	        GROUP BY li.ActivityId
         ) liwa 
             on liwa.ActivityId = a.Id
@@ -40,7 +43,7 @@ AS
 	    (
             SELECT DISTINCT j.ActivityId
 	        FROM Job j
-	        WHERE j.ResolutionStatusId > 1 AND j.JobTypeCode != 'DEL-DOC'
+	        WHERE j.ResolutionStatusId > 1 AND j.JobTypeCode != 'DEL-DOC' AND j.DateDeleted IS NULL
 	        GROUP BY j.ActivityId
         ) invoicedJobs 
             on invoicedJobs.ActivityId = a.Id
@@ -109,6 +112,7 @@ AS
             ON PendingSubmitions.LocationId = l.Id
     WHERE
 	    (a.ActivityTypeId = 1 OR a.ActivityTypeId = 2)
+		AND a.DateDeleted IS NULL
     GROUP BY 
 	    l.Id
 	    ,l.BranchId

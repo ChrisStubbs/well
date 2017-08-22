@@ -88,7 +88,10 @@ namespace PH.Well.Repositories.Read
                         x.PendingSubmission,
                         RouteId = x.Route.Id,
                         BranchId = x.Route.RouteOwnerId,
-                        Assignees = x.Route.Stop.SelectMany(y => y.Job.SelectMany(z => z.UserJob.Select(a => a.User.Name))).Distinct(),
+                        Assignees = x.Route.Stop.SelectMany(y => y.Job
+                                .Where(p => p.DateDeleted == null)
+                                .SelectMany(z => z.UserJob.Select(a => a.User.Name)))
+                            .Distinct(),
                         BranchName = branch.Name,
                         RouteNumber = x.Route.RouteNumber,
                         RouteDate = x.Route.RouteDate,
@@ -98,21 +101,25 @@ namespace PH.Well.Repositories.Read
                         BypassJobCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
                                                                             && z.JobTypeCode != "DEL-DOC"
                                                                             && z.JobTypeCode != "NOTDEF"
-                                                                            && z.JobStatusId == (byte)JobStatus.Bypassed)),
+                                                                            && z.JobStatusId == (byte)JobStatus.Bypassed
+                                                                            && z.DateDeleted == null)),
                         ExceptionCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
                                                                           && z.JobTypeCode != "DEL-DOC"
                                                                           && z.JobTypeCode != "NOTDEF"
                                                                           && z.ResolutionStatusId > 1
+                                                                          && z.DateDeleted == null
                                                                           && z.Activity.LineItem.Any(a => a.LineItemAction.Any()))),
                         CleanCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
                                                                           && z.JobTypeCode != "DEL-DOC"
                                                                           && z.JobTypeCode != "NOTDEF"
                                                                           && z.ResolutionStatusId > 1
+                                                                          && z.DateDeleted == null
                                                                           && z.Activity.LineItem.Any(a => !a.LineItemAction.Any()))),
                         DriverName = x.Route.DriverName,
                         JobIds = x.Route.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
                                                                             && z.JobTypeCode != "DEL-DOC"
-                                                                            && z.JobTypeCode != "NOTDEF").Select(a => a.Id))
+                                                                            && z.JobTypeCode != "NOTDEF"
+                                                                            && z.DateDeleted == null).Select(a => a.Id))
                     })
                     .ToList();
 

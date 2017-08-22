@@ -104,6 +104,7 @@
                         Resolution = job.ResolutionStatus.Description,
                         ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
+                        InvoiceId = job.ActivityId,
                         JobType = $"{jobType.ToString().SplitCapitalisedWords()} ({job.JobTypeAbbreviation})",
                         JobTypeId = (int)jobType,
                         JobStatus = job.JobStatus,

@@ -1,4 +1,5 @@
 ﻿using PH.Shared.Well.Data.EF;
+using PH.Well.Domain.Constants;
 
 namespace PH.Well.Repositories.Read
 {
@@ -150,18 +151,18 @@ namespace PH.Well.Repositories.Read
         {
             if (bypassJobCount == jobCount)
             {
-                return 4;
+                return (int)WellStatus.Bypassed;
             }
             switch (routeStatusCode)
             {
-                case "NDEPA":
-                    return 1;
-                case "INPRO":
-                    return 2;
-                case "COMPL":
-                    return 3;
+                case RouteStatusCode.NotDeparted:
+                    return (int)WellStatus.Planned;
+                case RouteStatusCode.InProgress:
+                    return (int)WellStatus.RouteInProgress;
+                case RouteStatusCode.Completed:
+                    return (int)WellStatus.Complete;
                 default:
-                    return 1;
+                    return (int)WellStatus.Planned;
             }
         }
 

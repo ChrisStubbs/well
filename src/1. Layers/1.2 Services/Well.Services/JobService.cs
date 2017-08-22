@@ -188,24 +188,34 @@
 
         #region IJobResolutionStatus
 
-        private ResolutionStatus AfterCompletionStep(ResolutionStatus currentCompletionStatus, Job job)
-        {
-            // ProofOfDelivery jobs shouldn't be set to ActionRequired
-            if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
-            {
-                return ResolutionStatus.ActionRequired;
-            }
-
-            if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
-            {
-                return ResolutionStatus.Closed | currentCompletionStatus;
-            }
-
-            return currentCompletionStatus;
-        }
-
         private void fillSteps()
         {
+            Func<ResolutionStatus, Job, ResolutionStatus> AfterCompletionStep = (currentCompletionStatus, job) =>
+            {
+            // ProofOfDelivery jobs shouldn't be set to ActionRequired
+            if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
+                {
+                    return ResolutionStatus.ActionRequired;
+                }
+
+                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
+                {
+                    return ResolutionStatus.Closed | currentCompletionStatus;
+                }
+
+                return currentCompletionStatus;
+            };
+
+            Func<Job, ResolutionStatus, ResolutionStatus> tryToClose = (job, current) =>
+            {
+                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
+                {
+                    return ResolutionStatus.Closed | current;
+                }
+
+                return current;
+            };
+
             steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
 
             steps.Add(ResolutionStatus.DriverCompleted, job => AfterCompletionStep(ResolutionStatus.DriverCompleted, job));
@@ -246,25 +256,9 @@
                 return ResolutionStatus.Resolved;
             });
 
-            steps.Add(ResolutionStatus.Credited, job =>
-            {
-                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
-                {
-                    return ResolutionStatus.Closed | ResolutionStatus.Credited;
-                }
+            steps.Add(ResolutionStatus.Credited, job => tryToClose(job, ResolutionStatus.Credited));
 
-                return ResolutionStatus.Credited;
-            });
-
-            steps.Add(ResolutionStatus.Resolved, job =>
-            {
-                if (dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, job.GetRoyaltyCode()) < DateTime.Now)
-                {
-                    return ResolutionStatus.Closed | ResolutionStatus.Resolved;
-                }
-
-                return ResolutionStatus.Resolved;
-            });
+            steps.Add(ResolutionStatus.Resolved, job => tryToClose(job, ResolutionStatus.Resolved));
         }
 
         private void fillEvaluators()

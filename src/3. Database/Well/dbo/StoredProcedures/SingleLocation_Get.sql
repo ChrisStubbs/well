@@ -79,7 +79,7 @@ AS
 					ON lia.DeliveryActionId = da.id
 					AND da.Description = 'Credit'
 				WHERE 
-						lia.DateDeleted IS NULL
+					lia.DateDeleted IS NULL
 			GROUP BY 
 				j.JobId
 		) credit
@@ -98,7 +98,8 @@ AS
 			SELECT SUM(jd.OriginalDespatchQty) AS Total, jd.JobId
 			FROM 
 				JobDetail jd
-				LEFT JOIN LineItemAction la on jd.LineItemId = la.LineItemId AND ISNULL(la.Quantity, 0) = 0 AND la.DateDeleted IS NULL AND jd.DateDeleted IS NULL
+				LEFT JOIN LineItemAction la 
+					on jd.LineItemId = la.LineItemId AND ISNULL(la.Quantity, 0) = 0 AND la.DateDeleted IS NULL AND jd.DateDeleted IS NULL
 			GROUP BY jd.JobId
 		) cl
 			ON j.Id = cl.JobId

@@ -4,11 +4,11 @@
 AS
 
 SELECT 
-	   s.[Id]
+	   s.Id
 FROM 
-	  [dbo].[Stop] s
-INNER JOIN [dbo].[StopStatusView] ssv on ssv.StopId = s.Id
+	[Stop] s
+	INNER JOIN StopStatusView ssv on ssv.StopId = s.Id
 WHERE 
-	  [RouteHeaderId] = @routeHeaderId
+	  RouteHeaderId = @routeHeaderId
 	  AND S.DateDeleted IS NULL
 	

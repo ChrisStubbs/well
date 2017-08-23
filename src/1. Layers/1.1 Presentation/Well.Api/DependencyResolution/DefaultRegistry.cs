@@ -53,6 +53,10 @@ namespace PH.Well.Api.DependencyResolution
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
+            For<IStopService>().Use<StopService>();
+            For<IRouteService>().Use<RouteService>();
+            For<IActivityService>().Use<ActivityService>();
+            For<ILocationService>().Use<LocationService>();
             For<IBranchRepository>().Use<BranchRepository>();
             For<IUserRepository>().Use<UserRepository>();
             For<IBranchService>().Use<BranchService>();
@@ -140,6 +144,11 @@ namespace PH.Well.Api.DependencyResolution
             For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
             For<IEpodImportMapper>().Use<EpodImportMapper>();
 
+            For<IStopService>().Use<StopService>();
+            For<IRouteService>().Use<RouteService>();
+            For<IActivityService>().Use<ActivityService>();
+            For<ILocationService>().Use<LocationService>();
+            For<IWellStatusAggregator>().Use<WellStatusAggregator>();
         }
     }
 }

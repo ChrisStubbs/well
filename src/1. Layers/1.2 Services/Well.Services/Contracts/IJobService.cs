@@ -9,6 +9,14 @@ namespace PH.Well.Services.Contracts
         void SetInitialJobStatus(Job job);
         void SetIncompleteJobStatus(Job job);
         Job DetermineStatus(Job job, int branchId);
+
+        /// <summary>
+        /// Compute the Well status of the job from it's child LineItems and their LineItemActios
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns>Returns true of the status was changed</returns>
+        bool ComputeWellStatus(int jobId);
+
         bool CanEdit(Job job, string userName);
         bool CanManuallyComplete(Job job, string userName);
         IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs);

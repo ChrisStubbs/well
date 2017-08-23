@@ -320,5 +320,7 @@
         }
 
         public bool IsCompleted => !string.IsNullOrEmpty(RouteStatusCode) && RouteStatusCode.Equals(Constants.RouteStatusCode.Completed);
+
+        public WellStatus RouteWellStatus { get; set; }
     }
 }

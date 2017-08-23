@@ -22,6 +22,9 @@
         private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly IUserNameProvider userNameProvider;
         private readonly IUserRepository userRepository;
+        private readonly IStopService stopService;
+        private readonly IActivityService activityService;
+        private readonly IWellStatusAggregator wellStatusAggregator;
 
         public JobService(IJobRepository jobRepository,
             IUserThresholdService userThresholdService,
@@ -29,7 +32,10 @@
             IAssigneeReadRepository assigneeReadRepository,
             ILineItemSearchReadRepository lineItemRepository,
             IUserNameProvider userNameProvider,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            IStopService stopService,
+            IActivityService activityService,
+            IWellStatusAggregator wellStatusAggregator
             )
         {
             this.jobRepository = jobRepository;
@@ -41,6 +47,9 @@
             this.lineItemRepository = lineItemRepository;
             this.userNameProvider = userNameProvider;
             this.userRepository = userRepository;
+            this.stopService = stopService;
+            this.activityService = activityService;
+            this.wellStatusAggregator = wellStatusAggregator;
         }
 
         #region IJobService
@@ -451,5 +460,25 @@
                 .Where(x => x.UserId == user.Id).Select(x => x.JobId);
         }
 
+        public bool ComputeWellStatus(int jobId)
+        {
+            // Get the job specified
+            var job = jobRepository.GetById(jobId);
+            if (job != null)
+            {
+                // TODO: DIJ - Chris to pick this up from an extension method?
+                var status = this.wellStatusAggregator.Aggregate(job.LineItems, AggregationType.Job);
+                if (job.WellStatus != status)
+                {
+                    job.WellStatus = status;
+                    this.jobRepository.Save(job);
+                    // Propagate to parent job & sibling activity/invoice
+                    this.stopService.ComputeWellStatus(job.StopId);
+                    this.activityService.ComputeWellStatus(job.ActivityId);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

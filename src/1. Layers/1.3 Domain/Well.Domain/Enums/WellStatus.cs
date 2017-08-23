@@ -23,6 +23,8 @@
         [Description("In Progress")]
         RouteInProgress = 5,
 
+        [Description("Complete/Bypassed")]
+        CompleteWithBypass
     }
 
     public static class WellStatusDescriptions

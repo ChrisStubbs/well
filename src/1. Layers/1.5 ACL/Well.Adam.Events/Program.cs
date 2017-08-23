@@ -63,6 +63,15 @@
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
                     x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+                   
+                    x.For<IRouteService>().Use<RouteService>();
+                    x.For<IActivityService>().Use<ActivityService>();
+                    x.For<ILocationService>().Use<LocationService>();
+                    x.For<IWellStatusAggregator>().Use<WellStatusAggregator>();
+                    x.For<IStopRepository>().Use<StopRepository>();
+                    x.For<IStopService>().Use<StopService>();
+                    x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
+                    x.For<IActivityRepository>().Use<ActivityRepository>();
                 });
         }
     }

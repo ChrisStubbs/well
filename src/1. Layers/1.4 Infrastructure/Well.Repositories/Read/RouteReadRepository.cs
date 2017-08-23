@@ -59,6 +59,27 @@ namespace PH.Well.Repositories.Read
                         PendingSubmission = p.Where(v => v.Type == "c").Select(v => v.Value).FirstOrDefault() ?? false,
                     });
 
+                var jobs = wellEntities.RouteHeader
+                    .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
+                    .SelectMany(p => p.Stop
+                        .Where(s => s.DateDeleted == null)
+                        .SelectMany(j => j.Job
+                            .Where(w => w.DateDeleted == null /*&& (w.UserJob == null || w.UserJob.Count == 0)*/)
+                            .Select(uj => new
+                            {
+                                Users = uj.UserJob.Select(a => a.User.Name),
+                                Route = p.Id
+                            })
+                        )
+                    ).ToList()
+                    .Select(p => new
+                    {
+                        Users = (p.Users == null || p.Users.Count() == 0) ? new List<string> { "Unallocated" } : p.Users,
+                        p.Route
+                    })
+                    .GroupBy(p => p.Route)
+                    .ToDictionary(k => k.Key, v => v.ToList());
+
                 var routeHeaders = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .GroupJoin(viewsValues,
@@ -88,10 +109,10 @@ namespace PH.Well.Repositories.Read
                         x.PendingSubmission,
                         RouteId = x.Route.Id,
                         BranchId = x.Route.RouteOwnerId,
-                        Assignees = x.Route.Stop.SelectMany(y => y.Job
-                                .Where(p => p.DateDeleted == null)
-                                .SelectMany(z => z.UserJob.Select(a => a.User.Name)))
-                            .Distinct(),
+                        //Assignees = x.Route.Stop.SelectMany(y => y.Job
+                        //        .Where(p => p.DateDeleted == null)
+                        //        .SelectMany(z => z.UserJob.Select(a => a.User.Name)))
+                        //    .Distinct(),
                         BranchName = branch.Name,
                         RouteNumber = x.Route.RouteNumber,
                         RouteDate = x.Route.RouteDate,
@@ -137,11 +158,13 @@ namespace PH.Well.Repositories.Read
                     RouteStatusId =
                         GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
                             item.JobIds.Count()),
-                    Assignees = item.Assignees.Select(x => new Assignee()
-                    {
-                        RouteId = item.RouteId,
-                        Name = x
-                    }).ToList(),
+                    Assignees = jobs[item.RouteId]
+                        .SelectMany(p => p.Users)
+                        .Select(p => new Assignee()
+                        {
+                            RouteId = item.RouteId,
+                            Name = p
+                        }).ToList(),
                     JobIssueType =
                         (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
                         (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |

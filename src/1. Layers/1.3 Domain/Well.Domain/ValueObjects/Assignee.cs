@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Domain.ValueObjects
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Common.Extensions;
@@ -29,7 +30,21 @@
             {
                 return names[0];
             }
-            var initials = names.Select(x => x.GetInitials());
+
+            Func<string, bool> f = (name) => string.Equals("Unallocated", name, StringComparison.InvariantCultureIgnoreCase);
+            var totalUnallocated = assigneeNames.Count(p => f(p));
+
+            var initials = names
+                .Select(x =>
+                {
+                    if (f(x))
+                    {
+                        return new { Unallocated = 1, Name = $"{x}({totalUnallocated})" };
+                    }
+                    return new { Unallocated = 0, Name = x.GetInitials() };
+                })
+                .OrderBy(p => p.Unallocated)
+                .Select(p => p.Name);
             return string.Join(", ", initials);
         }
     }

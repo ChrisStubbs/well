@@ -280,6 +280,10 @@
                     </ng-container>
                 </tbody>
             </table>
+
+            <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
+                <strong>No matching results</strong>
+            </div>
         </div>
     </div>
 </div>

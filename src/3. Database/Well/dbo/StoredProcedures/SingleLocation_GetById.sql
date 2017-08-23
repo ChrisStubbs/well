@@ -22,7 +22,7 @@ AS
 		rh.RouteDate AS [Date],
 		jt.Id AS JobTypeId,
 		jt.Description AS JobType,
-		js.WellStatusId AS JobStatusId,
+		j.WellStatusId AS JobStatusId, -- should this be WellStatus
 		'' AS JobStatus,
 		CONVERT(Bit, CASE WHEN ISNULL(j.COD, '') = '' THEN 0 ELSE 1 END) AS Cod,
 		CONVERT(Bit, CASE WHEN j.ProofOfDelivery IS NULL THEN 0 ELSE 0 END) AS Pod,
@@ -41,8 +41,6 @@ AS
 		j.PHAccount AS AccountNumber
 	FROM 
 		Job j 
-		INNER JOIN JobStatusView js 
-			ON js.JobId = j.Id
 		INNER JOIN Activity a
 			ON j.ActivityId = a.Id
 			AND j.DateDeleted IS NULL

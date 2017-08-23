@@ -45,9 +45,7 @@ INNER JOIN
 INNER JOIN 
 		WellStatus ws2 on ws2.Id = ssv.WellStatusId
 INNER JOIN 
-		JobStatusView jsv on jsv.JobId = j.Id
-INNER JOIN 
-		WellStatus ws3 on ws3.Id = jsv.WellStatusId
+		WellStatus ws3 on ws3.Id = j.WellStatusId
 WHERE 	(@BranchId IS NULL OR @BranchId = rh.RouteOwnerId)
 		AND (@Date IS NULL OR @Date = rh.RouteDate)
 		AND (@Account IS NULL OR (a.Code like '%'+ @Account+'%'  OR   a.Name like '%'+ @Account+'%'))

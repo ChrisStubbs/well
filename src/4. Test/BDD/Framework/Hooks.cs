@@ -176,7 +176,7 @@
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IEventLogger>().Use<EventLogger>();
-                                                x.For<IAdamImportService>().Use<RouteImportService>();
+                                                x.For<IAdamImportService>().Use<AdamImportService>();
                                                 x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                                                 x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();

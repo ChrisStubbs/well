@@ -59,6 +59,7 @@
     <Compile Include="Enums\ResolutionStatus.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\JobExtensions.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />
     <Compile Include="JobDetailLineItemTotals.cs" />
     <Compile Include="JobResolutionStatus.cs" />

@@ -5,29 +5,37 @@
     using System.Linq;
     using Contracts;
     using Domain;
+    using Domain.Enums;
     using Domain.Extensions;
-    using Repositories;
     using Repositories.Contracts;
 
-    public class RouteFileImportCommands : IRouteFileImportCommands
+    public class AdamFileImportCommands : IAdamFileImportCommands
     {
         private readonly IJobRepository jobRepository;
         private readonly IPostImportRepository postImportRepository;
         private readonly IStopRepository stopRepository;
+        private readonly IJobDetailRepository jobDetailRepository;
+        private readonly IAdamImportMapper importMapper;
 
-        public RouteFileImportCommands(
+        public AdamFileImportCommands(
             IJobRepository jobRepository,
             IPostImportRepository postImportRepository,
-            IStopRepository stopRepository)
+            IStopRepository stopRepository,
+            IJobDetailRepository jobDetailRepository,
+            IAdamImportMapper importMapper)
         {
             this.jobRepository = jobRepository;
             this.postImportRepository = postImportRepository;
             this.stopRepository = stopRepository;
+            this.jobDetailRepository = jobDetailRepository;
+            this.importMapper = importMapper;
         }
       
         public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
+            importMapper.MapJob(fileJob,existingJob);
             jobRepository.Update(existingJob);
+            UpdateJobDetails(fileJob.JobDetails, existingJob.Id);
         }
 
         public void PostJobImport(IList<int> jobIds)
@@ -64,5 +72,30 @@
             return existRouteStops
                 .Where(x => !fileTransportOrderRef.ContainsKey(x.TransportOrderReference));
         }
+
+        private void UpdateJobDetails(IEnumerable<JobDetail> jobDetails, int jobId)
+        {
+            foreach (var detail in jobDetails)
+            {
+                var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
+
+                if (existingJobDetail != null)
+                {
+                    importMapper.MapJobDetail(detail, existingJobDetail);
+
+                    this.jobDetailRepository.Update(existingJobDetail);
+                }
+                else
+                {
+                    // new jobdetail on Order file - tobacco bag jobdetail appears on Order but not on Route
+                    var newJobDetail = new JobDetail();
+                    importMapper.MapJobDetail(detail, newJobDetail);
+                    newJobDetail.JobId = jobId;
+                    newJobDetail.ShortsStatus = JobDetailStatus.Res;  // not sure why this is Resolved
+                    this.jobDetailRepository.Save(newJobDetail);
+                }
+            }
+        }
+
     }
 }

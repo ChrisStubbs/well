@@ -329,7 +329,6 @@
     <Build Include="dbo\Views\ActivityExceptionsView.sql" />
     <Build Include="dbo\Views\LocationExceptionsView.sql" />
     <Build Include="dbo\Tables\WellStatus.sql" />
-    <Build Include="dbo\Views\JobStatusView.sql" />
     <Build Include="dbo\Views\StopStatusView.sql" />
     <Build Include="dbo\Views\RouteStatusView.sql" />
     <Build Include="dbo\StoredProcedures\UserJobs_GetbyJobIds.sql" />
@@ -412,7 +411,7 @@
     <None Include="Post-Deployement\Populate-WellStatus.sql" />
     <None Include="Post-Deployement\Populate-WidgetType.sql" />
     <PostDeploy Include="Post-Deployement\PostDeployment.sql" />
-    <None Include="ManualStep\scripts\up\17_CustomerRoyaltyExceptionCleanUp.sql">
+    <None Include="ManualStep\scripts\up\017_CustomerRoyaltyExceptionCleanUp.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ManualStep\scripts\up\021_DeleteBranch99Data.sql">
@@ -449,6 +448,9 @@
     <Build Include="dbo\Views\RoutesWithUnresolvedActionView.sql" />
     <Build Include="dbo\StoredProcedures\SingleLocation_GetById.sql" />
     <Build Include="dbo\StoredProcedures\Activity_GetSourceById.sql" />
+    <None Include="ManualStep\scripts\up\025_AddWellStatusIdToJob.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

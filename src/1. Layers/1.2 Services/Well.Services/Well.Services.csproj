@@ -61,7 +61,7 @@
     <Compile Include="BulkEditService.cs" />
     <Compile Include="Contracts\IEpodFileImportCommands.cs" />
     <Compile Include="Contracts\IImportCommands.cs" />
-    <Compile Include="Contracts\IRouteFileImportCommands.cs" />
+    <Compile Include="Contracts\IAdamFileImportCommands.cs" />
     <Compile Include="Contracts\IWellCleanConfig.cs" />
     <Compile Include="Contracts\IWellCleanUpService.cs" />
     <Compile Include="Contracts\IAmendmentService.cs" />
@@ -102,9 +102,9 @@
     <Compile Include="EpodServices\EpodImportService.cs" />
     <Compile Include="Contracts\IImportMapper.cs" />
     <Compile Include="Contracts\IEpodImportService.cs" />
-    <Compile Include="EpodServices\RouteFileImportCommands.cs" />
-    <Compile Include="EpodServices\RouteImportMapper.cs" />
-    <Compile Include="EpodServices\RouteImportService.cs" />
+    <Compile Include="EpodServices\AdamFileImportCommands.cs" />
+    <Compile Include="EpodServices\AdamImportMapper.cs" />
+    <Compile Include="EpodServices\AdamImportService.cs" />
     <Compile Include="IDateThresholdService.cs" />
     <Compile Include="IGetJobResolutionStatus.cs" />
     <Compile Include="Contracts\IManualCompletionService.cs" />

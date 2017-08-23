@@ -25,7 +25,6 @@
                 {
                     x.For<ITransendImport>().Use<TransendImport>();
                     x.For<IEventLogger>().Use<EventLogger>();
-                    //x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();

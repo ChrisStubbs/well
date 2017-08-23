@@ -1,4 +1,4 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿namespace PH.Well.UnitTests.Services.EpodServices
 {
     using System;
     using Moq;
@@ -17,10 +17,10 @@
         private Mock<IEventLogger> eventLogger;
         private Mock<IRouteHeaderRepository> routeHeaderRepository;
         private Mock<IImportService> importService;
-        private Mock<IRouteImportMapper> routeImportMapper;
-        private Mock<IRouteFileImportCommands> importCommands;
+        private Mock<IAdamImportMapper> importMapper;
+        private Mock<IAdamFileImportCommands> importCommands;
 
-        private Mock<RouteImportService> mockRouteImportService;
+        private Mock<AdamImportService> mockRouteImportService;
 
         [SetUp]
         public void SetUp()
@@ -29,15 +29,15 @@
             eventLogger = new Mock<IEventLogger>();
             routeHeaderRepository = new Mock<IRouteHeaderRepository>();
             importService = new Mock<IImportService>();
-            routeImportMapper = new Mock<IRouteImportMapper>();
-            importCommands = new Mock<IRouteFileImportCommands>();
+            importMapper = new Mock<IAdamImportMapper>();
+            importCommands = new Mock<IAdamFileImportCommands>();
 
-             mockRouteImportService = new Mock<RouteImportService>(
+             mockRouteImportService = new Mock<AdamImportService>(
                 logger.Object,
                 eventLogger.Object,
                 routeHeaderRepository.Object,
                 importService.Object,
-                routeImportMapper.Object,
+                importMapper.Object,
                 importCommands.Object
             );
         }

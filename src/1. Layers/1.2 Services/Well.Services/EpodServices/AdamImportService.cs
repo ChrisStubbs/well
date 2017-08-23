@@ -9,28 +9,28 @@
     using Domain.Enums;
     using Repositories.Contracts;
 
-    public class RouteImportService : IAdamImportService
+    public class AdamImportService : IAdamImportService
     {
         private readonly IEventLogger eventLogger;
         private readonly ILogger logger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IImportService importService;
-        private readonly IRouteImportMapper routeImportMapper;
-        private readonly IRouteFileImportCommands importCommands;
+        private readonly IAdamImportMapper importMapper;
+        private readonly IAdamFileImportCommands importCommands;
 
-        public RouteImportService(
+        public AdamImportService(
             ILogger logger,
             IEventLogger eventLogger,
             IRouteHeaderRepository routeHeaderRepository,
             IImportService importService,
-            IRouteImportMapper routeImportMapper,
-            IRouteFileImportCommands importCommands)
+            IAdamImportMapper importMapper,
+            IAdamFileImportCommands importCommands)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.importService = importService;
-            this.routeImportMapper = routeImportMapper;
+            this.importMapper = importMapper;
             this.importCommands = importCommands;
         }
 
@@ -83,7 +83,7 @@
                 }
 
                 header.Id = existingRouteHeader.Id;
-                existingRouteHeader = routeImportMapper.MapRouteHeader(header, existingRouteHeader);
+                existingRouteHeader = importMapper.MapRouteHeader(header, existingRouteHeader);
 
                 routeHeaderRepository.Update(existingRouteHeader);
                 logger.LogDebug(
@@ -108,7 +108,7 @@
                 );
             }
 
-            importService.ImportStops(header, routeImportMapper, importCommands);
+            importService.ImportStops(header, importMapper, importCommands);
         }
 
         public virtual int GetRouteOwnerId(RouteHeader header)

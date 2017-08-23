@@ -4,7 +4,6 @@
     using Well.Domain.Enums;
     using Well.Domain.Extensions;
 
-
     [TestFixture]
     public class ResolutionStatusExtensionTest
     {

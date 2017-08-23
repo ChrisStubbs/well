@@ -36,7 +36,8 @@
 	@CreatedDate DATETIME,
 	@UpdatedDate DATETIME,
 	@JobStatusId TINYINT,
-	@ResolutionStatusId TINYINT
+	@ResolutionStatusId TINYINT,
+	@WellStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -78,7 +79,8 @@ BEGIN
 		[UpdatedBy],
 		[DateUpdated],
 		[JobStatusId],
-		[ResolutionStatusId])
+		[ResolutionStatusId],
+		[WellStatusId])
 	VALUES (
 		@Sequence, 
 		@JobTypeId,
@@ -116,7 +118,8 @@ BEGIN
 		@UpdatedBy,
 		@UpdatedDate,
 		@JobStatusId,
-		@ResolutionStatusId)
+		@ResolutionStatusId,
+		@WellStatusId)
 
 	SELECT CAST(SCOPE_IDENTITY() as int);
 END

@@ -7,7 +7,6 @@
 
     public class OrderImportMapper : IOrderImportMapper
     {
-     
         public void Map(StopUpdate from, Stop to)
         {
             if (!string.IsNullOrEmpty(from.PlannedStopNumber))

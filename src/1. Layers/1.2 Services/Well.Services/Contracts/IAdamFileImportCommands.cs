@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Domain;
 
-    public interface IRouteFileImportCommands : IImportCommands
+    public interface IAdamFileImportCommands : IImportCommands
     {
         void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, List<StopDTO> stops);
     }

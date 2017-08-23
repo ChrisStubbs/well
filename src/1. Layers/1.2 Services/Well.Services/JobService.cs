@@ -137,12 +137,14 @@
             job.JobStatus = string.Equals(job.JobTypeCode.Trim().ToLower(), "del-doc", StringComparison.OrdinalIgnoreCase)
                 ? JobStatus.DocumentDelivery
                 : JobStatus.AwaitingInvoice;
+
+            SetIncompleteJobStatus(job);
         }
 
         // global uplift never has an invoice number, standard uplift may not have an invoice number
         public void SetIncompleteJobStatus(Job job)
         {
-            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) || 
+            if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) ||
                 (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)) ||
                 (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-std", StringComparison.OrdinalIgnoreCase)))
             {
@@ -159,10 +161,10 @@
 
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper )
+            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper)
                 //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
                 //|| job.JobStatus == JobStatus.Bypassed) 
-                && IsJobAssignedToUser(job,userName)
+                && IsJobAssignedToUser(job, userName)
                 && job.JobTypeEnumValue != JobType.GlobalUplift;
         }
 
@@ -179,8 +181,8 @@
             {
                 var jobRoute = job.JobRoute;
                 var earliestSubmitDate = dateThresholdService.GracePeriodEnd(
-                                                    jobRoute.RouteDate, 
-                                                    jobRoute.BranchId, 
+                                                    jobRoute.RouteDate,
+                                                    jobRoute.BranchId,
                                                     job.GetRoyaltyCode());
 
                 if (earliestSubmitDate < DateTime.Now)
@@ -201,8 +203,8 @@
         {
             Func<ResolutionStatus, Job, ResolutionStatus> AfterCompletionStep = (currentCompletionStatus, job) =>
             {
-            // ProofOfDelivery jobs shouldn't be set to ActionRequired
-            if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
+                // ProofOfDelivery jobs shouldn't be set to ActionRequired
+                if (!job.IsProofOfDelivery && job.LineItems.SelectMany(p => p.LineItemActions).Any(lia => lia.Quantity > 0 && lia.DeliveryAction == DeliveryAction.NotDefined))
                 {
                     return ResolutionStatus.ActionRequired;
                 }
@@ -459,7 +461,6 @@
             return userRepository.GetUserJobsByJobIds(jobIds)
                 .Where(x => x.UserId == user.Id).Select(x => x.JobId);
         }
-
         public bool ComputeWellStatus(int jobId)
         {
             // Get the job specified

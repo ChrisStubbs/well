@@ -57,7 +57,7 @@
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
-                    x.For<IAdamImportService>().Use<RouteImportService>();
+                    x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IImportService>().Use<ImportService>();
                     x.For<IAdamUpdateService>().Use<AdamUpdateService>();
                     x.For<IJobService>().Use<JobService>();
@@ -77,8 +77,8 @@
                     x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
                     x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
                     x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
-                    x.For<IRouteImportMapper>().Use<RouteImportMapper>();
-                    x.For<IRouteFileImportCommands>().Use<RouteFileImportCommands>();
+                    x.For<IAdamImportMapper>().Use<AdamImportMapper>();
+                    x.For<IAdamFileImportCommands>().Use<AdamFileImportCommands>();
                     x.For<IStopService>().Use<StopService>();
                     x.For<IRouteService>().Use<RouteService>();
                     x.For<IActivityService>().Use<ActivityService>();

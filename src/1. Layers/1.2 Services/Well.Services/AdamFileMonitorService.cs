@@ -73,7 +73,7 @@
             switch (fileType)
             {
                 case EpodFileType.AdamInsert:
-                    this.AdamInsert(filePath, filename);
+                    this.AdamImport(filePath, filename);
                     break;
 
                 case EpodFileType.AdamUpdate:
@@ -94,7 +94,7 @@
             this.logger.LogDebug($"{filePath} processed!");
         }
 
-        private void AdamInsert(string filePath, string filename)
+        private void AdamImport(string filePath, string filename)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
             try

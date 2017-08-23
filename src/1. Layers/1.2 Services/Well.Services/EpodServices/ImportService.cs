@@ -61,7 +61,6 @@
                 if (originalStop == null)
                 {
                     stopRepository.Save(fileStop);
-
                     fileStop.Jobs.ForEach(x => x.StopId = fileStop.Id);
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Save(fileStop.Account);
@@ -95,7 +94,7 @@
 
         private void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, RouteHeader fileRouteHeader, IImportCommands importCommands)
         {
-            var routeFileCommands = importCommands as IRouteFileImportCommands;
+            var routeFileCommands = importCommands as IAdamFileImportCommands;
             // Only delete Stops on Route File import
             if (routeFileCommands != null)
             {

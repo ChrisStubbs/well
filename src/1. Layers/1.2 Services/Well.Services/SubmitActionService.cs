@@ -81,8 +81,17 @@
                                     SubmitCredits(job);
                                 }
                                
+                                //lets close the job
                                 job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
+
+                                //if is one of this status it means that is ready to be closed
+                                if (job.ResolutionStatus == ResolutionStatus.Credited
+                                    || job.ResolutionStatus == ResolutionStatus.Resolved)
+                                {
+                                    job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
+                                    jobRepository.SaveJobResolutionStatus(job);
+                                }
                             }
                             else
                             {

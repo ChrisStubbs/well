@@ -180,21 +180,18 @@
             [Test]
             public void IfJobIsValidResolutionStatusPendingAndUserAndStatusIsApprovedCorrectResolutionStatusSavedAndJobUpdated()
             {
-
                 WithHappyPathSetup();
                 WithJob1PendingSubmissionAndApproved();
                 job2GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Closed);
                 job3GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Closed);
 
                 var results = mockedSubmitActionService.Object.SubmitAction(submitAction);
-
-                jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
-                jobRepository.Verify(x => x.SaveJobResolutionStatus(job1), Times.Exactly(2));
-                jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(1));
+                
+                jobRepository.Verify(x => x.SaveJobResolutionStatus(job1), Times.Exactly(3));
                 jobRepository.Verify(x => x.Update(job1), Times.Exactly(1));
                 Assert.That(job1SaveJobResolutionStatus[0], Is.EqualTo(ResolutionStatus.Approved));
                 Assert.That(job1SaveJobResolutionStatus[1], Is.EqualTo(ResolutionStatus.Credited));
-
+                Assert.That(job1SaveJobResolutionStatus[2], Is.EqualTo(ResolutionStatus.Closed | ResolutionStatus.Credited));
             }
 
 
@@ -237,6 +234,7 @@
 
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job3)).Returns(job3GetCurrentResolutionStatusQueue.Dequeue);
                 jobService.Setup(x => x.GetNextResolutionStatus(job3)).Returns(job3GetNextResolutionStatusQueue.Dequeue);
+
                 jobRepository.Setup(x => x.SaveJobResolutionStatus(job1)).Callback<Job>(j => job1SaveJobResolutionStatus.Add(j.ResolutionStatus));
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
             }
@@ -245,8 +243,12 @@
             {
                 job1GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.PendingSubmission);
                 job1GetNextResolutionStatusQueue.Enqueue(ResolutionStatus.Approved);
+
                 job1GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Approved);
                 job1GetNextResolutionStatusQueue.Enqueue(ResolutionStatus.Credited);
+
+                //job1GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Approved);
+                job1GetNextResolutionStatusQueue.Enqueue(ResolutionStatus.Closed | ResolutionStatus.Credited);
             }
 
             private void WithJob1PendingSubmissionAndPendingApproval()

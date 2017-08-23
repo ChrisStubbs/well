@@ -28,7 +28,9 @@ namespace PH.Well.UnitTests.Services
             var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
             var userNameProvider = new Mock<IUserNameProvider>();
             var userRepository = new Mock<IUserRepository>();
-
+            var stopService = new Mock<IStopService>();
+            var activityService = new Mock<IActivityService>();
+            var wellStatusAggregator = new Mock<IWellStatusAggregator>();
 
             this.sut = new JobService(
                 jobRepository.Object,
@@ -37,7 +39,10 @@ namespace PH.Well.UnitTests.Services
                 assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
-                userRepository.Object
+                userRepository.Object,
+                stopService.Object,
+                activityService.Object, 
+                wellStatusAggregator.Object
                 );
         }
 
@@ -302,6 +307,9 @@ namespace PH.Well.UnitTests.Services
             var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
             var userNameProvider = new Mock<IUserNameProvider>();
             var userRepository = new Mock<IUserRepository>();
+            var stopService = new Mock<IStopService>();
+            var activityService = new Mock<IActivityService>();
+            var wellStatusAggregator = new Mock<IWellStatusAggregator>();
 
             var sut = new JobService(
                 jobRepository.Object,
@@ -310,7 +318,10 @@ namespace PH.Well.UnitTests.Services
                 assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
-                userRepository.Object);
+                userRepository.Object,
+                stopService.Object,
+                activityService.Object,
+                wellStatusAggregator.Object);
 
             return sut.GetNextResolutionStatus(job);
         }

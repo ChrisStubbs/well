@@ -79,6 +79,15 @@
                     x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
                     x.For<IRouteImportMapper>().Use<RouteImportMapper>();
                     x.For<IRouteFileImportCommands>().Use<RouteFileImportCommands>();
+                    x.For<IStopService>().Use<StopService>();
+                    x.For<IRouteService>().Use<RouteService>();
+                    x.For<IActivityService>().Use<ActivityService>();
+                    x.For<ILocationService>().Use<LocationService>();
+                    x.For<IWellStatusAggregator>().Use<WellStatusAggregator>();
+                    x.For<IStopRepository>().Use<StopRepository>();
+                    x.For<IStopService>().Use<StopService>();
+                    x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
+                    x.For<IActivityRepository>().Use<ActivityRepository>();
                 });
         }
     }

@@ -65,6 +65,13 @@
                     x.For<IEpodImportMapper>().Use<EpodImportMapper>();
                     x.For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
 
+                    x.For<IStopService>().Use<StopService>();
+                    x.For<IRouteService>().Use<RouteService>();
+                    x.For<IActivityService>().Use<ActivityService>();
+                    x.For<ILocationService>().Use<LocationService>();
+                    x.For<IWellStatusAggregator>().Use<WellStatusAggregator>();
+                    x.For<IActivityRepository>().Use<ActivityRepository>();
+
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

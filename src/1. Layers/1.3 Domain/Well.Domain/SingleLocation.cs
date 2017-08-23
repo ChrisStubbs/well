@@ -14,6 +14,7 @@ namespace PH.Well.Domain
         public string AccountName { get; set; }
         public string AccountAddress { get; set; }
         public IList<SingleLocationItems> Details { get; set; }
+        public WellStatus WellStatus { get; set; }
     }
 
     public class SingleLocationItems

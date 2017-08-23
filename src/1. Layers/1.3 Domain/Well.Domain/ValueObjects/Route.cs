@@ -63,6 +63,5 @@ namespace PH.Well.Domain.ValueObjects
 
         public JobIssueType JobIssueType { get; set; }
 
-        public WellStatus RouteWellStatus { get; set; }
     }
 }

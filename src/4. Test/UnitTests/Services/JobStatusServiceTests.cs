@@ -32,6 +32,9 @@ namespace PH.Well.UnitTests.Services
         private readonly Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
         private readonly Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
         private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
+        private readonly Mock<IStopService> stopService = new Mock<IStopService>();
+        private readonly Mock<IActivityService> activityService = new Mock<IActivityService>();
+        private readonly Mock<IWellStatusAggregator> wellStatusAggregator = new Mock<IWellStatusAggregator>();
 
         [SetUp]
         public void Setup()
@@ -54,7 +57,10 @@ namespace PH.Well.UnitTests.Services
                 assigneeReadRepository.Object,
                 lineItemRepository.Object,
                 userNameProvider.Object,
-                userRepository.Object);
+                userRepository.Object, 
+                stopService.Object, 
+                activityService.Object, 
+                wellStatusAggregator.Object);
 
 
         }

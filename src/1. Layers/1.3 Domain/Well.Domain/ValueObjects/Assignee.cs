@@ -39,10 +39,12 @@
                 {
                     if (f(x))
                     {
-                        return $"{x}({totalUnallocated})";
+                        return new { Unallocated = 1, Name = $"{x}({totalUnallocated})" };
                     }
-                    return x.GetInitials();
-                });
+                    return new { Unallocated = 0, Name = x.GetInitials() };
+                })
+                .OrderBy(p => p.Unallocated)
+                .Select(p => p.Name);
             return string.Join(", ", initials);
         }
     }

@@ -64,7 +64,7 @@ namespace PH.Well.Repositories.Read
                     .SelectMany(p => p.Stop
                         .Where(s => s.DateDeleted == null)
                         .SelectMany(j => j.Job
-                            .Where(w => w.DateDeleted == null /*&& (w.UserJob == null || w.UserJob.Count == 0)*/)
+                            .Where(w => w.DateDeleted == null && w.JobTypeCode != "DEL-DOC" && w.JobTypeCode != "UPL-SAN")
                             .Select(uj => new
                             {
                                 Users = uj.UserJob.Select(a => a.User.Name),

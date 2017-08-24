@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -74,7 +75,7 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(),It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var routeHeader = RouteHeaderFactory.New.Build();
@@ -94,7 +95,7 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithoutEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(),It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var branchId = 22;
                 var routeDate = DateTime.Now;
@@ -254,6 +255,41 @@
                 jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+
+            }
+        }
+
+        public class TheGetJobsToBeDeletedMethod : EpodFileImportCommandTests
+        {
+            [Test]
+            public void ShouldOnlyGetJobsThatAreInCurrentStopsAndDontExistInBothSources()
+            {
+                var existingJobsBothSources = new List<Job>
+                {
+                    new Job{ Id = 1, StopId = 55 },
+                    new Job{ Id = 2, StopId = 56 },
+                    new Job{ Id = 3, StopId = 55 }
+                };
+
+                var existingRouteJobIdAndStopId = new List<JobStop>
+                {
+                    new JobStop{ JobId = 1, StopId = 55 }, // in both sources don't delete
+                    new JobStop{ JobId = 2, StopId = 56 }, // in both sources don't delete
+                    new JobStop{ JobId = 3, StopId = 55 }, // in both sources don't delete
+                    new JobStop{ JobId = 4, StopId = 55 }, // for deletion
+                    new JobStop{ JobId = 5, StopId = 99 }, // different stop so don't delete
+                    new JobStop{ JobId = 6, StopId = 56 }, // for deletion
+                };
+
+                jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
+
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources);
+
+                jobRepository.Verify(x=> x.GetByIds(It.Is<IEnumerable<int>>( jobIds=>
+                    jobIds.Count() == 2 
+                    && jobIds.Contains(4)
+                    && jobIds.Contains(6)
+                    )),Times.Once);
 
             }
         }

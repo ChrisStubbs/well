@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Job_Update]
 	@Id				INT,
+	@StopId			INT,
 	@PerformanceStatus	TINYINT,
 	@Reason         VARCHAR(255),
 	@InvoiceNumber VARCHAR(50),
@@ -58,7 +59,8 @@ BEGIN
 		DetailOutersOver = @DetailOutersOver,
 		DetailOutersShort = @DetailOutersShort,
 		ResolutionStatusId = @ResolutionStatusId,
-		WellStatusId = @WellStatusId
+		WellStatusId = @WellStatusId,
+		StopId = @StopId
 	WHERE
 		Id = @Id
 END

@@ -7,9 +7,10 @@
 				COUNT(j.ID)
 		FROM RouteHeader rh
 		INNER JOIN [Stop] s ON s.RouteHeaderId = rh.Id
-		INNER JOIN Job j ON j.StopId = s.Id
+		INNER JOIN Job j ON j.StopId = s.Id 
 		WHERE J.JobStatusId = 8 -- Bypassed
 		AND J.JobTypeCode != 'DEL-DOC'
+		AND j.DateDeleted IS NULL
 		GROUP by rh.id, rh.RouteStatusCode)
 	, -- this is the count of jobs for a route
 		RouteJobCount (RouteId, RouteStatusCode, JobCount) AS 
@@ -18,9 +19,10 @@
 				COUNT(j.ID)
 		FROM RouteHeader rh
 		INNER JOIN [Stop] s on s.RouteHeaderId = rh.Id
-		INNER JOIN Job j on j.StopId = s.Id
+		INNER JOIN Job j on j.StopId = s.Id  
 		WHERE
 			J.JobTypeCode != 'DEL-DOC'
+			AND j.DateDeleted IS NULL
 		GROUP by rh.id, rh.RouteStatusCode
 		)
 

@@ -7,6 +7,7 @@
     using Domain;
     using Domain.Enums;
     using Domain.Extensions;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
 
     public class AdamFileImportCommands : IAdamFileImportCommands
@@ -41,6 +42,21 @@
         public void PostJobImport(IList<int> jobIds)
         {
             this.postImportRepository.PostImportUpdate(jobIds);
+        }
+
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources)
+        {
+            //Adam File will contain all jobs for all stops so delete anything that is not in the latest file
+            var jobIdsToDelete = GetJobsIdsToBeDeleted(existingRouteJobIdAndStopId.Select(x => x.JobId), existingJobsBothSources.Select(x => x.Id));
+
+            return jobRepository.GetByIds(jobIdsToDelete).ToList();
+            
+        }
+
+        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources)
+        {
+            var existing = existingJobIdsBothSources.ToDictionary(k => k);
+            return existingRouteJobIds.Where(x => !existing.ContainsKey(x));
         }
 
         public void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, List<StopDTO> stops)

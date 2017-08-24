@@ -74,6 +74,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IUpliftDataImportService>().Use<UpliftDataImportService>();
                     x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<UserNameProvider>();
                     x.For<UpliftImportTask>().Use<UpliftImportTask>();
                 });
         }

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services.Mappers
 {
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Linq;
     using Contracts;
     using Domain;
@@ -32,8 +33,22 @@
                 result.Summary = GetSummary(jobs);
                 if (isStopLevel)
                 {
-                    var stopIds = jobs.Select(x => x.StopId).Distinct();
-
+                    var stopIds = jobs.Select(x => x.StopId).Distinct().ToList();
+                    var jobTotals = jobs
+                        .GroupBy(p => p.StopId)
+                        .Select(p => new
+                        {
+                            Stop = p.Key,
+                            Data = new
+                            {
+                                TotalCreditValue = p.Sum(x => x.TotalCreditValue),
+                                TotalActionValue = p.Sum(x => x.TotalActionValue),
+                                TotalCreditQty = p.Sum(x => x.TotalCreditQty),
+                                TotalQty = p.Sum(x => x.TotalQty)
+                            }
+                        })
+                        .ToDictionary(p => p.Stop, v => v.Data);
+                    
                     foreach (var stopId in stopIds)
                     {
                         var stop = stopRepository.GetById(stopId);
@@ -41,10 +56,10 @@
                         result.Items.Add(new ActionSubmitSummaryItem
                         {
                             Identifier = stop.PlannedStopNumber,
-                            TotalCreditValue = jobs.Sum(x => x.TotalCreditValue),
-                            TotalActionValue = jobs.Sum(x => x.TotalActionValue),
-                            TotalCreditQty = jobs.Sum(x => x.TotalCreditQty),
-                            TotalQty = jobs.Sum(x => x.TotalQty),
+                            TotalCreditValue = jobTotals[stopId].TotalCreditValue,
+                            TotalActionValue = jobTotals[stopId].TotalActionValue,
+                            TotalCreditQty = jobTotals[stopId].TotalCreditQty,
+                            TotalQty = jobTotals[stopId].TotalQty,
                         });
                     }
                 }

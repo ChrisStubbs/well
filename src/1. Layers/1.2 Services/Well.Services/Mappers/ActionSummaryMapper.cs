@@ -34,6 +34,7 @@
                 if (isStopLevel)
                 {
                     var stopIds = jobs.Select(x => x.StopId).Distinct().ToList();
+                    //put in a dictionary the accumulated values per stop
                     var jobTotals = jobs
                         .GroupBy(p => p.StopId)
                         .Select(p => new

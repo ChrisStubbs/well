@@ -22,7 +22,7 @@ BEGIN
 	INNER JOIN JobDetail jd2 ON jd1.PHProductCode = jd2.SSCCBarcode
 	WHERE jd1.LineDeliveryStatus = 'Delivered'
 	AND jd1.PHProductType = 'Tobacco'
-	AND jd2.LineDeliveryStatus IS NULL OR jd2.LineDeliveryStatus = 'Unknown'
+	AND (jd2.LineDeliveryStatus IS NULL OR jd2.LineDeliveryStatus = 'Unknown')
 
 	-- find all the tobacco lines where the tobacco bag has been updated by TranSend as 'Exception'
 	INSERT INTO @TobaccoShortTable 
@@ -34,7 +34,7 @@ BEGIN
 	INNER JOIN JobDetail jd2 ON jd1.PHProductCode = jd2.SSCCBarcode
 	WHERE jd1.LineDeliveryStatus = 'Exception'
 	AND jd1.PHProductType = 'Tobacco'
-	AND jd2.LineDeliveryStatus IS NULL OR jd2.LineDeliveryStatus = 'Unknown'
+	AND (jd2.LineDeliveryStatus IS NULL OR jd2.LineDeliveryStatus = 'Unknown')
 
 	-- update delivered tobacco lines 
 	UPDATE 
@@ -42,7 +42,7 @@ BEGIN
 	SET 
 		 LineDeliveryStatus = tbd.DeliveryLineStatus,
 		 DeliveredQty = tbd.DeliveredQuantity
-	FROM 
+	FROM  
 		 JobDetail jdd 
 		 INNER JOIN @TobaccoDeliveryTable tbd 
 		 ON jdd.Id = tbd.JobDetailId;

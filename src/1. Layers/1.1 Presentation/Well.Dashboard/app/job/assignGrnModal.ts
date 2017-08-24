@@ -12,6 +12,7 @@ export class AssignGrnModal {
     private isVisible: boolean = false;
     public grnNumber: string;
     private notRequired: string = 'Not required';
+    private required: string = 'Required';
 
     constructor(private jobService: JobService) {}
 
@@ -45,7 +46,7 @@ export class AssignGrnModal {
         if (this.model.grnNumber) {
             return this.model.grnNumber;
         } else {
-            return (GrnHelpers.isGrnRequired(this.model)) ? 'Required' : this.notRequired;
+            return (GrnHelpers.isGrnRequired(this.model)) ? this.required : this.notRequired;
         }
     }
 }

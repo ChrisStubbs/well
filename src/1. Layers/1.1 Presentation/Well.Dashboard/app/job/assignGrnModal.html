@@ -1,4 +1,5 @@
-<span *ngIf="linkText() != notRequired" type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>
+<span *ngIf="linkText() != notRequired" type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>&nbsp;
+<span *ngIf="linkText() == required" class="glyphicon glyphicon-warning-sign" style="color: rgb(237,178,9);" title="The GRN number is missing and it's mandatory" >&nbsp;</span>
 
 <div *ngIf="isVisible" class="modal fade in show" id="assignGrn-Modal">
     <div class="modal-dialog">
@@ -9,8 +10,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="">GRN/CSF</label>
-                    <input type="text" class="form-control" placeholder="GRN/CSF number" [(ngModel)]="grnNumber">
+                    <label for="setGrnValue">GRN/CSF</label>
+                    <input type="text" id="setGrnValue" class="form-control" placeholder="GRN/CSF number" [(ngModel)]="grnNumber">
                 </div>
             </div>
             <div class="modal-footer">

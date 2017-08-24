@@ -13,7 +13,7 @@
 
         IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId);
 
-        IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId);
+        IEnumerable<JobStop> GetJobStopsByRouteHeaderId(int routeHeaderId);
 
         Job GetJobByRefDetails(string jobTypeCode, string phAccount, string pickListRef, int stopId);
 

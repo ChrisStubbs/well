@@ -134,6 +134,7 @@
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
+    <Compile Include="ValueObjects\JobStop.cs" />
     <Compile Include="ValueObjects\PatchSummaryItem.cs" />
     <Compile Include="ValueObjects\BulkEditResult.cs" />
     <Compile Include="ValueObjects\PatchSummary.cs" />

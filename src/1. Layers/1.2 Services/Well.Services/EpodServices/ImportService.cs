@@ -85,6 +85,7 @@
                                   $"route header Id ({originalStop.RouteHeaderId})";
                     logger.LogDebug(message);
                 }
+
             }
 
             ImportJobs(fileRouteHeader, savedStops.SelectMany(j => j.Jobs).ToList(), importMapper, importCommands);
@@ -120,7 +121,7 @@
             IImportCommands importCommands)
         {
             var branchId = routeHeader.RouteOwnerId;
-            var existingStopJobsIds = jobRepository.GetJobIdsByRouteHeaderId(routeHeader.Id);
+            var existingRouteJobIdAndStopId = jobRepository.GetJobStopsByRouteHeaderId(routeHeader.Id).ToList();
             var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
             
             List<int> updateJobIds = new List<int>();
@@ -172,10 +173,8 @@
             importCommands.PostJobImport(updateJobIds);
 
             //Delete Jobs Not In File
-            var jobsToBeDeleted = jobRepository.GetByIds(
-                GetJobsIdsToBeDeleted(existingStopJobsIds, existingJobsBothSources.Select(x => x.Id))
-            ).ToList();
-
+            var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources).ToList();
+           
             DeleteJobs(jobsToBeDeleted);
         }
 
@@ -199,12 +198,6 @@
         private Stop FindOriginalStop(IList<Stop> existingStops, Stop stop)
         {
             return existingStops.FirstOrDefault(x => x.TransportOrderReference == stop.TransportOrderReference);
-        }
-
-        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds, IEnumerable<int> existingJobIdsBothSources)
-        {
-            var existing = existingJobIdsBothSources.ToDictionary(k => k);
-            return existingStopJobIds.Where(x => !existing.ContainsKey(x));
         }
 
         private void DeleteJobs(List<Job> jobsToBeDeleted)

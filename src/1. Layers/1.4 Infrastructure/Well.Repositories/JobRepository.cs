@@ -85,16 +85,16 @@ namespace PH.Well.Repositories
             return ToLineItemTotals(wellEntities.JobDetail.Where(x => jobIds.Contains(x.Job.Id)));
         }
 
-        public IEnumerable<int> GetJobIdsByRouteHeaderId(int routeHeaderId)
+        public IEnumerable<JobStop> GetJobStopsByRouteHeaderId(int routeHeaderId)
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByRouteHeaderId)
                 .AddParameter("RouteHeaderId", routeHeaderId, DbType.Int32)
-                .Query<int>();
+                .Query<JobStop>();
         }
 
         public IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId)
         {
-            var jobIds = GetJobIdsByRouteHeaderId(routeHeaderId);
+            var jobIds = GetJobStopsByRouteHeaderId(routeHeaderId).Select(x=> x.JobId);
 
             return GetByIds(jobIds);
         }
@@ -166,6 +166,7 @@ namespace PH.Well.Repositories
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("StopId", entity.StopId, DbType.Int32)
                 .AddParameter("Reason", entity.JobByPassReason, DbType.String)
                 .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int32)
                 .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)

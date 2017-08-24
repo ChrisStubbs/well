@@ -2,7 +2,8 @@
 	@RouteHeaderId INT
 AS
 	SELECT		
-		j.Id
+		j.Id as JobId, 
+		s.Id as StopId
 	FROM
 		Stop s
 		INNER JOIN Job j on j.StopId = s.Id

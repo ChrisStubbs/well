@@ -6,8 +6,6 @@
 
 CREATE VIEW [dbo].[StopStatusView]
 AS
-
-
 	WITH StatusForStops (StopId, AwaitingInvoice, Incomplete, Clean, Exception, Resolved, Documents, CompletedOnPaper, Bypassed, TotalNoOfJobs)
 		AS(
 			SELECT StopId, ISNULL( [1], 0) AS AwaitingInvoice, ISNULL( [2], 0 ) AS Incomplete, ISNULL ([3], 0) AS Clean, ISNULL ([4], 0) AS Exception, ISNULL ([5], 0) AS Resolved, ISNULL ([6], 0) AS Documents, ISNULL ([7], 0) AS CompletedOnPaper, ISNULL ([8], 0) AS Bypassed, TotalJobs 
@@ -16,6 +14,7 @@ AS
 				,COUNT(j.Id)  OVER (PARTITION BY s.Id) AS TotalJobs
 				FROM [Stop] s
 				INNER JOIN Job j ON j.StopId = s.id
+				AND j.DateDeleted IS NULL
 				WHERE j.JobTypeCode != 'DEL-DOC'
 				GROUP BY s.Id, j.JobStatusId, j.id)
 			AS SourceTable

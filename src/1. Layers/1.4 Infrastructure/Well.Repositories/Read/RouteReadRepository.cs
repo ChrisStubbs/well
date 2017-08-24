@@ -63,19 +63,37 @@ namespace PH.Well.Repositories.Read
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .SelectMany(p => p.Stop
                         .Where(s => s.DateDeleted == null)
-                        .SelectMany(j => j.Job
-                            .Where(w => w.DateDeleted == null && w.JobTypeCode != "DEL-DOC" && w.JobTypeCode != "UPL-SAN")
+                        .SelectMany(s => s.Job
+                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" && j.JobTypeCode != "UPL-SAN")
                             .Select(uj => new
                             {
                                 Users = uj.UserJob.Select(a => a.User.Name),
-                                Route = p.Id
+                                Route = p.Id, 
+                                Stop = s.Id
                             })
                         )
                     ).ToList()
-                    .Select(p => new
+                    //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
+                    .GroupBy(p => new { p.Route, p.Stop })
+                    //select distinct users inside the group
+                    .Select(p =>
                     {
-                        Users = (p.Users == null || p.Users.Count() == 0) ? new List<string> { "Unallocated" } : p.Users,
-                        p.Route
+                        var distinctUsers = p.SelectMany(data => data.Users).Distinct().ToList();
+
+                        if (distinctUsers == null || distinctUsers.Count() == 0)
+                        {
+                            return new
+                            {
+                                Users = new List<string> { "Unallocated" },
+                                p.Key.Route
+                            };
+                        }
+
+                        return new
+                        {
+                            Users = distinctUsers,
+                            p.Key.Route
+                        };
                     })
                     .GroupBy(p => p.Route)
                     .ToDictionary(k => k.Key, v => v.ToList());

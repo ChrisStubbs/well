@@ -11,6 +11,7 @@
         JobDetailSource,
         JobDetailReason,
         RouteStatus,
+        StopStatus,
         WellStatus,
         CommentReason,
         ResolutionStatus,

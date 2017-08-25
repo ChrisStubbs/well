@@ -461,6 +461,7 @@
             return userRepository.GetUserJobsByJobIds(jobIds)
                 .Where(x => x.UserId == user.Id).Select(x => x.JobId);
         }
+
         public bool ComputeWellStatus(int jobId)
         {
             // Get the job specified

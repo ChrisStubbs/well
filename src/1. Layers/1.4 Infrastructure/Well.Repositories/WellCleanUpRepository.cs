@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Common.Extensions;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.Repositories
 {
@@ -38,7 +39,7 @@ namespace PH.Well.Repositories
                     {
                         BranchId = reader.GetInt32(reader.GetOrdinal("BranchId")),
                         JobId = reader.GetInt32(reader.GetOrdinal("JobId")),
-                        ResolutionStatusId = reader.GetInt32(reader.GetOrdinal("ResolutionStatus")),
+                        ResolutionStatusId = (eResolutionStatus)reader.GetInt32(reader.GetOrdinal("ResolutionStatus")),
                         RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
                         StopId = reader.GetInt32(reader.GetOrdinal("StopId")),
                         RouteDate = reader.GetDateTime(reader.GetOrdinal("RouteDate")),

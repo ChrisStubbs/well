@@ -12,13 +12,18 @@ namespace PH.Well.Services
 
     public class LookupService : ILookupService
     {
+        #region Private fields
         private readonly ILookupRepository lookupRepository;
+        #endregion Private fields
 
+        #region Constructors
         public LookupService(ILookupRepository lookupRepository)
         {
             this.lookupRepository = lookupRepository;
         }
+        #endregion Constructors
 
+        #region Public methods
         public IList<KeyValuePair<string, string>> GetLookup(LookupType lookupType)
         {
             switch (lookupType)
@@ -47,11 +52,17 @@ namespace PH.Well.Services
                 case LookupType.JobDetailReason:
                     return this.GetJobDetailReason();
 
-                case LookupType.RouteStatus:
-                    return this.GetWellStatus().Where(x => x.Key != "2") .ToList();
-
+                // Get all well statuses for a Job
                 case LookupType.WellStatus:
-                    return this.GetWellStatus().ToList();
+                    return WellStatuses.GetKeyValuePairs(WellStatuses.OrderedWellStatuses).ToList();
+                
+                // Get all Well statuses for a Stop
+                case LookupType.StopStatus:
+                    return WellStatuses.GetKeyValuePairs(WellStatuses.OrderedStopStatuses).ToList();
+
+                // Get all Well statuses for a Route
+                case LookupType.RouteStatus:
+                    return WellStatuses.GetKeyValuePairs(WellStatuses.OrderedRouteStatuses).ToList();
 
                 case LookupType.CommentReason:
                     return this.lookupRepository.CommentReason();
@@ -126,5 +137,6 @@ namespace PH.Well.Services
                 .ToList();
 
         }
+        #endregion Public methods
     }
 }

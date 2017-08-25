@@ -14,11 +14,11 @@
             {
                 foreach (var resolutionStatus in ResolutionStatus.AllStatus)
                 {
-                    if (resolutionStatus.Value == ResolutionStatus.DriverCompleted
-                        || resolutionStatus.Value == ResolutionStatus.ActionRequired
-                        || resolutionStatus.Value == ResolutionStatus.PendingSubmission
-                        || resolutionStatus.Value == ResolutionStatus.PendingApproval
-                        || resolutionStatus.Value == ResolutionStatus.ManuallyCompleted
+                    if (resolutionStatus.eValue == ResolutionStatus.DriverCompleted
+                        || resolutionStatus.eValue == ResolutionStatus.ActionRequired
+                        || resolutionStatus.eValue == ResolutionStatus.PendingSubmission
+                        || resolutionStatus.eValue == ResolutionStatus.PendingApproval
+                        || resolutionStatus.eValue == ResolutionStatus.ManuallyCompleted
                         )
                     {
                         Assert.True(resolutionStatus.IsEditable());

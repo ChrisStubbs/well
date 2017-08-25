@@ -91,7 +91,8 @@
         public CreditThreshold GetCreditThreshold(string userName)
         {
             var user = userRepository.GetByIdentity(userName);
-            if (user.CreditThresholdId.HasValue)
+
+            if (user?.CreditThresholdId.HasValue ?? false)
             {
                 return creditThresholdRepository.GetByUserId(user.Id);
             }

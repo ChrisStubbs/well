@@ -136,7 +136,7 @@ namespace PH.Well.Repositories
                 Driver =  activitySource.Job.DriverName,
                 Date =  activitySource.Job.RouteDate.Value,
                 Tba = GetTba(activitySource.Job.OuterDiscrepancyFound,activitySource.Job.TotalOutersShort,activitySource.Job.DetailOutersShort),
-                ResolutionStatus = (eResolutionStatus)activitySource.Job.ResolutionStatusId.GetValueOrDefault(),
+                ResolutionStatus = activitySource.Job.ResolutionStatusId.GetValueOrDefault(),
                 LocationId = (int)activitySource.LocationId,
                 Assignees = details.Users.ToList(),
                 Details = details.LineDetail.Select(x => new ActivitySourceDetail
@@ -155,7 +155,7 @@ namespace PH.Well.Repositories
                     Stop = x.Stop.DropId,
                     StopDate = x.Stop.DeliveryDate.GetValueOrDefault(),
                     JobId = x.JobId,
-                    ResolutionStatus = (eResolutionStatus)x.ResolutionStatus,
+                    ResolutionStatus = x.ResolutionStatus,
                     LineItemId = x.LineItemId ?? -1,
                     HasUnresolvedActions = HasUnresolvedActions(x.LineDeliveryStatus,x.Totals.ShortTotal,x.Totals.DamageTotal,x.OriginalDespatchQuantity),
                     

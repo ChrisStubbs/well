@@ -157,7 +157,11 @@ namespace PH.Well.Repositories
                     JobId = x.JobId,
                     ResolutionStatus = x.ResolutionStatus,
                     LineItemId = x.LineItemId ?? -1,
-                    HasUnresolvedActions = HasUnresolvedActions(x.LineDeliveryStatus,x.Totals.ShortTotal,x.Totals.DamageTotal,x.OriginalDespatchQuantity),
+                    HasUnresolvedActions = HasUnresolvedActions(
+                        x.LineDeliveryStatus,
+                        x.Totals.ShortTotal,
+                        x.Totals.DamageTotal,x.OriginalDespatchQuantity,
+                        x.ResolutionStatus),
                     
                 }).ToList()
             };
@@ -166,8 +170,13 @@ namespace PH.Well.Repositories
         }
 
         // Helper methods below should be refactored use constants and be centralized.
-        private bool HasUnresolvedActions(string lineDeliveryStatus, int? shortTotal, int? damageTotal, int? originalDespatchQuantity)
+        private bool HasUnresolvedActions(string lineDeliveryStatus, int? shortTotal, int? damageTotal, int? originalDespatchQuantity, Domain.Enums.ResolutionStatus resolutionStatus)
         {
+            if ((resolutionStatus & Domain.Enums.ResolutionStatus.Closed) == Domain.Enums.ResolutionStatus.Closed)
+            {
+                return false;
+            }
+            
             switch (lineDeliveryStatus)
             {
                 case "Delivered": return true;

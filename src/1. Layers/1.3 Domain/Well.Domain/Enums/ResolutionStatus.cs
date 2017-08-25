@@ -11,7 +11,6 @@ namespace PH.Well.Domain.Enums
     public sealed class ResolutionStatus
     {
         [Flags]
-        [Obsolete("Use the ResolutionStatus class instead")]
         private enum eResolutionStatus
         {
             [Description("Invalid")]
@@ -66,6 +65,15 @@ namespace PH.Well.Domain.Enums
             eResolutionStatus.ManuallyCompleted
         };
 
+        private static readonly List<eResolutionStatus> CombinableAndStatuses = new List<eResolutionStatus>()
+        {
+            eResolutionStatus.DriverCompleted | eResolutionStatus.Closed,
+            eResolutionStatus.Credited | eResolutionStatus.Closed,
+            eResolutionStatus.Resolved | eResolutionStatus.Closed,
+            eResolutionStatus.Closed,
+            eResolutionStatus.ManuallyCompleted | eResolutionStatus.Closed
+        };
+
         #endregion Static data
 
         #region Properties
@@ -103,12 +111,13 @@ namespace PH.Well.Domain.Enums
         #region Operators
         public static ResolutionStatus operator &(ResolutionStatus val1, ResolutionStatus val2)
         {
-            if (!(CombinableStatuses.Any(p => p == val1.eValue) && CombinableStatuses.Any(p => p == val2.eValue)))
+            if (!(CombinableAndStatuses.Any(p => p == val1.eValue) && CombinableAndStatuses.Any(p => p == val2.eValue)))
             {
                 return Invalid;
             }
 
-            return new ResolutionStatus(val1.eValue & val2.eValue, $"{val1.Description} - {val2.Description}");
+            int v = val1.Value & val2.Value;
+            return (ResolutionStatus)v;
         }
 
         public static ResolutionStatus operator |(ResolutionStatus val1, ResolutionStatus val2)

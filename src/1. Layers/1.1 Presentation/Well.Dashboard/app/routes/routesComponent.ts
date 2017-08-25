@@ -157,7 +157,11 @@ export class RoutesComponent implements IObservableAlive
 
     public refreshData(event): void
     {
-        this.routeFilter.branchId = +event.target.value;
+        if (event)
+        {
+            this.routeFilter.branchId = +event.target.value;
+        }
+
         this.getRoutesByBranch();
     }
 

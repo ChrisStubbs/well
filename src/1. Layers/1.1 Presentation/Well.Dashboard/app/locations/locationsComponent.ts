@@ -27,6 +27,7 @@ export class LocationsComponent implements IObservableAlive
     private source: Array<Locations> = [];
     private gridSource: Array<Locations> = [];
     private inputFilterTimer: any;
+    private selectedBranhId: number;
 
     constructor(private locationsService: LocationsService,
                 private branchService: BranchService,
@@ -62,7 +63,12 @@ export class LocationsComponent implements IObservableAlive
 
     private loadData(branchId: number): void
     {
-        this.locationsService.getLocations(branchId)
+        if (branchId)
+        {
+            this.selectedBranhId = branchId;
+        }
+
+        this.locationsService.getLocations(this.selectedBranhId)
             .takeWhile(() => this.isAlive)
             .subscribe(res => {
                 this.source = res;

@@ -39,6 +39,12 @@
         <div class="col-md-6">
             <div class="pull-right">
                 <div class="btn-group">
+                    <button type="button" class="btn btn-default" (click)="refreshRouteFromApi()">
+                        Refresh Data
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                </div>
+                <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 </div>
                 <ow-button-dropdown [options]="actionOptions" [disabled]="selectedItems().length == 0"(onOptionClicked)="submitAction($event)"></ow-button-dropdown>

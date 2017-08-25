@@ -52,7 +52,8 @@ class Sort {
         '.colCheckbox { width: 3% } ' +
         'th { cursor: pointer }']
 })
-export class ApprovalsComponent implements IObservableAlive {
+export class ApprovalsComponent implements IObservableAlive
+{
     public isAlive: boolean = true;
     public source: Array<Approval>;
     public sortField: Sort;
@@ -78,14 +79,7 @@ export class ApprovalsComponent implements IObservableAlive {
         this.sortField = new Sort();
         this.sortField.field = 'branchName';
 
-        this.route.params
-            .flatMap(data => {
-                return this.approvalsService.get();
-            }).takeWhile(() => this.isAlive)
-            .subscribe((data: Approval[]) => {
-                this.source = data;
-                this.fillGridSource();
-            });
+        this.refreshDataFromAPI();
 
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
@@ -93,6 +87,20 @@ export class ApprovalsComponent implements IObservableAlive {
 
         this.isReadOnlyUser = this.securityService
             .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+    }
+
+    public refreshDataFromAPI(): void
+    {
+        this.route.params
+            .flatMap(data =>
+            {
+                return this.approvalsService.get();
+            }).takeWhile(() => this.isAlive)
+            .subscribe((data: Approval[]) =>
+            {
+                this.source = data;
+                this.fillGridSource();
+            });
     }
 
     public fillGridSource(): void {

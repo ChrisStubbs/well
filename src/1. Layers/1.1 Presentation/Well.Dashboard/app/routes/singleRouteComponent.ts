@@ -149,7 +149,6 @@ export class SingleRouteComponent implements IObservableAlive
 
     public clearFilter(): void
     {
-        this.jobService.setGrnForJob(1, 'test').subscribe();
         this.filters = new SingleRouteFilter();
         this.fillGridSource();
     }

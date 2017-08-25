@@ -87,7 +87,9 @@ AS
 			SELECT SUM(v.ShortTotal + v.DamageTotal + v.BypassTotal) AS Exceptions, jd.JobId
 			FROM 
 				LineItemExceptionsView v
-				INNER JOIN JobDetail jd ON v.Id = jd.LineItemId AND jd.DateDeleted IS NULL
+				INNER JOIN JobDetail jd 
+					ON v.Id = jd.LineItemId 
+					AND jd.DateDeleted IS NULL
 			GROUP BY jd.JobId
 		) AS ex
 			ON ex.JobId = j.Id
@@ -96,8 +98,10 @@ AS
 			SELECT SUM(jd.OriginalDespatchQty) AS Total, jd.JobId
 			FROM 
 				JobDetail jd
-				LEFT JOIN LineItemAction la 
-					on jd.LineItemId = la.LineItemId AND ISNULL(la.Quantity, 0) = 0 AND la.DateDeleted IS NULL AND jd.DateDeleted IS NULL
+				INNER JOIN LineItemAction la 
+					on jd.LineItemId = la.LineItemId 
+					AND la.DateDeleted IS NULL 
+					AND jd.DateDeleted IS NULL
 			GROUP BY jd.JobId
 		) cl
 			ON j.Id = cl.JobId

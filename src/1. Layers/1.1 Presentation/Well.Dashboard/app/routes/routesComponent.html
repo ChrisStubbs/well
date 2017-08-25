@@ -8,7 +8,7 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-6">
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Show pending action Jobs - {{getJobIssueTypeDescription()}} <span class="caret"></span>
@@ -20,8 +20,14 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-3 pull-right">
+        <div class="col-md-6 pull-right">
             <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" (click)="refreshData()">
+                        Refresh Data
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear Filter</button>
                 </div>

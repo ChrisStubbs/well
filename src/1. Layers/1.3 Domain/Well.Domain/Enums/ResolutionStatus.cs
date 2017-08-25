@@ -7,36 +7,37 @@ namespace PH.Well.Domain.Enums
     using System.Collections.Generic;
     using System.Linq;
 
-    [Flags]
-    public enum eResolutionStatus
-    {
-        [Description("Invalid")]
-        Invalid = 0,
-        [Description("Imported")]
-        Imported = 1,
-        [Description("Driver Completed")]
-        DriverCompleted = 2,
-        [Description("Action Required")]
-        ActionRequired = 4,
-        [Description("Pending Submission")]
-        PendingSubmission = 8,
-        [Description("Pending Approval")]
-        PendingApproval = 16,
-        [Description("Approved")]
-        Approved = 32,
-        [Description("Credited")]
-        Credited = 64,
-        [Description("Resolved")]
-        Resolved = 128,
-        [Description("Closed")]
-        Closed = 256,
-        [Description("Manually Completed")]
-        ManuallyCompleted = 512
-    }
-
     [Serializable]
     public sealed class ResolutionStatus
     {
+        [Flags]
+        [Obsolete("Use the ResolutionStatus class instead")]
+        private enum eResolutionStatus
+        {
+            [Description("Invalid")]
+            Invalid = 0,
+            [Description("Imported")]
+            Imported = 1,
+            [Description("Driver Completed")]
+            DriverCompleted = 2,
+            [Description("Action Required")]
+            ActionRequired = 4,
+            [Description("Pending Submission")]
+            PendingSubmission = 8,
+            [Description("Pending Approval")]
+            PendingApproval = 16,
+            [Description("Approved")]
+            Approved = 32,
+            [Description("Credited")]
+            Credited = 64,
+            [Description("Resolved")]
+            Resolved = 128,
+            [Description("Closed")]
+            Closed = 256,
+            [Description("Manually Completed")]
+            ManuallyCompleted = 512
+        }
+
         #region Static data
         private static readonly Dictionary<eResolutionStatus, ResolutionStatus> Values = new Dictionary<eResolutionStatus, ResolutionStatus>
         {
@@ -64,10 +65,11 @@ namespace PH.Well.Domain.Enums
             eResolutionStatus.Closed,
             eResolutionStatus.ManuallyCompleted
         };
+
         #endregion Static data
 
         #region Properties
-        public eResolutionStatus eValue { get; }
+        private eResolutionStatus eValue { get; }
         public int Value => (int) eValue;
         public string Description { get; }
         public static ResolutionStatus Imported => Values[eResolutionStatus.Imported];
@@ -118,30 +120,32 @@ namespace PH.Well.Domain.Enums
 
             return new ResolutionStatus(val1.eValue | val2.eValue, $"{val1.Description} - {val2.Description}");
         }
-
-        public static implicit operator ResolutionStatus(eResolutionStatus value)
+        
+        public static implicit operator ResolutionStatus(int value)
         {
-            if (Values.ContainsKey(value))
+            var valueToHandle = (eResolutionStatus)value;
+
+            if (Values.ContainsKey(valueToHandle))
             {
-                return Values[value];
+                return Values[valueToHandle];
             }
 
-            if (value == (Closed.eValue | DriverCompleted.eValue))
+            if (valueToHandle == (Closed.eValue | DriverCompleted.eValue))
             {
                 return Closed | DriverCompleted;
             }
 
-            if (value == (Closed.eValue | Credited.eValue))
+            if (valueToHandle == (Closed.eValue | Credited.eValue))
             {
                 return Closed | Credited;
             }
 
-            if (value == (Closed.eValue | Resolved.eValue))
+            if (valueToHandle == (Closed.eValue | Resolved.eValue))
             {
                 return Closed | Resolved;
             }
 
-            if (value == (Closed.eValue | ManuallyCompleted.eValue))
+            if (valueToHandle == (Closed.eValue | ManuallyCompleted.eValue))
             {
                 return Closed | ManuallyCompleted;
             }

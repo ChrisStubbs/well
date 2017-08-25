@@ -39,7 +39,7 @@ namespace PH.Well.Repositories
                     {
                         BranchId = reader.GetInt32(reader.GetOrdinal("BranchId")),
                         JobId = reader.GetInt32(reader.GetOrdinal("JobId")),
-                        ResolutionStatusId = (eResolutionStatus)reader.GetInt32(reader.GetOrdinal("ResolutionStatus")),
+                        ResolutionStatusId = reader.GetInt32(reader.GetOrdinal("ResolutionStatus")),
                         RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
                         StopId = reader.GetInt32(reader.GetOrdinal("StopId")),
                         RouteDate = reader.GetDateTime(reader.GetOrdinal("RouteDate")),

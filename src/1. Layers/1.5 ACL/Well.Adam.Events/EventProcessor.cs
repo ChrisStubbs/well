@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Adam.Events
+﻿using PH.Well.Domain;
+
+namespace PH.Well.Adam.Events
 {
     using System;
     using System.Diagnostics;
@@ -53,57 +55,70 @@
             {
                 if (eventToProcess.DateCanBeProcessed < DateTime.Now)
                 {
-                    switch (eventToProcess.EventAction)
+                    try
                     {
-                        case EventAction.Credit:
-                            var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
-                            this.deliveryLineActionService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
-                                GetAdamSettings(creditEventTransaction.BranchId));
-                            break;
-                        case EventAction.Grn:
-                            var grnEvent = JsonConvert.DeserializeObject<GrnEvent>(eventToProcess.Event);
-                            this.deliveryLineActionService.Grn(grnEvent, eventToProcess.Id,
-                                GetAdamSettings(grnEvent.BranchId));
-                            break;
-                        case EventAction.Pod:
-                            var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);
-                            this.deliveryLineActionService.Pod(podEvent, eventToProcess.Id, GetAdamSettings(podEvent.BranchId));
-                            break;
-                        case EventAction.PodTransaction:
-                            var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
-                            this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id, GetAdamSettings(podTransaction.BranchId));
-                            break;
-                        case EventAction.Amendment:
-                            var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
-                            this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id, GetAdamSettings(amendmentTransaction.BranchId));
-                            break;
-                        case EventAction.GlobalUplift:
-                            var upliftEvent =
-                                JsonConvert.DeserializeObject<GlobalUpliftEvent>(eventToProcess.Event);
-                            // Create transaction from event
-                            var transaction = new GlobalUpliftTransaction(upliftEvent.Id, upliftEvent.BranchId,
-                                upliftEvent.AccountNumber, upliftEvent.CreditReasonCode, upliftEvent.ProductCode,
-                                upliftEvent.Quantity, upliftEvent.StartDate, upliftEvent.EndDate,
-                                upliftEvent.WriteLine, upliftEvent.WriteHeader, upliftEvent.CsfNumber, upliftEvent.CustomerReference);
-
-                            // Process event
-                            var result = adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
-                            if (result == AdamResponse.Success)
-                            {
-                                exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
-                            }
-                            else
-                            { 
-                                // Delete event since it will be recreated in adam repository
-                                exceptionEventRepository.Delete(eventToProcess.Id);
-                            }
-                            break;
-
+                        ProcessSingleEvent(eventToProcess);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.logger.LogDebug($"Exception during ProcessSingleEvent: {ex.Message}");
                     }
                 }
             }
 
             this.logger.LogDebug("Finished Well Adam Events!");
+        }
+
+        private void ProcessSingleEvent(ExceptionEvent eventToProcess)
+        {
+            switch (eventToProcess.EventAction)
+            {
+                case EventAction.Credit:
+                    var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
+                    this.deliveryLineActionService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
+                        GetAdamSettings(creditEventTransaction.BranchId));
+                    break;
+                case EventAction.Grn:
+                    var grnEvent = JsonConvert.DeserializeObject<GrnEvent>(eventToProcess.Event);
+                    this.deliveryLineActionService.Grn(grnEvent, eventToProcess.Id,
+                        GetAdamSettings(grnEvent.BranchId));
+                    break;
+                case EventAction.Pod:
+                    var podEvent = JsonConvert.DeserializeObject<PodEvent>(eventToProcess.Event);
+                    this.deliveryLineActionService.Pod(podEvent, eventToProcess.Id, GetAdamSettings(podEvent.BranchId));
+                    break;
+                case EventAction.PodTransaction:
+                    var podTransaction = JsonConvert.DeserializeObject<PodTransaction>(eventToProcess.Event);
+                    this.deliveryLineActionService.PodTransaction(podTransaction, eventToProcess.Id,
+                        GetAdamSettings(podTransaction.BranchId));
+                    break;
+                case EventAction.Amendment:
+                    var amendmentTransaction = JsonConvert.DeserializeObject<AmendmentTransaction>(eventToProcess.Event);
+                    this.deliveryLineActionService.AmendmentTransaction(amendmentTransaction, eventToProcess.Id,
+                        GetAdamSettings(amendmentTransaction.BranchId));
+                    break;
+                case EventAction.GlobalUplift:
+                    var upliftEvent =
+                        JsonConvert.DeserializeObject<GlobalUpliftEvent>(eventToProcess.Event);
+                    // Create transaction from event
+                    var transaction = new GlobalUpliftTransaction(upliftEvent.Id, upliftEvent.BranchId,
+                        upliftEvent.AccountNumber, upliftEvent.CreditReasonCode, upliftEvent.ProductCode,
+                        upliftEvent.Quantity, upliftEvent.StartDate, upliftEvent.EndDate,
+                        upliftEvent.WriteLine, upliftEvent.WriteHeader, upliftEvent.CsfNumber, upliftEvent.CustomerReference);
+
+                    // Process event
+                    var result = adamRepository.GlobalUplift(transaction, GetAdamSettings(transaction.BranchId));
+                    if (result == AdamResponse.Success)
+                    {
+                        exceptionEventRepository.MarkEventAsProcessed(eventToProcess.Id);
+                    }
+                    else
+                    {
+                        // Delete event since it will be recreated in adam repository
+                        exceptionEventRepository.Delete(eventToProcess.Id);
+                    }
+                    break;
+            }
         }
 
         private AdamSettings GetAdamSettings(int branchId)

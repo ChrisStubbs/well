@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Domain.ValueObjects
+﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
+
+namespace PH.Well.Domain.ValueObjects
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -14,9 +17,9 @@
 
         public Dictionary<int, string> LineSql { get; set; }
 
+        [JsonIgnore]
         public bool CanWriteHeader => !this.LineSql.Any();
 
         public int BranchId { get; set; }
-
     }
 }

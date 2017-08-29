@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Xml.Serialization;
 
@@ -27,6 +28,7 @@
         private readonly IRouteHeaderRepository routeHeaderRepository;
 
         private string RootFolder { get; set; }
+        readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public AdamFileMonitorService(
             ILogger logger,
@@ -51,15 +53,22 @@
         public void Monitor(string rootFolder)
         {
             this.RootFolder = rootFolder;
-
-            var files = Directory.GetFiles(rootFolder).OrderBy(x=> x);
+            var directoryInfo = new DirectoryInfo(rootFolder);
+            var files =
+                directoryInfo.GetFiles().Where(f => routeOrOrderRegEx.IsMatch(f.Name))
+                        .OrderBy(f => GetDateTimeStampFromFileName(f.Name));
 
             foreach (var file in files)
             {
-                this.fileService.WaitForFile(file);
-
-                this.Process(file);
+                this.fileService.WaitForFile(file.FullName);
+                this.Process(file.FullName);
             }
+        }
+
+        public string GetDateTimeStampFromFileName(string fileName)
+        {
+            var dateTimeStamp = fileName.Substring(9, 11);
+            return dateTimeStamp;
         }
 
         public void Process(string filePath)

@@ -163,7 +163,7 @@ namespace PH.Well.Repositories.Read
                     })
                     .ToList();
 
-                List<Assignee> GetAssignees(int routeId)
+                Func<int, List<Assignee>> getAssignees = routeId =>
                 {
                     if (jobs.ContainsKey(routeId))
                     {
@@ -173,12 +173,11 @@ namespace PH.Well.Repositories.Read
                             {
                                 RouteId = routeId,
                                 Name = p
-                            })
-                            .ToList();
+                            }).ToList();
                     }
 
                     return null;
-                }
+                };
 
                 return routeHeaders.Select(item => new Route()
                 {
@@ -194,7 +193,7 @@ namespace PH.Well.Repositories.Read
                     RouteStatusId =
                         GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
                             item.JobIds.Count()),
-                    Assignees = GetAssignees(item.RouteId),
+                    Assignees = getAssignees(item.RouteId),
                     JobIssueType =
                         (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
                         (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |

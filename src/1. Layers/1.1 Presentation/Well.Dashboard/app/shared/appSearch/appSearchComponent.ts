@@ -1,23 +1,34 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { BranchService } from '../branch/branchService';
-import { GlobalSettingsService } from '../globalSettings';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { IAppSearchResultSummary } from './iAppSearchResultSummary';
-import { AppSearchParameters } from './appSearchParameters';
-import { AppSearchService } from './appSearchService';
-import * as _ from 'lodash';
-import { LookupService, LookupsEnum, ILookupValue } from '../services/services';
-import { IObservableAlive } from '../IObservableAlive';
-import { Observable } from 'rxjs';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { Component, Output, EventEmitter }  from '@angular/core';
+import { Router }                           from '@angular/router';
+import { BranchService }                    from '../branch/branchService';
+import { GlobalSettingsService }            from '../globalSettings';
+import
+{
+    FormGroup,
+    FormControl,
+    FormBuilder,
+    Validators
+}                                           from '@angular/forms';
+import { IAppSearchResultSummary }          from './iAppSearchResultSummary';
+import { AppSearchParameters }              from './appSearchParameters';
+import { AppSearchService }                 from './appSearchService';
+import
+{
+    LookupService,
+    LookupsEnum,
+    ILookupValue
+}                                           from '../services/services';
+import { IObservableAlive }                 from '../IObservableAlive';
+import { Observable }                       from 'rxjs';
+import { ToasterService }                   from 'angular2-toaster/angular2-toaster';
+import * as _                               from 'lodash';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 
 @Component({
     selector: 'ow-appSearch',
     templateUrl: 'app/shared/appSearch/appSearchComponent.html',
-    providers: [BranchService, AppSearchService]
+    providers: [AppSearchService]
 })
 export class AppSearch implements IObservableAlive {
     public branches: Array<[string, string]>;
@@ -51,12 +62,9 @@ export class AppSearch implements IObservableAlive {
                 'status': new FormControl()
             });
 
-        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
-            .takeWhile(() => this.isAlive)
-            .subscribe(branches => {
-                this.branches = <any>branches;
-                this.setDefaultBranch();
-            });
+        this.fillBranches();
+
+        this.branchService.userBranchesChanged$.subscribe(b => this.fillBranches());
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
@@ -71,7 +79,8 @@ export class AppSearch implements IObservableAlive {
             });
     }
 
-    private setDefaultBranch() {
+    private setDefaultBranch(): void
+    {
         if (_.isNil(this.branches)) {
             this.searchForm.value.branch = undefined;
             return;
@@ -81,6 +90,17 @@ export class AppSearch implements IObservableAlive {
             this.searchForm.value.branch = this.branches[0] ? this.branches[0][0] : undefined;
         }
     }
+
+    private fillBranches(): void
+    {
+        this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
+            .takeWhile(() => this.isAlive)
+            .subscribe(branches => {
+                this.branches = <any>branches;
+                this.setDefaultBranch();
+            });
+    }
+
     public ngOnDestroy(): void {
         this.isAlive = false;
     }

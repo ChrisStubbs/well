@@ -24,3 +24,8 @@ AS
                 OR Id = 512 --'Manually Completed'
                 OR 256 & Id != 0 --all closed status
         )
+		AND j.JobStatusId NOT IN 
+		(
+			1, --'Awaiting Invoice'
+			2 -- 'InComplete'
+		)

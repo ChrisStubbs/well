@@ -16,7 +16,8 @@ export class AppComponent {
     constructor(
         private globalSettingsService: GlobalSettingsService,
         private branchService: BranchService,
-        private securityService: SecurityService) {
+        private securityService: SecurityService)
+    {
         securityService.validateUser(this.globalSettingsService.globalSettings.permissions, '');
         this.version = this.globalSettingsService.globalSettings.version;
         this.fetchBranches();

@@ -69,15 +69,20 @@ export class BranchService
 
         if (username)
         {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl
+            const url = this.globalSettingsService.globalSettings.apiUrl
                 + 'save-branches-on-behalf-of-user?username='
                 + username
                 + '&domain='
-                + domain,
-                body,
-                options)
-                .map(res => res.json());
-        } else
+                + domain;
+
+            return this.http.post(url, body, options)
+                .map(res =>
+                {
+                    this.userBranchesChanged$.emit(branches);
+                    res.json();
+                });
+        }
+        else
         {
             return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',
                 body,

@@ -3,6 +3,7 @@ using PH.Well.Domain.Constants;
 
 namespace PH.Well.Repositories.Read
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -162,6 +163,23 @@ namespace PH.Well.Repositories.Read
                     })
                     .ToList();
 
+                List<Assignee> GetAssignees(int routeId)
+                {
+                    if (jobs.ContainsKey(routeId))
+                    {
+                        jobs[routeId]
+                            .SelectMany(p => p.Users)
+                            .Select(p => new Assignee()
+                            {
+                                RouteId = routeId,
+                                Name = p
+                            })
+                            .ToList();
+                    }
+
+                    return null;
+                }
+
                 return routeHeaders.Select(item => new Route()
                 {
                     Id = item.RouteId,
@@ -176,13 +194,7 @@ namespace PH.Well.Repositories.Read
                     RouteStatusId =
                         GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
                             item.JobIds.Count()),
-                    Assignees = jobs[item.RouteId]
-                        .SelectMany(p => p.Users)
-                        .Select(p => new Assignee()
-                        {
-                            RouteId = item.RouteId,
-                            Name = p
-                        }).ToList(),
+                    Assignees = GetAssignees(item.RouteId),
                     JobIssueType =
                         (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
                         (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |

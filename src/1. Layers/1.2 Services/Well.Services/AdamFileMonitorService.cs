@@ -54,8 +54,9 @@
         {
             this.RootFolder = rootFolder;
             var directoryInfo = new DirectoryInfo(rootFolder);
+            
             var files =
-                directoryInfo.GetFiles().Where(f => routeOrOrderRegEx.IsMatch(f.Name))
+                directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
                         .OrderBy(f => GetDateTimeStampFromFileName(f.Name));
 
             foreach (var file in files)
@@ -65,9 +66,14 @@
             }
         }
 
+        public bool IsRouteOrOrderFile(string fileName)
+        {
+            return routeOrOrderRegEx.IsMatch(fileName);
+        }
+
         public string GetDateTimeStampFromFileName(string fileName)
         {
-            var dateTimeStamp = fileName.Substring(9, 11);
+            var dateTimeStamp = fileName.Substring(10, 11);
             return dateTimeStamp;
         }
 

@@ -34,7 +34,9 @@
         AssetsUplift = 9,
 
         [Description("UPL-STD")]
-        StandardUplift = 10
+        StandardUplift = 10,
 
+        [Description("NotDef")]
+        NotDefined = 11
     }
 }

@@ -69,6 +69,11 @@
                     .FirstOrDefault();
         }
 
+        public IList<int> GetRouteHeaderIdsWithNoStops()
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderIdsWithNoStops).Query<int>().ToList();
+        }
+
         public IEnumerable<HolidayExceptions> HolidayExceptionGet()
         {
             return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet).Query<HolidayExceptions>();
@@ -194,6 +199,7 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
                 .AddParameter("RouteheaderId", id, DbType.Int32)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
     }

@@ -1,9 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeader_DeleteById]
-	@RouteheaderId int
+	@RouteheaderId int,
+	@UpdatedBy varchar(50)
 AS
-
 BEGIN
 	UPDATE RouteHeader 
-	SET DateDeleted = GETDATE()
-	WHERE Id = @RouteheaderId
+	SET 
+		DateDeleted = GETDATE(),
+		UpdatedBy = @UpdatedBy
+	WHERE 
+		Id = @RouteheaderId
 END

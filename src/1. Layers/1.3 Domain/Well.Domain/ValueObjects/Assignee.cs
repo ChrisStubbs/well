@@ -16,7 +16,7 @@
 
         public static string GetDisplayNames(IEnumerable<Assignee> assignees)
         {
-            return GetDisplayNames(assignees.Select(x => x.Name));
+            return assignees == null ? null : GetDisplayNames(assignees.Select(x => x.Name));
         }
 
         public static string GetDisplayNames(IEnumerable<string> assigneeNames)

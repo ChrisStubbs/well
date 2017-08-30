@@ -43,6 +43,7 @@
                     using (var transactionScope = new TransactionScope())
                     {
                         this.ImportRouteHeader(header, route.RouteId);
+                        this.DeleteRoutesWithNoStops();
                         transactionScope.Complete();
                     }
                 }
@@ -55,6 +56,15 @@
                         msg,
                         EventId.ImportException);
                 }
+            }
+        }
+
+        private void DeleteRoutesWithNoStops()
+        {
+            var idsToDelete = routeHeaderRepository.GetRouteHeaderIdsWithNoStops();
+            foreach (var id in idsToDelete)
+            {
+                routeHeaderRepository.DeleteRouteHeaderById(id);
             }
         }
 

@@ -20,6 +20,7 @@ namespace PH.Well.Repositories
         public const string RoutesDeleteById = "Routes_DeleteById";
         public const string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
         public const string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
+        public const string RouteHeaderIdsWithNoStops = "RouteHeaderIds_GetWithNoStops";
         public const string HolidayExceptionGet = "HolidayException_Get";
         public const string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";

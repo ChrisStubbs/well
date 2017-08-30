@@ -451,6 +451,7 @@
     <None Include="ManualStep\scripts\up\025_AddWellStatusIdToJob.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\RouteHeaderIds_GetWithNoStops.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

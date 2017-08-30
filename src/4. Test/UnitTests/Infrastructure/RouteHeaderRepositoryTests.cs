@@ -220,12 +220,15 @@ namespace PH.Well.UnitTests.Infrastructure
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
                         .Returns(this.dapperProxy.Object);
+                    dapperProxy.Setup(x => x.AddParameter("UpdatedBy", UserName, DbType.String, null))
+                        .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.Execute());
 
                     this.repository.DeleteRouteHeaderById(id);
 
                     dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById), Times.Once);
-                    dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.AtLeastOnce);
+                    dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.Once);
+                    dapperProxy.Verify(x => x.AddParameter("UpdatedBy", UserName, DbType.String, null), Times.Once);
                     dapperProxy.Verify(x => x.Execute());
                 }
             }

@@ -88,7 +88,8 @@ export class ActivityComponent implements IObservableAlive
         this.gridSource = [];
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void
+    {
 
         this.refreshActivityFromApi();
 
@@ -121,10 +122,7 @@ export class ActivityComponent implements IObservableAlive
                     .value();
 
                 _.chain(this.source.details)
-                    .map((current: ActivitySourceDetail) =>
-                    {
-                        return current.type + ' (' + current.jobTypeAbbreviation + ')';
-                    })
+                    .map((current: ActivitySourceDetail) => current.type)
                     .uniq()
                     .map((current: string) =>
                     {

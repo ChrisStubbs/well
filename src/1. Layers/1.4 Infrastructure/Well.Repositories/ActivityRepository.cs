@@ -69,6 +69,13 @@ namespace PH.Well.Repositories
                     x.LocationId
                 }).FirstOrDefault();
 
+            var jobTypes = new System.Collections.Specialized.HybridDictionary(10, false);
+            wellEntities.JobType
+                .Where(p => p.Id != (int)JobType.NotDefined)
+                .Select(p => new { p.Code, p.Description, p.Abbreviation})
+                .ToList()
+                .ForEach(p => jobTypes.Add(p.Code, $"{p.Description}({p.Abbreviation})"));
+
             // Grid details
             var details = wellEntities.Activity
                 .Where(x => x.Id == activitySource.ActivityId && x.DateDeleted == null)
@@ -143,7 +150,7 @@ namespace PH.Well.Repositories
                 {
                     ActivityId = details.ActivityId,
                     Product = x.Product,
-                    Type = x.Type,
+                    Type = (string)jobTypes[x.Type],
                     BarCode = x.Barcode,
                     Description = x.Description,
                     Value = (decimal) x.Value.GetValueOrDefault(),

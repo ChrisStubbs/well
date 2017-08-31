@@ -51,7 +51,6 @@
             //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
-        [Authorize(Roles = SecurityPermissions.LandingPage)]
         [Route("widgets")]
         [HttpGet]
         public HttpResponseMessage Get()

@@ -96,7 +96,8 @@ namespace PH.Well.Api.Mapper
                                 HasUnresolvedActions = p.HasLineItemsWithUnresolvedAction(line.LineItemId),
                                 GrnNumber = p.GrnNumber,
                                 CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
-                                LocationId = p.LocationId
+                                LocationId = p.LocationId,
+                                CompletedOnPaper  = p.JobStatus == JobStatus.CompletedOnPaper
                             }
                         })
                         .ToList();

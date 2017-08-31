@@ -52,6 +52,7 @@ export class StopItem implements IGrnAssignable, IGrnAssignable
     public hasUnresolvedActions: boolean;
     public grnNumber: string;
     public readonly canEdit: boolean;
+    public completedOnPaper: boolean;
     public locationId: number;
  
     public get barCode(): string

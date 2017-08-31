@@ -250,6 +250,7 @@
                             </td>
                             <td colspan="5">
                                 <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
+                                &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="item.completedOnPaper"></ow-completed-on-paper>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>
                             <td class="text-right">{{item.totalActual}}</td>

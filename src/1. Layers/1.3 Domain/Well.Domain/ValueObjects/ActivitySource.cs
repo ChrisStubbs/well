@@ -32,6 +32,7 @@
         public string Resolution => ResolutionStatus.Description;
         public int ResolutionId => ResolutionStatus.Value;
         public int LocationId { get; set; }
+        
     }
 
     public class ActivitySourceDetail
@@ -72,5 +73,7 @@
         public string Resolution => ResolutionStatus.Description;
         public int ResolutionId => ResolutionStatus.Value;
         public bool HasUnresolvedActions { get; set; }
+        public bool CompletedOnPaper { get; set; }
+
     }
 }

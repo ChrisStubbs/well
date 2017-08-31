@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using PH.Shared.Well.Data.EF;
-using PH.Well.Domain;
+﻿using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Enums;
 using ExceptionType = PH.Well.Domain.Enums.ExceptionType;
 using Job = PH.Shared.Well.Data.EF.Job;
 using JobDetail = PH.Shared.Well.Data.EF.JobDetail;
-using JobType = PH.Well.Domain.Enums.JobType;
 
 namespace PH.Well.Repositories
 {
@@ -18,6 +13,7 @@ namespace PH.Well.Repositories
     using Dapper;
     using Domain.ValueObjects;
     using System.Data.Entity;
+    using JobStatus = Domain.Enums.JobStatus;
 
     public class ActivityRepository : IActivityRepository
     {
@@ -61,7 +57,8 @@ namespace PH.Well.Repositories
                             y.DetailOutersShort,
                             y.Stop.RouteHeader.DriverName,
                             y.Stop.RouteHeader.RouteDate,
-                            Account = y.Stop.Account.FirstOrDefault()
+                            Account = y.Stop.Account.FirstOrDefault(),
+                            y.JobStatusId
 
                         })
                         .FirstOrDefault(),
@@ -71,7 +68,7 @@ namespace PH.Well.Repositories
 
             var jobTypes = new System.Collections.Specialized.HybridDictionary(10, false);
             wellEntities.JobType
-                .Where(p => p.Id != (int)JobType.NotDefined)
+                .Where(p => p.Id != (int)PH.Well.Domain.Enums.JobType.NotDefined)
                 .Select(p => new { p.Code, p.Description, p.Abbreviation})
                 .ToList()
                 .ForEach(p => jobTypes.Add(p.Code, $"{p.Description}({p.Abbreviation})"));
@@ -106,7 +103,7 @@ namespace PH.Well.Repositories
                                 LineItemId = (int?) z.LineItem.Id,
                                 ResolutionStatus = y.ResolutionStatusId,
                                 OriginalDespatchQuantity = z.OriginalDespatchQty,
-
+                                CompletedOnPaper = z.Job.JobStatusId == (byte)PH.Well.Domain.Enums.JobStatus.CompletedOnPaper,
                                 // This method can be reused globally with EF. check http://www.albahari.com/nutshell/linqkit.aspx
                                 Totals = new
                                 {
@@ -169,7 +166,8 @@ namespace PH.Well.Repositories
                         x.Totals.ShortTotal,
                         x.Totals.DamageTotal,x.OriginalDespatchQuantity,
                         x.ResolutionStatus),
-                    
+                    CompletedOnPaper = x.CompletedOnPaper
+
                 }).ToList()
             };
 

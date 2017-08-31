@@ -49,6 +49,8 @@ export class ActivitySourceGroup
     public details: Array<ActivitySourceDetail>;
     public resolution: string;
     public resolutionId: number;
+    public completedOnPaper: boolean;
+
 }
 
 export class ActivitySourceDetail
@@ -80,7 +82,7 @@ export class ActivitySourceDetail
     public jobTypeAbbreviation: string;
     public lineItemId: number;
     public hasUnresolvedActions: boolean;
-
+    public completedOnPaper: boolean;
     public get exceptionsFilter(): number
     {
         let result: number = 0;

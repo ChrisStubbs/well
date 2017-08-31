@@ -194,6 +194,7 @@ export class ActivityComponent implements IObservableAlive
                 item.totalActual = summary.totalActual;
                 item.isExpanded = _.includes(expanded, item.jobId);
                 item.details = current;
+                item.completedOnPaper = singleItem.completedOnPaper;
 
                 return item;
             })

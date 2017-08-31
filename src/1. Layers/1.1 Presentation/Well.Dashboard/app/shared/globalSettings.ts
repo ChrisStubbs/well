@@ -5,6 +5,8 @@ import { HttpErrorService }                     from '../shared/httpErrorService
 import { HttpService }                          from './httpService';
 import { User }                                 from '../user_preferences/user';
 import { SessionStorageService }                from 'ngx-webstorage';
+import {BranchService}                          from './branch/branchService';
+import {IObservableAlive} from "./IObservableAlive";
 
 export class GlobalSettings
 {
@@ -18,10 +20,11 @@ export class GlobalSettings
 }
 
 @Injectable() 
-export class GlobalSettingsService
+export class GlobalSettingsService implements IObservableAlive
 {
     public globalSettings: GlobalSettings;
     private static cachePermissionKey =  'GlobalSettingsPermissions';
+    public isAlive: boolean = true;
 
     public jsonOptions: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
@@ -31,7 +34,9 @@ export class GlobalSettingsService
         private http: HttpService,
         private httpErrorService: HttpErrorService,
         private compiler: Compiler,
-        private storageService: SessionStorageService) {
+        private storageService: SessionStorageService,
+        private branchService: BranchService)
+    {
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
@@ -41,7 +46,21 @@ export class GlobalSettingsService
         this.globalSettings.identityName = '';
     }
 
-    public initApp(): Promise<GlobalSettings> {
+    public ngOnDestroy(): void
+    {
+        this.isAlive = false;
+    }
+
+    public ngOnInit(): void
+    {
+        this.isAlive = true;
+        this.branchService.userBranchesChanged$
+            .takeWhile(() => this.isAlive)
+            .subscribe(b => this.getSettings());
+    }
+
+    public initApp(): Promise<GlobalSettings>
+    {
         this.compiler.clearCache();  //Ensure templates are not cached
         return this.getSettings();
     }

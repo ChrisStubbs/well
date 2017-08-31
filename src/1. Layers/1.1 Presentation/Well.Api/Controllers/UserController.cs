@@ -92,7 +92,7 @@
         }
 
         [Route("users/{name}")]
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
@@ -106,7 +106,7 @@
 
 
         [Route("user/{name}")]
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
         public HttpResponseMessage UserByName(string name)
         {

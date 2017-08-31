@@ -6,15 +6,13 @@ export class AssignModel
     public assigned: string;
     public branch: Branch;
     public jobIds: number[];
-    public isReadOnlyUser: boolean;
     public objectSource: any;
 
-    constructor(assigned: string, branch: Branch, jobIds: number[], readOnlyUser: boolean, objectSource: any)
+    constructor(assigned: string, branch: Branch, jobIds: number[], objectSource: any)
     {
         this.assigned = assigned;
         this.branch = branch;
         this.jobIds = jobIds;
-        this.isReadOnlyUser = readOnlyUser;
         this.objectSource = objectSource;
     }
 }

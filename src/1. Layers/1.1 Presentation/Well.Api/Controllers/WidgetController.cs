@@ -169,7 +169,7 @@
             }
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetsWarnings")]
         [HttpGet]
         public HttpResponseMessage GetWarnings()
@@ -196,7 +196,7 @@
             }
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
@@ -223,7 +223,7 @@
             }
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)

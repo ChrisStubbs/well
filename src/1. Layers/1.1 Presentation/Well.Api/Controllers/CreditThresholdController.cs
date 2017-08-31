@@ -16,7 +16,7 @@ namespace PH.Well.Api.Controllers
     using Repositories.Contracts;
     using Validators;
 
-    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CreditThresholdController : BaseApiController
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;

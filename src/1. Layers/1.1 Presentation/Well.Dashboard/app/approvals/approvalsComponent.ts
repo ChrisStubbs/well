@@ -84,9 +84,6 @@ export class ApprovalsComponent implements IObservableAlive
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
             .subscribe((branches: Array<[string, string]>) => this.branches = branches);
-
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
     }
 
     public refreshDataFromAPI(): void
@@ -238,6 +235,6 @@ export class ApprovalsComponent implements IObservableAlive
     public getAssignModel(line: Approval): AssignModel {
         const branch = { id: line.branchId } as Branch;
         const jobIds = [line.jobId];
-        return new AssignModel(line.assignedTo, branch, jobIds, this.isReadOnlyUser, line);
+        return new AssignModel(line.assignedTo, branch, jobIds, line);
     }
 }

@@ -14,7 +14,6 @@
             </a>
             <div id="headerHolder">
                 <a id="branch-selection" routerLink="/branch" routerLinkActive="active">{{branches}}</a>
-                @*<span style="color: white; font-weight: bold">{{branches}}</span>*@
             </div>
             <div id="user-details" class="pull-right">
                 <div>Logged in as <span id="current-user-name">@Html.EmployeeDisplayName()</span></div>
@@ -29,7 +28,6 @@
                 <li><a routerLink="/locations" routerLinkActive="active">Locations</a></li>
                 <li><a routerLink="/routes" routerLinkActive="active" title="View jobs by route">Routes</a></li>
                 <li><a routerLink="/approvals" routerLinkActive="active">Approvals</a></li>
-                @*<li><div style="height:37px;padding-top: 10px;" title="Functionality not yet available">Approvals</div></li>*@
                 <li><a routerLink="/notifications" routerLinkActive="active" title="View notifications">Notifications</a></li>
                 <li class="dropdown pull-right">
                     <a href="#" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#appSearchModal">

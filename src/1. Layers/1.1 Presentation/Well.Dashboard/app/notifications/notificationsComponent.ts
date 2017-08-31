@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild}  from '@angular/core';
-import { GlobalSettingsService} from '../shared/globalSettings';
 import {HttpResponse} from '../shared/httpResponse';
-import { SecurityService} from '../shared/security/securityService';
-import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import 'rxjs/Rx';   // Load all features
 import * as lodash from 'lodash';
 import { Notification} from './notification';
@@ -23,16 +20,10 @@ export class NotificationsComponent implements OnInit {
     public httpResponse: HttpResponse = new HttpResponse();
     public rowCount: number = 3;
 
-    constructor(
-        private notificationsService: NotificationsService,
-        private toasterService: ToasterService,
-        private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService) { }
+    constructor(private notificationsService: NotificationsService) { }
 
-    public ngOnInit() {
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+    public ngOnInit()
+    {
         this.getNotifications();
     }
         

@@ -14,7 +14,7 @@
     using Repositories.Contracts;
     using Validators;
 
-    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class SeasonalDateController : BaseApiController
     {
         private readonly ISeasonalDateRepository seasonalDateRepository;

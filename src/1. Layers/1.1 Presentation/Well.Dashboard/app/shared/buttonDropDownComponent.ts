@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output }   from '@angular/core';
+import { SecurityService }                          from './security/securityService';
 
 @Component({
     selector: 'ow-button-dropdown',
@@ -7,18 +8,27 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class  ButtonDropDownComponent
 {
-    @Input() public options: string[];
     @Input() public disabled: boolean = false;
     @Output() public onOptionClicked: EventEmitter<string> = new EventEmitter<string>();
-    private defaultSeletedOption: string = 'Action';
-    
+    private items: string[] = [];
+
+    constructor(private securityService: SecurityService)
+    {
+        if (this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass))
+        {
+            this.items.push('Manually Complete');
+            this.items.push('Manually Bypass');
+        }
+
+        if (this.securityService.userHasPermission(SecurityService.editExceptions))
+        {
+            this.items.push('Edit Exceptions');
+            this.items.push('Submit Exceptions');
+        }
+    }
+
     public optionClicked(option: string): void
     {
         this.onOptionClicked.emit(option);
-    }
-
-    public reset(): void
-    {
-        //this.selectedOption = this.defaultSeletedOption;
     }
 }

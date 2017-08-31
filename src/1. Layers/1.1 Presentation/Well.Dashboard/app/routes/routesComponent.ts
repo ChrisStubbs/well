@@ -1,5 +1,6 @@
 import { ActivatedRoute }                               from '@angular/router';
 import { Component }                                    from '@angular/core';
+import { Router }                                       from '@angular/router';
 import { GlobalSettingsService }                        from '../shared/globalSettings';
 import { Route }                                        from './route';
 import { RouteFilter }                                  from './routeFilter';
@@ -10,11 +11,11 @@ import { AssignModel, AssignModalResult }               from '../shared/componen
 import { Branch }                                       from '../shared/branch/branch';
 import { IObservableAlive }                             from '../shared/IObservableAlive';
 import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
-import { Router }                                       from '@angular/router';
 import * as _                                           from 'lodash';
 import { Observable }                                   from 'rxjs/Observable';
-import 'rxjs/Rx';
 import { GridHelpersFunctions }                         from '../shared/gridHelpers/gridHelpersFunctions';
+import { SecurityService }                              from '../shared/security/securityService';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-route',
@@ -25,7 +26,6 @@ export class RoutesComponent implements IObservableAlive
 {
     public routes: Route[];
     public gridSource: Route[] = [];
-    public isReadOnlyUser: boolean = false;
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
     public jobIssueType: Array<ILookupValue>;
@@ -38,6 +38,7 @@ export class RoutesComponent implements IObservableAlive
     private assignees: Array<string> = [];
 
     constructor(
+        private securityService: SecurityService,
         private lookupService: LookupService,
         protected globalSettingsService: GlobalSettingsService,
         private routeService: RoutesService,
@@ -139,7 +140,7 @@ export class RoutesComponent implements IObservableAlive
     public getAssignModel(route: Route): AssignModel
     {
         const branch = { id: route.branchId } as Branch;
-        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser, route);
+        return new AssignModel(route.assignee, branch, route.jobIds, route);
     }
 
     public onAssigned($event): void

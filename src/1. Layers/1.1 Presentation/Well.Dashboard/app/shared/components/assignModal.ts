@@ -5,9 +5,9 @@ import { UserJobs }                                 from '../userJobs';
 import * as _                                       from 'lodash';
 import { IObservableAlive }                         from '../IObservableAlive';
 import { AssignModalResult }                        from './assignModel';
-import { Router }                                   from '@angular/router';
 import { ToasterService }                           from 'angular2-toaster';
 import { AssignModel }                              from './assignModel';
+import { SecurityService }                          from '../security/securityService';
 
 @Component({
     selector: 'assign-modal',
@@ -26,10 +26,11 @@ export class AssignModal implements IObservableAlive
     @Output() public onAssigned = new EventEmitter();
 
     private allUsers: IUser[];
+    private isReadOnlyUser: boolean;
 
     constructor(
+        private securityService: SecurityService,
         private userService: UserService,
-        private router: Router,
         private toasterService: ToasterService)
     {
         this.userJobs = new UserJobs();
@@ -44,7 +45,9 @@ export class AssignModal implements IObservableAlive
             });
     }
 
-    public ngOnInit() {
+    public ngOnInit()
+    {
+        this.isReadOnlyUser = !this.securityService.userHasPermission(SecurityService.allocateUsers);
         this.isAlive = true;
     }
 

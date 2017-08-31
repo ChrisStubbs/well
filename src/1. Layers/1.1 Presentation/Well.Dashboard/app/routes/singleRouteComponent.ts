@@ -24,11 +24,11 @@ import { JobService, GrnHelpers }                             from '../job/job';
 import { ISubmitActionResultDetails }                         from '../shared/action/submitActionModel';
 import { BulkEditActionModal }                                from '../shared/action/bulkEditActionModal';
 import { IBulkEditResult }                                    from '../shared/action/bulkEditItem';
-import 'rxjs/add/operator/mergeMap';
 import { ManualCompletionModal }                              from '../shared/manualCompletion/manualCompletionModal';
 import { SubmitActionModal }                                  from '../shared/action/submitActionModal';
 import {ManualCompletionType}                                 from '../shared/manualCompletion/manualCompletionRequest';
 import {IJobIdResolutionStatus}                               from '../shared/models/jobIdResolutionStatus';
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'ow-route',
@@ -49,24 +49,21 @@ export class SingleRouteComponent implements IObservableAlive
     public resolutionStatuses: Array<ILookupValue>;
 
     private routeId: number;
-    private isReadOnlyUser: boolean = false;
     private source = Array<SingleRouteSource>();
     private gridSource = Array<SingleRouteSource>();
     private filters = new SingleRouteFilter();
     private inputFilterTimer: any;
+    private showCheckbox: boolean;
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
     @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
     @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
-    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
-        'Edit Exceptions', 'Submit Exceptions'];
 
     constructor(
         private lookupService: LookupService,
         private routeService: RoutesService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService,
-        private jobService: JobService) { }
+        private globalSettingsService: GlobalSettingsService) { }
 
     public ngOnInit()
     {
@@ -85,8 +82,8 @@ export class SingleRouteComponent implements IObservableAlive
                 this.resolutionStatuses = res[2];
             });
 
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+        this.showCheckbox = this.securityService.userHasPermission(SecurityService.editExceptions)
+            || this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
     }
 
     private refreshRouteFromApi(): void
@@ -122,12 +119,7 @@ export class SingleRouteComponent implements IObservableAlive
         const branch = { id: this.branchId } as Branch;
         const jobs = _.map(route.items, 'jobId');
 
-        return new AssignModel(
-            route.stopAssignee,
-            branch,
-            jobs,
-            this.isReadOnlyUser,
-            route);
+        return new AssignModel(route.stopAssignee, branch, jobs, route);
     }
 
     public onAssigned(event: AssignModalResult): void

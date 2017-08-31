@@ -1,5 +1,4 @@
 export * from './buttonDropDownComponent';
-export * from './dropDownItem';
 export * from './security/securityService';
 export * from './globalSettings'; 
 export * from './iuser';

@@ -73,13 +73,13 @@ export class StopComponent implements IObservableAlive
     @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     private stopId: number;
-    private isReadOnlyUser: boolean = false;
     private isActionMode: boolean = false;
     private inputFilterTimer: any;
     private resolutionStatuses: Array<ILookupValue>;
     private customerAccount: IAccount = new IAccount();
-    private actionOptions: string[] = [ 'Manually Complete', 'Manually Bypass',
-                                        'Edit Exceptions', 'Submit Exceptions'];
+    private canEditExceptions: boolean;
+    private canDoManualActions: boolean;
+
     constructor(
         private stopService: StopService,
         private route: ActivatedRoute,
@@ -102,8 +102,8 @@ export class StopComponent implements IObservableAlive
             });
 
         this.filters = new StopFilter();
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+        this.canDoManualActions = this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
+        this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);
     }
 
     private refreshStopFromApi(): void 
@@ -174,7 +174,7 @@ export class StopComponent implements IObservableAlive
     {
         const branch = { id: this.stop.branchId } as Branch;
         const jobIds = _.uniq(_.map(this.stop.items, 'jobId'));
-        return new AssignModel(this.stop.assignedTo, branch, jobIds, this.isReadOnlyUser, undefined);
+        return new AssignModel(this.stop.assignedTo, branch, jobIds, undefined);
     }
 
     public onAssigned(event: AssignModalResult)

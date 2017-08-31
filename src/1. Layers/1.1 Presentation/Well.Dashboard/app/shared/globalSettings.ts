@@ -1,11 +1,13 @@
-import {Injectable, Compiler } from '@angular/core';
-import {Response, RequestOptions, Headers} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import {HttpErrorService} from '../shared/httpErrorService';
-import { HttpService } from './httpService';
-import { User } from '../user_preferences/user';
+import { Injectable, Compiler }                 from '@angular/core';
+import { Response, RequestOptions, Headers }    from '@angular/http';
+import { Observable }                           from 'rxjs/Observable';
+import { HttpErrorService }                     from '../shared/httpErrorService';
+import { HttpService }                          from './httpService';
+import { User }                                 from '../user_preferences/user';
+import { SessionStorageService }                from 'ngx-webstorage';
 
-export class GlobalSettings {
+export class GlobalSettings
+{
     public apiUrl: string;
     public version: string;
     public userName: string;
@@ -16,8 +18,10 @@ export class GlobalSettings {
 }
 
 @Injectable() 
-export class GlobalSettingsService {
+export class GlobalSettingsService
+{
     public globalSettings: GlobalSettings;
+    private static cachePermissionKey =  'GlobalSettingsPermissions';
 
     public jsonOptions: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
@@ -26,7 +30,8 @@ export class GlobalSettingsService {
     constructor(
         private http: HttpService,
         private httpErrorService: HttpErrorService,
-        private compiler: Compiler) { 
+        private compiler: Compiler,
+        private storageService: SessionStorageService) {
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
         this.globalSettings = new GlobalSettings();
@@ -51,14 +56,23 @@ export class GlobalSettingsService {
             .toPromise();
     }
 
-    private mapSettings(settings: GlobalSettings): GlobalSettings {
+    private mapSettings(settings: GlobalSettings): GlobalSettings
+    {
         this.globalSettings.version = settings.version;
         this.globalSettings.userName = settings.userName;
         this.globalSettings.identityName = settings.identityName;
         this.globalSettings.permissions = settings.permissions;
         this.globalSettings.user = settings.user;
         this.globalSettings.crmBaseUrl = settings.crmBaseUrl;
+
+        this.storageService.store(GlobalSettingsService.cachePermissionKey, this.globalSettings.permissions);
+
         return this.globalSettings;
+    }
+
+    public static getCachedPermissions(storageService: SessionStorageService): Array<string>
+    {
+        return <Array<string>>storageService.retrieve(GlobalSettingsService.cachePermissionKey);
     }
 
     public getBranches(): Observable<string> {

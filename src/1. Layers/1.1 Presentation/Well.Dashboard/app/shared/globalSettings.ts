@@ -5,8 +5,8 @@ import { HttpErrorService }                     from '../shared/httpErrorService
 import { HttpService }                          from './httpService';
 import { User }                                 from '../user_preferences/user';
 import { SessionStorageService }                from 'ngx-webstorage';
-import {BranchService}                          from './branch/branchService';
-import {IObservableAlive} from "./IObservableAlive";
+// import {BranchService}                          from './branch/branchService';
+import {IObservableAlive}                       from './IObservableAlive';
 
 export class GlobalSettings
 {
@@ -34,8 +34,8 @@ export class GlobalSettingsService implements IObservableAlive
         private http: HttpService,
         private httpErrorService: HttpErrorService,
         private compiler: Compiler,
-        private storageService: SessionStorageService,
-        private branchService: BranchService)
+        private storageService: SessionStorageService/*,
+        private branchService: BranchService*/)
     {
 
         const configuredApiUrl = '#{OrderWellApi}'; //This variable can be replaced by Octopus during deployment :)
@@ -54,9 +54,9 @@ export class GlobalSettingsService implements IObservableAlive
     public ngOnInit(): void
     {
         this.isAlive = true;
-        this.branchService.userBranchesChanged$
-            .takeWhile(() => this.isAlive)
-            .subscribe(b => this.getSettings());
+        // this.branchService.userBranchesChanged$
+        //     .takeWhile(() => this.isAlive)
+        //     .subscribe(b => this.getSettings());
     }
 
     public initApp(): Promise<GlobalSettings>

@@ -54,9 +54,11 @@
                     return 0;
                 }
 
-                return Expected - (Damaged + Shorts);
+                return Expected - (Damaged + Shorts + Bypass);
             }
         }
+
+        public int Bypass { get; set; }
 
         public int Damaged { get; set; }
         public int Shorts { get; set; }

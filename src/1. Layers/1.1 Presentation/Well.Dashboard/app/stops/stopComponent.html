@@ -256,7 +256,7 @@
                                     <assignGrn-Modal [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>
-                                <td class="text-right">{{(item.resolutionId != 1)? item.totalInvoiced - (item.totalDamages + item.totalShorts) : 0}}</td>
+                                <td class="text-right">{{(item.resolutionId != 1)? item.totalInvoiced - (item.totalDamages + item.totalShorts + item.totalBypassed) : 0}}</td>
                                 <td class="text-right">{{item.totalShorts}}</td>
                                 <td class="text-right">{{item.totalDamages}}</td>
                                 <td></td>
@@ -276,7 +276,7 @@
                                 <td>{{item.description}}</td>
                                 <td class="text-right">{{item.value | currency:'GBP':true}}</td>
                                 <td class="text-right">{{item.invoiced}}</td>
-                                <td class="text-right">{{(item.resolutionId != 1)? item.invoiced - (item.damages + item.shorts) : 0}}</td>
+                                <td class="text-right">{{(item.resolutionId != 1)? item.invoiced - (item.damages + item.shorts + item.bypassed) : 0}}</td>
                                 <td class="text-right">{{item.shorts}}</td>
                                 <td class="text-right">{{item.damages}}</td>
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>

@@ -1,42 +1,46 @@
-import { Component, OnInit, ViewChild}  from '@angular/core';
+import { Component, ViewChild}          from '@angular/core';
 import { Response }                     from '@angular/http';
 import {ActivatedRoute}                 from '@angular/router';
 import {BranchService}                  from '../shared/branch/branchService';
 import {HttpResponse}                   from '../shared/httpResponse';
 import {ToasterService}                 from 'angular2-toaster/angular2-toaster';
-import {GlobalSettingsService}          from '../shared/globalSettings';
-import {SecurityService}                from '../shared/security/securityService';
 import {BranchCheckboxComponent}        from '../shared/branch/branchCheckboxComponent';
+import {IObservableAlive}               from '../shared/IObservableAlive';
 
 @Component({
     selector: 'ow-branch',
     templateUrl: './app/branch/branch-list.html'
 })
-export class BranchSelectionComponent implements OnInit {
-    public errorMessage: string;
+export class BranchSelectionComponent implements IObservableAlive
+{
+    public isAlive: boolean = true;
     public httpResponse: HttpResponse = new HttpResponse();
     public username: string;
     public domain: string;
+    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
 
     constructor(private branchService: BranchService,
                 private toasterService: ToasterService,
-                private globalSettingsService: GlobalSettingsService,
-                private securityService: SecurityService,
                 private route: ActivatedRoute) { }
 
-    public ngOnInit(): void {
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.branchSelection);
-        this.route.params.subscribe(params => {
-            this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
-        });
+    public ngOnInit(): void
+    {
+        this.route.params
+            .takeWhile(() => this.isAlive)
+            .subscribe(params =>
+            {
+                this.username = params['name'] === undefined ? '' : params['name']; this.domain = params['domain'];
+            });
     }
 
-    @ViewChild(BranchCheckboxComponent) public branch: BranchCheckboxComponent;
-
+    public ngOnDestroy(): void
+    {
+        this.isAlive = false;
+    }
+    
     public save(): void {
         this.branchService.saveBranches(this.branch.selectedBranches, this.username, this.domain)
+            .takeWhile(() => this.isAlive)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
 

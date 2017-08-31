@@ -1,14 +1,17 @@
-import { Component }            from '@angular/core';
-import {GlobalSettingsService}  from './shared/globalSettings';
-import {BranchService}          from './shared/branch/branchService';
-import {SecurityService}        from './shared/security/securityService';
-import 'rxjs/Rx';   // Load all features
+import { Component }                from '@angular/core';
+import { GlobalSettingsService }    from './shared/globalSettings';
+import { BranchService }            from './shared/branch/branchService';
+import { SecurityService }          from './shared/security/securityService';
+import { IObservableAlive }         from './shared/IObservableAlive';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'ow-app',
     templateUrl: 'home/applayout'
 })
-export class AppComponent {
+export class AppComponent implements IObservableAlive
+{
+    public isAlive: boolean = true;
     public version: string = '';
     public branches: string = '';
     public IsWellAdmin: boolean;
@@ -18,19 +21,29 @@ export class AppComponent {
         private branchService: BranchService,
         private securityService: SecurityService)
     {
-        securityService.validateUser(this.globalSettingsService.globalSettings.permissions, '');
         this.version = this.globalSettingsService.globalSettings.version;
         this.fetchBranches();
-        this.branchService.userBranchesChanged$.subscribe(b => this.fetchBranches());
+        this.branchService.userBranchesChanged$
+            .takeWhile(() => this.isAlive)
+            .subscribe(b => this.fetchBranches());
 
-        this.IsWellAdmin = securityService.hasPermission(
-            globalSettingsService.globalSettings.permissions, 
-            'WellAdmin') || false;
+        this.IsWellAdmin = securityService.userHasPermission(SecurityService.adminPages) || false;
     }
 
-    private fetchBranches() {
-        this.globalSettingsService.getBranches().subscribe(branches => {
-            this.branches = branches || 'Select Branches';
-        });
+    public ngOnDestroy(): void
+    {
+        this.isAlive = false;
+    }
+
+    public ngOnInit(): void
+    {
+        this.isAlive = true;
+    }
+
+    private fetchBranches()
+    {
+        this.globalSettingsService.getBranches()
+            .takeWhile(() => this.isAlive)
+            .subscribe(branches => this.branches = branches || 'Select Branches');
     }
 }

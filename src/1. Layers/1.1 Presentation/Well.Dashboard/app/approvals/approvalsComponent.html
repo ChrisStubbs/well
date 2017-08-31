@@ -27,7 +27,7 @@
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
             <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-            <button type="button" class="btn btn-success" (click)="submitActions()">Submit</button>
+            <button *ngIf="!isReadOnlyUser" type="button" class="btn btn-success" (click)="submitActions()">Submit</button>
         </div>
     </div>
     <div class="row">
@@ -96,7 +96,7 @@
                             </select>
                         </div>
                     </th>
-                    <th class="colCheckbox"><input type="checkbox" [checked]="allChildrenSelected()" (change)="selectAll($event.target.checked)"/></th>
+                    <th *ngIf="!isReadOnlyUser" class="colCheckbox"><input type="checkbox" [checked]="allChildrenSelected()" (change)="selectAll($event.target.checked)"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -112,7 +112,7 @@
                     <td>
                         <assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
                     </td>
-                    <td>
+                    <td *ngIf="!isReadOnlyUser">
                         <input *ngIf="item?.assignedTo " type="checkbox" [(ngModel)]="item.isSelected" title="">
                     </td>
                 </tr>

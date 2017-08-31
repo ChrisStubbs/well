@@ -47,9 +47,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                 </div>
-                <ow-button-dropdown [options]="actionOptions" [disabled]="selectedItems().length == 0"(onOptionClicked)="submitAction($event)"></ow-button-dropdown>
-                <div class="btn-group">
-                </div>
+                <ow-button-dropdown [disabled]="selectedItems().length == 0" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
             </div>
         </div>
     </div>
@@ -142,7 +140,7 @@
                             </option>
                         </select>
                     </th>
-                    <th style="width: 4%">
+                    <th *ngIf="showCheckbox" style="width: 4%">
                         <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
                     </th>
                 </tr>
@@ -174,7 +172,7 @@
                             <td colspan="2">
                                 <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
                             </td>
-                            <td>
+                            <td *ngIf="showCheckbox">
                                 <input type="checkbox" [checked]="allChildrenSelected(item)" (change)="selectStops($event.target.checked, item)" />
                             </td>
                         </tr>
@@ -206,7 +204,7 @@
                             <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
                             <td></td>
                             <td>{{detail.resolution}}</td>
-                            <td>
+                            <td *ngIf="showCheckbox">
                                 <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
                             </td>
                         </tr>

@@ -14,7 +14,6 @@ import
 import { ActivatedRoute }                                   from '@angular/router';
 import { Observable }                                       from 'rxjs/Observable';
 import { LookupsEnum }                                      from '../shared/services/lookupsEnum';
-import { GlobalSettingsService }                            from '../shared/globalSettings';
 import { ILookupValue }                                     from '../shared/services/ILookupValue';
 import * as _                                               from 'lodash';
 import { GridHelpersFunctions }                             from '../shared/gridHelpers/gridHelpersFunctions';
@@ -52,15 +51,13 @@ export class SingleLocationComponent implements IObservableAlive
     private gridSource: Array<SingleLocationGroup> = [];
     private filters = new SingleLocationFilter();
     private source: SingleLocationHeader = new SingleLocationHeader();
-    private isReadOnlyUser: boolean = false;
-    private actionOptions: string[] = ['Manually Complete', 'Manually Bypass',
-                                       'Edit Exceptions', 'Submit Exceptions'];
+    private canEditExceptions: boolean;
+    private canDoManualActions: boolean;
 
     constructor(
+        private securityService: SecurityService,
         private lookupService: LookupService,
         private route: ActivatedRoute,
-        private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService,
         private locationsService: LocationsService) {}
 
     public ngOnDestroy(): void {
@@ -70,9 +67,8 @@ export class SingleLocationComponent implements IObservableAlive
     public ngOnInit(): void {
 
         this.refreshLocationFromApi();
-
-        this.isReadOnlyUser = this.securityService
-            .hasPermission(this.globalSettingsService.globalSettings.permissions, this.securityService.readOnly);
+        this.canDoManualActions = this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
+        this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);
     }
 
     private refreshLocationFromApi(): void 
@@ -239,7 +235,7 @@ export class SingleLocationComponent implements IObservableAlive
         const branch = { id: this.source.branchId } as Branch;
         const jobIds = [location.jobId];
 
-        return new AssignModel(location.assignee, branch, jobIds, this.isReadOnlyUser, location);
+        return new AssignModel(location.assignee, branch, jobIds, location);
     }
 
     public onAssigned(event: AssignModalResult): void

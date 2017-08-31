@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {Branch} from './branch/branch';
 import {IUser} from './iuser';
 import {GlobalSettingsService} from './globalSettings';
 import 'rxjs/add/operator/map';

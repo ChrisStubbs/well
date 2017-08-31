@@ -19,7 +19,6 @@ import { UserPreferenceComponent } from './user_preferences/userPreferenceCompon
 import { UserPreferenceModal } from './user_preferences/userPreferenceModalComponent';
 import { WidgetComponent } from './home/widgetComponent';
 import { UnauthorisedComponent } from './unauthorised/unauthorisedComponent';
-import { WidgetGraphComponent } from './home/widgetGraphComponent';
 import { BranchCheckboxComponent } from './shared/branch/branchCheckboxComponent';
 import { BranchRoleComponent } from './branch-role/branchRoleComponent';
 import { UserThresholdComponent } from './user_threshold/userThresholdComponent';
@@ -28,9 +27,6 @@ import { ConfirmModal } from './shared/confirmModal';
 import { ContactModal } from './shared/contactModal';
 import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
 import { CustomDatePipe } from './shared/customDatePipe';
-import { OptionFilterPipe } from './shared/optionFilterPipe';
-import { OrderByDatePipe } from './shared/orderByDatePipe';
-import { OrderByPipe } from './shared/orderByPipe';
 import { OutstandingPipe } from './shared/outstandingPipe';
 import { AccountFlagsComponent, AssignModal, CompletedOnPaperComponent } from './shared/components/components';
 import { SeasonalDatesEditModalComponent } from './seasonal_dates/seasonalDatesEditModalComponent';
@@ -42,8 +38,6 @@ import { CreditThresholdRemoveModalComponent } from './credit_threshold/creditTh
 import { CreditThresholdAddModalComponent } from './credit_threshold/creditThresholdAddModalComponent';
 import { CreditThresholdEditModalComponent } from './credit_threshold/creditThresholdEditModalComponent';
 import { NotificationModalComponent } from './notifications/notificationModalComponent';
-import { WidgetWarningsViewComponent } from './widget_warnings/widgetWarningsViewComponent';
-import { WidgetWarningAddModalComponent } from './widget_warnings/widgetWarningAddModalComponent';
 import { WidgetWarningRemoveModalComponent } from './widget_warnings/widgetWarningRemoveModalComponent';
 import { WidgetWarningEditModalComponent } from './widget_warnings/widgetWarningEditModalComponent';
 import { ApprovalsService } from './approvals/approvalsService';
@@ -55,7 +49,6 @@ import { HttpErrorService } from './shared/httpErrorService';
 import { LogService } from './shared/logService';
 import { RefreshService } from './shared/refreshService';
 import { SecurityService } from './shared/security/securityService';
-import { WidgetService } from './home/widgetService';
 import { SeasonalDateService } from './seasonal_dates/seasonalDateService';
 import { CreditThresholdService } from './credit_threshold/creditThresholdService';
 import { UserService } from './shared/userService';
@@ -86,10 +79,10 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
 
 @NgModule({
     declarations: [LoadingComponent,
-        AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OptionFilterPipe, OutstandingPipe, OrderByDatePipe, OrderByPipe,
-        AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, WidgetGraphComponent,
-        SeasonalDatesEditModalComponent, SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent,
-        AccountComponent, ApprovalsComponent, BranchSelectionComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent,
+        AppSearch, MenuBarAppSearchComponent, CustomDatePipe, OutstandingPipe,
+        AssignModal, ConfirmModal, ContactModal, BranchRoleComponent, UserPreferenceModal, SeasonalDatesEditModalComponent,
+        SeasonalDatesRemoveModalComponent, SeasonalDatesViewComponent, SeasonalDatesAddModalComponent, AccountComponent,
+        ApprovalsComponent, BranchSelectionComponent, NotificationsComponent, BranchCheckboxComponent, CreditThresholdViewComponent,
         CreditThresholdRemoveModalComponent, CreditThresholdAddModalComponent, CreditThresholdEditModalComponent, RoutesComponent, SingleRouteComponent,
         UserPreferenceComponent, WidgetComponent, AppComponent, UnauthorisedComponent, NotificationModalComponent, UserThresholdComponent,
         UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
@@ -103,7 +96,7 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
     ],
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
-        SeasonalDateService, RefreshService, WidgetService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
+        SeasonalDateService, RefreshService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
         UserService, WidgetWarningService, LookupService, UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
         {
             provide: APP_INITIALIZER,

@@ -30,7 +30,8 @@ import 'rxjs/add/observable/forkJoin';
     templateUrl: 'app/shared/appSearch/appSearchComponent.html',
     providers: [AppSearchService]
 })
-export class AppSearch implements IObservableAlive {
+export class AppSearch implements IObservableAlive
+{
     public branches: Array<[string, string]>;
     public jobStatus: ILookupValue[];
     public jobTypes: ILookupValue[];
@@ -64,7 +65,9 @@ export class AppSearch implements IObservableAlive {
 
         this.fillBranches();
 
-        this.branchService.userBranchesChanged$.subscribe(b => this.fillBranches());
+        this.branchService.userBranchesChanged$
+            .takeWhile(() => this.isAlive)
+            .subscribe(b => this.fillBranches());
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),

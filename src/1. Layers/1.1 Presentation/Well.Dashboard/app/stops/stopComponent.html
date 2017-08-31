@@ -86,7 +86,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
                     </div>
-                    <ow-button-dropdown [options]="actionOptions" [disabled]="disableBulkEdit()" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
+                    <ow-button-dropdown [disabled]="disableBulkEdit()" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
                 </div>
             </div>
         </div>
@@ -228,7 +228,7 @@
                                     </select>
                                 </div>
                             </th>
-                            <th class="colCheckbox">
+                            <th class="colCheckbox" *ngIf="canDoManualActions || canEditExceptions">
                                 <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectAllJobs($event.target.checked)">
                             </th>
                         </tr>
@@ -262,7 +262,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>{{item.resolution}}</td>
-                                <td><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
+                                <td  *ngIf="canDoManualActions || canEditExceptions"><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
                             </tr>
                             <tr *ngIf="!item.isRowGroup">
                                 <td></td>
@@ -282,11 +282,11 @@
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-left"><span *ngIf="item.hasUnresolvedActions">Action Required</span></td>
-                                <td>
-                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId != 0">
+                                <td  *ngIf="canDoManualActions || canEditExceptions">
+                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId != 0 && canEditExceptions">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    <input type="checkbox" [(ngModel)]="item.isSelected" title="">
+                                    <input *ngIf="canDoManualActions" type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>
                             </tr>
                         </ng-container>

@@ -1,25 +1,29 @@
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {LogService} from '../logService';
+import { Injectable }                   from '@angular/core';
+import { Router }                       from '@angular/router';
+import { GlobalSettingsService }        from '../globalSettings';
+import { SessionStorageService }        from 'ngx-webstorage';
 
 @Injectable()
-export class SecurityService {
-    public actionDeliveries: string = 'ActionDeliveries';
-    public branchSelection: string = 'BranchSelection';
-    public landingPage: string = 'LandingPage';
-    public userBranchPreferences: string = 'UserBranchPreferences';
-    public readOnly: string = 'ReadOnly';
+export class SecurityService
+{
+    public static manuallyCompleteBypass: string = 'Manually Complete Or Bypass';
+    public static editExceptions: string = 'Edit Exceptions';
+    public static allocateUsers: string = 'Allocate Users';
+    public static adminPages: string = 'Access Admin Pages';
 
-    constructor(private router: Router, private logService: LogService) { }
+    constructor(private router: Router,
+                private storageService: SessionStorageService) { }
 
-    public validateUser(permissions: string[], requiredPermission: string): void {
-        if (!permissions ||
-            (requiredPermission && requiredPermission.length > 0 && permissions.indexOf(requiredPermission) == -1)) {
-            this.router.navigate(['/unauthorised']);
-        }
+    public userHasPermission(permission: string): boolean
+    {
+        return GlobalSettingsService.getCachedPermissions(this.storageService).includes(permission);
     }
 
-    public hasPermission(permissions: string[], requiredPermission: string): boolean {
-        return permissions.indexOf(requiredPermission) != -1;
+    public validateAccess(permission: string): void
+    {
+        if (!this.userHasPermission(permission))
+        {
+            this.router.navigate(['/unauthorised']);
+        }
     }
 }

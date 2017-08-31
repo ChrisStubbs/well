@@ -19,14 +19,13 @@
             return (T)this;
         }
 
-        protected virtual void DefaultEntity() { 
+        protected virtual void DefaultEntity()
+        {
         }
 
         public U Build()
         {
-
-                return this.entity;
-            
+            return this.entity;
         }
     }
 }

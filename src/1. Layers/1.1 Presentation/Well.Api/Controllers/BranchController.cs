@@ -15,8 +15,7 @@ namespace PH.Well.Api.Controllers
     using Domain;
     using Repositories.Contracts;
     using Services.Contracts;
-
-    [Authorize]
+    
     public class BranchController : BaseApiController
     {
         private readonly ILogger logger;
@@ -112,7 +111,6 @@ namespace PH.Well.Api.Controllers
             }
         }
 
-        [Authorize(Roles = SecurityPermissions.BranchSelection)]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches)
         {
@@ -132,8 +130,7 @@ namespace PH.Well.Api.Controllers
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
             }
         }
-
-        [Authorize(Roles = SecurityPermissions.UserBranchPreferences)]
+        
         [Route("save-branches-on-behalf-of-user")]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches, string username, string domain)

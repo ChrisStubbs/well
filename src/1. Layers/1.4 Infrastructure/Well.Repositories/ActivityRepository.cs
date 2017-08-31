@@ -156,6 +156,7 @@ namespace PH.Well.Repositories
                     Value = (decimal) x.Value.GetValueOrDefault(),
                     Expected = x.Expected.GetValueOrDefault(),
                     Damaged = x.Totals.DamageTotal.GetValueOrDefault(),
+                    Bypass = x.Totals.BypassTotal.GetValueOrDefault(),
                     Shorts = x.Totals.ShortTotal.GetValueOrDefault(),
                     HighValue = x.IsHighValue,
                     StopId = x.Stop.Id,

@@ -167,7 +167,7 @@ namespace PH.Well.Repositories.Read
                 {
                     if (jobs.ContainsKey(routeId))
                     {
-                        jobs[routeId]
+                        return jobs[routeId]
                             .SelectMany(p => p.Users)
                             .Select(p => new Assignee()
                             {

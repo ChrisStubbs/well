@@ -59,7 +59,7 @@ export class SingleRouteItem implements IGrnAssignable
     public primaryAccountNumber: string;
     public locationId: number;
     public hasUnresolvedActions: boolean;
-
+    public completedOnPaper: boolean;
     public get uncompletedJob(): boolean
     {
         return this.hasUnresolvedActions

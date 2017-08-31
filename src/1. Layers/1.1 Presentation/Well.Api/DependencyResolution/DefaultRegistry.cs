@@ -17,9 +17,9 @@ namespace PH.Well.Api.DependencyResolution
     using Services.EpodServices;
     using Services.Mappers;
     using Services.Validation;
-    using StructureMap;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
+    using System.Web.Http.ExceptionHandling;
 
     public class DefaultRegistry : Registry
     {
@@ -51,6 +51,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
+            For<IExceptionLogger>().Use<WebApiExceptionLogger>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
             For<IStopService>().Use<StopService>();

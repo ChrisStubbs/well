@@ -186,7 +186,9 @@
                                 <div><assignGrn-Modal *ngIf="detail.invoice" [model]="detail"></assignGrn-Modal></div>
                             </td>
                             <td>{{detail.jobType}}</td>
-                            <td>{{detail.wellStatusDescription}}</td>
+                            <td>{{detail.wellStatusDescription}}
+                                &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="detail.completedOnPaper" ></ow-completed-on-paper>
+                            </td>
                             <td>
                                 <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
                             </td>

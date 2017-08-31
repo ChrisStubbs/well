@@ -244,6 +244,7 @@
                                 <td colspan="2">
                                     <label>Invoice: </label>
                                     <a *ngIf="item.invoice" [routerLink]="['/invoice', item.invoiceId]">{{item.invoice}}</a>
+                                    &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="item.completedOnPaper"></ow-completed-on-paper>
                                 </td>
                                 <td>
                                     <label>Type: </label>

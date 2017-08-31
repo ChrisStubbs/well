@@ -28,7 +28,7 @@ import { ContactModal } from './shared/contactModal';
 import { AppSearch, MenuBarAppSearchComponent } from './shared/appSearch/appSearch';
 import { CustomDatePipe } from './shared/customDatePipe';
 import { OutstandingPipe } from './shared/outstandingPipe';
-import { AccountFlagsComponent, AssignModal } from './shared/components/components';
+import { AccountFlagsComponent, AssignModal, CompletedOnPaperComponent } from './shared/components/components';
 import { SeasonalDatesEditModalComponent } from './seasonal_dates/seasonalDatesEditModalComponent';
 import { SeasonalDatesAddModalComponent } from './seasonal_dates/seasonalDatesAddModalComponent';
 import { SeasonalDatesRemoveModalComponent } from './seasonal_dates/seasonalDatesRemoveModalComponent';
@@ -88,7 +88,7 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
         UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
         StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
         ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
-        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent
+        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent, CompletedOnPaperComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

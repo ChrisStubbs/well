@@ -333,7 +333,7 @@ export class StopComponent implements IObservableAlive
                 item.grnProcessType = singleItem.grnProcessType;
                 item.grnNumber = singleItem.grnNumber;
                 item.locationId = singleItem.locationId;
-
+                item.completedOnPaper = singleItem.completedOnPaper;
                 values[singleItem.jobId] = item;
             })
             .value();
@@ -587,4 +587,5 @@ class StopItemSource implements IGrnAssignable
     public grnNumber: string;
     public grnProcessType: number;
     public locationId: number;
+    public completedOnPaper: boolean;
 }

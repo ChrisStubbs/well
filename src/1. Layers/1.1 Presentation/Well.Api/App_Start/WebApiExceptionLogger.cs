@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PH.Well.Api.App_Start
+namespace PH.Well.Api
 {
     using System.Web.Http.ExceptionHandling;
     using Common;

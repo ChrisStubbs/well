@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { HttpService } from '../shared/httpService';
+import { HttpService } from '../shared/services/httpService';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { HttpErrorService } from '../shared/httpErrorService';
+import { HttpErrorService } from '../shared/services/httpErrorService';
 import { Approval } from './approval';
 
 @Injectable()

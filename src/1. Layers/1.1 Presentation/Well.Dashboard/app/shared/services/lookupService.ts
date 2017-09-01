@@ -1,8 +1,8 @@
 import { Injectable }                   from '@angular/core';
 import { Response, URLSearchParams }    from '@angular/http';
 import { GlobalSettingsService }        from '../globalSettings';
-import { HttpErrorService }             from '../httpErrorService';
-import { HttpService }                  from '../httpService';
+import { HttpErrorService }             from './httpErrorService';
+import { HttpService }                  from './httpService';
 import { Observable }                   from 'rxjs';
 import * as _                           from 'lodash';
 import { SessionStorageService }        from 'ngx-webstorage';

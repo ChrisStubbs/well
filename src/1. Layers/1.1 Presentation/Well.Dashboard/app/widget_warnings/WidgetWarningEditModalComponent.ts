@@ -4,7 +4,7 @@ import {WidgetWarning} from './widgetWarning';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 import {WidgetWarningService} from './widgetWarningService';
-import {HttpResponse} from '../shared/httpResponse';
+import {HttpResponse} from '../shared/models/httpResponse';
 
 @Component({
     selector: 'ow-widget-warning-edit-modal',

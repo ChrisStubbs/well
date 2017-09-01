@@ -3,8 +3,8 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Route } from '../routes/route';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { HttpErrorService } from '../shared/httpErrorService';
-import { HttpService } from '../shared/httpService';
+import { HttpErrorService } from '../shared/services/httpErrorService';
+import { HttpService } from '../shared/services/httpService';
 import {SingleRoute, SingleRouteItem} from './singleRoute';
 
 @Injectable()

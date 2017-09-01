@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { User } from './user';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
-import { HttpErrorService } from '../shared/httpErrorService';
-import { HttpService } from '../shared/httpService';
+import { HttpErrorService } from '../shared/services/httpErrorService';
+import { HttpService } from '../shared/services/httpService';
 
 @Injectable()
 export class UserPreferenceService {

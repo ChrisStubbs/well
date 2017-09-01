@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Output, Input }   from '@angular/core';
 import { Response }                                 from '@angular/http';
 import { IUser, HttpResponse, UserService }         from '../shared';
-import { UserJobs }                                 from '../userJobs';
+import { UserJobs }                                 from '../models/userJobs';
 import * as _                                       from 'lodash';
 import { IObservableAlive }                         from '../IObservableAlive';
 import { AssignModalResult }                        from './assignModel';
 import { ToasterService }                           from 'angular2-toaster';
 import { AssignModel }                              from './assignModel';
-import { SecurityService }                          from '../security/securityService';
+import { SecurityService }                          from '../services/securityService';
 
 @Component({
     selector: 'assign-modal',

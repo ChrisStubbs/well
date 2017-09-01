@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
-import { HttpErrorService } from '../shared/httpErrorService';
-import { HttpService } from '../shared/httpService';
+import { HttpErrorService } from '../shared/services/httpErrorService';
+import { HttpService } from '../shared/services/httpService';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 
 @Injectable()

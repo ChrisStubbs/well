@@ -1,6 +1,6 @@
 import { Component }                            from '@angular/core';
 import { FormGroup, FormBuilder, Validators }   from '@angular/forms';
-import { SecurityService }                      from '../shared/security/securityService';
+import { SecurityService }                      from '../shared/services/securityService';
 import { BranchDateThreshold }                  from './branchDateThreshold';
 import { BranchDateThresholdService }           from './branchDateThresholdService';
 import * as _                                   from 'lodash';

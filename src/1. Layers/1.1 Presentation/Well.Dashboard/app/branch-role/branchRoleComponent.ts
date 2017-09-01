@@ -1,5 +1,5 @@
 import {Component, OnInit}  from '@angular/core';
-import {SecurityService} from '../shared/security/securityService';
+import {SecurityService} from '../shared/services/securityService';
 
 @Component({
     selector: 'ow-branch-role',

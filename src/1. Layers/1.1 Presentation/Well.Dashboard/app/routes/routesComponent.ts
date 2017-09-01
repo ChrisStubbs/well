@@ -14,7 +14,7 @@ import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services
 import * as _                                           from 'lodash';
 import { Observable }                                   from 'rxjs/Observable';
 import { GridHelpersFunctions }                         from '../shared/gridHelpers/gridHelpersFunctions';
-import { SecurityService }                              from '../shared/security/securityService';
+import { SecurityService }                              from '../shared/services/securityService';
 import 'rxjs/Rx';
 
 @Component({

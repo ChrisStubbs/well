@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output }   from '@angular/core';
-import { SecurityService }                          from './security/securityService';
+import { SecurityService }                          from './services/securityService';
 
 @Component({
     selector: 'ow-button-dropdown',

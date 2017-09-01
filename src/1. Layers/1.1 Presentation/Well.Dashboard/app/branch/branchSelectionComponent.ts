@@ -2,7 +2,7 @@ import { Component, ViewChild}          from '@angular/core';
 import { Response }                     from '@angular/http';
 import {ActivatedRoute}                 from '@angular/router';
 import {BranchService}                  from '../shared/branch/branchService';
-import {HttpResponse}                   from '../shared/httpResponse';
+import {HttpResponse}                   from '../shared/models/httpResponse';
 import {ToasterService}                 from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent}        from '../shared/branch/branchCheckboxComponent';
 import {IObservableAlive}               from '../shared/IObservableAlive';

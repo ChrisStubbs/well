@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { HttpService } from '../httpService';
+import { HttpService } from '../services/httpService';
 import { GlobalSettingsService } from '../globalSettings';
-import { HttpErrorService } from '../httpErrorService';
+import { HttpErrorService } from '../services/httpErrorService';
 import { IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
 import { IPatchSummary } from '../models/patchSummary';
 

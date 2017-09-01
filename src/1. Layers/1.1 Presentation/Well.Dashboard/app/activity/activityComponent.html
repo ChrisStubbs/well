@@ -258,7 +258,9 @@
                             <td class="text-right">{{item.totalDamaged}}</td>
                             <td colspan="2"></td>
                             <td class="text-right">{{item.resolution}}</td>
-                            <td  *ngIf="canDoManualActions || canEditExceptions"><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
+                            <td  *ngIf="canDoManualActions || canEditExceptions">
+                                <input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
+                            </td>
                         </tr>
                         <tr *ngFor="let detail of item.details" [style.display]="item.isExpanded ? 'table-row' : 'none'">
                             <td colspan="2">{{detail.product}}</td>
@@ -279,7 +281,8 @@
                             <td class="text-right"><span *ngIf="detail.hasUnresolvedActions">Action Required</span></td>
                             <td  *ngIf="canDoManualActions || canEditExceptions">
                                 <a href="#" (click)="editLineItemActions(detail, $event)" title="Edit" data-toggle="modal" *ngIf="detail.lineItemId !=0 && canEditExceptions">
-                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    <span *ngIf="canEditExceptions" class="glyphicon glyphicon-pencil"></span>
+                                    <span *ngIf="!canEditExceptions" class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                                 <input *ngIf="canDoManualActions" type="checkbox" [(ngModel)]="detail.isSelected" title="">
                             </td>

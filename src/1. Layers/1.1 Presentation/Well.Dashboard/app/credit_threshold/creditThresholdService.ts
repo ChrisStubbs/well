@@ -3,7 +3,7 @@ import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import {CreditThreshold} from './creditThreshold';
-import {HttpService} from '../shared/httpService';
+import {HttpService} from '../shared/services/httpService';
 
 @Injectable()
 export class CreditThresholdService {

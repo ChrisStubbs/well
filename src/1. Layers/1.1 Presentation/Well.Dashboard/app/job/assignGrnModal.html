@@ -1,5 +1,11 @@
-<span *ngIf="linkText() != notRequired" type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>&nbsp;
-<span *ngIf="linkText() == required" class="glyphicon glyphicon-warning-sign" style="color: rgb(237,178,9);" title="The GRN number is missing and it's mandatory" >&nbsp;</span>
+<div *ngIf="canSubmitMissingGRN; then submit else notSubmit"> </div>
+<ng-template #submit>
+    <span *ngIf="linkText() != notRequired" type="button" class="btn-link" (click)="show()">GRN: {{linkText()}}</span>&nbsp;
+    <span *ngIf="linkText() == required" class="glyphicon glyphicon-warning-sign" style="color: rgb(237,178,9);" title="The GRN number is missing and it's mandatory" >&nbsp;</span>
+</ng-template>
+<ng-template #notSubmit>
+    <span *ngIf="linkText() != notRequired">GRN: {{linkText()}}</span>&nbsp;
+</ng-template>
 
 <div *ngIf="isVisible" class="modal fade in show" id="assignGrn-Modal">
     <div class="modal-dialog">

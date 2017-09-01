@@ -3,10 +3,10 @@ import {Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {GlobalSettingsService} from '../shared/globalSettings';
 import 'rxjs/add/operator/map';
-import {HttpErrorService} from '../shared/httpErrorService';
+import {HttpErrorService} from '../shared/services/httpErrorService';
 
 import {Notification} from './notification';
-import {HttpService} from '../shared/httpService';
+import {HttpService} from '../shared/services/httpService';
 
 @Injectable()
 export class NotificationsService {

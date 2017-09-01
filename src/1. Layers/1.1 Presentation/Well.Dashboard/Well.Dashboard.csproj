@@ -494,11 +494,9 @@
     <Content Include="app\shared\creditItem.ts" />
     <Content Include="app\shared\logService.ts" />
     <Content Include="app\shared\httpResponse.ts" />
-    <Content Include="app\shared\dropDownItem.ts" />
     <Content Include="app\shared\globalSettings.ts" />
     <Content Include="app\shared\httpErrorService.ts" />
     <Content Include="app\shared\outstandingPipe.ts" />
-    <Content Include="app\shared\orderByDatePipe.ts" />
     <Content Include="app\shared\refreshService.ts" />
     <Content Include="app\shared\security\securityService.ts" />
     <Content Include="app\shared\threshold.ts" />
@@ -506,8 +504,6 @@
     <Content Include="app\shared\userJobs.ts" />
     <Content Include="app\shared\userService.ts" />
     <Content Include="app\shared\confirmModal.ts" />
-    <Content Include="app\shared\filterOption.ts" />
-    <Content Include="app\shared\optionFilterPipe.ts" />
     <Content Include="app\home\widgetService.ts" />
     <Content Include="app\home\widget.ts" />
     <Content Include="app\home\widgetComponent.ts" />
@@ -547,12 +543,8 @@
     <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResultSummary.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
-    <TypeScriptCompile Include="app\shared\dateComponent.ts" />
     <TypeScriptCompile Include="app\shared\httpService.ts" />
-    <TypeScriptCompile Include="app\shared\IOptionFilter.ts" />
     <Content Include="app\shared\loadingComponent.ts" />
-    <TypeScriptCompile Include="app\shared\OrderByExecutor.ts" />
-    <TypeScriptCompile Include="app\shared\orderByPipe.ts" />
     <TypeScriptCompile Include="app\shared\shared.ts" />
     <TypeScriptCompile Include="app\shared\buttonDropDownComponent.ts" />
   </ItemGroup>

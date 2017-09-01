@@ -10,6 +10,8 @@ export class SecurityService
     public static editExceptions: string = 'Edit Exceptions';
     public static allocateUsers: string = 'Allocate Users';
     public static adminPages: string = 'Access Admin Pages';
+    public static submitCreditApprovals: string = 'Submit Credit Approvals';
+    public static submitMissingGRN: string = 'Submit Missing GRN';
 
     constructor(private router: Router,
                 private storageService: SessionStorageService) { }

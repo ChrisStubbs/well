@@ -6,7 +6,7 @@ import { ActivatedRoute }                                     from '@angular/rou
 import * as _                                                 from 'lodash';
 import { AssignModel, AssignModalResult }                     from '../shared/components/components';
 import { Branch }                                             from '../shared/branch/branch';
-import { SecurityService }                                    from '../shared/security/securityService';
+import { SecurityService }                                    from '../shared/services/securityService';
 import { GlobalSettingsService }                              from '../shared/globalSettings';
 import { IObservableAlive }                                   from '../shared/IObservableAlive';
 import { SingleRouteItem }                                    from './singleRoute';

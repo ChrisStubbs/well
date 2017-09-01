@@ -4,6 +4,6 @@ export interface IUser {
     name: string;
     friendlyName: string;
     jobDescription: string;
-    domain: string;  
+    domain: string;
     thresholdLevelId: number;
 }

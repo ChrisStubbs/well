@@ -3,8 +3,8 @@ import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Branch } from './branch';
 import { GlobalSettingsService } from '../globalSettings';
-import { HttpErrorService } from '../httpErrorService';
-import { HttpService } from '../httpService';
+import { HttpErrorService } from '../services/httpErrorService';
+import { HttpService } from '../services/httpService';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/map';

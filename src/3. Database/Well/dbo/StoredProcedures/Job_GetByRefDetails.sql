@@ -12,5 +12,6 @@ BEGIN
   AND [PHAccount] = @PHAccount
   AND [PickListRef] = @PickListRef
   AND [StopId] = @StopId
+  AND DateDeleted IS NULL
 
 END

@@ -167,7 +167,7 @@
                                                     </select>
                                                 </td>
                                                 <td style="text-align: center; vertical-align: middle">
-                                                    <button *ngIf="lineItemActions[i].originator == 1 && source.canEditActions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
+                                                    <button *ngIf="lineItemActions[i].originator == 1 && source.canEditActions && canEditExceptions" id="remove-damage-button{{i}}" type="button" class=" btn btn-sm btn-danger" (click)="removeItem(i)">
                                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                     </button>
                                                     <span *ngIf="lineItemActions[i].originator == 0">
@@ -177,26 +177,24 @@
                                                 </td>
                                             </tr>
                                         </ng-container>
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
                         <div class="col-md-6">
                             <div class="pull-left">
-                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!actionsForm.valid" *ngIf="source.canEditActions">Add</button>
+                                <button type="button" class="btn btn-success" (click)="addAction()" [disabled]="!actionsForm.valid" *ngIf="source.canEditActions && canEditExceptions">Add</button>
                             </div>
                         </div>
                         <div class="col-md-6">
 
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" #closeModal>Cancel</button>&nbsp;
-                                <button type="button" class="btn btn-success" [disabled]="!actionsForm.valid" (click)="save()">Save</button>
+                                <button *ngIf="canEditExceptions" type="button" class="btn btn-success" [disabled]="!actionsForm.valid && !canEditExceptions" (click)="save()">Save</button>
                             </div>
                         </div>
                     </div>

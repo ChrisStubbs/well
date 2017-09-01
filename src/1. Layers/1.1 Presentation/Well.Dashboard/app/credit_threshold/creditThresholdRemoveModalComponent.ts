@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {Response} from '@angular/http';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {HttpResponse} from '../shared/httpResponse';
+import {HttpResponse} from '../shared/models/httpResponse';
 import {CreditThresholdService} from './creditThresholdService';
 import {CreditThreshold} from './creditThreshold';
 

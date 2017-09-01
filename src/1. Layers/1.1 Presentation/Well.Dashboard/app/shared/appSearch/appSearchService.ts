@@ -1,8 +1,8 @@
 import { Injectable }               from '@angular/core';
-import { HttpErrorService }         from '../httpErrorService';
+import { HttpErrorService }         from '../services/httpErrorService';
 import { Observable }               from 'rxjs/Observable';
 import { Response }                 from '@angular/http';
-import { HttpService }              from '../httpService';
+import { HttpService }              from '../services/httpService';
 import { GlobalSettingsService }    from '../globalSettings';
 import { IAppSearchResultSummary }  from './iAppSearchResultSummary';
 import { AppSearchParameters }      from './appSearchParameters';

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {IUser} from './iuser';
-import {GlobalSettingsService} from './globalSettings';
+import {IUser} from '../models/iuser';
+import {GlobalSettingsService} from '../globalSettings';
 import 'rxjs/add/operator/map';
 import {HttpErrorService} from './httpErrorService';
 import {LogService} from './logService';
-import {UserJobs} from './userJobs';
+import {UserJobs} from '../models/userJobs';
 import {HttpService} from './httpService';
 
 @Injectable()

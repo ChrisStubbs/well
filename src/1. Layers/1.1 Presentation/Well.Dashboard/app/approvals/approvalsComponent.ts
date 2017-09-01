@@ -1,16 +1,16 @@
-import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { ApprovalsService } from './approvalsService';
-import { Approval, ApprovalFilter } from './approval';
-import * as _ from 'lodash';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { BranchService } from '../shared/branch/branchService';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpers';
-import { AssignModalResult, AssignModel } from '../shared/components/assignModel';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/security/securityService';
-import { SubmitActionModal } from '../shared/action/submitActionModal';
+import { Component, ViewChild }             from '@angular/core';
+import { ActivatedRoute }                   from '@angular/router';
+import { IObservableAlive }                 from '../shared/IObservableAlive';
+import { ApprovalsService }                 from './approvalsService';
+import { Approval, ApprovalFilter }         from './approval';
+import * as _                               from 'lodash';
+import { GlobalSettingsService }            from '../shared/globalSettings';
+import { BranchService }                    from '../shared/branch/branchService';
+import { GridHelpersFunctions }             from '../shared/gridHelpers/gridHelpers';
+import { AssignModalResult, AssignModel }   from '../shared/components/assignModel';
+import { Branch }                           from '../shared/branch/branch';
+import { SecurityService }                  from '../shared/services/securityService';
+import { SubmitActionModal }                from '../shared/action/submitActionModal';
 
 class Sort {
     constructor() {
@@ -58,6 +58,8 @@ export class ApprovalsComponent implements IObservableAlive
     public source: Array<Approval>;
     public sortField: Sort;
 
+    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
+
     private gridSource: Array<Approval> = [];
     private assignees: Array<string> = [];
     private assigneesTo: Array<string> = [];
@@ -66,7 +68,6 @@ export class ApprovalsComponent implements IObservableAlive
     private thresholdFilter: boolean = false;
     private isReadOnlyUser: boolean = false;
     private inputFilterTimer: any;
-    @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
 
     constructor(
         private approvalsService: ApprovalsService,
@@ -75,7 +76,8 @@ export class ApprovalsComponent implements IObservableAlive
         private globalSettingsService: GlobalSettingsService,
         private branchService: BranchService) { }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void
+    {
         this.sortField = new Sort();
         this.sortField.field = 'branchName';
 
@@ -84,6 +86,8 @@ export class ApprovalsComponent implements IObservableAlive
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
             .subscribe((branches: Array<[string, string]>) => this.branches = branches);
+
+        this.isReadOnlyUser = !this.securityService.userHasPermission(SecurityService.submitCreditApprovals);
     }
 
     public refreshDataFromAPI(): void
@@ -121,7 +125,8 @@ export class ApprovalsComponent implements IObservableAlive
         this.sortData(undefined, undefined);
     }
 
-    private sortData(field: string, event: any) {
+    private sortData(field: string, event: any): void
+    {
         if (!_.isNil(event)
             && (event.target.tagName == 'SELECT'
                 || event.target.tagName == 'INPUT')) {
@@ -136,11 +141,13 @@ export class ApprovalsComponent implements IObservableAlive
         this.gridSource = _.orderBy(this.gridSource, this.sortField.field, this.sortField.direction);
     }
 
-    private isSortedBy(field: string): boolean {
+    private isSortedBy(field: string): boolean
+    {
         return this.sortField.field == field;
     }
 
-    private getSortStyles(field: string) {
+    private getSortStyles(field: string): any
+    {
         const asc: boolean = this.sortField.direction == 'asc';
 
         return {
@@ -150,18 +157,21 @@ export class ApprovalsComponent implements IObservableAlive
         };
     }
 
-    public ngOnDestroy(): void {
+    public ngOnDestroy(): void
+    {
         this.isAlive = false;
     }
 
-    private clearFilter(): void {
+    private clearFilter(): void
+    {
         this.filters = new ApprovalFilter();
         this.thresholdFilter = false;
         this.filters.creditValue = this.filters.getCreditUpperLimit();
         this.fillGridSource();
     }
 
-    public filterFreeText(): void {
+    public filterFreeText(): void
+    {
         GridHelpersFunctions.filterFreeText(this.inputFilterTimer)
             .then(() => this.fillGridSource())
             .catch(() => this.inputFilterTimer = undefined);

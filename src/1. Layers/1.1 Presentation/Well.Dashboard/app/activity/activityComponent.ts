@@ -17,7 +17,7 @@ import * as _                                               from 'lodash';
 import { GridHelpersFunctions }                             from '../shared/gridHelpers/gridHelpersFunctions';
 import { AssignModel, AssignModalResult }                   from '../shared/components/assignModel';
 import { Branch }                                           from '../shared/branch/branch';
-import { SecurityService }                                  from '../shared/security/securityService';
+import { SecurityService }                                  from '../shared/services/securityService';
 import { GlobalSettingsService }                            from '../shared/globalSettings';
 import { EditExceptionsService }                            from '../exceptions/editExceptionsService';
 import

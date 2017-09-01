@@ -1,28 +1,42 @@
-import { Component, EventEmitter, Output, Input} from '@angular/core';
-import { JobService } from './jobService';
+import { Component, EventEmitter, Output, Input}    from '@angular/core';
+import { JobService }                               from './jobService';
+import {SecurityService}                            from '../shared/services/securityService';
+import {IObservableAlive}                           from '../shared/IObservableAlive';
 
 @Component({
     selector: 'assignGrn-Modal',
     templateUrl: 'app/job/assignGrnModal.html',
     providers: [JobService]
 })
-export class AssignGrnModal {
+export class AssignGrnModal implements IObservableAlive
+{
+    public isAlive: boolean = true;
+    public grnNumber: string;
+
     @Input() public model: IGrnAssignable;
     @Output() public onGrnAssigned = new EventEmitter<IGrnAssignable>();
-    private isVisible: boolean = false;
-    public grnNumber: string;
+
     private notRequired: string = 'Not required';
     private required: string = 'Required';
+    private canSubmitMissingGRN: boolean = false;
+    private isVisible: boolean = false;
 
-    constructor(private jobService: JobService) {}
+    constructor(private jobService: JobService, private securityService: SecurityService) {}
 
-    public ngOnInit() {
+    public ngOnInit()
+    {
         this.grnNumber = this.model.grnNumber;
+        this.canSubmitMissingGRN = this.securityService.userHasPermission(SecurityService.submitMissingGRN);
+    }
+
+    public ngOnDestroy(): void
+    {
+        this.isAlive = false;
     }
 
     public show(): void
     {
-        this.isVisible = true;
+        this.isVisible = this.canSubmitMissingGRN;
     }
 
     private submit(): void

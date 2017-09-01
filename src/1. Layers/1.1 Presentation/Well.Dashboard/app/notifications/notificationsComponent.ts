@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild}  from '@angular/core';
-import {HttpResponse} from '../shared/httpResponse';
+import {HttpResponse} from '../shared/models/httpResponse';
 import 'rxjs/Rx';   // Load all features
 import * as lodash from 'lodash';
 import { Notification} from './notification';

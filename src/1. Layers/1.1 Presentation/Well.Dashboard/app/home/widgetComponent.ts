@@ -1,7 +1,7 @@
 import {Component}                      from '@angular/core';
 import {GlobalSettingsService}          from '../shared/globalSettings';
 import 'rxjs/Rx';   // Load all features
-import {RefreshService}                 from '../shared/refreshService';
+import {RefreshService}                 from '../shared/services/refreshService';
 import { IObservableAlive }             from '../shared/IObservableAlive';
 
 @Component({

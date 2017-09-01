@@ -1,12 +1,10 @@
 import { Injectable, Compiler }                 from '@angular/core';
 import { Response, RequestOptions, Headers }    from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
-import { HttpErrorService }                     from '../shared/httpErrorService';
-import { HttpService }                          from './httpService';
+import { HttpErrorService }                     from './services/httpErrorService';
+import { HttpService }                          from './services/httpService';
 import { User }                                 from '../user_preferences/user';
 import { SessionStorageService }                from 'ngx-webstorage';
-// import {BranchService}                          from './branch/branchService';
-import {IObservableAlive}                       from './IObservableAlive';
 
 export class GlobalSettings
 {
@@ -20,11 +18,10 @@ export class GlobalSettings
 }
 
 @Injectable() 
-export class GlobalSettingsService implements IObservableAlive
+export class GlobalSettingsService
 {
     public globalSettings: GlobalSettings;
     private static cachePermissionKey =  'GlobalSettingsPermissions';
-    public isAlive: boolean = true;
 
     public jsonOptions: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
@@ -44,19 +41,6 @@ export class GlobalSettingsService implements IObservableAlive
         this.globalSettings.version = '';
         this.globalSettings.userName = '';
         this.globalSettings.identityName = '';
-    }
-
-    public ngOnDestroy(): void
-    {
-        this.isAlive = false;
-    }
-
-    public ngOnInit(): void
-    {
-        this.isAlive = true;
-        // this.branchService.userBranchesChanged$
-        //     .takeWhile(() => this.isAlive)
-        //     .subscribe(b => this.getSettings());
     }
 
     public initApp(): Promise<GlobalSettings>

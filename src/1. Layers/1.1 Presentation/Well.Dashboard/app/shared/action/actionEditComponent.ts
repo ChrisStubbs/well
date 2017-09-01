@@ -1,23 +1,23 @@
-import {
-    Component,
-    ViewChild,
-    ElementRef,
-    EventEmitter,
-    Output,
-    ViewEncapsulation
-} from '@angular/core';
-import { AbstractControl, FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, Validator }
-    from '@angular/forms';
-import { IObservableAlive } from '../IObservableAlive';
-import * as _ from 'lodash';
-import { ILookupValue } from '../services/ILookupValue';
-import { LookupsEnum } from '../services/lookupsEnum';
-import { LookupService } from '../services/lookupService';
-import { EditExceptionsService } from '../../exceptions/editExceptionsService';
-import { Observable } from 'rxjs';
-import { LineItemAction } from '../../exceptions/lineItemAction';
-import { EditLineItemException } from '../../exceptions/editLineItemException';
-import { LineItemActionComment } from '../../exceptions/lineItemAction';
+import
+{
+    Component, ViewChild, ElementRef, EventEmitter, Output, ViewEncapsulation
+}                                  from '@angular/core';
+import
+{
+    AbstractControl, FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, Validator
+}
+                                    from '@angular/forms';
+import { IObservableAlive }         from '../IObservableAlive';
+import * as _                       from 'lodash';
+import { ILookupValue }             from '../services/ILookupValue';
+import { LookupsEnum }              from '../services/lookupsEnum';
+import { LookupService }            from '../services/lookupService';
+import { EditExceptionsService }    from '../../exceptions/editExceptionsService';
+import { Observable }               from 'rxjs';
+import { LineItemAction }           from '../../exceptions/lineItemAction';
+import { EditLineItemException }    from '../../exceptions/editLineItemException';
+import { LineItemActionComment }    from '../../exceptions/lineItemAction';
+import {SecurityService}            from '../services/securityService';
 
 @Component({
     selector: 'action-edit',
@@ -26,12 +26,15 @@ import { LineItemActionComment } from '../../exceptions/lineItemAction';
     styleUrls: ['app/shared/action/actionEditComponent.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class ActionEditComponent implements IObservableAlive {
+export class ActionEditComponent implements IObservableAlive
+{
+    public isAlive: boolean = true;
+    public source: EditLineItemException = new EditLineItemException();
+
     @Output() public onSave = new EventEmitter<EditLineItemException>();
     @ViewChild('showEditActionsModal') public showModal: ElementRef;
     @ViewChild('closeModal') public closeModal: ElementRef;
-    public isAlive: boolean = true;
-    public source: EditLineItemException = new EditLineItemException();
+
     private deliveryActions: Array<ILookupValue>;
     private sources: Array<ILookupValue>;
     private reasons: Array<ILookupValue>;
@@ -41,13 +44,17 @@ export class ActionEditComponent implements IObservableAlive {
     private creditActionValue = 1;
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
+    private canEditExceptions: boolean = false;
 
     constructor(
         private lookupService: LookupService,
+        private securityService: SecurityService,
         private editExceptionsService: EditExceptionsService,
         private formBuilder: FormBuilder) { }
 
-    public ngOnInit() {
+    public ngOnInit()
+    {
+        this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);
         this.fillLookups();
         this.createLineItemActionsForm(new EditLineItemException());
     }
@@ -74,7 +81,8 @@ export class ActionEditComponent implements IObservableAlive {
         }
     }
 
-    private getDeliveryActions() {
+    private getDeliveryActions()
+    {
         const self = this;
         if (this.source.isProofOfDelivery) {
             return _.filter(this.deliveryActions,
@@ -86,7 +94,8 @@ export class ActionEditComponent implements IObservableAlive {
         }
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void
+    {
         this.isAlive = false;
     }
 
@@ -97,12 +106,14 @@ export class ActionEditComponent implements IObservableAlive {
         this.actionsGroup.push(group);
     }
 
-    public removeItem(index: number): void {
+    public removeItem(index: number): void
+    {
         this.lineItemActions.splice(index, 1);
         this.actionsGroup.removeAt(index);
     }
 
-    public show(editLineItemException: EditLineItemException) {
+    public show(editLineItemException: EditLineItemException): void
+    {
         this.loadSource(editLineItemException);
 
         this.createLineItemActionsForm(editLineItemException);
@@ -110,11 +121,18 @@ export class ActionEditComponent implements IObservableAlive {
         this.showModal.nativeElement.click();
     }
 
-    public close(): void {
+    public close(): void
+    {
         this.closeModal.nativeElement.click();
     }
 
-    public save(): void {
+    public save(): void
+    {
+        if (!this.canEditExceptions)
+        {
+            return;
+        }
+
         if (this.actionsForm.valid) {
 
             _.each(this.actionsForm.controls['actionsGroup'].value,
@@ -148,12 +166,14 @@ export class ActionEditComponent implements IObservableAlive {
         }
     }
 
-    private loadSource(editLineItemException: EditLineItemException): void {
+    private loadSource(editLineItemException: EditLineItemException): void
+    {
         this.source = editLineItemException;
         this.lineItemActions = this.source.lineItemActions || [];
     }
 
-    private createLineItemActionsForm(editLineItemException: EditLineItemException) {
+    private createLineItemActionsForm(editLineItemException: EditLineItemException)
+    {
         const self = this;
 
         this.actionsGroup = this.formBuilder.array(_.map(editLineItemException.lineItemActions,
@@ -168,18 +188,19 @@ export class ActionEditComponent implements IObservableAlive {
         });
     }
 
-    private createLineItemActionFromGroup(item: LineItemAction) {
+    private createLineItemActionFromGroup(item: LineItemAction): FormGroup
+    {
         const validator = new LineItemActionValidator(item);
         const isCloseAction = Number(item.deliveryAction) == LineItemActionValidator.closeActionValue;
 
         const action = this.formBuilder.control({
             value: item.deliveryAction,
-            disabled: !this.source.canEditActions
+            disabled: !this.source.canEditActions && !this.canEditExceptions
         },
             Validators.required);
         const quantity = this.formBuilder.control({
             value: item.quantity,
-            disabled: (!this.source.canEditActions || isCloseAction)
+            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
         },
             [Validators.pattern('^[0-9]+$')]);
         const commentReason = this.formBuilder.control({
@@ -188,15 +209,15 @@ export class ActionEditComponent implements IObservableAlive {
         });
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
-            disabled: (!this.source.canEditActions || isCloseAction)
+            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
         });
         const source = this.formBuilder.control({
             value: item.source,
-            disabled: (!this.source.canEditActions || isCloseAction)
+            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
         });
         const reason = this.formBuilder.control({
             value: item.reason,
-            disabled: (!this.source.canEditActions || isCloseAction)
+            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
         });
 
         const group = this.formBuilder.group({

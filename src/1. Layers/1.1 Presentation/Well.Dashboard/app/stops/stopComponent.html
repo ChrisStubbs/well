@@ -262,7 +262,9 @@
                                 <td></td>
                                 <td></td>
                                 <td>{{item.resolution}}</td>
-                                <td  *ngIf="canDoManualActions || canEditExceptions"><input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" /></td>
+                                <td *ngIf="canDoManualActions || canEditExceptions">
+                                    <input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
+                                </td>
                             </tr>
                             <tr *ngIf="!item.isRowGroup">
                                 <td></td>
@@ -282,9 +284,10 @@
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-left"><span *ngIf="item.hasUnresolvedActions">Action Required</span></td>
-                                <td  *ngIf="canDoManualActions || canEditExceptions">
-                                    <a href="#" (click)="editLineItemActions(item, $event)" title="Edit" data-toggle="modal" *ngIf="item.lineItemId != 0 && canEditExceptions">
-                                        <span class="glyphicon glyphicon-pencil"></span>
+                                <td *ngIf="canDoManualActions || canEditExceptions">
+                                    <a href="#" (click)="editLineItemActions(item, $event)" title="View/Edit Exceptions" data-toggle="modal" *ngIf="item.lineItemId != 0">
+                                        <span *ngIf="canEditExceptions" class="glyphicon glyphicon-pencil"></span>
+                                        <span *ngIf="!canEditExceptions" class="glyphicon glyphicon-eye-open"></span>
                                     </a>
                                     <input *ngIf="canDoManualActions" type="checkbox" [(ngModel)]="item.isSelected" title="">
                                 </td>

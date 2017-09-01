@@ -1,6 +1,6 @@
 import { Component, ViewChild }                             from '@angular/core';
 import { LookupService }                                    from '../shared/services/lookupService';
-import { SecurityService }                                  from '../shared/security/securityService';
+import { SecurityService }                                  from '../shared/services/securityService';
 import { EditExceptionsService }                            from '../exceptions/editExceptionsService';
 import { IObservableAlive }                                 from '../shared/IObservableAlive';
 import { LocationsService }                                 from './locationsService';

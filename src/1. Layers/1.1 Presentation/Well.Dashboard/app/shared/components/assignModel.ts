@@ -1,5 +1,5 @@
 import {Branch} from '../branch/branch';
-import {IUser} from '../iuser';
+import {IUser} from '../models/iuser';
 
 export class AssignModel
 {

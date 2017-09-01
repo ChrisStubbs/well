@@ -3,7 +3,7 @@ import 'rxjs/Rx';   // Load all features
 import {User} from './user';
 import {UserPreferenceService} from './userPreferenceService';
 import {UserPreferenceModal} from './userPreferenceModalComponent';
-import {SecurityService} from '../shared/security/securityService';
+import {SecurityService} from '../shared/services/securityService';
 import {IObservableAlive} from '../shared/IObservableAlive';
 
 @Component({

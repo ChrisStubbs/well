@@ -5,9 +5,9 @@ import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {IAccount} from './account';
 import {GlobalSettingsService} from '../shared/globalSettings';
-import {HttpErrorService} from '../shared/httpErrorService';
-import {LogService} from '../shared/logService';
-import {HttpService} from '../shared/httpService';
+import {HttpErrorService} from '../shared/services/httpErrorService';
+import {LogService} from '../shared/services/logService';
+import {HttpService} from '../shared/services/httpService';
 
 @Injectable()
 export class AccountService {

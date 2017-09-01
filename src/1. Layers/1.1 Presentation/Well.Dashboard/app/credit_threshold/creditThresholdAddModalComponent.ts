@@ -4,7 +4,7 @@ import {CreditThreshold} from './creditThreshold';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 import {CreditThresholdService} from './creditThresholdService';
-import {HttpResponse} from '../shared/httpResponse';
+import {HttpResponse} from '../shared/models/httpResponse';
 
 @Component({
     selector: 'ow-credit-threshold-add-modal',

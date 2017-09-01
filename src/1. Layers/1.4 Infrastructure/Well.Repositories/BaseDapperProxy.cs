@@ -5,6 +5,7 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Contracts;
     using Dapper;
@@ -24,7 +25,6 @@
 
         public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName)
         {
-            //System.Threading.Interlocked.Exchange<DynamicParameters>()
 
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
@@ -56,11 +56,14 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                var x = action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
-
-                this.parameters = null;
-
-                return x;
+                try
+                {
+                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
             }
         }
 
@@ -68,10 +71,14 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                var x = action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
-
-                this.parameters = null;
-                return x;
+                try
+                {
+                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
             }
         }
 
@@ -79,9 +86,14 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
-
-                this.parameters = null;
+                try
+                {
+                    connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
             }
         }
 
@@ -89,10 +101,10 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                await connection.ExecuteAsync(storeProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout); 
+                await connection.ExecuteAsync(storeProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
             }
         }
-        
+
         public void ExecuteSql(string sql)
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
@@ -104,7 +116,6 @@
         public IDapperProxy WithStoredProcedure(string storedProcedure)
         {
             this.storedProcedure = storedProcedure;
-
             return this;
         }
 
@@ -128,11 +139,16 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                var result = connection.Query<TEntity>(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
-
-                this.parameters = null;
-
-                return result;
+                try
+                {
+                    return connection.Query<TEntity>(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout)
+                        .AsQueryable();
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
+                
             }
         }
     }

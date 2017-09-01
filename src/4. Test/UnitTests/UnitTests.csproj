@@ -192,6 +192,7 @@
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
     <Compile Include="Infrastructure\AmendmentRepositoryTests.cs" />
+    <Compile Include="Infrastructure\BaseDapperProxyTests.cs" />
     <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />
     <Compile Include="Infrastructure\NotificationRepositoryTests.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />

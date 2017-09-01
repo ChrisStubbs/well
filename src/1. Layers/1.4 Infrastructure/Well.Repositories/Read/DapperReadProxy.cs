@@ -30,11 +30,14 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                var result = connection.Query<TValueObject>(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
-
-                this.parameters = null;
-
-                return result;
+                try
+                {
+                    return connection.Query<TValueObject>(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure, commandTimeout: DbConfiguration.CommandTimeout).AsQueryable();
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
             }
         }
 
@@ -42,9 +45,14 @@
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
-                action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
-
-                this.parameters = null;
+                try
+                {
+                    action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                }
+                finally
+                {
+                    this.parameters = null;
+                }
             }
         }
 

@@ -10,9 +10,10 @@ namespace PH.Well.Domain
     using ValueObjects;
 
     [Serializable()]
-    public class Job : Entity<int> 
+    public class Job : Entity<int>
     {
         public const string DocumentPickListReference = "9999999";
+        public const string OverInvoiceNumber = "OVER";
         public Job()
         {
             JobDetails = new List<JobDetail>();
@@ -190,5 +191,8 @@ namespace PH.Well.Domain
         }
 
         public int LocationId { get; set; }
+
+        //job that is over and above the original invoice (these should be ignored)
+        public bool IsOverInvoice => string.Equals(this.InvoiceNumber, OverInvoiceNumber, StringComparison.InvariantCultureIgnoreCase);
     }
 }

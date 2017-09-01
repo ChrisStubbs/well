@@ -123,9 +123,10 @@
             var branchId = routeHeader.RouteOwnerId;
             var existingRouteJobIdAndStopId = jobRepository.GetJobStopsByRouteHeaderId(routeHeader.Id).ToList();
             var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
-            
+
             List<int> updateJobIds = new List<int>();
-            foreach (var job in fileJobs)
+           
+            foreach (var job in fileJobs.Where(fj => !fj.IsOverInvoice)) //do not import overs
             {
                 var originalJob = FindOriginalJob(existingJobsBothSources, job);
 
@@ -174,7 +175,7 @@
 
             //Delete Jobs Not In File
             var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources).ToList();
-           
+
             DeleteJobs(jobsToBeDeleted);
         }
 

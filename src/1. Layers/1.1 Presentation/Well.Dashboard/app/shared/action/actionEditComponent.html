@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="alert alert-danger" *ngIf="actionsForm.enabled && !actionsForm.valid && actionsForm.controls.actionsGroup.errors">
+                            <div class="alert alert-danger" *ngIf="shouldErrorsDivBeVisible()">
                                 <h4>Form contains invalid data</h4>
                                 <ul>
                                     <li *ngFor="let error of actionsForm.controls.actionsGroup.errors">
@@ -101,7 +101,7 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody *ngIf="this.canEditExceptions">
                                         <ng-container *ngFor="let item of actionsForm.controls.actionsGroup.controls; let i = index">
                                             <tr [formGroupName]="i">
                                                 <td>
@@ -171,6 +171,44 @@
                                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                     </button>
                                                     <span *ngIf="lineItemActions[i].originator == 0">
+                                                        <i *ngIf="source.driverReason" class="fa fa-truck" aria-hidden="true" tooltip="{{source.driverReason}}" tooltipPlacement="left"></i>
+                                                        <i *ngIf="!source.driverReason" class="fa fa-truck" aria-hidden="true"></i>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                    <tbody *ngIf="!this.canEditExceptions">
+                                        <ng-container *ngFor="let item of source.lineItemActions; let i = index">
+                                            <tr>
+                                                <td>{{getDeliveryActionDescription(item.deliveryAction)}}</td>
+                                                <td>item.quantity</td>
+                                                <td colspan="2">
+                                                    <div class="comment-tooltip">
+                                                        <tooltip-content #commentTooltip placement="top" class="fake">
+                                                            <div class="list-group">
+                                                                <div *ngFor="let c of lineItemActions[i].comments;" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                    <div class="d-flex w-100 justify-content-between">
+                                                                        <h5 class="mb-1">{{c.displayName}}</h5>
+                                                                        <small class="text-muted">{{c.dateCreated | date:'dd/MMM/yyyy HH:mm:ss' }}</small>
+                                                                    </div>
+                                                                    <p class="mb-1 text-justify">{{c.commentDescription}}</p>
+                                                                    <small class="text-muted pull-left">{{c.qtyChangeDescription}}</small>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip-content>
+                                                        <span class="glyphicon glyphicon-comment" aria-hidden="true"
+                                                              *ngIf="hasComments(lineItemActions[i])"
+                                                              [tooltip]="commentTooltip"
+                                                              tooltipPlacement="right"></span>
+                                                    </div>
+                                                </td>
+                                                <td>{{getExceptionTypeDescription(item.exceptionType)}}</td>
+                                                <td>{{getSourceDescription(item.source)}}</td>
+                                                <td>{{getReasonDescription(item.reason)}}</td>
+                                                <td style="text-align: center; vertical-align: middle">
+                                                    <span *ngIf="item.originator == 0">
                                                         <i *ngIf="source.driverReason" class="fa fa-truck" aria-hidden="true" tooltip="{{source.driverReason}}" tooltipPlacement="left"></i>
                                                         <i *ngIf="!source.driverReason" class="fa fa-truck" aria-hidden="true"></i>
                                                     </span>

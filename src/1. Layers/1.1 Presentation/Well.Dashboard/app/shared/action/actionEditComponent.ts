@@ -36,6 +36,7 @@ export class ActionEditComponent implements IObservableAlive
     @ViewChild('closeModal') public closeModal: ElementRef;
 
     private deliveryActions: Array<ILookupValue>;
+    private deliveryActionsWithFilter: Array<ILookupValue> = undefined;
     private sources: Array<ILookupValue>;
     private reasons: Array<ILookupValue>;
     private exceptionTypes: Array<ILookupValue>;
@@ -81,17 +82,57 @@ export class ActionEditComponent implements IObservableAlive
         }
     }
 
-    private getDeliveryActions()
+    private getDeliveryActions(): Array<ILookupValue>
     {
-        const self = this;
-        if (this.source.isProofOfDelivery) {
-            return _.filter(this.deliveryActions,
-                (action: ILookupValue) => {
-                    return Number(action.key) != self.creditActionValue;
-                });
-        } else {
-            return this.deliveryActions;
+        if (_.isUndefined(this.deliveryActionsWithFilter))
+        {
+            const self = this;
+            if (this.source.isProofOfDelivery) {
+                this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
+                    (action: ILookupValue) => {
+                        return Number(action.key) != self.creditActionValue;
+                    });
+            } else {
+                this.deliveryActionsWithFilter = this.deliveryActions;
+            }
         }
+
+        return this.deliveryActionsWithFilter;
+    }
+
+    private getDeliveryActionDescription(id: number): string
+    {
+        return _.find(this.getDeliveryActions(), (current: ILookupValue) => {
+            return +current.key == id;
+        }).value;
+    }
+
+    private getExceptionTypeDescription(id: number): string
+    {
+        const result = _.find(this.exceptionTypes, (current: ILookupValue) => {
+            return +current.key == id;
+        });
+
+        if (_.isUndefined(result))
+        {
+            return 'Bypass';
+        }
+
+        return result.value;
+    }
+
+    private getSourceDescription(id: number): string
+    {
+        return _.find(this.sources, (current: ILookupValue) => {
+            return +current.key == id;
+        }).value;
+    }
+
+    private getReasonDescription(id: number): string
+    {
+        return _.find(this.reasons, (current: ILookupValue) => {
+            return +current.key == id;
+        }).value;
     }
 
     public ngOnDestroy(): void
@@ -198,26 +239,31 @@ export class ActionEditComponent implements IObservableAlive
             disabled: !this.source.canEditActions && !this.canEditExceptions
         },
             Validators.required);
+
         const quantity = this.formBuilder.control({
             value: item.quantity,
-            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
+            disabled: (!this.source.canEditActions || isCloseAction)
         },
             [Validators.pattern('^[0-9]+$')]);
+
         const commentReason = this.formBuilder.control({
             value: item.commentReason,
             disabled: true
         });
+
         const exceptionType = this.formBuilder.control({
             value: item.exceptionType,
-            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
+
         const source = this.formBuilder.control({
             value: item.source,
-            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
+
         const reason = this.formBuilder.control({
             value: item.reason,
-            disabled: (!this.source.canEditActions || isCloseAction) && !this.canEditExceptions
+            disabled: (!this.source.canEditActions || isCloseAction)
         });
 
         const group = this.formBuilder.group({
@@ -232,6 +278,18 @@ export class ActionEditComponent implements IObservableAlive
         validator.applyToLineItemActionFrom(group);
 
         return group;
+    }
+
+    private shouldErrorsDivBeVisible(): boolean
+    {
+        const result: boolean = this.actionsForm.enabled
+            && !this.actionsForm.valid
+            && (
+                this.actionsForm.controls.actionsGroup.errors
+                && this.actionsForm.controls.actionsGroup.errors.length > 0
+            );
+
+        return result;
     }
 
     private validateOverallQuantity(formArray: AbstractControl): ValidationErrors {

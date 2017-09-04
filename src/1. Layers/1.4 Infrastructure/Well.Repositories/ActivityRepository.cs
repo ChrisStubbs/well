@@ -74,56 +74,21 @@ namespace PH.Well.Repositories
                 .ForEach(p => jobTypes.Add(p.Code, $"{p.Description}({p.Abbreviation})"));
 
             // Grid details
-            var details = wellEntities.Activity
+            var details = wellEntities.ActivityDetailsView
+                .Where(p => p.ActivityId == activityId)
+                .ToList();
+
+            var users = wellEntities.Activity
                 .Where(x => x.Id == activitySource.ActivityId && x.DateDeleted == null)
                 .Select(x => new
                 {
-                    ActivityId = x.Id,
                     Users = x.Job
                         .Where(p => p.DateDeleted == null)
                         .SelectMany(y => y.UserJob.Select(u => u.User.Name))
-                        .Distinct(),
-                    LineDetail = x.Job
-                        .Where(p => p.DateDeleted == null)
-                        .SelectMany(y => y.JobDetail
-                            .Where(p => p.DateDeleted == null)
-                            .Select(z => new
-                            {
-                                Product = z.LineItem.ProductCode,
-                                Type = y.JobTypeCode,
-                                Barcode = z.SSCCBarcode,
-                                Description = z.LineItem.ProductDescription,
-                                Value = z.NetPrice,
-                                Expected = z.OriginalDespatchQty,
-                                LineDeliveryStatus = z.LineDeliveryStatus,
-                                z.IsHighValue,
-                                y.Stop,
-                                JobId = y.Id,
-                                JobType = y.JobTypeCode,
-                                LineItemId = (int?) z.LineItem.Id,
-                                ResolutionStatus = y.ResolutionStatusId,
-                                OriginalDespatchQuantity = z.OriginalDespatchQty,
-                                CompletedOnPaper = z.Job.JobStatusId == (byte)PH.Well.Domain.Enums.JobStatus.CompletedOnPaper,
-                                // This method can be reused globally with EF. check http://www.albahari.com/nutshell/linqkit.aspx
-                                Totals = new
-                                {
-                                    z.Id,
-                                    BypassTotal = z.LineItem.LineItemAction
-                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Bypass)
-                                        .Sum(l => (int?) l.Quantity),
-                                    DamageTotal = z.LineItem.LineItemAction
-                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Damage)
-                                        .Sum(l => (int?) l.Quantity),
-                                    ShortTotal = z.LineItem.LineItemAction
-                                        .Where(l => l.ExceptionType.Id == (int) ExceptionType.Short)
-                                        .Sum(l => (int?) l.Quantity),
-                                    TotalExceptions = z.LineItem.LineItemAction.Count(),
-                                }
-                            }
-                        )
-                    )
-                }).FirstOrDefault();
 
+                })
+                .SelectMany(p => p.Users)
+                .Distinct();
 
             var result = new ActivitySource
             {
@@ -142,34 +107,35 @@ namespace PH.Well.Repositories
                 Tba = GetTba(activitySource.Job.OuterDiscrepancyFound,activitySource.Job.TotalOutersShort,activitySource.Job.DetailOutersShort),
                 ResolutionStatus = activitySource.Job.ResolutionStatusId.GetValueOrDefault(),
                 LocationId = (int)activitySource.LocationId,
-                Assignees = details.Users.ToList(),
-                Details = details.LineDetail.Select(x => new ActivitySourceDetail
-                {
-                    ActivityId = details.ActivityId,
-                    Product = x.Product,
-                    Type = (string)jobTypes[x.Type],
-                    BarCode = x.Barcode,
-                    Description = x.Description,
-                    Value = (decimal) x.Value.GetValueOrDefault(),
-                    Expected = x.Expected.GetValueOrDefault(),
-                    Damaged = x.Totals.DamageTotal.GetValueOrDefault(),
-                    Bypass = x.Totals.BypassTotal.GetValueOrDefault(),
-                    Shorts = x.Totals.ShortTotal.GetValueOrDefault(),
-                    HighValue = x.IsHighValue,
-                    StopId = x.Stop.Id,
-                    Stop = x.Stop.DropId,
-                    StopDate = x.Stop.DeliveryDate.GetValueOrDefault(),
-                    JobId = x.JobId,
-                    ResolutionStatus = x.ResolutionStatus,
-                    LineItemId = x.LineItemId ?? -1,
-                    HasUnresolvedActions = HasUnresolvedActions(
-                        x.LineDeliveryStatus,
-                        x.Totals.ShortTotal,
-                        x.Totals.DamageTotal,x.OriginalDespatchQuantity,
-                        x.ResolutionStatus),
-                    CompletedOnPaper = x.CompletedOnPaper
-
-                }).ToList()
+                Assignees = users.ToList(),
+                Details = details
+                    .Select(x => new ActivitySourceDetail
+                    {
+                        ActivityId = activityId,
+                        Product = x.Product,
+                        Type = (string)jobTypes[x.JobType],
+                        BarCode = x.Barcode,
+                        Description = x.Description,
+                        Value = (decimal) x.Value.GetValueOrDefault(),
+                        Expected = x.Expected.GetValueOrDefault(),
+                        Damaged = x.DamageTotal.GetValueOrDefault(),
+                        Bypass = x.BypassTotal.GetValueOrDefault(),
+                        Shorts = x.ShortTotal.GetValueOrDefault(),
+                        HighValue = x.IsHighValue,
+                        StopId = x.StopId,
+                        Stop = x.DropId,
+                        StopDate = x.DeliveryDate.GetValueOrDefault(),
+                        JobId = x.JobId,
+                        ResolutionStatus = x.ResolutionStatus,
+                        LineItemId = x.LineItemId ?? -1,
+                        HasUnresolvedActions = HasUnresolvedActions(
+                            x.LineDeliveryStatus,
+                            x.ShortTotal,
+                            x.DamageTotal,
+                            x.Expected,
+                            x.ResolutionStatus),
+                        CompletedOnPaper = x.JobStatusId == (byte)PH.Well.Domain.Enums.JobStatus.CompletedOnPaper,
+                    }).ToList()
             };
 
             return result;

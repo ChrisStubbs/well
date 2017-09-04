@@ -58,3 +58,9 @@ GO
 
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
 GO
+
+CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted
+ON [dbo].[JobDetail] ([DateDeleted])
+INCLUDE ([JobId],[LineItemId])
+WHERE [DateDeleted] IS NOT NULL
+GO

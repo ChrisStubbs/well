@@ -235,8 +235,8 @@
                                 </select>
                             </div>
                         </th>
-                        <th  *ngIf="canDoManualActions || canEditExceptions" class="colCheckbox">
-                            <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)">
+                        <th class="colCheckbox">
+                            <input *ngIf="canDoManualActions || canEditExceptions" type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectJobs($event.target.checked, null)">
                         </th>
                     </tr>
                 </thead>
@@ -258,8 +258,8 @@
                             <td class="text-right">{{item.totalDamaged}}</td>
                             <td colspan="2"></td>
                             <td class="text-right">{{item.resolution}}</td>
-                            <td  *ngIf="canDoManualActions || canEditExceptions">
-                                <input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
+                            <td>
+                                <input *ngIf="canDoManualActions || canEditExceptions" type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.details" [style.display]="item.isExpanded ? 'table-row' : 'none'">

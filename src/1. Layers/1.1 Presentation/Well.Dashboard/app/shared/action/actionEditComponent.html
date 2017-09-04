@@ -182,7 +182,7 @@
                                         <ng-container *ngFor="let item of source.lineItemActions; let i = index">
                                             <tr>
                                                 <td>{{getDeliveryActionDescription(item.deliveryAction)}}</td>
-                                                <td>item.quantity</td>
+                                                <td>{{item.quantity}}</td>
                                                 <td colspan="2">
                                                     <div class="comment-tooltip">
                                                         <tooltip-content #commentTooltip placement="top" class="fake">

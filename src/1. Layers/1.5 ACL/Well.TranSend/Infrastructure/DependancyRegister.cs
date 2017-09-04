@@ -70,7 +70,8 @@
                     x.For<ILocationService>().Use<LocationService>();
                     x.For<IWellStatusAggregator>().Use<WellStatusAggregator>();
                     x.For<IActivityRepository>().Use<ActivityRepository>();
-
+                    x.For<IDeadlockRetryConfig>().Use<Configuration>();
+                    x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
 #if DEBUG
                     x.For<IEpodProvider>().Use<EpodFileProvider>();
 #else

@@ -16,6 +16,7 @@
         private readonly IImportService importService;
         private readonly IEpodImportMapper epodImportMapper;
         private readonly IEpodFileImportCommands importCommands;
+        private readonly IDeadlockRetryHelper deadlockRetryHelper;
 
         public EpodImportService(
             ILogger logger,
@@ -23,7 +24,8 @@
             IRouteHeaderRepository routeHeaderRepository,
             IImportService importService,
             IEpodImportMapper epodImportMapper,
-            IEpodFileImportCommands importCommands
+            IEpodFileImportCommands importCommands,
+            IDeadlockRetryHelper deadlockRetryHelper
             )
         {
             this.logger = logger;
@@ -32,6 +34,7 @@
             this.importService = importService;
             this.epodImportMapper = epodImportMapper;
             this.importCommands = importCommands;
+            this.deadlockRetryHelper = deadlockRetryHelper;
         }
         public void Import(RouteDelivery route, string fileName)
         {
@@ -41,7 +44,7 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
-                        ImportRouteHeader(header, fileName);
+                        deadlockRetryHelper.Retry(() => ImportRouteHeader(header, fileName));
                         transactionScope.Complete();
                     }
                 }
@@ -84,7 +87,6 @@
 
                 epodImportMapper.MergeRouteHeader(fileHeader, existingHeader);
                 routeHeaderRepository.Update(existingHeader);
-                
                 importService.ImportStops(fileHeader, epodImportMapper, importCommands);
             }
             else

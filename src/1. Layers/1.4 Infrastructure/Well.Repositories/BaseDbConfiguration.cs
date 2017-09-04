@@ -9,9 +9,7 @@ namespace PH.Well.Repositories
     public abstract class BaseDbConfiguration
     {
 
-        public int TransactionTimeout => GetIntSetting("transactionTimeout");
-
-        public int MaxNoOfDeadlockRetries => GetIntSetting("MaxNoOfDeadlockRetries");
+        public int TransactionTimeout => GetIntSetting("transactionTimeoutSeconds");
 
         public int? CommandTimeout
         {

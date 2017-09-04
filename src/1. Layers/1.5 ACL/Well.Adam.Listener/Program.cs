@@ -88,6 +88,8 @@
                     x.For<IStopService>().Use<StopService>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IActivityRepository>().Use<ActivityRepository>();
+                    x.For<IDeadlockRetryConfig>().Use<Configuration>();
+                    x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
                 });
         }
     }

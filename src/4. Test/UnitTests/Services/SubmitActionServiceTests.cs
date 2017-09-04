@@ -265,7 +265,6 @@
                 job1GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Approved);
                 job1GetNextResolutionStatusQueue.Enqueue(ResolutionStatus.Credited);
             }
-
         }
 
         public class TheSubmitCreditsMethod : SubmitActionServiceTests

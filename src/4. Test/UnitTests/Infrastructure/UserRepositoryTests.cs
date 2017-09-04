@@ -23,6 +23,8 @@
 
         private Mock<IDapperProxy> dapperProxy;
 
+        private Mock<IDbConfiguration> dbConfig;
+
         private UserRepository repository;
 
         private Mock<IUserNameProvider> userNameProvider;
@@ -31,7 +33,9 @@
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.dbConfig = new Mock<IDbConfiguration>();
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
+            this.dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("Some user");
 
@@ -74,7 +78,7 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] {1});
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
                 this.repository.Save(user);
 

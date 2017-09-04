@@ -27,14 +27,18 @@
 
         private Mock<IUserNameProvider> userNameProvider;
 
+        private Mock<IDbConfiguration> dbConfig;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
+            this.dbConfig = new Mock<IDbConfiguration>();
 
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
+            dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
             this.repository = new JobDetailRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
             //////this.repository.CurrentUser = UserName;
         }

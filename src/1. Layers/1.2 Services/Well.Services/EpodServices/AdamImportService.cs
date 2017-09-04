@@ -17,6 +17,7 @@
         private readonly IImportService importService;
         private readonly IAdamImportMapper importMapper;
         private readonly IAdamFileImportCommands importCommands;
+        private readonly IDeadlockRetryHelper deadlockRetryHelper;
 
         public AdamImportService(
             ILogger logger,
@@ -24,7 +25,9 @@
             IRouteHeaderRepository routeHeaderRepository,
             IImportService importService,
             IAdamImportMapper importMapper,
-            IAdamFileImportCommands importCommands)
+            IAdamFileImportCommands importCommands,
+            IDeadlockRetryHelper deadlockRetryHelper
+            )
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -32,6 +35,7 @@
             this.importService = importService;
             this.importMapper = importMapper;
             this.importCommands = importCommands;
+            this.deadlockRetryHelper = deadlockRetryHelper;
         }
 
         public void Import(RouteDelivery route)
@@ -42,7 +46,9 @@
                 {
                     using (var transactionScope = new TransactionScope())
                     {
-                        this.ImportRouteHeader(header, route.RouteId);
+                        deadlockRetryHelper.Retry(() =>
+                            this.ImportRouteHeader(header, route.RouteId)
+                        );
                         this.DeleteRoutesWithNoStops();
                         transactionScope.Complete();
                     }

@@ -14,13 +14,18 @@
         private Mock<ILogger> logger;
         private Mock<IDapperProxy> dapperProxy;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IDbConfiguration> dbConfig;
+
         private LineItemActionRepository repository;
 
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.dbConfig = new Mock<IDbConfiguration>();
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
+            dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
+
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
 

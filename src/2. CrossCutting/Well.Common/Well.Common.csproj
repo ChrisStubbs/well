@@ -67,13 +67,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IDeadlockRetryHelper.cs" />
     <Compile Include="Contracts\IEventLogger.cs" />
     <Compile Include="Contracts\IFtpClient.cs" />
+    <Compile Include="Contracts\IDeadlockRetryConfig.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
     <Compile Include="Contracts\IUserNameProvider.cs" />
     <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
+    <Compile Include="DeadlockRetryHelper.cs" />
     <Compile Include="EventId.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />

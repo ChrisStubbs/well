@@ -49,7 +49,7 @@
         {
             try
             {
-                using (var transaction = new TransactionScope())
+                using (var transaction = new TransactionScope(TransactionScopeOption.Required,TimeSpan.FromSeconds(dapperProxy.DbConfiguration.TransactionTimeout)))
                 {
                     entity.SetUpdatedProperties(this.CurrentUser);
                     this.UpdateExisting(entity);
@@ -68,7 +68,7 @@
         {
             try
             {
-                using (var transaction = new TransactionScope())
+                using (var transaction = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dapperProxy.DbConfiguration.TransactionTimeout)))
                 {
                     entity.SetCreatedProperties(this.CurrentUser);
                     this.SaveNew(entity);

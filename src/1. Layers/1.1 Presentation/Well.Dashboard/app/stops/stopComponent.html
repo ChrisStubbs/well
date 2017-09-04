@@ -228,8 +228,8 @@
                                     </select>
                                 </div>
                             </th>
-                            <th class="colCheckbox" *ngIf="canDoManualActions || canEditExceptions">
-                                <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectAllJobs($event.target.checked)">
+                            <th class="colCheckbox">
+                                <input *ngIf="canDoManualActions || canEditExceptions" type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectAllJobs($event.target.checked)">
                             </th>
                         </tr>
                     </thead>
@@ -262,8 +262,8 @@
                                 <td></td>
                                 <td></td>
                                 <td>{{item.resolution}}</td>
-                                <td *ngIf="canDoManualActions || canEditExceptions">
-                                    <input type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
+                                <td>
+                                    <input *ngIf="canDoManualActions || canEditExceptions" type="checkbox" [checked]="allChildrenSelected(item.jobId)" (change)="selectJobs($event.target.checked, item.jobId)" />
                                 </td>
                             </tr>
                             <tr *ngIf="!item.isRowGroup">

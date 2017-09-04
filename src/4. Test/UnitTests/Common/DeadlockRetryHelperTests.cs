@@ -64,5 +64,34 @@
             myAction.Verify(x => x.Execute(), Times.Exactly(4));
         }
 
+        [Test]
+        public void ShouldRetryIfErrorThenReturnWhenNoError()
+        {
+
+            config.Setup(x => x.MaxNoOfDeadlockRetires).Returns(3);
+            var calls = 0;
+
+            myAction.Setup(x => x.Execute()).Callback(() =>
+                {
+                    calls++;
+                    if (calls == 1)
+                    {
+                        throw SqlExceptionCreator.CreateSqlException(DeadlockRetryHelper.SqlDeadlockErrorNumber);
+                    }
+                }
+            );
+
+            try
+            {
+                deadlockRetryHelper.Retry(() => myAction.Object.Execute());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            myAction.Verify(x => x.Execute(), Times.Exactly(2));
+        }
+
     }
 }

@@ -20,8 +20,8 @@
     public class SeasonalDateRepositoryTests
     {
         private Mock<ILogger> logger;
-
         private Mock<IWellDapperProxy> dapperProxy;
+        private Mock<IDbConfiguration> dbConfig;
 
         private SeasonalDateRepository repository;
         private Mock<IUserNameProvider> userNameProvider;
@@ -30,7 +30,9 @@
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.dbConfig = new Mock<IDbConfiguration>();
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
+            dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 

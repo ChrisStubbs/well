@@ -4,6 +4,7 @@
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
+    using Well.Common;
     using Well.Common.Contracts;
     using Well.Domain;
     using Well.Services;
@@ -19,6 +20,8 @@
         private Mock<IImportService> importService;
         private Mock<IAdamImportMapper> importMapper;
         private Mock<IAdamFileImportCommands> importCommands;
+        private Mock<IDeadlockRetryConfig> deadlockRetryConfig;
+        private IDeadlockRetryHelper deadlockRetryHelper;
 
         private Mock<AdamImportService> mockRouteImportService;
 
@@ -31,6 +34,9 @@
             importService = new Mock<IImportService>();
             importMapper = new Mock<IAdamImportMapper>();
             importCommands = new Mock<IAdamFileImportCommands>();
+            deadlockRetryConfig = new Mock<IDeadlockRetryConfig>();
+            deadlockRetryHelper = new DeadlockRetryHelper(logger.Object,deadlockRetryConfig.Object);
+
 
              mockRouteImportService = new Mock<AdamImportService>(
                 logger.Object,
@@ -38,7 +44,8 @@
                 routeHeaderRepository.Object,
                 importService.Object,
                 importMapper.Object,
-                importCommands.Object
+                importCommands.Object,
+                deadlockRetryHelper
             );
         }
 

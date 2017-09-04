@@ -4,7 +4,7 @@
     {
         string DatabaseConnection { get; }
         int TransactionTimeout { get; }
-        int MaxNoOfDeadlockRetries { get; }
         int? CommandTimeout { get; }
+
     }
 }

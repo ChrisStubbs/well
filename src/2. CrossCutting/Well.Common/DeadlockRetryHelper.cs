@@ -32,6 +32,7 @@
                 try
                 {
                     repositoryMethod();
+                    return;
                 }
                 catch (SqlException ex)
                 {

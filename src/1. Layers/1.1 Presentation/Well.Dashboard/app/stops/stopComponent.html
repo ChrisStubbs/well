@@ -284,7 +284,7 @@
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-left"><span *ngIf="item.hasUnresolvedActions">Action Required</span></td>
-                                <td *ngIf="canDoManualActions || canEditExceptions">
+                                <td>
                                     <a href="#" (click)="editLineItemActions(item, $event)" title="View/Edit Exceptions" data-toggle="modal" *ngIf="item.lineItemId != 0">
                                         <span *ngIf="canEditExceptions" class="glyphicon glyphicon-pencil"></span>
                                         <span *ngIf="!canEditExceptions" class="glyphicon glyphicon-eye-open"></span>

@@ -44,7 +44,7 @@ AS
             ON a.Id = j.ActivityId
         INNER JOIN JobDetail jd
             ON jd.JobId = j.Id
-        INNER JOIN LineItem li
+        LEFT JOIN LineItem li
             ON jd.LineItemId = li.Id
         INNER JOIN [Stop] s
             ON j.StopId = s.id

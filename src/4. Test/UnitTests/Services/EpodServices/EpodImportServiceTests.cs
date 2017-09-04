@@ -21,7 +21,8 @@
         private Mock<IImportService> importService;
         private Mock<IEpodImportMapper> epodImportMapper;
         private Mock<IEpodFileImportCommands> importCommands;
-
+        private Mock<IDeadlockRetryConfig> deadlockRetryConfig;
+        private IDeadlockRetryHelper deadlockRetryHelper;
         private EpodImportService epodImportService;
 
         [SetUp]
@@ -33,14 +34,18 @@
             importService = new Mock<IImportService>();
             epodImportMapper = new Mock<IEpodImportMapper>();
             importCommands = new Mock<IEpodFileImportCommands>();
+            deadlockRetryConfig = new Mock<IDeadlockRetryConfig>();
+
+            deadlockRetryHelper = new DeadlockRetryHelper(logger.Object, deadlockRetryConfig.Object);
 
             epodImportService = new EpodImportService(
-                logger.Object,
-                eventLogger.Object,
-                routeHeaderRepository.Object,
-                importService.Object,
-                epodImportMapper.Object,
-                importCommands.Object);
+            logger.Object,
+            eventLogger.Object,
+            routeHeaderRepository.Object,
+            importService.Object,
+            epodImportMapper.Object,
+            importCommands.Object,
+            deadlockRetryHelper);
         }
 
         [Test]
@@ -59,11 +64,10 @@
                     routeHeader.RouteNumber.Substring(2), routeHeader.RouteDate)).Returns((RouteHeader)null);
 
             this.logger.Setup(x => x.LogDebug(It.IsAny<string>()));
-           
+
             this.eventLogger.Setup(x => x.TryWriteToEventLog(It.IsAny<EventSource>(), It.IsAny<string>(), It.IsAny<int>(), EventLogEntryType.Error)).Returns(true);
 
             const string filename = "epod_file.xml";
-
             //ACT
             epodImportService.Import(route, filename);
 

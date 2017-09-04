@@ -154,6 +154,7 @@
     <Compile Include="Api\Mapper\StopMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
+    <Compile Include="Common\DeadlockRetryHelperTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Factories\JobFactory.cs" />
     <Compile Include="Factories\RoutesFactory.cs" />
     <Compile Include="Factories\DeliveryLineFactory.cs" />
+    <Compile Include="Factories\SqlExceptionCreator.cs" />
     <Compile Include="Factories\StopFactoryDTO.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />

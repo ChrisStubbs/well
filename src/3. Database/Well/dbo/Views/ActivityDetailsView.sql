@@ -56,3 +56,7 @@ AS
         AND jd.DateDeleted IS NULL
         AND li.DateDeleted IS NULL
         AND s.DateDeleted IS NULL
+        AND jd.PHProductCode NOT IN 
+        (
+            SELECT barCode FROM Bag
+        )

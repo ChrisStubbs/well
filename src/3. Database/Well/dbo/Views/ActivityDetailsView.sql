@@ -56,4 +56,3 @@ AS
         AND jd.DateDeleted IS NULL
         AND li.DateDeleted IS NULL
         AND s.DateDeleted IS NULL
-        AND a.id = 1

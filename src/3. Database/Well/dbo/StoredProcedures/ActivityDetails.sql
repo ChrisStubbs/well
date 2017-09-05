@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE ActivityDetails
+﻿
+CREATE PROCEDURE ActivityDetails
 	@Id INT
 AS
 	SELECT 
@@ -20,7 +21,8 @@ AS
 		a.ResolutionStatus,
 		a.ShortTotal,
 		a.StopId,
-		a.Value
+		a.Value,
+		a.DamageTotal
 	FROM 
 		ActivityDetailsView a
 	WHERE 

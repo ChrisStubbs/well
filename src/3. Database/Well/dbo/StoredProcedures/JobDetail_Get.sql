@@ -70,6 +70,5 @@ AS
 		,a.[Version]
 	From [dbo].[JobDetailAction] a
 	INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = a.JobDetailId	
-    WHERE	DateDeleted IS NULL
 
 RETURN 0

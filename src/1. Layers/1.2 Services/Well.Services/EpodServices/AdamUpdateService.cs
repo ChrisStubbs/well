@@ -202,14 +202,15 @@
 
         private void UpdateJobDetails(IEnumerable<JobDetailUpdate> jobDetails, int jobId)
         {
+            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p=> p.LineNumber);
+
             foreach (var detail in jobDetails)
             {
-                var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
-
+                var existingJobDetail = existingJobDetails[detail.LineNumber].FirstOrDefault();
+                
                 if (existingJobDetail != null)
                 {
                     this.mapper.Map(detail, existingJobDetail);
-
                     this.jobDetailRepository.Update(existingJobDetail);
                 }
                 else

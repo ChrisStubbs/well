@@ -56,6 +56,7 @@ AS
       ,[Version]
   FROM [dbo].[JobDetailDamage] jdd
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jdd.JobDetailId
+  WHERE	DateDeleted IS NULL
 
   SELECT a.Id
 		,a.[JobDetailId]
@@ -69,5 +70,6 @@ AS
 		,a.[Version]
 	From [dbo].[JobDetailAction] a
 	INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = a.JobDetailId	
-   
+    WHERE	DateDeleted IS NULL
+
 RETURN 0

@@ -65,9 +65,22 @@
         }
 
         [Test]
+        public void ShouldThrowErrorAfterLastRetry()
+        {
+            config.Setup(x => x.MaxNoOfDeadlockRetires).Returns(2);
+
+            myAction.Setup(x => x.Execute()).Callback(() => 
+                {
+                    throw SqlExceptionCreator.CreateSqlException(DeadlockRetryHelper.SqlDeadlockErrorNumber);
+                });
+
+            Assert.Throws<SqlException>( ()=> deadlockRetryHelper.Retry(() => myAction.Object.Execute()));
+            myAction.Verify(x => x.Execute(), Times.Exactly(3));
+        }
+
+        [Test]
         public void ShouldRetryIfErrorThenReturnWhenNoError()
         {
-
             config.Setup(x => x.MaxNoOfDeadlockRetires).Returns(3);
             var calls = 0;
 
@@ -92,6 +105,5 @@
 
             myAction.Verify(x => x.Execute(), Times.Exactly(2));
         }
-
     }
 }

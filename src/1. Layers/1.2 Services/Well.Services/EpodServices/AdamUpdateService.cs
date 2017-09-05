@@ -50,6 +50,7 @@
 
         public void Update(RouteUpdates route)
         {
+            //TODO: refactor for improvement. we may be able to put all insert/delete/update together and do it in async 
             foreach (var stop in route.Stops)
             {
                 var action = GetOrderUpdateAction(stop.ActionIndicator);
@@ -59,9 +60,11 @@
                     case OrderActionIndicator.Insert:
                         this.Insert(stop);
                         break;
+
                     case OrderActionIndicator.Update:
                         this.Update(stop);
                         break;
+
                     case OrderActionIndicator.Delete:
                         this.Delete(stop);
                         break;
@@ -264,6 +267,7 @@
             }
         }
 
+        //TODO: refactor for improvement. All these records (jobs & jobdetails) can be send at one go to the store procedure
         private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> insertedJobIds)
         {
             insertedJobIds = new List<int>();

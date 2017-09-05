@@ -82,7 +82,7 @@
                 .Execute();
         }
 
-        private IEnumerable<User> Get(int? id, string identity, string name, int? creditThresholdId, int? branchId)
+        public IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null)
         {
             IEnumerable<User> users = new List<User>();
 

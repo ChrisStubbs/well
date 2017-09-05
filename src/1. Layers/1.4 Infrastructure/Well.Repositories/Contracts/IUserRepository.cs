@@ -18,5 +18,7 @@
         void UnAssignJobToUser(int jobId);
 
         IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds);
+
+        IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null);
     }
 }

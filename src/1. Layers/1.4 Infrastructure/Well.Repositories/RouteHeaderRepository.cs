@@ -69,9 +69,11 @@
                     .FirstOrDefault();
         }
 
-        public IList<int> GetRouteHeaderIdsWithNoStops()
+        public void DeleteRouteHeaderWithNoStops()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderIdsWithNoStops).Query<int>().ToList();
+            dapperProxy.WithStoredProcedure(StoredProcedures.DeleteRouteHeaderWithNoStops)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .Execute();
         }
 
         public IEnumerable<HolidayExceptions> HolidayExceptionGet()
@@ -192,14 +194,6 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.RoutesDeleteById)
                 .AddParameter("RoutesId", id, DbType.Int32)
-                .Execute();
-        }
-
-        public void DeleteRouteHeaderById(int id)
-        {
-            dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
-                .AddParameter("RouteheaderId", id, DbType.Int32)
-                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
     }

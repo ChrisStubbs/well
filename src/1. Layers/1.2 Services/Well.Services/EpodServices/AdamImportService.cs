@@ -49,7 +49,7 @@
                         deadlockRetryHelper.Retry(() =>
                             this.ImportRouteHeader(header, route.RouteId)
                         );
-                        this.DeleteRoutesWithNoStops();
+                        routeHeaderRepository.DeleteRouteHeaderWithNoStops();
                         transactionScope.Complete();
                     }
                 }
@@ -62,15 +62,6 @@
                         msg,
                         EventId.ImportException);
                 }
-            }
-        }
-
-        private void DeleteRoutesWithNoStops()
-        {
-            var idsToDelete = routeHeaderRepository.GetRouteHeaderIdsWithNoStops();
-            foreach (var id in idsToDelete)
-            {
-                routeHeaderRepository.DeleteRouteHeaderById(id);
             }
         }
 

@@ -67,7 +67,7 @@
                         break;
                 }
             }
-       
+
         }
 
         private void Insert(StopUpdate stop)
@@ -92,8 +92,14 @@
 
         private void Update(StopUpdate stop)
         {
-            var job = stop.Jobs.First();
+            var job = stop.Jobs.FirstOrDefault();
 
+            if (job == null)
+            {
+                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stop.TransportOrderRef})");
+                return;
+            }
+            
             var branch = (int)Enum.Parse(typeof(Branches), stop.StartDepotCode, true);
 
             var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
@@ -202,12 +208,12 @@
 
         private void UpdateJobDetails(IEnumerable<JobDetailUpdate> jobDetails, int jobId)
         {
-            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p=> p.LineNumber);
+            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p => p.LineNumber);
 
             foreach (var detail in jobDetails)
             {
                 var existingJobDetail = existingJobDetails[detail.LineNumber].FirstOrDefault();
-                
+
                 if (existingJobDetail != null)
                 {
                     this.mapper.Map(detail, existingJobDetail);
@@ -259,7 +265,7 @@
                 this.InsertJobs(stopInsert.Jobs, stop.Id, out insertedJobIds);
                 // updates Location/Activity/LineItem/Bag tables from imported data
                 this.postImportRepository.PostImportUpdate(insertedJobIds);
-                
+
                 transactionScope.Complete();
             }
         }

@@ -1,6 +1,4 @@
-﻿using PH.Shared.Well.Data.EF;
-
-namespace PH.Well.UnitTests.Infrastructure
+﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System;
     using System.Collections.Generic;
@@ -8,14 +6,11 @@ namespace PH.Well.UnitTests.Infrastructure
 
     using Moq;
 
-    using Newtonsoft.Json;
 
     using NUnit.Framework;
 
-    using PH.Well.Common.Contracts;
+    using Well.Common.Contracts;
     using PH.Well.Domain;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
 
@@ -38,7 +33,7 @@ namespace PH.Well.UnitTests.Infrastructure
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
 
-            this.repository = new ExceptionEventRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object,new Mock<WellEntities>().Object);
+            this.repository = new ExceptionEventRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
         }
 
         public class TheMarkEventAsProcessedMethod : ExceptionEventRepositoryTests

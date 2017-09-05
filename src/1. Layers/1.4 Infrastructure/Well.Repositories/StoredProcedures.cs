@@ -102,6 +102,8 @@ namespace PH.Well.Repositories
         public const string EventSetProcessed = "EventSetProcessed";
         public const string EventGetUnprocessed = "EventGetUnprocessed";
         public const string MarkEventAsProcessed = "MarkEventAsProcessed";
+        public const string ExceptionEventDelete = "ExceptionEventDelete";
+        public const string EventGetBySourceId = "ExceptionEvent_GetBySourceId";
         public const string SaveNotification = "Notification_Save";
         public const string GetNotifications = "Notifications_Get";
         public const string ArchiveNotification = "Notification_Archive";

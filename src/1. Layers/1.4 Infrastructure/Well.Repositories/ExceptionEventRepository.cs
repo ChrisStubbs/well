@@ -18,20 +18,15 @@ namespace PH.Well.Repositories
 
     public class ExceptionEventRepository : DapperRepository<ExceptionEvent, int>, IExceptionEventRepository
     {
-        private readonly WellEntities wellEntities;
-
-        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider, WellEntities wellEntities)
+        
+        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
-            this.wellEntities = wellEntities;
         }
 
         public void InsertCreditEventTransaction(CreditTransaction creditTransaction)
         {
-            var creditEventTransactionJson = JsonConvert.SerializeObject(creditTransaction);
-
-            this.PrepareStoredProcedure(creditEventTransactionJson, EventAction.Credit, DateTime.Now)
-            .Execute();
+            SerializeToJsonAndInsertEvent(creditTransaction, EventAction.Credit, DateTime.Now);
         }
 
         public void MarkEventAsProcessed(int eventId)
@@ -45,9 +40,9 @@ namespace PH.Well.Repositories
 
         public void Delete(int id)
         {
-            var exceptionEvent = wellEntities.ExceptionEvent.Single(x => x.Id == id);
-            wellEntities.ExceptionEvent.Remove(exceptionEvent);
-            wellEntities.SaveChanges();
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.ExceptionEventDelete)
+                .AddParameter("Id", id, DbType.Int32)
+                .Execute();
         }
 
         public IEnumerable<ExceptionEvent> GetAllUnprocessed()
@@ -62,32 +57,31 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
-        public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed,string jobId)
+        public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed, string jobId)
         {
-            InsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
+            SerializeToJsonAndInsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
         }
 
         public bool GrnEventCreatedForJob(string jobId)
         {
-           return ExceptionEventCreatedForSourceId(jobId, EventAction.Grn);
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.Grn);
         }
 
         public bool PodEventCreatedForJob(string jobId)
         {
-           return ExceptionEventCreatedForSourceId(jobId, EventAction.Pod);
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.Pod);
         }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
         {
-            InsertEvent(podTransaction,EventAction.PodTransaction, DateTime.Now);
+            SerializeToJsonAndInsertEvent(podTransaction, EventAction.PodTransaction, DateTime.Now);
         }
 
         public void InsertPodEvent(PodEvent podEvent, string jobId)
         {
-            InsertEvent(podEvent, EventAction.Pod, DateTime.Now.Date.AddDays(1), jobId);
+            SerializeToJsonAndInsertEvent(podEvent, EventAction.Pod, DateTime.Now.Date.AddDays(1), jobId);
         }
-        
-      
+
         public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)
         {
             var data = amendmentEvent
@@ -113,12 +107,12 @@ namespace PH.Well.Repositories
 
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
         {
-            InsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
+            SerializeToJsonAndInsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
         }
 
         public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string sourceId = null)
         {
-            InsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
+            SerializeToJsonAndInsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
         }
 
         public bool GlobalUpliftEventCreatedForJob(string jobId)
@@ -126,7 +120,7 @@ namespace PH.Well.Repositories
             return ExceptionEventCreatedForSourceId(jobId, EventAction.GlobalUplift);
         }
 
-        private void InsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,
+        private void SerializeToJsonAndInsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,
             string sourceId = null)
         {
             string eventDataJson = null;
@@ -135,60 +129,35 @@ namespace PH.Well.Repositories
                 eventDataJson = JsonConvert.SerializeObject(eventData);
             }
 
-            wellEntities.ExceptionEvent.Add(new Shared.Well.Data.EF.ExceptionEvent
-            {
-                Event = eventDataJson,
-                ExceptionActionId = (int) action,
-                DateCanBeProcessed = dateCanBeProcessed,
-                SourceId = sourceId
-            });
+            InsertEvent(eventDataJson, action, dateCanBeProcessed, sourceId);
 
-            wellEntities.SaveChanges();
         }
 
-        private IDapperProxy PrepareStoredProcedure(string stringEvent, EventAction action, DateTime dateCanBeProcessed)
+        private void InsertEvent(string stringEvent, EventAction action, DateTime dateCanBeProcessed, string sourceId)
         {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
                 .AddParameter("Event", stringEvent, DbType.String)
                 .AddParameter("ExceptionActionId", action, DbType.Int32)
                 .AddParameter("DateCanBeProcessed", dateCanBeProcessed, DbType.DateTime)
+                .AddParameter("SourceId", sourceId, DbType.String)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime);
+                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
         }
 
-        private ExceptionEvent GetExceptionEventBySourceId(string sourceId,EventAction eventAction)
+        private ExceptionEvent GetExceptionEventByActionAndSourceId(string sourceId, EventAction eventAction)
         {
-            ExceptionEvent result = null;
-            var exceptionEvent = wellEntities.ExceptionEvent.FirstOrDefault(
-                x => x.ExceptionActionId == (int)eventAction && x.SourceId == sourceId);
-
-            if (exceptionEvent != null)
-            {
-                result = new ExceptionEvent
-                {
-                    Id = exceptionEvent.Id,
-                    DateCanBeProcessed = exceptionEvent.DateCanBeProcessed,
-                    ExceptionActionId = exceptionEvent.ExceptionActionId,
-                    SourceId = exceptionEvent.SourceId,
-                    UpdatedBy = exceptionEvent.UpdatedBy,
-                    Event = exceptionEvent.Event,
-                    Version = exceptionEvent.Version,
-                    DateUpdated = exceptionEvent.DateUpdated,
-                    CreatedBy = exceptionEvent.CreatedBy,
-                    DateCreated = exceptionEvent.DateCreated,
-                    Processed = exceptionEvent.Processed
-                };
-            }
-
-            return result;
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetBySourceId)
+                   .AddParameter("ExceptionActionId", (int)eventAction, DbType.Int32)
+                   .AddParameter("SourceId", sourceId, DbType.String).Query<ExceptionEvent>()
+                   .FirstOrDefault();
         }
 
         private bool ExceptionEventCreatedForSourceId(string sourceId, EventAction eventAction)
         {
-            return wellEntities.ExceptionEvent.Any(
-                x => x.ExceptionActionId == (int)eventAction && x.SourceId == sourceId);
+            return GetExceptionEventByActionAndSourceId(sourceId, eventAction) != null;
         }
     }
 }

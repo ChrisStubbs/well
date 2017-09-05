@@ -15,12 +15,11 @@ namespace PH.Well.Repositories
         public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public const string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
         public const string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
-        public const string RouteHeaderDeleteById = "RouteHeader_DeleteById";
+        public const string DeleteRouteHeaderWithNoStops = "DeleteRouteHeaderWithNoStops";
         public const string RoutesGet = "Routes_Get";
         public const string RoutesDeleteById = "Routes_DeleteById";
         public const string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
         public const string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
-        public const string RouteHeaderIdsWithNoStops = "RouteHeaderIds_GetWithNoStops";
         public const string HolidayExceptionGet = "HolidayException_Get";
         public const string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";

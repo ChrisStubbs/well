@@ -4,14 +4,14 @@ namespace PH.Well.Api.DependencyResolution
 {
     using Mapper;
 
-    using PH.Well.Api.Mapper.Contracts;
-    using PH.Well.Common;
-    using PH.Well.Common.Contracts;
-    using PH.Well.Common.Security;
-    using PH.Well.Repositories;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services;
-    using PH.Well.Services.Contracts;
+    using Mapper.Contracts;
+    using Common;
+    using Common.Contracts;
+    using Common.Security;
+    using Repositories;
+    using Repositories.Contracts;
+    using Services;
+    using Services.Contracts;
     using Repositories.Read;
     using Services.DeliveryActions;
     using Services.EpodServices;
@@ -115,7 +115,6 @@ namespace PH.Well.Api.DependencyResolution
 
             // Location/activity/line item
             For<ILocationRepository>().Use<LocationRepository>();
-            For<IActivityReadRepository>().Use<ActivityReadRepository>();
             For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
             For<ILineItemActionReadRepository>().Use<LineItemActionReadRepository>();
             For<ILineItemExceptionMapper>().Use<LineItemExceptionMapper>();

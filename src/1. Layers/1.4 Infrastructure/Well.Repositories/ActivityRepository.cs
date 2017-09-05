@@ -14,6 +14,8 @@ namespace PH.Well.Repositories
     using Domain.ValueObjects;
     using System.Data.Entity;
     using JobStatus = Domain.Enums.JobStatus;
+    using System.Collections.Specialized;
+    using System.Collections.Generic;
 
     public class ActivityRepository : IActivityRepository
     {
@@ -66,7 +68,7 @@ namespace PH.Well.Repositories
                     x.LocationId
                 }).FirstOrDefault();
 
-            var jobTypes = new System.Collections.Specialized.HybridDictionary(10, false);
+            var jobTypes = new HybridDictionary(10, false);
             wellEntities.JobType
                 .Where(p => p.Id != (int)PH.Well.Domain.Enums.JobType.NotDefined)
                 .Select(p => new { p.Code, p.Description, p.Abbreviation})
@@ -74,9 +76,7 @@ namespace PH.Well.Repositories
                 .ForEach(p => jobTypes.Add(p.Code, $"{p.Description}({p.Abbreviation})"));
 
             // Grid details
-            var details = wellEntities.ActivityDetailsView
-                .Where(p => p.ActivityId == activityId)
-                .ToList();
+            var details = GetById(activityId);
 
             var users = wellEntities.Activity
                 .Where(x => x.Id == activitySource.ActivityId && x.DateDeleted == null)
@@ -139,6 +139,12 @@ namespace PH.Well.Repositories
             };
 
             return result;
+        }
+        private IList<ActivityDetailsView> GetById(int id)
+        {
+            return dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityDetails)
+                   .AddParameter("Id", id, DbType.Int32)
+                   .Query<ActivityDetailsView>().ToList();
         }
 
         // Helper methods below should be refactored use constants and be centralized.

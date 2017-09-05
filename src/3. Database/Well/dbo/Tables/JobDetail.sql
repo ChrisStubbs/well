@@ -49,18 +49,13 @@ GO
 CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])
 GO
 
-CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode])
-INCLUDE ([LineItemId])
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode]) INCLUDE ([LineItemId])
 GO
-CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode])
-INCLUDE ([Id])
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode]) INCLUDE ([Id])
 GO
 
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
 GO
 
-CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted
-ON [dbo].[JobDetail] ([DateDeleted])
-INCLUDE ([JobId],[LineItemId])
-WHERE [DateDeleted] IS NOT NULL
+CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted ON [dbo].[JobDetail] ([DateDeleted]) INCLUDE ([JobId],[LineNumber],[LineItemId]) WHERE [DateDeleted] IS NOT NULL
 GO

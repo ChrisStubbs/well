@@ -56,7 +56,20 @@
 
         public IList<User> Get()
         {
-            return this.userRepository.Get().ToList();
+            var data = this.userRepository.Get().ToList();
+            var result = new List<User>(data.Count());
+            var me = data.FirstOrDefault(p => p.IdentityName == this.User.Identity.Name);
+
+            if (me != null)
+            {
+                result.Add(me);
+            }
+
+            result.AddRange(data
+                    .Where(p => p.IdentityName != this.User.Identity.Name)
+                            .OrderBy(p => p.Name));
+
+            return result;
         }
 
         [Route("create-user-using-current-context")]

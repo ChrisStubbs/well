@@ -313,7 +313,7 @@
     <Build Include="dbo\StoredProcedures\ExceptionTypeGet.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_Insert.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByIds.sql" />
-    <Build Include="dbo\StoredProcedures\Activity_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\ActivityDetails.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByActivityId.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemId.sql" />
     <Build Include="dbo\StoredProcedures\Location_GetById.sql" />

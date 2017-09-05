@@ -186,7 +186,7 @@ namespace PH.Well.Repositories
 
         // Activities (Invoices/Uplifts etc)
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
-        public const string ActivityGetById = "Activity_GetById";
+        public const string ActivityDetails = "ActivityDetails";
         public const string ActivityGetSourceById = "Activity_GetSourceById";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";

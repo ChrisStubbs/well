@@ -343,7 +343,6 @@
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
     <Build Include="dbo\Tables\ResolutionStatus.sql" />
     <Build Include="dbo\Tables\JobResolutionStatus.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
@@ -451,8 +450,8 @@
     <None Include="ManualStep\scripts\up\025_AddWellStatusIdToJob.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Build Include="dbo\StoredProcedures\RouteHeaderIds_GetWithNoStops.sql" />
     <Build Include="dbo\Views\ActivityDetailsView.sql" />
+    <Build Include="dbo\StoredProcedures\DeleteRouteHeaderWithNoStops.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

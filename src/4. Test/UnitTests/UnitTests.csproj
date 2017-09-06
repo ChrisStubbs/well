@@ -213,6 +213,7 @@
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserStatsRepositoryTests.cs" />
+    <Compile Include="MSDTC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\AdamImportServiceTests.cs" />

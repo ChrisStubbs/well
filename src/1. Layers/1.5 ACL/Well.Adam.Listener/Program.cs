@@ -90,6 +90,11 @@
                     x.For<IActivityRepository>().Use<ActivityRepository>();
                     x.For<IDeadlockRetryConfig>().Use<Configuration>();
                     x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
+                    x.For<IEpodFileProvider>().Use<EpodFileProvider>();
+                    x.For<IEpodImportService>().Use<EpodImportService>();
+                    x.For<IEpodImportMapper>().Use<EpodImportMapper>();
+                    x.For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
+                    x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                 });
         }
     }

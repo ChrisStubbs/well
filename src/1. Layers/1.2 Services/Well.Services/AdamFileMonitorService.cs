@@ -26,9 +26,10 @@
         private readonly IAdamImportService adamImportService;
         private readonly IAdamUpdateService adamUpdateService;
         private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IEpodFileProvider epodProvider;
 
         private string RootFolder { get; set; }
-        readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER|EPOD)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public AdamFileMonitorService(
             ILogger logger,
@@ -38,7 +39,8 @@
             IFileModule fileModule,
             IAdamImportService adamImportService,
             IAdamUpdateService adamUpdateService,
-            IRouteHeaderRepository routeHeaderRepository)
+            IRouteHeaderRepository routeHeaderRepository,
+            IEpodFileProvider epodProvider)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -48,6 +50,7 @@
             this.adamImportService = adamImportService;
             this.adamUpdateService = adamUpdateService;
             this.routeHeaderRepository = routeHeaderRepository;
+            this.epodProvider = epodProvider;
         }
 
         public void Monitor(string rootFolder)
@@ -73,7 +76,9 @@
 
         public string GetDateTimeStampFromFileName(string fileName)
         {
-            var dateTimeStamp = fileName.Substring(10, 11);
+            var fileType = this.fileTypeService.DetermineFileType(fileName);
+            var dateTimeStamp = fileType == EpodFileType.EpodUpdate ? fileName.Substring(8, 13) : fileName.Substring(10, 11) + "00";
+
             return dateTimeStamp;
         }
 
@@ -95,10 +100,8 @@
                     this.AdamUpdate(filePath, filename);
                     break;
 
-                case EpodFileType.Unknown:
-                    this.logger.LogDebug($"File ({filePath}) is not recognised!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"File ({filePath}) is not recognised!", 5049);
-                    adicionalDataPath = "UnknownFiles";
+                case EpodFileType.EpodUpdate:
+                    this.EpodUpdate(filePath, filename);
                     break;
             }
 
@@ -150,6 +153,19 @@
                 this.LogError(exception, filePath);
             }
         }
+
+        private void EpodUpdate(string filePath, string filename)
+        {
+            try
+            {
+                this.epodProvider.Import(filePath, filename);
+            }
+            catch (Exception exception)
+            {
+                this.LogError(exception, filePath);
+            }
+        }
+
 
         private void LogError(Exception exception, string filePath)
         {

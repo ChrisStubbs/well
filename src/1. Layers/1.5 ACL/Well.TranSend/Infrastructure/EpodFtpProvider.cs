@@ -71,7 +71,10 @@
 
             foreach (var listing in listings.OrderBy(x => x.Datetime))
             {
-                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
+                var guid = Guid.NewGuid();
+                var tempFilename = GetTemporaryFilename(listing.Filename, guid);
+                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
+                    Path.Combine(Configuration.DownloadFilePath, tempFilename));
 
                 if (string.IsNullOrWhiteSpace(downloadedFile))
                 {
@@ -81,37 +84,25 @@
                     continue;
                 }
 
-                var filename = Path.GetFileName(downloadedFile);
-
-                var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
-
-                this.logger.LogDebug($"Processing {filename}...");
-
-                try
+                
+                var newFileName = downloadedFile.Replace(guid.ToString(), string.Empty);
+                if (!File.Exists(newFileName))
                 {
-                    using (var streamReader = new StreamReader(downloadedFile))
-                    {
-                        var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
+                    File.Move(downloadedFile, newFileName);
 
-                        var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
-
-                        routes.RouteId = route.Id;
-
-                        epodImportService.Import(routes,filename);
-                        
-                    }
-
-                    this.ftpClient.DeleteFile(filename);
-                    this.fileModule.MoveFile(downloadedFile,
-                        Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd")));
-
-                    logger.LogDebug($"File {listing.Filename} imported!");
                 }
-                catch (Exception exception)
+                if (Configuration.DeleteFtpFileAfterImport)
                 {
-                    this.logger.LogError($"Epod update error in XML file {filename}", exception);
+                    this.ftpClient.DeleteFile(Path.GetFileName(newFileName));
                 }
+                
+
             }
+        }
+
+        private string GetTemporaryFilename(string filename, Guid guid)
+        {
+            return $"{guid}{filename}";
         }
     }
 }

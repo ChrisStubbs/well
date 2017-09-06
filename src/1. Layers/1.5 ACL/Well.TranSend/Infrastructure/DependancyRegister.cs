@@ -72,11 +72,7 @@
                     x.For<IActivityRepository>().Use<ActivityRepository>();
                     x.For<IDeadlockRetryConfig>().Use<Configuration>();
                     x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
-#if DEBUG
-                    x.For<IEpodProvider>().Use<EpodFileProvider>();
-#else
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
-#endif
                 });
                 
                 

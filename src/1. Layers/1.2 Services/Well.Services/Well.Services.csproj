@@ -61,6 +61,7 @@
     <Compile Include="AppSearchService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkEditService.cs" />
+    <Compile Include="Contracts\IEpodFileProvider.cs" />
     <Compile Include="Contracts\ILocationService.cs" />
     <Compile Include="Contracts\IEpodFileImportCommands.cs" />
     <Compile Include="Contracts\IImportCommands.cs" />
@@ -104,7 +105,9 @@
     <Compile Include="Contracts\IStopStatusService.cs" />
     <Compile Include="Contracts\ILineItemActionService.cs" />
     <Compile Include="Contracts\ISubmitActionService.cs" />
+    <Compile Include="EpodServices\Configuration.cs" />
     <Compile Include="EpodServices\EpodFileImportCommands.cs" />
+    <Compile Include="EpodServices\EpodFileProvider.cs" />
     <Compile Include="EpodServices\EpodImportMapper.cs" />
     <Compile Include="EpodServices\EpodImportService.cs" />
     <Compile Include="Contracts\IImportMapper.cs" />

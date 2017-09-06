@@ -313,7 +313,7 @@
     <Build Include="dbo\StoredProcedures\ExceptionTypeGet.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_Insert.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByIds.sql" />
-    <Build Include="dbo\StoredProcedures\Activity_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\ActivityDetails.sql" />
     <Build Include="dbo\StoredProcedures\LineItem_GetByActivityId.sql" />
     <Build Include="dbo\StoredProcedures\LineItemAction_GetByLineItemId.sql" />
     <Build Include="dbo\StoredProcedures\Location_GetById.sql" />
@@ -343,7 +343,6 @@
     <Build Include="dbo\StoredProcedures\Job_DeleteById.sql" />
     <Build Include="dbo\Tables\ResolutionStatus.sql" />
     <Build Include="dbo\Tables\JobResolutionStatus.sql" />
-    <Build Include="dbo\StoredProcedures\RouteHeader_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Routes_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Stop_DeleteById.sql" />
     <Build Include="dbo\StoredProcedures\Account_DeleteByStopId.sql" />
@@ -451,8 +450,10 @@
     <None Include="ManualStep\scripts\up\025_AddWellStatusIdToJob.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Build Include="dbo\StoredProcedures\RouteHeaderIds_GetWithNoStops.sql" />
     <Build Include="dbo\Views\ActivityDetailsView.sql" />
+    <Build Include="dbo\StoredProcedures\DeleteRouteHeaderWithNoStops.sql" />
+    <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
+    <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

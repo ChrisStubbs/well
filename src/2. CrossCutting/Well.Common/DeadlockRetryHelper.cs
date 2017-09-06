@@ -17,9 +17,14 @@
             this.config = config;
         }
 
+        private bool CanAdvance(int currentRetry)
+        {
+            return currentRetry <= config.MaxNoOfDeadlockRetires;
+        }
+
         public void Retry(Action repositoryMethod)
         {
-           
+
             if (config.MaxNoOfDeadlockRetires == 0)
             {
                 repositoryMethod();
@@ -27,7 +32,7 @@
             }
 
             var retryCount = 0;
-            while (retryCount <= config.MaxNoOfDeadlockRetires)
+            while (CanAdvance(retryCount))
             {
                 try
                 {
@@ -36,11 +41,10 @@
                 }
                 catch (SqlException ex)
                 {
-                    
-                    if (ex.Number == SqlDeadlockErrorNumber) // Deadlock 
-                    {
-                        retryCount++;
+                    retryCount++;
 
+                    if (ex.Number == SqlDeadlockErrorNumber && CanAdvance(retryCount)) // Deadlock 
+                    {
                         logger.LogDebug($"*********DEADLOCK OCCURRED WILL RETRY in {config.DeadlockRetryDelayMilliseconds} MilliSeconds *************");
                         logger.LogError("Deadlock Error", ex);
                         logger.LogDebug($"Deadlock exception retry: {retryCount}");
@@ -53,6 +57,4 @@
 
         }
     }
-
-
 }

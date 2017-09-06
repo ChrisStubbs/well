@@ -214,20 +214,15 @@ namespace PH.Well.UnitTests.Infrastructure
                 [Test]
                 public void ShouldCallTheStoredProcedureCorrectly()
                 {
-                    const int id = 1;
-
-                    dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById))
-                        .Returns(this.dapperProxy.Object);
-                    dapperProxy.Setup(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null))
+                    dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.DeleteRouteHeaderWithNoStops))
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.AddParameter("UpdatedBy", UserName, DbType.String, null))
                         .Returns(this.dapperProxy.Object);
                     dapperProxy.Setup(x => x.Execute());
 
-                    this.repository.DeleteRouteHeaderById(id);
+                    this.repository.DeleteRouteHeaderWithNoStops();
 
-                    dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById), Times.Once);
-                    dapperProxy.Verify(x => x.AddParameter("RouteheaderId", id, DbType.Int32, null), Times.Once);
+                    dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.DeleteRouteHeaderWithNoStops), Times.Once);
                     dapperProxy.Verify(x => x.AddParameter("UpdatedBy", UserName, DbType.String, null), Times.Once);
                     dapperProxy.Verify(x => x.Execute());
                 }

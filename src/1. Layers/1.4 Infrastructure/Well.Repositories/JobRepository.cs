@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using PH.Well.Domain.Extensions;
 using PH.Shared.Well.Data.EF;
 
@@ -13,7 +12,6 @@ namespace PH.Well.Repositories
     using Common.Extensions;
     using Contracts;
     using Domain;
-    using Domain.Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
 

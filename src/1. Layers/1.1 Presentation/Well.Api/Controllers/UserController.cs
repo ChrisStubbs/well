@@ -14,6 +14,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
     using Validators;
+    using System.Collections.Generic;
 
     public class UserController : BaseApiController
     {
@@ -50,9 +51,25 @@
         [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
-            var users = this.userRepository.GetByBranchId(branchId);
+            return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
+        }
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, users);
+        public IList<User> Get()
+        {
+            var data = this.userRepository.Get().ToList();
+            var result = new List<User>(data.Count());
+            var me = data.FirstOrDefault(p => p.IdentityName == this.User.Identity.Name);
+
+            if (me != null)
+            {
+                result.Add(me);
+            }
+
+            result.AddRange(data
+                    .Where(p => p.IdentityName != this.User.Identity.Name)
+                            .OrderBy(p => p.Name));
+
+            return result;
         }
 
         [Route("create-user-using-current-context")]
@@ -97,13 +114,13 @@
         public HttpResponseMessage Users(string name)
         {
             var users =
-                this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
+                this.activeDirectoryService.FindUsers(name.Trim(), Api.Configuration.DomainsToSearch).ToList();
 
             if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
-
+        
 
         [Route("user/{name}")]
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]

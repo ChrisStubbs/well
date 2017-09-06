@@ -22,6 +22,7 @@
         private Mock<IAdamFileImportCommands> importCommands;
         private Mock<IDeadlockRetryConfig> deadlockRetryConfig;
         private IDeadlockRetryHelper deadlockRetryHelper;
+        private Mock<IDbConfiguration> dbConfiguration;
 
         private Mock<AdamImportService> mockRouteImportService;
 
@@ -35,18 +36,20 @@
             importMapper = new Mock<IAdamImportMapper>();
             importCommands = new Mock<IAdamFileImportCommands>();
             deadlockRetryConfig = new Mock<IDeadlockRetryConfig>();
-            deadlockRetryHelper = new DeadlockRetryHelper(logger.Object,deadlockRetryConfig.Object);
+            dbConfiguration = new Mock<IDbConfiguration>();
 
+            deadlockRetryHelper = new DeadlockRetryHelper(logger.Object, deadlockRetryConfig.Object);
 
-             mockRouteImportService = new Mock<AdamImportService>(
-                logger.Object,
-                eventLogger.Object,
-                routeHeaderRepository.Object,
-                importService.Object,
-                importMapper.Object,
-                importCommands.Object,
-                deadlockRetryHelper
-            );
+            mockRouteImportService = new Mock<AdamImportService>(
+               logger.Object,
+               eventLogger.Object,
+               routeHeaderRepository.Object,
+               importService.Object,
+               importMapper.Object,
+               importCommands.Object,
+               deadlockRetryHelper,
+               dbConfiguration.Object
+           );
         }
 
         public class ImportRouteHeader : RouteImportServiceTests

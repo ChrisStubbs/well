@@ -1,12 +1,28 @@
 ﻿CREATE VIEW ActivityDetailsView
 AS 
-    WITH Actions(LineItemId, ExceptionTypeId, Quantity)
+    WITH Actions(LineItemId, BypassTotal, DamageTotal, ShortTotal)
     AS
     (
-        SELECT LineItemId, ExceptionTypeId, SUM(Quantity) AS Quantity
-        FROM LineItemAction l
-        WHERE DateDeleted IS NULL
-        GROUP BY LineItemId, l.ExceptionTypeId
+        SELECT 
+            LineItemId, 
+            SUM(CASE 
+                WHEN ExceptionTypeId = 2 THEN Quantity --ExceptionType.Bypass
+                ELSE 0
+            END) AS BypassTotal,
+            SUM(CASE 
+                WHEN ExceptionTypeId = 3 THEN Quantity --ExceptionType.Damage
+                ELSE 0
+            END) AS DamageTotal,
+            SUM(CASE 
+                WHEN ExceptionTypeId = 1 THEN Quantity --ExceptionType.Short
+                ELSE 0
+            END) AS ShortTotal
+        FROM 
+            LineItemAction l
+        WHERE 
+            DateDeleted IS NULL
+        GROUP BY 
+            LineItemId
     )
     SELECT 
         a.Id AS ActivityId,
@@ -26,18 +42,9 @@ AS
         j.ResolutionStatusId AS ResolutionStatus,
         jd.OriginalDespatchQty,
         j.JobStatusId,
-        CASE 
-            WHEN ac.ExceptionTypeId = 2 THEN ac.Quantity --ExceptionType.Bypass
-            ELSE null
-        END AS BypassTotal,
-        CASE 
-            WHEN ac.ExceptionTypeId = 3 THEN ac.Quantity --ExceptionType.Damage
-            ELSE null
-        END AS DamageTotal,
-        CASE 
-            WHEN ac.ExceptionTypeId = 1 THEN ac.Quantity --ExceptionType.Short
-            ELSE null
-        END AS ShortTotal
+        ac.BypassTotal,
+        ac.DamageTotal,
+        ac.ShortTotal
     FROM 
         Activity a
         INNER JOIN Job j

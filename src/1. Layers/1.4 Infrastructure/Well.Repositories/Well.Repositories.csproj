@@ -97,7 +97,6 @@
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CommentReasonRepository.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Contracts\IActivityReadRepository.cs" />
     <Compile Include="Contracts\IActivityRepository.cs" />
     <Compile Include="Contracts\IAmendmentFactory.cs" />
     <Compile Include="Contracts\IAmendmentRepository.cs" />
@@ -149,7 +148,6 @@
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
     <Compile Include="PostImportRepository.cs" />
-    <Compile Include="Read\ActivityReadRepository.cs" />
     <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />

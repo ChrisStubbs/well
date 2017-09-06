@@ -62,7 +62,7 @@ export class AssignModal implements IObservableAlive
     }
 
     public show() {
-        this.userService.getUsersForBranch(this.model.branch.id)
+        this.userService.getUsers()
             .takeWhile(() => this.isAlive)
             .subscribe(users => {
                 this.allUsers = users;

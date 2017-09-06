@@ -15,12 +15,11 @@ namespace PH.Well.Repositories
         public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public const string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
         public const string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
-        public const string RouteHeaderDeleteById = "RouteHeader_DeleteById";
+        public const string DeleteRouteHeaderWithNoStops = "DeleteRouteHeaderWithNoStops";
         public const string RoutesGet = "Routes_Get";
         public const string RoutesDeleteById = "Routes_DeleteById";
         public const string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
         public const string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
-        public const string RouteHeaderIdsWithNoStops = "RouteHeaderIds_GetWithNoStops";
         public const string HolidayExceptionGet = "HolidayException_Get";
         public const string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
@@ -103,6 +102,8 @@ namespace PH.Well.Repositories
         public const string EventSetProcessed = "EventSetProcessed";
         public const string EventGetUnprocessed = "EventGetUnprocessed";
         public const string MarkEventAsProcessed = "MarkEventAsProcessed";
+        public const string ExceptionEventDelete = "ExceptionEventDelete";
+        public const string EventGetBySourceId = "ExceptionEvent_GetBySourceId";
         public const string SaveNotification = "Notification_Save";
         public const string GetNotifications = "Notifications_Get";
         public const string ArchiveNotification = "Notification_Archive";
@@ -186,7 +187,7 @@ namespace PH.Well.Repositories
 
         // Activities (Invoices/Uplifts etc)
         public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
-        public const string ActivityGetById = "Activity_GetById";
+        public const string ActivityDetails = "ActivityDetails";
         public const string ActivityGetSourceById = "Activity_GetSourceById";
 
         public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";

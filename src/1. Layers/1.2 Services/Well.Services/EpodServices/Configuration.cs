@@ -1,4 +1,4 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.Services.EpodServices
 {
     using System.Configuration;
     using Common.Contracts;
@@ -27,8 +27,5 @@
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
 
         public int DeadlockRetryDelayMilliseconds => int.Parse(ConfigurationManager.AppSettings["deadlockRetryDelayMilliseconds"]);
-
-        public static bool DeleteFtpFileAfterImport => bool.Parse(ConfigurationManager.AppSettings["deleteFtpFileAfterImport"]);
-
     }
 }

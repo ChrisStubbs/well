@@ -42,6 +42,7 @@
         private AdamFileMonitorService adamFileMonitorService;
         private IUserNameProvider userNameProvider;
         private ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
+        private IEpodFileProvider epodProvider;
 
         public AdamImportSteps()
         {
@@ -63,9 +64,10 @@
             this.routeHeaderRepository = this.container.GetInstance<IRouteHeaderRepository>();
             this.userNameProvider = this.container.GetInstance<IUserNameProvider>();
             this.customerRoyaltyExceptionRepository = this.container.GetInstance<ICustomerRoyaltyExceptionRepository>();
+            this.epodProvider = this.container.GetInstance<IEpodFileProvider>();
 
             this.logger.LogDebug("Calling file monitor service");
-            adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository);
+            adamFileMonitorService = new AdamFileMonitorService(logger, this.eventLogger, fileService, this.fileTypeService, this.fileModule, this.adamImportService, this.adamUpdateService, this.routeHeaderRepository, this.epodProvider);
         }
 
         [Given(@"I have loaded the Adam route data")]

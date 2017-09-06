@@ -29,13 +29,13 @@ namespace PH.Well.Repositories.Read
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
             var branch = wellEntities.UserBranch
-                .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
-                .Select(x => new
-                {
-                    x.Branch.Id,
-                    x.Branch.Name
-                })
-                .FirstOrDefault();
+                    .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
+                    .Select(x => new
+                    {
+                        x.Branch.Id,
+                        x.Branch.Name
+                    })
+                    .FirstOrDefault();
 
             if (branch != null)
             {

@@ -12,10 +12,9 @@ namespace PH.Well.Repositories
     using Contracts;
     using Dapper;
     using Domain.ValueObjects;
-    using System.Data.Entity;
-    using JobStatus = Domain.Enums.JobStatus;
     using System.Collections.Specialized;
     using System.Collections.Generic;
+    using PH.Well.Domain.Extensions;
 
     public class ActivityRepository : IActivityRepository
     {
@@ -76,7 +75,13 @@ namespace PH.Well.Repositories
                 .ForEach(p => jobTypes.Add(p.Code, $"{p.Description}({p.Abbreviation})"));
 
             // Grid details
-            var details = GetById(activityId);
+            var details = GetById(activityId)
+                .Select(p =>
+                {
+                    p.HasUnresolvedActions = p.HasUnresolvedActions();
+                    return p;
+                })
+                .ToList();
 
             var users = wellEntities.Activity
                 .Where(x => x.Id == activitySource.ActivityId && x.DateDeleted == null)
@@ -85,7 +90,6 @@ namespace PH.Well.Repositories
                     Users = x.Job
                         .Where(p => p.DateDeleted == null)
                         .SelectMany(y => y.UserJob.Select(u => u.User.Name))
-
                 })
                 .SelectMany(p => p.Users)
                 .Distinct();
@@ -109,42 +113,15 @@ namespace PH.Well.Repositories
                 LocationId = (int)activitySource.LocationId,
                 Assignees = users.ToList(),
                 Details = details
-                    .Select(x => new ActivitySourceDetail
-                    {
-                        ActivityId = activityId,
-                        Product = x.Product,
-                        Type = (string)jobTypes[x.JobType],
-                        BarCode = x.Barcode,
-                        Description = x.Description,
-                        Value = (decimal) x.Value.GetValueOrDefault(),
-                        Expected = x.Expected.GetValueOrDefault(),
-                        Damaged = x.DamageTotal.GetValueOrDefault(),
-                        Bypass = x.BypassTotal.GetValueOrDefault(),
-                        Shorts = x.ShortTotal.GetValueOrDefault(),
-                        HighValue = x.IsHighValue,
-                        StopId = x.StopId,
-                        Stop = x.DropId,
-                        StopDate = x.DeliveryDate.GetValueOrDefault(),
-                        JobId = x.JobId,
-                        ResolutionStatus = x.ResolutionStatus,
-                        LineItemId = x.LineItemId ?? -1,
-                        HasUnresolvedActions = HasUnresolvedActions(
-                            x.LineDeliveryStatus,
-                            x.ShortTotal,
-                            x.DamageTotal,
-                            x.Expected,
-                            x.ResolutionStatus),
-                        CompletedOnPaper = x.JobStatusId == (byte)PH.Well.Domain.Enums.JobStatus.CompletedOnPaper,
-                    }).ToList()
             };
 
             return result;
         }
-        private IList<ActivityDetailsView> GetById(int id)
+        private IList<ActivitySourceDetail> GetById(int id)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.ActivityDetails)
                    .AddParameter("Id", id, DbType.Int32)
-                   .Query<ActivityDetailsView>().ToList();
+                   .Query<ActivitySourceDetail>().ToList();
         }
 
         // Helper methods below should be refactored use constants and be centralized.

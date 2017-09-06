@@ -24,7 +24,8 @@
         private readonly IJobRepository jobRepository;
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService,
+        public UserController(IBranchService branchService, 
+            IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
             IUserNameProvider userNameProvider,
             IJobRepository jobRepository)
@@ -53,12 +54,12 @@
         {
             return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
         }
-
+        
         public IList<User> Get()
         {
             var data = this.userRepository.Get().ToList();
             var result = new List<User>(data.Count());
-            var me = data.FirstOrDefault(p => p.IdentityName == this.User.Identity.Name);
+            var me = data.FirstOrDefault(p => p.IdentityName == this.UserNameProvider.GetUserName());
 
             if (me != null)
             {
@@ -66,8 +67,8 @@
             }
 
             result.AddRange(data
-                    .Where(p => p.IdentityName != this.User.Identity.Name)
-                            .OrderBy(p => p.Name));
+                .Where(p => p.IdentityName != this.UserNameProvider.GetUserName())
+                .OrderBy(p => p.Name));
 
             return result;
         }

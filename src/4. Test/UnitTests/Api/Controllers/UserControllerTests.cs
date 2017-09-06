@@ -86,6 +86,43 @@ namespace PH.Well.UnitTests.Api.Controllers
             }
         }
 
+        public class TheGetMethod : UserControllerTests
+        {
+            [Test]
+            public void ShouldOrderByUsersAndReturnCurrentUserFirst()
+            {
+                var me = new User
+                {
+                    Name = "Z",
+                    IdentityName = "Z"
+                };
+                var users = new List<User>
+                {
+                    UserFactory.New
+                        .With(p => p.Name = "A")
+                        .With(p => p.IdentityName = "A")
+                        .Build(),
+                    UserFactory.New
+                        .With(p => p.Name = "B")
+                        .With(p => p.IdentityName = "B")
+                        .Build(),
+                    me
+                };
+
+                var expectResult = new List<User>();
+                expectResult.Add(users[2]);
+                expectResult.Add(users[0]);
+                expectResult.Add(users[1]);
+
+                this.userNameProvider.Setup(x => x.GetUserName()).Returns(me.Name);
+                this.userRepository.Setup(p => p.Get(null, null, null, null, null)).Returns(users);
+
+                var response = this.Controller.Get();
+
+                Assert.That(response, Is.EqualTo(expectResult));
+            }
+        }
+
         public class TheAssignMethod : UserControllerTests
         {
             [Test]

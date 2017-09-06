@@ -123,7 +123,7 @@
                         GrnNumber =  job.GrnNumber,
                         PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id],
                         LocationId = stop.LocationId,
-                        HasUnresolvedActions = job.HasLineItemsWithUnresolvedAction(),
+                        HasUnresolvedActions = job.HasUnresolvedActions(),
                     };
 
                     singleRoute.Items.Add(item);

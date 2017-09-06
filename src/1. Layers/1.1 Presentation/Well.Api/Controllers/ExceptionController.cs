@@ -39,8 +39,7 @@
         public IList<EditLineItemException> PerLineItem([FromUri]int[] id)
         {
             var lineItems = this.lineItemSearchReadRepository.GetLineItemByIds(id);
-            var result = this.lineItemExceptionMapper.Map(lineItems).ToList();
-            return result;
+            return this.lineItemExceptionMapper.Map(lineItems).ToList();
         }
 
         public EditLineItemException Patch(EditLineItemException update)

@@ -106,7 +106,4 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             return "GlobalUplifts";
         }
     }
-
-   
-
 }

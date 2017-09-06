@@ -93,7 +93,7 @@ namespace PH.Well.Api.Mapper
                                 Resolution = p.ResolutionStatus.Description,
                                 ResolutionId = p.ResolutionStatus.Value,
                                 GrnProcessType = p.GrnProcessType ?? 0,
-                                HasUnresolvedActions = p.HasLineItemsWithUnresolvedAction(line.LineItemId),
+                                HasUnresolvedActions = p.HasUnresolvedActions(line.LineItemId),
                                 GrnNumber = p.GrnNumber,
                                 CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
                                 LocationId = p.LocationId,

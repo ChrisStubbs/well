@@ -128,10 +128,6 @@ namespace PH.Well.Repositories.Read
                         x.PendingSubmission,
                         RouteId = x.Route.Id,
                         BranchId = x.Route.RouteOwnerId,
-                        //Assignees = x.Route.Stop.SelectMany(y => y.Job
-                        //        .Where(p => p.DateDeleted == null)
-                        //        .SelectMany(z => z.UserJob.Select(a => a.User.Name)))
-                        //    .Distinct(),
                         BranchName = branch.Name,
                         RouteNumber = x.Route.RouteNumber,
                         RouteDate = x.Route.RouteDate,
@@ -198,7 +194,8 @@ namespace PH.Well.Repositories.Read
                         (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
                         (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
                         (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
-                    JobIds = item.JobIds.ToList()
+                    JobIds = item.JobIds.ToList(),
+                    DriverName = item.DriverName
                 })
                 .ToList();
             }
@@ -224,18 +221,7 @@ namespace PH.Well.Repositories.Read
                     return (int)WellStatus.Planned;
             }
         }
-
-        //public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
-        //{
-        //    var routes = new List<Route>();
-        //    dapperReadProxy.WithStoredProcedure(StoredProcedures.RoutesGetAllForBranch)
-        //            .AddParameter("BranchId", branchId, DbType.Int32)
-        //            .AddParameter("username", username, DbType.String)
-        //            .QueryMultiple(x => routes = GetReadRoutesFromGrid(x));
-
-        //    return routes;
-        //}
-
+        
         public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
         {
             var readRoutes = grid.Read<Route>().ToList();

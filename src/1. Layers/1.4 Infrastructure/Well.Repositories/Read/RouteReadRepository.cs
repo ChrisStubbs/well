@@ -128,10 +128,6 @@ namespace PH.Well.Repositories.Read
                         x.PendingSubmission,
                         RouteId = x.Route.Id,
                         BranchId = x.Route.RouteOwnerId,
-                        //Assignees = x.Route.Stop.SelectMany(y => y.Job
-                        //        .Where(p => p.DateDeleted == null)
-                        //        .SelectMany(z => z.UserJob.Select(a => a.User.Name)))
-                        //    .Distinct(),
                         BranchName = branch.Name,
                         RouteNumber = x.Route.RouteNumber,
                         RouteDate = x.Route.RouteDate,

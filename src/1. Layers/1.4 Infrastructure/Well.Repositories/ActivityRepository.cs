@@ -79,6 +79,8 @@ namespace PH.Well.Repositories
                 .Select(p =>
                 {
                     p.HasUnresolvedActions = p.HasUnresolvedActions();
+                    p.Type = (string)jobTypes[p.JobType];
+                    p.CompletedOnPaper = p.JobStatusId == (int)Domain.Enums.JobStatus.CompletedOnPaper;
                     return p;
                 })
                 .ToList();

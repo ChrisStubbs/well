@@ -76,6 +76,6 @@
         public int ResolutionId => ResolutionStatus.Value;
         public bool HasUnresolvedActions { get; set; }
         public bool CompletedOnPaper { get; set; }
-
+        public bool HasNoDefinedActions { get; set; }
     }
 }

@@ -157,6 +157,7 @@
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
     <Compile Include="Common\DeadlockRetryHelperTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
+    <Compile Include="Common\JobExtensionsTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\AssigneeTests.cs" />

@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Enums;
+    using ValueObjects;
 
     public static class JobExtensions
     {
@@ -29,7 +30,7 @@
 
         }
 
-        public static bool HasLineItemsWithUnresolvedAction(this Job job, int? lineItemId = null)
+        public static bool HasUnresolvedActions(this Job job, int? lineItemId = null)
         {
             var data = job.LineItems.AsQueryable();
 
@@ -38,9 +39,26 @@
                 data = data.Where(x => x.Id == lineItemId);
             }
 
-            return data
-                .SelectMany(p => p.LineItemActions)
-                .Any(p => p.DeliveryAction == DeliveryAction.NotDefined);
+            return CalculateHasUnresolvedActions(
+                job.ResolutionStatus,
+                data
+                    .SelectMany(p => p.LineItemActions)
+                    .Any(p => p.DeliveryAction == DeliveryAction.NotDefined));
+        }
+
+        private static bool CalculateHasUnresolvedActions(ResolutionStatus rs, bool hasNotDefinedActionsCount)
+        {
+            if ((rs & ResolutionStatus.Closed) == ResolutionStatus.Closed)
+            {
+                return false;
+            }
+
+            return hasNotDefinedActionsCount;
+        }
+
+        public static bool HasUnresolvedActions(this ActivitySourceDetail value)
+        {
+            return CalculateHasUnresolvedActions(value.ResolutionStatus, value.HasNoDefinedActions);
         }
 
         public static WellStatus ToWellStatus(this JobStatus jobStatus)

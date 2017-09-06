@@ -119,7 +119,6 @@
                 Assert.That(singleRoute.Items[1].PrimaryAccountNumber, Is.EqualTo(primaryAccounts[singleRoute.Items[1].JobId]));
             }
 
-
             private static List<JobDetail> GetTwoCleanAndOneExceptionJobDetail()
             {
                 var clean1 = new JobDetailFactory().With(x => x.ShortQty = 0).Build();

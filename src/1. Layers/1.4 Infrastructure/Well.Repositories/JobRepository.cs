@@ -171,7 +171,7 @@ namespace PH.Well.Repositories
                 .AddParameter("Sequence", entity.Sequence, DbType.Int32)
                 .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
                 .AddParameter("PhAccount", entity.PhAccount, DbType.String)
-                .AddParameter("GrnNumber", entity.GrnNumberUpdate, DbType.String)
+                .AddParameter("GrnNumber", entity.GrnNumber, DbType.String)
                 .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)

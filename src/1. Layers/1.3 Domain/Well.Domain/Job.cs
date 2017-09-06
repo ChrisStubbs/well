@@ -99,8 +99,6 @@ namespace PH.Well.Domain
 
         public string ActionLogNumber { get; set; }
 
-        public string GrnNumberUpdate { get; set; }
-
         public string GrnNumber { get; set; }
 
         public bool IsGrnNumberRequired

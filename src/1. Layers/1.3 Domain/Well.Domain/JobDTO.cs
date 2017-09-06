@@ -346,9 +346,6 @@ namespace PH.Well.Domain
         }
 
         [XmlIgnore]
-        public string GrnNumberUpdate { get; set; }
-
-        [XmlIgnore]
         public string GrnNumber
         {
             get

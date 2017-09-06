@@ -110,7 +110,7 @@
                         JobStatus = job.JobStatus,
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
-                        Pod = job.ProofOfDelivery.HasValue,
+                        Pod = job.IsProofOfDelivery,
                         Exceptions = jobExceptions,
                         Clean = clean,
                         Credit = job.CreditValue,

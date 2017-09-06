@@ -110,5 +110,63 @@ namespace PH.Well.UnitTests.Common
 
             Assert.IsFalse(sut.HasUnresolvedActions());
         }
+
+        [Test]
+        [Category("Extension")]
+        [Category("Job")]
+        public void ShouldReturnTheCorrectWellStatus()
+        {
+            foreach (var jobStatus in Enum.GetValues(typeof(JobStatus)).Cast<JobStatus>())
+            {
+                switch (jobStatus)
+                {
+                    case JobStatus.NotDefined:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Unknown));
+                        break;
+                    case JobStatus.AwaitingInvoice:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Planned));
+                        break;
+                    case JobStatus.InComplete:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Invoiced));
+                        break;
+                    case JobStatus.Clean:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Complete));
+                        break;
+                    case JobStatus.Exception:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Complete));
+                        break;
+                    case JobStatus.Resolved:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Complete));
+                        break;
+                    case JobStatus.DocumentDelivery:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Complete));
+                        break;
+                    case JobStatus.CompletedOnPaper:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Complete));
+                        break;
+                    case JobStatus.Bypassed:
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Bypassed));
+                        break;
+                    default:
+                        Assert.IsTrue(false, "Add the new status ToWellStatus Method ");
+                        break;
+                }
+            }
+        }
+
+        [Test]
+        [Description("Check if job Identifier is been create correctly")]
+        [Category("Extension")]
+        [Category("Job")]
+        public void ShouldCreateIdentifier()
+        {
+            var sut = JobFactory.New
+                .With(p => p.PhAccount = "PhAccount")
+                .With(p => p.PickListRef = "PickListRef")
+                .With(p => p.JobTypeCode = "JobTypeCode")
+                .Build();
+
+            Assert.That($"{sut.PhAccount} - {sut.PickListRef} - {sut.JobTypeCode}", Is.EqualTo(sut.Identifier()));
+        }
     }
 }

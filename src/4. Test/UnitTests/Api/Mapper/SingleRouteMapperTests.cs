@@ -62,7 +62,7 @@
                     .WithTotalShort(20)
                     .WithOuterDiscrepancyFound(true)
                     .WithOuterCount(1)
-                    .With(x => x.ProofOfDelivery = 25)
+                    .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.Lucozade)
                     .Build();
                      
 

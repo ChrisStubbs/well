@@ -26,7 +26,7 @@
         private readonly IFileModule fileModule;
         private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
-        
+
 
         public EpodFtpProvider(
             ILogger logger,
@@ -72,30 +72,36 @@
             foreach (var listing in listings.OrderBy(x => x.Datetime))
             {
                 var guid = Guid.NewGuid();
+                var targetFileName = Path.Combine(Configuration.DownloadFilePath, listing.Filename);
                 var tempFilename = GetTemporaryFilename(listing.Filename, guid);
-                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
-                    Path.Combine(Configuration.DownloadFilePath, tempFilename));
-
-                if (string.IsNullOrWhiteSpace(downloadedFile))
+               
+                if (!File.Exists(targetFileName))
                 {
-                    this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
+                    var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
+                        Path.Combine(Configuration.DownloadFilePath, tempFilename));
 
-                    continue;
+                    if (string.IsNullOrWhiteSpace(downloadedFile))
+                    {
+                        this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
+
+                        continue;
+                    }
+                    if (!File.Exists(targetFileName))
+                    {
+                        File.Move(downloadedFile, targetFileName);
+                        this.logger.LogDebug($"Success! File {listing.Filename} copied from ftp!");
+                    }
+
+                    if (Configuration.DeleteFtpFileAfterImport)
+                    {
+                        this.ftpClient.DeleteFile(Path.GetFileName(targetFileName));
+                    }
                 }
-
-                
-                var newFileName = downloadedFile.Replace(guid.ToString(), string.Empty);
-                if (!File.Exists(newFileName))
+                else
                 {
-                    File.Move(downloadedFile, newFileName);
-
+                    this.logger.LogDebug($"File { listing.Filename } already exists in target folder. File not copied from FTP.");
                 }
-                if (Configuration.DeleteFtpFileAfterImport)
-                {
-                    this.ftpClient.DeleteFile(Path.GetFileName(newFileName));
-                }
-                
 
             }
         }

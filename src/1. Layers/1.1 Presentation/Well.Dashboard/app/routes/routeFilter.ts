@@ -71,7 +71,7 @@ export class RouteFilter implements IFilter
                         return sourceRow.exceptionCount > 0;
                     }
 
-                    return sourceRow.exceptionCount == 0;
+                    return sourceRow.cleanCount > 0;
                 };
         }
 

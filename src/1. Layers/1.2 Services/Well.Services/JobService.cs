@@ -151,7 +151,7 @@
                 job.JobStatus = JobStatus.InComplete;
             }
         }
-        
+
         public bool CanEdit(Job job, string userName)
         {
             return job.ResolutionStatus.IsEditable()
@@ -475,20 +475,40 @@
 
         public bool ComputeWellStatus(Job job)
         {
-            // TODO: DIJ - Chris to pick this up from an extension method?
             var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus.eValue);
             status = wellStatusAggregator.Aggregate(AggregationType.Job, status, ConvertJobStatus(job.JobStatus));
             if (job.WellStatus != status)
             {
                 job.WellStatus = status;
-                this.jobRepository.Save(job);
-                // Propagate to parent job & sibling activity/invoice
-                this.stopService.ComputeWellStatus(job.StopId);
-                this.activityService.ComputeWellStatus(job.ActivityId);
+                this.jobRepository.Update(job);
+
                 return true;
             }
 
             return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(int jobId)
+        {
+            // Get the job specified
+            var job = jobRepository.GetById(jobId);
+            if (job != null)
+            {
+                return ComputeAndPropagateWellStatus(job);
+            }
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(Job job)
+        {
+            var changed = ComputeWellStatus(job);
+            if (changed)
+            { 
+                // Propagate to parent job & sibling activity/invoice
+                this.stopService.ComputeWellStatus(job.StopId);
+                this.activityService.ComputeWellStatus(job.ActivityId);
+            }
+            return changed;
         }
 
         private WellStatus ConvertJobStatus(JobStatus jobStatus)

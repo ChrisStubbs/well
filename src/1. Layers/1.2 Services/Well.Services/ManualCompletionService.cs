@@ -71,6 +71,10 @@ namespace PH.Well.Services
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     epodFileImportCommands.UpdateWithEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
                     completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
+
+                    // Compute well status
+                    jobService.ComputeWellStatus(job);
+
                     transactionScope.Complete();
                 }
             }

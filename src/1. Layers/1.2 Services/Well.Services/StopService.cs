@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Well.Domain;
 using PH.Well.Domain.Enums;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services.Contracts;
@@ -32,24 +33,49 @@ namespace PH.Well.Services
             var stop = stopRepository.GetById(stopId);
             if (stop != null)
             {
-                // Compute the overall status of the child jobs in this stop
-                WellStatus newWellStatus = stop.WellStatus;
-
-                // Compute new well status
-                newWellStatus =
-                    wellStatusAggregator.Aggregate(AggregationType.Stop, stop.Jobs.Select(x => x.WellStatus).ToArray());
-
-                if (stop.WellStatus != newWellStatus)
-                {
-                    stop.WellStatus = newWellStatus;
-                    stopRepository.Save(stop);
-                    // Cascade any change back up to the route header
-                    this.routeService.ComputeWellStatus(stop.RouteHeaderId);
-                    return true;
-                }
+                return ComputeWellStatus(stop);
             }
             return false;
         }
+
+        public bool ComputeWellStatus(Stop stop)
+        {
+            // Compute new well status
+            var newWellStatus = wellStatusAggregator.Aggregate(AggregationType.Stop,
+                stop.Jobs.Select(x => x.WellStatus).ToArray());
+
+            if (stop.WellStatus != newWellStatus)
+            {
+                stop.WellStatus = newWellStatus;
+                stopRepository.Update(stop);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(int stopId)
+        {
+            var stop = stopRepository.GetById(stopId);
+            if (stop != null)
+            {
+                return ComputeAndPropagateWellStatus(stop);
+            }
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(Stop stop)
+        {
+            var changed = ComputeWellStatus(stop);
+            if (changed)
+            {
+                // Cascade any change back up to the route header
+                this.routeService.ComputeWellStatus(stop.RouteHeaderId);
+            }
+
+            return changed;
+        }
+
         #endregion Public methods
     }
 }

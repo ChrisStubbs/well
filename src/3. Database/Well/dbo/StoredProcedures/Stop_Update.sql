@@ -24,7 +24,8 @@
 		@AccountBalance DECIMAL(7,2),
 		@UpdatedBy VARCHAR(50),
 		@DateUpdated DATETIME,
-		@DeletedByImport BIT
+		@DeletedByImport BIT,
+		@WellStatus TINYINT
 		--@Location_Id INT
 AS
 BEGIN
@@ -56,6 +57,7 @@ BEGIN
 		  ,[UpdatedBy]						= @UpdatedBy
 		  ,[DateUpdated]					= @DateUpdated
 		  ,[DeletedByImport]				= @DeletedByImport
+		  ,[WellStatus]						= @WellStatus
 		 -- ,[Location_Id]					= @Location_Id
 	 WHERE
 		Id = @Id

@@ -35,8 +35,8 @@ namespace PH.Well.Services
                 var newWellStatus = routeHeader.RouteWellStatus;
 
                 // Compute new route status from all its active stops
-                newWellStatus = wellStatusAggregator.Aggregate(routeHeader.Stops.Select(x => x.WellStatus),
-                    AggregationType.Route);
+                newWellStatus = wellStatusAggregator.Aggregate(AggregationType.Route,
+                    routeHeader.Stops.Select(x => x.WellStatus).ToArray());
 
                 if (routeHeader.RouteWellStatus != newWellStatus)
                 {

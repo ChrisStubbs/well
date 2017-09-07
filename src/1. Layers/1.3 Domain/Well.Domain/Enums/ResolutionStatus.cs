@@ -11,7 +11,7 @@ namespace PH.Well.Domain.Enums
     public sealed class ResolutionStatus
     {
         [Flags]
-        private enum eResolutionStatus
+        public enum eResolutionStatus
         {
             [Description("Invalid")]
             Invalid = 0,
@@ -77,7 +77,7 @@ namespace PH.Well.Domain.Enums
         #endregion Static data
 
         #region Properties
-        private eResolutionStatus eValue { get; }
+        public eResolutionStatus eValue { get; }
         public int Value => (int) eValue;
         public string Description { get; }
         public static ResolutionStatus Imported => Values[eResolutionStatus.Imported];

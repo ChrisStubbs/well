@@ -11,13 +11,28 @@ namespace PH.Well.Services
 {
     public class WellStatusAggregator : IWellStatusAggregator
     {
-        public WellStatus Aggregate(IEnumerable<WellStatus> wellStatuses, AggregationType aggregationType)
+        public WellStatus Aggregate(params ResolutionStatus.eResolutionStatus[] resolutionStatuses)
+        {
+            if (resolutionStatuses.Any(x => x == ResolutionStatus.eResolutionStatus.Invalid))
+            {
+                return WellStatus.RouteInProgress;
+            }
+
+            if (resolutionStatuses.All(x => x == ResolutionStatus.eResolutionStatus.Imported))
+            {
+                return WellStatus.Planned;
+            }
+
+            return WellStatus.Complete;
+        }
+
+        public WellStatus Aggregate(AggregationType aggregationType, params WellStatus[] wellStatuses)
         {
             WellStatus result = WellStatus.Unknown;
             List<WellStatus> uniqueStatus = wellStatuses.Distinct().ToList();
             if (uniqueStatus.Contains(WellStatus.Planned))
             {
-                result = WellStatus.Planned;    
+                result = WellStatus.Planned;
             }
             if (uniqueStatus.Contains(WellStatus.Invoiced))
             {
@@ -45,25 +60,9 @@ namespace PH.Well.Services
             return result;
         }
 
-        public WellStatus Aggregate(IEnumerable<LineItem> lineItems, AggregationType aggregationType)
+        public WellStatus Aggregate(Job job, params ResolutionStatus.eResolutionStatus[] resolutionStatuses)
         {
-            WellStatus result = WellStatus.Unknown;
-            // Get all the statuses of all the exceptions for these items
-            var statuses = lineItems.Select(x => Aggregate(x.LineItemActions, aggregationType)).Distinct().ToList();
-            if (statuses.Contains(ResolutionStatus.Closed))
-            {
-                
-            }
-            return result;
-        }
-
-
-        public ResolutionStatus Aggregate(IEnumerable<LineItemAction> lineItemActions, AggregationType aggregationType)
-        {
-            // TODO: DIJ - Chris we need to wire this up (I may be able to look at it later Wednesday)
-            // Get all the status from the specified lineItemActions
-            //lineItemActions.Select(x=>x.)
-            return ResolutionStatus.Invalid;
+            throw new NotImplementedException();
         }
     }
 }

@@ -36,8 +36,8 @@ namespace PH.Well.Services
                 WellStatus newWellStatus = stop.WellStatus;
 
                 // Compute new well status
-                newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus),
-                    AggregationType.Stop);
+                newWellStatus =
+                    wellStatusAggregator.Aggregate(AggregationType.Stop, stop.Jobs.Select(x => x.WellStatus).ToArray());
 
                 if (stop.WellStatus != newWellStatus)
                 {

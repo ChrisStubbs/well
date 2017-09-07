@@ -16,6 +16,7 @@ namespace PH.Well.Services.Contracts
         /// <param name="jobId"></param>
         /// <returns>Returns true of the status was changed</returns>
         bool ComputeWellStatus(int jobId);
+        bool ComputeWellStatus(Job job);
 
         bool CanEdit(Job job, string userName);
         bool CanManuallyComplete(Job job, string userName);

@@ -32,22 +32,14 @@ namespace PH.Well.Services.Contracts
         /// <param name="wellStatuses"></param>
         /// <param name="aggregationType"></param>
         /// <returns></returns>
-        WellStatus Aggregate(IEnumerable<WellStatus> wellStatuses, AggregationType aggregationType);
+        WellStatus Aggregate(AggregationType aggregationType, params WellStatus[] wellStatuses);
 
         /// <summary>
-        /// Aggregate a set of LineItems (and their LineItemActions) into a single summary status
+        /// Aggregate a set of WellStatus into a single summary status from resolution statuses
         /// </summary>
-        /// <param name="lineItems"></param>
-        /// <param name="aggregationType"></param>
+        /// <param name="job"></param>
+        /// <param name="resolutionStatuses"></param>
         /// <returns></returns>
-        WellStatus Aggregate(IEnumerable<LineItem> lineItems, AggregationType aggregationType);
-
-        /// <summary>
-        /// Aggregate a set of line item actions into a single summary status
-        /// </summary>
-        /// <param name="lineItemActions"></param>
-        /// <param name="aggregationType"></param>
-        /// <returns></returns>
-        ResolutionStatus Aggregate(IEnumerable<LineItemAction> lineItemActions, AggregationType aggregationType);
+        WellStatus Aggregate(params ResolutionStatus.eResolutionStatus[] resolutionStatuses);
     }
 }

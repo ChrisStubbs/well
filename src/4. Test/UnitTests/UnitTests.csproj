@@ -226,7 +226,6 @@
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
-    <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\EpodServices\AdamFileImportCommandsTests.cs" />
     <Compile Include="Services\EpodServices\EpodFileImportCommandTests.cs" />
     <Compile Include="Services\EpodServices\EpodImportMapperTests.cs" />

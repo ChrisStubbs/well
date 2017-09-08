@@ -199,7 +199,10 @@
                             <td  *ngIf="canDoManualActions || canEditExceptions"><input type="checkbox" [checked]="allChildrenSelected(item.invoice)" (change)="selectLocations($event.target.checked, item.invoice)" /></td>
                         </tr>
                         <tr *ngFor="let detail of item.details" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">{{detail.driver}}</td>
+                            <td colspan="2">
+                                {{detail.driver}}
+                                <ow-completed-on-paper [isCompletedOnPaper]="detail.completedOnPaper"></ow-completed-on-paper>
+                            </td>
                             <td>{{detail.date | date:'dd MMM yyyy'}}</td>
                             <td>{{detail.jobType}}</td>
                             <td>{{detail.jobStatus}}</td>

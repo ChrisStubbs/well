@@ -6,5 +6,5 @@ AS
 	FROM 
 		ExceptionType
 	WHERE
-		Id != 2 -- BYPASS Disable for now
-
+		Id Not IN (0,2)
+		-- Ignore Bypass and Not Defined

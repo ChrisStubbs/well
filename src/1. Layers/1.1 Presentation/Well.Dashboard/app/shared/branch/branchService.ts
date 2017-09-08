@@ -66,32 +66,29 @@ export class BranchService
         const body = JSON.stringify(branches);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
+        let url: string;
 
         if (username)
         {
-            const url = this.globalSettingsService.globalSettings.apiUrl
+            url = this.globalSettingsService.globalSettings.apiUrl
                 + 'save-branches-on-behalf-of-user?username='
                 + username
                 + '&domain='
                 + domain;
-
-            return this.http.post(url, body, options)
-                .map(res =>
-                {
-                    this.userBranchesChanged$.emit(branches);
-                    res.json();
-                });
         }
         else
         {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',
-                body,
-                options)
-                .map(res =>
+            url = this.globalSettingsService.globalSettings.apiUrl + 'branch';
+        }
+
+        return this.http.post(url, body, options)
+            .map(res =>
+            {
+                return this.globalSettingsService.getSettings().then(() => 
                 {
                     this.userBranchesChanged$.emit(branches);
                     return res.json();
                 });
-        }
+            });
     }
 }

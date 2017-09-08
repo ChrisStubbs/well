@@ -69,6 +69,7 @@ export class SingleLocation
     public isInvoice: boolean;
     public accountNumber: string;
     public activityId: number;
+    public completedOnPaper: boolean;
 }
 
 export class SingleLocationFilter implements IFilter

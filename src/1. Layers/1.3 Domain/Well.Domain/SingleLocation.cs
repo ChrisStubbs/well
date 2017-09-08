@@ -24,6 +24,15 @@ namespace PH.Well.Domain
         public int JobTypeId { get; set; }
         public string JobType { get; set; }
         public int JobStatusId { get; set; }
+
+        public bool CompletedOnPaper
+        {
+            get
+            {
+                return this.JobStatusId == (int)Enums.JobStatus.CompletedOnPaper;
+            }
+        }
+
         public string JobStatus { get; set; }
         public bool Cod { get; set; }
         public bool Pod { get; set; }

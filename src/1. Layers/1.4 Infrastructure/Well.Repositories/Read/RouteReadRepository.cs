@@ -142,13 +142,13 @@ namespace PH.Well.Repositories.Read
                         ExceptionCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
                                                                           && z.JobTypeCode != "DEL-DOC"
                                                                           && z.JobTypeCode != "NOTDEF"
-                                                                          && z.ResolutionStatusId > 1
+                                                                          && z.ResolutionStatusId > ResolutionStatus.Imported.Value
                                                                           && z.DateDeleted == null
                                                                           && z.Activity.LineItem.Any(a => a.LineItemAction.Any()))),
-                        CleanCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
+                        CleanCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
                                                                           && z.JobTypeCode != "DEL-DOC"
                                                                           && z.JobTypeCode != "NOTDEF"
-                                                                          && z.ResolutionStatusId > 1
+                                                                          && z.ResolutionStatusId > ResolutionStatus.Imported.Value
                                                                           && z.DateDeleted == null
                                                                           && z.Activity.LineItem.Any(a => !a.LineItemAction.Any()))),
                         DriverName = x.Route.DriverName,

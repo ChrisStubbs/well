@@ -14,7 +14,8 @@
 	@UpdatedBy VARCHAR(50),
 	@UpdatedDate DATETIME,
 	@StartDepotCode			INT,
-	@PlannedStops			TINYINT
+	@PlannedStops			TINYINT,
+	@WellStatus				TINYINT
 AS	
 BEGIN
 	SET NOCOUNT ON;
@@ -33,7 +34,8 @@ BEGIN
 		UpdatedBy = @UpdatedBy,
 		DateUpdated = @UpdatedDate,
 		StartDepotCode = @StartDepotCode,
-		PlannedStops = @PlannedStops
+		PlannedStops = @PlannedStops,
+		WellStatus = @WellStatus
 	WHERE Id = @Id
 
 END

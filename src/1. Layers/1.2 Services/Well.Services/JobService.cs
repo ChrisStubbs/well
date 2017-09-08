@@ -476,7 +476,7 @@
         public bool ComputeWellStatus(Job job)
         {
             var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus.eValue);
-            status = wellStatusAggregator.Aggregate(AggregationType.Job, status, ConvertJobStatus(job.JobStatus));
+            status = wellStatusAggregator.Aggregate(status, ConvertJobStatus(job.JobStatus));
             if (job.WellStatus != status)
             {
                 job.WellStatus = status;

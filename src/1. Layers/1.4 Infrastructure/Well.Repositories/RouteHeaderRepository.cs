@@ -170,6 +170,7 @@
                 .AddParameter("DriverName", entity.DriverName, DbType.String)
                 .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)
+                .AddParameter("WellStatus", (int) entity.RouteWellStatus, DbType.Int32)
                 .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16).Execute();
         }
 

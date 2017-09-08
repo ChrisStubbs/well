@@ -26,43 +26,32 @@ namespace PH.Well.Services
             return WellStatus.Complete;
         }
 
-        public WellStatus Aggregate(AggregationType aggregationType, params WellStatus[] wellStatuses)
+        public WellStatus Aggregate(params WellStatus[] wellStatuses)
         {
-            WellStatus result = WellStatus.Unknown;
             List<WellStatus> uniqueStatus = wellStatuses.Distinct().ToList();
-            if (uniqueStatus.Contains(WellStatus.Planned))
-            {
-                result = WellStatus.Planned;
-            }
-            if (uniqueStatus.Contains(WellStatus.Invoiced))
-            {
-                result = aggregationType == AggregationType.Route ? WellStatus.Planned : WellStatus.Invoiced;
-            }
-            if (uniqueStatus.Contains(WellStatus.RouteInProgress))
-            {
-                result = WellStatus.RouteInProgress;
-            }
-            if (uniqueStatus.Contains(WellStatus.Complete))
-            {
-                result = WellStatus.Complete;
-            }
-            if (uniqueStatus.Contains(WellStatus.Bypassed))
-            {
-                if (result == WellStatus.Complete)
-                {
-                    result = WellStatus.CompleteWithBypass;
-                }
-                else
-                {
-                    result = WellStatus.Bypassed;
-                }
-            }
-            return result;
-        }
 
-        public WellStatus Aggregate(Job job, params ResolutionStatus.eResolutionStatus[] resolutionStatuses)
-        {
-            throw new NotImplementedException();
+            var anyCompleted = uniqueStatus.Any(x => x == WellStatus.Complete || x == WellStatus.CompleteWithBypass ||
+                                                     x == WellStatus.Bypassed);
+
+            var anyInProgress = uniqueStatus.Any(x => x == WellStatus.RouteInProgress || x == WellStatus.Invoiced);
+
+            var anyNotStarted = uniqueStatus.Any(x => x == WellStatus.Planned || x == WellStatus.Unknown);
+
+            if (anyCompleted)
+            {
+                if (anyInProgress || anyNotStarted)
+                {
+                    return WellStatus.RouteInProgress;
+                }
+                return WellStatus.Complete;
+            }
+
+            if (anyInProgress)
+            {
+                return WellStatus.RouteInProgress;
+            }
+
+            return WellStatus.Planned;
         }
     }
 }

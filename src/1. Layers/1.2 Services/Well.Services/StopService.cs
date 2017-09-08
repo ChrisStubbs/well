@@ -16,13 +16,16 @@ namespace PH.Well.Services
         private readonly IStopRepository stopRepository;
         private readonly IRouteService routeService;
         private readonly IWellStatusAggregator wellStatusAggregator;
+        private readonly IJobRepository jobRepository;
+
         #endregion Private fields
 
         #region Constructors
-        public StopService(IStopRepository stopRepository, IRouteService routeService, IWellStatusAggregator wellStatusAggregator)
+        public StopService(IStopRepository stopRepository, IRouteService routeService, IWellStatusAggregator wellStatusAggregator,IJobRepository jobRepository)
         {
             this.routeService = routeService;
             this.wellStatusAggregator = wellStatusAggregator;
+            this.jobRepository = jobRepository;
             this.stopRepository = stopRepository;
         }
         #endregion Constructors
@@ -30,7 +33,7 @@ namespace PH.Well.Services
         #region Public methods
         public bool ComputeWellStatus(int stopId)
         {
-            var stop = stopRepository.GetById(stopId);
+            var stop = GetStopWithJobs(stopId);
             if (stop != null)
             {
                 return ComputeWellStatus(stop);
@@ -41,8 +44,7 @@ namespace PH.Well.Services
         public bool ComputeWellStatus(Stop stop)
         {
             // Compute new well status
-            var newWellStatus = wellStatusAggregator.Aggregate(AggregationType.Stop,
-                stop.Jobs.Select(x => x.WellStatus).ToArray());
+            var newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus).ToArray());
 
             if (stop.WellStatus != newWellStatus)
             {
@@ -56,7 +58,7 @@ namespace PH.Well.Services
 
         public bool ComputeAndPropagateWellStatus(int stopId)
         {
-            var stop = stopRepository.GetById(stopId);
+            var stop = GetStopWithJobs(stopId);
             if (stop != null)
             {
                 return ComputeAndPropagateWellStatus(stop);
@@ -77,5 +79,24 @@ namespace PH.Well.Services
         }
 
         #endregion Public methods
+
+        #region Private methods
+
+        /// <summary>
+        /// Helper method to fetch stop with its jobs
+        /// </summary>
+        /// <param name="stopId"></param>
+        /// <returns></returns>
+        private Stop GetStopWithJobs(int stopId)
+        {
+            var stop = stopRepository.GetById(stopId);
+            if (stop != null)
+            {
+                stop.Jobs = jobRepository.GetByStopId(stop.Id).ToList();
+            }
+            return stop;
+        }
+
+        #endregion Private methods
     }
 }

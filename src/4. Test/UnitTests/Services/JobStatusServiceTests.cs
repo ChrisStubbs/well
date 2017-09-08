@@ -682,38 +682,11 @@ namespace PH.Well.UnitTests.Services
                     wellStatusAggregator.Object);
             }
 
-            /// <summary>
-            /// Returns job that qualifies for well status change
-            /// </summary>
-            /// <returns></returns>
-            private Job JobWithStatusChange()
-            {
-                return new Job
-                {
-                    JobStatus = JobStatus.CompletedOnPaper, // Maps to WellStatus.Complete
-                    ResolutionStatus = ResolutionStatus.ActionRequired, // Maps to WellStatus.Complete
-                    WellStatus = WellStatus.Planned
-                };
-            }
-
-            /// <summary>
-            /// Returns job that does not qualifiy for well status change
-            /// </summary>
-            /// <returns></returns>
-            private Job JobWithoutStatusChange()
-            {
-                return new Job
-                {
-                    JobStatus = JobStatus.CompletedOnPaper, // Maps to WellStatus.Complete
-                    ResolutionStatus = ResolutionStatus.ActionRequired, // Maps to WellStatus.Complete
-                    WellStatus = WellStatus.Complete
-                };
-            }
-
+            
             [Test]
             public void ShouldUpdateJobWellStatus()
             {
-                var job = JobWithStatusChange();
+                var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
                 jobRepository.Verify(x => x.Update(job));
@@ -726,7 +699,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldNotUpdateJobWellStatus()
             {
-                var job = JobWithoutStatusChange();
+                var job = JobFactory.New.JobWithoutStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
                 jobRepository.Verify(x => x.Update(job), Times.Never);
@@ -740,7 +713,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldUpdateJobWellStatusAndPropagate()
             {
-                var job = JobWithStatusChange();
+                var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeAndPropagateWellStatus(job);
                 // Check that job is persisted
                 jobRepository.Verify(x => x.Update(job));
@@ -755,7 +728,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldNotUpdateJobWellStatusAndPropagate()
             {
-                var job = JobWithoutStatusChange();
+                var job = JobFactory.New.JobWithoutStatusChange().Build();
                 var changed = service.ComputeAndPropagateWellStatus(job);
 
                 // Job does not update

@@ -475,7 +475,7 @@
 
         public bool ComputeWellStatus(Job job)
         {
-            var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus.eValue);
+            var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus);
             status = wellStatusAggregator.Aggregate(status, ConvertJobStatus(job.JobStatus));
             if (job.WellStatus != status)
             {
@@ -501,14 +501,14 @@
 
         public bool ComputeAndPropagateWellStatus(Job job)
         {
-            var changed = ComputeWellStatus(job);
-            if (changed)
+            if (ComputeWellStatus(job))
             { 
                 // Propagate to parent job & sibling activity/invoice
                 this.stopService.ComputeAndPropagateWellStatus(job.StopId);
                 // TODO Implement activity service this.activityService.ComputeAndPropagateWellStatus(job.ActivityId);
+                return true;
             }
-            return changed;
+            return false;
         }
 
         private WellStatus ConvertJobStatus(JobStatus jobStatus)

@@ -25,6 +25,6 @@ namespace PH.Well.Services.Contracts
         /// </summary>
         /// <param name="resolutionStatuses"></param>
         /// <returns></returns>
-        WellStatus Aggregate(params ResolutionStatus.eResolutionStatus[] resolutionStatuses);
+        WellStatus Aggregate(params ResolutionStatus[] resolutionStatuses);
     }
 }

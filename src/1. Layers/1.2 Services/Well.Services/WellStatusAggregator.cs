@@ -11,15 +11,15 @@ namespace PH.Well.Services
 {
     public class WellStatusAggregator : IWellStatusAggregator
     {
-        public WellStatus Aggregate(params ResolutionStatus.eResolutionStatus[] resolutionStatuses)
+        public WellStatus Aggregate(params ResolutionStatus[] resolutionStatuses)
         {
             //TODO validate requirement for this 
-            if (resolutionStatuses.Any(x => x == ResolutionStatus.eResolutionStatus.Invalid))
+            if (resolutionStatuses.Any(x => x == ResolutionStatus.Invalid))
             {
                 return WellStatus.RouteInProgress;
             }
 
-            if (resolutionStatuses.All(x => x == ResolutionStatus.eResolutionStatus.Imported))
+            if (resolutionStatuses.All(x => x == ResolutionStatus.Imported))
             {
                 return WellStatus.Planned;
             }

@@ -454,6 +454,7 @@
     <Build Include="dbo\StoredProcedures\DeleteRouteHeaderWithNoStops.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
+    <Build Include="dbo\Views\ExceptionTotalsPerRoute.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

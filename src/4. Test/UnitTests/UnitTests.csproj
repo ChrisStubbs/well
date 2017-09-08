@@ -74,8 +74,20 @@
     <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.10\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+    <Reference Include="PH.Common.T4Templates, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.T4Templates.1.0.0.0\lib\net452\PH.Common.T4Templates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.T4Templates.Generators, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.T4Templates.Generators.1.0.0.6\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Constants, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.12\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -241,6 +253,16 @@
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
     <Compile Include="Services\WellCleanUpServiceTests.cs" />
+    <Compile Include="T4Example\T4ConstantsExample.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>T4ConstantsExample.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4Example\T4EnumExample.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>T4EnumExample.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">
@@ -248,6 +270,18 @@
     </Content>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample2.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="T4Example\T4ConstantsExample.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4ConstantsExample.cs</LastGenOutput>
+    </Content>
+    <Content Include="T4Example\T4EnumExample.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4EnumExample.cs</LastGenOutput>
+    </Content>
+    <Content Include="T4Example\T4TypeScriptPOCOsExample.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4TypeScriptPOCOsExample.d.ts</LastGenOutput>
     </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -306,7 +340,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="T4Example\T4TypeScriptPOCOsExample.d.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>T4TypeScriptPOCOsExample.tt</DependentUpon>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

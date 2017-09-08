@@ -237,6 +237,7 @@
     <Compile Include="Services\ManualCompletionServiceTests.cs" />
     <Compile Include="Services\EpodServices\AdamImportServiceTests.cs" />
     <Compile Include="Services\OrderImportMapperTests.cs" />
+    <Compile Include="Services\StopServiceTests.cs" />
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />

@@ -13,6 +13,7 @@ namespace PH.Well.Services
     {
         public WellStatus Aggregate(params ResolutionStatus.eResolutionStatus[] resolutionStatuses)
         {
+            //TODO validate requirement for this 
             if (resolutionStatuses.Any(x => x == ResolutionStatus.eResolutionStatus.Invalid))
             {
                 return WellStatus.RouteInProgress;

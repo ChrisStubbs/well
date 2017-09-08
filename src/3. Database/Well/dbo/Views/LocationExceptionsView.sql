@@ -14,7 +14,7 @@ SELECT l.Id AS LocationId
 , SUM(ExceptionCount)   AS TotalExceptions
 , ISNULL((SELECT  ExceptionCount FROM Exception WHERE LocationId = l.Id and ExceptionTypeId = 1), 0) AS ShortExceptions 
 , ISNULL((SELECT  ExceptionCount FROM Exception WHERE LocationId = l.Id and ExceptionTypeId = 2), 0) AS BypassExceptions
-, ISNULL((SELECT   ExceptionCount FROM Exception WHERE LocationId = l.Id and ExceptionTypeId = 3), 0) AS DamageExceptions    
+, ISNULL((SELECT  ExceptionCount FROM Exception WHERE LocationId = l.Id and ExceptionTypeId = 3), 0) AS DamageExceptions    
 FROM Location l
 INNER JOIN Exception e on e.LocationId = l.Id
 GROUP BY l.Id

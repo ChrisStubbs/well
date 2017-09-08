@@ -1,6 +1,6 @@
 import
 {
-    Component, ViewChild, ElementRef, EventEmitter, Output, ViewEncapsulation
+    Component, ViewChild, ElementRef, EventEmitter, Output, ViewEncapsulation  
 }                                  from '@angular/core';
 import
 {
@@ -282,6 +282,7 @@ export class ActionEditComponent implements IObservableAlive
 
     private shouldErrorsDivBeVisible(): boolean
     {
+
         const result: boolean = this.actionsForm.enabled
             && !this.actionsForm.valid
             && (
@@ -289,6 +290,9 @@ export class ActionEditComponent implements IObservableAlive
                 && this.actionsForm.controls.actionsGroup.errors.length > 0
             );
 
+        if (result == undefined) {
+            return false;
+        }
         return result;
     }
 
@@ -349,9 +353,9 @@ class LineItemActionValidator implements Validator {
 
         switch (Number(actionValue)) {
             case 0:
-                return this.validateNotDefinedAction(group);
+                return this.validateAction(group);
             case 1:
-                return this.validateCreditAction(group);
+                return this.validateAction(group);
             case 2:
                 return this.validateCloseAction(group);
             default:
@@ -359,29 +363,27 @@ class LineItemActionValidator implements Validator {
         }
     }
 
-    private validateNotDefinedAction(group: FormGroup): ValidationErrors {
+    private validateAction(group: FormGroup): ValidationErrors {
         this.validateQuantity(group);
         this.validateComment(group);
-        this.validateExceptionType(group);
 
-        // May want to aggregate errors here for whole group
-        return undefined;
-    }
-
-    private validateCreditAction(group: FormGroup): ValidationErrors {
-        this.validateQuantity(group);
-        this.validateComment(group);
-        this.validateExceptionType(group);
+        if (!this.isBypassExceptionType) {
+            // Exception required
+            const exceptionTypeCtrl = group.controls['exceptionType'];
+            if (Number(exceptionTypeCtrl.value | 0) == 0) {
+                exceptionTypeCtrl.setErrors({ required: true });
+            }
+        }
 
         // Source required
         const sourceCtrl = group.controls['source'];
-        if (Number(sourceCtrl.value) == 0) {
+        if (Number(sourceCtrl.value | 0 ) == 0) {
             sourceCtrl.setErrors({ required: true });
         }
 
         // Reason required
         const reasonCtrl = group.controls['reason'];
-        if (Number(reasonCtrl.value) == 0) {
+        if (Number(reasonCtrl.value | 0 ) == 0) {
             reasonCtrl.setErrors({ required: true });
         }
 
@@ -413,18 +415,6 @@ class LineItemActionValidator implements Validator {
                 commentReasonCtrl.setErrors(commentRequired);
             }
         }
-    }
-
-    private validateExceptionType(group: FormGroup): void {
-        // Exception type required
-        if (this.isBypassExceptionType) {
-            const exceptionTypeCtrl = group.controls['exceptionType'];
-            const exceptionTypeRequired = Validators.required(exceptionTypeCtrl);
-            if (exceptionTypeRequired) {
-                exceptionTypeCtrl.setErrors(exceptionTypeRequired);
-            }
-        }
-
     }
 
     public quantityDifferentFromOriginal(value: number): boolean {

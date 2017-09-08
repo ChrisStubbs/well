@@ -73,7 +73,7 @@ namespace PH.Well.Services
                     completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
 
                     // Compute well status
-                    jobService.ComputeWellStatus(job);
+                    jobService.ComputeAndPropagateWellStatus(job);
 
                     transactionScope.Complete();
                 }

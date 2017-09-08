@@ -505,8 +505,8 @@
             if (changed)
             { 
                 // Propagate to parent job & sibling activity/invoice
-                this.stopService.ComputeWellStatus(job.StopId);
-                this.activityService.ComputeWellStatus(job.ActivityId);
+                this.stopService.ComputeAndPropagateWellStatus(job.StopId);
+                // TODO Implement activity service this.activityService.ComputeAndPropagateWellStatus(job.ActivityId);
             }
             return changed;
         }

@@ -99,6 +99,10 @@ namespace PH.Well.Repositories.Read
                     .GroupBy(p => p.Route)
                     .ToDictionary(k => k.Key, v => v.ToList());
 
+
+                var exceptionTotals = wellEntities.ExceptionTotalsPerRoute
+                    .ToDictionary(k => k.Routeid, v => new { v.WithExceptions, v.WithOutExceptions });
+                    
                 var routeHeaders = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .GroupJoin(viewsValues,
@@ -132,6 +136,7 @@ namespace PH.Well.Repositories.Read
                         RouteNumber = x.Route.RouteNumber,
                         RouteDate = x.Route.RouteDate,
                         StopCount = x.Route.Stop.Count,
+                        StopsId = x.Route.Stop.Select(p => p.Id),
                         RouteStatusCode = x.Route.RouteStatusCode,
                         RouteStatusDesc = x.Route.RouteStatusDescription,
                         BypassJobCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
@@ -139,18 +144,6 @@ namespace PH.Well.Repositories.Read
                                                                             && z.JobTypeCode != "NOTDEF"
                                                                             && z.JobStatusId == (byte)JobStatus.Bypassed
                                                                             && z.DateDeleted == null)),
-                        ExceptionCount = x.Route.Stop.Count(y => y.Job.Any(z => z.JobTypeCode != "UPL-SAN"
-                                                                          && z.JobTypeCode != "DEL-DOC"
-                                                                          && z.JobTypeCode != "NOTDEF"
-                                                                          && z.ResolutionStatusId > ResolutionStatus.Imported.Value
-                                                                          && z.DateDeleted == null
-                                                                          && z.Activity.LineItem.Any(a => a.LineItemAction.Any()))),
-                        CleanCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
-                                                                          && z.JobTypeCode != "DEL-DOC"
-                                                                          && z.JobTypeCode != "NOTDEF"
-                                                                          && z.ResolutionStatusId > ResolutionStatus.Imported.Value
-                                                                          && z.DateDeleted == null
-                                                                          && z.Activity.LineItem.Any(a => !a.LineItemAction.Any()))),
                         DriverName = x.Route.DriverName,
                         JobIds = x.Route.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
                                                                             && z.JobTypeCode != "DEL-DOC"
@@ -158,7 +151,7 @@ namespace PH.Well.Repositories.Read
                                                                             && z.DateDeleted == null).Select(a => a.Id))
                     })
                     .ToList();
-
+                
                 Func<int, List<Assignee>> getAssignees = routeId =>
                 {
                     if (jobs.ContainsKey(routeId))
@@ -183,8 +176,8 @@ namespace PH.Well.Repositories.Read
                     RouteNumber = item.RouteNumber,
                     RouteDate = item.RouteDate.Value,
                     StopCount = item.StopCount,
-                    ExceptionCount = item.ExceptionCount,
-                    CleanCount = item.CleanCount,
+                    ExceptionCount = exceptionTotals.ContainsKey(item.RouteId) ? exceptionTotals[item.RouteId].WithExceptions.Value : 0,
+                    CleanCount = exceptionTotals.ContainsKey(item.RouteId) ? exceptionTotals[item.RouteId].WithOutExceptions.Value : 0,
                     RouteStatus = item.RouteStatusDesc,
                     RouteStatusId =
                         GetWellStatus(item.RouteStatusCode, item.BypassJobCount,

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-
+    using Domain.Extensions;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
@@ -164,7 +164,7 @@
         private void UpdateJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
         {
             updatedJobIds = new List<int>();
-            foreach (var job in jobs)
+            foreach (var job in jobs.Where(IncludeJobTypeInImport))
             {
                 var existingJob = this.jobRepository.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stopId);
 
@@ -184,14 +184,7 @@
                     var newJob = new Job();
                     this.mapper.Map(job, newJob);
                     newJob.StopId = stopId;
-                    if (newJob.JobTypeCode == "DEL-DOC")
-                    {
-                        this.jobStatusService.SetInitialJobStatus(newJob);
-                    }
-                    else
-                    {
-                        this.jobStatusService.SetIncompleteJobStatus(newJob);
-                    }
+                    this.jobStatusService.SetIncompleteJobStatus(newJob);
                     newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
                     foreach (var detail in job.JobDetails)
@@ -277,7 +270,7 @@
         private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> insertedJobIds)
         {
             insertedJobIds = new List<int>();
-            foreach (var update in jobs)
+            foreach (var update in jobs.Where(IncludeJobTypeInImport))
             {
                 var job = new Job { StopId = stopId };
 
@@ -309,6 +302,13 @@
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
             return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.Update : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
+        }
+
+        private bool IncludeJobTypeInImport(JobUpdate jobUpdate)
+        {
+            var job = new Job {InvoiceNumber = jobUpdate.InvoiceNumber, JobTypeCode = jobUpdate.JobTypeCode};
+
+            return job.IncludeJobTypeInImport();
         }
     }
 }

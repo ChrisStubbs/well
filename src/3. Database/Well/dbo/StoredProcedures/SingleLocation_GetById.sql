@@ -54,7 +54,7 @@ AS
 			AND rh.DateDeleted IS NULL
 		INNER JOIN JobType jt
 			ON j.JobTypeCode = jt.Code
-			AND jt.code != 'DEL-DOC'
+			--AND jt.code != 'DEL-DOC'
 		LEFT JOIN
 		(
 			SELECT 

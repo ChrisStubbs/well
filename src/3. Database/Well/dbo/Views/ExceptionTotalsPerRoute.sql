@@ -29,8 +29,8 @@ AS
                 on li.Id = lia.LineItemId
 				AND lia.DateDeleted is null
         WHERE
-            j.JobTypeCode NOT IN ('UPL-SAN', 'DEL-DOC', 'NOTDEF')
-            AND j.DateDeleted IS NULL
+            --j.JobTypeCode NOT IN ('UPL-SAN', 'DEL-DOC', 'NOTDEF')
+            j.DateDeleted IS NULL
             AND j.ResolutionStatusId > 1 --imported
         GROUP BY 
              r.id, s.id

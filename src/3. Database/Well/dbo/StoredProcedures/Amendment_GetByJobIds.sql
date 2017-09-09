@@ -16,7 +16,7 @@ SELECT
 		INNER JOIN dbo.RouteHeader rh ON rh.Id = s.RouteHeaderId
 		INNER JOIN dbo.UserJob uj ON uj.JobId = j.Id 
 		INNER JOIN dbo.[User] u ON u.Id = uj.UserId
-		WHERE j.JobTypeCode != 'DEL-DOC' 
+		--WHERE j.JobTypeCode != 'DEL-DOC' 
 
 SELECT 
 	j.Id AS JobId
@@ -38,4 +38,4 @@ LEFT JOIN dbo.JobDetail jd ON jd.JobId = j.Id
 LEFT JOIN dbo.JobDetailTotalsView jdtv on jdtv.JobDetailId = jd.Id
 LEFT JOIN dbo.LineItemAmendmentsView liav on liav.LineItemId = jd.LineItemId
 WHERE (jdtv.ShortTotal != liav.ShortTotal OR jdtv.DamageTotal != liav.DamageTotal OR jdtv.RejectedTotal != liav.RejectedTotal)
-AND j.JobTypeCode != 'DEL-DOC' 
+--AND j.JobTypeCode != 'DEL-DOC' 

@@ -16,7 +16,7 @@ AS
 			ON li.Id = jd.LineItemId
 		INNER JOIN Job j
 			ON jd.JobId = j.Id
-			AND j.JobTypeCode != 'UPL-SAN'
+			--AND j.JobTypeCode != 'UPL-SAN'
 		INNER JOIN Stop s
 			ON j.StopId = s.Id
 			AND s.RouteHeaderId = @RouteHeaderId

@@ -12,7 +12,6 @@ namespace PH.Well.Domain
     [Serializable()]
     public class Job : Entity<int>
     {
-        public const string DocumentPickListReference = "9999999";
         public const string OverInvoiceNumber = "OVER";
         public Job()
         {

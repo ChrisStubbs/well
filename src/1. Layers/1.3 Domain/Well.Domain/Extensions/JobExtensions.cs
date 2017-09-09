@@ -11,11 +11,6 @@
             return $"{job.PhAccount} - {job.PickListRef} - {job.JobTypeCode}";
         }
 
-        public static bool IsDocumentDelivery(this Job job)
-        {
-            return job.PickListRef == Job.DocumentPickListReference;
-        }
-
         public static bool CanWeUpdateJobOnImport(this Job job)
         {
             switch (job.WellStatus)
@@ -75,6 +70,27 @@
                     return WellStatus.Bypassed;
                 default:
                    return WellStatus.Complete;
+            }
+        }
+
+        public static bool IncludeJobTypeInImport(this Job job)
+        {
+            if (job.IsOverInvoice)
+            {
+                return false;
+            }
+            switch (job.JobTypeEnumValue)
+            {
+                case JobType.Unknown:
+                    return false;
+                case JobType.Documents:
+                    return false;
+                case JobType.SandwichUplift:
+                    return false;
+                case JobType.NotDefined:
+                    return false;
+                default:
+                    return true;
             }
         }
     }

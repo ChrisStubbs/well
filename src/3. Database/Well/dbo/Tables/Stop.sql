@@ -30,9 +30,11 @@
 	[DateUpdated] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
 	[Location_Id] INT NULL,
+	[WellStatus] TINYINT NULL,
     CONSTRAINT [PK_Stops] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_Stops_RouteHeader] FOREIGN KEY ([RouteHeaderId]) REFERENCES [dbo].[RouteHeader] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_Stop_Location] FOREIGN KEY ([Location_Id]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_Stop_Location] FOREIGN KEY ([Location_Id]) REFERENCES [dbo].[Location] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_Stop_WellStatus] FOREIGN KEY ([WellStatus]) REFERENCES [dbo].[WellStatus] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 GO
 CREATE NONCLUSTERED INDEX [IDX_Stop_RouteHeaderId] ON [dbo].[Stop] ([RouteHeaderId]) INCLUDE ([Id])

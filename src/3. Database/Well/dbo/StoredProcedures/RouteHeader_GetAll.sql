@@ -21,6 +21,7 @@ BEGIN
       ,rh.[UpdatedBy]
       ,rh.[DateUpdated]
       ,rh.[Version]
+	  ,[WellStatus] as RouteWellStatus
 	  ,(SELECT COUNT(1) AS TotalDrops FROM Stop s WHERE s.RouteHeaderId = rh.Id) AS TotalDrops
   FROM 
 	RouteHeader rh

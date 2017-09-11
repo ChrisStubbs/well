@@ -86,9 +86,8 @@
       <HintPath>..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.14\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.17\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
@@ -225,6 +224,7 @@
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserStatsRepositoryTests.cs" />
+    <Compile Include="MSDTC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\AdamImportServiceTests.cs" />
@@ -237,7 +237,6 @@
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
     <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
-    <Compile Include="Services\DeliveryServiceTests.cs" />
     <Compile Include="Services\EpodServices\AdamFileImportCommandsTests.cs" />
     <Compile Include="Services\EpodServices\EpodFileImportCommandTests.cs" />
     <Compile Include="Services\EpodServices\EpodImportMapperTests.cs" />
@@ -249,6 +248,7 @@
     <Compile Include="Services\ManualCompletionServiceTests.cs" />
     <Compile Include="Services\EpodServices\AdamImportServiceTests.cs" />
     <Compile Include="Services\OrderImportMapperTests.cs" />
+    <Compile Include="Services\StopServiceTests.cs" />
     <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
     <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />

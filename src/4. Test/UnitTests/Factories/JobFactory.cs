@@ -145,5 +145,32 @@
             Entity.JobRoute = new JobRoute { BranchId = branchId, RouteDate = routeDate };
             return this;
         }
+
+
+        /// <summary>
+        /// Returns job that qualifies for well status change
+        /// </summary>
+        /// <returns></returns>
+        public JobFactory JobWithStatusChange()
+        {
+
+            Entity.JobStatus = JobStatus.CompletedOnPaper; // Maps to WellStatus.Complete
+            Entity.ResolutionStatus = ResolutionStatus.ActionRequired; // Maps to WellStatus.Complete
+            Entity.WellStatus = WellStatus.Planned;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Returns job that does not qualifiy for well status change
+        /// </summary>
+        /// <returns></returns>
+        public JobFactory JobWithoutStatusChange()
+        {
+            Entity.JobStatus = JobStatus.CompletedOnPaper; // Maps to WellStatus.Complete
+            Entity.ResolutionStatus = ResolutionStatus.ActionRequired; // Maps to WellStatus.Complete
+            Entity.WellStatus = WellStatus.Complete;
+            return this;
+        }
     }
 }

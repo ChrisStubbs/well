@@ -19,6 +19,7 @@
         private readonly IAdamFileImportCommands importCommands;
         private readonly IDeadlockRetryHelper deadlockRetryHelper;
         private readonly IDbConfiguration dbConfiguration;
+        private readonly IRouteService routeService;
 
         public AdamImportService(
             ILogger logger,
@@ -28,7 +29,8 @@
             IAdamImportMapper importMapper,
             IAdamFileImportCommands importCommands,
             IDeadlockRetryHelper deadlockRetryHelper,
-            IDbConfiguration dbConfiguration
+            IDbConfiguration dbConfiguration,
+            IRouteService routeService
             )
         {
             this.logger = logger;
@@ -39,6 +41,7 @@
             this.importCommands = importCommands;
             this.deadlockRetryHelper = deadlockRetryHelper;
             this.dbConfiguration = dbConfiguration;
+            this.routeService = routeService;
         }
 
         public void Import(RouteDelivery route)
@@ -119,6 +122,9 @@
             }
 
             importService.ImportStops(header, importMapper, importCommands);
+
+            // Calculate well status
+            routeService.ComputeWellStatus(header.Id);
         }
 
         public virtual int GetRouteOwnerId(RouteHeader header)

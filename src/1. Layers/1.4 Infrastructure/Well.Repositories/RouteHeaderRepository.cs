@@ -197,5 +197,13 @@
                 .AddParameter("RoutesId", id, DbType.Int32)
                 .Execute();
         }
+
+        public void UpdateWellStatus(RouteHeader routeHeader)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdateWellStatus)
+                .AddParameter("Id", routeHeader.Id, DbType.Int32)
+                .AddParameter("WellStatusId", (int) routeHeader.RouteWellStatus, DbType.Int16)
+                .Execute();
+        }
     }
 }

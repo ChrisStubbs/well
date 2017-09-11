@@ -42,7 +42,7 @@ namespace PH.Well.UnitTests.Services
             var changed = service.ComputeWellStatus(stop);
 
             // Stop updated
-            stopRepository.Verify(x => x.Update(stop));
+            stopRepository.Verify(x => x.UpdateWellStatus(stop));
             // Status changed
             Assert.AreEqual(WellStatus.Complete, stop.WellStatus);
             // Change reported
@@ -56,7 +56,7 @@ namespace PH.Well.UnitTests.Services
             var changed = service.ComputeWellStatus(stop);
 
             // Stop updated
-            stopRepository.Verify(x => x.Update(stop),Times.Never);
+            stopRepository.Verify(x => x.UpdateWellStatus(stop),Times.Never);
             // Status not changed
             Assert.AreEqual(WellStatus.Complete, stop.WellStatus);
             // Not changed
@@ -70,7 +70,7 @@ namespace PH.Well.UnitTests.Services
             var changed = service.ComputeAndPropagateWellStatus(stop);
 
             // Stop updated
-            stopRepository.Verify(x => x.Update(stop));
+            stopRepository.Verify(x => x.UpdateWellStatus(stop));
             // Propagated to route service
             routeService.Verify(x => x.ComputeWellStatus(stop.RouteHeaderId));
             // Status changed
@@ -86,7 +86,7 @@ namespace PH.Well.UnitTests.Services
             var changed = service.ComputeAndPropagateWellStatus(stop);
 
             // Stop updated
-            stopRepository.Verify(x => x.Update(stop), Times.Never);
+            stopRepository.Verify(x => x.UpdateWellStatus(stop), Times.Never);
             // Dont propagate
             routeService.Verify(x => x.ComputeWellStatus(stop.RouteHeaderId), Times.Never);
             // Status not changed

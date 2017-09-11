@@ -465,7 +465,7 @@
         public bool ComputeWellStatus(int jobId)
         {
             // Get the job specified
-            var job = jobRepository.GetById(jobId);
+            var job = jobRepository.GetForWellStatusCalculationById(jobId);
             if (job != null)
             {
                 return ComputeWellStatus(job);
@@ -480,7 +480,7 @@
             if (job.WellStatus != status)
             {
                 job.WellStatus = status;
-                this.jobRepository.Update(job);
+                this.jobRepository.UpdateWellStatus(job);
 
                 return true;
             }

@@ -454,6 +454,13 @@
     <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
     <Build Include="dbo\Views\ExceptionTotalsPerRoute.sql" />
+    <Build Include="dbo\StoredProcedures\Job_UpdateWellStatus.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationById.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_UpdateWellStatus.sql" />
+    <Build Include="dbo\Views\JobForWellStatusCalculation.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GetForWellStatusCalculationById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_UpdateWellStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

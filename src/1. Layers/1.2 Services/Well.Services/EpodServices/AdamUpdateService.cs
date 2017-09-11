@@ -71,6 +71,7 @@
                 }
             }
 
+            // Todo Calculate WellStatus for RouteHeader
         }
 
         private void Insert(StopUpdate stop)

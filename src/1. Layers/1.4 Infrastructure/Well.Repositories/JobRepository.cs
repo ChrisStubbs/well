@@ -388,5 +388,21 @@ namespace PH.Well.Repositories
                 .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
+
+        public void UpdateWellStatus(Job job)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdateWellStatus)
+                .AddParameter("Id", job.Id, DbType.Int32)
+                .AddParameter("WellStatusId", (int) job.WellStatus, DbType.Int16)
+                .Execute();
+        }
+
+        public Job GetForWellStatusCalculationById(int jobId)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetForWellStatusCalculationById)
+                .AddParameter("Id", jobId, DbType.Int32)
+                .Query<Job>()
+                .SingleOrDefault();
+        }
     }
 }

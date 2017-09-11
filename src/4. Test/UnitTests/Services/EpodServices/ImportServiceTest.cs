@@ -17,8 +17,8 @@
         private Mock<IJobService> jobService;
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
-
         private ImportService importService;
+        private Mock<IStopService> stopService;
 
         [SetUp]
         public virtual void SetUp()
@@ -30,6 +30,7 @@
             jobService = new Mock<IJobService>();
             jobDetailRepository = new Mock<IJobDetailRepository>();
             jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>();
+            stopService = new Mock<IStopService>();
 
             importService = new ImportService(
                 logger.Object,
@@ -38,7 +39,8 @@
                 jobRepository.Object,
                 jobService.Object,
                 jobDetailRepository.Object,
-                jobDetailDamageRepository.Object);
+                jobDetailDamageRepository.Object,
+                stopService.Object);
 
         }
     }

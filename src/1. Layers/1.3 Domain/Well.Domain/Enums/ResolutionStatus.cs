@@ -36,8 +36,7 @@ namespace PH.Well.Domain.Enums
             [Description("Manually Completed")]
             ManuallyCompleted = 512
         }
-
-        #region Static data
+        
         private static readonly Dictionary<eResolutionStatus, ResolutionStatus> Values = new Dictionary<eResolutionStatus, ResolutionStatus>
         {
             { eResolutionStatus.Invalid, new ResolutionStatus(eResolutionStatus.Invalid)},
@@ -73,8 +72,6 @@ namespace PH.Well.Domain.Enums
             eResolutionStatus.Closed,
             eResolutionStatus.ManuallyCompleted | eResolutionStatus.Closed
         };
-
-        #endregion Static data
 
         #region Properties
         private eResolutionStatus eValue { get; }

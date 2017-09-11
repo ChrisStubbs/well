@@ -54,7 +54,8 @@ export class StopItem implements IGrnAssignable, IGrnAssignable
     public readonly canEdit: boolean;
     public completedOnPaper: boolean;
     public locationId: number;
- 
+    public hasLineItemActions: boolean;
+
     public get barCode(): string
     {
         if (_.isNil(this.mBarCode) || _.isEmpty(this.mBarCode))

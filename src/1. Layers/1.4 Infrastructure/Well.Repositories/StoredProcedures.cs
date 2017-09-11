@@ -166,7 +166,6 @@ namespace PH.Well.Repositories
 
         public const string LocationGetById = "Location_GetById";
         public const string GetSingleLocation = "SingleLocation_Get";
-        public const string GetSingleLocationById = "SingleLocation_GetById";
         public const string GetLocations = "Locations_GET";
         
         //lookups

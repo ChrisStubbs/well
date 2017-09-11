@@ -23,6 +23,7 @@ namespace PH.Well.Domain
         public DateTime Date { get; set; }
         public int JobTypeId { get; set; }
         public string JobType { get; set; }
+        public int WellStatus { get; set; }
         public int JobStatusId { get; set; }
 
         public bool CompletedOnPaper

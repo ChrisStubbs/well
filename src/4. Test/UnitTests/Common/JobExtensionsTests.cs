@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using PH.Well.Domain.Enums;
 using PH.Well.Domain.Extensions;
@@ -11,6 +8,7 @@ using PH.Well.UnitTests.Factories;
 
 namespace PH.Well.UnitTests.Common
 {
+    using Well.Domain;
 
     [TestFixture]
     class JobExtensionsTests
@@ -168,5 +166,70 @@ namespace PH.Well.UnitTests.Common
 
             Assert.That($"{sut.PhAccount} - {sut.PickListRef} - {sut.JobTypeCode}", Is.EqualTo(sut.Identifier()));
         }
+
+
+        public class TheIncludeJobTypeInImportMethod : JobExtensionsTests
+        {
+            [Test]
+            public void ShouldNotIncludeOversInImport()
+            {
+                var job = JobFactory.New.With(p => p.InvoiceNumber = Job.OverInvoiceNumber).Build();
+
+                Assert.IsFalse(job.IncludeJobTypeInImport());
+            }
+
+            [Test]
+            public void ShouldIgnoreCetainJobTypes()
+            {
+                foreach (var jobType in Enum.GetValues(typeof(JobType)).Cast<JobType>())
+                {
+                    var job = JobFactory.New.With(p => p.JobTypeCode = EnumExtensions.GetDescription(jobType)).Build();
+                    switch (job.JobTypeEnumValue)
+                    {
+                        case JobType.Unknown:
+                            Assert.IsFalse(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Tobacco:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Ambient:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Alcohol:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Chilled:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Frozen:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.Documents:
+                            Assert.IsFalse(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.SandwichUplift:
+                            Assert.IsFalse(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.GlobalUplift:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.AssetsUplift:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.StandardUplift:
+                            Assert.IsTrue(job.IncludeJobTypeInImport());
+                            break;
+                        case JobType.NotDefined:
+                            Assert.IsFalse(job.IncludeJobTypeInImport());
+                            break;
+                        default:
+                            Assert.Fail("Check that the new Job Type should be imported");
+                            break;
+                    }
+                }
+            }
+        }
+
+
     }
 }

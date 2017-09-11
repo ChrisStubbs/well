@@ -235,7 +235,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                var jobUpdate = new JobUpdate { JobTypeCode = "DEL-DOC", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
+                var jobUpdate = new JobUpdate { JobTypeCode = "DEL-TOB", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
 
                 var jobDetailUpdate = new JobDetailUpdate { LineNumber = 1 };
 
@@ -395,7 +395,7 @@
 
                 var stop = StopFactory.New.Build();
 
-                var job = new JobUpdate { JobTypeCode = "DEL_FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
+                var job = new JobUpdate { JobTypeCode = "DEL-FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
 
                 stopUpdate.Jobs.Add(job);
 

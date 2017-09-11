@@ -15,7 +15,7 @@ AS
 				FROM [Stop] s
 				INNER JOIN Job j ON j.StopId = s.id
 				AND j.DateDeleted IS NULL
-				WHERE j.JobTypeCode != 'DEL-DOC'
+				--WHERE j.JobTypeCode != 'DEL-DOC'
 				GROUP BY s.Id, j.JobStatusId, j.id)
 			AS SourceTable
 			PIVOT

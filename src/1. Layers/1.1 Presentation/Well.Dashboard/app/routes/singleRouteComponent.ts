@@ -258,7 +258,7 @@ export class SingleRouteComponent implements IObservableAlive
             })
             .value();
 
-        return result;
+        return _.orderBy(result, ['stop'], ['asc']);
     }
 
     public areAllExpanded(): boolean

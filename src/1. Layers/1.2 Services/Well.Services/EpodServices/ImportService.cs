@@ -125,8 +125,8 @@
             var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
 
             List<int> updateJobIds = new List<int>();
-           
-            foreach (var job in fileJobs.Where(fj => !fj.IsOverInvoice)) //do not import overs
+
+            foreach (var job in fileJobs.Where(fj=> fj.IncludeJobTypeInImport()))
             {
                 var originalJob = FindOriginalJob(existingJobsBothSources, job);
 
@@ -205,7 +205,7 @@
         {
             foreach (var jobToDelete in jobsToBeDeleted)
             {
-                if (jobToDelete.IsDocumentDelivery() || jobToDelete.CanWeUpdateJobOnImport())
+                if (jobToDelete.CanWeUpdateJobOnImport())
                 {
                     this.jobRepository.CascadeSoftDeleteJobs(new[] { jobToDelete.Id }, true);
                 }
@@ -215,9 +215,7 @@
         private IList<Job> GetExistingJobs(int branchId, IList<Job> jobs)
         {
             var existing = jobRepository.
-                GetExistingJobsIdsIncludingSoftDeleted(branchId,
-                   jobs.Where(x => !x.IsDocumentDelivery())
-                ).ToList();
+                GetExistingJobsIdsIncludingSoftDeleted(branchId, jobs).ToList();
 
             jobRepository.ReinstateJobsSoftDeletedByImport(existing);
 
@@ -255,5 +253,6 @@
                 x.Identifier() == job.Identifier()
             );
         }
+
     }
 }

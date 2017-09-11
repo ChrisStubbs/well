@@ -31,7 +31,7 @@ AS
 	        WHERE 
 		        (lia.DeliveryActionId = 0 OR lia.DeliveryActionId IS NULL)
 		        AND j.ResolutionStatusId > 1
-		        AND j.JobTypeCode != 'DEL-DOC'
+		        --AND j.JobTypeCode != 'DEL-DOC'
 				AND li.DateDeleted IS NULL
 				AND lia.DateDeleted IS NULL
 				AND jd.DateDeleted IS NULL
@@ -43,7 +43,9 @@ AS
 	    (
             SELECT DISTINCT j.ActivityId
 	        FROM Job j
-	        WHERE j.ResolutionStatusId > 1 AND j.JobTypeCode != 'DEL-DOC' AND j.DateDeleted IS NULL
+	        WHERE j.ResolutionStatusId > 1 
+				--AND j.JobTypeCode != 'DEL-DOC' 
+				AND j.DateDeleted IS NULL
 	        GROUP BY j.ActivityId
         ) invoicedJobs 
             on invoicedJobs.ActivityId = a.Id

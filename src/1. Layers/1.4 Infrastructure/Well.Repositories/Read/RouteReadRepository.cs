@@ -29,24 +29,24 @@ namespace PH.Well.Repositories.Read
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
             var branch = wellEntities.UserBranch
-                    .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
-                    .Select(x => new
-                    {
-                        x.Branch.Id,
-                        x.Branch.Name
-                    })
-                    .FirstOrDefault();
+                .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
+                .Select(x => new
+                {
+                    x.Branch.Id,
+                    x.Branch.Name
+                })
+                .FirstOrDefault();
 
             if (branch != null)
             {
                 var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
-                .Select(p => new { p.Id, Value = p.NoGRNButNeeds, Type = "a" });
+                    .Select(p => new {p.Id, Value = p.NoGRNButNeeds, Type = "a"});
 
                 var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
-                    .Select(p => new { p.Id, Value = p.HasNotDefinedDeliveryAction, Type = "b" });
+                    .Select(p => new {p.Id, Value = p.HasNotDefinedDeliveryAction, Type = "b"});
 
                 var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
-                    .Select(p => new { p.Id, Value = p.PendingSubmission, Type = "c" });
+                    .Select(p => new {p.Id, Value = p.PendingSubmission, Type = "c"});
 
                 var viewsValues = routesWithUnresolvedActionView
                     .Union(routesWithNoGRNView)
@@ -56,7 +56,8 @@ namespace PH.Well.Repositories.Read
                     {
                         Id = p.Key,
                         NoGRNButNeeds = p.Where(v => v.Type == "a").Select(v => v.Value).FirstOrDefault() ?? false,
-                        HasNotDefinedDeliveryAction = p.Where(v => v.Type == "b").Select(v => v.Value).FirstOrDefault() ?? false,
+                        HasNotDefinedDeliveryAction =
+                        p.Where(v => v.Type == "b").Select(v => v.Value).FirstOrDefault() ?? false,
                         PendingSubmission = p.Where(v => v.Type == "c").Select(v => v.Value).FirstOrDefault() ?? false,
                     });
 
@@ -65,17 +66,18 @@ namespace PH.Well.Repositories.Read
                     .SelectMany(p => p.Stop
                         .Where(s => s.DateDeleted == null)
                         .SelectMany(s => s.Job
-                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" && j.JobTypeCode != "UPL-SAN")
+                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
+                                        j.JobTypeCode != "UPL-SAN")
                             .Select(uj => new
                             {
                                 Users = uj.UserJob.Select(a => a.User.Name),
-                                Route = p.Id, 
+                                Route = p.Id,
                                 Stop = s.Id
                             })
                         )
                     ).ToList()
                     //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
-                    .GroupBy(p => new { p.Route, p.Stop })
+                    .GroupBy(p => new {p.Route, p.Stop})
                     //select distinct users inside the group
                     .Select(p =>
                     {
@@ -85,7 +87,7 @@ namespace PH.Well.Repositories.Read
                         {
                             return new
                             {
-                                Users = new List<string> { "Unallocated" },
+                                Users = new List<string> {"Unallocated"},
                                 p.Key.Route
                             };
                         }
@@ -101,28 +103,28 @@ namespace PH.Well.Repositories.Read
 
 
                 var exceptionTotals = wellEntities.ExceptionTotalsPerRoute
-                    .ToDictionary(k => k.Routeid, v => new { v.WithExceptions, v.WithOutExceptions });
-                    
+                    .ToDictionary(k => k.Routeid, v => new {v.WithExceptions, v.WithOutExceptions});
+
                 var routeHeaders = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .GroupJoin(viewsValues,
                         p => p.Id,
                         v => v.Id,
                         (p, v) => v
-                                    .Select(r => new
-                                    {
-                                        Route = p,
-                                        NoGRNButNeeds = r.NoGRNButNeeds,
-                                        HasNotDefinedDeliveryAction = r.HasNotDefinedDeliveryAction,
-                                        PendingSubmission = r.PendingSubmission
-                                    })
-                                    .DefaultIfEmpty(new
-                                    {
-                                        Route = p,
-                                        NoGRNButNeeds = false,
-                                        HasNotDefinedDeliveryAction = false,
-                                        PendingSubmission = false
-                                    })
+                            .Select(r => new
+                            {
+                                Route = p,
+                                NoGRNButNeeds = r.NoGRNButNeeds,
+                                HasNotDefinedDeliveryAction = r.HasNotDefinedDeliveryAction,
+                                PendingSubmission = r.PendingSubmission
+                            })
+                            .DefaultIfEmpty(new
+                            {
+                                Route = p,
+                                NoGRNButNeeds = false,
+                                HasNotDefinedDeliveryAction = false,
+                                PendingSubmission = false
+                            })
                     )
                     .SelectMany(p => p)
                     .Select(x => new
@@ -137,21 +139,16 @@ namespace PH.Well.Repositories.Read
                         RouteDate = x.Route.RouteDate,
                         StopCount = x.Route.Stop.Count,
                         StopsId = x.Route.Stop.Select(p => p.Id),
-                        RouteStatusCode = x.Route.RouteStatusCode,
-                        RouteStatusDesc = x.Route.RouteStatusDescription,
-                        BypassJobCount = x.Route.Stop.Count(y => y.Job.All(z => z.JobTypeCode != "UPL-SAN"
-                                                                            && z.JobTypeCode != "DEL-DOC"
-                                                                            && z.JobTypeCode != "NOTDEF"
-                                                                            && z.JobStatusId == (byte)JobStatus.Bypassed
-                                                                            && z.DateDeleted == null)),
+                        x.Route.WellStatus,
                         DriverName = x.Route.DriverName,
                         JobIds = x.Route.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
-                                                                            && z.JobTypeCode != "DEL-DOC"
-                                                                            && z.JobTypeCode != "NOTDEF"
-                                                                            && z.DateDeleted == null).Select(a => a.Id))
+                                                                               && z.JobTypeCode != "DEL-DOC"
+                                                                               && z.JobTypeCode != "NOTDEF"
+                                                                               && z.DateDeleted == null)
+                            .Select(a => a.Id))
                     })
                     .ToList();
-                
+
                 Func<int, List<Assignee>> getAssignees = routeId =>
                 {
                     if (jobs.ContainsKey(routeId))
@@ -168,51 +165,44 @@ namespace PH.Well.Repositories.Read
                     return null;
                 };
 
-                return routeHeaders.Select(item => new Route()
-                {
-                    Id = item.RouteId,
-                    BranchId = item.BranchId,
-                    BranchName = item.BranchName,
-                    RouteNumber = item.RouteNumber,
-                    RouteDate = item.RouteDate.Value,
-                    StopCount = item.StopCount,
-                    ExceptionCount = exceptionTotals.ContainsKey(item.RouteId) ? exceptionTotals[item.RouteId].WithExceptions.Value : 0,
-                    CleanCount = exceptionTotals.ContainsKey(item.RouteId) ? exceptionTotals[item.RouteId].WithOutExceptions.Value : 0,
-                    RouteStatus = item.RouteStatusDesc,
-                    RouteStatusId =
-                        GetWellStatus(item.RouteStatusCode, item.BypassJobCount,
-                            item.JobIds.Count()),
-                    Assignees = getAssignees(item.RouteId),
-                    JobIssueType =
-                        (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
-                        (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
-                        (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
-                    JobIds = item.JobIds.ToList(),
-                    DriverName = item.DriverName
-                })
-                .ToList();
+                return routeHeaders.Select(item =>
+                    {
+                        var routeWellStatus = (item.WellStatus.HasValue)
+                            ? (WellStatus) item.WellStatus
+                            : WellStatus.Unknown;
+
+                        var route = new Route()
+                        {
+                            Id = item.RouteId,
+                            BranchId = item.BranchId,
+                            BranchName = item.BranchName,
+                            RouteNumber = item.RouteNumber,
+                            RouteDate = item.RouteDate.Value,
+                            StopCount = item.StopCount,
+                            ExceptionCount = exceptionTotals.ContainsKey(item.RouteId)
+                                ? exceptionTotals[item.RouteId].WithExceptions.Value
+                                : 0,
+                            CleanCount = exceptionTotals.ContainsKey(item.RouteId)
+                                ? exceptionTotals[item.RouteId].WithOutExceptions.Value
+                                : 0,
+                            RouteStatusId = (int) routeWellStatus,
+                            RouteStatus = routeWellStatus.Description(),
+
+                            Assignees = getAssignees(item.RouteId),
+                            JobIssueType =
+                                (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+                                (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+                                (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
+                            JobIds = item.JobIds.ToList(),
+                            DriverName = item.DriverName
+                        };
+
+                        return route;
+                    })
+                    .ToList();
             }
 
             return new List<Route>();
-        }
-
-        private int GetWellStatus(string routeStatusCode, int bypassJobCount, int jobCount)
-        {
-            if (bypassJobCount == jobCount)
-            {
-                return (int)WellStatus.Bypassed;
-            }
-            switch (routeStatusCode)
-            {
-                case RouteStatusCode.NotDeparted:
-                    return (int)WellStatus.Planned;
-                case RouteStatusCode.InProgress:
-                    return (int)WellStatus.RouteInProgress;
-                case RouteStatusCode.Completed:
-                    return (int)WellStatus.Complete;
-                default:
-                    return (int)WellStatus.Planned;
-            }
         }
         
         public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)

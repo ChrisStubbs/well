@@ -27,7 +27,8 @@ BEGIN
 		[DateCreated],
 		[UpdatedBy],
 		[DateUpdated],
-		[Version]
+		[Version],
+		[WellStatus] as RouteWellStatus
   FROM [dbo].[RouteHeader]
   WHERE [Id] = @Id
 END

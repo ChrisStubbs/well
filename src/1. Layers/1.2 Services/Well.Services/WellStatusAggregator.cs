@@ -11,59 +11,48 @@ namespace PH.Well.Services
 {
     public class WellStatusAggregator : IWellStatusAggregator
     {
-        public WellStatus Aggregate(IEnumerable<WellStatus> wellStatuses, AggregationType aggregationType)
+        public WellStatus Aggregate(params ResolutionStatus[] resolutionStatuses)
         {
-            WellStatus result = WellStatus.Unknown;
+            //TODO validate requirement for this 
+            if (resolutionStatuses.Any(x => x == ResolutionStatus.Invalid))
+            {
+                return WellStatus.RouteInProgress;
+            }
+
+            if (resolutionStatuses.All(x => x == ResolutionStatus.Imported))
+            {
+                return WellStatus.Planned;
+            }
+
+            return WellStatus.Complete;
+        }
+
+        public WellStatus Aggregate(params WellStatus[] wellStatuses)
+        {
             List<WellStatus> uniqueStatus = wellStatuses.Distinct().ToList();
-            if (uniqueStatus.Contains(WellStatus.Planned))
+
+            var anyCompleted = uniqueStatus.Any(x => x == WellStatus.Complete || x == WellStatus.CompleteWithBypass ||
+                                                     x == WellStatus.Bypassed);
+
+            var anyInProgress = uniqueStatus.Any(x => x == WellStatus.RouteInProgress || x == WellStatus.Invoiced);
+
+            var anyNotStarted = uniqueStatus.Any(x => x == WellStatus.Planned || x == WellStatus.Unknown);
+
+            if (anyCompleted)
             {
-                result = WellStatus.Planned;    
-            }
-            if (uniqueStatus.Contains(WellStatus.Invoiced))
-            {
-                result = aggregationType == AggregationType.Route ? WellStatus.Planned : WellStatus.Invoiced;
-            }
-            if (uniqueStatus.Contains(WellStatus.RouteInProgress))
-            {
-                result = WellStatus.RouteInProgress;
-            }
-            if (uniqueStatus.Contains(WellStatus.Complete))
-            {
-                result = WellStatus.Complete;
-            }
-            if (uniqueStatus.Contains(WellStatus.Bypassed))
-            {
-                if (result == WellStatus.Complete)
+                if (anyInProgress || anyNotStarted)
                 {
-                    result = WellStatus.CompleteWithBypass;
+                    return WellStatus.RouteInProgress;
                 }
-                else
-                {
-                    result = WellStatus.Bypassed;
-                }
+                return WellStatus.Complete;
             }
-            return result;
-        }
 
-        public WellStatus Aggregate(IEnumerable<LineItem> lineItems, AggregationType aggregationType)
-        {
-            WellStatus result = WellStatus.Unknown;
-            // Get all the statuses of all the exceptions for these items
-            var statuses = lineItems.Select(x => Aggregate(x.LineItemActions, aggregationType)).Distinct().ToList();
-            if (statuses.Contains(ResolutionStatus.Closed))
+            if (anyInProgress)
             {
-                
+                return WellStatus.RouteInProgress;
             }
-            return result;
-        }
 
-
-        public ResolutionStatus Aggregate(IEnumerable<LineItemAction> lineItemActions, AggregationType aggregationType)
-        {
-            // TODO: DIJ - Chris we need to wire this up (I may be able to look at it later Wednesday)
-            // Get all the status from the specified lineItemActions
-            //lineItemActions.Select(x=>x.)
-            return ResolutionStatus.Invalid;
+            return WellStatus.Planned;
         }
     }
 }

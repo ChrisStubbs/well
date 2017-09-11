@@ -468,19 +468,70 @@
             var job = jobRepository.GetById(jobId);
             if (job != null)
             {
-                // TODO: DIJ - Chris to pick this up from an extension method?
-                var status = this.wellStatusAggregator.Aggregate(job.LineItems, AggregationType.Job);
-                if (job.WellStatus != status)
-                {
-                    job.WellStatus = status;
-                    this.jobRepository.Save(job);
-                    // Propagate to parent job & sibling activity/invoice
-                    this.stopService.ComputeWellStatus(job.StopId);
-                    this.activityService.ComputeWellStatus(job.ActivityId);
-                    return true;
-                }
+                return ComputeWellStatus(job);
             }
             return false;
+        }
+
+        public bool ComputeWellStatus(Job job)
+        {
+            var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus);
+            status = wellStatusAggregator.Aggregate(status, ConvertJobStatus(job.JobStatus));
+            if (job.WellStatus != status)
+            {
+                job.WellStatus = status;
+                this.jobRepository.Update(job);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(int jobId)
+        {
+            // Get the job specified
+            var job = jobRepository.GetById(jobId);
+            if (job != null)
+            {
+                return ComputeAndPropagateWellStatus(job);
+            }
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(Job job)
+        {
+            if (ComputeWellStatus(job))
+            { 
+                // Propagate to parent job & sibling activity/invoice
+                this.stopService.ComputeAndPropagateWellStatus(job.StopId);
+                // TODO Implement activity service this.activityService.ComputeAndPropagateWellStatus(job.ActivityId);
+                return true;
+            }
+            return false;
+        }
+
+        private WellStatus ConvertJobStatus(JobStatus jobStatus)
+        {
+            switch (jobStatus)
+            {
+                case JobStatus.NotDefined:
+                    return WellStatus.Unknown;
+                case JobStatus.AwaitingInvoice:
+                    return WellStatus.Planned;
+                case JobStatus.InComplete:
+                    return WellStatus.RouteInProgress;
+                case JobStatus.Clean:
+                case JobStatus.Exception:
+                case JobStatus.Resolved:
+                case JobStatus.DocumentDelivery:
+                case JobStatus.CompletedOnPaper:
+                    return WellStatus.Complete;
+                case JobStatus.Bypassed:
+                    return WellStatus.CompleteWithBypass;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

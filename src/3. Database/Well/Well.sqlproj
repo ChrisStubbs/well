@@ -445,7 +445,6 @@
     <Build Include="dbo\Views\RoutesWithNoGRNView.sql" />
     <Build Include="dbo\Views\RoutesWithPendingSubmitionsView.sql" />
     <Build Include="dbo\Views\RoutesWithUnresolvedActionView.sql" />
-    <Build Include="dbo\StoredProcedures\SingleLocation_GetById.sql" />
     <Build Include="dbo\StoredProcedures\Activity_GetSourceById.sql" />
     <None Include="ManualStep\scripts\up\025_AddWellStatusIdToJob.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

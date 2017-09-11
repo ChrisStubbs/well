@@ -27,7 +27,8 @@ AS
 		rh.RouteDate AS [Date],
 		jt.Id AS JobTypeId,
 		jt.Description AS JobType,
-		j.WellStatusId AS JobStatusId, -- Should this be WellStatus ?? 
+		j.WellStatusId,
+		j.JobStatusId, 
 		'' AS JobStatus,
 		CONVERT(Bit, CASE WHEN ISNULL(j.COD, '') = '' THEN 0 ELSE 1 END) AS Cod,
 		CONVERT(Bit, CASE WHEN j.ProofOfDelivery IS NULL THEN 0 ELSE 0 END) AS Pod,
@@ -59,7 +60,6 @@ AS
 			AND rh.DateDeleted IS NULL
 		INNER JOIN JobType jt
 			ON j.JobTypeCode = jt.Code
-			--AND jt.code != 'DEL-DOC'
 		LEFT JOIN
 		(
 			SELECT 

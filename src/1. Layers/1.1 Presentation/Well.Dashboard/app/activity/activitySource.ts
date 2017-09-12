@@ -82,6 +82,7 @@ export class ActivitySourceDetail
     public jobTypeAbbreviation: string;
     public lineItemId: number;
     public hasUnresolvedActions: boolean;
+    public hasLineItemActions: boolean;
     public completedOnPaper: boolean;
     public get exceptionsFilter(): number
     {

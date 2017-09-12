@@ -75,7 +75,7 @@ namespace PH.Well.Api.Mapper
                                 det.SSCCBarcode,
                                 det.LineItemId,
                                 IsTobaccoBag = det.IsTobaccoBag(),
-                                HasLineItemActions = line.LineItemActions.Count() > 0
+                                HasLineItemActions = line.LineItemActions.Where(lia => lia.DateDeleted == null).Count() > 0
                             });
 
                     if (p.JobTypeEnumValue == JobType.Tobacco)

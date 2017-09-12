@@ -92,10 +92,7 @@ namespace PH.Well.Services
                 foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)
                                                                                 && x.Originator != Originator.Driver))
                 {
-                    var deleteDate = DateTime.Now;
-                    DeleteComments(itemToDelete, deleteDate);
-                    itemToDelete.DateDeleted = deleteDate;
-                    lineItemActionRepository.Update(itemToDelete);
+                    lineItemActionRepository.Delete(itemToDelete);
                 }
 
                 job = GetJob(job.Id);
@@ -109,15 +106,6 @@ namespace PH.Well.Services
 
             return this.lineItemRepository.GetById(lineItemId);
 
-        }
-
-        private void DeleteComments(LineItemAction itemToDelete, DateTime deleteDate)
-        {
-            foreach (var comment in itemToDelete.Comments)
-            {
-                comment.DateDeleted = deleteDate;
-                commentRepository.Update(comment);
-            }
         }
 
         private Job GetJob(int jobId )

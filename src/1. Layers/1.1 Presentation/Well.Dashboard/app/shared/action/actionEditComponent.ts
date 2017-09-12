@@ -404,7 +404,6 @@ class LineItemActionValidator implements Validator {
     private validatePodAction(group: FormGroup): ValidationErrors {
         this.validateQuantity(group);
         this.validateComment(group);
-        this.validateExceptionType(group);
 
         return undefined;
     }

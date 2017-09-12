@@ -28,7 +28,7 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            IList<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
             Dictionary<int, string> jobPrimaryAccountNumber)
         {
             var singleRoute = new SingleRoute
@@ -49,7 +49,7 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            IList<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
             Dictionary<int, string> jobPrimaryAccountNumber)
         {
 
@@ -77,18 +77,16 @@
                 var status = EnumExtensions.GetDescription(stop.WellStatus);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
+                var jobExceptions = jobDetailTotalsPerRouteHeader
+                    .ToLookup(k => k.JobId);
+
                 foreach (var job in stopJobs)
                 {
                     JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
-                    var ids = job.JobDetails.Select(p => p.Id).ToList();
-                    
-                    var jobExceptions = jobDetailTotalsPerRouteHeader
-                        .Where(p => ids.Contains(p.JobDetailId))
-                        .Sum(p => p.DamageTotal + p.ShortTotal + p.BypassTotal);
-
+                    var totalException = jobExceptions[job.Id].Sum(p => p.TotalExceptions);
                     var clean = job.JobDetails
                         .Where(x => x.IsClean() && !x.IsTobaccoBag())
-                        .Sum(p => p.OriginalDespatchQty) - jobExceptions;
+                        .Sum(p => p.OriginalDespatchQty) - totalException;
 
                     var item = new SingleRouteItem
                     {
@@ -111,7 +109,7 @@
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
                         Pod = job.IsProofOfDelivery,
-                        Exceptions = jobExceptions,
+                        Exceptions = totalException,
                         Clean = clean,
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),

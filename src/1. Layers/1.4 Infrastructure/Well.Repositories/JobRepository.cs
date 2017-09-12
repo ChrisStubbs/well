@@ -38,32 +38,31 @@ namespace PH.Well.Repositories
 
             return GetByIds(jobIds);
         }
-
-        /// <summary>
-        /// Helper method to extend qiey on job details to get JobDetailLineItemTotals
-        /// </summary>
-        /// <param name="jobDetails"></param>
-        /// <returns></returns>
-        private IList<JobDetailLineItemTotals> ToLineItemTotals(IQueryable<PH.Shared.Well.Data.EF.JobDetail> jobDetails)
+        
+        private IQueryable<JobDetailLineItemTotals> ToLineItemTotals(IQueryable<PH.Shared.Well.Data.EF.JobDetail> jobDetails)
         {
-            return jobDetails.Select(x => new
-            {
-                x.Id,
-                BypassTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Bypass)
-                    .Sum(y => (int?) y.Quantity),
-                DamageTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Damage)
-                    .Sum(y => (int?) y.Quantity),
-                ShortTotal = x.LineItem.LineItemAction.Where(y => y.ExceptionType.Id == (int) ExceptionType.Short)
-                    .Sum(y => (int?) y.Quantity),
-                TotalExceptions = x.LineItem.LineItemAction.Count(),
-            }).Select(x => new JobDetailLineItemTotals
-            {
-                JobDetailId = x.Id,
-                BypassTotal = x.BypassTotal ?? 0,
-                DamageTotal = x.DamageTotal ?? 0,
-                ShortTotal = x.ShortTotal ?? 0,
-                TotalExceptions = x.TotalExceptions,
-            }).ToList();
+            return jobDetails
+                .Where(p => p.Job.DateDeleted == null
+                    && p.Job.ResolutionStatusId.Value > ResolutionStatus.Imported.Value
+                    && p.Job.Stop.DateDeleted == null
+                    && p.Job.Stop.RouteHeader.DateDeleted == null)
+                .Select(x => new JobDetailLineItemTotals
+                {
+                    JobDetailId = x.Id,
+                    JobId = x.JobId,
+                    StopId = x.Job.StopId,
+                    RouteId = x.Job.Stop.RouteHeaderId,
+                    BypassTotal = x.LineItem.LineItemAction
+                        .Where(y => y.ExceptionType.Id == (int)ExceptionType.Bypass && y.DateDeleted == null)
+                        .Sum(y => (int?)y.Quantity) ?? 0,
+                    DamageTotal = x.LineItem.LineItemAction
+                        .Where(y => y.ExceptionType.Id == (int)ExceptionType.Damage && y.DateDeleted == null)
+                        .Sum(y => (int?)y.Quantity) ?? 0,
+                    ShortTotal = x.LineItem.LineItemAction
+                        .Where(y => y.ExceptionType.Id == (int)ExceptionType.Short && y.DateDeleted == null)
+                        .Sum(y => (int?)y.Quantity) ?? 0,
+                    TotalExceptions = x.LineItem.LineItemAction.Where(y => y.DateDeleted == null).Count(),
+                });
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId)
@@ -72,10 +71,10 @@ namespace PH.Well.Repositories
             return totals;
         }
 
-        public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
+        public IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
-            var totals = ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.Stop.RouteHeaderId == routeHeaderId));
-            return totals;
+            return ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.Stop.RouteHeaderId == routeHeaderId))
+                .ToList();
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
@@ -92,7 +91,7 @@ namespace PH.Well.Repositories
 
         public IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId)
         {
-            var jobIds = GetJobStopsByRouteHeaderId(routeHeaderId).Select(x=> x.JobId);
+            var jobIds = GetJobStopsByRouteHeaderId(routeHeaderId).Select(x => x.JobId);
 
             return GetByIds(jobIds);
         }

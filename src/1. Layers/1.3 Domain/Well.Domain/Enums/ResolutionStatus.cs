@@ -10,97 +10,77 @@ namespace PH.Well.Domain.Enums
     [Serializable]
     public sealed class ResolutionStatus
     {
-        [Flags]
-        public enum eResolutionStatus
+        private const int ResolutionStatusInvalid = 0;
+        private const int ResolutionStatusImported = 1;
+        private const int ResolutionStatusDriverCompleted = 2;
+        private const int ResolutionStatusActionRequired = 4;
+        private const int ResolutionStatusPendingSubmission = 8;
+        private const int ResolutionStatusPendingApproval = 16;
+        private const int ResolutionStatusApproved = 32;
+        private const int ResolutionStatusCredited = 64;
+        private const int ResolutionStatusResolved = 128;
+        private const int ResolutionStatusClosed = 256;
+        private const int ResolutionStatusManuallyCompleted = 512;
+
+    
+        private static readonly Dictionary<int, ResolutionStatus> Values = new Dictionary<int, ResolutionStatus>
         {
-            [Description("Invalid")]
-            Invalid = 0,
-            [Description("Imported")]
-            Imported = 1,
-            [Description("Driver Completed")]
-            DriverCompleted = 2,
-            [Description("Action Required")]
-            ActionRequired = 4,
-            [Description("Pending Submission")]
-            PendingSubmission = 8,
-            [Description("Pending Approval")]
-            PendingApproval = 16,
-            [Description("Approved")]
-            Approved = 32,
-            [Description("Credited")]
-            Credited = 64,
-            [Description("Resolved")]
-            Resolved = 128,
-            [Description("Closed")]
-            Closed = 256,
-            [Description("Manually Completed")]
-            ManuallyCompleted = 512
-        }
-        
-        private static readonly Dictionary<eResolutionStatus, ResolutionStatus> Values = new Dictionary<eResolutionStatus, ResolutionStatus>
-        {
-            { eResolutionStatus.Invalid, new ResolutionStatus(eResolutionStatus.Invalid)},
-            { eResolutionStatus.Imported, new ResolutionStatus(eResolutionStatus.Imported)},
-            { eResolutionStatus.DriverCompleted, new ResolutionStatus(eResolutionStatus.DriverCompleted)},
-            { eResolutionStatus.ActionRequired, new ResolutionStatus(eResolutionStatus.ActionRequired)},
-            { eResolutionStatus.PendingSubmission, new ResolutionStatus(eResolutionStatus.PendingSubmission)},
-            { eResolutionStatus.PendingApproval, new ResolutionStatus(eResolutionStatus.PendingApproval)},
-            { eResolutionStatus.Approved, new ResolutionStatus(eResolutionStatus.Approved)},
-            { eResolutionStatus.Credited, new ResolutionStatus(eResolutionStatus.Credited)},
-            { eResolutionStatus.Resolved, new ResolutionStatus(eResolutionStatus.Resolved)},
-            { eResolutionStatus.Closed, new ResolutionStatus(eResolutionStatus.Closed)},
-            { eResolutionStatus.ManuallyCompleted, new ResolutionStatus(eResolutionStatus.ManuallyCompleted)},
+            { ResolutionStatusInvalid, new ResolutionStatus(ResolutionStatusInvalid, "Invalid")},
+            { ResolutionStatusImported, new ResolutionStatus(ResolutionStatusImported, "Imported")},
+            { ResolutionStatusDriverCompleted, new ResolutionStatus(ResolutionStatusDriverCompleted, "Driver Completed")},
+            { ResolutionStatusActionRequired, new ResolutionStatus(ResolutionStatusActionRequired, "Action Required")},
+            { ResolutionStatusPendingSubmission, new ResolutionStatus(ResolutionStatusPendingSubmission, "Pending Submission")},
+            { ResolutionStatusPendingApproval, new ResolutionStatus(ResolutionStatusPendingApproval, "Pending Approval")},
+            { ResolutionStatusApproved, new ResolutionStatus(ResolutionStatusApproved, "Approved")},
+            { ResolutionStatusCredited, new ResolutionStatus(ResolutionStatusCredited, "Credited")},
+            { ResolutionStatusResolved, new ResolutionStatus(ResolutionStatusResolved, "Resolved")},
+            { ResolutionStatusClosed, new ResolutionStatus(ResolutionStatusClosed, "Closed")},
+            { ResolutionStatusManuallyCompleted, new ResolutionStatus(ResolutionStatusManuallyCompleted, "Manually Completed")},
         };
 
         /// <summary>
         /// List of just the statuses that can be combined together
         /// </summary>
-        private static readonly List<eResolutionStatus> CombinableStatuses = new List<eResolutionStatus>()
+        private static readonly List<int> CombinableStatuses = new List<int>()
         {
-            eResolutionStatus.DriverCompleted,
-            eResolutionStatus.Credited,
-            eResolutionStatus.Resolved,
-            eResolutionStatus.Closed,
-            eResolutionStatus.ManuallyCompleted
+            ResolutionStatusDriverCompleted,
+            ResolutionStatusCredited,
+            ResolutionStatusResolved,
+            ResolutionStatusClosed,
+            ResolutionStatusManuallyCompleted
         };
 
-        private static readonly List<eResolutionStatus> CombinableAndStatuses = new List<eResolutionStatus>()
+        private static readonly List<int> CombinableAndStatuses = new List<int>()
         {
-            eResolutionStatus.DriverCompleted | eResolutionStatus.Closed,
-            eResolutionStatus.Credited | eResolutionStatus.Closed,
-            eResolutionStatus.Resolved | eResolutionStatus.Closed,
-            eResolutionStatus.Closed,
-            eResolutionStatus.ManuallyCompleted | eResolutionStatus.Closed
+            ResolutionStatusDriverCompleted | ResolutionStatusClosed,
+            ResolutionStatusCredited | ResolutionStatusClosed,
+            ResolutionStatusResolved | ResolutionStatusClosed,
+            ResolutionStatusClosed,
+            ResolutionStatusManuallyCompleted | ResolutionStatusClosed
         };
 
         #region Properties
-        public eResolutionStatus eValue { get; }
-        public int Value => (int) eValue;
+        public int Value { get; }
         public string Description { get; }
-        public static ResolutionStatus Imported => Values[eResolutionStatus.Imported];
-        public static ResolutionStatus DriverCompleted => Values[eResolutionStatus.DriverCompleted];
-        public static ResolutionStatus ManuallyCompleted => Values[eResolutionStatus.ManuallyCompleted];
-        public static ResolutionStatus ActionRequired => Values[eResolutionStatus.ActionRequired];
-        public static ResolutionStatus PendingSubmission => Values[eResolutionStatus.PendingSubmission];
-        public static ResolutionStatus PendingApproval => Values[eResolutionStatus.PendingApproval];
-        public static ResolutionStatus Approved => Values[eResolutionStatus.Approved];
-        public static ResolutionStatus Credited => Values[eResolutionStatus.Credited];
-        public static ResolutionStatus Resolved => Values[eResolutionStatus.Resolved];
-        public static ResolutionStatus Closed => Values[eResolutionStatus.Closed];
-        public static ResolutionStatus Invalid => Values[eResolutionStatus.Invalid];
+        public static ResolutionStatus Imported => Values[ResolutionStatusImported];
+        public static ResolutionStatus DriverCompleted => Values[ResolutionStatusDriverCompleted];
+        public static ResolutionStatus ManuallyCompleted => Values[ResolutionStatusManuallyCompleted];
+        public static ResolutionStatus ActionRequired => Values[ResolutionStatusActionRequired];
+        public static ResolutionStatus PendingSubmission => Values[ResolutionStatusPendingSubmission];
+        public static ResolutionStatus PendingApproval => Values[ResolutionStatusPendingApproval];
+        public static ResolutionStatus Approved => Values[ResolutionStatusApproved];
+        public static ResolutionStatus Credited => Values[ResolutionStatusCredited];
+        public static ResolutionStatus Resolved => Values[ResolutionStatusResolved];
+        public static ResolutionStatus Closed => Values[ResolutionStatusClosed];
+        public static ResolutionStatus Invalid => Values[ResolutionStatusInvalid];
         public static IList<ResolutionStatus> AllStatus => ResolutionStatus.Values.Select(p => p.Value).ToList();
         #endregion Properties
 
         #region Constructor
-        private ResolutionStatus(eResolutionStatus resolutionStatus)
-        {
-            this.eValue = resolutionStatus;
-            this.Description = EnumExtensions.GetDescription(resolutionStatus);
-        }
 
-        private ResolutionStatus(eResolutionStatus resolutionStatus, string description)
+        private ResolutionStatus(int resolutionStatus, string description)
         {
-            this.eValue = resolutionStatus;
+            this.Value = resolutionStatus;
             this.Description = description;
         }
         #endregion Constructor
@@ -108,7 +88,7 @@ namespace PH.Well.Domain.Enums
         #region Operators
         public static ResolutionStatus operator &(ResolutionStatus val1, ResolutionStatus val2)
         {
-            if (!(CombinableAndStatuses.Any(p => p == val1.eValue) && CombinableAndStatuses.Any(p => p == val2.eValue)))
+            if (!(CombinableAndStatuses.Any(p => p == val1.Value) && CombinableAndStatuses.Any(p => p == val2.Value)))
             {
                 return Invalid;
             }
@@ -119,39 +99,39 @@ namespace PH.Well.Domain.Enums
 
         public static ResolutionStatus operator |(ResolutionStatus val1, ResolutionStatus val2)
         {
-            if (!(CombinableStatuses.Any(p => p == val1.eValue) && CombinableStatuses.Any(p => p == val2.eValue)))
+            if (!(CombinableStatuses.Any(p => p == val1.Value) && CombinableStatuses.Any(p => p == val2.Value)))
             {
                 return Invalid;
             }
 
-            return new ResolutionStatus(val1.eValue | val2.eValue, $"{val1.Description} - {val2.Description}");
+            return new ResolutionStatus(val1.Value | val2.Value, $"{val1.Description} - {val2.Description}");
         }
         
         public static implicit operator ResolutionStatus(int value)
         {
-            var valueToHandle = (eResolutionStatus)value;
+            var valueToHandle = value;
 
             if (Values.ContainsKey(valueToHandle))
             {
                 return Values[valueToHandle];
             }
 
-            if (valueToHandle == (Closed.eValue | DriverCompleted.eValue))
+            if (valueToHandle == (Closed.Value | DriverCompleted.Value))
             {
                 return Closed | DriverCompleted;
             }
 
-            if (valueToHandle == (Closed.eValue | Credited.eValue))
+            if (valueToHandle == (Closed.Value | Credited.Value))
             {
                 return Closed | Credited;
             }
 
-            if (valueToHandle == (Closed.eValue | Resolved.eValue))
+            if (valueToHandle == (Closed.Value | Resolved.Value))
             {
                 return Closed | Resolved;
             }
 
-            if (valueToHandle == (Closed.eValue | ManuallyCompleted.eValue))
+            if (valueToHandle == (Closed.Value | ManuallyCompleted.Value))
             {
                 return Closed | ManuallyCompleted;
             }
@@ -193,6 +173,16 @@ namespace PH.Well.Domain.Enums
             return val1 == val2 || !(val1 >= val2);
         }
 
+        public static bool operator >(int val1, ResolutionStatus val2)
+        {
+            return val1 > val2.Value;
+        }
+
+        public static bool operator <(int val1, ResolutionStatus val2)
+        {
+            return val1 < val2.Value;
+        }
+
         public override string ToString()
         {
             return $"{this.Value} - {this.Description}";
@@ -217,6 +207,5 @@ namespace PH.Well.Domain.Enums
             return this == item;
         }
         #endregion Overrides
-
     }
 }

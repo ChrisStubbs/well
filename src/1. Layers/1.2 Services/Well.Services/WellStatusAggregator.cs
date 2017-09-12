@@ -18,16 +18,24 @@ namespace PH.Well.Services
             var anyCompleted = uniqueStatus.Any(x => x == WellStatus.Complete || x == WellStatus.CompleteWithBypass ||
                                                      x == WellStatus.Bypassed);
 
-            var anyInProgress = uniqueStatus.Any(x => x == WellStatus.RouteInProgress || x == WellStatus.Invoiced);
+            var anyInProgress = uniqueStatus.Any(x => x == WellStatus.RouteInProgress);
 
             var anyNotStarted = uniqueStatus.Any(x => x == WellStatus.Planned || x == WellStatus.Unknown);
 
+            var anyInvoiced = uniqueStatus.Any(x => x == WellStatus.Invoiced);
+
             if (anyCompleted)
             {
-                if (anyInProgress || anyNotStarted)
+                if (anyInProgress || anyNotStarted || anyInvoiced)
                 {
                     return WellStatus.RouteInProgress;
                 }
+
+                if (wellStatuses.All(x => x == WellStatus.Bypassed))
+                {
+                    return WellStatus.Bypassed;
+                }
+
                 return WellStatus.Complete;
             }
 
@@ -36,7 +44,13 @@ namespace PH.Well.Services
                 return WellStatus.RouteInProgress;
             }
 
+            if (anyInvoiced)
+            {
+                return WellStatus.Invoiced;
+            }
+
             return WellStatus.Planned;
+
         }
     }
 }

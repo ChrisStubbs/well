@@ -167,6 +167,7 @@ namespace PH.Well.Repositories
         public const string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
         public const string LineItemActionGetByIds = "LineItemActionGetByIds";
         public const string LineItemActionUpdate = "LineItemActionUpdate";
+        public const string LineItemActionDelete = "LineItemActionDelete";
         public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
         public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
 
@@ -182,8 +183,10 @@ namespace PH.Well.Repositories
         public const string Driver = "Drivers_Get";
         public const string CommentReason = "CommentReason_Get";
 
+        //line item action comments
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
         public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
+
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
         public const string JobsToBeApproved = "JobsToBeApproved";

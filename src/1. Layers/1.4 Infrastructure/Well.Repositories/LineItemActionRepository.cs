@@ -90,5 +90,11 @@
                 .Execute();
         }
 
+        public void Delete(LineItemAction entity)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionDelete)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .Execute();
+        }
     }
 }

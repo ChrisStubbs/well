@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
@@ -12,7 +13,7 @@
             : base(logger, dapperProxy, userNameProvider)
         {
         }
-
+        
         // add
         protected override void SaveNew(LineItemActionComment entity)
         {

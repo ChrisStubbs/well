@@ -68,13 +68,13 @@
 
 
                 var job2 = JobFactory.New
-               .With(x => x.StopId = stop.Id)
-               .With(x => x.Id = 2)
-               .WithTotalShort(20)
-               .WithOuterDiscrepancyFound(true)
-               .WithOuterCount(1)
-               .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
-               .Build();
+                   .With(x => x.StopId = stop.Id)
+                   .With(x => x.Id = 2)
+                   .WithTotalShort(20)
+                   .WithOuterDiscrepancyFound(true)
+                   .WithOuterCount(1)
+                   .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
+                   .Build();
 
                 var jobs = new List<Job> { job, job2 };
 

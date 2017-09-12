@@ -284,9 +284,11 @@
                                 <td class="text-center"><span *ngIf="item.checked" class="glyphicon glyphicon-ok"></span></td>
                                 <td class="text-center"><span *ngIf="item.highValue" class="glyphicon glyphicon-ok"></span></td>
                                 <td [ngClass]="{'text-left': item.hasUnresolvedActions, 'text-center': !item.hasUnresolvedActions && item.hasLineItemActions}" >
-                                <!-- [class.text-left]="item.hasUnresolvedActions"> -->
                                     <span *ngIf="item.hasUnresolvedActions">Action Required</span>
-                                    <i *ngIf="!item.hasUnresolvedActions && item.hasLineItemActions" class="fa fa-exclamation" style="color: red;font-size: initial;"></i>
+                                    <i *ngIf="!item.hasUnresolvedActions && item.hasLineItemActions" 
+                                        class="fa fa-exclamation" 
+                                        style="color: red;font-size: initial;"
+                                        title="With Exceptions"></i>
                                 </td>
                                 <td>
                                     <a href="#" (click)="editLineItemActions(item, $event)" title="View/Edit Exceptions" data-toggle="modal" *ngIf="item.lineItemId != 0">

@@ -453,6 +453,7 @@
     <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
     <Build Include="dbo\Views\ExceptionTotalsPerRoute.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionDelete.sql" />
     <Build Include="dbo\StoredProcedures\Job_UpdateWellStatus.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationById.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopId.sql" />

@@ -1,3 +1,4 @@
+import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
 import { Component, ViewChild }                             from '@angular/core';
 import { ActivatedRoute }                                   from '@angular/router';
 import { IObservableAlive }                                 from '../shared/IObservableAlive';
@@ -13,7 +14,7 @@ import
 import { Observable }                                       from 'rxjs';
 import { ActivityService }                                  from './activityService';
 import { ILookupValue }                                     from '../shared/services/ILookupValue';
-import * as _                                               from 'lodash';
+import * as _ from 'lodash';
 import { GridHelpersFunctions }                             from '../shared/gridHelpers/gridHelpersFunctions';
 import { AssignModel, AssignModalResult }                   from '../shared/components/assignModel';
 import { Branch }                                           from '../shared/branch/branch';
@@ -337,7 +338,7 @@ export class ActivityComponent implements IObservableAlive
         lineItem.shorts = shorts;
         lineItem.damaged = damages;
         lineItem.hasUnresolvedActions = data.hasUnresolvedActions;
-        this.setResolutionStatus(job, data.resolutionId, data.resolutionStatus);
+        this.setResolutionStatus(job, data.resolutionId, data.resolutionStatus, data.id, data.exceptions.length > 0);
     }
 
     public selectedItems(): Array<ActivitySourceDetail>
@@ -396,7 +397,12 @@ export class ActivityComponent implements IObservableAlive
             });
     }
 
-    public setResolutionStatus(job: ActivitySourceGroup, resolutionId: number, resolutionDescription: string): void
+    public setResolutionStatus(
+        job: ActivitySourceGroup, 
+        resolutionId: number,
+        resolutionDescription: string, 
+        lineItemId?: number,
+        hasLineItemActions?: boolean): void
     {
         job.resolution = resolutionDescription;
         job.resolutionId = resolutionId;
@@ -406,6 +412,13 @@ export class ActivityComponent implements IObservableAlive
             {
                 current.resolutionDescription = resolutionDescription;
                 current.resolutionId = resolutionId;
+                if (!_.isUndefined(lineItemId) && lineItemId == current.lineItemId)
+                {
+                    if (!_.isUndefined(hasLineItemActions))
+                    {
+                        current.hasLineItemActions = hasLineItemActions;
+                    }
+                }
             });
     }
 

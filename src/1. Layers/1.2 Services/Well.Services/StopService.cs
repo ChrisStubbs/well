@@ -31,9 +31,10 @@ namespace PH.Well.Services
         #endregion Constructors
 
         #region Public methods
+
         public bool ComputeWellStatus(int stopId)
         {
-            var stop = GetStopWithJobs(stopId);
+            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
             if (stop != null)
             {
                 return ComputeWellStatus(stop);
@@ -49,7 +50,7 @@ namespace PH.Well.Services
             if (stop.WellStatus != newWellStatus)
             {
                 stop.WellStatus = newWellStatus;
-                stopRepository.Update(stop);
+                stopRepository.UpdateWellStatus(stop);
                 return true;
             }
 
@@ -58,7 +59,7 @@ namespace PH.Well.Services
 
         public bool ComputeAndPropagateWellStatus(int stopId)
         {
-            var stop = GetStopWithJobs(stopId);
+            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
             if (stop != null)
             {
                 return ComputeAndPropagateWellStatus(stop);
@@ -79,24 +80,5 @@ namespace PH.Well.Services
         }
 
         #endregion Public methods
-
-        #region Private methods
-
-        /// <summary>
-        /// Helper method to fetch stop with its jobs
-        /// </summary>
-        /// <param name="stopId"></param>
-        /// <returns></returns>
-        private Stop GetStopWithJobs(int stopId)
-        {
-            var stop = stopRepository.GetById(stopId);
-            if (stop != null)
-            {
-                stop.Jobs = jobRepository.GetByStopId(stop.Id).ToList();
-            }
-            return stop;
-        }
-
-        #endregion Private methods
     }
 }

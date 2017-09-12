@@ -17,6 +17,7 @@
         private readonly IEpodImportMapper epodImportMapper;
         private readonly IEpodFileImportCommands importCommands;
         private readonly IDeadlockRetryHelper deadlockRetryHelper;
+        private readonly IRouteService routeService;
 
         public EpodImportService(
             ILogger logger,
@@ -25,7 +26,8 @@
             IImportService importService,
             IEpodImportMapper epodImportMapper,
             IEpodFileImportCommands importCommands,
-            IDeadlockRetryHelper deadlockRetryHelper
+            IDeadlockRetryHelper deadlockRetryHelper,
+            IRouteService routeService
             )
         {
             this.logger = logger;
@@ -35,6 +37,7 @@
             this.epodImportMapper = epodImportMapper;
             this.importCommands = importCommands;
             this.deadlockRetryHelper = deadlockRetryHelper;
+            this.routeService = routeService;
         }
         public void Import(RouteDelivery route, string fileName)
         {
@@ -88,6 +91,9 @@
                 epodImportMapper.MergeRouteHeader(fileHeader, existingHeader);
                 routeHeaderRepository.Update(existingHeader);
                 importService.ImportStops(fileHeader, epodImportMapper, importCommands);
+
+                // Calculate well status
+                routeService.ComputeWellStatus(existingHeader.Id);
             }
             else
             {

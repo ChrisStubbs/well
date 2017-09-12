@@ -616,7 +616,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job));
+                jobRepository.Verify(x => x.UpdateWellStatus(job));
                 // Check status updated
                 Assert.AreEqual(WellStatus.Complete, job.WellStatus);
                 // Check that change has been recorded
@@ -629,7 +629,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithoutStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job), Times.Never);
+                jobRepository.Verify(x => x.UpdateWellStatus(job), Times.Never);
                 // Check status did not change
                 Assert.AreEqual(WellStatus.Complete, job.WellStatus);
                 // Check that reports no change
@@ -643,7 +643,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeAndPropagateWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job));
+                jobRepository.Verify(x => x.UpdateWellStatus(job));
                 // Check propagate changes to stopService
                 stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId));
                 // Check status updated
@@ -659,7 +659,7 @@ namespace PH.Well.UnitTests.Services
                 var changed = service.ComputeAndPropagateWellStatus(job);
 
                 // Job does not update
-                jobRepository.Verify(x => x.Update(job), Times.Never);
+                jobRepository.Verify(x => x.UpdateWellStatus(job), Times.Never);
                 // change does not propagate to stopService
                 stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId), Times.Never);
                 // status did not change

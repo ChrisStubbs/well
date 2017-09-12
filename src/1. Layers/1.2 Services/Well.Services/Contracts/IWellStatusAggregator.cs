@@ -19,12 +19,5 @@ namespace PH.Well.Services.Contracts
         /// <param name="wellStatuses"></param>
         /// <returns></returns>
         WellStatus Aggregate(params WellStatus[] wellStatuses);
-
-        /// <summary>
-        /// Aggregate a set of WellStatus into a single summary status from resolution statuses
-        /// </summary>
-        /// <param name="resolutionStatuses"></param>
-        /// <returns></returns>
-        WellStatus Aggregate(params ResolutionStatus[] resolutionStatuses);
     }
 }

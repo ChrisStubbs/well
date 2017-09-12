@@ -60,7 +60,7 @@ namespace PH.Well.Services
             {
                 // Save the status change back to the repository
                 route.RouteWellStatus = newWellStatus;
-                routeHeaderRepository.Update(route);
+                routeHeaderRepository.UpdateWellStatus(route);
                 return true;
             }
 

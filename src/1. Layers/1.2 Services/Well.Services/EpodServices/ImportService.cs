@@ -19,6 +19,7 @@
         private readonly IJobService jobService;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
+        private readonly IStopService stopService;
 
         public ImportService(
             ILogger logger,
@@ -27,7 +28,8 @@
             IJobRepository jobRepository,
             IJobService jobService,
             IJobDetailRepository jobDetailRepository,
-            IJobDetailDamageRepository jobDetailDamageRepository
+            IJobDetailDamageRepository jobDetailDamageRepository,
+            IStopService stopService
             )
         {
             this.logger = logger;
@@ -37,6 +39,7 @@
             this.jobService = jobService;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
+            this.stopService = stopService;
         }
 
         //TODO: Unit Tests
@@ -50,7 +53,7 @@
 
             var savedStops = new List<Stop>();
             var completedStops = new List<Stop>();
-            //loop throught all stops in the file
+            //loop through all stops in the file
             foreach (var s in fileRouteHeader.Stops)
             {
                 Stop fileStop = AutoMapperConfig.Mapper.Map<StopDTO, Stop>(s);
@@ -90,7 +93,16 @@
 
             ImportJobs(fileRouteHeader, savedStops.SelectMany(j => j.Jobs).ToList(), importMapper, importCommands, completedStops);
             DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader, importCommands);
+            // Batch update WellStatus for stops
+            UpdateWellStatusForStops(savedStops.Select(x => x.Id).ToArray());
+        }
 
+        private void UpdateWellStatusForStops(params int[] stopIds)
+        {
+            foreach (var id in stopIds)
+            {
+                stopService.ComputeWellStatus(id);
+            }
         }
 
         private void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, RouteHeader fileRouteHeader, IImportCommands importCommands)

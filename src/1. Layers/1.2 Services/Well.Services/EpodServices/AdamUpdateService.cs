@@ -26,6 +26,8 @@
         private readonly IJobService jobStatusService;
         private readonly IPostImportRepository postImportRepository;
         private readonly IImportService importService;
+        private readonly IStopService stopService;
+        private readonly IRouteService routeService;
 
         public AdamUpdateService(
             ILogger logger,
@@ -37,7 +39,9 @@
             IOrderImportMapper mapper,
             IJobService jobStatusService,
             IPostImportRepository postImportRepository,
-            IImportService importService)
+            IImportService importService,
+            IStopService stopService,
+            IRouteService routeService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -49,6 +53,8 @@
             this.jobStatusService = jobStatusService;
             this.postImportRepository = postImportRepository;
             this.importService = importService;
+            this.stopService = stopService;
+            this.routeService = routeService;
         }
 
         public void Update(RouteUpdates route)
@@ -73,7 +79,6 @@
                         break;
                 }
             }
-
         }
 
         private void Insert(StopUpdate stop)
@@ -132,6 +137,16 @@
                 this.UpdateJobs(stop.Jobs, existingStop.Id, out updatedJobIds);
                 // updates Location/Activity/LineItem/Bag tables from imported data
                 this.postImportRepository.PostImportUpdate(updatedJobIds);
+
+                // Compute jobs well status
+                foreach (var jobId in updatedJobIds)
+                {
+                    jobStatusService.ComputeWellStatus(jobId);
+                }
+
+                // Compute stop well status and propagate to calculate route well status
+                stopService.ComputeAndPropagateWellStatus(existingStop.Id);
+
                 transactionScope.Complete();
             }
         }
@@ -149,8 +164,10 @@
                     var job = stopUpdate.Jobs.First();
 
                     stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
-
                     this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
+
+                    // Calculate route well status
+                    routeService.ComputeWellStatus(stop.RouteHeaderId);
 
                     transactionScope.Complete();
                 }
@@ -296,6 +313,15 @@
                 this.InsertJobs(stopInsert.Jobs, stop.Id, out insertedJobIds);
                 // updates Location/Activity/LineItem/Bag tables from imported data
                 this.postImportRepository.PostImportUpdate(insertedJobIds);
+
+                // Compute jobs well status
+                foreach (var insertedJobId in insertedJobIds)
+                {
+                    jobStatusService.ComputeWellStatus(insertedJobId);
+                }
+
+                // Compute stop well status and propagate to calculate route well status
+                stopService.ComputeAndPropagateWellStatus(stop.Id);
 
                 transactionScope.Complete();
             }

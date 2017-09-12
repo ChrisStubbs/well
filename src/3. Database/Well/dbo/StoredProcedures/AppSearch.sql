@@ -41,9 +41,7 @@ INNER JOIN
 INNER JOIN 
 		WellStatus ws on ws.Id = rsv.RouteStatus
 INNER JOIN 
-		StopStatusView ssv on ssv.StopId = s.Id
-INNER JOIN 
-		WellStatus ws2 on ws2.Id = ssv.WellStatusId
+		WellStatus ws2 on ws2.Id = s.WellStatus
 INNER JOIN 
 		WellStatus ws3 on ws3.Id = j.WellStatusId
 WHERE 	(@BranchId IS NULL OR @BranchId = rh.RouteOwnerId)

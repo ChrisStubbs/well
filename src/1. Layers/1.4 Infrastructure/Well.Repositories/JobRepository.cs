@@ -189,7 +189,7 @@ namespace PH.Well.Repositories
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
                 .AddParameter("DetailOutersShort", entity.DetailOutersShort, DbType.Int16)
                 .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
-                .AddParameter("WellStatusId", entity.JobStatus.ToWellStatus(), DbType.Int16)
+                .AddParameter("WellStatusId", (int)entity.WellStatus, DbType.Int16)
                 .Execute();
         }
 
@@ -386,6 +386,22 @@ namespace PH.Well.Repositories
                 .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
+        }
+
+        public void UpdateWellStatus(Job job)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdateWellStatus)
+                .AddParameter("Id", job.Id, DbType.Int32)
+                .AddParameter("WellStatusId", (int) job.WellStatus, DbType.Int16)
+                .Execute();
+        }
+
+        public Job GetForWellStatusCalculationById(int jobId)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetForWellStatusCalculationById)
+                .AddParameter("Id", jobId, DbType.Int32)
+                .Query<Job>()
+                .SingleOrDefault();
         }
     }
 }

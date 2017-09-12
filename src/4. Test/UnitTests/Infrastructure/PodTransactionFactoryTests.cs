@@ -86,8 +86,8 @@
             var job = new Job { Id = 1, ProofOfDelivery = 8, PhAccount = "12345", StopId = 1 };
             var jobDetails = new List<JobDetail>
             {
-                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 2 , DeliveredQty = 0 , LineItemId = 1},
-                new JobDetail { Id = 2, JobId = 1, PhProductCode = "22345", ShortQty = 0 , DeliveredQty = 0, LineItemId = 2, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Not Required"} } }
+                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 2 , DeliveredQty = 0 , OriginalDespatchQty = 2, LineItemId = 1},
+                new JobDetail { Id = 2, JobId = 1, PhProductCode = "32165", ShortQty = 0 , DeliveredQty = 0, OriginalDespatchQty = 1, LineItemId = 2, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Not Required"} } }
             };
 
             foreach (var detail in jobDetails)
@@ -144,9 +144,9 @@
             var job = new Job { Id = 1, ProofOfDelivery = 1, PhAccount = "12345", StopId = 1 };
             var jobDetails = new List<JobDetail>
             {
-                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 2 , DeliveredQty = 0 , LineItemId = 1},
-                new JobDetail { Id = 2, JobId = 1, PhProductCode = "22345", ShortQty = 0 , DeliveredQty = 0, LineItemId = 2, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Not Required"} } },
-                new JobDetail { Id = 3, JobId = 1, PhProductCode = "32345", ShortQty = 0 , DeliveredQty = 1, LineItemId = 3, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Damaged Outer"} } }
+                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 2 , DeliveredQty = 0 , OriginalDespatchQty = 2, LineItemId = 1},
+                new JobDetail { Id = 2, JobId = 1, PhProductCode = "22345", ShortQty = 0 , DeliveredQty = 0,  OriginalDespatchQty = 1,LineItemId = 2, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Not Required"} } },
+                new JobDetail { Id = 3, JobId = 1, PhProductCode = "32345", ShortQty = 0 , DeliveredQty = 1, OriginalDespatchQty = 2, LineItemId = 3, JobDetailDamages = new List<JobDetailDamage> {new JobDetailDamage { Qty = 1 , PdaReasonDescription = "Damaged Outer"} } }
             };
 
             foreach (var jd in jobDetails)
@@ -219,9 +219,9 @@
 
             var jobDetails = new List<JobDetail>
             {
-                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 0 , DeliveredQty = 0, LineItemId =1 },
-                new JobDetail { Id = 2, JobId = 1, PhProductCode = "22345", ShortQty = 0 , DeliveredQty = 0, LineItemId =2 },
-                new JobDetail { Id = 3, JobId = 1, PhProductCode = "32345", ShortQty = 0 , DeliveredQty = 0, LineItemId =3 }
+                new JobDetail { Id = 1, JobId = 1, PhProductCode = "12345", ShortQty = 0 , DeliveredQty = 0, OriginalDespatchQty = 2,  LineItemId =1 },
+                new JobDetail { Id = 2, JobId = 1, PhProductCode = "22345", ShortQty = 0 , DeliveredQty = 0, OriginalDespatchQty = 1, LineItemId =2 },
+                new JobDetail { Id = 3, JobId = 1, PhProductCode = "32345", ShortQty = 0 , DeliveredQty = 0, OriginalDespatchQty = 1, LineItemId =3 }
             };
 
             foreach (var jd in jobDetails)

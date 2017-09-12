@@ -43,6 +43,7 @@ export class ActionEditComponent implements IObservableAlive
     private commentReasons: Array<ILookupValue>;
     private lineItemActions: Array<LineItemAction> = [];
     private creditActionValue = 1;
+    private podActionValue = 3;
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
     private canEditExceptions: boolean = false;
@@ -93,7 +94,10 @@ export class ActionEditComponent implements IObservableAlive
                         return Number(action.key) != self.creditActionValue;
                     });
             } else {
-                this.deliveryActionsWithFilter = this.deliveryActions;
+                this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
+                    (action: ILookupValue) => {
+                        return Number(action.key) != self.podActionValue;
+                    });
             }
         }
 
@@ -358,6 +362,8 @@ class LineItemActionValidator implements Validator {
                 return this.validateAction(group);
             case 2:
                 return this.validateCloseAction(group);
+            case 3:
+                return this.validatePodAction(group);
             default:
                 throw new Error('Unknown action type : ' + actionValue);
         }
@@ -392,6 +398,14 @@ class LineItemActionValidator implements Validator {
 
     private validateCloseAction(group: FormGroup): ValidationErrors {
         // No validation
+        return undefined;
+    }
+
+    private validatePodAction(group: FormGroup): ValidationErrors {
+        this.validateQuantity(group);
+        this.validateComment(group);
+        this.validateExceptionType(group);
+
         return undefined;
     }
 

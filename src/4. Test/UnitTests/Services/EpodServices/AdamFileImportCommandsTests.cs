@@ -9,7 +9,7 @@
     using Well.Domain.ValueObjects;
     using Well.Services.Contracts;
     using Well.Services.EpodServices;
-    
+
 
     [TestFixture]
     public class AdamFileImportCommandsTests
@@ -61,9 +61,11 @@
                     new JobStop{ JobId = 6, StopId = 56 }, // for deletion
                 };
 
+                var completedStops = new List<Stop> { new Stop { Id = 57 } };
+
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
 
-                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources);
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops);
 
                 jobRepository.Verify(x => x.GetByIds(It.Is<IEnumerable<int>>(jobIds =>
                     jobIds.Count() == 3

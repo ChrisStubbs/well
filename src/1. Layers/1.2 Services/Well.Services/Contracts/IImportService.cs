@@ -8,5 +8,7 @@ namespace PH.Well.Services
     public interface IImportService
     {
         void ImportStops(RouteHeader fileRouteHeader, IImportMapper importMapper, IImportCommands importCommands);
+
+        void DeleteJobs(IList<Job> jobsToBeDeleted);
     }
 }

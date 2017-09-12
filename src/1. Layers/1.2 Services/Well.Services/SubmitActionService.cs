@@ -22,6 +22,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IJobService jobService;
         private readonly IUserRepository userRepository;
+        private readonly IPodService podService;
 
         public SubmitActionService(
             ILogger logger,
@@ -32,7 +33,8 @@
             IActionSummaryMapper actionSummaryMapper,
             IJobRepository jobRepository,
             IJobService jobService,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            IPodService podService
             )
         {
             this.logger = logger;
@@ -44,6 +46,7 @@
             this.jobRepository = jobRepository;
             this.jobService = jobService;
             this.userRepository = userRepository;
+            this.podService = podService;
         }
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
@@ -80,7 +83,14 @@
                                 {
                                     SubmitCredits(job);
                                 }
-                               
+                                else
+                                {
+                                    // create pod event for a bypassed job
+                                    if (job.JobStatus == JobStatus.Bypassed)
+                                    {
+                                        this.podService.CreatePodEvent(job, job.JobRoute.BranchId);
+                                    }
+                                }
                                 //lets close the job
                                 job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);

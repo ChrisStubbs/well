@@ -73,6 +73,7 @@
                     x.For<IDeadlockRetryConfig>().Use<Configuration>();
                     x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
+                    x.For<IPodService>().Use<PodService>();
                 });
                 
                 

@@ -1,0 +1,35 @@
+﻿namespace PH.Well.Services
+{
+    using System;
+    using Contracts;
+    using Domain;
+    using Domain.ValueObjects;
+    using Repositories.Contracts;
+
+    public class PodService : IPodService
+    {
+        private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IDateThresholdService dateThresholdService;
+
+        public PodService(IExceptionEventRepository exceptionEventRepository, IDateThresholdService dateThresholdService)
+        {
+            this.exceptionEventRepository = exceptionEventRepository;
+            this.dateThresholdService = dateThresholdService;
+        }
+
+
+        public void CreatePodEvent(Job job, int branchId)
+        {
+            var royaltyCode = job.GetRoyaltyCode();
+            if (!exceptionEventRepository.PodEventCreatedForJob(job.Id.ToString()))
+            {
+                var podEvent = new PodEvent
+                {
+                    BranchId = branchId,
+                    Id = job.Id
+                };
+                this.exceptionEventRepository.InsertPodEvent(podEvent, job.Id.ToString(), dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, royaltyCode));
+            }
+        }
+    }
+}

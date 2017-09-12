@@ -156,6 +156,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.DeleteStopByTransportOrderReference)
                 .AddParameter("TransportOrderReference", transportOrderReference, DbType.String)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
 

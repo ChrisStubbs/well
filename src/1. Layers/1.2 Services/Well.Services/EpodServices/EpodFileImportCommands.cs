@@ -221,14 +221,14 @@
             RunPostInvoicedProcessing(jobIds);
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops)
         {
             // For Epod files only delete the jobs for the stops
             var currentStops = existingJobsBothSources.Select(s => s.StopId).Distinct();
             var existingJobIdsForStops = existingRouteJobIdAndStopId.Where(x => currentStops.Contains(x.StopId));
             var jobIdsToBeDeleted = GetJobsIdsToBeDeleted(existingJobIdsForStops.Select(x => x.JobId), existingJobsBothSources.Select(x => x.Id));
 
-            return jobRepository.GetByIds(jobIdsToBeDeleted).ToList();
+            return jobRepository.GetByIds(jobIdsToBeDeleted).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
 
         private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds, IEnumerable<int> existingJobIdsBothSources)

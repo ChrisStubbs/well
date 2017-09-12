@@ -16,6 +16,7 @@
     using PH.Well.Services.EpodServices;
     using PH.Well.UnitTests.Factories;
     using Well.Domain.Enums;
+    using Well.Services;
 
     [TestFixture]
     public class AdamUpdateTests
@@ -42,6 +43,8 @@
 
         private Mock<IPostImportRepository> postImportRepository;
 
+        private Mock<IImportService> importService;
+
         [SetUp]
         public void Setup()
         {
@@ -58,6 +61,7 @@
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns(user);
             this.postImportRepository = new Mock<IPostImportRepository>(MockBehavior.Strict);
+            this.importService = new Mock<IImportService>();
 
 
             this.service = new AdamUpdateService(
@@ -69,7 +73,9 @@
                 this.jobDetailRepository.Object,
                 this.mapper.Object,
                 this.jobStatusService.Object,
-                this.postImportRepository.Object);
+                this.postImportRepository.Object,
+                this.importService.Object
+                );
         }
 
         public class TheUpdateMethodOrderActionInsert : AdamUpdateTests
@@ -235,7 +241,7 @@
 
                 routeUpdate.Stops.Add(stopUpdate);
 
-                var jobUpdate = new JobUpdate { JobTypeCode = "DEL-DOC", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
+                var jobUpdate = new JobUpdate { JobTypeCode = "DEL-TOB", PhAccount = "12321", PickListRef = "42333", InvoiceNumber = "233232" };
 
                 var jobDetailUpdate = new JobDetailUpdate { LineNumber = 1 };
 
@@ -395,14 +401,14 @@
 
                 var stop = StopFactory.New.Build();
 
-                var job = new JobUpdate { JobTypeCode = "DEL_FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
+                var job = new JobUpdate { JobTypeCode = "DEL-FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
 
                 stopUpdate.Jobs.Add(job);
 
-                this.jobRepository.Setup(x => x.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stop.Id)).Returns((Job)null);
+                this.jobRepository.Setup(x=> x.GetByStopId(stop.Id)).Returns(new List<Job>());
 
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode))).Returns(stop);
-
+                
                 this.mapper.Setup(x => x.Map(stopUpdate, stop));
 
                 this.stopRepository.Setup(x => x.Update(stop));

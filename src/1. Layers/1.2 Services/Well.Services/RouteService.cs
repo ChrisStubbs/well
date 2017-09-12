@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using PH.Well.Domain;
+using PH.Well.Domain.Enums;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services.Contracts;
@@ -15,39 +17,56 @@ namespace PH.Well.Services
         #region Private fields
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IWellStatusAggregator wellStatusAggregator;
+        private readonly IStopRepository stopRepository;
 
         #endregion Private fields
 
         #region Constructors
-        public RouteService(IRouteHeaderRepository routeHeaderRepository, IWellStatusAggregator wellStatusAggregator)
+        public RouteService(IRouteHeaderRepository routeHeaderRepository, IWellStatusAggregator wellStatusAggregator,IStopRepository stopRepository)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.wellStatusAggregator = wellStatusAggregator;
+            this.stopRepository = stopRepository;
         }
         #endregion Constructors
 
         #region Public methods
         public bool ComputeWellStatus(int routeId)
         {
-            RouteHeader routeHeader = routeHeaderRepository.GetRouteHeaderById(routeId);
+            RouteHeader routeHeader = routeHeaderRepository.GetRouteHeaderById(routeId);     
             if (routeHeader != null)
             {
-                var newWellStatus = routeHeader.RouteWellStatus;
-
-                // Compute new route status from all its active stops
-                newWellStatus = wellStatusAggregator.Aggregate(routeHeader.Stops.Select(x => x.WellStatus),
-                    AggregationType.Route);
-
-                if (routeHeader.RouteWellStatus != newWellStatus)
-                {
-                    // Save the status change back to the repository
-                    routeHeader.RouteWellStatus = newWellStatus;
-                    routeHeaderRepository.Save(routeHeader);
-                    return true;
-                }
+                return ComputeWellStatus(routeHeader);
             }
             return false;
         }
+
+        public bool ComputeWellStatus(RouteHeader route)
+        {
+            // Compute new route status from all its active stops
+            WellStatus[] wellStatuses;
+            if (!route.Stops.Any())
+            {
+                wellStatuses = stopRepository.GetStopByRouteHeaderId(route.Id).Select(x => x.WellStatus).ToArray();
+            }
+            else
+            {
+                wellStatuses = route.Stops.Select(x => x.WellStatus).ToArray();
+            }
+
+            var newWellStatus = wellStatusAggregator.Aggregate(wellStatuses.ToArray());
+
+            if (route.RouteWellStatus != newWellStatus)
+            {
+                // Save the status change back to the repository
+                route.RouteWellStatus = newWellStatus;
+                routeHeaderRepository.Update(route);
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion Public methods
     }
 }

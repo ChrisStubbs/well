@@ -29,7 +29,7 @@
                 .Select(p =>
                 {
                     p.Assignee = assignees.ContainsKey(p.JobId) ? assignees[p.JobId] : string.Empty;
-                    p.JobStatus = EnumExtensions.GetDescription((WellStatus)p.JobStatusId);
+                    p.JobStatus = EnumExtensions.GetDescription((WellStatus)p.WellStatus);
 
                     return p;
                 })

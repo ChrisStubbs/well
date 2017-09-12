@@ -17,4 +17,4 @@ AS
 		INNER JOIN Job j
 			ON jb.JobId = j.Id
 			AND j.StopId = @StopId
-			AND j.JobTypeCode != 'UPL-SAN'
+			--AND j.JobTypeCode != 'UPL-SAN'

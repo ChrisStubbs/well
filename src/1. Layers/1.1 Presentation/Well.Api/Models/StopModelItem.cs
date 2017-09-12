@@ -31,5 +31,6 @@
         public bool CanEdit { get; set; }
         public int LocationId { get; set; }
         public bool CompletedOnPaper { get; set; }
+        public bool HasLineItemActions { get; set; }
     }
 }

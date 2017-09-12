@@ -138,6 +138,7 @@
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("DeletedByImport", entity.DeletedByImport, DbType.Boolean)
+                .AddParameter("WellStatus", (int) entity.WellStatus, DbType.Int32)
                 //.AddParameter("Location_Id", entity.LocationId, DbType.Int32)
                 .Execute();
         }
@@ -155,6 +156,7 @@
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.DeleteStopByTransportOrderReference)
                 .AddParameter("TransportOrderReference", transportOrderReference, DbType.String)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
 

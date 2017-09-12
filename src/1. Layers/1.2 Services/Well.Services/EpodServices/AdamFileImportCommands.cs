@@ -44,16 +44,16 @@
             this.postImportRepository.PostImportUpdate(jobIds);
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops)
         {
             //Adam File will contain all jobs for all stops so delete anything that is not in the latest file
             var jobIdsToDelete = GetJobsIdsToBeDeleted(existingRouteJobIdAndStopId.Select(x => x.JobId), existingJobsBothSources.Select(x => x.Id));
 
-            return jobRepository.GetByIds(jobIdsToDelete).ToList();
-            
+            return jobRepository.GetByIds(jobIdsToDelete).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
 
-        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources)
+      
+        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources )
         {
             var existing = existingJobIdsBothSources.ToDictionary(k => k);
             return existingRouteJobIds.Where(x => !existing.ContainsKey(x));

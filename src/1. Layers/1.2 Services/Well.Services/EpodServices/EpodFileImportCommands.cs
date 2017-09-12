@@ -106,8 +106,17 @@
 
 
             // GRN event shouldn probably be created during epod update
+            //TODO: This needs to re-instated
+            //ProcessGlobalUplift(fileJob, existingJob, branchId, createEvents);
+
+            this.jobRepository.Update(existingJob);
+            this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
+        }
+
+        private void ProcessGlobalUplift(Job fileJob, Job existingJob, int branchId, bool createEvents)
+        {
             if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed &&
-                !exceptionEventRepository.GlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
+                            !exceptionEventRepository.GlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var globalJobDetail = fileJob.JobDetails.FirstOrDefault();
 
@@ -149,9 +158,6 @@
                 this.exceptionEventRepository.InsertGlobalUpliftEvent(globalUpliftEvent, existingJob.Id.ToString());
                 // insert a report event?
             }
-
-            this.jobRepository.Update(existingJob);
-            this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetail> jobDetails, int jobId)
@@ -220,8 +226,7 @@
             RunPostInvoicedProcessing(jobIds);
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId,
-            IList<Job> existingJobsBothSources)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops)
         {
             // For Epod files only delete the jobs for the stops
             var currentStops = existingJobsBothSources.Select(s => s.StopId).Distinct();
@@ -229,7 +234,7 @@
             var jobIdsToBeDeleted = GetJobsIdsToBeDeleted(existingJobIdsForStops.Select(x => x.JobId),
                 existingJobsBothSources.Select(x => x.Id));
 
-            return jobRepository.GetByIds(jobIdsToBeDeleted).ToList();
+            return jobRepository.GetByIds(jobIdsToBeDeleted).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
 
         private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Well.Domain;
 using PH.Well.Domain.Enums;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services.Contracts;
@@ -15,13 +16,16 @@ namespace PH.Well.Services
         private readonly IStopRepository stopRepository;
         private readonly IRouteService routeService;
         private readonly IWellStatusAggregator wellStatusAggregator;
+        private readonly IJobRepository jobRepository;
+
         #endregion Private fields
 
         #region Constructors
-        public StopService(IStopRepository stopRepository, IRouteService routeService, IWellStatusAggregator wellStatusAggregator)
+        public StopService(IStopRepository stopRepository, IRouteService routeService, IWellStatusAggregator wellStatusAggregator,IJobRepository jobRepository)
         {
             this.routeService = routeService;
             this.wellStatusAggregator = wellStatusAggregator;
+            this.jobRepository = jobRepository;
             this.stopRepository = stopRepository;
         }
         #endregion Constructors
@@ -29,27 +33,70 @@ namespace PH.Well.Services
         #region Public methods
         public bool ComputeWellStatus(int stopId)
         {
-            var stop = stopRepository.GetById(stopId);
+            var stop = GetStopWithJobs(stopId);
             if (stop != null)
             {
-                // Compute the overall status of the child jobs in this stop
-                WellStatus newWellStatus = stop.WellStatus;
-
-                // Compute new well status
-                newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus),
-                    AggregationType.Stop);
-
-                if (stop.WellStatus != newWellStatus)
-                {
-                    stop.WellStatus = newWellStatus;
-                    stopRepository.Save(stop);
-                    // Cascade any change back up to the route header
-                    this.routeService.ComputeWellStatus(stop.RouteHeaderId);
-                    return true;
-                }
+                return ComputeWellStatus(stop);
             }
             return false;
         }
+
+        public bool ComputeWellStatus(Stop stop)
+        {
+            // Compute new well status
+            var newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus).ToArray());
+
+            if (stop.WellStatus != newWellStatus)
+            {
+                stop.WellStatus = newWellStatus;
+                stopRepository.Update(stop);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(int stopId)
+        {
+            var stop = GetStopWithJobs(stopId);
+            if (stop != null)
+            {
+                return ComputeAndPropagateWellStatus(stop);
+            }
+            return false;
+        }
+
+        public bool ComputeAndPropagateWellStatus(Stop stop)
+        {
+            var changed = ComputeWellStatus(stop);
+            if (changed)
+            {
+                // Cascade any change back up to the route header
+                this.routeService.ComputeWellStatus(stop.RouteHeaderId);
+            }
+
+            return changed;
+        }
+
         #endregion Public methods
+
+        #region Private methods
+
+        /// <summary>
+        /// Helper method to fetch stop with its jobs
+        /// </summary>
+        /// <param name="stopId"></param>
+        /// <returns></returns>
+        private Stop GetStopWithJobs(int stopId)
+        {
+            var stop = stopRepository.GetById(stopId);
+            if (stop != null)
+            {
+                stop.Jobs = jobRepository.GetByStopId(stop.Id).ToList();
+            }
+            return stop;
+        }
+
+        #endregion Private methods
     }
 }

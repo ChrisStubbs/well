@@ -34,7 +34,7 @@ namespace PH.Well.UnitTests.Services
         private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
         private readonly Mock<IStopService> stopService = new Mock<IStopService>();
         private readonly Mock<IActivityService> activityService = new Mock<IActivityService>();
-        private readonly Mock<IWellStatusAggregator> wellStatusAggregator = new Mock<IWellStatusAggregator>();
+        private readonly Mock<WellStatusAggregator> wellStatusAggregator = new Mock<WellStatusAggregator>();
 
         [SetUp]
         public void Setup()
@@ -646,6 +646,100 @@ namespace PH.Well.UnitTests.Services
                 .Returns(routeDate.AddHours(1));
 
             service.SetGrn(job.Id, "123");
+        }
+
+        [TestFixture]
+        public class CalculateWellStatus
+        {
+            private JobService service;
+            private readonly Mock<IJobRepository> jobRepository = new Mock<IJobRepository>();
+            private readonly Mock<IUserNameProvider> userNameProvider = new Mock<IUserNameProvider>();
+            private readonly Mock<IAssigneeReadRepository> assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            private readonly Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
+            private readonly Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
+            private readonly Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
+            private readonly Mock<IStopService> stopService = new Mock<IStopService>();
+            private readonly Mock<IActivityService> activityService = new Mock<IActivityService>();
+
+            private readonly Mock<WellStatusAggregator> wellStatusAggregator = new Mock<WellStatusAggregator>()
+            {
+                CallBase = true
+            };
+
+            [SetUp]
+            public void Setup()
+            {
+                this.service = new JobService(this.jobRepository.Object,
+                    userThreshold.Object,
+                    dateThresholdService.Object,
+                    assigneeReadRepository.Object,
+                    lineItemRepository.Object,
+                    userNameProvider.Object,
+                    userRepository.Object,
+                    stopService.Object,
+                    activityService.Object,
+                    wellStatusAggregator.Object);
+            }
+
+            
+            [Test]
+            public void ShouldUpdateJobWellStatus()
+            {
+                var job = JobFactory.New.JobWithStatusChange().Build();
+                var changed = service.ComputeWellStatus(job);
+                // Check that job is persisted
+                jobRepository.Verify(x => x.Update(job));
+                // Check status updated
+                Assert.AreEqual(WellStatus.Complete, job.WellStatus);
+                // Check that change has been recorded
+                Assert.True(changed);
+            }
+
+            [Test]
+            public void ShouldNotUpdateJobWellStatus()
+            {
+                var job = JobFactory.New.JobWithoutStatusChange().Build();
+                var changed = service.ComputeWellStatus(job);
+                // Check that job is persisted
+                jobRepository.Verify(x => x.Update(job), Times.Never);
+                // Check status did not change
+                Assert.AreEqual(WellStatus.Complete, job.WellStatus);
+                // Check that reports no change
+                Assert.False(changed);
+            }
+
+
+            [Test]
+            public void ShouldUpdateJobWellStatusAndPropagate()
+            {
+                var job = JobFactory.New.JobWithStatusChange().Build();
+                var changed = service.ComputeAndPropagateWellStatus(job);
+                // Check that job is persisted
+                jobRepository.Verify(x => x.Update(job));
+                // Check propagate changes to stopService
+                stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId));
+                // Check status updated
+                Assert.AreEqual(WellStatus.Complete, job.WellStatus);
+                // Check that change has been recorded
+                Assert.True(changed);
+            }
+
+            [Test]
+            public void ShouldNotUpdateJobWellStatusAndPropagate()
+            {
+                var job = JobFactory.New.JobWithoutStatusChange().Build();
+                var changed = service.ComputeAndPropagateWellStatus(job);
+
+                // Job does not update
+                jobRepository.Verify(x => x.Update(job), Times.Never);
+                // change does not propagate to stopService
+                stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId), Times.Never);
+                // status did not change
+                Assert.AreEqual(WellStatus.Complete, job.WellStatus);
+                // reports no change
+                Assert.False(changed);
+            }
         }
     }
 }

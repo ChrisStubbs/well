@@ -289,7 +289,7 @@
 
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
 
-                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources);
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources,new List<Stop>());
 
                 jobRepository.Verify(x=> x.GetByIds(It.Is<IEnumerable<int>>( jobIds=>
                     jobIds.Count() == 2 

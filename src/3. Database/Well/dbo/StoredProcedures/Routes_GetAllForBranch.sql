@@ -26,8 +26,8 @@ AS
             ,COUNT(*)  OVER (PARTITION BY Stopid) AS TotalJobs
         FROM 
             Job j
-        WHERE 
-            JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF', 'UPL-SAN')
+        --WHERE 
+            --JobTypeCode NOT IN ('DEL-DOC', 'NOTDEF', 'UPL-SAN')
     ), 
     RouteStopCount AS
     (
@@ -57,7 +57,7 @@ AS
 					ON li.Id = jd.LineItemId
 				INNER JOIN Job j
 					ON jd.JobId = j.Id
-					AND j.JobTypeCode != 'UPL-SAN'
+				--	AND j.JobTypeCode != 'UPL-SAN'
 				INNER JOIN Stop s
 					ON j.StopId = s.Id
 					AND s.DateDeleted IS NULL

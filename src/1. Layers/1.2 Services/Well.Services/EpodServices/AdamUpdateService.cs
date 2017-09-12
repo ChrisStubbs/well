@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-
+    using Domain.Extensions;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
@@ -25,6 +25,7 @@
         private readonly IOrderImportMapper mapper;
         private readonly IJobService jobStatusService;
         private readonly IPostImportRepository postImportRepository;
+        private readonly IImportService importService;
 
         public AdamUpdateService(
             ILogger logger,
@@ -35,7 +36,8 @@
             IJobDetailRepository jobDetailRepository,
             IOrderImportMapper mapper,
             IJobService jobStatusService,
-            IPostImportRepository postImportRepository)
+            IPostImportRepository postImportRepository,
+            IImportService importService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -46,6 +48,7 @@
             this.mapper = mapper;
             this.jobStatusService = jobStatusService;
             this.postImportRepository = postImportRepository;
+            this.importService = importService;
         }
 
         public void Update(RouteUpdates route)
@@ -54,7 +57,7 @@
             foreach (var stop in route.Stops)
             {
                 var action = GetOrderUpdateAction(stop.ActionIndicator);
-
+                
                 switch (action)
                 {
                     case OrderActionIndicator.Insert:
@@ -99,7 +102,8 @@
 
             if (job == null)
             {
-                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stop.TransportOrderRef})");
+                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stop.TransportOrderRef}). Delete Stop");
+                stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderRef);
                 return;
             }
             
@@ -161,12 +165,15 @@
             }
         }
 
-        private void UpdateJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
+        private void UpdateJobs(IList<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
         {
             updatedJobIds = new List<int>();
-            foreach (var job in jobs)
+
+            var existingJobs = this.jobRepository.GetByStopId(stopId).ToList();
+
+            foreach (var job in jobs.Where(IncludeJobTypeInImport))
             {
-                var existingJob = this.jobRepository.GetJobByRefDetails(job.JobTypeCode, job.PhAccount, job.PickListRef, stopId);
+                Job existingJob = FindExistingJob(existingJobs, job);
 
                 if (existingJob != null)
                 {
@@ -184,14 +191,7 @@
                     var newJob = new Job();
                     this.mapper.Map(job, newJob);
                     newJob.StopId = stopId;
-                    if (newJob.JobTypeCode == "DEL-DOC")
-                    {
-                        this.jobStatusService.SetInitialJobStatus(newJob);
-                    }
-                    else
-                    {
-                        this.jobStatusService.SetIncompleteJobStatus(newJob);
-                    }
+                    this.jobStatusService.SetIncompleteJobStatus(newJob);
                     newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
                     foreach (var detail in job.JobDetails)
@@ -207,6 +207,26 @@
                     updatedJobIds.Add(newJob.Id);
                 }
             }
+            
+            DeleteJobsNotInFile(jobs, existingJobs);
+        }
+
+        private void DeleteJobsNotInFile(IList<JobUpdate> jobs, List<Job> existingJobs)
+        {
+            List<Job> jobsToBeDeleted = GetJobIdsToBeDeleted(existingJobs, jobs);
+            importService.DeleteJobs(jobsToBeDeleted);
+        }
+
+        //TODO: Test this
+        private List<Job> GetJobIdsToBeDeleted(IList<Job> existingJobs, IList<JobUpdate> jobsInFile)
+        {
+            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier()).ToDictionary(k => k);
+            return existingJobs.Where(j => !jobIdentifiersInFile.ContainsKey(j.Identifier())).ToList();
+        }
+
+        private Job FindExistingJob(IList<Job> existingJobs, JobUpdate job)
+        {
+            return existingJobs.FirstOrDefault(x => x.Identifier() == job.Identifier());
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailUpdate> jobDetails, int jobId)
@@ -236,7 +256,15 @@
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
-            var job = stopInsert.Jobs.First();
+            var job = stopInsert.Jobs.FirstOrDefault();
+
+            if (job == null)
+            {
+                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stopInsert.TransportOrderRef}). Deleting Stop");
+                stopRepository.DeleteStopByTransportOrderReference(stopInsert.TransportOrderRef);
+                return;
+            }
+
             var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.RouteOwnerId);
 
             if (existingStop != null)
@@ -277,7 +305,7 @@
         private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> insertedJobIds)
         {
             insertedJobIds = new List<int>();
-            foreach (var update in jobs)
+            foreach (var update in jobs.Where(IncludeJobTypeInImport))
             {
                 var job = new Job { StopId = stopId };
 
@@ -309,6 +337,13 @@
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
             return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.Update : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
+        }
+
+        private bool IncludeJobTypeInImport(JobUpdate jobUpdate)
+        {
+            var job = new Job {InvoiceNumber = jobUpdate.InvoiceNumber, JobTypeCode = jobUpdate.JobTypeCode};
+
+            return job.IncludeJobTypeInImport();
         }
     }
 }

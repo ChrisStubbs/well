@@ -7,6 +7,6 @@ AS
 		[dbo].[Job]
 	WHERE 
 		[StopId] = @StopId
-		AND JobTypeCode != 'UPL-SAN'
+		--AND JobTypeCode != 'UPL-SAN'
 		AND job.DateDeleted IS NULL
 RETURN 0

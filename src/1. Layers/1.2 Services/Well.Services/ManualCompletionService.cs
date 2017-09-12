@@ -34,7 +34,7 @@ namespace PH.Well.Services
 
         public ManualCompletionService(
             IJobService jobService,
-            IEpodFileImportCommands epodFileImportCommands, 
+            IEpodFileImportCommands epodFileImportCommands,
             ILineItemActionRepository lineItemActionRepository,
             IUserNameProvider userNameProvider)
         {
@@ -62,17 +62,20 @@ namespace PH.Well.Services
 
             List<Job> completedJobs = new List<Job>();
 
-            foreach (var job in invoicedJobs)
+            using (var transactionScope = new TransactionScope())
             {
-                job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
-
-                using (var transactionScope = new TransactionScope())
+                foreach (var job in invoicedJobs)
                 {
+                    job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
+
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     epodFileImportCommands.UpdateWithEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
                     completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
-                    transactionScope.Complete();
+
+                    // Compute well status
+                    jobService.ComputeAndPropagateWellStatus(job);
                 }
+                transactionScope.Complete();
             }
             return completedJobs;
         }
@@ -103,7 +106,7 @@ namespace PH.Well.Services
 
         public bool CanManuallyComplete(Job job)
         {
-            return  jobService.CanManuallyComplete(job, userNameProvider.GetUserName());
+            return jobService.CanManuallyComplete(job, userNameProvider.GetUserName());
         }
     }
 }

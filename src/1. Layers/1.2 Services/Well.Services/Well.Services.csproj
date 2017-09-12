@@ -81,7 +81,6 @@
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
     <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
-    <Compile Include="Contracts\IWellUpdateService.cs" />
     <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IAdamImportService.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\IDeliveryLinesAction.cs" />
-    <Compile Include="Contracts\IDeliveryService.cs" />
     <Compile Include="Contracts\IJobService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IDeliveryLineActionService.cs" />
@@ -128,7 +126,6 @@
     <Compile Include="Mappers\PatchSummaryMapper.cs" />
     <Compile Include="Mappers\DeliveryLineCreditMapper.cs" />
     <Compile Include="Mappers\JobDetailToDeliveryLineCreditMapper.cs" />
-    <Compile Include="DeliveryService.cs" />
     <Compile Include="JobService.cs" />
     <Compile Include="EpodServices\AdamUpdateService.cs" />
     <Compile Include="EpodServices\EpodUpdateService.cs" />

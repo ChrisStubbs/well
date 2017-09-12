@@ -58,13 +58,30 @@ namespace PH.Well.Api.Mapper
                 .Where(p => p.JobTypeEnumValue != JobType.Documents)
                 .SelectMany(p =>
                 {
-                    var jobDetails = p.JobDetails;
+                    var jobDetails = p.JobDetails
+                        .Join(p.LineItems,
+                            l => new { l.LineNumber, Product = l.PhProductCode },
+                            r => new { r.LineNumber, Product = r.ProductCode },
+                            (det, line) => new
+                            {
+                                det.Id,
+                                det.PhProductCode,
+                                det.ProdDesc,
+                                Value = det.NetPrice ?? 0,
+                                det.OriginalDespatchQty,
+                                det.DeliveredQty,
+                                det.IsChecked,
+                                det.IsHighValue,
+                                det.SSCCBarcode,
+                                det.LineItemId,
+                                IsTobaccoBag = det.IsTobaccoBag(),
+                                HasLineItemActions = line.LineItemActions.Count() > 0
+                            });
 
                     if (p.JobTypeEnumValue == JobType.Tobacco)
                     {
                         jobDetails = jobDetails
-                        .Where(x => !x.IsTobaccoBag())
-                        .ToList();
+                        .Where(x => !x.IsTobaccoBag);
                     }
 
                     return jobDetails
@@ -83,7 +100,7 @@ namespace PH.Well.Api.Mapper
                                 JobDetailId = line.Id,
                                 Product = line.PhProductCode,
                                 Description = line.ProdDesc,
-                                Value = line.NetPrice ?? 0,
+                                Value = line.Value,
                                 Invoiced = line.OriginalDespatchQty,
                                 Delivered = line.DeliveredQty,
                                 Checked = line.IsChecked,
@@ -97,7 +114,8 @@ namespace PH.Well.Api.Mapper
                                 GrnNumber = p.GrnNumber,
                                 CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
                                 LocationId = p.LocationId,
-                                CompletedOnPaper  = p.JobStatus == JobStatus.CompletedOnPaper
+                                CompletedOnPaper  = p.JobStatus == JobStatus.CompletedOnPaper,
+                                HasLineItemActions = line.HasLineItemActions
                             }
                         })
                         .ToList();

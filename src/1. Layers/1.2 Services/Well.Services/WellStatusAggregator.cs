@@ -11,22 +11,6 @@ namespace PH.Well.Services
 {
     public class WellStatusAggregator : IWellStatusAggregator
     {
-        public WellStatus Aggregate(params ResolutionStatus[] resolutionStatuses)
-        {
-            //TODO validate requirement for this 
-            if (resolutionStatuses.Any(x => x == ResolutionStatus.Invalid))
-            {
-                return WellStatus.RouteInProgress;
-            }
-
-            if (resolutionStatuses.All(x => x == ResolutionStatus.Imported))
-            {
-                return WellStatus.Planned;
-            }
-
-            return WellStatus.Complete;
-        }
-
         public WellStatus Aggregate(params WellStatus[] wellStatuses)
         {
             List<WellStatus> uniqueStatus = wellStatuses.Distinct().ToList();

@@ -190,7 +190,7 @@ namespace PH.Well.Repositories
                 .AddParameter("DetailOutersOver", entity.DetailOutersOverUpdate, DbType.Int16)
                 .AddParameter("DetailOutersShort", entity.DetailOutersShort, DbType.Int16)
                 .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
-                .AddParameter("WellStatusId", entity.JobStatus.ToWellStatus(), DbType.Int16)
+                .AddParameter("WellStatusId", (int)entity.WellStatus, DbType.Int16)
                 .Execute();
         }
 

@@ -475,8 +475,7 @@
 
         public bool ComputeWellStatus(Job job)
         {
-            var status = this.wellStatusAggregator.Aggregate(job.ResolutionStatus);
-            status = wellStatusAggregator.Aggregate(status, ConvertJobStatus(job.JobStatus));
+            var status = job.JobStatus.ToWellStatus();
             if (job.WellStatus != status)
             {
                 job.WellStatus = status;
@@ -509,29 +508,6 @@
                 return true;
             }
             return false;
-        }
-
-        private WellStatus ConvertJobStatus(JobStatus jobStatus)
-        {
-            switch (jobStatus)
-            {
-                case JobStatus.NotDefined:
-                    return WellStatus.Unknown;
-                case JobStatus.AwaitingInvoice:
-                    return WellStatus.Planned;
-                case JobStatus.InComplete:
-                    return WellStatus.RouteInProgress;
-                case JobStatus.Clean:
-                case JobStatus.Exception:
-                case JobStatus.Resolved:
-                case JobStatus.DocumentDelivery:
-                case JobStatus.CompletedOnPaper:
-                    return WellStatus.Complete;
-                case JobStatus.Bypassed:
-                    return WellStatus.CompleteWithBypass;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 }

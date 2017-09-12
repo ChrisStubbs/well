@@ -2,10 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading;
     using Contracts;
     using Domain;
     using Domain.Enums;
@@ -96,11 +93,14 @@
             foreach (var line in job.LineItems)
             {
                 var deliveredQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).DeliveredQty;
-                
+                var despatchedQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).OriginalDespatchQty;
+
                 foreach (var action in line.LineItemActions)
                 {
-                    var quantity = 0;
-                    quantity = line.AmendedDeliveryQuantity ?? deliveredQuantity;
+                    //NB for POD there should not be > 1 lineItemAction
+                    // and the DELIVERED quantity is sent, not the exception quantity
+
+                    var podQuantity = GetPodQuantity(despatchedQuantity, action.Quantity);
 
                     if (action.ExceptionType == ExceptionType.Damage)
                     {
@@ -114,13 +114,13 @@
                                 reason = (int)PodReason.Damaged;
                             }
 
-                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = quantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = podQuantity };
                         podLines.Add(podLine);
                     }
 
                     if (action.ExceptionType == ExceptionType.Short || action.ExceptionType == ExceptionType.Bypass)
                     {
-                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.ProductCode, Quantity = quantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.DeliveryFailure, ProductCode = line.ProductCode, Quantity = podQuantity };
                         podLines.Add(podLine);
                     }
                 }
@@ -137,10 +137,15 @@
             foreach (var line in job.LineItems)
             {
                 var deliveredQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).DeliveredQty;
+                var despatchedQuantity = job.JobDetails.Find(x => x.LineItemId == line.Id).OriginalDespatchQty;
+
                 foreach (var action in line.LineItemActions)
                 {
-                    var quantity = 0;
-                    quantity = line.AmendedDeliveryQuantity ?? deliveredQuantity;
+                    //NB for POD there should not be > 1 lineItemAction
+                    // and the DELIVERED quantity is sent, not the exception quantity
+
+                    var podQuantity = GetPodQuantity(despatchedQuantity, action.Quantity);
+
                     if (action.ExceptionType == ExceptionType.Damage)
                     {
                         var reason = 0;
@@ -153,19 +158,19 @@
                             reason = (int)PodReason.Damaged;
                         }
 
-                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = quantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = reason, ProductCode = line.ProductCode, Quantity = podQuantity };
                         podLines.Add(podLine);
                     }
 
                     if (action.ExceptionType == ExceptionType.Short)
                     {
-                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.PickingError, ProductCode = line.ProductCode, Quantity = quantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.PickingError, ProductCode = line.ProductCode, Quantity = podQuantity };
                         podLines.Add(podLine);
                     }
 
                     if (action.ExceptionType == ExceptionType.Bypass)
                     {
-                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.UnableToOffload, ProductCode = line.ProductCode, Quantity = quantity };
+                        var podLine = new PodDeliveryLineCredit { JobId = job.Id, Reason = (int)PodReason.UnableToOffload, ProductCode = line.ProductCode, Quantity = podQuantity };
                         podLines.Add(podLine);
                     }
                 }
@@ -182,6 +187,14 @@
             }
 
             return input;
+        }
+
+        private int GetPodQuantity(int despatchedQuantity, int actionQuantity)
+        {
+
+            var podQuantity = (despatchedQuantity - actionQuantity);
+
+            return podQuantity;
         }
 
     }

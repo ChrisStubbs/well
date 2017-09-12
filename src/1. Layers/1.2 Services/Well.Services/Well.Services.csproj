@@ -59,6 +59,8 @@
     <Compile Include="AdamSettingsFactory.cs" />
     <Compile Include="AmendmentService.cs" />
     <Compile Include="AppSearchService.cs" />
+    <Compile Include="Contracts\IPodService.cs" />
+    <Compile Include="PodService.cs" />
     <Compile Include="BranchService.cs" />
     <Compile Include="BulkEditService.cs" />
     <Compile Include="Contracts\IEpodFileProvider.cs" />

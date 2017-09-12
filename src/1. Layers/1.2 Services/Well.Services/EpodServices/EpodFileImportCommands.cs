@@ -22,6 +22,7 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IPostImportRepository postImportRepository;
+        private readonly IPodService podService;
 
         public EpodFileImportCommands(
             ILogger logger,
@@ -32,7 +33,8 @@
             IDateThresholdService dateThresholdService,
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
-            IPostImportRepository postImportRepository)
+            IPostImportRepository postImportRepository,
+            IPodService podService)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -43,7 +45,9 @@
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.postImportRepository = postImportRepository;
+            this.podService = podService;
         }
+
         public void AfterJobCreation(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
             UpdateExistingJobWithEvents(fileJob, existingJob, routeHeader);
@@ -51,12 +55,12 @@
 
         public void UpdateWithoutEvents(Job existingJob, int branchId, DateTime routeDate)
         {
-            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false);
+            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false, false);
         }
 
         public void UpdateWithEvents(Job existingJob, int branchId, DateTime routeDate)
         {
-            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true);
+            UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true, false);
         }
 
         public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
@@ -67,11 +71,11 @@
         private void UpdateExistingJobWithEvents(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
             existingJob.ResolutionStatus = ResolutionStatus.DriverCompleted;
-            UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true);
+            UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true, false);
         }
 
         //TODO: Need more tests around this
-        public virtual void UpdateExistingJob(Job fileJob, Job existingJob, int branchId, DateTime routeDate, bool createEvents)
+        public virtual void UpdateExistingJob(Job fileJob, Job existingJob, int branchId, DateTime routeDate,bool createEvents, bool includePodBypass)
         {
             this.epodImportMapper.MapJob(fileJob, existingJob);
 
@@ -80,7 +84,7 @@
             if (createEvents && existingJob.IsGrnNumberRequired &&
                 !exceptionEventRepository.GrnEventCreatedForJob(existingJob.Id.ToString()))
             {
-                var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                var grnEvent = new GrnEvent {Id = existingJob.Id, BranchId = branchId};
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
                     dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()),
@@ -91,16 +95,15 @@
                 fileJob.JobDetails,
                 existingJob.Id);
 
-            if (createEvents && existingJob.IsProofOfDelivery && existingJob.JobStatus != JobStatus.CompletedOnPaper &&
-                !exceptionEventRepository.PodEventCreatedForJob(existingJob.Id.ToString()))
+            // do not create pod event for bypass, unless actioned by cs
+            if (createEvents &&
+                existingJob.IsProofOfDelivery &&
+                existingJob.JobStatus != JobStatus.CompletedOnPaper &&
+                (existingJob.JobStatus != JobStatus.Bypassed || IncludeBypass(includePodBypass, existingJob.JobStatus)))
             {
-                var podEvent = new PodEvent
-                {
-                    BranchId = branchId,
-                    Id = existingJob.Id
-                };
-                this.exceptionEventRepository.InsertPodEvent(podEvent, existingJob.Id.ToString());
+                this.podService.CreatePodEvent(existingJob, branchId);
             }
+
 
             // GRN event shouldn probably be created during epod update
             if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed &&
@@ -192,13 +195,15 @@
             foreach (var damage in damages)
             {
                 if (!string.IsNullOrWhiteSpace(damage.Reason.Description) && (
-                        damage.Reason.Description.ToLower().Contains("short") ||
-                        damage.Reason.Description.ToLower().Contains("product not available")))
+                    damage.Reason.Description.ToLower().Contains("short") ||
+                    damage.Reason.Description.ToLower().Contains("product not available")))
                 {
                     continue;
                 }
 
-                damage.PdaReasonDescription = string.IsNullOrWhiteSpace(damage.Reason.Description) ? "Not defined" : damage.Reason.Description;
+                damage.PdaReasonDescription = string.IsNullOrWhiteSpace(damage.Reason.Description)
+                    ? "Not defined"
+                    : damage.Reason.Description;
 
                 damage.JobDetailReason = JobDetailReason.NotDefined;
                 damage.DamageStatus = damage.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
@@ -215,17 +220,20 @@
             RunPostInvoicedProcessing(jobIds);
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId,
+            IList<Job> existingJobsBothSources)
         {
             // For Epod files only delete the jobs for the stops
             var currentStops = existingJobsBothSources.Select(s => s.StopId).Distinct();
             var existingJobIdsForStops = existingRouteJobIdAndStopId.Where(x => currentStops.Contains(x.StopId));
-            var jobIdsToBeDeleted = GetJobsIdsToBeDeleted(existingJobIdsForStops.Select(x => x.JobId), existingJobsBothSources.Select(x => x.Id));
+            var jobIdsToBeDeleted = GetJobsIdsToBeDeleted(existingJobIdsForStops.Select(x => x.JobId),
+                existingJobsBothSources.Select(x => x.Id));
 
             return jobRepository.GetByIds(jobIdsToBeDeleted).ToList();
         }
 
-        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds, IEnumerable<int> existingJobIdsBothSources)
+        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingStopJobIds,
+            IEnumerable<int> existingJobIdsBothSources)
         {
             var existing = existingJobIdsBothSources.ToDictionary(k => k);
             return existingStopJobIds.Where(x => !existing.ContainsKey(x));
@@ -269,5 +277,21 @@
 
             return jobs;
         }
+
+        private bool IncludeBypass(bool includePodBypass, JobStatus status)
+        {
+            if (status == JobStatus.Bypassed)
+            {
+                if (includePodBypass == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
     }
 }
+    

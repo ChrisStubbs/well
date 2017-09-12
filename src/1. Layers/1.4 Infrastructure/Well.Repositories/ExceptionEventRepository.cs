@@ -77,9 +77,9 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(podTransaction, EventAction.PodTransaction, DateTime.Now);
         }
 
-        public void InsertPodEvent(PodEvent podEvent, string jobId)
+        public void InsertPodEvent(PodEvent podEvent, string jobId, DateTime dateCanBeProcessed)
         {
-            SerializeToJsonAndInsertEvent(podEvent, EventAction.Pod, DateTime.Now.Date.AddDays(1), jobId);
+            SerializeToJsonAndInsertEvent(podEvent, EventAction.Pod, dateCanBeProcessed, jobId);
         }
 
         public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)

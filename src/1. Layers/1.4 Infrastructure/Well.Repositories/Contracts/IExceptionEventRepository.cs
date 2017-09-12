@@ -24,7 +24,7 @@ namespace PH.Well.Repositories.Contracts
 
         bool GrnEventCreatedForJob(string jobId);
 
-        void InsertPodEvent(PodEvent podEvent, string jobId);
+        void InsertPodEvent(PodEvent podEvent, string jobId,  DateTime dateCanBeProcessed);
 
         bool PodEventCreatedForJob(string jobId);
 

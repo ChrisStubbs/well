@@ -3,7 +3,8 @@
 MERGE INTO [DeliveryAction] AS Target
 USING	(VALUES	(0,'Not Defined'),
 				(1,'Credit'),
-				(2,'Close')
+				(2,'Close'),
+				(3,'Pod')
 			)
 AS Source ([Id],[Description])
 	ON Target.[Id] = Source.[Id]

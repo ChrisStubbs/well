@@ -114,7 +114,8 @@ namespace PH.Well.Services
                 {
                     DeliveryAction.NotDefined,
                     DeliveryAction.Credit,
-                    DeliveryAction.Close
+                    DeliveryAction.Close,
+                    DeliveryAction.Pod
                 };
             return actions.Select(a =>
                 new KeyValuePair<string, string>($"{(int)a}", StringExtensions.GetEnumDescription(a))).ToList();

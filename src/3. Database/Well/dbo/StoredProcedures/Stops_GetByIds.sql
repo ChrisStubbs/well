@@ -32,11 +32,10 @@ BEGIN
 		  ,s.[UpdatedBy]
 		  ,s.[DateUpdated]
 		  ,s.[Location_Id] as LocationId
-		  ,ssv.WellStatusId as WellStatus
+		  ,CAST(s.WellStatus AS int) as WellStatus
 	FROM 
 		[dbo].[Stop] s
 	INNER JOIN @Ids ids ON ids.Value = s.Id	
-	INNER JOIN [dbo].[StopStatusView] ssv on ssv.StopId = s.Id
 	WHERE
 			s.DateDeleted Is Null
 

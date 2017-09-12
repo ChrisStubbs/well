@@ -7,3 +7,5 @@
 		j.JobStatusId AS JobStatus,
 		j.WellStatusId AS WellStatus	
 	FROM Job j
+	WHERE 
+		DateDeleted IS NULL

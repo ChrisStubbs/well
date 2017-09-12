@@ -148,6 +148,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IActivityService>().Use<ActivityService>();
             For<ILocationService>().Use<LocationService>();
             For<IWellStatusAggregator>().Use<WellStatusAggregator>();
+            For<IPodService>().Use<PodService>();
         }
     }
 }

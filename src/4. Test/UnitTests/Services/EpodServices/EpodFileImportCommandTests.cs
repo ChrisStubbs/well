@@ -28,6 +28,7 @@
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
         private Mock<IPostImportRepository> postImportRepository;
+        private Mock<IPodService> podService;
 
         private EpodFileImportCommands commands;
         private Mock<EpodFileImportCommands> mockCommands;
@@ -44,6 +45,7 @@
             jobDetailRepository = new Mock<IJobDetailRepository>();
             jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>();
             postImportRepository = new Mock<IPostImportRepository>();
+            podService = new Mock<IPodService>();
 
 
             commands = new EpodFileImportCommands(
@@ -55,7 +57,8 @@
                 dateThresholdService.Object,
                 jobDetailRepository.Object,
                 jobDetailDamageRepository.Object,
-                postImportRepository.Object);
+                postImportRepository.Object,
+                podService.Object);
 
             mockCommands = new Mock<EpodFileImportCommands>(
                 logger.Object,
@@ -66,7 +69,8 @@
                 dateThresholdService.Object,
                 jobDetailRepository.Object,
                 jobDetailDamageRepository.Object,
-                postImportRepository.Object)
+                postImportRepository.Object,
+                podService.Object)
             { CallBase = true };
         }
 
@@ -75,16 +79,16 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var routeHeader = RouteHeaderFactory.New.Build();
 
-                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()));
+                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()));
 
                 mockCommands.Object.AfterJobCreation(fileJob, existingJob, routeHeader);
-                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Once);
-                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true, false), Times.Once);
 
                 Assert.That(existingJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
             }
@@ -95,16 +99,16 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithoutEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var branchId = 22;
                 var routeDate = DateTime.Now;
 
-                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()));
+                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()));
 
                 mockCommands.Object.UpdateWithoutEvents(existingJob, branchId, routeDate);
-                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Once);
-                mockCommands.Verify(x => x.UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(existingJob, existingJob, branchId, routeDate, false, false), Times.Once);
 
                 Assert.That(existingJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.Imported));
             }
@@ -116,16 +120,16 @@
             [Test]
             public void ShouldCallUpdateExistingJobsWithEvents()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New.With(x => x.ResolutionStatus = ResolutionStatus.Imported).Build();
                 var routeHeader = RouteHeaderFactory.New.Build();
 
-                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()));
+                mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()));
 
                 mockCommands.Object.UpdateExistingJob(fileJob, existingJob, routeHeader);
-                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Once);
-                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true,false), Times.Once);
 
                 Assert.That(existingJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
             }
@@ -133,7 +137,7 @@
             [Test]
             public void ShouldNotInsertEventForCompletedOnPaperPod()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New
                                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
@@ -143,25 +147,27 @@
                 var routeHeader = RouteHeaderFactory.New.Build();
 
                 commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
-                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()), Times.Never);
+                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
             }
 
             [Test]
             public void ShouldInsertEventForPod()
             {
-                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()));
+                podService.Setup(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>()));
+                exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New
                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
                     .Build();
-
+                
                 var routeHeader = RouteHeaderFactory.New.Build();
 
                 commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
-                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.Is<PodEvent>(
-                    pod => pod.Id == existingJob.Id && pod.BranchId == routeHeader.RouteOwnerId
-                ), It.IsAny<string>()), Times.Once);
-                exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>()), Times.Once);
+                //exceptionEventRepository.Verify(x => x.InsertPodEvent(It.Is<PodEvent>(
+                //    pod => pod.Id == existingJob.Id && pod.BranchId == routeHeader.RouteOwnerId
+                //), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
+               // exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
+                podService.Verify(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>()));
             }
         }
 
@@ -283,7 +289,7 @@
 
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
 
-                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources);
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources,new List<Stop>());
 
                 jobRepository.Verify(x=> x.GetByIds(It.Is<IEnumerable<int>>( jobIds=>
                     jobIds.Count() == 2 

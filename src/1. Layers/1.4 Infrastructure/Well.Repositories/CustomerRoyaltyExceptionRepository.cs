@@ -7,33 +7,33 @@
     using Contracts;
     using Domain;
 
-    public class CustomerRoyaltyExceptionRepository : DapperRepository<CustomerRoyaltyException, int>, ICustomerRoyaltyExceptionRepository
+    public class CustomerRoyaltyExceptionRepository : DapperRepository<CustomerRoyaltyExceptionWell, int>, ICustomerRoyaltyExceptionRepository
     {
         public CustomerRoyaltyExceptionRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
         }
 
-        public IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions()
+        public IEnumerable<CustomerRoyaltyExceptionWell> GetCustomerRoyaltyExceptions()
         {
             var customerRoyaltyException =
                 dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGet)
-                    .Query<CustomerRoyaltyException>();
+                    .Query<CustomerRoyaltyExceptionWell>();
 
             return customerRoyaltyException;
         }
 
-        public CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty)
+        public CustomerRoyaltyExceptionWell GetCustomerRoyaltyExceptionsByRoyalty(int royalty)
         {
             var customerRoyaltyException =
                 dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyalExceptionGetByRoyalty)
                     .AddParameter("RoyaltyCode", royalty, DbType.Int32)
-                    .Query<CustomerRoyaltyException>();
+                    .Query<CustomerRoyaltyExceptionWell>();
 
             return customerRoyaltyException.FirstOrDefault();
         }
 
-        public void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
+        public void AddCustomerRoyaltyException(CustomerRoyaltyExceptionWell royaltyException)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionInsert)
                 .AddParameter("RoyaltyCode", royaltyException.RoyaltyCode, DbType.Int32)
@@ -42,7 +42,7 @@
                 .AddParameter("Username", this.CurrentUser, DbType.String).Query<int>();
         }
 
-        public void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException)
+        public void UpdateCustomerRoyaltyException(CustomerRoyaltyExceptionWell royaltyException)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CustomerRoyaltyExceptionUpdate)
                 .AddParameter("Id", royaltyException.Id, DbType.Int32)

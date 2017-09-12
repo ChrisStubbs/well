@@ -28,6 +28,7 @@
         private Mock<IUserRepository> userRepository;
         private SubmitActionService submitActionService;
         private Mock<SubmitActionService> mockedSubmitActionService;
+        private Mock<IPodService> podService;
 
         [SetUp]
         public virtual void SetUp()
@@ -41,6 +42,7 @@
             jobRepository = new Mock<IJobRepository>();
             jobService = new Mock<IJobService>();
             userRepository = new Mock<IUserRepository>();
+            podService = new Mock<IPodService>();
 
             submitActionService = new SubmitActionService(
                 logger.Object,
@@ -51,7 +53,8 @@
                 actionSummaryMapper.Object,
                 jobRepository.Object,
                 jobService.Object,
-                userRepository.Object);
+                userRepository.Object,
+                podService.Object);
 
             mockedSubmitActionService = new Mock<SubmitActionService>(
                 MockBehavior.Loose,
@@ -63,7 +66,8 @@
                 actionSummaryMapper.Object,
                 jobRepository.Object,
                 jobService.Object,
-                userRepository.Object)
+                userRepository.Object,
+                podService.Object)
             { CallBase = true };
         }
 

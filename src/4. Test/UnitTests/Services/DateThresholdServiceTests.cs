@@ -194,7 +194,7 @@
             [Test]
             public void Should_Use_BranchDays_If_No_CustomerRoyaltyException()
             {
-                this.customerRoyaltyExceptionRepository.Setup(x => x.GetCustomerRoyaltyExceptions()).Returns(new List<CustomerRoyaltyException>());
+                this.customerRoyaltyExceptionRepository.Setup(x => x.GetCustomerRoyaltyExceptions()).Returns(new List<CustomerRoyaltyExceptionWell>());
 
                 var routeDate = new DateTime(1999, 12, 31);
                 var expectedDate = routeDate.AddDays(branch1Threshold.NumberOfDays);
@@ -205,7 +205,7 @@
             [Test]
             public void Should_Use_CustomerRoyaltyException_If_GreaterThan_BranchNumberOfDays()
             {
-                var royaltyException = new CustomerRoyaltyException
+                var royaltyException = new CustomerRoyaltyExceptionWell
                 {
                     RoyaltyCode = royaltyCode,
                     ExceptionDays = (byte)(branch1Threshold.NumberOfDays + 1)
@@ -221,7 +221,7 @@
             [Test]
             public void Should_Use_BranchNumberOfDay_If_GreaterThan_RoyaltyException()
             {
-                var royaltyException = new CustomerRoyaltyException
+                var royaltyException = new CustomerRoyaltyExceptionWell
                 {
                     RoyaltyCode = royaltyCode,
                     ExceptionDays = (byte)(branch1Threshold.NumberOfDays - 1)

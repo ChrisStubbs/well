@@ -9,6 +9,6 @@ namespace PH.Well.Services
     {
         void ImportStops(RouteHeader fileRouteHeader, IImportMapper importMapper, IImportCommands importCommands);
 
-        void DeleteJobs(List<Job> jobsToBeDeleted);
+        void DeleteJobs(IList<Job> jobsToBeDeleted);
     }
 }

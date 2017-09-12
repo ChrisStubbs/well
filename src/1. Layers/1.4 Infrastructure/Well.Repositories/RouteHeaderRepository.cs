@@ -76,9 +76,9 @@
                 .Execute();
         }
 
-        public IEnumerable<HolidayExceptions> HolidayExceptionGet()
+        public IEnumerable<HolidayExceptionsWell> HolidayExceptionGet()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet).Query<HolidayExceptions>();
+            return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet).Query<HolidayExceptionsWell>();
         }
 
         public IEnumerable<Routes> GetRoutes()

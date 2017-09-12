@@ -55,7 +55,7 @@
                 throw new HttpResponseException(new HttpResponseMessage
                 {
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
-                    ReasonPhrase = "Job is not in editable state"
+                    ReasonPhrase = "Job is not in an editable state"
                 });
 
             }

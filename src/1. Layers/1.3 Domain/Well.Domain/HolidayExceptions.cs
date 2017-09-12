@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class HolidayExceptions : Entity<int>
+    public class HolidayExceptionsWell : Entity<int>
     {
         public DateTime ExceptionDate { get; set; }
 

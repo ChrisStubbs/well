@@ -3,14 +3,14 @@
     using System.Collections.Generic;
     using Domain;
 
-    public interface ICustomerRoyaltyExceptionRepository : IRepository<CustomerRoyaltyException, int>
+    public interface ICustomerRoyaltyExceptionRepository : IRepository<CustomerRoyaltyExceptionWell, int>
     {
-        IEnumerable<CustomerRoyaltyException> GetCustomerRoyaltyExceptions();
+        IEnumerable<CustomerRoyaltyExceptionWell> GetCustomerRoyaltyExceptions();
 
-        void AddCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
+        void AddCustomerRoyaltyException(CustomerRoyaltyExceptionWell royaltyException);
 
-        void UpdateCustomerRoyaltyException(CustomerRoyaltyException royaltyException);
+        void UpdateCustomerRoyaltyException(CustomerRoyaltyExceptionWell royaltyException);
 
-        CustomerRoyaltyException GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
+        CustomerRoyaltyExceptionWell GetCustomerRoyaltyExceptionsByRoyalty(int royalty);
     }
 }

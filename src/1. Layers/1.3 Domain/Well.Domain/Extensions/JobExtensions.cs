@@ -11,6 +11,11 @@
             return $"{job.PhAccount} - {job.PickListRef} - {job.JobTypeCode}";
         }
 
+        public static string Identifier(this JobUpdate job)
+        {
+            return $"{job.PhAccount} - {job.PickListRef} - {job.JobTypeCode}";
+        }
+
         public static bool CanWeUpdateJobOnImport(this Job job)
         {
             switch (job.WellStatus)
@@ -22,7 +27,6 @@
                 default:
                     return true;
             }
-
         }
 
         public static bool HasUnresolvedActions(this Job job, int? lineItemId = null)

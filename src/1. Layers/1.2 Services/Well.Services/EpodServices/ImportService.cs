@@ -201,7 +201,7 @@
             return existingStops.FirstOrDefault(x => x.TransportOrderReference == stop.TransportOrderReference);
         }
 
-        private void DeleteJobs(List<Job> jobsToBeDeleted)
+        public void DeleteJobs(List<Job> jobsToBeDeleted)
         {
             foreach (var jobToDelete in jobsToBeDeleted)
             {

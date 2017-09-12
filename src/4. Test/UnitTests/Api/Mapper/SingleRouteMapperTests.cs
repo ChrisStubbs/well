@@ -94,7 +94,16 @@
                         RouteId = routeHeader.Id,
                         DamageTotal = 3,
                         JobDetailId = jobs[0].JobDetails[0].Id
-                    }
+                    },
+                    new JobDetailLineItemTotals
+                    {
+                        TotalExceptions = 3,
+                        JobId = job2.Id,
+                        StopId = stop.Id,
+                        RouteId = routeHeader.Id,
+                        DamageTotal = 1,
+                        JobDetailId = jobs[0].JobDetails[0].Id
+                    },
                 };
                 var primaryAccounts = jobs
                     .Select((p, index) => new { p.Id, index = index.ToString() })
@@ -117,8 +126,8 @@
                 Assert.That(item.JobStatusDescription, Is.EqualTo("Completed On Paper"));
                 Assert.That(item.Cod, Is.EqualTo("CODFISH"));
                 Assert.IsTrue(item.Pod);
-                Assert.That(item.Exceptions, Is.EqualTo(3));
-                Assert.That(item.Clean, Is.EqualTo(3));
+                Assert.That(item.Exceptions, Is.EqualTo(1));
+                Assert.That(item.Clean, Is.EqualTo(0));
                 Assert.That(item.Credit, Is.EqualTo(0));
                 Assert.That(item.Assignee, Is.EqualTo("Crip Bubbs"));
                 Assert.That(singleRoute.Items[1].Assignee, Is.EqualTo("Enri Pears"));

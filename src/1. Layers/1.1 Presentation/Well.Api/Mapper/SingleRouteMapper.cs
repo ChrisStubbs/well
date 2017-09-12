@@ -59,7 +59,7 @@
                     .Where(j => j.JobTypeEnumValue != JobType.Documents && j.StopId == stop.Id)
                     .ToList();
                 
-              //  var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
+                // var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
                 // jobs may be grouped together for delivery, indicated by the OuterCount (ie all jobs
                 // counted together for a stop have the same OuterCount)
                 // All the jobs grouped together should have the same to be advised count 
@@ -83,10 +83,8 @@
                 foreach (var job in stopJobs)
                 {
                     JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
-                    var totalException = jobExceptions[job.Id].Sum(p => p.TotalExceptions);
-                    var clean = job.JobDetails
-                        .Where(x => x.IsClean() && !x.IsTobaccoBag())
-                        .Sum(p => p.OriginalDespatchQty) - totalException;
+                    var totalException = jobExceptions[job.Id].Count(p => p.TotalExceptions > 0);
+                    var clean = jobExceptions[job.Id].Count(p => p.TotalExceptions == 0);
 
                     var item = new SingleRouteItem
                     {

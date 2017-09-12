@@ -5,7 +5,7 @@
     using Extensions;
 
     /// <summary>
-    /// These enums shou7ld sync with the table WellStatus
+    /// These enums should sync with the table WellStatus
     /// </summary>
     public enum WellStatus
     {

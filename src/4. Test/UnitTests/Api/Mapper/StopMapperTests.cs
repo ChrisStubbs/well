@@ -41,7 +41,7 @@ namespace PH.Well.UnitTests.Api.Mapper
                 .WithOuterDiscrepancyFound(true)
                 .WithOuterCount(1)
                 .Build();
-            
+
             var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
             Assert.That(stopModel.RouteId, Is.EqualTo(routeHeader.Id));
@@ -61,20 +61,53 @@ namespace PH.Well.UnitTests.Api.Mapper
             var stop = new StopFactory().Build();
             var jobDetails1 = new List<JobDetail>
             {
-                new JobDetailFactory().Build(),
-                new JobDetailFactory().Build()
+                JobDetailFactory.New
+                    .With(p => p.LineNumber = 1)
+                    .With(p => p.PhProductCode = "Product")
+                    .Build(),
+                JobDetailFactory.New
+                    .With(p => p.LineNumber = 2)
+                    .With(p => p.PhProductCode = "Product2")
+                    .Build()
             };
+
+            var lineItems1 = new List<LineItem>();
+
+            foreach (var item in jobDetails1)
+            {
+                lineItems1.Add(
+                LineItemFactory.New
+                    .With(p => p.LineNumber = item.LineNumber)
+                    .With(p => p.ProductCode = item.PhProductCode)
+                    .Build());
+            }
 
             var jobDetails2 = new List<JobDetail>
             {
-                new JobDetailFactory().Build()
+                new JobDetailFactory()
+                .With(p => p.LineNumber = 1)
+                .With(p => p.PhProductCode = "Product")
+                .Build()
             };
 
-            var job = new JobFactory().With(x => x.JobDetails = jobDetails1)
-                                    .WithTotalShort(10)
-                                    .Build();
+            var lineItems2 = new List<LineItem>()
+            {
+                LineItemFactory.New
+                .With(p => p.LineNumber = jobDetails2.First().LineNumber)
+                .With(p => p.ProductCode = jobDetails2.First().PhProductCode)
+                .Build()
+            };
 
-            var job2 = new JobFactory().With(x => x.JobDetails = jobDetails2).Build();
+            var job = new JobFactory()
+                    .With(x => x.JobDetails = jobDetails1)
+                    .With(x => x.LineItems = lineItems1)
+                    .WithTotalShort(10)
+                    .Build();
+
+            var job2 = new JobFactory()
+                .With(x => x.JobDetails = jobDetails2)
+                .With(p => p.LineItems = lineItems2)
+                .Build();
 
             var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job, job2 }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
@@ -99,20 +132,42 @@ namespace PH.Well.UnitTests.Api.Mapper
 
             var jobDetails1 = new List<JobDetail>
             {
-                new JobDetailFactory().With(x=> x.PhProductCode = eighteenCharacterBarcode).Build(),
-                new JobDetailFactory().Build(),
-                new JobDetailFactory().Build()
+                new JobDetailFactory()
+                    .With(x=> x.PhProductCode = eighteenCharacterBarcode)
+                    .With(p => p.LineNumber = 1)
+                    .With(p => p.PhProductCode = "P1")
+                    .Build(),
+                new JobDetailFactory()
+                    .With(p => p.LineNumber = 2)
+                    .With(p => p.PhProductCode = "P2")
+                    .Build(),
+                new JobDetailFactory()
+                    .With(p => p.LineNumber = 3)
+                    .With(p => p.PhProductCode = "P3")
+                .Build()
             };
 
-            var job = new JobFactory().With(x => x.JobTypeCode = "DEL-TOB")
-                                    .With(x => x.JobDetails = jobDetails1)
-                                    .With(x => x.ResolutionStatus = Well.Domain.Enums.ResolutionStatus.DriverCompleted)
-                                    .WithTotalShort(10)
-                                    .Build();
+            var lineItems = new List<LineItem>();
+
+            foreach (var item in jobDetails1)
+            {
+                lineItems.Add(LineItemFactory.New
+                   .With(p => p.LineNumber = item.LineNumber)
+                   .With(p => p.ProductCode = item.PhProductCode)
+                   .Build());
+            }
+            
+            var job = new JobFactory()
+                .With(x => x.JobTypeCode = "DEL-TOB")
+                .With(x => x.JobDetails = jobDetails1)
+                .With(x => x.LineItems = lineItems)
+                .With(x => x.ResolutionStatus = Well.Domain.Enums.ResolutionStatus.DriverCompleted)
+                .WithTotalShort(10)
+                .Build();
 
             var stopModel = mapper.Map(branches, routeHeader, stop, new List<Job> { job }, new List<Assignee>(), new List<JobDetailLineItemTotals>());
 
-            Assert.That(stopModel.Items.Count, Is.EqualTo(2));
+            Assert.That(stopModel.Items.Count, Is.EqualTo(3));
             Assert.False(stopModel.Items.Any(x => x.Product == eighteenCharacterBarcode));
         }
 
@@ -141,7 +196,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             var jobDetails1 = new List<JobDetail>
             {
                 new JobDetailFactory()
-                    .With(x=> x.PhProductCode="PHProdCode")
+                    .With(x=> x.PhProductCode="Product")
                     .With(x=> x.ProdDesc="ProductDescription")
                     .With(x=> x.NetPrice=72)
                     .With(x=> x.OriginalDespatchQty=592)
@@ -152,6 +207,7 @@ namespace PH.Well.UnitTests.Api.Mapper
                     .With(x => x.LineDeliveryStatus = "Delivered")
                     .With(x => x.IsHighValue = true)
                     .With(x => x.SSCCBarcode="12478459554678952")
+                    .With(x => x.LineNumber = 1)
                     .Build()
             };
 
@@ -163,6 +219,10 @@ namespace PH.Well.UnitTests.Api.Mapper
                         .With(x => x.JobTypeAbbreviation = "test")
                         .With(x => x.PhAccount = "PHAcccountNo")
                         .With(x => x.JobDetails = jobDetails1)
+                        .With(j => j.LineItems = new List<LineItem>()
+                        {
+                            LineItemFactory.New.With(p => p.LineNumber = 1).With(p => p.ProductCode = "Product").Build()
+                        })
                         .With(x => x.ResolutionStatus = Well.Domain.Enums.ResolutionStatus.DriverCompleted)
                         .WithTotalShort(10)
                         .Build();
@@ -187,7 +247,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             Assert.That(item.JobTypeAbbreviation, Is.EqualTo("test"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
             Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));
-            Assert.That(item.Product, Is.EqualTo("PHProdCode"));
+            Assert.That(item.Product, Is.EqualTo(jobDetails1.First().PhProductCode));
             Assert.That(item.Description, Is.EqualTo("ProductDescription"));
             Assert.That(item.Value, Is.EqualTo(72));
             Assert.That(item.Invoiced, Is.EqualTo(592));
@@ -202,9 +262,18 @@ namespace PH.Well.UnitTests.Api.Mapper
         [Test]
         public void ShouldUseJobServiceToAssignCanEdit()
         {
-            var job = JobFactory.New.With(j => j.JobDetails = new List<JobDetail>() {JobDetailFactory.New.Build()})
+            var job = JobFactory.New
+                .With(j => j.JobDetails = new List<JobDetail>()
+                    {
+                        JobDetailFactory.New.With(p => p.LineNumber = 1).With(p => p.PhProductCode = "Product").Build()
+                    })
+                .With(j => j.LineItems = new List<LineItem>()
+                    {
+                        LineItemFactory.New.With(p => p.LineNumber = 1).With(p => p.ProductCode = "Product").Build()
+                    })
                 .Build();
-            var result = mapper.Map(branches, routeHeader, StopFactory.New.Build(), new List<Job> {job},
+
+            var result = mapper.Map(branches, routeHeader, StopFactory.New.Build(), new List<Job> { job },
                 new List<Assignee>(),
                 new List<JobDetailLineItemTotals>());
 

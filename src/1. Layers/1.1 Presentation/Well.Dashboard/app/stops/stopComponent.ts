@@ -453,6 +453,7 @@ export class StopComponent implements IObservableAlive
             if (x.lineItemId === data.id)
             {
                 x.hasUnresolvedActions = data.hasUnresolvedActions;
+                x.hasLineItemActions = data.exceptions.length > 0;
             }
         });
         job.resolution = data.resolutionStatus;

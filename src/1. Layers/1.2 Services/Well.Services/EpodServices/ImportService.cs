@@ -76,6 +76,7 @@
                     importMapper.MapStop(fileStop, originalStop);
                     stopRepository.Update(originalStop);
 
+                    fileStop.Id = originalStop.Id;
                     fileStop.Jobs.ForEach(x => x.StopId = originalStop.Id);
                     savedStops.Add(fileStop);
                 }

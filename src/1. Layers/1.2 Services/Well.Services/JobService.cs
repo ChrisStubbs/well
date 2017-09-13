@@ -462,15 +462,28 @@
                 .Where(x => x.UserId == user.Id).Select(x => x.JobId);
         }
 
-        public bool ComputeWellStatus(int jobId)
+        /// <summary>
+        /// Helper function to get job with minimum required data to compute well status
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <exception cref="ArgumentException">When job is not found</exception>
+        /// <returns></returns>
+        private Job GetJobForWellStatusCalculation(int jobId)
         {
-            // Get the job specified
             var job = jobRepository.GetForWellStatusCalculationById(jobId);
             if (job != null)
             {
-                return ComputeWellStatus(job);
+                return job;
             }
-            return false;
+
+            throw new ArgumentException($"Job not found id : {jobId}", nameof(jobId));
+        }
+
+        public bool ComputeWellStatus(int jobId)
+        {
+            // Get the job specified
+            var job = GetJobForWellStatusCalculation(jobId);
+            return ComputeWellStatus(job);
         }
 
         public bool ComputeWellStatus(Job job)
@@ -490,12 +503,8 @@
         public bool ComputeAndPropagateWellStatus(int jobId)
         {
             // Get the job specified
-            var job = jobRepository.GetById(jobId);
-            if (job != null)
-            {
-                return ComputeAndPropagateWellStatus(job);
-            }
-            return false;
+            var job = GetJobForWellStatusCalculation(jobId);
+            return ComputeAndPropagateWellStatus(job);
         }
 
         public bool ComputeAndPropagateWellStatus(Job job)

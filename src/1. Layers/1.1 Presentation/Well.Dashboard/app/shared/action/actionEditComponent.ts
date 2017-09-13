@@ -248,7 +248,7 @@ export class ActionEditComponent implements IObservableAlive
             value: item.quantity,
             disabled: (!this.source.canEditActions || isCloseAction)
         },
-            [Validators.pattern('^[0-9]+$')]);
+            [Validators.pattern('^[1-9]{1}[0-9]*$')]);
 
         const commentReason = this.formBuilder.control({
             value: item.commentReason,

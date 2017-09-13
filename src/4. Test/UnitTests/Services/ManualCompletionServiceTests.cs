@@ -24,6 +24,7 @@ namespace PH.Well.UnitTests.Services
         private Mock<ILineItemActionRepository> lineItemActionRepository;
         private ManualCompletionService manualCompletionService;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IPostImportRepository> postImportRepository;
 
         [SetUp]
         public virtual void SetUp()
@@ -32,8 +33,10 @@ namespace PH.Well.UnitTests.Services
             epodFileImportCommands = new Mock<IEpodFileImportCommands>();
             lineItemActionRepository = new Mock<ILineItemActionRepository>();
             userNameProvider = new Mock<IUserNameProvider>();
+            postImportRepository = new Mock<IPostImportRepository>();
+
             manualCompletionService = new ManualCompletionService(jobService.Object, epodFileImportCommands.Object,
-                lineItemActionRepository.Object, userNameProvider.Object);
+                lineItemActionRepository.Object, userNameProvider.Object, postImportRepository.Object);
             epodFileImportCommands.Setup(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>())).Returns(new List<Job>());
         }
 
@@ -100,7 +103,7 @@ namespace PH.Well.UnitTests.Services
             private List<int> jobIds;
             private List<Job> jobList;
             private Job job1;
-            private Job job2;
+            private Job standardUpliftJob;
             private Job job3;
 
             [SetUp]
@@ -113,40 +116,41 @@ namespace PH.Well.UnitTests.Services
                     .WithJobRoute(11, DateTime.Today)
                     .With(x => x.WellStatus = WellStatus.Invoiced).Build();
 
-                job2 = JobFactory.New.With(x => x.Id = 2)
+                standardUpliftJob = JobFactory.New.With(x => x.Id = 2)
                     .WithJobRoute(22, DateTime.Today.AddDays(-1))
-                    .With(x => x.WellStatus = WellStatus.Invoiced).Build();
+                    .With(x => x.WellStatus = WellStatus.Invoiced)
+                    .With(x => x.JobTypeCode = "UPL-STD").Build();
 
                 job3 = JobFactory.New.With(x => x.Id = 3)
                     .WithJobRoute(33, DateTime.Today.AddDays(-2))
                     .With(x => x.WellStatus = WellStatus.RouteInProgress).Build();
 
-                jobList = new List<Job> { job1, job2, job3 };
+                jobList = new List<Job> { job1, standardUpliftJob, job3 };
 
                 jobService.Setup(x => x.GetJobsIdsAssignedToCurrentUser(jobIds)).Returns(jobIds);
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
                 jobService.Setup(x => x.CanManuallyComplete(job1, It.IsAny<string>())).Returns(true);
-                jobService.Setup(x => x.CanManuallyComplete(job2, It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanManuallyComplete(standardUpliftJob, It.IsAny<string>())).Returns(true);
                 jobService.Setup(x => x.CanManuallyComplete(job3, It.IsAny<string>())).Returns(false);
             }
 
             [Test]
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
-                epodFileImportCommands.Verify(x => x.UpdateWithEvents(job2, job2.JobRoute.BranchId, job2.JobRoute.RouteDate), Times.Once);
+                epodFileImportCommands.Verify(x => x.UpdateWithEvents(standardUpliftJob, standardUpliftJob.JobRoute.BranchId, standardUpliftJob.JobRoute.RouteDate), Times.Once);
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(job3, job3.JobRoute.BranchId, job3.JobRoute.RouteDate), Times.Never);
             }
 
             [Test]
             public void ShouldDleteLineItemActionsOnceForEachInvoicedJob()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds,ManualCompletionType.CompleteAsClean);
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()), Times.Exactly(2));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job1.Id), Times.Exactly(1));
-                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job2.Id), Times.Exactly(1));
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(standardUpliftJob.Id), Times.Exactly(1));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job3.Id), Times.Never);
 
             }
@@ -154,22 +158,36 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldSetResolutionStatusCompletedByWell()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
                 Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
-                Assert.That(job2.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
+                Assert.That(standardUpliftJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
             }
 
             [Test]
-            public void ShouldRunPostImvoiceProcessingOnceForEachJob()
+            public void Check_PostTranSendImport_When_CompleteAsClean()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, DoNothingAction);
-                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.IsAny<List<int>>()), Times.Exactly(2));
-                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job1.Id) && jobs.Count == 1)), Times.Once);
-                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job2.Id) && jobs.Count == 1)), Times.Once);
-                epodFileImportCommands.Verify(x => x.RunPostInvoicedProcessing(It.Is<List<int>>(jobs => jobs.Contains(job3.Id) && jobs.Count == 1)), Times.Never);
+                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
+
+                postImportRepository.Verify(
+                    x => x.PostTranSendImport(It.Is<IEnumerable<int>>(y => y.Contains(standardUpliftJob.Id))),
+                    Times.Once);
+
+                // Should create line items when manually completing only for standard uplift jobs
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
             }
 
-            private void DoNothingAction(IEnumerable<Job> invoicedJobs) { }
+            [Test]
+            public void Check_PostTranSendImport_When_CompleteAsBypass()
+            {
+                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsBypassed);
+
+                postImportRepository.Verify(
+                    x => x.PostTranSendImport(It.Is<IEnumerable<int>>(y => y.Contains(job1.Id))),
+                    Times.Once);
+
+                // Should create line items when manually completing only for standard uplift jobs
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
+            }
         }
 
         public class TheGetJobsAvailableForCompletionMethod : ManualCompletionServiceTests

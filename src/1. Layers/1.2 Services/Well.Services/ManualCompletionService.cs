@@ -18,6 +18,7 @@ namespace PH.Well.Services
         private readonly IEpodFileImportCommands epodFileImportCommands;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IUserNameProvider userNameProvider;
+        private readonly IPostImportRepository postImportRepository;
 
         public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
         {
@@ -36,48 +37,69 @@ namespace PH.Well.Services
             IJobService jobService,
             IEpodFileImportCommands epodFileImportCommands,
             ILineItemActionRepository lineItemActionRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IPostImportRepository postImportRepository)
         {
             this.jobService = jobService;
             this.epodFileImportCommands = epodFileImportCommands;
 
             this.lineItemActionRepository = lineItemActionRepository;
             this.userNameProvider = userNameProvider;
+            this.postImportRepository = postImportRepository;
         }
 
         public IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds)
         {
-            return ManuallyCompleteJobs(jobIds, MarkAsBypassed);
+            return ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsBypassed);
         }
 
         public IEnumerable<Job> CompleteAsClean(IEnumerable<int> jobIds)
         {
-            return ManuallyCompleteJobs(jobIds, MarkAsComplete);
+            return ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
         }
 
-        public IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, Action<IEnumerable<Job>> actionJobs)
+        public IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, ManualCompletionType completionType)
         {
             List<Job> invoicedJobs = GetJobsAvailableForCompletion(jobIds).ToList();
-            actionJobs(invoicedJobs);
 
-            List<Job> completedJobs = new List<Job>();
+            switch (completionType)
+            {
+                case ManualCompletionType.CompleteAsClean:
+                    MarkAsComplete(invoicedJobs);
+                    break;
+                case ManualCompletionType.CompleteAsBypassed:
+                    MarkAsBypassed(invoicedJobs);
+                    break;
 
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(completionType));
+            }
+           
             using (var transactionScope = new TransactionScope())
             {
                 foreach (var job in invoicedJobs)
                 {
                     job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
 
+                    // Clear job exceptions
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
+                    // Update job
                     epodFileImportCommands.UpdateWithEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
-                    completedJobs.AddRange(epodFileImportCommands.RunPostInvoicedProcessing(new List<int> { job.Id }));
+
+                    // Create LineItemActions if manually complete standard uplift job or manually bypass non standard uplift job
+                    if ((job.JobTypeCode == "UPL-STD" && completionType == ManualCompletionType.CompleteAsClean) ||
+                        (job.JobTypeCode != "UPL-STD" && completionType == ManualCompletionType.CompleteAsBypassed))
+                    {
+                        this.postImportRepository.PostTranSendImport(new[] {job.Id});
+                    }
 
                     // Compute well status
                     jobService.ComputeAndPropagateWellStatus(job);
                 }
+
                 transactionScope.Complete();
             }
-            return completedJobs;
+            return invoicedJobs;
         }
 
         private void MarkAsBypassed(IEnumerable<Job> invoicedJobs)

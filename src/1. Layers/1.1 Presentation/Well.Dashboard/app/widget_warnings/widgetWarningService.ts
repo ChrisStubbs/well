@@ -1,9 +1,9 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { GlobalSettingsService } from '../shared/globalSettings';
 import { WidgetWarning } from './widgetWarning';
-import {HttpService} from '../shared/httpService';
+import {HttpService} from '../shared/services/httpService';
 
 @Injectable()
 export class WidgetWarningService {

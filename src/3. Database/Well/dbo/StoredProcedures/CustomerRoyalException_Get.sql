@@ -3,7 +3,7 @@ AS
 BEGIN
 SELECT
 	   [Id]
-	  ,[RoyaltyId]
+	  ,[RoyaltyCode]
       ,[Customer]
       ,[ExceptionDays]
       ,[CreatedBy]

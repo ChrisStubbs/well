@@ -3,6 +3,6 @@
 AS
 BEGIN
 	UPDATE [Routes] 
-	SET IsDeleted = 1
+	SET DateDeleted = GETDATE()
 	WHERE Id = @RoutesId
 END

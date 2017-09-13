@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Well.Domain;
+    using Well.Domain.Enums;
 
     public class StopFactory : EntityFactory<StopFactory, Stop>
     {
@@ -12,15 +13,16 @@
             this.Entity.PlannedStopNumber = "001";
             this.Entity.TransportOrderReference = "BIR-000000000000001";
             this.Entity.RouteHeaderId = 1;
-            this.Entity.RouteHeaderCode = "0001";
+            this.Entity.RouteHeaderCode = "202000";
             this.Entity.DropId = "01";
-            this.Entity.LocationId = "LOC001";
+            this.Entity.LocationId = 1;
             this.Entity.DeliveryDate = DateTime.Now;
             this.Entity.ShellActionIndicator = "N";
             this.Entity.StopStatusCode = "a status";
             this.Entity.StopStatusDescription = "something";
             this.Entity.StopByPassReason = "Some reason";
             this.Entity.Jobs = new List<Job>();
+            this.Entity.WellStatus = WellStatus.Complete;
 
             this.Entity.Account = new Account
             {
@@ -36,15 +38,8 @@
                 ContactNumber = "01293 100 000",
                 ContactNumber2 = string.Empty,
                 ContactEmailAddress = "A.Smith@palmerharvey.co.uk",
-                IsDeleted = false,
+                DateDeleted = null,
                 StopId = this.Entity.Id
-            };
-
-            this.Entity.EntityAttributes = new List<EntityAttribute>
-            {
-                new EntityAttribute { Code = "ActualPaymentCash", Value = null },
-                new EntityAttribute { Code = "ActualPaymentCheque", Value = null },
-                new EntityAttribute { Code = "ActualPaymentCard", Value = null }
             };
         }
     }

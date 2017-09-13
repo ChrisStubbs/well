@@ -13,8 +13,8 @@ begin
       ,[RoutesId]
       ,[RouteStatusCode]
 	  ,[RouteStatusDescription]
-      ,[PerformanceStatusCode],
-	  [PerformanceStatusDescription]
+      ,[PerformanceStatusCode]
+	  ,[PerformanceStatusDescription]
       ,[LastRouteUpdate]
       ,[AuthByPass]
       ,[NonAuthByPass]
@@ -22,12 +22,13 @@ begin
       ,[DamagesRejected]
       ,[DamagesAccepted]
 	  ,[RouteOwnerId]
-	  ,[IsDeleted]
+	  ,[DateDeleted]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]
       ,[DateUpdated]
       ,[Version]
+	  ,[WellStatus] as RouteWellStatus
   FROM [dbo].[RouteHeader]
   WHERE [RoutesId] = @RouteId
   end

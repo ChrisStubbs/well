@@ -14,6 +14,13 @@
 
         public bool Processed { get; set; }
 
+        /// <summary>
+        /// Optional Id. 
+        /// Can be used to store implicit relation key.
+        /// Client needs to know related entities and how to query them
+        /// </summary>
+        public string SourceId { get; set; }
+
         public DateTime DateCanBeProcessed { get; set; }
     }
 }

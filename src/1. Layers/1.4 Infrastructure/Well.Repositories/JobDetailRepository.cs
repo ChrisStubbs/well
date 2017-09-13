@@ -12,6 +12,8 @@
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {
+        private const string UnknownLineDeliveryStatus = "Unknown";
+
         public JobDetailRepository(ILogger logger, IWellDapperProxy dapperProxy, IUserNameProvider userNameProvider) :
             base(logger, dapperProxy, userNameProvider)
         { }
@@ -73,13 +75,13 @@
                 .AddParameter("PHProductType", jobDetail.PhProductType, DbType.String)
                 .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
-                .AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String)
+                .AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String)
                 .AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32)
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Double)
                 .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Double)
                 .AddParameter("JobId", jobDetail.JobId, DbType.Int32)
                 .AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32)
-                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
+                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? UnknownLineDeliveryStatus, DbType.String)
                 .AddParameter("IsHighValue", jobDetail.IsHighValue, DbType.Boolean)
                 .AddParameter("CreatedBy", jobDetail.CreatedBy, DbType.String)
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
@@ -98,7 +100,7 @@
                 .AddParameter("JobDetailSourceId", jobDetail.JobDetailSourceId, DbType.Int32)
                 .AddParameter("ShortsStatus", jobDetail.ShortsStatus, DbType.Int32)
                 .AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32)
-                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String)
+                .AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? UnknownLineDeliveryStatus, DbType.String)
                 .AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16)
                 .AddParameter("ProductCode", jobDetail.PhProductCode, DbType.String)
                 .AddParameter("ProductDescription", jobDetail.ProdDesc, DbType.String)
@@ -107,11 +109,12 @@
                 .AddParameter("ProductType", jobDetail.PhProductType, DbType.String)
                 .AddParameter("PackSize", jobDetail.PackSize, DbType.String)
                 .AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String)
-                .AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String)
+                .AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String) // tobacco bag barcode
                 .AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
+                .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal)
                 .Execute();
         }
 

@@ -8,5 +8,8 @@
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
+	[ActivityTypeId] TINYINT NULL,
+    [Abbreviation] CHAR(3) NULL, 
     CONSTRAINT [PK_JobType] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT [FK_JobType_ActivityType] FOREIGN KEY ([ActivityTypeId]) REFERENCES [dbo].[ActivityType] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 )

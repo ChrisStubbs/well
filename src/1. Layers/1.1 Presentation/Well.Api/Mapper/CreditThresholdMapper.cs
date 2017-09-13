@@ -12,36 +12,23 @@
     {
         public CreditThreshold Map(CreditThresholdModel model)
         {
-            var creditThreshold = new CreditThreshold
+            return new CreditThreshold
             {
                 Id = model.Id,
-                Threshold = model.Threshold.Value,
-                ThresholdLevelId = (int)EnumExtensions.GetValueFromDescription<ThresholdLevel>(model.ThresholdLevel)
+                Threshold = model.Threshold.GetValueOrDefault(),
+                Level = model.ThresholdLevel
             };
-
-            model.Branches.ForEach(x => creditThreshold.Branches.Add(x));
-
-            return creditThreshold;
         }
 
         public CreditThresholdModel Map(CreditThreshold creditThreshold)
         {
-            var model = new CreditThresholdModel
+            return new CreditThresholdModel
             {
                 Id = creditThreshold.Id,
-                ThresholdLevel = EnumExtensions.GetDescription(creditThreshold.ThresholdLevel),
-                Threshold = creditThreshold.Threshold
+                ThresholdLevel = creditThreshold.Level,
+                Threshold = creditThreshold.Threshold,
+                Description = creditThreshold.Description
             };
-
-            foreach (var branch in creditThreshold.Branches)
-            {
-                model.BranchName += branch.Name + ", ";
-                model.Branches.Add(branch);
-            }
-
-            model.BranchName = model.BranchName.TrimEnd(',', ' ');
-
-            return model;
         }
     }
 }

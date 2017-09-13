@@ -1,4 +1,5 @@
-﻿using PH.Well.Common.Contracts;
+﻿using System.Linq;
+using PH.Well.Common.Contracts;
 
 namespace PH.Well.Services
 {
@@ -91,21 +92,34 @@ namespace PH.Well.Services
             }
         }
 
+        /// <summary>
+        /// Return a comma-separated list of selected branches
+        /// If all selected return "All branches"
+        /// If 6 or less branches selected, return their full names
+        /// If more than 6 selected return their 3-letter abbreviations
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public string GetUserBranchesFriendlyInformation(string username)
         {
-            var branches = this.branchRepository.GetBranchesForUser(username);
-            var friendlyString = new StringBuilder();
+            var allBranchesCount = this.branchRepository.GetAllValidBranches().Count();
+            var branches = this.branchRepository.GetBranchesForUser(username).Select(x=>x.Name).ToList();
+            string friendlyString = "";
 
-            foreach (var branch in branches)
+            if (branches.Count() == allBranchesCount)
             {
-                friendlyString.Append(branch.Name.Substring(0, 3) + ", ");
+                friendlyString = "All branches selected";
+            }
+            else if (branches.Count() <= 6)
+            {
+                friendlyString = string.Join(", ", branches);
+            }
+            else
+            {
+                friendlyString = string.Join(", ", branches.Select(x => x.Substring(0,3)));
             }
 
-            var output = friendlyString.ToString();
-
-            output = output.TrimEnd(',', ' ');
-
-            return output;
+            return friendlyString;
         }
     }
 }

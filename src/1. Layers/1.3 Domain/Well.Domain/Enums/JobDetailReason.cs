@@ -1,6 +1,8 @@
 ﻿namespace PH.Well.Domain.Enums
 {
     using System.ComponentModel;
+    using System.Collections.Generic;
+    using PH.Well.Domain.Extensions;
 
     public enum JobDetailReason
     {
@@ -52,5 +54,27 @@
         ShopClosedNoStaff = 22,
         [Description("Minimum Drop Charge")]
         MinimumDropCharge = 23
+    }
+
+    public static class JobDetailReasonDescriptions
+    {
+        private static readonly Dictionary<int, string> descriptions;
+
+        static JobDetailReasonDescriptions()
+        {
+            descriptions = new Dictionary<int, string>();
+
+            foreach (JobDetailReason item in System.Enum.GetValues(typeof(JobDetailReason)))
+            {
+                descriptions.Add((int)item, EnumExtensions.GetDescription(item));
+            }
+
+            descriptions[(int)JobDetailReason.NotDefined] = null;
+        }
+
+        public static string Description(this JobDetailReason value)
+        {
+            return descriptions[(int)value];
+        }
     }
 }

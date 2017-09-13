@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
-
+    using Domain.ValueObjects;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
 
@@ -17,10 +17,8 @@
 
         void UnAssignJobToUser(int jobId);
 
-        void SetThresholdLevel(User user, ThresholdLevel thresholdLevel);
+        IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds);
 
-        User GetUserByCreditThreshold(CreditThreshold creditThreshold);
-
-        IEnumerable<decimal> GetCreditThresholds(string user);
+        IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null);
     }
 }

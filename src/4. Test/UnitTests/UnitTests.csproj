@@ -34,9 +34,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\AdamDotNetProvider.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -58,6 +68,27 @@
       <HintPath>..\..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PH.Common.Entity.Interfaces, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.Entity.Interfaces.1.0.0.2\lib\net452\PH.Common.Entity.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Common.T4Templates, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.T4Templates.1.0.0.0\lib\net452\PH.Common.T4Templates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.T4Templates.Generators, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.T4Templates.Generators.1.0.0.6\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Constants, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.17\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -67,6 +98,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -111,39 +143,51 @@
   <ItemGroup>
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
-    <Compile Include="ACL\AdamEvents\StructureMapTest.cs" />
+    <Compile Include="ACL\AdamListener\AdamFileMonitorServiceTests.cs" />
+    <Compile Include="ACL\StructureMapTest.cs" />
+    <Compile Include="ACL\Task.GlobalUplifts\GlobalUpliftsTests.cs" />
     <Compile Include="AdamResilienceTests.cs" />
+    <Compile Include="Api\Controllers\AppSearchControllerTests.cs" />
     <Compile Include="Api\Controllers\BaseControllerTests.cs" />
-    <Compile Include="Api\Controllers\AuditControllerTests.cs" />
-    <Compile Include="Api\Controllers\BranchControllerTests.cs" />
-    <Compile Include="Api\Controllers\CleanPreferenceControllerTests.cs" />
-    <Compile Include="Api\Controllers\ActionDeliveryLineControllerTests.cs" />
+    <Compile Include="Api\Controllers\ExceptionControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailReasonControllerTests.cs" />
-    <Compile Include="Api\Controllers\DeliveryControllerTests.cs" />
-    <Compile Include="Api\Controllers\DeliveryLineControllerTests.cs" />
     <Compile Include="Api\Controllers\JobDetailSourceControllerTests.cs" />
     <Compile Include="Api\Controllers\SeasonalDateControllerTests.cs" />
-    <Compile Include="Api\Controllers\ThresholdLevelControllerTests.cs" />
+    <Compile Include="Api\Controllers\StopsControllerTests.cs" />
+    <Compile Include="Api\Controllers\SingleRouteControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
-    <Compile Include="Api\Mapper\CleanPreferenceMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryDetailModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryLinesToModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryLineToJobDetailMapperTests.cs" />
     <Compile Include="Api\Mapper\SeasonalDateMapperTests.cs" />
+    <Compile Include="Api\Mapper\SingleRouteMapperTests.cs" />
+    <Compile Include="Api\Mapper\StopMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
-    <Compile Include="Api\Validators\CleanPreferenceValidatorTests.cs" />
-    <Compile Include="Api\Validators\CreditThresholdValidatorTests.cs" />
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
+    <Compile Include="Common\DeadlockRetryHelperTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
+    <Compile Include="Common\JobExtensionsTests.cs" />
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
+    <Compile Include="Domain\AssigneeTests.cs" />
+    <Compile Include="Domain\JobDetailActionTests.cs" />
     <Compile Include="Domain\JobDetailTests.cs" />
+    <Compile Include="Domain\JobTests.cs" />
+    <Compile Include="Domain\LineItemActionTests.cs" />
+    <Compile Include="Domain\ResolutionStatusExtensionTest.cs" />
     <Compile Include="Domain\RouteHeaderTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryLineTests.cs" />
     <Compile Include="Domain\ValueObjects\DeliveryTests.cs" />
-    <Compile Include="Factories\CleanPreferenceFactory.cs" />
+    <Compile Include="Domain\ValueObjects\ReadRouteTests.cs" />
+    <Compile Include="DTOMappers\JobDetailsDTOTests.cs" />
+    <Compile Include="DTOMappers\JobDTOTests.cs" />
+    <Compile Include="DTOMappers\StopDTOTests.cs" />
+    <Compile Include="Factories\BulkEditPatchRequestFactory.cs" />
+    <Compile Include="Factories\LineItemActionFactory.cs" />
+    <Compile Include="Factories\LineItemFactory.cs" />
+    <Compile Include="Factories\NonSoftDeletedRoutesJobsFactory.cs" />
     <Compile Include="Factories\NotificationFactory.cs" />
     <Compile Include="Factories\RouteDeliveryFactory.cs" />
     <Compile Include="Factories\SeasonalDateFactory.cs" />
@@ -154,20 +198,25 @@
     <Compile Include="Factories\JobFactory.cs" />
     <Compile Include="Factories\RoutesFactory.cs" />
     <Compile Include="Factories\DeliveryLineFactory.cs" />
+    <Compile Include="Factories\SqlExceptionCreator.cs" />
+    <Compile Include="Factories\StopFactoryDTO.cs" />
     <Compile Include="Factories\UserFactory.cs" />
     <Compile Include="Factories\EntityFactory.cs" />
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
+    <Compile Include="Infrastructure\AmendmentRepositoryTests.cs" />
+    <Compile Include="Infrastructure\BaseDapperProxyTests.cs" />
+    <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />
     <Compile Include="Infrastructure\NotificationRepositoryTests.cs" />
     <Compile Include="Infrastructure\AccountRepositoryTests.cs" />
     <Compile Include="Infrastructure\BranchRepositoryTests.cs" />
-    <Compile Include="Infrastructure\CleanPreferenceRepositoryTests.cs" />
     <Compile Include="Infrastructure\CreditThresholdRepositoryTests.cs" />
     <Compile Include="Infrastructure\DeliveryReadRepositoryTests.cs" />
     <Compile Include="Infrastructure\ExceptionEventRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobDetailRepositoryTests.cs" />
     <Compile Include="Infrastructure\JobRepositoryTests.cs" />
+    <Compile Include="Infrastructure\AmendTransactionFactoryTests.cs" />
     <Compile Include="Infrastructure\PodTransactionFactoryTests.cs" />
     <Compile Include="Infrastructure\RouteHeaderRepositoryTests.cs" />
     <Compile Include="Infrastructure\RouteToRemoveRepositoryTests.cs" />
@@ -175,22 +224,43 @@
     <Compile Include="Infrastructure\StopRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserRepositoryTests.cs" />
     <Compile Include="Infrastructure\UserStatsRepositoryTests.cs" />
+    <Compile Include="MSDTC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
     <Compile Include="Services\AdamImportServiceTests.cs" />
     <Compile Include="Services\AdamUpdateTests.cs" />
+    <Compile Include="Services\AmendmentServiceTests.cs" />
+    <Compile Include="Services\AppSearchServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
-    <Compile Include="Services\CleanDeliveryServiceTests.cs" />
+    <Compile Include="Services\BulkEditServiceTests.cs" />
+    <Compile Include="Services\DateThresholdServiceTests.cs" />
     <Compile Include="Services\DeliveryLineActionServiceTests.cs" />
+    <Compile Include="Services\DeliveryLineCreditMapperTests.cs" />
     <Compile Include="Services\DeliveryLineToDeliveryLineCreditMapperTests.cs" />
-    <Compile Include="Services\DeliveryServiceTests.cs" />
+    <Compile Include="Services\EpodServices\AdamFileImportCommandsTests.cs" />
+    <Compile Include="Services\EpodServices\EpodFileImportCommandTests.cs" />
+    <Compile Include="Services\EpodServices\EpodImportMapperTests.cs" />
+    <Compile Include="Services\EpodServices\EpodImportServiceTests.cs" />
+    <Compile Include="Services\EpodServices\ImportServiceTest.cs" />
+    <Compile Include="Services\JobResolutionStatusTests.cs" />
     <Compile Include="Services\JobStatusServiceTests.cs" />
-    <Compile Include="Services\EpodUpdateServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />
-    <Compile Include="Services\RouteMapperTests.cs" />
+    <Compile Include="Services\ManualCompletionServiceTests.cs" />
+    <Compile Include="Services\EpodServices\AdamImportServiceTests.cs" />
+    <Compile Include="Services\OrderImportMapperTests.cs" />
+    <Compile Include="Services\StopServiceTests.cs" />
+    <Compile Include="Services\SubmitActionServiceTests.cs" />
     <Compile Include="Services\UserThresholdServiceTests.cs" />
+    <Compile Include="Services\Validation\SubmitActionValidationTests.cs" />
+    <Compile Include="Services\WellCleanUpServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -211,9 +281,25 @@
       <Project>{f6584bac-9a01-4788-9c75-faf17337360e}</Project>
       <Name>Well.Repositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts\PH.Well.Task.GlobalUplifts.csproj">
+      <Project>{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}</Project>
+      <Name>PH.Well.Task.GlobalUplifts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj">
       <Project>{9b115560-a7e1-45a9-9213-712a0860303c}</Project>
       <Name>Well.Adam.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam.Listener\Well.Adam.Listener.csproj">
+      <Project>{9ac33dbb-74b2-4a81-8371-4d86e7565be0}</Project>
+      <Name>Well.Adam.Listener</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Clean\Well.Clean.csproj">
+      <Project>{55273256-3c5f-416e-834a-3ac264f7819c}</Project>
+      <Name>Well.Clean</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.TranSend\Well.TranSend.csproj">
+      <Project>{559d6545-bc06-432a-b006-7ef8c65b4bd4}</Project>
+      <Name>Well.TranSend</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>
@@ -232,6 +318,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

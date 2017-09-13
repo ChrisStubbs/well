@@ -1,17 +1,11 @@
-﻿import { Component, OnInit, ViewChild}  from '@angular/core';
-import { GlobalSettingsService} from '../shared/globalSettings';
-import { Response } from '@angular/http';
-import {HttpResponse} from '../shared/httpResponse';
-import { SecurityService} from '../shared/security/securityService';
-import { UnauthorisedComponent} from '../unauthorised/unauthorisedComponent';
-import { ToasterService} from 'angular2-toaster/angular2-toaster';
+import { Component, OnInit, ViewChild}  from '@angular/core';
+import {HttpResponse} from '../shared/models/httpResponse';
 import 'rxjs/Rx';   // Load all features
 import * as lodash from 'lodash';
-
 import { Notification} from './notification';
 import { PaginationService } from 'ng2-pagination';
 import { NotificationsService} from './notificationsService';
-import { NotificationModalComponent} from './notificationModalComponent'
+import { NotificationModalComponent} from './notificationModalComponent';
 
 @Component({
     selector: 'ow-notifications',
@@ -26,16 +20,10 @@ export class NotificationsComponent implements OnInit {
     public httpResponse: HttpResponse = new HttpResponse();
     public rowCount: number = 3;
 
-    constructor(
-        private notificationsService: NotificationsService,
-        private toasterService: ToasterService,
-        private globalSettingsService: GlobalSettingsService,
-        private securityService: SecurityService) { }
+    constructor(private notificationsService: NotificationsService) { }
 
-    public ngOnInit() {
-        this.securityService.validateUser(
-            this.globalSettingsService.globalSettings.permissions,
-            this.securityService.actionDeliveries);
+    public ngOnInit()
+    {
         this.getNotifications();
     }
         

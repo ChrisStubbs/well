@@ -79,12 +79,12 @@
             setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, false, DeliveryAction.Credit);
         }
 
-        [Given(@"(.*) delivery has all its lines set to close")]
-        public void GivenDeliveryHasAllItsLinesSetToClose(int noOfDeliveries)
-        {
-            var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
-            setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, false, DeliveryAction.Close);
-        }
+        //[Given(@"(.*) delivery has all its lines set to close")]
+        //public void GivenDeliveryHasAllItsLinesSetToClose(int noOfDeliveries)
+        //{
+        //    var setupDeliveryLineUpdate = new SetupDeliveryLineUpdate();
+        //    setupDeliveryLineUpdate.SetDeliveriesToAction(noOfDeliveries, false, DeliveryAction.Close);
+        //}
 
         [Then(@"the following exception deliveries will be displayed")]
         public void ThenTheFollowingExceptionDeliveriesWillBeDisplayed(Table table)

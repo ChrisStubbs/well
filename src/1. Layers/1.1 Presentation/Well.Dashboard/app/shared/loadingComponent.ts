@@ -1,8 +1,8 @@
-﻿import {Component, Input, OnInit, OnDestroy, NgZone} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, NgZone} from '@angular/core';
 import {GlobalSettingsService} from './globalSettings';
-import {HttpService} from './httpService';
+import {HttpService} from './services/httpService';
 import {Subscription} from 'rxjs/Subscription';
-import {LogService} from './logService';
+import {LogService} from './services/logService';
 
 @Component({
     selector: 'ow-loading',

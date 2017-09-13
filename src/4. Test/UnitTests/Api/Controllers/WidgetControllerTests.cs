@@ -26,7 +26,7 @@ namespace PH.Well.UnitTests.Api.Controllers
     using Well.Api.Validators.Contracts;
     using Well.Domain.Enums;
 
-    [TestFixture]
+    [TestFixture(IgnoreReason = "Widgets controller is no longer used")]
     public class WidgetControllerTests : BaseControllerTests<WidgetController>
     {
         private Mock<IServerErrorResponseHandler> serverErrorResponseHandler;
@@ -38,7 +38,6 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<IUserNameProvider> userNameProvider;
         private string userIdentity = "bob";
         private Mock<INotificationRepository> notificationsRepository;
-        private Mock<IDeliveryService> deliveryService;
 
         [SetUp]
         public void Setup()
@@ -54,7 +53,6 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("bob");
 
             notificationsRepository = new Mock<INotificationRepository>(MockBehavior.Strict);
-            deliveryService = new Mock<IDeliveryService>(MockBehavior.Strict);
 
             this.Controller = new WidgetController(serverErrorResponseHandler.Object,
                 this.logger.Object,
@@ -63,8 +61,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 this.mapper.Object,
                 this.validator.Object,
                 this.userNameProvider.Object,
-                this.notificationsRepository.Object,
-                this.deliveryService.Object);
+                this.notificationsRepository.Object);
             SetupController();
         }
 
@@ -102,8 +99,6 @@ namespace PH.Well.UnitTests.Api.Controllers
                     NotificationsWarningLevel = 2
                 };
 
-                deliveryService.Setup(d => d.GetExceptions(userIdentity)).Returns(new List<Delivery>());
-                deliveryService.Setup(d => d.GetApprovals(userIdentity)).Returns(new List<Delivery>());
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>());
 
                 this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(warnings);
@@ -137,8 +132,6 @@ namespace PH.Well.UnitTests.Api.Controllers
                 approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
                 approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
 
-                deliveryService.Setup(d => d.GetExceptions(userIdentity)).Returns(exceptions);
-                deliveryService.Setup(d => d.GetApprovals(userIdentity)).Returns(approvals);
                 notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
 
                 this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());

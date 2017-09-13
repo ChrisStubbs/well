@@ -1,9 +1,7 @@
-﻿<div class="table-container">
-    <ol class="breadcrumb">
-        <li class="active">{{header}}</li>
-    </ol>
-</div>
-<div class="jumbotron">
+<ol class="breadcrumb">
+    <li class="active">{{header}}</li>
+</ol>
+<div class="content">
     <div class="alert">
         <div class="btn-group">
             <input id="user-text" autofocus type="text" placeholder="Firstname/Surname" class="form-control input-sm" [(ngModel)]="userText" (keyup.enter)="find()"/>
@@ -12,26 +10,29 @@
             <button id="find-user" type="button" class="btn btn-success btn-sm" (click)="find()">Find</button>
         </div>
     </div>
+
     <div *ngIf="users && users.length">
-        <div class="table-responsive table-container" style="min-height: 200px;">
-            <table class="table table-hover table-striped" *ngIf="users.length > 0" id="table-user-preferences">
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Job Description</td>
-                        <td>Domain</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="grid-row" *ngFor="let user of users | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="userSelected(user)">
-                        <td>{{user.name}}</td>
-                        <td>{{user.jobDescription}}</td>
-                        <td>{{user.domain}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-md-12 clearfix table-container">
+                <table class="table table-hover table-striped" *ngIf="users.length > 0" id="table-user-preferences">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Job Description</th>
+                            <th>Domain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="grid-row" *ngFor="let user of users | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="userSelected(user)">
+                            <td>{{user.name}}</td>
+                            <td>{{user.jobDescription}}</td>
+                            <td>{{user.domain}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="row pull-right">
+        <div class="text-right">
             <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
     </div>

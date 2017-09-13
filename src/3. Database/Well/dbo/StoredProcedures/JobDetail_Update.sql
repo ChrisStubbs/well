@@ -2,10 +2,10 @@
 	@Id						Int,
 	@DeliveredQty			DECIMAL(8,3) ,
 	@ShortQty				INT,
-	@ShortsStatus		INT,
+	@ShortsStatus			INT,
 	@JobDetailReasonId		TINYINT,
 	@JobDetailSourceId		TINYINT,
-	@ShortsActionId INT,
+	@ShortsActionId			INT,
 	@LineDeliveryStatus		VARCHAR(20),
 	@SubOuterDamageQty		INT,
 	@ProductCode			VARCHAR(60),
@@ -19,7 +19,8 @@
 	@SkuGoodsValue			FLOAT,
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			DATETIME,
-	@OriginalDespatchQty	INT
+	@OriginalDespatchQty	INT,
+	@NetPrice				FLOAT
 
 AS
 BEGIN
@@ -48,6 +49,7 @@ UPDATE
       ,[UpdatedBy] = @UpdatedBy
       ,[DateUpdated] = @DateUpdated
 	  ,OriginalDespatchQty = @OriginalDespatchQty
+	  ,NetPrice = COALESCE(@NetPrice, NetPrice)
  WHERE 
 	[Id] = @Id
 END

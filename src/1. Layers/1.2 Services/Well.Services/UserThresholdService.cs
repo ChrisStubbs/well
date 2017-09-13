@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Services
 {
+    using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Linq;
     using PH.Well.Domain;
@@ -24,71 +26,87 @@
             this.userNameProvider = userNameProvider;
         }
 
-        public ThresholdResponse CanUserCredit(decimal creditValue)
+        public virtual ThresholdResponse CanUserCredit(decimal creditValue)
         {
             var username = this.userNameProvider.GetUserName();
             var response = new ThresholdResponse();
-            var user = this.userRepository.GetByIdentity(username);
+            var userCreditThreshold = GetCreditThreshold(username);
 
-            if (user == null) 
-            {
-                response.IsInError = true;
-                response.ErrorMessage = $"User not found ({username})";
-            }
-
-            if (user.ThresholdLevelId == null)
+            if (userCreditThreshold == null)
             {
                 response.IsInError = true;
                 response.ErrorMessage = $"You must be assigned a threshold level before crediting.";
                 return response;
             }
 
-            var threshold =
-                this.creditThresholdRepository.GetAll().FirstOrDefault(x => x.ThresholdLevelId == user.ThresholdLevelId);
-
-            if (threshold == null) 
-            {
-                response.IsInError = true;
-                response.ErrorMessage = $"Threshold not found with id ({user.ThresholdLevelId})";
-
-                return response;
-            }
-
-            if (creditValue <= threshold.Threshold) response.CanUserCredit = true;
+            if (creditValue <= userCreditThreshold.Threshold) response.CanUserCredit = true;
 
             return response;
         }
 
         public string AssignPendingCredit(int branchId, decimal totalThresholdAmount, int jobId)
         {
-            var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(branchId);
+            throw new NotImplementedException();
 
-            if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, branchId, totalThresholdAmount, jobId))
-            {
-                if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, jobId))
-                {
-                    return $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})";
-                }
-            }
-            return string.Empty;
-        }
-
-        private bool ApplyThreshold(IEnumerable<CreditThreshold> branchThresholds, ThresholdLevel level, int branchId, decimal totalThresholdAmount, int jobId)
-        {
-            var threshold = branchThresholds.FirstOrDefault(x => x.ThresholdLevel == level);
-
-            if (threshold == null)
-                return false;
-
-            if (totalThresholdAmount <= threshold.Threshold)
+            // Possible implementation ?
+            var threshold = GetCreditThreshold(userNameProvider.GetUserName());
+            if (threshold != null && totalThresholdAmount <= threshold.Threshold)
             {
                 creditThresholdRepository.PendingCreditInsert(jobId);
                 userRepository.UnAssignJobToUser(jobId);
 
-                return true;
+                return string.Empty;
             }
 
-            return false;
+            return $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})";
+
+            //var branchSpecificThresholds = this.creditThresholdRepository.GetByBranch(branchId);
+
+            //if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level2, branchId, totalThresholdAmount, jobId))
+            //{
+            //    if (!this.ApplyThreshold(branchSpecificThresholds, ThresholdLevel.Level1, branchId, totalThresholdAmount, jobId))
+            //    {
+            //        return $"There are no levels that can handle the credit value of ({totalThresholdAmount}) for branch ({branchId})";
+            //    }
+            //}
+            //return string.Empty;
+        }
+
+        public decimal GetUserCreditThresholdValue()
+        {
+            var threshold = GetCreditThreshold(userNameProvider.GetUserName());
+            return threshold?.Threshold ?? 0;
+        }
+
+        public bool UserHasRequiredCreditThreshold(Job job)
+        {
+            if (job.GetAllLineItemActions().All(x => x.DeliveryAction != DeliveryAction.Credit))
+            {
+                return true;
+            }
+            var creditValue = job.LineItems.Sum(x => x.TotalCreditValue);
+            return CanUserCredit(creditValue).CanUserCredit;
+        }
+
+        public CreditThreshold GetCreditThreshold(string userName)
+        {
+            var user = userRepository.GetByIdentity(userName);
+
+            if (user?.CreditThresholdId.HasValue ?? false)
+            {
+                return creditThresholdRepository.GetByUserId(user.Id);
+            }
+            return null;
+        }
+
+        public void SetThresholdLevel(string userName, int creditThresholdId)
+        {
+            var user = userRepository.GetByIdentity(userName);
+            var threshold = creditThresholdRepository.GetById(creditThresholdId);
+
+            // If username or creditThresholdId are wrong it will throw null ref that's actually ok
+            creditThresholdRepository.SetForUser(user.Id, threshold.Id);
+            user.CreditThresholdId = threshold.Id;
         }
     }
 }

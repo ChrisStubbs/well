@@ -2,8 +2,17 @@
 {
     public class UserJob
     {
-        public int UserId { get; set; }
+        public UserJob()
+        {
+        }
 
+        public UserJob(int userId, int jobId)
+        {
+            UserId = userId;
+            JobId = jobId;
+        }
+        
+        public int UserId { get; set; }
         public int JobId { get; set; }
     }
 }

@@ -26,7 +26,6 @@
         private readonly IWidgetWarningMapper mapper;
         private readonly IWidgetWarningValidator validator;
         private readonly INotificationRepository notificationRepository;
-        private readonly IDeliveryService deliveryService;
 
         public WidgetController(IServerErrorResponseHandler serverErrorResponseHandler,
             ILogger logger,
@@ -35,8 +34,7 @@
             IWidgetWarningMapper mapper,
             IWidgetWarningValidator validator,
             IUserNameProvider userNameProvider,
-            INotificationRepository notificationRepository,
-            IDeliveryService deliveryService)
+            INotificationRepository notificationRepository)
             : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
@@ -46,130 +44,126 @@
             this.mapper = mapper;
             this.validator = validator;
             this.notificationRepository = notificationRepository;
-            this.deliveryService = deliveryService;
 
             //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
-        [Authorize(Roles = SecurityPermissions.LandingPage)]
         [Route("widgets")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            try
-            {
-                var exceptionDeliveries = deliveryService.GetExceptions(this.UserIdentityName);
-                var approvalDeliveries = deliveryService.GetApprovals(this.UserIdentityName);
+            throw new NotImplementedException();
+            //try
+            //{
+            //    var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);
+            //    var notifications = notificationRepository.GetNotifications();
 
-                var warningLevels = this.userStatsRepository.GetWidgetWarningLevels(UserIdentityName);
-                var notifications = notificationRepository.GetNotifications();
+            //    var widgets = new List<WidgetModel>()
+            //    {
+            //        new WidgetModel()
+            //        {
+            //            Name = "Exceptions",
+            //            Description = "Deliveries with short or damaged quantities",
+            //            SortOrder = 2,
+            //            WarningLevel = warningLevels.ExceptionWarningLevel ?? 50,
+            //            ShowOnGraph = true,
+            //            Links = new List<WidgetLinkModel>()
+            //            {
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = exceptionDeliveries.Count(),
+            //                    CountName = "unsubmitted-exceptions",
+            //                    Link = "/exceptions",
+            //                    LinkText = "unsubmitted"
 
-                var widgets = new List<WidgetModel>()
-                {
-                    new WidgetModel()
-                    {
-                        Name = "Exceptions",
-                        Description = "Deliveries with short or damaged quantities",
-                        SortOrder = 2,
-                        WarningLevel = warningLevels.ExceptionWarningLevel ?? 50,
-                        ShowOnGraph = true,
-                        Links = new List<WidgetLinkModel>()
-                        {
-                            new WidgetLinkModel()
-                            {
-                                Count = exceptionDeliveries.Count(),
-                                CountName = "unsubmitted-exceptions",
-                                Link = "/exceptions",
-                                LinkText = "unsubmitted"
-
-                            },
-                            new WidgetLinkModel()
-                            {
-                                Count = approvalDeliveries.Count(),
-                                CountName = "approval-exceptions",
-                                Link = "/approvals",
-                                LinkText = "pending approval"
-                            }
-                        }
-                    },
-                    new WidgetModel()
-                    {
-                        Name = "Assigned",
-                        Description = "Exceptions assigned to you for actioning",
-                        SortOrder = 3,
-                        WarningLevel = warningLevels.AssignedWarningLevel ?? 50,
-                        ShowOnGraph = true,
-                        Links = new List<WidgetLinkModel>()
-                        {
-                            new WidgetLinkModel()
-                            {
-                                Count = exceptionDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
-                                CountName = "my-unsubmitted-exceptions",
-                                Link = "/exceptions",
-                                LinkText = "assigned unsubmitted"
-                            },
-                            new WidgetLinkModel()
-                            {
-                                Count = approvalDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
-                                CountName = "my-approval-exceptions",
-                                Link = "/approvals",
-                                LinkText = "assigned pending approval"
-                            }
-                        }
-                    },
-                    new WidgetModel()
-                    {
-                        Name = "Outstanding",
-                        Description = "Exceptions raised over 24 hours ago",
-                        SortOrder = 4,
-                        WarningLevel = warningLevels.OutstandingWarningLevel ?? 50,
-                        ShowOnGraph = true,
-                        Links = new List<WidgetLinkModel>()
-                        {
-                            new WidgetLinkModel()
-                            {
-                                Count = exceptionDeliveries.Count(d => d.IsOutstanding),
-                                CountName = "outstanding-unsubmitted-exceptions",
-                                Link = "/exceptions",
-                                LinkText = "outstanding unsubmitted"
-                            },
-                            new WidgetLinkModel()
-                            {
-                                Count = approvalDeliveries.Count(d => d.IsOutstanding),
-                                CountName = "outstanding-approval-exceptions",
-                                Link = "/approvals",
-                                LinkText = "outstanding pending approval"
-                            }
-                        }
-                    },
-                    new WidgetModel()
-                    {
-                        Name = "Notifications",
-                        Description = "Unarchived notifications",
-                        SortOrder = 5,
-                        WarningLevel = warningLevels.NotificationsWarningLevel ?? 50,
-                        ShowOnGraph = true,
-                        Links = new List<WidgetLinkModel>()
-                        {
-                            new WidgetLinkModel()
-                            {
-                                Count = notifications.Count(),
-                                CountName = "notifications",
-                                Link = "/notifications",
-                                LinkText = "notifications"
-                            }
-                        }
-                    }
-                };
-                return this.Request.CreateResponse(HttpStatusCode.OK, widgets.OrderBy(w => w.SortOrder));
-            }
-            catch (Exception ex)
-            {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting widgets");
-            }
+            //                },
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = approvalDeliveries.Count(),
+            //                    CountName = "approval-exceptions",
+            //                    Link = "/approvals",
+            //                    LinkText = "pending approval"
+            //                }
+            //            }
+            //        },
+            //        new WidgetModel()
+            //        {
+            //            Name = "Assigned",
+            //            Description = "Exceptions assigned to you for actioning",
+            //            SortOrder = 3,
+            //            WarningLevel = warningLevels.AssignedWarningLevel ?? 50,
+            //            ShowOnGraph = true,
+            //            Links = new List<WidgetLinkModel>()
+            //            {
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = exceptionDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
+            //                    CountName = "my-unsubmitted-exceptions",
+            //                    Link = "/exceptions",
+            //                    LinkText = "assigned unsubmitted"
+            //                },
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = approvalDeliveries.Count(d => d.IsAssignedTo(UserIdentityName)),
+            //                    CountName = "my-approval-exceptions",
+            //                    Link = "/approvals",
+            //                    LinkText = "assigned pending approval"
+            //                }
+            //            }
+            //        },
+            //        new WidgetModel()
+            //        {
+            //            Name = "Outstanding",
+            //            Description = "Exceptions raised over 24 hours ago",
+            //            SortOrder = 4,
+            //            WarningLevel = warningLevels.OutstandingWarningLevel ?? 50,
+            //            ShowOnGraph = true,
+            //            Links = new List<WidgetLinkModel>()
+            //            {
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = exceptionDeliveries.Count(d => d.IsOutstanding),
+            //                    CountName = "outstanding-unsubmitted-exceptions",
+            //                    Link = "/exceptions",
+            //                    LinkText = "outstanding unsubmitted"
+            //                },
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = approvalDeliveries.Count(d => d.IsOutstanding),
+            //                    CountName = "outstanding-approval-exceptions",
+            //                    Link = "/approvals",
+            //                    LinkText = "outstanding pending approval"
+            //                }
+            //            }
+            //        },
+            //        new WidgetModel()
+            //        {
+            //            Name = "Notifications",
+            //            Description = "Unarchived notifications",
+            //            SortOrder = 5,
+            //            WarningLevel = warningLevels.NotificationsWarningLevel ?? 50,
+            //            ShowOnGraph = true,
+            //            Links = new List<WidgetLinkModel>()
+            //            {
+            //                new WidgetLinkModel()
+            //                {
+            //                    Count = notifications.Count(),
+            //                    CountName = "notifications",
+            //                    Link = "/notifications",
+            //                    LinkText = "notifications"
+            //                }
+            //            }
+            //        }
+            //    };
+            //    return this.Request.CreateResponse(HttpStatusCode.OK, widgets.OrderBy(w => w.SortOrder));
+            //}
+            //catch (Exception ex)
+            //{
+            //    return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting widgets");
+            //}
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetsWarnings")]
         [HttpGet]
         public HttpResponseMessage GetWarnings()
@@ -196,7 +190,7 @@
             }
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
@@ -223,7 +217,7 @@
             }
         }
 
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [Route("widgetWarning/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)

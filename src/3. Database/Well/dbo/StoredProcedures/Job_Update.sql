@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Job_Update]
 	@Id				INT,
+	@StopId			INT,
 	@PerformanceStatus	TINYINT,
 	@Reason         VARCHAR(255),
 	@InvoiceNumber VARCHAR(50),
@@ -23,7 +24,9 @@
 	@TotalOutersShort INT,
 	@InvoiceValue DECIMAL(8,2),
 	@DetailOutersOver INT,
-	@DetailOutersShort INT
+	@DetailOutersShort INT,
+	@ResolutionStatusId INT,
+	@WellStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -54,8 +57,10 @@ BEGIN
 		TotalOutersShort = @TotalOutersShort,
 		InvoiceValue = @InvoiceValue,
 		DetailOutersOver = @DetailOutersOver,
-		DetailOutersShort = @DetailOutersShort
+		DetailOutersShort = @DetailOutersShort,
+		ResolutionStatusId = @ResolutionStatusId,
+		WellStatusId = @WellStatusId,
+		StopId = @StopId
 	WHERE
 		Id = @Id
 END
-

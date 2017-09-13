@@ -1,8 +1,8 @@
-﻿import { Component, ViewChild, EventEmitter, Output } from '@angular/core'
+import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import { Response} from '@angular/http';
 import { ToasterService} from 'angular2-toaster/angular2-toaster';
 import { BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
-import { HttpResponse} from '../shared/httpResponse';
+import { HttpResponse} from '../shared/models/httpResponse';
 import { WidgetWarning } from './widgetWarning';
 import { WidgetWarningService } from './widgetWarningService';
 

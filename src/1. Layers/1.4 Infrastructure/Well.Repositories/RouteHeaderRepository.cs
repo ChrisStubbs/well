@@ -4,14 +4,11 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
     using Common.Contracts;
-
     using Contracts;
-
     using Dapper;
-
     using Domain;
+    using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int>, IRouteHeaderRepository
     {
@@ -41,10 +38,11 @@
             var jobs = gridReader.Read<Job>().ToList();
             foreach (var routeHeader in routeHeaders)
             {
-                routeHeader.Stops = stops.Where(x => x.RouteHeaderId == routeHeader.Id).ToList();
+                routeHeader.Stops = Mapper.Map<List<Stop>, List<StopDTO>>(stops.Where(x => x.RouteHeaderId == routeHeader.Id).ToList());
+                
                 foreach (var stop in routeHeader.Stops)
                 {
-                    stop.Jobs = jobs.Where(x => x.StopId == stop.Id).ToList();
+                    stop.Jobs = Mapper.Map<List<Job>, List<JobDTO>>(jobs.Where(x => x.StopId == stop.Id).ToList());
                 }
             }
             return routeHeaders;
@@ -71,9 +69,16 @@
                     .FirstOrDefault();
         }
 
-        public IEnumerable<HolidayExceptions> HolidayExceptionGet()
+        public void DeleteRouteHeaderWithNoStops()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet).Query<HolidayExceptions>();
+            dapperProxy.WithStoredProcedure(StoredProcedures.DeleteRouteHeaderWithNoStops)
+                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
+                .Execute();
+        }
+
+        public IEnumerable<HolidayExceptionsWell> HolidayExceptionGet()
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.HolidayExceptionGet).Query<HolidayExceptionsWell>();
         }
 
         public IEnumerable<Routes> GetRoutes()
@@ -163,7 +168,10 @@
                 .AddParameter("DamagesAccepted", entity.DamagesAccepted, DbType.Int32)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String)
                 .AddParameter("DriverName", entity.DriverName, DbType.String)
-                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime).Execute();
+                .AddParameter("UpdatedDate", entity.DateUpdated, DbType.DateTime)
+                .AddParameter("StartDepotCode", entity.StartDepot, DbType.Int32)
+                .AddParameter("WellStatus", (int) entity.RouteWellStatus, DbType.Int32)
+                .AddParameter("PlannedStops", entity.PlannedStops, DbType.Int16).Execute();
         }
 
         public RouteHeader GetRouteHeaderByRoute(int branchId, string routeNumber, DateTime? routeDate)
@@ -190,10 +198,11 @@
                 .Execute();
         }
 
-        public void DeleteRouteHeaderById(int id)
+        public void UpdateWellStatus(RouteHeader routeHeader)
         {
-            dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderDeleteById)
-                .AddParameter("RouteheaderId", id, DbType.Int32)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdateWellStatus)
+                .AddParameter("Id", routeHeader.Id, DbType.Int32)
+                .AddParameter("WellStatusId", (int) routeHeader.RouteWellStatus, DbType.Int16)
                 .Execute();
         }
     }

@@ -47,14 +47,14 @@
 
     public enum RoutesGrid
     {
-        Route,
-        Branch,
-        RouteDate,
-        Driver,
-        NoOfDrops,
-        Exceptions,
-        Clean,
-        Status,
-        LastUpdatedDateTime
+        Branch = 0,
+        Route = 1,
+        RouteDate = 2,
+        Driver = 3,
+        NoOfDrops = 4,
+        Exceptions = 5,
+        Clean = 6,
+        Status = 7,
+        LastUpdatedDateTime = 8
     }
 }

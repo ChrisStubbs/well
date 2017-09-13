@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-
+    using Common.Extensions;
+    using Dapper;
+    using Domain.ValueObjects;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
@@ -37,21 +39,12 @@
             return Get(null, null, null, null, branchId);
         }
 
-        public IEnumerable<decimal> GetCreditThresholds(string user)
+        public IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds)
         {
-            return
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserGetCreditThreshold)
-                    .AddParameter("Username", user, DbType.String)
-                    .Query<decimal>();
-        }
-
-        public void SetThresholdLevel(User user, ThresholdLevel thresholdLevel)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.ThresholdLevelSave)
-                .AddParameter("ThresholdLevelId", (int)thresholdLevel, DbType.Int32)
-                .AddParameter("UserId", user.Id, DbType.Int32)
-                .Execute();
-        }
+            return dapperProxy.WithStoredProcedure(StoredProcedures.GetUserJobsByJobIds)
+                .AddParameter("JobIds", jobIds.ToList().ToIntDataTables("Ids"), DbType.Object)
+                .Query<UserJob>();
+        }  
 
         protected override void SaveNew(User entity)
         {
@@ -73,37 +66,51 @@
             var now = DateTime.Now;
 
             this.dapperProxy.WithStoredProcedure(StoredProcedures.AssignJobToUser)
-                    .AddParameter("UserId", userId, DbType.Int32)
-                    .AddParameter("JobId", jobId, DbType.Int32)
-                    .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                    .AddParameter("DateCreated", now, DbType.DateTime)
-                    .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                    .AddParameter("DateUpdated", now, DbType.DateTime)
-                    .Execute();
+                .AddParameter("UserId", userId, DbType.Int32)
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateCreated", now, DbType.DateTime)
+                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
+                .AddParameter("DateUpdated", now, DbType.DateTime)
+                .Execute();
         }
 
         public void UnAssignJobToUser(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.UnAssignJobToUser)
-                    .AddParameter("JobId", jobId, DbType.Int32)
-                    .Execute();
+                .AddParameter("JobId", jobId, DbType.Int32)
+                .Execute();
         }
 
-        public User GetUserByCreditThreshold(CreditThreshold creditThreshold)
+        public IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null)
         {
-            return Get(null, null, null, creditThreshold.Id, null).FirstOrDefault();
-        }
+            IEnumerable<User> users = new List<User>();
 
-        private IEnumerable<User> Get(int? id, string identity, string name, int? creditThresholdId, int? branchId)
-        {
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGet)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UsersGet)
                 .AddParameter("UserId", id, DbType.Int32)
                 .AddParameter("Identity", identity, DbType.String, size: 255)
                 .AddParameter("Name", name, DbType.String, size: 255)
                 .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
                 .AddParameter("BranchId", branchId, DbType.Int32)
-                .Query<User>();
+                .QueryMultiple(x => users = GetByGrid(x));
 
+            return users;
+
+        }
+
+        private IEnumerable<User> GetByGrid(SqlMapper.GridReader gridReader)
+        {
+            var users = gridReader.Read<User>().ToList();
+            var creditThresholds = gridReader.Read<CreditThreshold>().ToList();
+            if (creditThresholds.Any())
+            {
+                foreach (var u in users.Where(u => u.CreditThresholdId.HasValue))
+                {
+                    u.CreditThreshold = creditThresholds.SingleOrDefault(x => x.Id == u.CreditThresholdId.Value);
+                }
+            }
+
+            return users;
         }
     }
 }

@@ -12,7 +12,10 @@
 
         public string Domain { get; set; }
 
-        public int? ThresholdLevelId { get; set; }
+        public int? CreditThresholdId { get; set; }
 
+        public CreditThreshold CreditThreshold { get; set; }
+
+        public decimal? Threshold => CreditThreshold?.Threshold;
     }
 }

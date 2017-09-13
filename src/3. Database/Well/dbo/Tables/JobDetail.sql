@@ -25,16 +25,37 @@ CREATE TABLE [dbo].[JobDetail]
 	[LineDeliveryStatus] VARCHAR(20) NULL,
 	[IsHighValue]  BIT NOT NULL DEFAULT 0,
 	[DateLife] DATETIME NULL,
-	[IsDeleted] BIT NOT NULL DEFAULT 0,
+	[DateDeleted] DATETIME NULL,
+	[DeletedByImport] BIT DEFAULT 0,
 	[CreatedBy] VARCHAR(50) NOT NULL,
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
 	[Version] [TIMESTAMP] NOT NULL,
-	CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
+	[LineItemId] INT NULL,
+	[BagId] INT NULL,
+    CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([ShortsStatus]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailSource] FOREIGN KEY ([JobDetailSourceId]) REFERENCES [dbo].JobDetailSource ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailReason] FOREIGN KEY ([JobDetailReasonId]) REFERENCES [dbo].JobDetailReason ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT [FK_JobDetail_DeliveryAction] FOREIGN KEY ([ShortsActionId]) REFERENCES [dbo].DeliveryAction ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
+	CONSTRAINT [FK_JobDetail_DeliveryAction] FOREIGN KEY ([ShortsActionId]) REFERENCES [dbo].DeliveryAction ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_LineItem] FOREIGN KEY ([LineItemId]) REFERENCES [dbo].[LineItem] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT [FK_JobDetail_Bag] FOREIGN KEY ([BagId]) REFERENCES [dbo].[Bag] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+GO
+CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])
+GO
+CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])
+GO
+
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode]) INCLUDE ([LineItemId])
+GO
+CREATE NONCLUSTERED INDEX [Idx_JobDetail_PhProductCode] ON [dbo].[JobDetail] ([PHProductCode]) INCLUDE ([Id])
+GO
+
+CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
+GO
+
+CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted ON [dbo].[JobDetail] ([DateDeleted]) INCLUDE ([JobId],[LineNumber],[LineItemId]) WHERE [DateDeleted] IS NOT NULL
+GO

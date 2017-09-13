@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Services.Contracts;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -14,42 +16,36 @@
     using Repositories.Contracts;
     using Validators;
 
-    [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CreditThresholdController : BaseApiController
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
-
         private readonly ILogger logger;
-
         private readonly ICreditThresholdMapper mapper;
-
-        private readonly ICreditThresholdValidator validator;
-
         private readonly IUserRepository userRepository;
+        private readonly IUserThresholdService userThresholdService;
 
         public CreditThresholdController(
             ICreditThresholdRepository creditThresholdRepository, 
             ILogger logger, 
             ICreditThresholdMapper mapper,
-            ICreditThresholdValidator validator,
             IUserRepository userRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IUserThresholdService userThresholdService)
             : base(userNameProvider)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.logger = logger;
             this.mapper = mapper;
-            this.validator = validator;
             this.userRepository = userRepository;
-
-            //////this.creditThresholdRepository.CurrentUser = this.UserIdentityName;
+            this.userThresholdService = userThresholdService;
         }
 
         [Route("credit-threshold")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var creditThresholds = this.creditThresholdRepository.GetAll().OrderBy(x => x.ThresholdLevelId).ToList();
+            var creditThresholds = this.creditThresholdRepository.GetAll().ToList();
 
             var model = new List<CreditThresholdModel>();
 
@@ -85,24 +81,30 @@
         [HttpPost]
         public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
             try
             {
-                if (!this.validator.IsValid(model, isUpdate))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
-                } 
-                
                 var creditThreshold = this.mapper.Map(model);
 
-                this.creditThresholdRepository.Save(creditThreshold);
-
+                if (isUpdate)
+                {
+                    creditThresholdRepository.Update(creditThreshold);
+                }
+                else
+                {
+                    creditThresholdRepository.Save(creditThreshold);
+                }
+                
                 return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
             }
             catch (Exception exception)
             {
                 this.logger.LogError("Error when trying to save credit threshold date", exception);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+                throw;
             }
         }
 
@@ -113,8 +115,7 @@
         {
             try
             {
-                var threshold = this.userRepository.GetCreditThresholds(this.UserIdentityName);
-
+                var threshold = userThresholdService.GetCreditThreshold(this.UserIdentityName);
                 return this.Request.CreateResponse(HttpStatusCode.OK, threshold);
             }
             catch (Exception exception)

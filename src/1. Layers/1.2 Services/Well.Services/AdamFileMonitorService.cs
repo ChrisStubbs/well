@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Xml.Serialization;
 
@@ -25,8 +26,10 @@
         private readonly IAdamImportService adamImportService;
         private readonly IAdamUpdateService adamUpdateService;
         private readonly IRouteHeaderRepository routeHeaderRepository;
+        private readonly IEpodFileProvider epodProvider;
 
         private string RootFolder { get; set; }
+        readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER|EPOD)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public AdamFileMonitorService(
             ILogger logger,
@@ -36,7 +39,8 @@
             IFileModule fileModule,
             IAdamImportService adamImportService,
             IAdamUpdateService adamUpdateService,
-            IRouteHeaderRepository routeHeaderRepository)
+            IRouteHeaderRepository routeHeaderRepository,
+            IEpodFileProvider epodProvider)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -46,48 +50,69 @@
             this.adamImportService = adamImportService;
             this.adamUpdateService = adamUpdateService;
             this.routeHeaderRepository = routeHeaderRepository;
+            this.epodProvider = epodProvider;
         }
 
         public void Monitor(string rootFolder)
         {
             this.RootFolder = rootFolder;
-
-            var files = Directory.GetFiles(rootFolder).OrderBy(x=> x);
+            var directoryInfo = new DirectoryInfo(rootFolder);
+            
+            var files =
+                directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
+                        .OrderBy(f => GetDateTimeStampFromFileName(f.Name));
 
             foreach (var file in files)
             {
-                this.fileService.WaitForFile(file);
-
-                this.Process(file);
+                this.fileService.WaitForFile(file.FullName);
+                this.Process(file.FullName);
             }
+        }
+
+        public bool IsRouteOrOrderFile(string fileName)
+        {
+            return routeOrOrderRegEx.IsMatch(fileName);
+        }
+
+        public string GetDateTimeStampFromFileName(string fileName)
+        {
+            var fileType = this.fileTypeService.DetermineFileType(fileName);
+            var dateTimeStamp = fileType == EpodFileType.EpodUpdate ? fileName.Substring(8, 13) : fileName.Substring(10, 11) + "00";
+
+            return dateTimeStamp;
         }
 
         public void Process(string filePath)
         {
             var filename = Path.GetFileName(filePath);
             var fileType = this.fileTypeService.DetermineFileType(filename);
+            var adicionalDataPath = string.Empty;
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             switch (fileType)
             {
                 case EpodFileType.AdamInsert:
-                    this.AdamInsert(filePath, filename);
+                    this.AdamImport(filePath, filename);
                     break;
+
                 case EpodFileType.AdamUpdate:
                     this.AdamUpdate(filePath, filename);
                     break;
-                case EpodFileType.Unknown:
-                    this.logger.LogDebug($"File ({filePath}) is not recognised!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"File ({filePath}) is not recognised!", 5049);
+
+                case EpodFileType.EpodUpdate:
+                    this.EpodUpdate(filePath, filename);
                     break;
             }
 
-            this.fileModule.MoveFile(filePath, Configuration.ArchiveLocation);
+            this.fileModule.MoveFile(
+                filePath,
+                Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd"), adicionalDataPath));
+
             this.logger.LogDebug($"{filePath} processed!");
         }
 
-        private void AdamInsert(string filePath, string filename)
+        private void AdamImport(string filePath, string filename)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
             try
@@ -128,6 +153,19 @@
                 this.LogError(exception, filePath);
             }
         }
+
+        private void EpodUpdate(string filePath, string filename)
+        {
+            try
+            {
+                this.epodProvider.Import(filePath, filename);
+            }
+            catch (Exception exception)
+            {
+                this.LogError(exception, filePath);
+            }
+        }
+
 
         private void LogError(Exception exception, string filePath)
         {

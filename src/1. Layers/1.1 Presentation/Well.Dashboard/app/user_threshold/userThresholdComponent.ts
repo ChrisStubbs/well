@@ -1,11 +1,11 @@
-﻿import {Component} from '@angular/core';
-import {UserPreferenceComponent} from '../user_preferences/userPreferenceComponent';
+import {Component} from '@angular/core';
 
 @Component({
         selector: 'ow-user-threshold',
         templateUrl: './app/user_threshold/user-threshold.html'
     }
 )
-export class UserThresholdComponent {
+export class UserThresholdComponent
+{
     public header: string = 'User Threshold Levels';
 }

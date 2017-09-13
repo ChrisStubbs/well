@@ -19,14 +19,15 @@ BEGIN
 			Inner Join @JobStatuses js on js.Value = j.JobStatusId
 	WHERE	u.IdentityName = @UserName
 			AND j.InvoiceNumber IS NOT NULL
-			AND	rh.IsDeleted = 0
-			AND	s.IsDeleted = 0
-			AND j.IsDeleted = 0
+			AND	rh.DateDeleted IS NULL
+			AND	s.DateDeleted IS NULL
+			AND j.DateDeleted IS NULL
 
 	SELECT	j.Id,
 			rh.RouteNumber, 
 			rh.RouteDate,
 			s.PlannedStopNumber as DropId,
+			IsNull(jbt.Description,'Unknown') as DeliveryType,
 			j.InvoiceNumber, 
 			j.PHAccount as AccountCode, --this is the P&H account code that is on the invoice
 			a.Name as AccountName ,
@@ -53,11 +54,12 @@ BEGIN
 			INNER JOIN UserBranch ub on b.Id = ub.BranchId
 			INNER JOIN [User] u on u.Id = ub.UserId
 			INNER JOIN JobStatus jb on jb.Id = j.JobStatusId
-			LEFT JOIN ThresholdLevel tl on tl.Id = u.ThresholdLevelId
-			LEFT JOIN CreditThreshold ct on ct.ThresholdLevelId = tl.Id
+			LEFT JOIN CreditThresholdUser ctu on ctu.UserId = u.Id
+			LEFT JOIN CreditThreshold ct on ct.Id = ctu.CreditThresholdId
 			LEFT JOIN UserJob uj on uj.JobId = j.Id 
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
-			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.isDeleted = 0
+			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.DateDeleted IS NULL
+			LEFT JOIN JobType jbt on jbt.Code = j.JobTypeCode
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
 	WHERE	u.IdentityName = @UserName
 	Order By s.DeliveryDate DESC
@@ -78,7 +80,7 @@ BEGIN
 			,jd.IsHighValue
 	FROM	[dbo].[JobDetail] jd
 			INNER JOIN #JobIdsTable jt on jt.Id = jd.JobId
-	WHERE	jd.IsDeleted = 0
+	WHERE	jd.DateDeleted IS NULL
 
 	SELECT	jdd.[JobDetailId]
 			,jdd.[Qty] as Quantity
@@ -88,7 +90,7 @@ BEGIN
 	From 	[dbo].[JobDetailDamage] jdd
 			inner join [dbo].[JobDetail] jd on jdd.JobDetailId = jd.Id	
 			INNER JOIN #JobIdsTable jt on jt.Id = jd.JobId
-	WHERE 	jd.IsDeleted = 0
+	WHERE 	jd.DateDeleted IS NULL
 
 	Drop Table #JobIdsTable
 END

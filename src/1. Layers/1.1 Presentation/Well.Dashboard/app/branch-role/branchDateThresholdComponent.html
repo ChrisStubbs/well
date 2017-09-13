@@ -1,0 +1,21 @@
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="branchThresholdsForm">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Branch</th>
+            <th>Number of days</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container formArrayName="branchThresholdsArray" *ngFor="let branchThreshold of branchThresholdsForm.controls.branchThresholdsArray.controls;let i = index">
+            <tr [formGroupName]="i">
+                <td><ow-branch-name [branchId]="branchThreshold.value.branchId"></ow-branch-name></td>
+                <td><input type="number" class="form-control col-sm-4" placeholder="Days" formControlName="numberOfDays"/></td>
+            </tr>
+        </ng-container>
+        </tbody>
+    </table>
+    <div class="text-right">
+        <button type="submit" class="btn btn-success" [disabled]="!branchThresholdsForm.valid">Update</button>
+    </div>
+</form>

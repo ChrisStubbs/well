@@ -21,6 +21,7 @@ BEGIN
       ,rh.[UpdatedBy]
       ,rh.[DateUpdated]
       ,rh.[Version]
+	  ,[WellStatus] as RouteWellStatus
 	  ,(SELECT COUNT(1) AS TotalDrops FROM Stop s WHERE s.RouteHeaderId = rh.Id) AS TotalDrops
   FROM 
 	RouteHeader rh
@@ -31,7 +32,7 @@ BEGIN
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
    WHERE u.IdentityName = @UserName
-   AND rh.IsDeleted = 0
+   AND rh.DateDeleted IS NULL
    Order By rh.RouteDate DESC
 
 SELECT 
@@ -46,7 +47,7 @@ SELECT
 	  ,[CustUnatt] 
 	  ,[PHUnatt] 
 	  ,[s].[DateCreated]
-	  ,[s].[IsDeleted]
+	  ,[s].[DateDeleted]
 FROM 
 	  [dbo].[Stop] s
 	INNER JOIN RouteHeader rh
@@ -58,7 +59,7 @@ FROM
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
 WHERE u.IdentityName = @UserName
-AND s.IsDeleted = 0
+AND s.DateDeleted IS NULL
 
 SELECT [j].[Id]
       ,[Sequence]
@@ -84,7 +85,7 @@ SELECT [j].[Id]
 	  ,[SandwchOrd] 
 	  ,[PerformanceStatusId] as PerformanceStatus
 	  ,[j].[Reason]
-	  ,[j].[IsDeleted]
+	  ,[j].[DateDeleted]
       ,[StopId]
       ,[j].[CreatedBy]
       ,[j].[DateCreated]
@@ -104,5 +105,5 @@ SELECT [j].[Id]
 	INNER JOIN
 		[User] u on u.Id = ub.UserId
 	WHERE u.IdentityName = @UserName
-	AND j.IsDeleted = 0
+	AND j.DateDeleted IS NULL
 END

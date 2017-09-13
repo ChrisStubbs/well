@@ -1,126 +1,213 @@
-﻿namespace PH.Well.Repositories
+﻿using System;
+
+namespace PH.Well.Repositories
 {
     public struct StoredProcedures
     {
-        public static string AuditGet = "Audit_Get";
-        public static string AuditInsert = "Audit_Insert";
-        public static string RouteHeaderGetAll = "RouteHeader_GetAll";
-        public static string RoutesCheckDuplicate = "Routes_CheckDuplicate";
-        public static string RouteInsert = "Route_Insert";
-        public static string RoutesGetById = "Routes_GetById";
-        public static string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
-        public static string RouteHeaderInsert = "RouteHeader_Insert";
-        public static string RouteHeaderUpdate = "RouteHeader_Update";
-        public static string RouteHeaderGetById = "RouteHeader_GetById";
-        public static string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
-        public static string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
-        public static string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
-        public static string RouteHeaderDeleteById = "RouteHeader_DeleteById";
-        public static string RoutesGet = "Routes_Get";
-        public static string RoutesDeleteById = "Routes_DeleteById";
-        public static string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
-        public static string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
-        public static string HolidayExceptionGet = "HolidayException_Get";
-        public static string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
-        public static string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
-        public static string StopInsert = "Stop_Insert";
-        public static string StopUpdate = "Stop_Update";
-        public static string StopGetById = "Stop_GetById";
-        public static string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
-        public static string AccountInsert = "Account_Insert";
-        public static string StopGetByJob = "StopGetByJob";
-        public static string StopGetByOrderUpdateDetails = "Stop_GetByOrderUpdateDetails";
-        public static string StopGetByJobId = "Stop_GetByJobId";
-        public static string StopDeleteById = "Stop_DeleteById";
-        public static string AccountDeleteByStopId = "Account_DeleteByStopId";
-        public static string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
-        public static string JobCreateOrUpdate = "Job_CreateOrUpdate";
-        public static string JobInsert = "Job_Insert";
-        public static string Job_UpdateStatus = "Job_UpdateStatus";
-        public static string JobUpdate = "Job_Update";
-        public static string JobGetById = "Job_GetById";
-        public static string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
-        public static string JobDeleteById = "Job_DeleteById";
-        public static string SaveGrn = "SaveGrn";
-        public static string JobGetByRefDetails = "Job_GetByRefDetails";
-        public static string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
-        public static string JobGetByStopId = "Job_GetByStopId";
-        public static string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
-        public static string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
-        public static string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
-        public static string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
-        public static string JobSetToStatus = "Job_SetToStatus";
-        public static string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
-        public static string JobGetByIds = "Job_GetByIds";
-        public static string JobDetailGet = "JobDetail_Get";
-        public static string JobDetailInsert = "JobDetail_Insert";
-        public static string JobDetailUpdate = "JobDetail_Update";
-        public static string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
-        public static string JobDetailDeleteById = "JobDetail_DeleteById";
-        public static string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
-        public static string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
-        public static string JobDetailDamageInsert = "JobDetailDamage_Insert";
-        public static string JobDetailDamageUpdate = "JobDetailDamage_Update";
-        public static string JobDetailDamageDelete = "JobDetailDamage_Delete";
-        public static string AccountGetByStopId = "Account_GetByStopId";
-        public static string AccountGetByAccountId = "Account_GetByAccountId";
-        public static string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
-        public static string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
-        public static string DeliveryGetById = "Delivery_GetById";
-        public static string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
-        public static string DeliveriesGet = "Deliveries_Get";
-        public static string BranchesGet = "BranchesGet";
-        public static string DeleteUserBranches = "DeleteUserBranches";
-        public static string SaveUserBranch = "UserBranchInsert";
-        public static string GetBranchesForUser = "GetBranchesForUser";
-        public static string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
-        public static string GetBranchesForCreditThreshold = "GetBranchesForCreditThreshold";
-        public static string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
+        public const string RouteHeaderGetAll = "RouteHeader_GetAll";
+        public const string RoutesCheckDuplicate = "Routes_CheckDuplicate";
+        public const string RouteInsert = "Route_Insert";
+        public const string RoutesGetById = "Routes_GetById";
+        public const string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
+        public const string RouteHeaderInsert = "RouteHeader_Insert";
+        public const string RouteHeaderUpdate = "RouteHeader_Update";
+        public const string RouteHeaderGetById = "RouteHeader_GetById";
+        public const string RouteHeaderUpdateWellStatus = "RouteHeader_UpdateWellStatus";
+        public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
+        public const string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
+        public const string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
+        public const string DeleteRouteHeaderWithNoStops = "DeleteRouteHeaderWithNoStops";
+        public const string RoutesGet = "Routes_Get";
+        public const string RoutesDeleteById = "Routes_DeleteById";
+        public const string RouteheaderGetByRouteId = "Routeheader_GetByRouteId";
+        public const string RouteheaderGetByNumberDateBranch = "RouteheaderGetByNumberDateBranch";
+        public const string HolidayExceptionGet = "HolidayException_Get";
+        public const string StopsGetByRouteHeaderId = "Stops_GetByRouteHeaderId";
+        public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
+        public const string StopInsert = "Stop_Insert";
+        public const string StopUpdate = "Stop_Update";
+        public const string StopUpdateWellStatus = "Stop_UpdateWellStatus";
+        public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
+        public const string AccountInsert = "Account_Insert";
+        public const string AccountUpdate = "Account_Update";
+        public const string StopGetByJob = "StopGetByJob";
+        public const string StopGetForWellStatusCalculationById = "Stop_GetForWellStatusCalculationById";
+        public const string StopIdsGetByTransportOrderReference = "StopIds_GetByTransportOrderReference";
+        public const string StopGetByJobId = "Stop_GetByJobId";
+        public const string StopsGetByIds = "Stops_GetByIds";
+        public const string StopDeleteById = "Stop_DeleteById";
+        public const string AccountDeleteByStopId = "Account_DeleteByStopId";
+        public const string DeleteStopByTransportOrderReference = "DeleteStopByTransportOrderReference";
+        public const string JobCreateOrUpdate = "Job_CreateOrUpdate";
+        public const string JobInsert = "Job_Insert";
+        public const string JobUpdateStatus = "Job_UpdateStatus";
+        public const string JobUpdateWellStatus = "Job_UpdateWellStatus";
+        public const string JobGetForWellStatusCalculationById = "Job_GetForWellStatusCalculationById";
+        public const string JobGetForWellStatusCalculationByStopId = "Job_GetForWellStatusCalculationByStopId";
+        public const string JobUpdate = "Job_Update";
+        public const string JobGetById = "Job_GetById";
+        public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
+        public const string JobDeleteById = "Job_DeleteById";
+        public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
+        public const string JobsReinstateSoftDeletedByImport = "Jobs_ReinstateSoftDeletedByImport";
+        public const string StopsReinstateSoftDeletedByImport = "Stops_ReinstateSoftDeletedByImport";
+        public const string SaveGrn = "SaveGrn";
+        public const string JobGetByRefDetails = "Job_GetByRefDetails";
+        public const string CustomerRoyalExceptionGet = "CustomerRoyalException_Get";
+        public const string JobGetByStopId = "Job_GetByStopId";
 
-        public static string UsersGet = "Users_Get";
-        public static string UserSave = "UserSave";
-        public static string AssignJobToUser = "UserJob_Insert";
-        public static string UnAssignJobToUser = "UserJob_Delete";
-        public static string UserByCreditThresholdGet = "UserByCreditThresholdGet";
-        public static string EventInsert = "EventInsert";
-        public static string EventSetProcessed = "EventSetProcessed";
-        public static string EventGetUnprocessed = "EventGetUnprocessed";
-        public static string MarkEventAsProcessed = "MarkEventAsProcessed";
-        public static string SaveNotification = "Notification_Save";
-        public static string GetNotifications = "Notifications_Get";
-        public static string ArchiveNotification = "Notification_Archive";
-        public static string SeasonalDatesGetAll = "SeasonalDatesGetAll";
-        public static string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
-        public static string SeasonalDatesDelete = "SeasonalDatesDelete";
-        public static string SeasonalDatesSave = "SeasonalDatesSave";
-        public static string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
-        public static string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
-        public static string CreditThresholdGetAll = "CreditThresholdGetAll";
-        public static string CreditThresholdBranchesGet = "CreditThresholdBranchesGet";
-        public static string CreditThresholdDelete = "CreditThresholdDelete";
-        public static string CreditThresholdByBranch = "CreditThresholdByBranch";
-        public static string CreditThresholdSave = "CreditThresholdSave";
-        public static string CreditThresholdToBranchSave = "CreditThresholdToBranchSave";
-        public static string ThresholdLevelSave = "ThresholdLevelSave";
-        public static string CleanPreferencesGetAll = "CleanPreferencesGetAll";
-        public static string CleanPreferencesBranchesGet = "CleanPreferencesBranchesGet";
-        public static string CleanPreferenceSave = "CleanPreferenceSave";
-        public static string CleanPreferenceToBranchSave = "CleanPreferenceToBranchSave";
-        public static string CleanPreferenceDelete = "CleanPreferenceDelete";
-        public static string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
-        public static string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
-        public static string CleanPreferenceByBranchGet = "CleanPreferenceByBranchGet";
-        public static string WidgetWarningSave = "WidgetWarning_Save";
-        public static string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
-        public static string WidgetWarningGetAll = "WidgetWarning_GetAll";
-        public static string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
-        public static string WidgetWarningDelete = "WidgetWarningDelete";
-        public static string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
-        public static string PendingCreditInsert = "PendingCreditInsert";
-        public static string CreditJob = "Job_CreditLines";
-        public static string RemovePendingCredit = "RemovePendingCredit";
-        public static string UserGetCreditThreshold = "User_GetCreditThreshold";
-        public static string GetBranchIdForJob = "GetBranchIdForJob";
-        public static string GetBranchIdForStop = "GetBranchIdForStop";
+        [Obsolete("Replaced with EF version. Should be deleted")]
+        public const string JobDetailTotalsPerStop = "JobDetailTotalsPerStop";
+        [Obsolete("Replaced with EF version. Should be deleted")]
+        public const string JobDetailTotalsPerRouteHeader = "JobDetailTotalsPerRouteHeader";
+        [Obsolete("Replaced with EF version. Should be deleted")]
+        public const string JobDetailTotalsPerJobIds = "JobDetailTotalsPerJobIds";
+        public const string JobGetCreditActionReasons = "Job_GetCreditActionReasons";
+        public const string CustomerRoyaltyExceptionInsert = "CustomerRoyaltyException_Insert";
+        public const string CustomerRoyaltyExceptionUpdate = "CustomerRoyaltyException_Update";
+        public const string CustomerRoyalExceptionGetByRoyalty = "CustomerRoyalException_GetByRoyalty";
+        public const string JobSetToStatus = "Job_SetToStatus";
+        public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
+        public const string JobGetByIds = "Job_GetByIds";
+        public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
+        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted";
+        public const string JobDetailGet = "JobDetail_Get";
+        public const string JobDetailInsert = "JobDetail_Insert";
+        public const string JobDetailUpdate = "JobDetail_Update";
+        public const string JobDetailAttributeCreateOrUpdate = "JobDetailAttribute_CreateOrUpdate";
+        public const string JobDetailDeleteById = "JobDetail_DeleteById";
+        public const string JobDetailDeleteDamageReasonsByJobDetailId = "JobDetail_DeleteDamageReasonsByJobDetailId";
+        public const string JobDetailDamageGetByJobDetailId = "JobDetailDamage_GetByJobDetailId";
+        public const string JobDetailDamageInsert = "JobDetailDamage_Insert";
+        public const string JobDetailDamageUpdate = "JobDetailDamage_Update";
+        public const string JobDetailDamageDelete = "JobDetailDamage_Delete";
+        public const string AccountGetByStopId = "Account_GetByStopId";
+        public const string AccountGetByAccountId = "Account_GetByAccountId";
+        public const string DeliveriesGetByPerformanceStatus = "Deliveries_GetByPerformanceStatus";
+        public const string DeliveriesGetByArrayPerformanceStatus = "Deliveries_GetByArrayPerformanceStatus";
+        public const string DeliveryGetById = "Delivery_GetById";
+        public const string DeliveryLinesGetByJobId = "DeliveryLines_GetByJobId";
+        public const string DeliveriesGet = "Deliveries_Get";
+        public const string BranchesGet = "BranchesGet";
+        public const string DeleteUserBranches = "DeleteUserBranches";
+        public const string SaveUserBranch = "UserBranchInsert";
+        public const string GetBranchesForUser = "GetBranchesForUser";
+        public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
+        public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
+        public const string CleanJobsSetResolutionStatusClosed = "CleanJobsSetResolutionStatusClosed";
+        public const string CleanStops = "CleanStops";
+        public const string CleanRoutes = "CleanRoutes";
+
+        public const string UsersGet = "Users_Get";
+        public const string UserSave = "UserSave";
+        public const string AssignJobToUser = "UserJob_Insert";
+        public const string UnAssignJobToUser = "UserJob_Delete";
+        public const string EventInsert = "EventInsert";
+        public const string EventInsertBulk = "EventInsertBulk";
+        
+        public const string EventSetProcessed = "EventSetProcessed";
+        public const string EventGetUnprocessed = "EventGetUnprocessed";
+        public const string MarkEventAsProcessed = "MarkEventAsProcessed";
+        public const string ExceptionEventDelete = "ExceptionEventDelete";
+        public const string EventGetBySourceId = "ExceptionEvent_GetBySourceId";
+        public const string SaveNotification = "Notification_Save";
+        public const string GetNotifications = "Notifications_Get";
+        public const string ArchiveNotification = "Notification_Archive";
+        public const string SeasonalDatesGetAll = "SeasonalDatesGetAll";
+        public const string SeasonalDatesBranchesGet = "SeasonalDatesBranchesGet";
+        public const string SeasonalDatesDelete = "SeasonalDatesDelete";
+        public const string SeasonalDatesSave = "SeasonalDatesSave";
+        public const string SeasonalDatesByBranchGet = "SeasonalDatesByBranchGet";
+        public const string SeasonalDatesToBranchSave = "SeasonalDatesToBranchSave";
+        public const string CreditThresholdGetAll = "CreditThresholdGetAll";
+        public const string CreditThresholdDelete = "CreditThresholdDelete";
+        public const string CreditThresholdSave = "CreditThresholdSave";
+        public const string CreditThresholdUpdate = "CreditThresholdUpdate";
+        public const string CreditThresholdGetByUser = "CreditThresholdGetByUser";
+        public const string CreditThresholdUserDelete = "CreditThresholdUserDelete";
+        public const string CreditThresholdUserInsert = "CreditThresholdUserInsert";
+
+
+        public const string RouteIdsToRemoveGet = "RouteIdsToRemoveGet";
+        public const string RouteToRemoveFullObjectGraphGet = "RouteToRemoveFullObjectGraphGet";
+        public const string WidgetWarningSave = "WidgetWarning_Save";
+        public const string WidgetWarningToBranchSave = "WidgetWarningToBranchSave";
+        public const string WidgetWarningGetAll = "WidgetWarning_GetAll";
+        public const string WidgetWarningBranchesGet = "WidgetWarningBranchesGet";
+        public const string WidgetWarningDelete = "WidgetWarningDelete";
+        public const string WidgetWarningLevelsByUserGet = "WidgetWarningLevelsByUserGet";
+        public const string PendingCreditInsert = "PendingCreditInsert";
+        public const string CreditJob = "Job_CreditLines";
+        public const string RemovePendingCredit = "RemovePendingCredit";
+        public const string GetUserJobsByJobIds = "UserJobs_GetbyJobIds";
+        public const string GetBranchIdForJob = "GetBranchIdForJob";
+        public const string GetBranchIdForStop = "GetBranchIdForStop";
+
+        public const string RoutesGetAllForBranch = "Routes_GetAllForBranch";
+        public const string RoutesGetByIds = "Routes_GetByIds";
+
+        public static string AppSearch = "AppSearch";
+        //well update
+        public const string JobDetailTobaccoUpdate = "JobDetail_TobaccoUpdate";
+        public const string JobUpdateShortsTba = "Job_UpdateShortsTBA";
+        public const string PostImportUpdate = "PostImportUpdate";
+        public const string LineItemActionInsert = "LineItemAction_Insert";
+
+        public const string AssigneeGetByRouteHeaderId = "Assignee_GetByRouteHeaderId";
+        public const string AssigneeGetByStopId = "Assignee_GetByStopId";
+        public const string AssigneeGetByJobIds = "Assignee_GetByJobIds";
+
+        public const string LineItemGetByIds = "LineItem_GetByIds";
+        public const string LineItemGetByActivityId = "LineItem_GetByActivityId";
+        public const string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
+        public const string LineItemActionGetByLineItemIds = "LineItemAction_GetByLineItemIds";
+        public const string LineItemIdsGetByJobIds = "LineItemIds_GetByJobIds";
+
+        //Line Item Actions
+        public const string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
+        public const string LineItemActionGetByIds = "LineItemActionGetByIds";
+        public const string LineItemActionUpdate = "LineItemActionUpdate";
+        public const string LineItemActionDelete = "LineItemActionDelete";
+        public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
+        public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
+
+        public const string LocationGetById = "Location_GetById";
+        public const string GetSingleLocation = "SingleLocation_Get";
+        public const string GetLocations = "Locations_GET";
+        
+        //lookups
+        public const string ExceptionType = "ExceptionTypeGet";
+        public const string ExceptionAction = "ExceptionAction_Get";
+        public const string JobStatus = "JobStatus_Get";
+        public const string JobType = "JobType_Get";
+        public const string Driver = "Drivers_Get";
+        public const string CommentReason = "CommentReason_Get";
+
+        //line item action comments
+        public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
+        public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
+
+        public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
+        public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
+        public const string JobsToBeApproved = "JobsToBeApproved";
+        public const string GetJobIdsByLineItemIds = "JobIds_GetByLineItemIds";
+        public const string GetJobIdsByStopIds = "JobIds_GetByStopIds";
+
+        // Activities (Invoices/Uplifts etc)
+        public const string ActivityGetByDocumentNumber = "Activity_GetByDocumentNumber";
+        public const string ActivityDetails = "ActivityDetails";
+        public const string ActivityGetSourceById = "Activity_GetSourceById";
+
+        public const string JobGetWithLineItemActions = "Job_GetWithLineItemActions";
+
+        public const string GetAmendments = "Amendment_GetByJobIds";
+
+        //DateThreshold
+        public const string DateThreshold = "DateThreshold_Get";
+        public const string DateThresholdDelete = "DateThreshold_Delete";
+        public const string DateThresholdUpdate = "DateThreshold_Update";
+
+        public const string CleanPreferenceDelete = "CleanPreferenceDelete";
+        
     }
 }

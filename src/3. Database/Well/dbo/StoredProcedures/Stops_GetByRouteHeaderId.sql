@@ -4,21 +4,10 @@
 AS
 
 SELECT 
-	   [Id]
-      ,[PlannedStopNumber]
-      ,[RouteHeaderId]
-      ,[DropId]
-      ,[LocationId]
-      ,[DeliveryDate]
-	  ,[ShellActionIndicator] 
-	  ,[AllowOvers] 
-	  ,[CustUnatt] 
-	  ,[PHUnatt] 
-	  ,[DateCreated]
-	  ,[IsDeleted]
+	   s.Id
 FROM 
-	  [dbo].[Stop]
+	[Stop] s
 WHERE 
-	  [RouteHeaderId] = @routeHeaderId
-
-RETURN 0
+	  RouteHeaderId = @routeHeaderId
+	  AND S.DateDeleted IS NULL
+	

@@ -99,6 +99,7 @@
             catch (Exception ex)
             {
                 return ex.Message + ": Occurred in Enum.cs (GetDescription)";
+                //shadowing erros...bad bad bad 
             }
         }
     }

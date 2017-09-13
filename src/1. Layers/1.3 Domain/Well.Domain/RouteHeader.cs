@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Threading;
     using System.Xml.Serialization;
     using Enums;
 
@@ -13,8 +11,9 @@
     {
         public RouteHeader()
         {
-            this.Stops = new List<Stop>();
+            this.Stops = new List<StopDTO>();
             this.EntityAttributes = new List<EntityAttribute>();
+            this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
 
         [XmlIgnore]
@@ -266,15 +265,19 @@
         public int RoutesId { get; set; }
 
         [XmlArray("Stops")]
-        [XmlArrayItem("Stop", typeof(Stop))]
-        public List<Stop> Stops { get; set; }
+        [XmlArrayItem("Stop", typeof(StopDTO))]
+        public List<StopDTO> Stops { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]
         public List<EntityAttribute> EntityAttributes { get; set; }
 
-        [XmlIgnore]
-        public object EntityAttributeValues { get; set; }
+        [XmlArray("EntityAttributeValues")]
+        [XmlArrayItem("EntityAttributeValue", typeof(EntityAttributeValue))]
+        public List<EntityAttributeValue> EntityAttributeValues { get; set; }
+
+        //[XmlIgnore]
+        //public object EntityAttributeValues { get; set; }
 
         [XmlIgnore]
         public string RouteOwner
@@ -288,19 +291,36 @@
         }
 
         [XmlIgnore]
+        public string AgencyDriverName
+        {
+            get
+            {
+                var attribute = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "AGENCYDRV");
+
+                if (attribute?.Value != null)
+                {
+                    return "AGENCY- " + attribute?.Value;
+                }
+                else
+                {
+                    return attribute?.Value;
+                }
+            }
+        }
+
+        [XmlIgnore]
         public int RouteOwnerId { get; set; }
 
         [XmlIgnore]
         public int TotalDrops { get; set; }
 
-        public int CleanJobs => Stops.Sum(s => s.CleanJobsCount);
-
-        public int ExceptionJobs => Stops.Sum(s => s.ExceptionJobsCount);
-
-        public bool TryParseBranchIdFromRouteNumber(out int branchId )
+        public bool TryParseBranchIdFromRouteNumber(out int branchId)
         {
             return int.TryParse(RouteNumber.Substring(0, 2), out branchId);
         }
 
+        public bool IsCompleted => !string.IsNullOrEmpty(RouteStatusCode) && RouteStatusCode.Equals(Constants.RouteStatusCode.Completed);
+
+        public WellStatus RouteWellStatus { get; set; }
     }
 }

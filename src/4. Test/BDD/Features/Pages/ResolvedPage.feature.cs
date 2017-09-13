@@ -87,17 +87,17 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
                         "Assigned"});
             table1.AddRow(new string[] {
-                        "1",
                         "001",
+                        "22",
                         "1",
                         "94294343",
                         "49214.152",
@@ -105,8 +105,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table1.AddRow(new string[] {
-                        "2",
                         "001",
+                        "22",
                         "1",
                         "92545470",
                         "2874.033",
@@ -114,8 +114,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table1.AddRow(new string[] {
-                        "3",
                         "001",
+                        "22",
                         "2",
                         "92545470",
                         "2874.033",
@@ -172,17 +172,17 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("I filter the resolved delivery grid with the option \'Route\' and value \'006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
                         "Assigned"});
             table3.AddRow(new string[] {
-                        "5",
                         "006",
+                        "22",
                         "1",
                         "91156028",
                         "43362.048",
@@ -190,8 +190,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table3.AddRow(new string[] {
-                        "6",
                         "006",
+                        "22",
                         "1",
                         "92544765",
                         "2874.033",
@@ -199,8 +199,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table3.AddRow(new string[] {
-                        "7",
                         "006",
+                        "22",
                         "2",
                         "94295479",
                         "54107.000",
@@ -208,8 +208,8 @@ this.ScenarioSetup(scenarioInfo);
                         "Resolved",
                         "Unallocated"});
             table3.AddRow(new string[] {
-                        "8",
                         "006",
+                        "22",
                         "2",
                         "94294985",
                         "54107.000",
@@ -223,24 +223,22 @@ this.ScenarioSetup(scenarioInfo);
                     "343\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
-                        "Action",
                         "Assigned"});
             table4.AddRow(new string[] {
-                        "1",
                         "001",
+                        "22",
                         "1",
                         "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Resolved",
-                        "",
                         "Unallocated"});
 #line 38
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table4, "Then ");
@@ -249,24 +247,22 @@ this.ScenarioSetup(scenarioInfo);
                     "0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
-                        "Action",
                         "Assigned"});
             table5.AddRow(new string[] {
-                        "16",
                         "011",
+                        "22",
                         "5",
                         "92545853",
                         "28398.080",
                         "TESCO EXPRESS",
                         "Resolved",
-                        "",
                         "Unallocated"});
 #line 42
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table5, "Then ");
@@ -275,34 +271,31 @@ this.ScenarioSetup(scenarioInfo);
                     "- SHOP\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
-                        "Action",
                         "Assigned"});
             table6.AddRow(new string[] {
-                        "5",
                         "006",
+                        "22",
                         "1",
                         "91156028",
                         "43362.048",
                         "WB - SHOP",
                         "Resolved",
-                        "",
                         "Unallocated"});
             table6.AddRow(new string[] {
-                        "6",
                         "006",
+                        "22",
                         "1",
                         "92544765",
                         "2874.033",
                         "WB - SHOP",
                         "Resolved",
-                        "",
                         "Unallocated"});
 #line 46
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table6, "Then ");
@@ -329,93 +322,47 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I open the resolved deliveries page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
                         "Route",
+                        "Branch",
                         "Drop",
-                        "InvoiceNo",
+                        "Invoice No",
                         "Account",
-                        "AccountName",
+                        "Account Name",
                         "Status",
                         "Assigned",
-                        "LastUpdatedDateTime"});
+                        "Date/Time"});
             table7.AddRow(new string[] {
-                        "1",
                         "001",
+                        "22",
                         "1",
                         "94294343",
                         "49214.152",
                         "CSG - must be CF van",
                         "Resolved",
                         "Unallocated",
-                        "Sep 7, 2016, 1:27:17 PM"});
+                        "01/07/2016 01:00:00"});
             table7.AddRow(new string[] {
-                        "2",
                         "001",
+                        "22",
                         "1",
                         "92545470",
                         "2874.033",
                         "CSG - must be CF van",
                         "Resolved",
                         "Unallocated",
-                        "Sep 7, 2016, 1:29:17 PM"});
+                        "01/07/2016 01:00:00"});
             table7.AddRow(new string[] {
-                        "3",
                         "001",
+                        "22",
                         "2",
                         "92545470",
                         "2874.033",
                         "RVS SHOP",
                         "Resolved",
                         "Unallocated",
-                        "Sep 7, 2016, 1:31:17 PM"});
+                        "01/07/2016 01:00:00"});
 #line 57
  testRunner.Then("the following resolved deliveries will be displayed", ((string)(null)), table7, "Then ");
-#line 62
- testRunner.When("I click on the orderby Triangle image in the resolved deliveries grid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Id",
-                        "Route",
-                        "Drop",
-                        "InvoiceNo",
-                        "Account",
-                        "AccountName",
-                        "Status",
-                        "Assigned",
-                        "LastUpdatedDateTime"});
-            table8.AddRow(new string[] {
-                        "3",
-                        "001",
-                        "2",
-                        "92545470",
-                        "2874.033",
-                        "RVS SHOP",
-                        "Resolved",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:31:17 PM"});
-            table8.AddRow(new string[] {
-                        "2",
-                        "001",
-                        "1",
-                        "92545470",
-                        "2874.033",
-                        "CSG - must be CF van",
-                        "Resolved",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:29:17 PM"});
-            table8.AddRow(new string[] {
-                        "1",
-                        "001",
-                        "1",
-                        "94294343",
-                        "49214.152",
-                        "CSG - must be CF van",
-                        "Resolved",
-                        "Unallocated",
-                        "Sep 7, 2016, 1:27:17 PM"});
-#line 63
- testRunner.Then("The following resolved deliveries ordered by date will be displayed in \'desc\' ord" +
-                    "er", ((string)(null)), table8, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

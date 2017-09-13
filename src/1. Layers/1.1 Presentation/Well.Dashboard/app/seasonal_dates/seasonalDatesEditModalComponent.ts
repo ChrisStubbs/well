@@ -1,10 +1,10 @@
-﻿import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
+import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
 import {Response} from '@angular/http';
 import {SeasonalDate} from './seasonalDate';
 import {ToasterService} from 'angular2-toaster/angular2-toaster';
 import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
 import {SeasonalDateService} from './seasonalDateService';
-import {HttpResponse} from '../shared/httpResponse';
+import {HttpResponse} from '../shared/models/httpResponse';
 
 @Component({
     selector: 'ow-seasonal-edit-modal',

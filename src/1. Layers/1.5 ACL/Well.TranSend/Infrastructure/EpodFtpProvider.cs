@@ -24,25 +24,27 @@
         private readonly IEventLogger eventLogger;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IFileModule fileModule;
+        private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
-        private readonly IEpodUpdateService epodUpdateService;
+
 
         public EpodFtpProvider(
             ILogger logger,
-            IEpodUpdateService epodUpdateService,
             IFtpClient ftpClient,
             IWebClient webClient,
             IEventLogger eventLogger,
             IRouteHeaderRepository routeHeaderRepository,
-            IFileModule fileModule)
+            IFileModule fileModule,
+            IEpodImportService epodImportService
+            )
         {
             this.logger = logger;
-            this.epodUpdateService = epodUpdateService;
             this.ftpClient = ftpClient;
             this.webClient = webClient;
             this.eventLogger = eventLogger;
             this.routeHeaderRepository = routeHeaderRepository;
             this.fileModule = fileModule;
+            this.epodImportService = epodImportService;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
@@ -69,45 +71,44 @@
 
             foreach (var listing in listings.OrderBy(x => x.Datetime))
             {
-                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename, Configuration.DownloadFilePath + listing.Filename);
-
-                if (string.IsNullOrWhiteSpace(downloadedFile))
+                var guid = Guid.NewGuid();
+                var targetFileName = Path.Combine(Configuration.DownloadFilePath, listing.Filename);
+                var tempFilename = GetTemporaryFilename(listing.Filename, guid);
+               
+                if (!File.Exists(targetFileName))
                 {
-                    this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", 4433);
+                    var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
+                        Path.Combine(Configuration.DownloadFilePath, tempFilename));
 
-                    continue;
-                }
-
-                var filename = Path.GetFileName(downloadedFile);
-
-                var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
-
-                this.logger.LogDebug($"Processing {filename}...");
-
-                try
-                {
-                    using (var streamReader = new StreamReader(downloadedFile))
+                    if (string.IsNullOrWhiteSpace(downloadedFile))
                     {
-                        var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
+                        this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
 
-                        var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
-
-                        routes.RouteId = route.Id;
-
-                        this.epodUpdateService.Update(routes, filename);
+                        continue;
+                    }
+                    if (!File.Exists(targetFileName))
+                    {
+                        File.Move(downloadedFile, targetFileName);
+                        this.logger.LogDebug($"Success! File {listing.Filename} copied from ftp!");
                     }
 
-                    this.ftpClient.DeleteFile(filename);
-                    this.fileModule.MoveFile(downloadedFile, Configuration.ArchiveLocation);
-
-                    logger.LogDebug($"File {listing.Filename} imported!");
+                    if (Configuration.DeleteFtpFileAfterImport)
+                    {
+                        this.ftpClient.DeleteFile(Path.GetFileName(targetFileName));
+                    }
                 }
-                catch (Exception exception)
+                else
                 {
-                    this.logger.LogError($"Epod update error in XML file {filename}", exception);
+                    this.logger.LogDebug($"File { listing.Filename } already exists in target folder. File not copied from FTP.");
                 }
+
             }
+        }
+
+        private string GetTemporaryFilename(string filename, Guid guid)
+        {
+            return $"{guid}{filename}";
         }
     }
 }

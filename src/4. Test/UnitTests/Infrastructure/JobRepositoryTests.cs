@@ -1,21 +1,14 @@
-﻿
-
-using System;
-using Dapper;
-
-namespace PH.Well.UnitTests.Infrastructure
+﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System.Collections.Generic;
     using System.Data;
-    using Factories;
     using PH.Well.Common.Contracts;
     using Moq;
     using NUnit.Framework;
-    
+
     using Repositories;
     using Repositories.Contracts;
-    using Well.Domain;
-    using Well.Domain.Enums;
+    using Shared.Well.Data.EF;
     using Well.Domain.ValueObjects;
 
 
@@ -37,7 +30,7 @@ namespace PH.Well.UnitTests.Infrastructure
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
-            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object);
+            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object, new Mock<WellEntities>().Object);
             //////this.repository.CurrentUser = UserName;
         }
 

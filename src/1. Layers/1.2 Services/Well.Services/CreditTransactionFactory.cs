@@ -35,8 +35,8 @@
         {
             var username = this.userNameProvider.GetUserName();
             var user = this.userRepository.GetByIdentity(username);
-
-            var initials = user.FriendlyName.GetInitials();
+            //ADAM needs the user initials & well identifier
+            var initials = user.Name.GetInitials();
             var wellName = "The Well";
 
             var job = this.jobRepository.GetById(deliveryLines[0].JobId);
@@ -70,7 +70,7 @@
                         source = line.Source;
                     }
                     var creditLine =
-                        $"INSERT INTO WELLLINE(WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
+                        $"INSERT INTO WELLLINE.WELLINEREC (WELLINEGUID, WELLINERCDTYPE ,WELLINESEQNUM, WELLINECRDREASON, WELLINEQTY, WELLINEPROD, WELLINEENDLINE) VALUES({job.Id}, {(int)EventAction.Credit},' {lineCount} ', {line.Reason}, {line.Quantity}, {line.ProductCode}, {endFlag});";
 
                     lineDictionary.Add(lineCount, creditLine);
                 }

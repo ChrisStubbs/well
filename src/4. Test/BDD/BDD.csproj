@@ -121,11 +121,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ApprovalsPage.feature</DependentUpon>
     </Compile>
-    <Compile Include="Features\Pages\Audits.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Audits.feature</DependentUpon>
-    </Compile>
     <Compile Include="Features\Pages\Branch.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -304,10 +299,6 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ApprovalsPage.feature.cs</LastGenOutput>
     </None>
-    <None Include="Features\Pages\Audits.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Audits.feature.cs</LastGenOutput>
-    </None>
     <None Include="Features\Pages\Branch.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Branch.feature.cs</LastGenOutput>
@@ -375,7 +366,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\1. Layers\1.1 Presentation\Well.Api\Well.Api.csproj">
-      <Project>{22815DD8-A36A-4D28-85B2-B105E57CE597}</Project>
+      <Project>{22815dd8-a36a-4d28-85b2-b105e57ce597}</Project>
       <Name>Well.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.2 Services\Well.Services\Well.Services.csproj">

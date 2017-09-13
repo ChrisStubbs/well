@@ -1,5 +1,7 @@
 ﻿namespace PH.Well.Domain
 {
+    using System;
+
     public class Notification : Entity<int>
     {
         public int JobId { get; set; }
@@ -31,6 +33,8 @@
         public string AdamErrorNumber { get; set; }
 
         public string AdamCrossReference { get; set; }
+
+        public string NotificationDate { get; set; }
 
 
     }

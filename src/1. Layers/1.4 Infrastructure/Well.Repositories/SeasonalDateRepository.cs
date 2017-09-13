@@ -11,6 +11,8 @@
     using Contracts;
 
     using WebGrease.Css.Extensions;
+    using System.Threading.Tasks;
+    using Dapper;
 
     public class SeasonalDateRepository : DapperRepository<SeasonalDate, int>, ISeasonalDateRepository
     {
@@ -77,6 +79,15 @@
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.SeasonalDatesByBranchGet)
                     .AddParameter("branchId", branchId, DbType.Int32)
                     .Query<SeasonalDate>();
+        }
+
+        public Task<IEnumerable<SeasonalDate>> GetByBranchIdAsync(int branchId)
+        {
+            var p = new DynamicParameters();
+
+            p.Add("branchId", branchId, DbType.Int32);
+
+            return this.dapperProxy.QueryAsync<SeasonalDate>(p, StoredProcedures.SeasonalDatesByBranchGet);
         }
     }
 }

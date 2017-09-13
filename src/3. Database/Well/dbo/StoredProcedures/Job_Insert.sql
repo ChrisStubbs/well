@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Job_Insert]
 	@Sequence				INT,
+	@JobTypeId				TINYINT,
 	@JobTypeCode			VARCHAR(50),
 	@PHAccount				VARCHAR(50)=NULL,
 	@PickListRef			VARCHAR(50)=NULL,
@@ -34,13 +35,16 @@
 	@UpdatedBy VARCHAR(50),
 	@CreatedDate DATETIME,
 	@UpdatedDate DATETIME,
-	@JobStatusId TINYINT
+	@JobStatusId TINYINT,
+	@ResolutionStatusId TINYINT,
+	@WellStatusId TINYINT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	INSERT [Job] (
 		[Sequence],
+		[JobTypeId],
 		[JobTypeCode],
 		[PHAccount], 
 		[PickListRef], 
@@ -74,9 +78,12 @@ BEGIN
 		[DateCreated],
 		[UpdatedBy],
 		[DateUpdated],
-		[JobStatusId])
+		[JobStatusId],
+		[ResolutionStatusId],
+		[WellStatusId])
 	VALUES (
 		@Sequence, 
+		@JobTypeId,
 		@JobTypeCode, 
 		@PHAccount, 
 		@PickListRef, 
@@ -110,8 +117,9 @@ BEGIN
 		@CreatedDate,
 		@UpdatedBy,
 		@UpdatedDate,
-		@JobStatusId)
+		@JobStatusId,
+		@ResolutionStatusId,
+		@WellStatusId)
 
 	SELECT CAST(SCOPE_IDENTITY() as int);
 END
-

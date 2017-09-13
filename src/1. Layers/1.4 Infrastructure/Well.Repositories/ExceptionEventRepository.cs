@@ -1,45 +1,47 @@
-﻿namespace PH.Well.Repositories
+﻿using PH.Shared.Well.Data.EF;
+
+namespace PH.Well.Repositories
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
-
+    using System.Threading.Tasks;
+    using Common.Extensions;
     using Newtonsoft.Json;
-
+    using System.Linq;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
     using PH.Well.Repositories.Contracts;
+    using Dapper;
 
     public class ExceptionEventRepository : DapperRepository<ExceptionEvent, int>, IExceptionEventRepository
     {
-        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider) 
+        
+        public ExceptionEventRepository(ILogger logger, IDapperProxy dapperProxy, IUserNameProvider userNameProvider)
             : base(logger, dapperProxy, userNameProvider)
         {
         }
 
         public void InsertCreditEventTransaction(CreditTransaction creditTransaction)
         {
-            var creditEventTransactionJson = JsonConvert.SerializeObject(creditTransaction);
-
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", creditEventTransactionJson, DbType.String)
-                .AddParameter("ExceptionActionId", EventAction.Credit, DbType.Int32)
-                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .Execute();
+            SerializeToJsonAndInsertEvent(creditTransaction, EventAction.Credit, DateTime.Now);
         }
-        
+
         public void MarkEventAsProcessed(int eventId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.MarkEventAsProcessed)
                 .AddParameter("EventId", eventId, DbType.Int32)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
+
+        public void Delete(int id)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.ExceptionEventDelete)
+                .AddParameter("Id", id, DbType.Int32)
                 .Execute();
         }
 
@@ -55,31 +57,89 @@
                 .Execute();
         }
 
-        public void InsertGrnEvent(GrnEvent grnEvent)
+        public void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed, string jobId)
         {
-            var grnEventJson = JsonConvert.SerializeObject(grnEvent);
-
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", grnEventJson, DbType.String, size: 2500)
-                .AddParameter("ExceptionActionId", EventAction.Grn, DbType.Int32)
-                .AddParameter("DateCanBeProcessed", DateTime.Now.Date.AddDays(1), DbType.DateTime)
-            //    .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .Execute();
+            SerializeToJsonAndInsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
         }
 
+        public bool GrnEventCreatedForJob(string jobId)
+        {
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.Grn);
+        }
+
+        public bool PodEventCreatedForJob(string jobId)
+        {
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.Pod);
+        }
 
         public void InsertPodTransaction(PodTransaction podTransaction)
         {
-            var podEventJson = JsonConvert.SerializeObject(podTransaction);
+            SerializeToJsonAndInsertEvent(podTransaction, EventAction.PodTransaction, DateTime.Now);
+        }
 
+        public void InsertPodEvent(PodEvent podEvent, string jobId, DateTime dateCanBeProcessed)
+        {
+            SerializeToJsonAndInsertEvent(podEvent, EventAction.Pod, dateCanBeProcessed, jobId);
+        }
+
+        public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)
+        {
+            var data = amendmentEvent
+                .Select(p => new
+                {
+                    @Event = JsonConvert.SerializeObject(amendmentEvent),
+                    ExceptionActionId = (int)EventAction.Amendment,
+                    DateCanBeProcessed = DateTime.Now,
+                    CreatedBy = this.CurrentUser,
+                    DateCreated = DateTime.Now,
+                    UpdatedBy = this.CurrentUser,
+                    DateUpdated = DateTime.Now
+                })
+                .ToList()
+                .ToDataTables();
+
+            var par = new DynamicParameters();
+
+            par.Add("Data", data, DbType.Object);
+
+            return this.dapperProxy.ExecuteAsync(par, StoredProcedures.EventInsertBulk);
+        }
+
+        public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
+        {
+            SerializeToJsonAndInsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
+        }
+
+        public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string sourceId = null)
+        {
+            SerializeToJsonAndInsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
+        }
+
+        public bool GlobalUpliftEventCreatedForJob(string jobId)
+        {
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.GlobalUplift);
+        }
+
+        private void SerializeToJsonAndInsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,
+            string sourceId = null)
+        {
+            string eventDataJson = null;
+            if (eventData != null)
+            {
+                eventDataJson = JsonConvert.SerializeObject(eventData);
+            }
+
+            InsertEvent(eventDataJson, action, dateCanBeProcessed, sourceId);
+
+        }
+
+        private void InsertEvent(string stringEvent, EventAction action, DateTime dateCanBeProcessed, string sourceId)
+        {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", podEventJson, DbType.String, size: 2500)
-                .AddParameter("ExceptionActionId", EventAction.PodTransaction, DbType.Int32)
-                .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
+                .AddParameter("Event", stringEvent, DbType.String)
+                .AddParameter("ExceptionActionId", action, DbType.Int32)
+                .AddParameter("DateCanBeProcessed", dateCanBeProcessed, DbType.DateTime)
+                .AddParameter("SourceId", sourceId, DbType.String)
                 .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
                 .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                 .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
@@ -87,20 +147,17 @@
                 .Execute();
         }
 
-        public void InsertPodEvent(PodEvent podEvent)
+        private ExceptionEvent GetExceptionEventByActionAndSourceId(string sourceId, EventAction eventAction)
         {
-            var podEventJson = JsonConvert.SerializeObject(podEvent);
+            return this.dapperProxy.WithStoredProcedure(StoredProcedures.EventGetBySourceId)
+                   .AddParameter("ExceptionActionId", (int)eventAction, DbType.Int32)
+                   .AddParameter("SourceId", sourceId, DbType.String).Query<ExceptionEvent>()
+                   .FirstOrDefault();
+        }
 
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.EventInsert)
-                .AddParameter("Event", podEventJson, DbType.String, size: 2500)
-                .AddParameter("ExceptionActionId", EventAction.Pod, DbType.Int32)
-                //  .AddParameter("DateCanBeProcessed", DateTime.Now, DbType.DateTime)
-                .AddParameter("DateCanBeProcessed", DateTime.Now.Date.AddDays(1), DbType.DateTime)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
-                .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                .Execute();
+        private bool ExceptionEventCreatedForSourceId(string sourceId, EventAction eventAction)
+        {
+            return GetExceptionEventByActionAndSourceId(sourceId, eventAction) != null;
         }
     }
 }

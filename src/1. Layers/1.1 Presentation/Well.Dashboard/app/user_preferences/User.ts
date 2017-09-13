@@ -1,8 +1,11 @@
-﻿export class User {
-    id: number;
-    name: string;
-    friendlyName: string;
-    jobDescription: string;
-    domain: string;
-    thresholdLevelId: number;
+export class User
+{
+    public id: number;
+    public name: string;
+    public identityName: string;
+    public friendlyName: string;
+    public jobDescription: string;
+    public domain: string;
+    public creditThresholdId: number;
+    public threshold?: number;
 }

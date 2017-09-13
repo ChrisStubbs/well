@@ -237,7 +237,14 @@
 
         public static string GetInitials(this string name)
         {
-            return new string(name.ToCharArray().Where(char.IsUpper).ToArray());
+            return string.Join("", name.Split(' ').Select(s => s[0]));
+        }
+
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) { return value; }
+
+            return value.Substring(0, Math.Min(value.Length, maxLength));
         }
     }
 }

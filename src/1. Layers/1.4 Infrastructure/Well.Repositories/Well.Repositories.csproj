@@ -31,22 +31,58 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdamDotNetProvider">
+    <Reference Include="AdamDotNetProvider, Version=14.4.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\AdamDotNetProvider.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PH.Common.Entity.Interfaces, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Entity.Interfaces.1.0.0.2\lib\net452\PH.Common.Entity.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Common.T4Templates, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.T4Templates.1.0.0.0\lib\net452\PH.Common.T4Templates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.T4Templates.Generators, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.T4Templates.Generators.1.0.0.6\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Constants, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.17\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
@@ -62,21 +98,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuditRepository.cs" />
+    <Compile Include="ActivityRepository.cs" />
+    <Compile Include="AmendmentFactory.cs" />
+    <Compile Include="AmendmentRepository.cs" />
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AdamRepository.cs" />
     <Compile Include="BaseDapperProxy.cs" />
     <Compile Include="BaseDbConfiguration.cs" />
     <Compile Include="BranchRepository.cs" />
-    <Compile Include="CleanPreferenceRepository.cs" />
+    <Compile Include="CommentReasonRepository.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Contracts\ICleanPreferenceRepository.cs" />
+    <Compile Include="Contracts\IActivityRepository.cs" />
+    <Compile Include="Contracts\IAmendmentFactory.cs" />
+    <Compile Include="Contracts\IAmendmentRepository.cs" />
+    <Compile Include="Contracts\ICommentReasonRepository.cs" />
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
+    <Compile Include="Contracts\ICustomerRoyaltyExceptionRepository.cs" />
+    <Compile Include="Contracts\IDateThresholdRepository.cs" />
+    <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailActionRepository.cs" />
+    <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
+    <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />
+    <Compile Include="Contracts\ILineItemActionRepository.cs" />
+    <Compile Include="Contracts\ILookupRepository.cs" />
+    <Compile Include="Contracts\ILineItemActionReadRepository.cs" />
+    <Compile Include="Contracts\ILineItemSearchReadRepository.cs" />
+    <Compile Include="Contracts\ILocationRepository.cs" />
+    <Compile Include="Contracts\IPostImportRepository.cs" />
+    <Compile Include="Contracts\IRouteReadRepository.cs" />
     <Compile Include="Contracts\IPodTransactionFactory.cs" />
     <Compile Include="Contracts\IRouteToRemoveRepository.cs" />
     <Compile Include="Contracts\ISeasonalDateRepository.cs" />
-    <Compile Include="Contracts\IAuditRepository.cs" />
     <Compile Include="Contracts\IAccountRepository.cs" />
     <Compile Include="Contracts\IAdamRepository.cs" />
     <Compile Include="Contracts\IBranchRepository.cs" />
@@ -90,15 +142,24 @@
     <Compile Include="Contracts\IRouteHeaderRepository.cs" />
     <Compile Include="Contracts\IUserStatsRepository.cs" />
     <Compile Include="Contracts\IUserRepository.cs" />
+    <Compile Include="Contracts\IWellCleanUpRepository.cs" />
     <Compile Include="Contracts\IWellDapperProxy.cs" />
     <Compile Include="Contracts\IWellDbConfiguration.cs" />
     <Compile Include="Contracts\IWidgetRepository.cs" />
     <Compile Include="CreditThresholdRepository.cs" />
+    <Compile Include="CustomerRoyaltyExceptionRepository.cs" />
+    <Compile Include="DateThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
+    <Compile Include="GlobalUpliftTransactionFactory.cs" />
     <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
+    <Compile Include="LineItemActionCommentRepository.cs" />
+    <Compile Include="LineItemActionRepository.cs" />
+    <Compile Include="LocationRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="PodTransactionFactory.cs" />
+    <Compile Include="PostImportRepository.cs" />
+    <Compile Include="Read\AssigneeReadRepository.cs" />
     <Compile Include="Read\DapperReadProxy.cs" />
     <Compile Include="DapperRepository.cs" />
     <Compile Include="Contracts\IStopRepository.cs" />
@@ -111,6 +172,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Read\DeliveryReadRepository.cs" />
     <Compile Include="Contracts\IDeliveryReadRepository.cs" />
+    <Compile Include="Read\AppSearchReadRepository.cs" />
+    <Compile Include="Contracts\IAppSearchReadRepository.cs" />
+    <Compile Include="Contracts\IAssigneeReadRepository.cs" />
+    <Compile Include="Read\LookupRepository.cs" />
+    <Compile Include="Read\LineItemActionReadRepository.cs" />
+    <Compile Include="Read\LineItemSearchReadRepository.cs" />
+    <Compile Include="Read\RouteReadRepository.cs" />
     <Compile Include="RouteHeaderRepository.cs" />
     <Compile Include="RouteToRemoveRepository.cs" />
     <Compile Include="SeasonalDateRepository.cs" />
@@ -118,12 +186,16 @@
     <Compile Include="StoredProcedures.cs" />
     <Compile Include="UserStatsRepository.cs" />
     <Compile Include="UserRepository.cs" />
+    <Compile Include="WellCleanUpRepository.cs" />
     <Compile Include="WellDapperProxy.cs" />
     <Compile Include="WellDbConfiguration.cs" />
     <Compile Include="WidgetRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
@@ -135,7 +207,9 @@
       <Name>Well.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

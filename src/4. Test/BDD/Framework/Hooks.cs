@@ -173,14 +173,12 @@
                                                 x.For<IFileService>().Use<FileService>();
                                                 x.For<IAccountRepository>().Use<AccountRepository>();
                                                 x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
-                                                x.For<IAuditRepository>().Use<AuditRepository>();
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IEventLogger>().Use<EventLogger>();
                                                 x.For<IAdamImportService>().Use<AdamImportService>();
                                                 x.For<IAdamUpdateService>().Use<AdamUpdateService>();
-                                                x.For<IEpodUpdateService>().Use<EpodUpdateService>();
-                                                x.For<IRouteMapper>().Use<RouteMapper>();
+                                                x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                                                 x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                                                 x.For<IDeliveryLineToJobDetailMapper>().Use<DeliveryLineToJobDetailMapper>();
                                                 x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
@@ -188,8 +186,7 @@
                                                 x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                                                 x.For<IBranchRepository>().Use<BranchRepository>();
                                                 x.For<IWebClientHelper>().Use<WebClientHelper>();
-                                                x.For<IJobStatusService>().Use<JobStatusService>();
-                                                x.For<IUserNameProvider>().Use<UserNameProvider>();
+                                                //x.For<IUserNameProvider>().Use<UserNameProvider>();
                                             });
 
             FeatureContextWrapper.SetContextObject(ContextDescriptors.StructureMapContainer, container);

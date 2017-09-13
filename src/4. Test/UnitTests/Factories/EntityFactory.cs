@@ -19,6 +19,10 @@
             return (T)this;
         }
 
+        protected virtual void DefaultEntity()
+        {
+        }
+
         public U Build()
         {
             return this.entity;

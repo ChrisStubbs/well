@@ -17,6 +17,8 @@
 
         public IList<DeliveryLine> Lines { get; set; }
 
+        public string DeliveryType { get; set; }
+
         public string RouteNumber { get; set; }
 
         public DateTime RouteDate { get; set; }

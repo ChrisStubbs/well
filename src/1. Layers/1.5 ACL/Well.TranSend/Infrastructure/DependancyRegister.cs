@@ -8,6 +8,7 @@
 
     using Repositories;
     using Repositories.Contracts;
+    using Repositories.Read;
     using StructureMap;
     using Well.Services.Contracts;
     using Well.Services;
@@ -22,8 +23,8 @@
             return new Container(
                 x =>
                 {
+                    x.For<ITransendImport>().Use<TransendImport>();
                     x.For<IEventLogger>().Use<EventLogger>();
-                    x.For<IEpodUpdateService>().Use<EpodUpdateService>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
@@ -38,19 +39,45 @@
                     x.For<IFtpClient>().Use<FtpClient>();
                     x.For<IFileTypeService>().Use<FileTypeService>();
                     x.For<IFileModule>().Use<FileModule>();
-                    x.For<IAdamImportService>().Use<AdamImportService>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-                    x.For<IDapperProxy>().Use<WellDapperProxy>();
-                    x.For<IRouteMapper>().Use<RouteMapper>();
-                    x.For<IJobStatusService>().Use<JobStatusService>();
+                    x.For<IOrderImportMapper>().Use<OrderImportMapper>();
+                    x.For<IJobService>().Use<JobService>();
                     x.For<IUserNameProvider>().Use<TranSendUserNameProvider>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<TranSendUserNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
-#if DEBUG
-                    x.For<IEpodProvider>().Use<EpodFileProvider>();
-#else
+                    x.For<IPostImportRepository>().Use<PostImportRepository>();
+                    x.For<IGetJobResolutionStatus>().Use<JobService>();
+                    x.For<IUserThresholdService>().Use<UserThresholdService>();
+                    x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
+                    x.For<IUserRepository>().Use<UserRepository>();
+                    x.For<IDateThresholdService>().Use<DateThresholdService>();
+                    x.For<ILineItemSearchReadRepository>().Use<LineItemSearchReadRepository>();
+                    x.For<IDapperReadProxy>().Use<DapperReadProxy>();
+                    x.For<IDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IAssigneeReadRepository>().Use<AssigneeReadRepository>();
+                    x.For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
+                    x.For<IDateThresholdRepository>().Use<DateThresholdRepository>();
+                    x.For<ICustomerRoyaltyExceptionRepository>().Use<CustomerRoyaltyExceptionRepository>();
+
+                    x.For<IEpodImportService>().Use<EpodImportService>();
+                    x.For<IImportService>().Use<ImportService>();
+                    x.For<IEpodImportMapper>().Use<EpodImportMapper>();
+                    x.For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
+
+                    x.For<IStopService>().Use<StopService>();
+                    x.For<IRouteService>().Use<RouteService>();
+                    x.For<IActivityService>().Use<ActivityService>();
+                    x.For<ILocationService>().Use<LocationService>();
+                    x.For<IWellStatusAggregator>().Use<WellStatusAggregator>();
+                    x.For<IActivityRepository>().Use<ActivityRepository>();
+                    x.For<IDeadlockRetryConfig>().Use<Configuration>();
+                    x.For<IDeadlockRetryHelper>().Use<DeadlockRetryHelper>();
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
-#endif
+                    x.For<IPodService>().Use<PodService>();
                 });
+                
+                
+                
         }
     }
 }

@@ -1,17 +1,15 @@
-﻿<div class="table-container">
+<div class="table-container">
     <ol class="breadcrumb">
         <li class="active">Branch Selection</li>
     </ol>
 </div>
-<div class="jumbotron">
+<div class="content">
     <div class="alert alert-info">
         <strong *ngIf="!username">Select the branches you want to access</strong>
         <strong *ngIf="username">Select the branches for {{username}}</strong>
     </div>
-    <div class="well">
-        <ow-branch-select [username]="username"></ow-branch-select>
-    </div>
-    <div class="btn-group pull-right">
+    <ow-branch-select [username]="username"></ow-branch-select>
+    <div class="text-right">
         <button class="btn btn-primary" (click)="save()" id="save">Save</button>
     </div>
 </div>

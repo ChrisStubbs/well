@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
+    using Domain;
     using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
 
@@ -23,9 +24,12 @@
 
         AdamResponse Grn (GrnEvent grn, AdamSettings adamSettings);
 
-        AdamResponse Pod (PodEvent podEvent, AdamSettings adamSettings);
+        AdamResponse Pod (PodEvent podEvent, AdamSettings adamSettings, Job job);
 
         AdamResponse PodTransaction(PodTransaction podTransaction, AdamSettings adamSettings);
+
+        AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings);
+        AdamResponse GlobalUplift(GlobalUpliftTransaction globalUpliftTransaction, AdamSettings adamSettings);
 
     }
 }

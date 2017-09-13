@@ -23,11 +23,13 @@
         void RoutesDeleteById(int id);
 
         IEnumerable<Routes> GetRoutes();
-
-        void DeleteRouteHeaderById(int id);
-
+        
         IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId);
 
         RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId);
+
+        void DeleteRouteHeaderWithNoStops();
+
+        void UpdateWellStatus(RouteHeader routeHeader);
     }
 }

@@ -27,14 +27,18 @@
 
         private Mock<IUserNameProvider> userNameProvider;
 
+        private Mock<IDbConfiguration> dbConfig;
+
         [SetUp]
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
+            this.dbConfig = new Mock<IDbConfiguration>();
 
+            this.userNameProvider.Setup(x => x.GetUserName()).Returns("TestUser");
+            dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
             this.repository = new JobDetailRepository(this.logger.Object, this.dapperProxy.Object, this.userNameProvider.Object);
             //////this.repository.CurrentUser = UserName;
         }
@@ -148,7 +152,7 @@
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null))
                     .Returns(dapperProxy.Object);
-                dapperProxy.Setup(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null))
+                dapperProxy.Setup(x => x.AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String, null))
                     .Returns(dapperProxy.Object);
                 dapperProxy.Setup(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null))
                     .Returns(dapperProxy.Object);
@@ -201,7 +205,7 @@
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null),
                     Times.Exactly(1));
-                dapperProxy.Verify(x => x.AddParameter("SSCCBarcode", jobDetail.SsccBarcode, DbType.String, null),
+                dapperProxy.Verify(x => x.AddParameter("SSCCBarcode", jobDetail.SSCCBarcode, DbType.String, null),
                     Times.Exactly(1));
                 dapperProxy.Verify(x => x.AddParameter("SubOuterDamageTotal", jobDetail.SubOuterDamageTotal, DbType.Int32, null),
                     Times.Exactly(1));
@@ -262,7 +266,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null))
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? "Unknown", DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -298,7 +302,7 @@
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
-                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null))
+                        x => x.AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(
@@ -315,6 +319,10 @@
 
                 this.dapperProxy.Setup(
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null))
+                    .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                        x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null))
                     .Returns(this.dapperProxy.Object);
 
                 this.dapperProxy.Setup(x => x.Execute());
@@ -343,7 +351,7 @@
                         x => x.AddParameter("ShortsActionId", jobDetail.ShortsActionId, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus, DbType.String, null), Times.Once);
+                        x => x.AddParameter("LineDeliveryStatus", jobDetail.LineDeliveryStatus ?? "Unknown", DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("SubOuterDamageQty", jobDetail.SubOuterDamageTotal, DbType.Int16, null), Times.Once);
@@ -370,7 +378,7 @@
                         x => x.AddParameter("SingleOrOuter", jobDetail.SingleOrOuter, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
-                        x => x.AddParameter("Barcode", jobDetail.SsccBarcode, DbType.String, null), Times.Once);
+                        x => x.AddParameter("Barcode", jobDetail.SSCCBarcode, DbType.String, null), Times.Once);
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("SkuGoodsValue", jobDetail.SkuGoodsValue, DbType.Decimal, null), Times.Once);
@@ -385,6 +393,9 @@
 
                 this.dapperProxy.Verify(
                         x => x.AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                    x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null), Times.Once);
             }
         }
     }

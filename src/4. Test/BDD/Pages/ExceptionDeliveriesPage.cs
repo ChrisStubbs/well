@@ -159,20 +159,21 @@
 
     public enum ExceptionDeliveriesGrid
     {
-        Route = 0,
-        Drop = 1,
-        InvoiceNo = 2,
-        Account = 3,
-        AccountName= 4,
-        Cod = 5,
-        CreditValue = 6,
-        InfoButton = 7,
-        Status = 8,
-        ToBeAdvised = 11,
-        Reason = 12,
-        Assigned = 13,
-        Action = 14,
-        LastUpdatedDateTime = 15
+        Branch = 0,
+        Route = 1,
+        Drop = 2,
+        InvoiceNo = 3,
+        Account = 4,
+        AccountName= 5,
+        Cod = 6,
+        CreditValue = 7,
+        InfoButton = 8,
+        Status = 9,
+        ToBeAdvised = 10,
+        Reason = 11,
+        Assigned = 12,
+        Action = 13,
+        LastUpdatedDateTime = 14
     }
 
     public enum ExceptionDrilldownGrid

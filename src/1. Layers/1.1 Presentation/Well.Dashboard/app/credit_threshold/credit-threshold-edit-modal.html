@@ -1,4 +1,4 @@
-﻿<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
+<div *ngIf="isVisible" class="modal fade show in danger" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,7 +15,7 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Threshold</label>
-                            <input id="threshold" type="text" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold"/>
+                            <input id="threshold" type="number" class="form-control" placeholder="Threshold" [(ngModel)]="creditThreshold.threshold"/>
                         </div>
                     </div>
                 </div>

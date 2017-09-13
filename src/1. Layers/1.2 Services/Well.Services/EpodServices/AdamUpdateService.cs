@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-
+    using Domain.Extensions;
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Common.Extensions;
@@ -22,8 +22,12 @@
         private readonly IStopRepository stopRepository;
         private readonly IJobRepository jobRepository;
         private readonly IJobDetailRepository jobDetailRepository;
-        private readonly IRouteMapper mapper;
-        private readonly IJobStatusService jobStatusService;
+        private readonly IOrderImportMapper mapper;
+        private readonly IJobService jobStatusService;
+        private readonly IPostImportRepository postImportRepository;
+        private readonly IImportService importService;
+        private readonly IStopService stopService;
+        private readonly IRouteService routeService;
 
         public AdamUpdateService(
             ILogger logger,
@@ -32,8 +36,12 @@
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IJobDetailRepository jobDetailRepository,
-            IRouteMapper mapper,
-            IJobStatusService jobStatusService)
+            IOrderImportMapper mapper,
+            IJobService jobStatusService,
+            IPostImportRepository postImportRepository,
+            IImportService importService,
+            IStopService stopService,
+            IRouteService routeService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -43,22 +51,29 @@
             this.jobDetailRepository = jobDetailRepository;
             this.mapper = mapper;
             this.jobStatusService = jobStatusService;
+            this.postImportRepository = postImportRepository;
+            this.importService = importService;
+            this.stopService = stopService;
+            this.routeService = routeService;
         }
 
         public void Update(RouteUpdates route)
         {
+            //TODO: refactor for improvement. we may be able to put all insert/delete/update together and do it in async 
             foreach (var stop in route.Stops)
             {
                 var action = GetOrderUpdateAction(stop.ActionIndicator);
-
+                
                 switch (action)
                 {
                     case OrderActionIndicator.Insert:
                         this.Insert(stop);
                         break;
+
                     case OrderActionIndicator.Update:
                         this.Update(stop);
                         break;
+
                     case OrderActionIndicator.Delete:
                         this.Delete(stop);
                         break;
@@ -88,8 +103,18 @@
 
         private void Update(StopUpdate stop)
         {
-            var job = stop.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+            var job = stop.Jobs.FirstOrDefault();
+
+            if (job == null)
+            {
+                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stop.TransportOrderRef}). Delete Stop");
+                stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderRef);
+                return;
+            }
+            
+            var branch = (int)Enum.Parse(typeof(Branches), stop.StartDepotCode, true);
+
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
 
             if (existingStop == null)
             {
@@ -108,8 +133,19 @@
             using (var transactionScope = new TransactionScope())
             {
                 this.stopRepository.Update(existingStop);
+                IList<int> updatedJobIds;
+                this.UpdateJobs(stop.Jobs, existingStop.Id, out updatedJobIds);
+                // updates Location/Activity/LineItem/Bag tables from imported data
+                this.postImportRepository.PostImportUpdate(updatedJobIds);
 
-                this.UpdateJobs(stop.Jobs, existingStop.Id);
+                // Compute jobs well status
+                foreach (var jobId in updatedJobIds)
+                {
+                    jobStatusService.ComputeWellStatus(jobId);
+                }
+
+                // Compute stop well status and propagate to calculate route well status
+                stopService.ComputeAndPropagateWellStatus(existingStop.Id);
 
                 transactionScope.Complete();
             }
@@ -119,15 +155,19 @@
         {
             Stop stop = null;
 
+            var branch = (int)Enum.Parse(typeof(Branches), stopUpdate.StartDepotCode, true);
+
             try
             {
                 using (var transactionScope = new TransactionScope())
                 {
                     var job = stopUpdate.Jobs.First();
 
-                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
-
+                    stop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, branch);
                     this.stopRepository.DeleteStopByTransportOrderReference(stop.TransportOrderReference);
+
+                    // Calculate route well status
+                    routeService.ComputeWellStatus(stop.RouteHeaderId);
 
                     transactionScope.Complete();
                 }
@@ -142,59 +182,107 @@
             }
         }
 
-        private void UpdateJobs(IEnumerable<JobUpdate> jobs, int stopId)
+        private void UpdateJobs(IList<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
         {
-            foreach (var job in jobs)
+            updatedJobIds = new List<int>();
+
+            var existingJobs = this.jobRepository.GetByStopId(stopId).ToList();
+
+            foreach (var job in jobs.Where(IncludeJobTypeInImport))
             {
-                var existingJob = this.jobRepository.GetJobByRefDetails(job.JobTypeCode,job.PhAccount, job.PickListRef, stopId);
+                Job existingJob = FindExistingJob(existingJobs, job);
 
                 if (existingJob != null)
                 {
                     this.mapper.Map(job, existingJob);
 
-                    this.jobStatusService.SetIncompleteStatus(existingJob);
+                    this.jobStatusService.SetIncompleteJobStatus(existingJob);
 
                     this.jobRepository.Update(existingJob);
 
                     this.UpdateJobDetails(job.JobDetails, existingJob.Id);
+                    updatedJobIds.Add(existingJob.Id);
                 }
                 else
                 {
                     var newJob = new Job();
                     this.mapper.Map(job, newJob);
                     newJob.StopId = stopId;
-                    if (newJob.JobTypeCode == "DEL-DOC")
-                    {
-                        this.jobStatusService.SetInitialStatus(newJob);
-                    }
-                    else
-                    {
-                        this.jobStatusService.SetIncompleteStatus(newJob);
-                    }
+                    this.jobStatusService.SetIncompleteJobStatus(newJob);
+                    newJob.ResolutionStatus = ResolutionStatus.Imported;
                     this.jobRepository.Save(newJob);
+                    foreach (var detail in job.JobDetails)
+                    {
+                        var newDetail = new JobDetail();
+                        this.mapper.Map(detail, newDetail);
+                        newDetail.JobId = newJob.Id;
+                        newDetail.ShortsStatus = JobDetailStatus.UnRes;
+                        this.jobDetailRepository.Save(newDetail);
+                    }
+
+                    this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
+                    updatedJobIds.Add(newJob.Id);
                 }
             }
+            
+            DeleteJobsNotInFile(jobs, existingJobs);
+        }
+
+        private void DeleteJobsNotInFile(IList<JobUpdate> jobs, List<Job> existingJobs)
+        {
+            List<Job> jobsToBeDeleted = GetJobIdsToBeDeleted(existingJobs, jobs);
+            importService.DeleteJobs(jobsToBeDeleted);
+        }
+
+        //TODO: Test this
+        private List<Job> GetJobIdsToBeDeleted(IList<Job> existingJobs, IList<JobUpdate> jobsInFile)
+        {
+            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier()).ToDictionary(k => k);
+            return existingJobs.Where(j => !jobIdentifiersInFile.ContainsKey(j.Identifier())).ToList();
+        }
+
+        private Job FindExistingJob(IList<Job> existingJobs, JobUpdate job)
+        {
+            return existingJobs.FirstOrDefault(x => x.Identifier() == job.Identifier());
         }
 
         private void UpdateJobDetails(IEnumerable<JobDetailUpdate> jobDetails, int jobId)
         {
+            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p => p.LineNumber);
+
             foreach (var detail in jobDetails)
             {
-                var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
+                var existingJobDetail = existingJobDetails[detail.LineNumber].FirstOrDefault();
 
                 if (existingJobDetail != null)
                 {
                     this.mapper.Map(detail, existingJobDetail);
-
                     this.jobDetailRepository.Update(existingJobDetail);
+                }
+                else
+                {
+                    // new jobdetail on Order file - tobacco bag jobdetail appears on Order but not on Route
+                    var newJobDetail = new JobDetail();
+                    this.mapper.Map(detail, newJobDetail);
+                    newJobDetail.JobId = jobId;
+                    newJobDetail.ShortsStatus = JobDetailStatus.Res;  // not sure why this is Resolved
+                    this.jobDetailRepository.Save(newJobDetail);
                 }
             }
         }
 
         private void InsertStops(StopUpdate stopInsert, RouteHeader header)
         {
-            var job = stopInsert.Jobs.First();
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount);
+            var job = stopInsert.Jobs.FirstOrDefault();
+
+            if (job == null)
+            {
+                this.logger.LogDebug($"Stop with no jobs TransportOrderRef ({stopInsert.TransportOrderRef}). Deleting Stop");
+                stopRepository.DeleteStopByTransportOrderReference(stopInsert.TransportOrderRef);
+                return;
+            }
+
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.RouteOwnerId);
 
             if (existingStop != null)
             {
@@ -221,25 +309,42 @@
 
                 this.stopRepository.Save(stop);
 
-                this.InsertJobs(stopInsert.Jobs, stop.Id);
+                IList<int> insertedJobIds;
+                this.InsertJobs(stopInsert.Jobs, stop.Id, out insertedJobIds);
+                // updates Location/Activity/LineItem/Bag tables from imported data
+                this.postImportRepository.PostImportUpdate(insertedJobIds);
+
+                // Compute jobs well status
+                foreach (var insertedJobId in insertedJobIds)
+                {
+                    jobStatusService.ComputeWellStatus(insertedJobId);
+                }
+
+                // Compute stop well status and propagate to calculate route well status
+                stopService.ComputeAndPropagateWellStatus(stop.Id);
 
                 transactionScope.Complete();
             }
         }
 
-        private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId)
+        //TODO: refactor for improvement. All these records (jobs & jobdetails) can be send at one go to the store procedure
+        private void InsertJobs(IEnumerable<JobUpdate> jobs, int stopId, out IList<int> insertedJobIds)
         {
-            foreach (var update in jobs)
+            insertedJobIds = new List<int>();
+            foreach (var update in jobs.Where(IncludeJobTypeInImport))
             {
                 var job = new Job { StopId = stopId };
 
-                this.jobStatusService.SetInitialStatus(job);
+                this.jobStatusService.SetInitialJobStatus(job);
+                job.ResolutionStatus = ResolutionStatus.Imported;
 
                 this.mapper.Map(update, job);
 
                 this.jobRepository.Save(job);
+                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
+                insertedJobIds.Add(job.Id);
             }
         }
 
@@ -258,6 +363,13 @@
         private static OrderActionIndicator GetOrderUpdateAction(string actionIndicator)
         {
             return string.IsNullOrWhiteSpace(actionIndicator) ? OrderActionIndicator.Update : StringExtensions.GetValueFromDescription<OrderActionIndicator>(actionIndicator);
+        }
+
+        private bool IncludeJobTypeInImport(JobUpdate jobUpdate)
+        {
+            var job = new Job {InvoiceNumber = jobUpdate.InvoiceNumber, JobTypeCode = jobUpdate.JobTypeCode};
+
+            return job.IncludeJobTypeInImport();
         }
     }
 }

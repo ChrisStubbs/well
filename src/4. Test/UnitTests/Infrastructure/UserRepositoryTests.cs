@@ -23,6 +23,8 @@
 
         private Mock<IDapperProxy> dapperProxy;
 
+        private Mock<IDbConfiguration> dbConfig;
+
         private UserRepository repository;
 
         private Mock<IUserNameProvider> userNameProvider;
@@ -31,7 +33,9 @@
         public void Setup()
         {
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
+            this.dbConfig = new Mock<IDbConfiguration>();
             this.dapperProxy = new Mock<IDapperProxy>(MockBehavior.Strict);
+            this.dapperProxy.Setup(x => x.DbConfiguration).Returns(dbConfig.Object);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("Some user");
 
@@ -74,7 +78,7 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] {1});
+                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
 
                 this.repository.Save(user);
 
@@ -181,38 +185,6 @@
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.UnAssignJobToUser), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("JobId", jobId, DbType.Int32, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
-            }
-        }
-
-        public class TheSetThresholdLevelMethod : UserRepositoryTests
-        {
-            [Test]
-            public void ShouldSetThresholdLevelAgainstAUser()
-            {
-                var thresholdLevel = ThresholdLevel.Level3;
-                var user = UserFactory.New.Build();
-
-                this.dapperProxy.Setup(x => x.WithStoredProcedure(StoredProcedures.ThresholdLevelSave))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("ThresholdLevelId", (int) thresholdLevel, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.AddParameter("UserId", user.Id, DbType.Int32, null))
-                    .Returns(this.dapperProxy.Object);
-
-                this.dapperProxy.Setup(x => x.Execute());
-
-                this.repository.SetThresholdLevel(user, thresholdLevel);
-
-                this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.ThresholdLevelSave), Times.Once);
-
-                this.dapperProxy.Verify(
-                    x => x.AddParameter("ThresholdLevelId", (int) thresholdLevel, DbType.Int32, null), Times.Once);
-
-                this.dapperProxy.Verify(x => x.AddParameter("UserId", user.Id, DbType.Int32, null), Times.Once);
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }

@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace PH.Well.Common.Extensions
 {
-
     public static class IListExtentions
     {
-        public static DataTable ToIntDataTables(this IList<int> data, string columnName) 
+        public static DataTable ToIntDataTables(this IList<int> data, string columnName)
+        {
+            return ToSingleColumnDataTable(data, columnName);
+        }
+
+        public static DataTable ToSingleColumnDataTable<T>(this IList<T> data, string columnName)
         {
             if (data == null)
             {
@@ -25,7 +29,7 @@ namespace PH.Well.Common.Extensions
 
             var table = new DataTable();
 
-            table.Columns.Add(columnName, typeof(int));
+            table.Columns.Add(columnName, typeof(T));
 
             foreach (var item in data)
             {

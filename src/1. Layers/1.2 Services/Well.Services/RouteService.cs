@@ -38,7 +38,7 @@ namespace PH.Well.Services
             {
                 return ComputeWellStatus(routeHeader);
             }
-            return false;
+            throw new ArgumentException($"RouteHeader not found id : {routeId}", nameof(routeId));
         }
 
         public bool ComputeWellStatus(RouteHeader route)

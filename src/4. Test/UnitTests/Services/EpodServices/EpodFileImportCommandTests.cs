@@ -153,7 +153,7 @@
             [Test]
             public void ShouldInsertEventForPod()
             {
-                podService.Setup(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>()));
+                podService.Setup(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()));
                 exceptionEventRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 var fileJob = JobFactory.New.Build();
                 var existingJob = JobFactory.New
@@ -167,7 +167,7 @@
                 //    pod => pod.Id == existingJob.Id && pod.BranchId == routeHeader.RouteOwnerId
                 //), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
                // exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
-                podService.Verify(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>()));
+                podService.Verify(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()));
             }
         }
 

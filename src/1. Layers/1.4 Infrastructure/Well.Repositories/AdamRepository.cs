@@ -481,6 +481,7 @@
             {
                 try
                 {
+                    transaction.LineDidWrite = false;
                     connection.Open();
                     using (var command = new AdamCommand(connection))
                     {
@@ -520,6 +521,7 @@
             {
                 try
                 {
+                    transaction.HeaderDidWrite = false;
                     connection.Open();
                     using (var command = new AdamCommand(connection))
                     {

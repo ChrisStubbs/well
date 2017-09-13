@@ -101,7 +101,7 @@
                 existingJob.JobStatus != JobStatus.CompletedOnPaper &&
                 (existingJob.JobStatus != JobStatus.Bypassed || IncludeBypass(includePodBypass, existingJob.JobStatus)))
             {
-                this.podService.CreatePodEvent(existingJob, branchId);
+                this.podService.CreatePodEvent(existingJob, branchId, routeDate);
             }
 
 

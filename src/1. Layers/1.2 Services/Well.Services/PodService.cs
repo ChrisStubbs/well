@@ -18,7 +18,7 @@
         }
 
 
-        public void CreatePodEvent(Job job, int branchId)
+        public void CreatePodEvent(Job job, int branchId, DateTime routeDate)
         {
             var royaltyCode = job.GetRoyaltyCode();
             if (!exceptionEventRepository.PodEventCreatedForJob(job.Id.ToString()))
@@ -28,7 +28,7 @@
                     BranchId = branchId,
                     Id = job.Id
                 };
-                this.exceptionEventRepository.InsertPodEvent(podEvent, job.Id.ToString(), dateThresholdService.GracePeriodEnd(job.JobRoute.RouteDate, job.JobRoute.BranchId, royaltyCode));
+                this.exceptionEventRepository.InsertPodEvent(podEvent, job.Id.ToString(), dateThresholdService.GracePeriodEnd(routeDate, branchId, royaltyCode));
             }
         }
     }

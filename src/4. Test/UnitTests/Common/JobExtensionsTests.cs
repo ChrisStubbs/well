@@ -146,7 +146,7 @@ namespace PH.Well.UnitTests.Common
                         Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Bypassed));
                         break;
                     case JobStatus.Replanned:
-                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Invoiced));
+                        Assert.That(jobStatus.ToWellStatus(), Is.EqualTo(WellStatus.Replanned));
                         break;
                     default:
                         Assert.IsTrue(false, "Add the new status ToWellStatus Method ");

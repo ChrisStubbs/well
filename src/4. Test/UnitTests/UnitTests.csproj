@@ -231,6 +231,7 @@
     <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\AmendmentServiceTests.cs" />
     <Compile Include="Services\AppSearchServiceTests.cs" />
+    <Compile Include="Services\PodServiceTests.cs" />
     <Compile Include="Services\BranchServiceTests.cs" />
     <Compile Include="Services\BulkEditServiceTests.cs" />
     <Compile Include="Services\DateThresholdServiceTests.cs" />

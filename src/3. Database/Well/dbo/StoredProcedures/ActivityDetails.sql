@@ -2,6 +2,12 @@
 CREATE PROCEDURE ActivityDetails
 	@Id INT
 AS
+	;WITH LineWithProblems AS
+	(
+		SELECT Li.Id, la.Id LineItemAction, la.DeliveryActionId
+		FROM LineItem Li INNER JOIN  LineItemAction la ON li.Id = la.LineItemId
+		WHERE li.DateDeleted IS NULL AND la.DateDeleted IS NULL 
+	)
 	SELECT 
 		a.ActivityId,
 		a.Barcode,
@@ -23,16 +29,17 @@ AS
 		a.StopId,
 		a.Value,
 		a.DamageTotal AS Damaged,
-		CONVERT(Bit, LineWithProblems.TotalNotDefined) AS HasNoDefinedActions
+		CONVERT(Bit, (
+			SELECT COUNT(LineItemAction)
+			FROM LineWithProblems la
+			WHERE la.Id = a.LineItemId AND la.DeliveryActionId = 0 --NotDefined
+		)) AS HasNoDefinedActions,
+		CONVERT(Bit, (
+			SELECT COUNT(LineItemAction)
+			FROM LineWithProblems la
+			WHERE la.Id = a.LineItemId 
+		)) AS HasLineItemActions
 	FROM 
 		ActivityDetailsView a
-				LEFT JOIN 
-		(
-			SELECT Li.Id, COUNT(la.Id) AS TotalNotDefined
-			FROM LineItem Li INNER JOIN  LineItemAction la ON li.Id = la.LineItemId
-			WHERE la.DeliveryActionId = 0 --NotDefined
-			GROUP BY Li.Id
-		) LineWithProblems 
-			ON LineWithProblems.Id = a.LineItemId
 	WHERE 
 		a.ActivityId = @Id

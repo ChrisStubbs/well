@@ -24,6 +24,7 @@
         private Mock<IDeadlockRetryConfig> deadlockRetryConfig;
         private IDeadlockRetryHelper deadlockRetryHelper;
         private EpodImportService epodImportService;
+        private Mock<IRouteService> routeService;
 
         [SetUp]
         public virtual void SetUp()
@@ -35,17 +36,19 @@
             epodImportMapper = new Mock<IEpodImportMapper>();
             importCommands = new Mock<IEpodFileImportCommands>();
             deadlockRetryConfig = new Mock<IDeadlockRetryConfig>();
+            routeService = new Mock<IRouteService>();
 
             deadlockRetryHelper = new DeadlockRetryHelper(logger.Object, deadlockRetryConfig.Object);
 
             epodImportService = new EpodImportService(
-            logger.Object,
-            eventLogger.Object,
-            routeHeaderRepository.Object,
-            importService.Object,
-            epodImportMapper.Object,
-            importCommands.Object,
-            deadlockRetryHelper);
+                logger.Object,
+                eventLogger.Object,
+                routeHeaderRepository.Object,
+                importService.Object,
+                epodImportMapper.Object,
+                importCommands.Object,
+                deadlockRetryHelper,
+                routeService.Object);
         }
 
         [Test]

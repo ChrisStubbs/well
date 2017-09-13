@@ -25,5 +25,8 @@ namespace PH.Well.Repositories.Contracts
 
         void ReinstateStopSoftDeletedByImport(IList<int> stopIds);
 
+        void UpdateWellStatus(Stop stop);
+
+        Stop GetForWellStatusCalculationById(int stopId);
     }
 }

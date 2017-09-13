@@ -3,7 +3,5 @@
     using Domain;
 
     public interface ILineItemActionCommentRepository : IRepository<LineItemActionComment, int>
-    {
-
-    }
+    { }
 }

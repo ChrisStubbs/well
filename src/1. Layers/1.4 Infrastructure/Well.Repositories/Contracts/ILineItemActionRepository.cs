@@ -11,5 +11,6 @@
         IList<LineItemAction> GetByIds(IEnumerable<int> ids);
         IList<LineItemActionSubmitModel> GetUnsubmittedActions(DeliveryAction submitActionAction);
         void DeleteAllLineItemActionsForJob(int jobId);
+        void Delete(LineItemAction entity);
     }
 }

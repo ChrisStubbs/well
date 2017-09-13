@@ -50,13 +50,14 @@
             public void ShouldMapItems()
             {
                 var stop = new StopFactory().Build();
-                var stops = new List<Stop> {stop};
+                var stops = new List<Stop> { stop };
 
-                var job = new JobFactory().With(x => x.StopId = stop.Id)
+                var job = JobFactory.New
+                    .With(x => x.StopId = stop.Id)
                     .With(x => x.JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
                     .With(x => x.JobStatus = JobStatus.CompletedOnPaper)
                     .With(x => x.JobDetails = GetTwoCleanAndOneExceptionJobDetail())
-                    .With(x=> x.ResolutionStatus = ResolutionStatus.Credited)
+                    .With(x => x.ResolutionStatus = ResolutionStatus.Credited)
                     .With(x => x.JobTypeAbbreviation = "UPL-GLO")
                     .WithCod("CODFISH")
                     .WithTotalShort(20)
@@ -64,17 +65,18 @@
                     .WithOuterCount(1)
                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.Lucozade)
                     .Build();
-                     
 
-                     var job2 = new JobFactory().With(x => x.StopId = stop.Id)
-                    .With(x => x.Id = 2)
-                    .WithTotalShort(20)
-                    .WithOuterDiscrepancyFound(true)
-                    .WithOuterCount(1)
-                    .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
-                    .Build();
 
-                var jobs = new List<Job> {job, job2};
+                var job2 = JobFactory.New
+                   .With(x => x.StopId = stop.Id)
+                   .With(x => x.Id = 2)
+                   .WithTotalShort(20)
+                   .WithOuterDiscrepancyFound(true)
+                   .WithOuterCount(1)
+                   .With(x => x.JobDetails = GetOneCleanOneExceptionJobDetail())
+                   .Build();
+
+                var jobs = new List<Job> { job, job2 };
 
                 var assignees = new List<Assignee>
                 {
@@ -86,9 +88,22 @@
                 {
                     new JobDetailLineItemTotals
                     {
+                        TotalExceptions = 3,
+                        JobId = job.Id,
+                        StopId = stop.Id,
+                        RouteId = routeHeader.Id,
                         DamageTotal = 3,
                         JobDetailId = jobs[0].JobDetails[0].Id
-                    }
+                    },
+                    new JobDetailLineItemTotals
+                    {
+                        TotalExceptions = 3,
+                        JobId = job2.Id,
+                        StopId = stop.Id,
+                        RouteId = routeHeader.Id,
+                        DamageTotal = 1,
+                        JobDetailId = jobs[0].JobDetails[0].Id
+                    },
                 };
                 var primaryAccounts = jobs
                     .Select((p, index) => new { p.Id, index = index.ToString() })
@@ -98,7 +113,7 @@
 
                 Assert.That(singleRoute.Items.Count, Is.EqualTo(2));
                 var item = singleRoute.Items[0];
-                
+
                 Assert.That(item.JobId, Is.EqualTo(job.Id));
                 Assert.That(item.Stop, Is.EqualTo(stop.DropId));
                 Assert.That(item.StopStatus, Is.EqualTo("Complete"));
@@ -111,8 +126,8 @@
                 Assert.That(item.JobStatusDescription, Is.EqualTo("Completed On Paper"));
                 Assert.That(item.Cod, Is.EqualTo("CODFISH"));
                 Assert.IsTrue(item.Pod);
-                Assert.That(item.Exceptions, Is.EqualTo(3));
-                Assert.That(item.Clean, Is.EqualTo(3));
+                Assert.That(item.Exceptions, Is.EqualTo(1));
+                Assert.That(item.Clean, Is.EqualTo(0));
                 Assert.That(item.Credit, Is.EqualTo(0));
                 Assert.That(item.Assignee, Is.EqualTo("Crip Bubbs"));
                 Assert.That(singleRoute.Items[1].Assignee, Is.EqualTo("Enri Pears"));

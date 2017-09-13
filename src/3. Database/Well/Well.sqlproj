@@ -329,7 +329,6 @@
     <Build Include="dbo\Views\ActivityExceptionsView.sql" />
     <Build Include="dbo\Views\LocationExceptionsView.sql" />
     <Build Include="dbo\Tables\WellStatus.sql" />
-    <Build Include="dbo\Views\StopStatusView.sql" />
     <Build Include="dbo\Views\RouteStatusView.sql" />
     <Build Include="dbo\StoredProcedures\UserJobs_GetbyJobIds.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionSubmitModelGetUnsubmitted.sql" />
@@ -454,6 +453,17 @@
     <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
     <Build Include="dbo\Views\ExceptionTotalsPerRoute.sql" />
+    <Build Include="dbo\StoredProcedures\LineItemActionDelete.sql" />
+    <Build Include="dbo\StoredProcedures\Job_UpdateWellStatus.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationById.sql" />
+    <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopId.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_UpdateWellStatus.sql" />
+    <Build Include="dbo\Views\JobForWellStatusCalculation.sql" />
+    <Build Include="dbo\StoredProcedures\Stop_GetForWellStatusCalculationById.sql" />
+    <Build Include="dbo\StoredProcedures\RouteHeader_UpdateWellStatus.sql" />
+    <None Include="ManualStep\scripts\up\026_RemoveStopStatusView.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

@@ -1,6 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
-    public class CustomerRoyaltyException : Entity<int>
+    public class CustomerRoyaltyExceptionWell : Entity<int>
     {
         public int RoyaltyCode { get; set; }
 

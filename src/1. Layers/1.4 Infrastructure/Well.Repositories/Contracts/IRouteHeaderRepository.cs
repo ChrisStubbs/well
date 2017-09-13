@@ -29,5 +29,7 @@
         RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId);
 
         void DeleteRouteHeaderWithNoStops();
+
+        void UpdateWellStatus(RouteHeader routeHeader);
     }
 }

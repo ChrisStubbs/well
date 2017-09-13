@@ -214,80 +214,7 @@ namespace PH.Well.UnitTests.Services
                 this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
                     Times.Once);
             }
-
-            /// <summary>
-            /// A job has shorts QTY > 0 
-            /// </summary>
-            [Test]
-            [Ignore("We need to deploy. After deploy the test wil be fixed")]
-            [Category("JobService")]
-            public void ShortQtyGreaterThanShouldSetException()
-            {
-                var branchNo = 55;
-                var invoiceNumber = "12345678";
-
-                var job1 = JobFactory.New
-                    .With(x => x.InvoiceNumber = invoiceNumber)
-                    .Build();
-                var job2 = JobFactory.New.Build();
-                var job3 = JobFactory.New.Build();
-
-                this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
-
-                // Use duplicate product for all jobs
-                var jobDetail1 = JobDetailFactory.New
-                    .With(x => x.PhProductCode = "2001")
-                    .With(x => x.OriginalDespatchQty = 10)
-                    .With(x => x.ShortQty = 1)
-                    .Build();
-
-                job1.JobDetails.Add(jobDetail1);
-
-                this.service.DetermineStatus(job1, branchNo);
-                Assert.IsTrue(job1.JobStatus == JobStatus.Exception);
-                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
-                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
-                    Times.Once);
-            }
-
-            /// <summary>
-            /// A job has shorts QTY > 0 
-            /// </summary>
-            [Test]
-            [Category("JobService")]
-            public void ShortQtyZeroShouldNotSetException()
-            {
-                var branchNo = 55;
-                var invoiceNumber = "12345678";
-
-                var job1 = JobFactory.New
-                    .With(x => x.InvoiceNumber = invoiceNumber)
-                    .Build();
-                var job2 = JobFactory.New.Build();
-                var job3 = JobFactory.New.Build();
-
-                this.jobRepository.Setup(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber))
-                    .Returns(new List<Job>() { job2, job3 });
-
-                // Use duplicate product for all jobs
-                var jobDetail1 = JobDetailFactory.New
-                    .With(x => x.PhProductCode = "2001")
-                    .With(x => x.OriginalDespatchQty = 10)
-                    .With(x => x.ShortQty = 0)
-                    .Build();
-                jobDetail1.JobDetailDamages.Clear();
-                job1.JobDetails.Add(jobDetail1);
-
-                this.service.DetermineStatus(job1, branchNo);
-                Assert.IsFalse(job1.JobStatus == JobStatus.Exception);
-                Assert.IsFalse(job2.JobStatus == JobStatus.Exception);
-                Assert.IsFalse(job3.JobStatus == JobStatus.Exception);
-                this.jobRepository.Verify(x => x.GetJobsByBranchAndInvoiceNumber(job1.Id, branchNo, invoiceNumber),
-                    Times.Once);
-            }
-
+            
             /// <summary>
             /// A job has shorts QTY > 0 
             /// </summary>
@@ -689,7 +616,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job));
+                jobRepository.Verify(x => x.UpdateWellStatus(job));
                 // Check status updated
                 Assert.AreEqual(WellStatus.Complete, job.WellStatus);
                 // Check that change has been recorded
@@ -702,7 +629,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithoutStatusChange().Build();
                 var changed = service.ComputeWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job), Times.Never);
+                jobRepository.Verify(x => x.UpdateWellStatus(job), Times.Never);
                 // Check status did not change
                 Assert.AreEqual(WellStatus.Complete, job.WellStatus);
                 // Check that reports no change
@@ -716,7 +643,7 @@ namespace PH.Well.UnitTests.Services
                 var job = JobFactory.New.JobWithStatusChange().Build();
                 var changed = service.ComputeAndPropagateWellStatus(job);
                 // Check that job is persisted
-                jobRepository.Verify(x => x.Update(job));
+                jobRepository.Verify(x => x.UpdateWellStatus(job));
                 // Check propagate changes to stopService
                 stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId));
                 // Check status updated
@@ -732,7 +659,7 @@ namespace PH.Well.UnitTests.Services
                 var changed = service.ComputeAndPropagateWellStatus(job);
 
                 // Job does not update
-                jobRepository.Verify(x => x.Update(job), Times.Never);
+                jobRepository.Verify(x => x.UpdateWellStatus(job), Times.Never);
                 // change does not propagate to stopService
                 stopService.Verify(x => x.ComputeAndPropagateWellStatus(job.StopId), Times.Never);
                 // status did not change

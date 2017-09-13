@@ -372,15 +372,8 @@ class LineItemActionValidator implements Validator {
     private validateAction(group: FormGroup): ValidationErrors {
         this.validateQuantity(group);
         this.validateComment(group);
-
-        if (!this.isBypassExceptionType) {
-            // Exception required
-            const exceptionTypeCtrl = group.controls['exceptionType'];
-            if (Number(exceptionTypeCtrl.value | 0) == 0) {
-                exceptionTypeCtrl.setErrors({ required: true });
-            }
-        }
-
+        this.validateExceptionType(group);
+        
         // Source required
         const sourceCtrl = group.controls['source'];
         if (Number(sourceCtrl.value | 0 ) == 0) {
@@ -404,8 +397,6 @@ class LineItemActionValidator implements Validator {
     private validatePodAction(group: FormGroup): ValidationErrors {
         this.validateQuantity(group);
         this.validateComment(group);
-        this.validateExceptionType(group);
-
         return undefined;
     }
 
@@ -427,6 +418,16 @@ class LineItemActionValidator implements Validator {
             const commentRequired = Validators.required(commentReasonCtrl);
             if (commentRequired) {
                 commentReasonCtrl.setErrors(commentRequired);
+            }
+        }
+    }
+
+    private validateExceptionType(group: FormGroup): void {
+        if (!this.isBypassExceptionType) {
+            // Exception required
+            const exceptionTypeCtrl = group.controls['exceptionType'];
+            if (Number(exceptionTypeCtrl.value | 0) == 0) {
+                exceptionTypeCtrl.setErrors({ required: true });
             }
         }
     }

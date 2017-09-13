@@ -174,5 +174,30 @@
                 .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
+
+        public void UpdateWellStatus(Stop stop)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.StopUpdateWellStatus)
+                .AddParameter("Id", stop.Id, DbType.Int32)
+                .AddParameter("WellStatusId", (int) stop.WellStatus, DbType.Int16)
+                .Execute();
+        }
+
+        public Stop GetForWellStatusCalculationById(int stopId)
+        {
+            var stop = dapperProxy.WithStoredProcedure(StoredProcedures.StopGetForWellStatusCalculationById)
+                .AddParameter("Id", stopId, DbType.Int32)
+                .Query<Stop>()
+                .SingleOrDefault();
+
+            if (stop != null)
+            {
+                stop.Jobs = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetForWellStatusCalculationByStopId)
+                    .AddParameter("StopId", stopId, DbType.Int32)
+                    .Query<Job>().ToList();
+            }
+
+            return stop;
+        }
     }
 }

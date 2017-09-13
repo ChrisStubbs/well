@@ -179,7 +179,7 @@
 
         public bool IsClean()
         {
-            return !this.Actions.Any(p => p.Quantity > 0);
+            return !this.Actions.Any();
         }
 
         public bool IsTobaccoBag()

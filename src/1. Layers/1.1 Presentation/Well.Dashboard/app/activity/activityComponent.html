@@ -278,7 +278,13 @@
                             <td class="text-right">{{detail.damaged}}</td>
                             <td class="text-center"><span *ngIf="detail.checked" class="glyphicon glyphicon-ok"></span></td>
                             <td class="text-center"><span *ngIf="detail.highValue" class="glyphicon glyphicon-ok"></span></td>
-                            <td class="text-right"><span *ngIf="detail.hasUnresolvedActions">Action Required</span></td>
+                            <td [ngClass]="{'text-left': detail.hasUnresolvedActions, 'text-center': !detail.hasUnresolvedActions && detail.hasLineItemActions}" >
+                                <span *ngIf="detail.hasUnresolvedActions">Action Required</span>
+                                <i *ngIf="!detail.hasUnresolvedActions && detail.hasLineItemActions" 
+                                    class="fa fa-exclamation" 
+                                    style="color: red;font-size: initial;"
+                                    title="With Exceptions"></i>
+                            </td>
                             <td>
                                 <a href="#" (click)="editLineItemActions(detail, $event)" title="Edit" data-toggle="modal" *ngIf="detail.lineItemId !=0">
                                     <span *ngIf="canEditExceptions" class="glyphicon glyphicon-pencil"></span>

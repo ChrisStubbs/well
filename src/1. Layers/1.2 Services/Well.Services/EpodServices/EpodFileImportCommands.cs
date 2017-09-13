@@ -278,6 +278,12 @@
 
                     jobs.Add(job);
                 }
+
+                // Compute well status for jobs
+                foreach (var jobId in updatedJobIds)
+                {
+                    jobService.ComputeWellStatus(jobId);
+                }
             }
 
             return jobs;

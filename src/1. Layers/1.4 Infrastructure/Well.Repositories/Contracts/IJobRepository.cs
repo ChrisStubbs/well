@@ -41,7 +41,7 @@
 
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerStop(int stopId);
 
-        IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId);
+        IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId);
 
         IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds);
 
@@ -63,5 +63,17 @@
 
         void JobsSetResolutionStatusClosed(IList<int> jobIds);
 
+        /// <summary>
+        /// Update job WellStatus property
+        /// </summary>
+        /// <param name="job"></param>
+        void UpdateWellStatus(Job job);
+
+        /// <summary>
+        /// This method returns job including only fields required for WellStatus calculation
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        Job GetForWellStatusCalculationById(int jobId);
     }
 }

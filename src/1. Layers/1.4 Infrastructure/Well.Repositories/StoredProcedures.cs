@@ -12,6 +12,7 @@ namespace PH.Well.Repositories
         public const string RouteHeaderInsert = "RouteHeader_Insert";
         public const string RouteHeaderUpdate = "RouteHeader_Update";
         public const string RouteHeaderGetById = "RouteHeader_GetById";
+        public const string RouteHeaderUpdateWellStatus = "RouteHeader_UpdateWellStatus";
         public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
         public const string RouteHeaderGetByBranchRouteNumberAndDate = "RouteHeader_GetByBranchRouteNumberAndDate";
         public const string RouteAttributesGetExceptions = "RouteAttributes_GetExceptions";
@@ -25,10 +26,12 @@ namespace PH.Well.Repositories
         public const string StopsCreateOrUpdate = "Stops_CreateOrUpdate";
         public const string StopInsert = "Stop_Insert";
         public const string StopUpdate = "Stop_Update";
+        public const string StopUpdateWellStatus = "Stop_UpdateWellStatus";
         public const string StopAccountCreateOrUpdate = "StopAccount_CreateOrUpdate";
         public const string AccountInsert = "Account_Insert";
         public const string AccountUpdate = "Account_Update";
         public const string StopGetByJob = "StopGetByJob";
+        public const string StopGetForWellStatusCalculationById = "Stop_GetForWellStatusCalculationById";
         public const string StopIdsGetByTransportOrderReference = "StopIds_GetByTransportOrderReference";
         public const string StopGetByJobId = "Stop_GetByJobId";
         public const string StopsGetByIds = "Stops_GetByIds";
@@ -38,6 +41,9 @@ namespace PH.Well.Repositories
         public const string JobCreateOrUpdate = "Job_CreateOrUpdate";
         public const string JobInsert = "Job_Insert";
         public const string JobUpdateStatus = "Job_UpdateStatus";
+        public const string JobUpdateWellStatus = "Job_UpdateWellStatus";
+        public const string JobGetForWellStatusCalculationById = "Job_GetForWellStatusCalculationById";
+        public const string JobGetForWellStatusCalculationByStopId = "Job_GetForWellStatusCalculationByStopId";
         public const string JobUpdate = "Job_Update";
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
@@ -161,6 +167,7 @@ namespace PH.Well.Repositories
         public const string LineItemActionInsertByUser = "LineItemAction_InsertByUser";
         public const string LineItemActionGetByIds = "LineItemActionGetByIds";
         public const string LineItemActionUpdate = "LineItemActionUpdate";
+        public const string LineItemActionDelete = "LineItemActionDelete";
         public const string LineItemActionSubmitModelGetUnsubmitted = "LineItemActionSubmitModelGetUnsubmitted";
         public const string LineItemActionDeleteForJob = "LineItemAction_DeleteForJob";
 
@@ -176,8 +183,10 @@ namespace PH.Well.Repositories
         public const string Driver = "Drivers_Get";
         public const string CommentReason = "CommentReason_Get";
 
+        //line item action comments
         public const string LineItemActionCommentInsert = "LineItemActionCommentInsert";
         public const string LineItemActionCommentUpdate = "LineItemActionCommentUpdate";
+
         public const string GetJobRoutesByJobIds = "JobRoutes_GetByJobIds";
         public const string JobResolutionStatusInsert = "JobResolutionStatus_Insert";
         public const string JobsToBeApproved = "JobsToBeApproved";

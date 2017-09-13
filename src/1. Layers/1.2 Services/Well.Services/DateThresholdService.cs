@@ -15,7 +15,7 @@ namespace PH.Well.Services
         private readonly ISeasonalDateRepository seasonalDate;
         private readonly IDateThresholdRepository dateThresholdRepository;
         private readonly ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
-        private CustomerRoyaltyException[] customerRoyaltyExceptions;
+        private CustomerRoyaltyExceptionWell[] customerRoyaltyExceptions;
 
         public const string ErrorMessage = "Date Threshold is not defined for branch {0}";
 
@@ -170,7 +170,7 @@ namespace PH.Well.Services
             return branch;
         }
 
-        private CustomerRoyaltyException GetCustomerRoyaltyException(int royaltyCode)
+        private CustomerRoyaltyExceptionWell GetCustomerRoyaltyException(int royaltyCode)
         {
             if (customerRoyaltyExceptions == null)
             {

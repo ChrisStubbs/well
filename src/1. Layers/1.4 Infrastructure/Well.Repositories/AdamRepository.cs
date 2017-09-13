@@ -23,7 +23,7 @@
         private readonly IExceptionEventRepository eventRepository;
         private readonly IGlobalUpliftTransactionFactory _globalUpliftTransactionFactory;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository,IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
+        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository, IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -48,9 +48,9 @@
                     {
                         foreach (var line in creditTransaction.LineSql.OrderBy(x => x.Key))
                         {
-                                command.CommandText = line.Value;
-                                command.ExecuteNonQuery();
-                                linesToRemove.Add(line.Key, line.Value);
+                            command.CommandText = line.Value;
+                            command.ExecuteNonQuery();
+                            linesToRemove.Add(line.Key, line.Value);
                         }
                     }
                 }
@@ -61,7 +61,7 @@
                         $"Adam exception {adamException} when writing credit line for credit event transaction {creditTransaction.HeaderSql}",
                         EventId.AdamCreditException);
                 }
-              }
+            }
 
             foreach (var line in linesToRemove)
             {
@@ -89,8 +89,8 @@
                         this.logger.LogError("ADAM error occurred writing credit header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                       $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
-                       EventId.AdamCreditHeaderException);
+                            $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
+                            EventId.AdamCreditHeaderException);
                     }
                 }
             }
@@ -172,7 +172,7 @@
 
                         using (var command = new AdamCommand(connection))
                         {
-                            var acno = (int) (Convert.ToDecimal(delivery.AccountCode)*1000);
+                            var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
                             var today = DateTime.Now.ToShortDateString();
                             var now = DateTime.Now.ToShortTimeString();
 
@@ -180,14 +180,14 @@
                             var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
                             if (!result)
                             {
-                                 grnNumeric = 0;
+                                grnNumeric = 0;
                             }
 
                             var commandString =
                                 string.Format(
                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
-                                    now, (int) EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
+                                    now, (int)EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
                                     delivery.GrnProcessType, grnNumeric);
 
                             command.CommandText = commandString;
@@ -267,8 +267,8 @@
                         this.logger.LogError("ADAM error occurred writing pod header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                       $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
-                       EventId.AdamPodHeaderException);
+                            $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
+                            EventId.AdamPodHeaderException);
                     }
                 }
             }
@@ -280,7 +280,7 @@
 
             return AdamResponse.Unknown;
         }
-        
+
 
         public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, Job job)
         {
@@ -340,8 +340,8 @@
                         this.logger.LogError("ADAM error occurred writing pod header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                       $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
-                       EventId.AdamPodCreditPodTransactionException);
+                            $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
+                            EventId.AdamPodCreditPodTransactionException);
                     }
                 }
             }
@@ -410,8 +410,8 @@
                         this.logger.LogError("ADAM error occurred writing amend header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                       $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
-                       EventId.AdamAmendmentHeaderTransactionException);
+                            $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
+                            EventId.AdamAmendmentHeaderTransactionException);
                     }
                 }
             }
@@ -432,7 +432,7 @@
             {
                 throw new ArgumentException("Invalid GlobalUpliftTransaction - Lines to write are not specified");
             }
-            
+
             AdamResponse result = AdamResponse.Success;
             if (transaction.WriteLine)
             {

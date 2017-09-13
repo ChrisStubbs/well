@@ -19,7 +19,10 @@
         private Mock<IStopRepository> stopRepository;
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IAdamImportMapper> importMapper;
+        private Mock<ILineItemActionRepository> lineItemActionRepository;
+        private Mock<IJobService> jobService;
         private AdamFileImportCommands commands;
+
 
         [SetUp]
         public virtual void SetUp()
@@ -29,13 +32,17 @@
             stopRepository = new Mock<IStopRepository>();
             jobDetailRepository = new Mock<IJobDetailRepository>();
             importMapper = new Mock<IAdamImportMapper>();
+            lineItemActionRepository = new Mock<ILineItemActionRepository>();
+            jobService = new Mock<IJobService>();
 
             commands = new AdamFileImportCommands(
                 jobRepository.Object,
                 postImportRepository.Object,
                 stopRepository.Object,
                 jobDetailRepository.Object,
-                importMapper.Object
+                importMapper.Object,
+                lineItemActionRepository.Object,
+                jobService.Object
             );
         }
 

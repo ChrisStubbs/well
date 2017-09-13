@@ -72,6 +72,8 @@
                     return WellStatus.Invoiced;
                 case JobStatus.Bypassed:
                     return WellStatus.Bypassed;
+                case JobStatus.Replanned:
+                    return WellStatus.Replanned;
                 default:
                    return WellStatus.Complete;
             }

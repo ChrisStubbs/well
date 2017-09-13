@@ -96,6 +96,7 @@
                     x.For<IEpodFileImportCommands>().Use<EpodFileImportCommands>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IPodService>().Use<PodService>();
+                    x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
                 });
         }
     }

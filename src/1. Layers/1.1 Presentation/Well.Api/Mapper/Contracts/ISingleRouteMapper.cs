@@ -13,6 +13,7 @@
             List<Stop> stops, 
             List<Job> jobs, 
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader);
+            IList<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            Dictionary<int, string> jobPrimaryAccountNumber);
     }
 }

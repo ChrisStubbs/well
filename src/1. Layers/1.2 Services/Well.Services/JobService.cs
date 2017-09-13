@@ -158,10 +158,11 @@
                     && IsJobAssignedToUser(job, userName)
                    && job.JobTypeEnumValue != JobType.GlobalUplift;
         }
-
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced || job.JobStatus == JobStatus.CompletedOnPaper)
+            return (job.WellStatus == WellStatus.Invoiced 
+                || job.WellStatus == WellStatus.Replanned
+                || job.JobStatus == JobStatus.CompletedOnPaper  )
                 //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
                 //|| job.JobStatus == JobStatus.Bypassed) 
                 && IsJobAssignedToUser(job, userName)
@@ -462,15 +463,28 @@
                 .Where(x => x.UserId == user.Id).Select(x => x.JobId);
         }
 
-        public bool ComputeWellStatus(int jobId)
+        /// <summary>
+        /// Helper function to get job with minimum required data to compute well status
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <exception cref="ArgumentException">When job is not found</exception>
+        /// <returns></returns>
+        private Job GetJobForWellStatusCalculation(int jobId)
         {
-            // Get the job specified
             var job = jobRepository.GetForWellStatusCalculationById(jobId);
             if (job != null)
             {
-                return ComputeWellStatus(job);
+                return job;
             }
-            return false;
+
+            throw new ArgumentException($"Job not found id : {jobId}", nameof(jobId));
+        }
+
+        public bool ComputeWellStatus(int jobId)
+        {
+            // Get the job specified
+            var job = GetJobForWellStatusCalculation(jobId);
+            return ComputeWellStatus(job);
         }
 
         public bool ComputeWellStatus(Job job)
@@ -490,12 +504,8 @@
         public bool ComputeAndPropagateWellStatus(int jobId)
         {
             // Get the job specified
-            var job = jobRepository.GetById(jobId);
-            if (job != null)
-            {
-                return ComputeAndPropagateWellStatus(job);
-            }
-            return false;
+            var job = GetJobForWellStatusCalculation(jobId);
+            return ComputeAndPropagateWellStatus(job);
         }
 
         public bool ComputeAndPropagateWellStatus(Job job)

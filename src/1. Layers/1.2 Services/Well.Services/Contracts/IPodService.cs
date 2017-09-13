@@ -8,6 +8,6 @@
         /// <summary>
         /// Create Pod event 
         /// </summary>
-        void CreatePodEvent(Job job, int branchId);
+        void CreatePodEvent(Job job, int branchId, DateTime routeDate);
     }
 }

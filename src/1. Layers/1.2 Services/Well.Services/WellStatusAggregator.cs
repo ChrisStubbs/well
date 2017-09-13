@@ -22,7 +22,7 @@ namespace PH.Well.Services
 
             var anyNotStarted = uniqueStatus.Any(x => x == WellStatus.Planned || x == WellStatus.Unknown);
 
-            var anyInvoiced = uniqueStatus.Any(x => x == WellStatus.Invoiced);
+            var anyInvoiced = uniqueStatus.Any(x => x == WellStatus.Invoiced || x == WellStatus.Replanned);
 
             if (anyCompleted)
             {

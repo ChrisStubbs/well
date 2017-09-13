@@ -21,9 +21,9 @@
     </div>
     <div class="form-group form-group-lg">
         <div class="col-lg-6">
-            <label for="searchAccount" class="col-lg-3 control-label">Account</label>
+            <label for="searchAccount" class="col-lg-3 control-label">Account No.</label>
             <div class="col-lg-9">
-                <input id="searchAccount" type="text" class="form-control" placeholder="Name or Number" formControlName="account">
+                <input id="searchAccount" type="text" class="form-control" formControlName="account">
             </div>
         </div>
         <div class="col-lg-6">
@@ -45,8 +45,8 @@
         </div>
         <div class="col-lg-6">
             <div class="pull-right">
-                <button type="reset" class="btn btn-success">Clear</button>&nbsp;&nbsp;
-                <button type="submit" class="btn btn-primary" [disabled]="isEmptySearch()">Search</button>
+                <button type="reset" class="btn btn-primary">Clear</button>&nbsp;&nbsp;
+                <button id="appSearchSearch" type="submit" class="btn btn-success" [disabled]="isEmptySearch()">Search</button>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group form-group-lg" *ngIf="showMoreFilters">
+    <!--<div class="form-group form-group-lg" *ngIf="showMoreFilters">
         <div class="col-lg-6">
             <label for="searchDeliveryType" class="col-lg-3 control-label">Delivery Type</label>
             <div class="col-lg-9">
@@ -86,5 +86,5 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div>-->
 </form>

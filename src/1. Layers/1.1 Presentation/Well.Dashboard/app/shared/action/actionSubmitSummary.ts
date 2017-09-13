@@ -1,4 +1,4 @@
-﻿export interface IActionSubmitSummary {
+export interface IActionSubmitSummary {
     summary: string;
     items: IActionSubmitSummaryItem[];
     jobIds: number[];
@@ -11,4 +11,5 @@ export interface IActionSubmitSummaryItem
     totalActionValue: number;
     totalCreditQty: number;
     totalQty: number;
+    jobType: string;
 }

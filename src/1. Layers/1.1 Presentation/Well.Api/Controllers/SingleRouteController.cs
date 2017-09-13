@@ -8,6 +8,7 @@
     using Repositories.Contracts;
     using System.Net.Http;
     using System.Net;
+    using Services.Contracts;
 
     public class SingleRouteController : ApiController
     {
@@ -17,6 +18,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IAssigneeReadRepository assigneeRepository;
         private readonly ISingleRouteMapper mapper;
+        private readonly IJobService jobService;
 
         public SingleRouteController(
             IBranchRepository branchRepository,
@@ -24,7 +26,8 @@
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IAssigneeReadRepository assigneeRepository,
-            ISingleRouteMapper mapper)
+            ISingleRouteMapper mapper,
+            IJobService jobService)
         {
             this.branchRepository = branchRepository;
             this.routeHeaderRepository = routeHeaderRepository;
@@ -32,6 +35,7 @@
             this.jobRepository = jobRepository;
             this.assigneeRepository = assigneeRepository;
             this.mapper = mapper;
+            this.jobService = jobService;
         }
 
         public SingleRoute Get(int id)
@@ -48,10 +52,11 @@
                 return mapper.Map(
                     branches, 
                     routeHeader, 
-                    stops, 
-                    jobs, 
+                    stops,
+                    jobService.PopulateLineItemsAndRoute(jobs).ToList(), 
                     assignees, 
-                    jobRepository.JobDetailTotalsPerRouteHeader(id));
+                    jobRepository.JobDetailTotalsPerRouteHeader(id),
+                    jobRepository.GetPrimaryAccountNumberByRouteHeaderId(id));
             }
 
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));

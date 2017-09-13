@@ -14,6 +14,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
     using Validators;
+    using System.Collections.Generic;
 
     public class UserController : BaseApiController
     {
@@ -23,7 +24,8 @@
         private readonly IJobRepository jobRepository;
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, IActiveDirectoryService activeDirectoryService,
+        public UserController(IBranchService branchService, 
+            IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
             IUserNameProvider userNameProvider,
             IJobRepository jobRepository)
@@ -50,9 +52,25 @@
         [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
-            var users = this.userRepository.GetByBranchId(branchId);
+            return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
+        }
+        
+        public IList<User> Get()
+        {
+            var data = this.userRepository.Get().ToList();
+            var result = new List<User>(data.Count());
+            var me = data.FirstOrDefault(p => p.IdentityName == this.UserNameProvider.GetUserName());
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, users);
+            if (me != null)
+            {
+                result.Add(me);
+            }
+
+            result.AddRange(data
+                .Where(p => p.IdentityName != this.UserNameProvider.GetUserName())
+                .OrderBy(p => p.Name));
+
+            return result;
         }
 
         [Route("create-user-using-current-context")]
@@ -72,7 +90,9 @@
 
                 // this method is used via the BDD for setting up test users so we are just defaulting 
                 // the threshold level to max for now
-                user.ThresholdLevelId = (int)ThresholdLevel.Level1;
+
+                // KD - BDD isn't run as far as i know if we need default thresholds it would need to be implemented differently
+                // user.ThresholdLevelId = (int)ThresholdLevel.Level1;
 
                 ////// DIJ - Why are we changing current user?
                 //////this.userRepository.CurrentUser = userIdentity;
@@ -90,21 +110,21 @@
         }
 
         [Route("users/{name}")]
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
             var users =
-                this.activeDirectoryService.FindUsers(name.Trim(), PH.Well.Api.Configuration.DomainsToSearch).ToList();
+                this.activeDirectoryService.FindUsers(name.Trim(), Api.Configuration.DomainsToSearch).ToList();
 
             if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
-
+        
 
         [Route("user/{name}")]
-        [PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
         public HttpResponseMessage UserByName(string name)
         {

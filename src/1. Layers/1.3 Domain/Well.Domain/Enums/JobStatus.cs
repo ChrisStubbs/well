@@ -31,13 +31,17 @@
         //Job contains document deliveries only
         //</summary>
         DocumentDelivery = 6,
-        //<summary>
-        //Job completed on paper
-        //</summary>
+        ///<summary>
+        ///Job completed on paper
+        ///</summary>
         CompletedOnPaper = 7,
-        //<summary>
-        //Delivery bypassed
-        //</summary>
-        Bypassed = 8
+        ///<summary>
+        ///Delivery bypassed
+        ///</summary>
+        Bypassed = 8,
+        /// <summary>
+        /// Job that was previously Bypassed has been replanned by Amend Van
+        /// </summary>
+        Replanned = 9,
     }
 }

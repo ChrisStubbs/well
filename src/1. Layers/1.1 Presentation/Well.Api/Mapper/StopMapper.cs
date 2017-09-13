@@ -1,4 +1,7 @@
-﻿namespace PH.Well.Api.Mapper
+﻿using PH.Well.Common.Contracts;
+using PH.Well.Services.Contracts;
+
+namespace PH.Well.Api.Mapper
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -12,11 +15,25 @@
 
     public class StopMapper : IStopMapper
     {
-        
+        private readonly IJobService jobService;
+        private readonly IUserNameProvider userNameProvider;
+
+        public StopMapper(IJobService jobService, IUserNameProvider userNameProvider)
+        {
+            this.jobService = jobService;
+            this.userNameProvider = userNameProvider;
+        }
 
         public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees,
             IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
+            var jobGroupToBeAdvised = jobs.GroupBy(j => new { j.OuterCount, j.ToBeAdvisedCount })
+                                        .Select(y => new ToBeAdvisedGroup()
+                                                    {
+                                                        OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                                        ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                                                    }).ToList();
+
             var stopModel = new StopModel
             {
                 RouteId = route.Id,
@@ -26,7 +43,7 @@
                 Driver = route.DriverName,
                 RouteDate = route.RouteDate,
                 AssignedTo = Assignee.GetDisplayNames(assignees),
-                Tba = jobs.Sum(j => j.ToBeAdvisedCount),
+                Tba = jobGroupToBeAdvised.Sum(j => j.ToBeAdvisedCount),
                 StopNo = stop.PlannedStopNumber,
                 TotalNoOfStopsOnRoute = route.PlannedStops,
                 Items = MapItems(jobs, jobDetailTotalsPerStop)
@@ -38,21 +55,33 @@
         private IList<StopModelItem> MapItems(List<Job> jobs, IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
             return jobs
-                .Select(p => new
-                {
-                    jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode),
-                    job = p
-                })
-                .Where(p => p.jobType != JobType.Documents)
+                .Where(p => p.JobTypeEnumValue != JobType.Documents)
                 .SelectMany(p =>
                 {
-                    var jobDetails = p.job.JobDetails;
+                    var jobDetails = p.JobDetails
+                        .Join(p.LineItems,
+                            l => new { l.LineNumber, Product = l.PhProductCode },
+                            r => new { r.LineNumber, Product = r.ProductCode },
+                            (det, line) => new
+                            {
+                                det.Id,
+                                det.PhProductCode,
+                                det.ProdDesc,
+                                Value = det.NetPrice ?? 0,
+                                det.OriginalDespatchQty,
+                                det.DeliveredQty,
+                                det.IsChecked,
+                                det.IsHighValue,
+                                det.SSCCBarcode,
+                                det.LineItemId,
+                                IsTobaccoBag = det.IsTobaccoBag(),
+                                HasLineItemActions = line.LineItemActions.Where(lia => lia.DateDeleted == null).Count() > 0
+                            });
 
-                    if (p.jobType == JobType.Tobacco)
+                    if (p.JobTypeEnumValue == JobType.Tobacco)
                     {
                         jobDetails = jobDetails
-                        .Where(x => !x.IsTobaccoBag())
-                        .ToList();
+                        .Where(x => !x.IsTobaccoBag);
                     }
 
                     return jobDetails
@@ -61,24 +90,32 @@
                             DetailId = line.Id,
                             StopModelItem = new StopModelItem
                             {
-                                JobId = p.job.Id,
-                                Invoice = p.job.InvoiceNumber,
-                                Type = p.job.JobType,
-                                JobTypeAbbreviation = p.job.JobTypeAbbreviation,
-                                Account = p.job.PhAccount,
-                                AccountID = p.job.PhAccountId,
+                                JobId = p.Id,
+                                Invoice = p.InvoiceNumber,
+                                InvoiceId = p.ActivityId,
+                                Type = p.JobType,
+                                JobTypeAbbreviation = p.JobTypeAbbreviation,
+                                Account = p.PhAccount,
+                                AccountID = p.PhAccountId,
                                 JobDetailId = line.Id,
                                 Product = line.PhProductCode,
                                 Description = line.ProdDesc,
-                                Value = line.SkuGoodsValue,
+                                Value = line.Value,
                                 Invoiced = line.OriginalDespatchQty,
                                 Delivered = line.DeliveredQty,
                                 Checked = line.IsChecked,
                                 HighValue = line.IsHighValue,
                                 BarCode = line.SSCCBarcode,
                                 LineItemId = line.LineItemId,
-                                Resolution = p.job.ResolutionStatus.Description,
-                                ResolutionId = p.job.ResolutionStatus.Value
+                                Resolution = p.ResolutionStatus.Description,
+                                ResolutionId = p.ResolutionStatus.Value,
+                                GrnProcessType = p.GrnProcessType ?? 0,
+                                HasUnresolvedActions = p.HasUnresolvedActions(line.LineItemId),
+                                GrnNumber = p.GrnNumber,
+                                CanEdit = jobService.CanEdit(p, userNameProvider.GetUserName()),
+                                LocationId = p.LocationId,
+                                CompletedOnPaper  = p.JobStatus == JobStatus.CompletedOnPaper,
+                                HasLineItemActions = line.HasLineItemActions
                             }
                         })
                         .ToList();
@@ -89,6 +126,7 @@
 
                     line.StopModelItem.Damages = totals.DamageTotal;
                     line.StopModelItem.Shorts = totals.ShortTotal;
+                    line.StopModelItem.Bypassed = totals.BypassTotal;
 
                     return line.StopModelItem;
                 })

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Api.Controllers
 {
+    using System.Linq;
     using System.Web.Http;
     using Domain.Enums;
     using Domain.ValueObjects;
@@ -16,14 +17,13 @@
 
         public SubmitActionResult Post(SubmitActionModel action)
         {
-            var results = submitActionService.SubmitAction(action);
-            return results;
+            return submitActionService.SubmitAction(action);
         }
 
         [HttpGet]
         public ActionSubmitSummary PreSubmitSummary([FromUri] int[] jobId, bool isStopLevel)
         {
-            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId}, isStopLevel);
+            var results = submitActionService.GetSubmitSummary(new SubmitActionModel { JobIds = jobId.Distinct().ToArray()}, isStopLevel);
             return results;
         }
 

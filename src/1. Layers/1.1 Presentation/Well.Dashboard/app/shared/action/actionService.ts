@@ -1,9 +1,9 @@
-﻿import { Injectable } from '@angular/core';
-import { Response, Headers, RequestOptions } from '@angular/http'
+import { Injectable } from '@angular/core';
+import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { HttpService } from '../httpService';
+import { HttpService } from '../services/httpService';
 import { GlobalSettingsService } from '../globalSettings';
-import { HttpErrorService } from '../httpErrorService';
+import { HttpErrorService } from '../services/httpErrorService';
 import { ISubmitActionModel } from './submitActionModel';
 import { IActionSubmitSummary } from './actionSubmitSummary';
 import { ISubmitActionResult } from './submitActionModel';
@@ -14,16 +14,15 @@ export class ActionService
     constructor(
         private http: HttpService,
         private globalSettingsService: GlobalSettingsService,
-        private httpErrorService: HttpErrorService)
-    {
-    }
+        private httpErrorService: HttpErrorService) { }
 
-    public getPreSubmitSummary(jobIds: Array<number>,
-                               isStopLevel: boolean): Observable<IActionSubmitSummary>
+    public getPreSubmitSummary(
+        jobIds: Array<number>,
+        isStopLevel: boolean): Observable<IActionSubmitSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'SubmitAction/PreSubmitSummary';
 
-        return this.http.get(url, { params: { jobId: jobIds, isStopLevel: isStopLevel} })
+        return this.http.get(url, { params: { jobId: jobIds, isStopLevel: isStopLevel } })
             .map((response: Response) => <IActionSubmitSummary>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

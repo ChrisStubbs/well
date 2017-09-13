@@ -1,10 +1,10 @@
-﻿import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Branch } from './branch';
 import { GlobalSettingsService } from '../globalSettings';
-import { HttpErrorService } from '../httpErrorService';
-import { HttpService } from '../httpService';
+import { HttpErrorService } from '../services/httpErrorService';
+import { HttpService } from '../services/httpService';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/map';
@@ -21,9 +21,14 @@ export class BranchService
 
     public getBranches(username): Observable<Branch[]>
     {
-
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch?username=' + username)
             .map((response: Response) => <Branch[]>response.json())
+            .catch(e => this.httpErrorService.handleError(e));
+    }
+
+    public getById(id: number): Observable<Branch> {
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'branch/' + id)
+            .map((response: Response) => <Branch>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
@@ -38,7 +43,7 @@ export class BranchService
                 {
                     if (current.selected)
                     {
-                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')'])
+                        values.push([current.id.toString(), current.name + ' (' + current.id.toString() + ')']);
                     }
                 });
 
@@ -56,54 +61,34 @@ export class BranchService
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public getBranchesWithCreditThreshold(creditThresholdId): Observable<Branch[]>
-    {
-
-        return this.http.get(
-            this.globalSettingsService.globalSettings.apiUrl
-            + 'branch-credit-threshold?creditThresholdId='
-            + creditThresholdId)
-            .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
-    public getBranchesWithCleanPreference(cleanPreferenceId): Observable<Branch[]>
-    {
-
-        return this.http.get(
-            this.globalSettingsService.globalSettings.apiUrl
-            + 'branch-clean-preference?cleanPreferenceId='
-            + cleanPreferenceId)
-            .map((response: Response) => <Branch[]>response.json())
-            .catch(e => this.httpErrorService.handleError(e));
-    }
-
     public saveBranches(branches: Branch[], username, domain): Observable<any>
     {
         const body = JSON.stringify(branches);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
+        let url: string;
 
         if (username)
         {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl
+            url = this.globalSettingsService.globalSettings.apiUrl
                 + 'save-branches-on-behalf-of-user?username='
                 + username
                 + '&domain='
-                + domain,
-                body,
-                options)
-                .map(res => res.json());
-        } else
+                + domain;
+        }
+        else
         {
-            return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'branch',
-                body,
-                options)
-                .map(res =>
+            url = this.globalSettingsService.globalSettings.apiUrl + 'branch';
+        }
+
+        return this.http.post(url, body, options)
+            .map(res =>
+            {
+                return this.globalSettingsService.getSettings().then(() => 
                 {
                     this.userBranchesChanged$.emit(branches);
                     return res.json();
                 });
-        }
+            });
     }
 }

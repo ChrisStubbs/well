@@ -28,7 +28,8 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
+            IList<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            Dictionary<int, string> jobPrimaryAccountNumber)
         {
             var singleRoute = new SingleRoute
             {
@@ -40,7 +41,7 @@
                 RouteDate = route.RouteDate
             };
 
-            return MapItems(singleRoute, stops, jobs, assignee, jobDetailTotalsPerRouteHeader);
+            return MapItems(singleRoute, stops, jobs, assignee, jobDetailTotalsPerRouteHeader, jobPrimaryAccountNumber);
         }
 
         private SingleRoute MapItems(
@@ -48,67 +49,77 @@
             List<Stop> stops,
             List<Job> jobs,
             List<Assignee> assignee,
-            IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader)
+            IList<JobDetailLineItemTotals> jobDetailTotalsPerRouteHeader,
+            Dictionary<int, string> jobPrimaryAccountNumber)
         {
 
             foreach (var stop in stops)
             {
                 var stopJobs = jobs
-                    .Select(p => new
-                    {
-                        obj = p,
-                        jobType = EnumExtensions.GetValueFromDescription<JobType>(p.JobTypeCode)
-                    })
-                    .Where(p => p.jobType != JobType.Documents && p.obj.StopId == stop.Id)
-                    .Select(p => p.obj) //I should not do this but it's to much code to change with very little gain
+                    .Where(j => j.JobTypeEnumValue != JobType.Documents && j.StopId == stop.Id)
                     .ToList();
                 
-                var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
-                
-                var stopClean = stopJobs
-                    .SelectMany(x => x.JobDetails)
-                    .Where(p => p.IsClean())
-                    .Sum(v => v.DeliveredQty);
+                // var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
+                // jobs may be grouped together for delivery, indicated by the OuterCount (ie all jobs
+                // counted together for a stop have the same OuterCount)
+                // All the jobs grouped together should have the same to be advised count 
+                // This is the shorts to be advised total for the GROUP
+                // There may be more than one group per stop
+                var jobGroupToBeAdvised = stopJobs.GroupBy(j => new {j.OuterCount, j.ToBeAdvisedCount})
+                    .Select(
+                        y =>
+                            new ToBeAdvisedGroup()
+                            {
+                                OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                            }).ToList();
 
-                var status = EnumExtensions.GetDescription((WellStatus)stop.WellStatusId);
+                var status = EnumExtensions.GetDescription(stop.WellStatus);
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
+
+                var jobExceptions = jobDetailTotalsPerRouteHeader
+                    .ToLookup(k => k.JobId);
 
                 foreach (var job in stopJobs)
                 {
                     JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
-                    var ids = job.JobDetails.Select(p => p.Id).ToList();
+                    var totalException = jobExceptions[job.Id].Count(p => p.TotalExceptions > 0);
+                    var clean = jobExceptions[job.Id].Count(p => p.TotalExceptions == 0);
 
-                    var jobExceptions = jobDetailTotalsPerRouteHeader
-                        .Where(p => ids.Contains(p.JobDetailId))
-                        .Sum(p => p.DamageTotal + p.ShortTotal);
-                    
                     var item = new SingleRouteItem
                     {
                         JobId = job.Id,
                         StopId = job.StopId,
                         Stop = stop.DropId,
                         StopStatus = status,
-                        StopExceptions = jobExceptions,
-                        StopClean = stopClean,
-                        Tba = tba,
+                        Previously = stop.Previously,
+                        Tba = jobGroupToBeAdvised
+                            .Where(x => x.OuterCountId == job.OuterCount)
+                            .Select(y => y.ToBeAdvisedCount).FirstOrDefault(),
                         StopAssignee = stopAssignee,
-                        Resolution = job.ResolutionStatus?.Description,
+                        Resolution = job.ResolutionStatus.Description,
+                        ResolutionId = job.ResolutionStatus.Value,
                         Invoice = job.InvoiceNumber,
-                        JobType = jobType.ToString().SplitCapitalisedWords(),
+                        InvoiceId = job.ActivityId,
+                        JobType = $"{jobType.ToString().SplitCapitalisedWords()} ({job.JobTypeAbbreviation})",
                         JobTypeId = (int)jobType,
                         JobStatus = job.JobStatus,
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
-                        Pod = job.ProofOfDelivery.HasValue,
-                        Exceptions = jobExceptions,
-                        Clean = job.JobDetails
-                            .Where(x => x.IsClean() && !x.IsTobaccoBag())
-                            .Sum(p => p.OriginalDespatchQty),
+                        Pod = job.IsProofOfDelivery,
+                        Exceptions = totalException,
+                        Clean = clean,
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount,
+                        AccountName = job.PhAccountName,
                         WellStatus = job.WellStatus,
-                        WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus)
+                        WellStatusDescription = EnumExtensions.GetDescription(job.WellStatus),
+                        GrnProcessType =  job.GrnProcessType ?? 0,
+                        GrnNumber =  job.GrnNumber,
+                        PrimaryAccountNumber = jobPrimaryAccountNumber[job.Id],
+                        LocationId = stop.LocationId,
+                        HasUnresolvedActions = job.HasUnresolvedActions(),
                     };
 
                     singleRoute.Items.Add(item);

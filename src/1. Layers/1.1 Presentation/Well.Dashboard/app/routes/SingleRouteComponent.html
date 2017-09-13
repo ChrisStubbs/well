@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-6">
             <ul class="list-unstyled">
-                <li><label>Branch:&nbsp;</label>{{branchId}}</li>
+                <li><label>Branch:&nbsp;</label>{{branch}}</li>
                 <li><label>Driver:&nbsp;</label>{{driver}}</li>
                 <li><label>Date:&nbsp;</label>{{routeDate | date:'dd MMM yyyy'}}</li>
             </ul>
@@ -21,15 +21,33 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            <!--
+            IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            we have to refactor this filter to be equals to the routs page
+            -->
+            <!--<tooltip-content #uncompletedJobs placement="top">-->
+                <!--<span>Only show stops with one or more jobs with pending actions or empty but mandatory GRN</span>-->
+            <!--</tooltip-content>-->
+            <!--<label for="filterUncompletedJobs">Show pending action Jobs</label>-->
+            <!--<input id="filterUncompletedJobs" type="checkbox" (change)="filterUncompletedJob()" [(ngModel)]="filters.uncompletedJob">-->
+            <!--<a href="#" aria-hidden="true" (click)="voidLink($event)"-->
+               <!--[tooltip]="uncompletedJobs"-->
+               <!--tooltipPlacement="right">-->
+                <!--<span class="glyphicon glyphicon-info-sign"></span>-->
+            <!--</a>-->
         </div>
-        <div class="col-md-6 pull-right">
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
-                &nbsp;
-                <action-Modal [disabled]="selectedItems().length == 0"
-                              [isStopLevel]="true"
-                              [jobIds]="getSelectedJobIds()">
-                </action-Modal>
+        <div class="col-md-6">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" (click)="refreshRouteFromApi()">
+                        Refresh Data
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" (click)="clearFilter(dt)">Clear Filter</button>
+                </div>
+                <ow-button-dropdown [disabled]="selectedItems().length == 0" (onOptionClicked)="submitAction($event)"></ow-button-dropdown>
             </div>
         </div>
     </div>
@@ -37,107 +55,95 @@
         <div class="col-md-12 clearfix table-container">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th style="width: 3%">
-                            <a href="#" (click)="expandGroup($event)">
-                                <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
-                                <ng-template #allExpended>
-                                    <span class="fa fa-arrow-circle-down"></span>
-                                </ng-template>
-                                <ng-template #notAllExpanded>
-                                    <span class="fa fa-arrow-circle-right"></span>
-                                </ng-template>
-                            </a>
-                        </th>
-                        <th style="width: 9%">
-                            <div class="text-center">Account</div>
-                            <div>
-                                <input type="text" [(ngModel)]="filters.account" (keyup)="filterFreeText()" class="form-control">
-                            </div>
-                        </th>
-                        <th style="width: 9%">
-                            <div class="text-center">Invoice</div>
-                            <div>
-                                <input type="text" [(ngModel)]="filters.invoice" (keyup)="filterFreeText()" class="form-control">
-                            </div>
-                        </th>
-                        <th style="width: 8%">
-                            <div class="text-center">Job Type</div>
-                            <div>
-                                <select class="form-control" id="searchJobType" [(ngModel)]="filters.jobType" (change)="fillGridSource()" title="">
-                                    <option value>All</option>
-                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.value">
-                                        {{ jobType.value }}
-                                    </option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 10%">
-                            <div class="text-center">Job Status</div>
-                            <div>
-                                <select class="form-control" [(ngModel)]="filters.wellStatus" (change)="fillGridSource()" title="">
-                                    <option value>All</option>
-                                    <option *ngFor="let item of wellStatus" [value]="item.key">
-                                        {{ item.value }}
-                                    </option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 8%">
-                            <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
-                            <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
-                            <div class="form-control-placeholder"></div>
-                        </th>
-                        <th style="width: 7%">
-                            <div class="text-center">Exceptions</div>
-                            <div>
-                                <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">
-                                    <option value>All</option>
-                                    <option value="true">With exceptions</option>
-                                    <option value="false">No exceptions</option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 7%">
-                            <div class="text-center">Clean</div>
-                            <div>
-                                <select class="form-control" [(ngModel)]="filters.clean" (change)="fillGridSource()" title="">
-                                    <option value>All</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 7%">
-                            <div class="text-center">T.B.A.</div>
-                            <div class="form-control-placeholder"></div>
-                        </th>
-                        <th style="width: 7%">
-                            <div class="text-center">Credit</div>
-                            <div class="form-control-placeholder"></div>
-                        </th>
-                        <th style="width: 12%">
-                            <div class="text-center">Assignee</div>
-                            <div>
-                                <select class="form-control" [(ngModel)]="filters.assignee" (change)="fillGridSource()" title="">
-                                    <option value>All</option>
-                                    <option *ngFor="let a of assignees" [value]="a">{{a}}</option>
-                                </select>
-                            </div>
-                        </th>
-                        <th style="width: 9%">
-                            <div class="text-center">Resolution</div>
-                            <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
+                <tr>
+                    <th style="width: 3%">
+                        <a href="#" (click)="expandGroup($event)">
+                            <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                            <ng-template #allExpended>
+                                <span class="fa fa-arrow-circle-down"></span>
+                            </ng-template>
+                            <ng-template #notAllExpanded>
+                                <span class="fa fa-arrow-circle-right"></span>
+                            </ng-template>
+                        </a>
+                    </th>
+                    <th style="width: 9%">
+                        <div class="text-center">Account</div>
+                        <div>
+                            <input type="text" [(ngModel)]="filters.account" (keyup)="filterFreeText()" class="form-control">
+                        </div>
+                    </th>
+                    <th style="width: 9%">
+                        <div class="text-center">Invoice</div>
+                        <div>
+                            <input type="text" [(ngModel)]="filters.invoice" (keyup)="filterFreeText()" class="form-control">
+                        </div>
+                    </th>
+                    <th style="width: 8%">
+                        <div class="text-center">Job Type</div>
+                        <div>
+                            <select class="form-control" id="searchJobType" [(ngModel)]="filters.jobTypeId" (change)="fillGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
-                                    {{resolutionStatus.value}}
+                                <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
+                                    {{ jobType.value }}
                                 </option>
                             </select>
-                        </th>
-                        <th style="width: 4%">
-                            <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
-                        </th>
-                    </tr>
+                        </div>
+                    </th>
+                    <th style="width: 10%">
+                        <div class="text-center">Job Status</div>
+                        <div>
+                            <select class="form-control" [(ngModel)]="filters.wellStatus" (change)="fillGridSource()" title="">
+                                <option value>All</option>
+                                <option *ngFor="let item of wellStatus" [value]="item.key">
+                                    {{ item.value }}
+                                </option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 8%">
+                        <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
+                        <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
+                    </th>
+                    <th style="width: 14%" colspan="2">
+                        <div class="text-center col-md-6">Exceptions</div>
+                        <div class="text-center col-md-6">Clean</div>
+                        <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">
+                            <option value>All</option>
+                            <option value="1">With Exceptions</option>
+                            <option value="2">All Clean</option>
+                        </select>
+                    </th>
+                    <th style="width: 7%">
+                        <div class="text-center">T.B.A.</div>
+                        <div class="form-control-placeholder"></div>
+                    </th>
+                    <th style="width: 7%">
+                        <div class="text-center">Credit</div>
+                        <div class="form-control-placeholder"></div>
+                    </th>
+                    <th style="width: 12%">
+                        <div class="text-center">Assignee</div>
+                        <div>
+                            <select class="form-control" [(ngModel)]="filters.assignee" (change)="fillGridSource()" title="">
+                                <option value>All</option>
+                                <option *ngFor="let a of assignees" [value]="a">{{a}}</option>
+                            </select>
+                        </div>
+                    </th>
+                    <th style="width: 9%">
+                        <div class="text-center">Exception Resolution</div>
+                        <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="fillGridSource()" title="">
+                            <option value>All</option>
+                            <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
+                                {{resolutionStatus.value}}
+                            </option>
+                        </select>
+                    </th>
+                    <th *ngIf="showCheckbox" style="width: 4%">
+                        <input type="checkbox" [checked]="allChildrenSelected()" (change)="selectStops($event.target.checked)" />
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of gridSource">
@@ -148,7 +154,7 @@
                                 </a>
                             </td>
                             <td colspan="3">
-                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}}</a>
+                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}} - {{item.accountName}} <span *ngIf="item.previously"> - ({{item.previously}})</span></a>
                             </td>
                             <td colspan="2">
                                 {{item.stopStatus}}
@@ -166,30 +172,43 @@
                             <td colspan="2">
                                 <assign-modal id="modal" (onAssigned)="onAssigned($event)" [model]="getAssignModel(item)"></assign-modal>
                             </td>
-                            <td>
+                            <td *ngIf="showCheckbox">
                                 <input type="checkbox" [checked]="allChildrenSelected(item)" (change)="selectStops($event.target.checked, item)" />
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">{{detail.account}}</td>
-                            <td>{{detail.invoice}}</td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <a [routerLink]="['/singlelocation']"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
+                            </td>
+                            <td>
+                                <div><a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoiceId]">{{detail.invoice}}</a></div>
+                                <div><assignGrn-Modal *ngIf="detail.invoice" [model]="detail"></assignGrn-Modal></div>
+                            </td>
                             <td>{{detail.jobType}}</td>
-                            <td>{{detail.wellStatusDescription}}</td>
+                            <td>{{detail.wellStatusDescription}}
+                                &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="detail.completedOnPaper" ></ow-completed-on-paper>
+                            </td>
                             <td>
                                 <ow-account-flags [isCashOnDelivery]="detail.isCod" [isProofOfDelivery]="detail.pod"></ow-account-flags>
                             </td>
-                            <td class="text-right">{{detail.stopExceptions}}</td>
-                            <td class="text-right">{{detail.clean}}</td>
+                            <td class="text-right">{{detail.exceptions}}</td>
+                            <td class="text-right">
+                                <!--if job in resolution = imported or status = bypassed just don't print the value, print 0 instead-->
+                                <span *ngIf="!(detail.resolutionId == 1 || detail.jobStatus == 8);else clean0">
+                                    {{detail.clean}}
+                                </span>
+                                <ng-template #clean0>0</ng-template>
+                            </td>
                             <td class="text-right">{{detail.tba}}</td>
                             <td class="text-right">{{detail.credit | currency:'GBP':true}}</td>
                             <td></td>
                             <td>{{detail.resolution}}</td>
-                            <td>
+                            <td *ngIf="showCheckbox">
                                 <input type="checkbox" [(ngModel)]="detail.isSelected" title="">
                             </td>
                         </tr>
                     </ng-container>
-
                 </tbody>
             </table>
             <div *ngIf="gridSource.length == 0" class="alert alert-warning" role="alert">
@@ -198,3 +217,10 @@
         </div>
     </div>
 </div>
+<bulk-edit-action-modal [jobIds]="getSelectedJobIds()" (onSave)="bulkEditSave($event)"></bulk-edit-action-modal>
+<manual-completion-Modal [jobIds]="getSelectedJobIds()" (onSubmitted)="manualCompletionSubmitted($event)"></manual-completion-Modal>
+<submit-action-Modal [disabled]="disableSubmitActions()"
+                     [isStopLevel]="true"
+                     [jobIds]="getSelectedJobIds()"
+                     (onSubmitted)="jobsSubmitted($event)">
+</submit-action-Modal>

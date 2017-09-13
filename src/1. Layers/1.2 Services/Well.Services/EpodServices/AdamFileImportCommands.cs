@@ -17,24 +17,39 @@
         private readonly IStopRepository stopRepository;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IAdamImportMapper importMapper;
+        private readonly ILineItemActionRepository lineItemActionRepository;
+        private readonly IJobService jobService;
 
         public AdamFileImportCommands(
             IJobRepository jobRepository,
             IPostImportRepository postImportRepository,
             IStopRepository stopRepository,
             IJobDetailRepository jobDetailRepository,
-            IAdamImportMapper importMapper)
+            IAdamImportMapper importMapper,
+            ILineItemActionRepository lineItemActionRepository,
+            IJobService jobService)
         {
             this.jobRepository = jobRepository;
             this.postImportRepository = postImportRepository;
             this.stopRepository = stopRepository;
             this.jobDetailRepository = jobDetailRepository;
             this.importMapper = importMapper;
+            this.lineItemActionRepository = lineItemActionRepository;
+            this.jobService = jobService;
         }
-      
+
         public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
         {
-            importMapper.MapJob(fileJob,existingJob);
+            importMapper.MapJob(fileJob, existingJob);
+
+            if (existingJob.WellStatus == WellStatus.Bypassed)
+            {
+                existingJob.JobStatus = JobStatus.Replanned;
+                existingJob.WellStatus = existingJob.JobStatus.ToWellStatus();
+                lineItemActionRepository.DeleteAllLineItemActionsForJob(existingJob.Id);
+                existingJob.ResolutionStatus = ResolutionStatus.Imported;
+            }
+
             jobRepository.Update(existingJob);
             UpdateJobDetails(fileJob.JobDetails, existingJob.Id);
         }
@@ -53,8 +68,8 @@
             return jobRepository.GetByIds(jobIdsToDelete).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
 
-      
-        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources )
+
+        private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources)
         {
             var existing = existingJobIdsBothSources.ToDictionary(k => k);
             return existingRouteJobIds.Where(x => !existing.ContainsKey(x));
@@ -69,7 +84,7 @@
                 if (!stopToBeDeleted.HasStopBeenCompleted())
                 {
                     var stopJobs = jobRepository.GetByStopId(stopToBeDeleted.Id);
-                    if (stopJobs.All(x=> x.CanWeUpdateJobOnImport()))
+                    if (stopJobs.All(x => x.CanWeUpdateJobOnImport()))
                     {
                         stopToBeDeleted.DateDeleted = DateTime.Now;
                         stopToBeDeleted.DeletedByImport = true;

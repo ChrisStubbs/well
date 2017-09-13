@@ -1,19 +1,20 @@
-﻿import { ActivatedRoute }                           from '@angular/router';
-import { Component, ViewChild }                     from '@angular/core';
-import { GlobalSettingsService }                    from '../shared/globalSettings';
-import { Route }                                    from './route';
-import { RouteFilter }                              from './routeFilter';
-import { RoutesService }                            from './routesService';
-import { RefreshService }                           from '../shared/refreshService';
-import { SecurityService }                          from '../shared/security/securityService';
-import { BranchService }                            from '../shared/branch/branchService';
-import { AppSearchParameters }                      from '../shared/appSearch/appSearch';
-import { DataTable }                                from 'primeng/primeng';
-import { AssignModel, AssignModalResult }           from '../shared/components/components';
-import { Branch }                                   from '../shared/branch/branch';
-import { IObservableAlive }                         from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue}  from '../shared/services/services';
-import * as _                                       from 'lodash';
+import { ActivatedRoute }                               from '@angular/router';
+import { Component }                                    from '@angular/core';
+import { Router }                                       from '@angular/router';
+import { GlobalSettingsService }                        from '../shared/globalSettings';
+import { Route }                                        from './route';
+import { RouteFilter }                                  from './routeFilter';
+import { RoutesService }                                from './routesService';
+import { BranchService }                                from '../shared/branch/branchService';
+import { AppSearchParameters }                          from '../shared/appSearch/appSearch';
+import { AssignModel, AssignModalResult }               from '../shared/components/components';
+import { Branch }                                       from '../shared/branch/branch';
+import { IObservableAlive }                             from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
+import * as _                                           from 'lodash';
+import { Observable }                                   from 'rxjs/Observable';
+import { GridHelpersFunctions }                         from '../shared/gridHelpers/gridHelpersFunctions';
+import { SecurityService }                              from '../shared/services/securityService';
 import 'rxjs/Rx';
 
 @Component({
@@ -23,104 +24,123 @@ import 'rxjs/Rx';
 })
 export class RoutesComponent implements IObservableAlive
 {
-    public isLoading: boolean = true;
-    public refreshSubscription: any;
-    public errorMessage: string;
     public routes: Route[];
-    public lastRefresh = Date.now();
-    public isReadOnlyUser: boolean = false;
+    public gridSource: Route[] = [];
     public branches: Array<[string, string]>;
     public routeStatus: Array<ILookupValue>;
+    public jobIssueType: Array<ILookupValue>;
     public isAlive: boolean = true;
-    
     public rowCount = 10;
-    public pageLinks =  3;
-    public rowsPerPageOptions = [10, 20, 30, 40, 50];
 
+    private routeNumbers: Array<string> = [];
+    private drivers: Array<string> = [];
     private routeFilter: RouteFilter;
-    private yesNoFilterItems: Array<[string, string]> = [['', 'All'], ['true', 'Yes'], ['false', 'No']];
-    
-    @ViewChild('dt') public dataTable: DataTable;
+    private assignees: Array<string> = [];
 
     constructor(
+        private securityService: SecurityService,
         private lookupService: LookupService,
         protected globalSettingsService: GlobalSettingsService,
         private routeService: RoutesService,
-        private refreshService: RefreshService,
         private activatedRoute: ActivatedRoute,
-        protected securityService: SecurityService,
-        private branchService: BranchService) { }
+        private branchService: BranchService,
+        private router: Router) { }
 
     public ngOnInit()
     {
         this.activatedRoute.queryParams
-            .takeWhile(() => this.isAlive)
-            .subscribe(params =>
+            .flatMap(params =>
             {
                 this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
 
-                this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
-                    .takeWhile(() => this.isAlive)
-                    .subscribe(
-                    (branches: Array<[string, string]>) =>
-                    {
-                        this.branches = branches;
-                        if (!this.routeFilter.branchId.value)
-                        {
-                            this.routeFilter.branchId.value = branches[0][0];
-                        }
-                        this.getRoutesByBranch();
-                        this.refreshSubscription = this.refreshService.dataRefreshed$
-                            .subscribe(r => this.getRoutesByBranch());
-                    });
+                return Observable.forkJoin(
+                    this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName),
+                    this.lookupService.get(LookupsEnum.RouteStatus),
+                    this.lookupService.get(LookupsEnum.JobIssueType)
+                );
+            })
+            .takeWhile(() => this.isAlive)
+            .subscribe(res =>
+            {
+                this.branches = res[0];
+                if (this.branches.length === 0)
+                {
+                    // no branches set up
+                    this.router.navigateByUrl('/branch');
+                    return;
+                }
 
-                this.lookupService.get(LookupsEnum.RouteStatus)
-                    .takeWhile(() => this.isAlive)
-                    .subscribe((value: Array<ILookupValue>) => this.routeStatus = value);
+                if (!this.routeFilter.branchId)
+                {
+                    this.routeFilter.branchId = +this.branches[0][0];
+                }
+
+                this.getRoutesByBranch();
+                this.routeStatus = res[1];
+                this.jobIssueType = res[2];
             });
     }
 
     public ngOnDestroy()
     {
         this.isAlive = false;
-        this.refreshSubscription.unsubscribe();
-    }
-
-    private getFilteredBranchId(): number
-    {
-        return this.routeFilter.branchId.value as number;
     }
 
     private getRoutesByBranch(): void
     {
-        const branchId =
-            this.routeService.getRoutesByBranch(this.getFilteredBranchId())
-                .takeWhile(() => this.isAlive)
-                .subscribe((result: Route[]) =>
+        this.routeService.getRoutesByBranch(this.routeFilter.branchId)
+            .takeWhile(() => this.isAlive)
+            .subscribe((result: Route[]) =>
+            {
+                this.routes = _.orderBy(result, [function(route: Route) {
+                    return route.routeDate;
+                }, 'routeNumber'], ['desc', 'asc']);
+
+                this.fillGridSource();
+
+                _.forEach(this.routes, (current: Route) =>
                 {
-                    this.routes = result;
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
-                    this.dataTable.filters = <any>this.routeFilter;
-                },
-                error =>
-                {
-                    this.lastRefresh = Date.now();
-                    this.isLoading = false;
+                    if (!current.assignee) {
+                        current.assignee = 'Unallocated';
+                    }
+
+                    this.routeNumbers.push(current.routeNumber);
+                    this.drivers.push(current.driverName);
+                    this.assignees.push(current.assignee);
                 });
+
+                this.routeNumbers = this.sortAndUniq(this.routeNumbers);
+                this.drivers = this.sortAndUniq(this.drivers);
+                this.assignees = this.sortAndUniq(this.assignees);
+            });
+    }
+
+    private sortAndUniq(values: Array<string>): Array<string>
+    {
+        return _.chain(values)
+            .uniq()
+            .sortBy()
+            .value();
+    }
+
+    private fillGridSource()
+    {
+        this.gridSource = GridHelpersFunctions.applyGridFilter<Route, RouteFilter>(this.routes, this.routeFilter);
     }
 
     public clearFilters(): void
     {
-        this.routeFilter = new RouteFilter(this.getFilteredBranchId());
-        this.dataTable.filters = <any>this.routeFilter;
-        this.dataTable.filter(undefined, undefined, undefined);
+        const branchId = this.routeFilter.branchId;
+
+        this.routeFilter = new RouteFilter();
+        this.routeFilter.branchId = branchId;
+        this.fillGridSource();
     }
 
     public getAssignModel(route: Route): AssignModel
     {
         const branch = { id: route.branchId } as Branch;
-        return new AssignModel(route.assignee, branch, route.jobIds, this.isReadOnlyUser, route);
+        return new AssignModel(route.assignee, branch, route.jobIds, route);
     }
 
     public onAssigned($event): void
@@ -138,7 +158,25 @@ export class RoutesComponent implements IObservableAlive
 
     public refreshData(event): void
     {
-        this.routeFilter.branchId.value = event.target.value;
+        if (event)
+        {
+            this.routeFilter.branchId = +event.target.value;
+        }
+
         this.getRoutesByBranch();
+    }
+
+    public getJobIssueTypeDescription()
+    {
+        const result = _.filter(
+            this.jobIssueType,
+            (current: ILookupValue) => +current.key == this.routeFilter.jobIssueType);
+
+        if (!_.isEmpty(result))
+        {
+            return result[0].value;
+        }
+
+        return '';
     }
 }

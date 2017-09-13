@@ -88,7 +88,7 @@
                                     // create pod event for a bypassed job
                                     if (job.JobStatus == JobStatus.Bypassed)
                                     {
-                                        this.podService.CreatePodEvent(job, job.JobRoute.BranchId);
+                                        this.podService.CreatePodEvent(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
                                     }
                                 }
                                 //lets close the job

@@ -26,5 +26,23 @@
 
             return branchModels;
         }
+
+        public BranchDateThresholdModel MapDateThreshold(DateThreshold dateThreshold)
+        {
+            return new BranchDateThresholdModel
+            {
+                BranchId = dateThreshold.BranchId,
+                NumberOfDays = dateThreshold.NumberOfDays
+            };
+        }
+
+        public DateThreshold MapDateThreshold(BranchDateThresholdModel branchDateThresholdModel)
+        {
+            return new DateThreshold
+            {
+                BranchId = branchDateThresholdModel.BranchId,
+                NumberOfDays = branchDateThresholdModel.NumberOfDays
+            };
+        }
     }
 }

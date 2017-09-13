@@ -1,13 +1,13 @@
-﻿import { Component, EventEmitter, Output, Input }   from '@angular/core';
+import { Component, EventEmitter, Output, Input }   from '@angular/core';
 import { Response }                                 from '@angular/http';
 import { IUser, HttpResponse, UserService }         from '../shared';
-import { UserJobs }                                 from '../userJobs';
+import { UserJobs }                                 from '../models/userJobs';
 import * as _                                       from 'lodash';
 import { IObservableAlive }                         from '../IObservableAlive';
 import { AssignModalResult }                        from './assignModel';
-import { Router }                                   from '@angular/router';
 import { ToasterService }                           from 'angular2-toaster';
 import { AssignModel }                              from './assignModel';
+import { SecurityService }                          from '../services/securityService';
 
 @Component({
     selector: 'assign-modal',
@@ -26,10 +26,11 @@ export class AssignModal implements IObservableAlive
     @Output() public onAssigned = new EventEmitter();
 
     private allUsers: IUser[];
+    private isReadOnlyUser: boolean;
 
     constructor(
+        private securityService: SecurityService,
         private userService: UserService,
-        private router: Router,
         private toasterService: ToasterService)
     {
         this.userJobs = new UserJobs();
@@ -44,7 +45,9 @@ export class AssignModal implements IObservableAlive
             });
     }
 
-    public ngOnInit() {
+    public ngOnInit()
+    {
+        this.isReadOnlyUser = !this.securityService.userHasPermission(SecurityService.allocateUsers);
         this.isAlive = true;
     }
 
@@ -59,7 +62,7 @@ export class AssignModal implements IObservableAlive
     }
 
     public show() {
-        this.userService.getUsersForBranch(this.model.branch.id)
+        this.userService.getUsers()
             .takeWhile(() => this.isAlive)
             .subscribe(users => {
                 this.allUsers = users;

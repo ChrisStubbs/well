@@ -5,6 +5,7 @@
     using Models;
     using Repositories.Contracts;
     using System.Web.Http;
+    using Services.Contracts;
 
     public class StopsController : ApiController
     {
@@ -14,6 +15,8 @@
         private readonly IJobRepository jobRepository;
         private readonly IAssigneeReadRepository assigneeRepository;
         private readonly IStopMapper stopMapper;
+        private readonly IJobService jobService;
+
 
         public StopsController(
             IBranchRepository branchRepository,
@@ -21,7 +24,8 @@
             IStopRepository stopRepository,
             IJobRepository jobRepository,
             IAssigneeReadRepository assigneeRepository,
-            IStopMapper stopMapper)
+            IStopMapper stopMapper,
+            IJobService jobService)
         {
             this.branchRepository = branchRepository;
             this.routeHeaderRepository = routeHeaderRepository;
@@ -29,18 +33,20 @@
             this.jobRepository = jobRepository;
             this.assigneeRepository = assigneeRepository;
             this.stopMapper = stopMapper;
+            this.jobService = jobService;
         }
 
         public StopModel Get(int id)
         {
             var stop = stopRepository.GetById(id);
+            
             if (stop != null)
             {
                 return stopMapper.Map(
                     branchRepository.GetAll().ToList(),
                     routeHeaderRepository.GetRouteHeaderById(stop.RouteHeaderId), 
                     stop,
-                    jobRepository.GetByStopId(stop.Id).ToList(),
+                    jobService.PopulateLineItemsAndRoute(jobRepository.GetByStopId(stop.Id)).ToList(),
                     assigneeRepository.GetByStopId(stop.Id).ToList(),
                     jobRepository.JobDetailTotalsPerStop(stop.Id));
             }

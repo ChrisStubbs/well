@@ -31,15 +31,11 @@ namespace PH.Well.Services
         #endregion Constructors
 
         #region Public methods
-
+        
         public bool ComputeWellStatus(int stopId)
         {
-            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
-            if (stop != null)
-            {
-                return ComputeWellStatus(stop);
-            }
-            return false;
+            var stop = GetStopForWellStatusCalculation(stopId);
+            return ComputeWellStatus(stop);
         }
 
         public bool ComputeWellStatus(Stop stop)
@@ -59,12 +55,8 @@ namespace PH.Well.Services
 
         public bool ComputeAndPropagateWellStatus(int stopId)
         {
-            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
-            if (stop != null)
-            {
-                return ComputeAndPropagateWellStatus(stop);
-            }
-            return false;
+            var stop = GetStopForWellStatusCalculation(stopId);
+            return ComputeAndPropagateWellStatus(stop);
         }
 
         public bool ComputeAndPropagateWellStatus(Stop stop)
@@ -80,5 +72,25 @@ namespace PH.Well.Services
         }
 
         #endregion Public methods
+
+        #region Private methods
+
+        /// <summary>
+        /// Helper method to get stop with minimum information required for computing WellStatus
+        /// </summary>
+        /// <param name="stopId"></param>
+        /// <exception cref="ArgumentException">When stop not found</exception>
+        /// <returns></returns>
+        private Stop GetStopForWellStatusCalculation(int stopId)
+        {
+            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
+            if (stop != null)
+            {
+                return stop;
+            }
+            throw new ArgumentException($"Stop not found id : {stopId}", nameof(stopId));
+        }
+
+        #endregion  Private methods
     }
 }

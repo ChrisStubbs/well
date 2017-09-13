@@ -14,7 +14,6 @@
             </a>
             <div id="headerHolder">
                 <a id="branch-selection" routerLink="/branch" routerLinkActive="active">{{branches}}</a>
-                @*<span style="color: white; font-weight: bold">{{branches}}</span>*@
             </div>
             <div id="user-details" class="pull-right">
                 <div>Logged in as <span id="current-user-name">@Html.EmployeeDisplayName()</span></div>
@@ -26,11 +25,9 @@
         <div id="nav">
             <ul class="nav nav-pills" style="min-height: 39px;">
                 <li><a routerLink="/widgets" routerLinkActive="active" title="Home">Home</a></li>
-                @*<li><a routerLink="/locations" routerLinkActive="disabled">Routes</a></li>*@
-                <li><div style="height:37px;padding-top: 10px;" title="Functionality not yet available">Locations</div></li>
+                <li><a routerLink="/locations" routerLinkActive="active">Locations</a></li>
                 <li><a routerLink="/routes" routerLinkActive="active" title="View jobs by route">Routes</a></li>
-                @*<li><a routerLink="/approvals" routerLinkActive="active">Approvals</a></li>*@
-                <li><div style="height:37px;padding-top: 10px;" title="Functionality not yet available">Approvals</div></li>
+                <li><a routerLink="/approvals" routerLinkActive="active">Approvals</a></li>
                 <li><a routerLink="/notifications" routerLinkActive="active" title="View notifications">Notifications</a></li>
                 <li class="dropdown pull-right">
                     <a href="#" class="glyphicon glyphicon-search" data-toggle="modal" data-target="#appSearchModal">
@@ -46,7 +43,6 @@
                         <li><a id="user-preference-selection" routerLink="/preferences" routerLinkActive="active">User Branch Preferences</a></li>
                         <li><a id="user-threshold" routerLink="/user-threshold" routerLinkActive="active">User Threshold Level</a></li>
                         <li><a id="branch-preference" routerLink="/branch-role" routerLinkActive="active">Branch Parameters</a></li>
-                        <li><a routerLink="/audits" routerLinkActive="active">Audits</a></li>
                     </ul>
                 </li>
             </ul>
@@ -54,7 +50,7 @@
     </div>
 </div>
 
-<div class="container padding-top-15">
+<div class="container padding-top-15" style="padding-bottom:50px">
     <toaster-container></toaster-container>
     <router-outlet></router-outlet>
 </div>

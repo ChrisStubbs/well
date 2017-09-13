@@ -29,29 +29,30 @@ export class GridHelpersFunctions
     public static startsWithFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {
         const filterValues = new StringFilterValuePair(value, value2);
-        return _.startsWith(filterValues.value2(), filterValues.value1());
-    };
+        return _.startsWith(filterValues.value1(), filterValues.value2());
+    }
 
     public static containsFilter: (value: string, value2: string) => boolean = (value: string, value2: string) =>
     {       
         const filterValues = new StringFilterValuePair(value, value2);
         return filterValues.value1().indexOf(filterValues.value2()) != -1;
-    };
+    }
 
     public static isEqualFilter: (value: any, value2: any) => boolean = (value: any, value2: any) =>
     {
         return _.isEqual(value, value2);
-    };
+    }
+
+    public static enumBitwiseAndCompare: (value: number, value2: number) => boolean = (value: any, value2: any) =>
+    {
+        return (value & value2) == value;
+    }
 
     public static boolFilter: (value: boolean, value2: any) => boolean = (value: boolean, value2: any) =>
     {
         return _.isEqual(value, value2.toString() == 'true');
-    };
-
-    public static resolutionFilter(value: number, value2: number): boolean {
-        return (value & value2) == value;
     }
-
+    
     public static filterFreeText(inputFilterTimer: any): Promise<any>
     {
         return new Promise((resolve, reject) =>
@@ -71,6 +72,16 @@ export class GridHelpersFunctions
                 }, 300);
             }
         });
+    }
+
+    public static lowerThanFilter: (value: number, value2: number) => boolean = (value: number, value2: number) =>
+    {
+        return value < value2;
+    }
+
+    public static lowerOrEqualThanFilter: (value: number, value2: number) => boolean = (v: number, v2: number) =>
+    {
+        return v <= v2;
     }
 
     public static applyGridFilter<list, filter extends IFilter>(values: Array<list>, filterObject: filter): Array<list>
@@ -104,7 +115,7 @@ export class GridHelpersFunctions
                     const value2 = filterObject[c];
                     const func = filterObject.getFilterType(c);
 
-                    result = func(value, value2);
+                    result = func(value, value2, current);
                 }
             });
 

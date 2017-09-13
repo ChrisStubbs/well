@@ -1,8 +1,8 @@
 import { Injectable }                          from '@angular/core';
 import { Response, Headers, RequestOptions }   from '@angular/http';
 import { GlobalSettingsService }               from '../shared/globalSettings';
-import { HttpErrorService }                    from '../shared/httpErrorService';
-import { HttpService }                         from '../shared/httpService';
+import { HttpErrorService }                    from '../shared/services/httpErrorService';
+import { HttpService }                         from '../shared/services/httpService';
 import { Observable }                          from 'rxjs';
 import { EditLineItemException }               from './editLineItemException';
 import { LineItemAction }                      from './lineItemAction';

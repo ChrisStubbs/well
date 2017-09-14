@@ -57,10 +57,10 @@
         {
             this.RootFolder = rootFolder;
             var directoryInfo = new DirectoryInfo(rootFolder);
-            
+
             var files =
                 directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
-                        .OrderBy(f => GetDateTimeStampFromFileName(f.Name));
+                    .OrderBy(f => GetDateStampFromFile(new ImportFileInfo(f)));
 
             foreach (var file in files)
             {
@@ -74,12 +74,25 @@
             return routeOrOrderRegEx.IsMatch(fileName);
         }
 
-        public string GetDateTimeStampFromFileName(string fileName)
+        public DateTime GetDateStampFromFile(ImportFileInfo fileInfo)
         {
-            var fileType = this.fileTypeService.DetermineFileType(fileName);
-            var dateTimeStamp = fileType == EpodFileType.EpodUpdate ? fileName.Substring(8, 13) : fileName.Substring(10, 11) + "00";
-
-            return dateTimeStamp;
+            var fileType = this.fileTypeService.DetermineFileType(fileInfo.Name);
+            switch (fileType)
+            {
+                case EpodFileType.AdamInsert:
+                case EpodFileType.AdamUpdate:
+                    return new[]
+                    {
+                        fileInfo.ModificationTime,
+                        fileInfo.CreationTime
+                    }.Min();
+                case EpodFileType.EpodUpdate:
+                    var nameParts = fileInfo.Name.Split('_');
+                    var timeString = nameParts[2] + nameParts[3].Substring(0, 6);
+                    return DateTime.ParseExact(timeString, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void Process(string filePath)
@@ -166,7 +179,6 @@
             }
         }
 
-
         private void LogError(Exception exception, string filePath)
         {
             this.logger.LogError($"Something went wrong with file {filePath}", exception);
@@ -174,6 +186,28 @@
                 EventSource.WellAdamXmlImport,
                 $"Something went wrong with file {filePath}",
                 3332);
+        }
+
+
+        public class ImportFileInfo
+        {
+            public string Name { get; }
+
+            public DateTime ModificationTime { get; }
+
+            public DateTime CreationTime { get; }
+
+            public ImportFileInfo(string fileName, DateTime modificationTime, DateTime creationTime)
+            {
+                Name = fileName;
+                ModificationTime = modificationTime;
+                CreationTime = creationTime;
+            }
+
+            public ImportFileInfo(FileInfo fileInfo):this(fileInfo.Name,fileInfo.LastWriteTime,fileInfo.CreationTime)
+            {
+                
+            }
         }
     }
 }

@@ -5,8 +5,8 @@ AS
         CONVERT(Bit, MAX(CASE 
                 WHEN r.Description IN ('Pending Submission', 'Pending Approval') THEN 1
                 ELSE 0
-            END)) PendingSubmission
- 
+            END)) PendingSubmission,
+		MAX(rh.RouteOwnerId) AS BranchId
    FROM    
         Job j
         INNER JOIN [Stop] s 
@@ -16,8 +16,7 @@ AS
         INNER JOIN ResolutionStatus r 
             ON j.ResolutionStatusId = r.Id 
     WHERE
-  
-      j.DateDeleted IS NULL
+		j.DateDeleted IS NULL
         AND s.DateDeleted IS NULL
         AND rh.DateDeleted IS NULL
     GROUP BY 

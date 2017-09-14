@@ -9,8 +9,8 @@ AS
 					ELSE 1
             END) AS HasNull,
             MAX(r.routenumber) Routenumber,
-            s.Id stopid,
-            r.id routeid
+            r.id routeid, 
+			MAX(RouteOwnerId) AS BranchId
         FROM 
             Job j
             INNER JOIN [Stop] s
@@ -37,6 +37,7 @@ AS
     )
     SELECT 
         x.Routeid,
+		MAX(BranchId) AS BranchId,
         SUM(CASE WHEN x.HasNull = 1 THEN 1 ELSE 0 END) WithExceptions,
         SUM(CASE WHEN x.HasNull = 0 THEN 1 ELSE 0 END) WithOutExceptions
     FROM 

@@ -46,13 +46,13 @@ namespace PH.Well.Api.Mapper
                 Tba = jobGroupToBeAdvised.Sum(j => j.ToBeAdvisedCount),
                 StopNo = stop.PlannedStopNumber,
                 TotalNoOfStopsOnRoute = route.PlannedStops,
-                Items = MapItems(jobs, jobDetailTotalsPerStop)
+                Items = MapItems(jobs, jobDetailTotalsPerStop.ToList())
             };
             
             return stopModel;
         }
 
-        private IList<StopModelItem> MapItems(List<Job> jobs, IEnumerable<JobDetailLineItemTotals> jobDetailTotalsPerStop)
+        private IList<StopModelItem> MapItems(List<Job> jobs, IList<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
             return jobs
                 .Where(p => p.JobTypeEnumValue != JobType.Documents)

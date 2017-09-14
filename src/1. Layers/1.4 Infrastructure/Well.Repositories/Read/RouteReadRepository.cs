@@ -40,26 +40,16 @@ namespace PH.Well.Repositories.Read
             if (branch != null)
             {
                 var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
-                    .Select(p => new {p.Id, Value = p.NoGRNButNeeds, Type = "a"});
+                    .Where(p => p.BranchId == branchId)
+                    .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
 
                 var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
-                    .Select(p => new {p.Id, Value = p.HasNotDefinedDeliveryAction, Type = "b"});
+                    .Where(p => p.BranchId == branchId)
+                    .ToDictionary(k => k.Id, v => v.HasNotDefinedDeliveryAction.Value);
 
                 var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
-                    .Select(p => new {p.Id, Value = p.PendingSubmission, Type = "c"});
-
-                var viewsValues = routesWithUnresolvedActionView
-                    .Union(routesWithNoGRNView)
-                    .Union(routesWithPendingSubmitionsView)
-                    .GroupBy(p => p.Id)
-                    .Select(p => new
-                    {
-                        Id = p.Key,
-                        NoGRNButNeeds = p.Where(v => v.Type == "a").Select(v => v.Value).FirstOrDefault() ?? false,
-                        HasNotDefinedDeliveryAction =
-                        p.Where(v => v.Type == "b").Select(v => v.Value).FirstOrDefault() ?? false,
-                        PendingSubmission = p.Where(v => v.Type == "c").Select(v => v.Value).FirstOrDefault() ?? false,
-                    });
+                    .Where(p => p.BranchId == branchId)
+                    .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
 
                 var jobs = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
@@ -101,51 +91,23 @@ namespace PH.Well.Repositories.Read
                     .GroupBy(p => p.Route)
                     .ToDictionary(k => k.Key, v => v.ToList());
 
-
                 var exceptionTotals = wellEntities.ExceptionTotalsPerRoute
+                    .Where(p => p.BranchId == branchId)
                     .ToDictionary(k => k.Routeid, v => new {v.WithExceptions, v.WithOutExceptions});
 
                 var routeHeaders = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
-                    .GroupJoin(viewsValues,
-                        p => p.Id,
-                        v => v.Id,
-                        (p, v) => v
-                            .Select(r => new
-                            {
-                                Route = p,
-                                NoGRNButNeeds = r.NoGRNButNeeds,
-                                HasNotDefinedDeliveryAction = r.HasNotDefinedDeliveryAction,
-                                PendingSubmission = r.PendingSubmission
-                            })
-                            .DefaultIfEmpty(new
-                            {
-                                Route = p,
-                                NoGRNButNeeds = false,
-                                HasNotDefinedDeliveryAction = false,
-                                PendingSubmission = false
-                            })
-                    )
-                    .SelectMany(p => p)
                     .Select(x => new
                     {
-                        x.NoGRNButNeeds,
-                        x.HasNotDefinedDeliveryAction,
-                        x.PendingSubmission,
-                        RouteId = x.Route.Id,
-                        BranchId = x.Route.RouteOwnerId,
+                        RouteId = x.Id,
+                        BranchId = x.RouteOwnerId,
                         BranchName = branch.Name,
-                        RouteNumber = x.Route.RouteNumber,
-                        RouteDate = x.Route.RouteDate,
-                        StopCount = x.Route.Stop.Count,
-                        StopsId = x.Route.Stop.Select(p => p.Id),
-                        x.Route.WellStatus,
-                        DriverName = x.Route.DriverName,
-                        JobIds = x.Route.Stop.SelectMany(y => y.Job.Where(z => z.JobTypeCode != "UPL-SAN"
-                                                                               && z.JobTypeCode != "DEL-DOC"
-                                                                               && z.JobTypeCode != "NOTDEF"
-                                                                               && z.DateDeleted == null)
-                            .Select(a => a.Id))
+                        RouteNumber = x.RouteNumber,
+                        RouteDate = x.RouteDate,
+                        StopCount = x.Stop.Where(p => p.DateDeleted == null).Count(),
+                        x.WellStatus,
+                        DriverName = x.DriverName,
+                        JobIds = x.Stop.SelectMany(y => y.Job.Where(z => z.DateDeleted == null).Select(a => a.Id))
                     })
                     .ToList();
 
@@ -165,11 +127,16 @@ namespace PH.Well.Repositories.Read
                     return null;
                 };
 
-                return routeHeaders.Select(item =>
+                return routeHeaders
+                    .Select(item =>
                     {
                         var routeWellStatus = (item.WellStatus.HasValue)
                             ? (WellStatus) item.WellStatus
                             : WellStatus.Unknown;
+
+                        var hasNotDefinedDeliveryAction = routesWithUnresolvedActionView.ContainsKey(item.RouteId) ? routesWithUnresolvedActionView[item.RouteId] : false;
+                        var noGRNButNeeds = routesWithNoGRNView.ContainsKey(item.RouteId) ? routesWithNoGRNView[item.RouteId] : false;
+                        var pendingSubmission = routesWithPendingSubmitionsView.ContainsKey(item.RouteId) ? routesWithPendingSubmitionsView[item.RouteId] : false;
 
                         var route = new Route()
                         {
@@ -190,9 +157,9 @@ namespace PH.Well.Repositories.Read
 
                             Assignees = getAssignees(item.RouteId),
                             JobIssueType =
-                                (item.HasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
-                                (item.NoGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
-                                (item.PendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
+                                (hasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+                                (noGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+                                (pendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
                             JobIds = item.JobIds.ToList(),
                             DriverName = item.DriverName
                         };

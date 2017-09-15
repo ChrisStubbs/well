@@ -56,7 +56,7 @@
             foreach (var stop in stops)
             {
                 var stopJobs = jobs
-                    .Where(j => j.JobTypeEnumValue != JobType.Documents && j.StopId == stop.Id)
+                    .Where(j => j.JobType != JobType.Documents && j.StopId == stop.Id)
                     .ToList();
                 
                 // var tba = stopJobs.Sum(j => j.ToBeAdvisedCount);  //todo don't think this is right
@@ -82,7 +82,7 @@
 
                 foreach (var job in stopJobs)
                 {
-                    JobType jobType = EnumExtensions.GetValueFromDescription<JobType>(job.JobTypeCode);
+                    JobType jobType = job.JobType;
                     var totalException = jobExceptions[job.Id].Count(p => p.TotalExceptions > 0);
                     var clean = jobExceptions[job.Id].Count(p => p.TotalExceptions == 0);
 

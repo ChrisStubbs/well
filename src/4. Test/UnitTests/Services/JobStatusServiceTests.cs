@@ -370,7 +370,7 @@ namespace PH.Well.UnitTests.Services
                 {
                     JobStatus = JobStatus.AwaitingInvoice,
                     InvoiceNumber = String.Empty,
-                    JobTypeCode = "UPL-GLO"
+                    JobType = JobType.GlobalUplift
                 };
 
                 service.SetIncompleteJobStatus(job);
@@ -433,16 +433,16 @@ namespace PH.Well.UnitTests.Services
             }
 
             [Test]
-            [TestCase("UPL-GLO", ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
-            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [TestCase(JobType.GlobalUplift, ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
+            [TestCase(JobType.Alcohol, ExpectedResult = true)]
             [Category("JobService")]
-            public bool CanEditActions_Should_Check_JobType(string jobType)
+            public bool CanEditActions_Should_Check_JobType(JobType jobType)
             {
                 var job = new Job
                 {
                     JobStatus = JobStatus.InComplete,
                     InvoiceNumber = "123",
-                    JobTypeCode = jobType,
+                    JobType = jobType,
                     ResolutionStatus = ResolutionStatus.ActionRequired
                 };
 
@@ -520,16 +520,16 @@ namespace PH.Well.UnitTests.Services
             }
 
             [Test]
-            [TestCase("UPL-GLO", ExpectedResult = false, Description = "Global uplift jobs should not be editable")]
-            [TestCase("DEL-ALC", ExpectedResult = true)]
+            [TestCase(JobType.GlobalUplift, ExpectedResult = false, Description = "Global uplift jobs should not be editable")]
+            [TestCase(JobType.Alcohol, ExpectedResult = true)]
             [Category("JobService")]
-            public bool CanEditActions_Should_Check_JobType(string jobType)
+            public bool CanEditActions_Should_Check_JobType(JobType jobType)
             {
                 var job = new Job
                 {
                     JobStatus = JobStatus.InComplete,
                     InvoiceNumber = "123",
-                    JobTypeCode = jobType,
+                    JobType = jobType,
                     ResolutionStatus = ResolutionStatus.ActionRequired
                 };
 

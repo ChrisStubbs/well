@@ -5,7 +5,7 @@ AS
 		j.Id
 		,j.Sequence
 		,j.JobTypeCode
-		,jb.Description AS JobType
+		,j.JobTypeId AS JobType
 		,j.PHAccount
 		,j.PickListRef
 		,j.InvoiceNumber
@@ -57,7 +57,7 @@ AS
 		INNER JOIN Account a 
 			ON s.Id = a.StopId
 		LEFT JOIN JobType jb
-			ON j.JobTypeCode = jb.Code
+			ON j.JobTypeId = jb.Id
 		LEFT JOIN
 		(
 			SELECT 

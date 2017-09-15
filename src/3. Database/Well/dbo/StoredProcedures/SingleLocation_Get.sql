@@ -59,7 +59,7 @@ AS
 			ON s.RouteHeaderId = rh.Id
 			AND rh.DateDeleted IS NULL
 		INNER JOIN JobType jt
-			ON j.JobTypeCode = jt.Code
+			ON j.JobTypeId = jt.Id
 		LEFT JOIN
 		(
 			SELECT 

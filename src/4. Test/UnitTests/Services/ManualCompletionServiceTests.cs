@@ -119,7 +119,7 @@ namespace PH.Well.UnitTests.Services
                 standardUpliftJob = JobFactory.New.With(x => x.Id = 2)
                     .WithJobRoute(22, DateTime.Today.AddDays(-1))
                     .With(x => x.WellStatus = WellStatus.Invoiced)
-                    .With(x => x.JobTypeCode = "UPL-STD").Build();
+                    .With(x => x.JobType = JobType.StandardUplift).Build();
 
                 job3 = JobFactory.New.With(x => x.Id = 3)
                     .WithJobRoute(33, DateTime.Today.AddDays(-2))

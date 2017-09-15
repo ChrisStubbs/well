@@ -134,10 +134,7 @@
 
         public void SetInitialJobStatus(Job job)
         {
-            job.JobStatus = string.Equals(job.JobTypeCode.Trim().ToLower(), "del-doc", StringComparison.OrdinalIgnoreCase)
-                ? JobStatus.DocumentDelivery
-                : JobStatus.AwaitingInvoice;
-
+            job.JobStatus = (job.JobType == JobType.Documents) ? JobStatus.DocumentDelivery : JobStatus.AwaitingInvoice;
             SetIncompleteJobStatus(job);
         }
 
@@ -145,8 +142,7 @@
         public void SetIncompleteJobStatus(Job job)
         {
             if (!string.IsNullOrWhiteSpace(job.InvoiceNumber) ||
-                (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-glo", StringComparison.OrdinalIgnoreCase)) ||
-                (string.Equals(job.JobTypeCode.Trim().ToLower(), "upl-std", StringComparison.OrdinalIgnoreCase)))
+                (job.JobType == JobType.GlobalUplift || job.JobType == JobType.StandardUplift))
             {
                 job.JobStatus = JobStatus.InComplete;
             }
@@ -156,7 +152,7 @@
         {
             return job.ResolutionStatus.IsEditable()
                     && IsJobAssignedToUser(job, userName)
-                   && job.JobTypeEnumValue != JobType.GlobalUplift;
+                   && job.JobType != JobType.GlobalUplift;
         }
         public bool CanManuallyComplete(Job job, string userName)
         {
@@ -166,7 +162,7 @@
                 //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
                 //|| job.JobStatus == JobStatus.Bypassed) 
                 && IsJobAssignedToUser(job, userName)
-                && job.JobTypeEnumValue != JobType.GlobalUplift;
+                && job.JobType != JobType.GlobalUplift;
         }
 
         private bool IsJobAssignedToUser(Job job, string userName)

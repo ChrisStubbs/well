@@ -1,6 +1,7 @@
 ﻿using Moq;
 using PH.Well.Common;
 using PH.Well.Common.Contracts;
+using PH.Well.Domain.Enums;
 using PH.Well.Services.Contracts;
 
 namespace PH.Well.UnitTests.Api.Mapper
@@ -215,7 +216,7 @@ namespace PH.Well.UnitTests.Api.Mapper
                         .With(x => x.Id = 2545)
                         .With(x => x.InvoiceNumber = "INVNO1")
                         .With(x => x.JobTypeCode = "DEL-TOB")
-                        .With(x => x.JobType = "Tobacco")
+                        .With(x => x.JobType = JobType.Tobacco)
                         .With(x => x.JobTypeAbbreviation = "test")
                         .With(x => x.PhAccount = "PHAcccountNo")
                         .With(x => x.JobDetails = jobDetails1)
@@ -243,7 +244,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             Assert.That(item.JobId, Is.EqualTo(2545));
             Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
             Assert.That(item.InvoiceId, Is.EqualTo(job.ActivityId));
-            Assert.That(item.Type, Is.EqualTo("Tobacco"));
+            Assert.That(item.Type, Is.EqualTo("DEL-TOB"));
             Assert.That(item.JobTypeAbbreviation, Is.EqualTo("test"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
             Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));

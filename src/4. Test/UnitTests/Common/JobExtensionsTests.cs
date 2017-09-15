@@ -187,7 +187,7 @@ namespace PH.Well.UnitTests.Common
                 foreach (var jobType in Enum.GetValues(typeof(JobType)).Cast<JobType>())
                 {
                     var job = JobFactory.New.With(p => p.JobTypeCode = EnumExtensions.GetDescription(jobType)).Build();
-                    switch (job.JobTypeEnumValue)
+                    switch (job.JobType)
                     {
                         case JobType.Unknown:
                             Assert.IsFalse(job.IncludeJobTypeInImport());

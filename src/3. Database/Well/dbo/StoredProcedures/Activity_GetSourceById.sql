@@ -59,7 +59,7 @@ BEGIN
 		s.DropId as Stop,
 		s.DeliveryDate AS StopDate,
 		j.Id as JobId,
-		j.JobTypeCode AS JobType,
+		jt.Code AS JobType,
 		jt.Abbreviation AS JobTypeAbbreviation,
 		li.Id AS LineItemId,
 		j.ResolutionStatusId ResolutionStatus,
@@ -70,7 +70,7 @@ BEGIN
 		INNER JOIN LineItem li on li.Id = jd.LineItemId
 		INNER JOIN [Stop] s ON s.Id = j.StopId
 		INNER JOIN RouteHeader rh ON rh.Id = s.RouteHeaderId	
-		INNER JOIN JobType jt on jt.Code = j.JobTypeCode
+		INNER JOIN JobType jt on jt.Id = j.JobTypeId
 		LEFT JOIN LineItemExceptionsView lie on li.Id = lie.Id
 		LEFT JOIN LineItemWithActionRequired ar ON li.Id = ar.LineItemId
 

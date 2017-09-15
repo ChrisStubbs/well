@@ -415,6 +415,16 @@
             return ResolutionStatus.Invalid;
         }
 
+        public ResolutionStatus TryCloseJob(Job job)
+        {
+            if (job.ResolutionStatus == ResolutionStatus.Resolved
+                || job.ResolutionStatus == ResolutionStatus.Credited)
+            {
+                return job.ResolutionStatus | ResolutionStatus.Closed;
+            }
+
+            return job.ResolutionStatus;
+        }
         #endregion
 
         public IEnumerable<Job> PopulateLineItemsAndRoute(IEnumerable<Job> jobs)

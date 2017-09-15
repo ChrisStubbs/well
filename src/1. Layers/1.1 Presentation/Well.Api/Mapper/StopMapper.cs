@@ -55,7 +55,7 @@ namespace PH.Well.Api.Mapper
         private IList<StopModelItem> MapItems(List<Job> jobs, IList<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
             return jobs
-                .Where(p => p.JobTypeEnumValue != JobType.Documents)
+                .Where(p => p.JobType != JobType.Documents)
                 .SelectMany(p =>
                 {
                     var jobDetails = p.JobDetails
@@ -78,7 +78,7 @@ namespace PH.Well.Api.Mapper
                                 HasLineItemActions = line.LineItemActions.Where(lia => lia.DateDeleted == null).Count() > 0
                             });
 
-                    if (p.JobTypeEnumValue == JobType.Tobacco)
+                    if (p.JobType == JobType.Tobacco)
                     {
                         jobDetails = jobDetails
                         .Where(x => !x.IsTobaccoBag);
@@ -93,7 +93,7 @@ namespace PH.Well.Api.Mapper
                                 JobId = p.Id,
                                 Invoice = p.InvoiceNumber,
                                 InvoiceId = p.ActivityId,
-                                Type = p.JobType,
+                                Type = EnumExtensions.GetDescription(p.JobType),
                                 JobTypeAbbreviation = p.JobTypeAbbreviation,
                                 Account = p.PhAccount,
                                 AccountID = p.PhAccountId,

@@ -59,7 +59,7 @@ BEGIN
 			LEFT JOIN UserJob uj on uj.JobId = j.Id 
 			LEFT JOIN [User] u2 on u2.Id = uj.UserId
 			LEFT JOIN PendingCredit pc on pc.JobId = j.Id And pc.DateDeleted IS NULL
-			LEFT JOIN JobType jbt on jbt.Code = j.JobTypeCode
+			LEFT JOIN JobType jbt on jbt.Id = j.JobTypeId
 			INNER JOIN #JobIdsTable jt on jt.Id = j.Id		
 	WHERE	u.IdentityName = @UserName
 	Order By s.DeliveryDate DESC

@@ -87,8 +87,9 @@ namespace PH.Well.Services
                     epodFileImportCommands.UpdateWithEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
 
                     // Create LineItemActions if manually complete standard uplift job or manually bypass non standard uplift job
-                    if ((job.JobTypeCode == "UPL-STD" && completionType == ManualCompletionType.CompleteAsClean) ||
-                        (job.JobTypeCode != "UPL-STD" && completionType == ManualCompletionType.CompleteAsBypassed))
+                    if ((job.JobType == JobType.StandardUplift && completionType == ManualCompletionType.CompleteAsClean) 
+                        ||
+                        (job.JobType != JobType.StandardUplift && completionType == ManualCompletionType.CompleteAsBypassed))
                     {
                         this.postImportRepository.PostTranSendImport(new[] {job.Id});
                     }

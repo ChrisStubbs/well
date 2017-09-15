@@ -50,6 +50,7 @@ AS
 		INNER JOIN Activity a
 			ON j.ActivityId = a.Id
 			AND j.DateDeleted IS NULL
+            AND j.JobTypeId != 6 --documents
 		INNER JOIN Location l
 			ON a.LocationId = l.Id
 		INNER JOIN [Stop] s
@@ -84,24 +85,26 @@ AS
 			ON j.Id = credit.JobId
 		LEFT JOIN 
 		(
-			SELECT SUM(v.ShortTotal + v.DamageTotal + v.BypassTotal) AS Exceptions, jd.JobId
+			SELECT COUNT(DISTINCT jd.Id) AS Exceptions, jd.JobId
 			FROM 
-				LineItemExceptionsView v
+                LineItemAction lia
 				INNER JOIN JobDetail jd 
-					ON v.Id = jd.LineItemId 
+					ON lia.LineItemId = jd.LineItemId 
 					AND jd.DateDeleted IS NULL
+                    AND lia.DateDeleted IS NULL
+                INNER JOIN Job j
+                    ON jd.JobId = j.id
+                    AND j.DateDeleted IS NULL
+                    AND j.ResolutionStatusId > 1 --imported
 			GROUP BY jd.JobId
 		) AS ex
 			ON ex.JobId = j.Id
 		LEFT JOIN 
 		(
-			SELECT SUM(jd.OriginalDespatchQty) AS Total, jd.JobId
+			SELECT COUNT(DISTINCT jd.id) AS Total, jd.JobId
 			FROM 
 				JobDetail jd
-				INNER JOIN LineItemAction la 
-					on jd.LineItemId = la.LineItemId 
-					AND la.DateDeleted IS NULL 
-					AND jd.DateDeleted IS NULL
+			WHERE jd.DateDeleted IS NULL
 			GROUP BY jd.JobId
 		) cl
 			ON j.Id = cl.JobId

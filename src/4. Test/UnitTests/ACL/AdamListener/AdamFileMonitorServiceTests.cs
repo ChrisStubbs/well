@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.ACL.AdamListener
+﻿using System;
+
+namespace PH.Well.UnitTests.ACL.AdamListener
 {
     using Moq;
     using NUnit.Framework;
@@ -63,18 +65,34 @@
             }
         }
 
-        public class GetDateTimeStampFromFileName : AdamFileMonitorServiceTests
+        [Test]
+        public void GetDateStampFromFileTest()
         {
-            [Test]
-            [TestCase("ORDER_PLY_170823_1008C.xml", ExpectedResult = "170823_100800")]
-            [TestCase("ROUTE_PLY_170823_1008C.xml", ExpectedResult = "170823_100800")]
-            [TestCase("ROUTE_PLY_170823_1008.xml", ExpectedResult = "170823_100800")]
-            [TestCase("ORDER_PLY_170823_1008.xml", ExpectedResult = "170823_100800")]
-            [TestCase("ePOD__20170823_1008123456.xml", ExpectedResult = "170823_100812")]
-            public string ShouldReturnTheDateAndTimeStamp(string fileName)
-            {
-                return fileMonitorService.GetDateTimeStampFromFileName(fileName);
-            }
+            var routeFileModifiedTime = new DateTime(2017, 9, 11, 9, 17, 8);
+            var routeFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
+            var routeFileInfo = new AdamFileMonitorService.ImportFileInfo("ROUTE_PLY_170912_0915.xml",
+                routeFileModifiedTime, routeFileCreateTime);
+
+            var orderFileModifiedTime = new DateTime(2017, 9, 11, 23, 36, 44);
+            var orderFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
+            var orderFileInfo = new AdamFileMonitorService.ImportFileInfo("ORDER_PLY_170912_2335.xml",
+                orderFileModifiedTime, orderFileCreateTime);
+
+            // For epod files date is taken from file name
+            var expectedEpodFileTime = new DateTime(2017, 9, 11, 14, 53, 16);
+            var epodFileInfo = new AdamFileMonitorService.ImportFileInfo("ePOD__20170911_14531601151733.xml",
+                DateTime.Now, DateTime.Now);
+
+            var routeFileStamp = fileMonitorService.GetDateStampFromFile(routeFileInfo);
+            var orderFileStamp = fileMonitorService.GetDateStampFromFile(orderFileInfo);
+            var epodFileStamp = fileMonitorService.GetDateStampFromFile(epodFileInfo);
+
+            // Expect modification time because its less than creation time
+            Assert.AreEqual(routeFileModifiedTime, routeFileStamp);
+            // Expect modification time because its less than creation time
+            Assert.AreEqual(orderFileModifiedTime, orderFileStamp);
+
+            Assert.AreEqual(expectedEpodFileTime, epodFileStamp);
         }
 
 

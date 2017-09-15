@@ -1,6 +1,23 @@
 ﻿CREATE PROCEDURE Locations_GET
 	@BranchId Int
 AS 
+	IF OBJECT_ID('tempdb..#LineDetails') IS NOT NULL DROP TABLE #LineDetails
+
+	SELECT 
+        li.ActivityId, 
+        a.LocationId, 
+        li.Id AS LineItemId,
+        lia.DeliveryActionId
+    INTO #LineDetails
+	FROM
+		LineItem li
+		INNER JOIN LineItemAction lia ON lia.LineItemId = li.Id
+	    INNER JOIN Activity a ON a.id = li.ActivityId
+	WHERE 
+		li.DateDeleted IS NULL
+		AND lia.DateDeleted IS NULL
+        AND a.DateDeleted IS NULL
+
     SELECT 
 	    l.id
 	    ,l.BranchId
@@ -22,21 +39,17 @@ AS
             on a.LocationId = l.Id
 	    LEFT JOIN 
 	    (
-            SELECT DISTINCT li.ActivityId
+            SELECT DISTINCT ld.ActivityId
 	        FROM
-		        LineItem li
-		        INNER JOIN LineItemAction lia on lia.LineItemId = li.Id
-		        INNER JOIN JobDetail jd on li.id = jd.LineItemId
+		        #LineDetails ld
+		        INNER JOIN JobDetail jd on ld.LineItemId = jd.LineItemId
 		        INNER JOIN Job j on j.Id = jd.JobId
 	        WHERE 
-		        (lia.DeliveryActionId = 0 OR lia.DeliveryActionId IS NULL)
+		        (ld.DeliveryActionId = 0 OR ld.DeliveryActionId IS NULL)
 		        AND j.ResolutionStatusId > 1
-		        --AND j.JobTypeCode != 'DEL-DOC'
-				AND li.DateDeleted IS NULL
-				AND lia.DateDeleted IS NULL
 				AND jd.DateDeleted IS NULL
 				AND j.DateDeleted IS NULL
-	        GROUP BY li.ActivityId
+	        GROUP BY ld.ActivityId
         ) liwa 
             on liwa.ActivityId = a.Id
 	    LEFT JOIN 
@@ -44,7 +57,6 @@ AS
             SELECT DISTINCT j.ActivityId
 	        FROM Job j
 	        WHERE j.ResolutionStatusId > 1 
-				--AND j.JobTypeCode != 'DEL-DOC' 
 				AND j.DateDeleted IS NULL
 	        GROUP BY j.ActivityId
         ) invoicedJobs 
@@ -56,16 +68,9 @@ AS
             SELECT LocationId, HasNotDefinedDeliveryAction ^ 1 AS HasNotDefinedDeliveryAction
             FROM 
             (
-                SELECT a.LocationId, CONVERT(Bit, MIN(ISNULL(lia.DeliveryActionId, 0))) AS HasNotDefinedDeliveryAction
-                FROM 
-                    LineItem ln
-                    INNER JOIN LineItemAction lia ON lia.LineItemId = ln.Id
-                    INNER JOIN Activity a ON ln.ActivityId = a.Id
-                WHERE 
-                    ln.DateDeleted IS NULL
-                    AND lia.DateDeleted IS NULL
-                    AND a.DateDeleted IS NULL
-                GROUP BY a.LocationId
+                SELECT ld.LocationId, CONVERT(Bit, MIN(ISNULL(ld.DeliveryActionId, 0))) AS HasNotDefinedDeliveryAction
+                FROM #LineDetails ld
+                GROUP BY ld.LocationId
             ) Data
         ) WithUnresolvedAction  
             ON WithUnresolvedAction.LocationId = l.Id
@@ -86,14 +91,13 @@ AS
                 j.DateDeleted IS NULL
                 AND li.DateDeleted IS NULL
                 AND a.DateDeleted IS NULL
-            GROUP BY 
-                a.LocationId
+            GROUP BY a.LocationId
         ) WithNoGRNV
             ON l.id = WithNoGRNV.LocationId
         LEFT JOIN 
         (
             SELECT 
-                a.LocationId, 
+                ld.LocationId, 
                 MAX(CASE 
                         WHEN r.Description IN ('Pending Submission', 'Pending Approval') THEN 1
                         ELSE 0
@@ -101,19 +105,22 @@ AS
             FROM    
                 Job j
                 INNER JOIN JobDetail jd ON j.Id = jd.JobId
-                INNER JOIN LineItem li on li.id = jd.LineItemId
-		        INNER JOIN Activity a on a.id = li.ActivityId
+                INNER JOIN 
+                (
+                    SELECT ld.LineItemId, ld.LocationId
+                    FROM #LineDetails ld
+                    GROUP BY ld.LineItemId, ld.LocationId
+                ) ld
+                    ON jd.LineItemId = ld.LineItemId
                 INNER JOIN ResolutionStatus r ON j.ResolutionStatusId = r.Id 
             WHERE
                 j.DateDeleted IS NULL
-                AND li.DateDeleted IS NULL
-                AND a.DateDeleted IS NULL
             GROUP BY 
-                a.LocationId
+                ld.LocationId
         ) PendingSubmitions
             ON PendingSubmitions.LocationId = l.Id
     WHERE
-	    (a.ActivityTypeId = 1 OR a.ActivityTypeId = 2)
+	    (a.ActivityTypeId < 3)
 		AND a.DateDeleted IS NULL
 		AND l.BranchId = @BranchId
     GROUP BY 
@@ -125,3 +132,5 @@ AS
 	    ,l.Postcode
 	    ,l.Name
 	    ,b.Name
+
+	IF OBJECT_ID('tempdb..#LineDetails') IS NOT NULL DROP TABLE #LineDetails

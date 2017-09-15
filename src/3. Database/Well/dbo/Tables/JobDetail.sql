@@ -46,7 +46,11 @@ CREATE TABLE [dbo].[JobDetail]
 GO
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId] ON [dbo].[JobDetail] ([LineItemId]) INCLUDE ([Id],[JobId])
 GO
-CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] ([JobId]) INCLUDE ([OriginalDespatchQty],[PHProductType],[SSCCBarcode],[NetPrice],[LineDeliveryStatus],[IsHighValue],[LineItemId])
+
+CREATE NONCLUSTERED INDEX [JobDetails_JobId] ON [dbo].[JobDetail] (JobId DESC)
+INCLUDE (OriginalDespatchQty, PHProductType, SSCCBarcode, NetPrice, LineDeliveryStatus, IsHighValue, LineItemId) 
+WHERE DateDeleted IS NULL
+WITH (SORT_IN_TEMPDB = ON)
 GO
 
 CREATE NONCLUSTERED INDEX [Idx_JobDetail_SSCCBarcode] ON [dbo].[JobDetail] ([SSCCBarcode]) INCLUDE ([LineItemId])
@@ -57,5 +61,7 @@ GO
 CREATE NONCLUSTERED INDEX [IDX_JobDetail_LineItemId_ProductDescription] ON [dbo].[JobDetail] ([LineItemId],[ProdDesc])
 GO
 
-CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted ON [dbo].[JobDetail] ([DateDeleted]) INCLUDE ([JobId],[LineNumber],[LineItemId]) WHERE [DateDeleted] IS NOT NULL
+CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted ON JobDetail (DateDeleted ASC) 
+INCLUDE (JobId, LineItemId) WHERE [DateDeleted] IS NULL
+WITH (SORT_IN_TEMPDB = ON)
 GO

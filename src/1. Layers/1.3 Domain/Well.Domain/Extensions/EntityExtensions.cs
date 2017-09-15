@@ -9,7 +9,7 @@
 
         public static string GetPreviously(this Stop currentStop, Stop originalStop)
         {
-            if (originalStop.Identifier().Equals(currentStop.Identifier()))
+            if (!currentStop.HasMoved(originalStop))
             {
                 return null;
             }
@@ -17,6 +17,11 @@
             return !originalStop.DeliveryDate.ToShortDateString().Equals(currentStop.DeliveryDate.ToShortDateString(), StringComparison.InvariantCultureIgnoreCase)
                     ? currentStop.Identifier()
                     : $"{currentStop.RouteHeaderCode} - {currentStop.DropId}";
+        }
+
+        public static bool HasMoved(this Stop currentStop, Stop originalStop)
+        {
+            return !originalStop.Identifier().Equals(currentStop.Identifier());
         }
 
         public static string Identifier(this Stop stop)

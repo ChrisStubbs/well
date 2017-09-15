@@ -267,7 +267,7 @@
                         this.logger.LogError("ADAM error occurred writing pod header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                            $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
+                       $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
                             EventId.AdamPodHeaderException);
                     }
                 }
@@ -306,9 +306,9 @@
                 }
                 catch (AdamProviderException adamException)
                 {
-                    this.logger.LogError("ADAM error occurred writing credit line!", adamException);
+                    this.logger.LogError("ADAM error occurred writing POD line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                        $"Adam exception {adamException} when writing pod credit line for pod transaction {pod.HeaderSql}",
+                        $"Adam exception {adamException} when writing pod line for pod transaction {pod.HeaderSql}",
                         EventId.AdamPodCreditLineException);
                 }
             }
@@ -340,7 +340,7 @@
                         this.logger.LogError("ADAM error occurred writing pod header!", adamException);
 
                         this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                            $"Adam exception {adamException} when writing credit header for pod transaction {pod.HeaderSql}",
+                       $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
                             EventId.AdamPodCreditPodTransactionException);
                     }
                 }

@@ -82,14 +82,19 @@
         public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings)
         {
             var job = jobRepository.GetById(podEvent.Id);
-            job = jobService.PopulateLineItemsAndRoute(job);
-            job.GetAllLineItemActions();
 
-            var adamResponse = this.adamRepository.Pod(podEvent, adamSettings, job);
+            // do not attempt to create a Pod without an invoice number
+            if (!string.IsNullOrEmpty(job.InvoiceNumber))
+            {
+                job = jobService.PopulateLineItemsAndRoute(job);
+                job.GetAllLineItemActions();
 
-            //Mark the podevent as processed, even if it failed - there will be a PodTransaction instead
-            this.eventRepository.MarkEventAsProcessed(eventId);
-            this.MarkPodAsResolved(podEvent.Id, adamResponse);
+                var adamResponse = this.adamRepository.Pod(podEvent, adamSettings, job);
+
+                //Mark the podevent as processed, even if it failed - there will be a PodTransaction instead
+                this.eventRepository.MarkEventAsProcessed(eventId);
+                this.MarkPodAsResolved(podEvent.Id, adamResponse);
+            }
         }
 
         public void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings)

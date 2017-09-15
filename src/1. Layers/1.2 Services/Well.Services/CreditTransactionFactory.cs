@@ -83,7 +83,8 @@
             {
                 HeaderSql = creditHeader,
                 LineSql = lineDictionary,
-                BranchId = branchId
+                BranchId = branchId,
+                JobId = job.Id
             };
 
             return creditTransaction;

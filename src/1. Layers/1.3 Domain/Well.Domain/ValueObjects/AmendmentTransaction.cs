@@ -21,5 +21,6 @@ namespace PH.Well.Domain.ValueObjects
         public bool CanWriteHeader => !this.LineSql.Any();
 
         public int BranchId { get; set; }
+
     }
 }

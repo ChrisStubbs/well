@@ -26,7 +26,7 @@ namespace PH.Well.Repositories
 
         public void InsertCreditEventTransaction(CreditTransaction creditTransaction)
         {
-            SerializeToJsonAndInsertEvent(creditTransaction, EventAction.Credit, DateTime.Now);
+            SerializeToJsonAndInsertEvent(creditTransaction, EventAction.Credit, DateTime.Now, creditTransaction.JobId.ToString());
         }
 
         public void MarkEventAsProcessed(int eventId)
@@ -74,7 +74,7 @@ namespace PH.Well.Repositories
 
         public void InsertPodTransaction(PodTransaction podTransaction)
         {
-            SerializeToJsonAndInsertEvent(podTransaction, EventAction.PodTransaction, DateTime.Now);
+            SerializeToJsonAndInsertEvent(podTransaction, EventAction.PodTransaction, DateTime.Now, podTransaction.JobId.ToString());
         }
 
         public void InsertPodEvent(PodEvent podEvent, string jobId, DateTime dateCanBeProcessed)
@@ -93,7 +93,7 @@ namespace PH.Well.Repositories
                     CreatedBy = this.CurrentUser,
                     DateCreated = DateTime.Now,
                     UpdatedBy = this.CurrentUser,
-                    DateUpdated = DateTime.Now
+                    DateUpdated = DateTime.Now,
                 })
                 .ToList()
                 .ToDataTables();
@@ -110,9 +110,9 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
         }
 
-        public void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string sourceId = null)
+        public void InsertGlobalUpliftEvent(GlobalUpliftEvent globalUpliftEvent, string sourceId = null)
         {
-            SerializeToJsonAndInsertEvent(glovalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
+            SerializeToJsonAndInsertEvent(globalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
         }
 
         public bool GlobalUpliftEventCreatedForJob(string jobId)

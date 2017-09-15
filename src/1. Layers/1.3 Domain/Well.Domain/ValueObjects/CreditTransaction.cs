@@ -17,5 +17,7 @@
         public bool CanWriteHeader => !this.LineSql.Any();
 
         public int BranchId { get; set; }
+
+        public int JobId { get; set; }
     }
 }

@@ -83,14 +83,11 @@
                                 {
                                     SubmitCredits(job);
                                 }
-                                else
+                                else if (job.JobStatus == JobStatus.Bypassed)
                                 {
-                                    // create pod event for a bypassed job
-                                    if (job.JobStatus == JobStatus.Bypassed)
-                                    {
-                                        this.podService.CreatePodEvent(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
-                                    }
+                                    this.podService.CreatePodEvent(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
                                 }
+
                                 //lets close the job
                                 job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
                                 jobRepository.SaveJobResolutionStatus(job);
@@ -99,7 +96,7 @@
                                 if (job.ResolutionStatus == ResolutionStatus.Credited
                                     || job.ResolutionStatus == ResolutionStatus.Resolved)
                                 {
-                                    job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
+                                    job.ResolutionStatus = jobService.TryCloseJob(job);
                                     jobRepository.SaveJobResolutionStatus(job);
                                 }
                             }
@@ -112,7 +109,6 @@
                                                     $"to credit the delivery for job no: {job.Id} invoice: {job.InvoiceNumber}. " +
                                                     "The Job has been been marked for authorisation.");
                             }
-
 
                             jobRepository.Update(job);
                             resultDetails.Add(new SubmitActionResultDetails(job));

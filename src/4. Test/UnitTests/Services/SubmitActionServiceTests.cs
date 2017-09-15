@@ -89,6 +89,7 @@
             private Queue<ResolutionStatus> job3GetCurrentResolutionStatusQueue;
             private Queue<ResolutionStatus> job3GetNextResolutionStatusQueue;
 
+
             [SetUp]
             public override void SetUp()
             {
@@ -102,6 +103,7 @@
                 job2GetNextResolutionStatusQueue = new Queue<ResolutionStatus>();
                 job3GetCurrentResolutionStatusQueue = new Queue<ResolutionStatus>();
                 job3GetNextResolutionStatusQueue = new Queue<ResolutionStatus>();
+
             }
 
             [Test]
@@ -189,6 +191,8 @@
                 job2GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Closed);
                 job3GetCurrentResolutionStatusQueue.Enqueue(ResolutionStatus.Closed);
 
+                jobService.Setup(p => p.TryCloseJob(It.IsAny<Job>())).Returns(ResolutionStatus.Credited | ResolutionStatus.Closed);
+
                 var results = mockedSubmitActionService.Object.SubmitAction(submitAction);
                 
                 jobRepository.Verify(x => x.SaveJobResolutionStatus(job1), Times.Exactly(3));
@@ -197,7 +201,6 @@
                 Assert.That(job1SaveJobResolutionStatus[1], Is.EqualTo(ResolutionStatus.Credited));
                 Assert.That(job1SaveJobResolutionStatus[2], Is.EqualTo(ResolutionStatus.Closed | ResolutionStatus.Credited));
             }
-
 
             [Test]
             public void IfJobIsValidPendingApprovalAndUserAndStatusIsApprovedThenCreditsSubmittedToAdam()
@@ -214,7 +217,6 @@
                 mockedSubmitActionService.Verify(x => x.SubmitCredits(job1), Times.Once);
 
             }
-
 
             private void WithHappyPathSetup()
             {

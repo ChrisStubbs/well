@@ -32,7 +32,7 @@ namespace PH.Well.Domain
             set
             {
                 jobTypeCode = value;
-                JobType = EnumExtensions.GetValueFromDescription<JobType>(jobTypeCode);
+                JobType = JobTypeDescriptions.FromDescription(value);
             }
         }
 

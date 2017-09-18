@@ -23,6 +23,7 @@ export class Approval
         return this.datePipe.transform(this.deliveryDate, 'yyyy-MM-dd');
     };
     public invoiceNumber: string;
+    public invoiceId: number;
     public submittedBy: string;
     public dateSubmitted: Date;
     public get dateSubmittedFormatted(): string

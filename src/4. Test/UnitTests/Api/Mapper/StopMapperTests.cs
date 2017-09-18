@@ -25,12 +25,21 @@ namespace PH.Well.UnitTests.Api.Mapper
         private StopMapper mapper;
         private Mock<IUserNameProvider> userNameProvider = new Mock<IUserNameProvider>();
         private Mock<IJobService> jobService = new Mock<IJobService>();
+        private Mock<ILookupService> lookupService = new Mock<ILookupService>();
 
         [SetUp]
         public void SetUp()
         {
-            mapper = new StopMapper(jobService.Object, userNameProvider.Object);
+            mapper = new StopMapper(jobService.Object, userNameProvider.Object, lookupService.Object);
             branches = new List<Branch> { branch };
+
+            var jobTypes = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>(((int)JobType.Alcohol).ToString(), JobType.Alcohol.ToString()),
+                new KeyValuePair<string, string>(((int)JobType.Tobacco).ToString(), JobType.Tobacco.ToString())
+            };
+
+            lookupService.Setup(p => p.GetLookup(LookupType.JobType)).Returns(jobTypes);
         }
 
         [Test]
@@ -157,7 +166,7 @@ namespace PH.Well.UnitTests.Api.Mapper
                    .With(p => p.ProductCode = item.PhProductCode)
                    .Build());
             }
-            
+
             var job = new JobFactory()
                 .With(x => x.JobTypeCode = "DEL-TOB")
                 .With(x => x.JobDetails = jobDetails1)
@@ -215,8 +224,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             var job = new JobFactory()
                         .With(x => x.Id = 2545)
                         .With(x => x.InvoiceNumber = "INVNO1")
-                        .With(x => x.JobTypeCode = "DEL-TOB")
-                        .With(x => x.JobType = JobType.Tobacco)
+                        .With(x => x.JobTypeCode = JobTypeDescriptions.Description(JobType.Tobacco))
                         .With(x => x.JobTypeAbbreviation = "test")
                         .With(x => x.PhAccount = "PHAcccountNo")
                         .With(x => x.JobDetails = jobDetails1)
@@ -244,7 +252,7 @@ namespace PH.Well.UnitTests.Api.Mapper
             Assert.That(item.JobId, Is.EqualTo(2545));
             Assert.That(item.Invoice, Is.EqualTo(job.InvoiceNumber));
             Assert.That(item.InvoiceId, Is.EqualTo(job.ActivityId));
-            Assert.That(item.Type, Is.EqualTo("DEL-TOB"));
+            Assert.That(item.Type, Is.EqualTo(job.JobType.ToString()));
             Assert.That(item.JobTypeAbbreviation, Is.EqualTo("test"));
             Assert.That(item.Account, Is.EqualTo("PHAcccountNo"));
             Assert.That(item.JobDetailId, Is.EqualTo(jobDetails1[0].Id));

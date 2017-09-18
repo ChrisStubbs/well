@@ -64,6 +64,28 @@ GO CREATE NONCLUSTERED INDEX [IDX_Job_ActivityId] ON [dbo].[Job] ([ActivityId]) 
 GO
 CREATE NONCLUSTERED INDEX [IDX_Job_DateDeleted] ON [dbo].[Job] ([DateDeleted]) INCLUDE ([JobTypeCode],[PHAccount],[PickListRef],[StopId])
 GO
-CREATE NONCLUSTERED INDEX [IDX_Job_JobTypeCode_PHAccount_PickListRef_DateDeleted] ON [dbo].[Job] ([JobTypeCode],[PHAccount],[PickListRef],[DateDeleted])INCLUDE ([StopId])
+CREATE NONCLUSTERED INDEX IDX_Job_JobTypeCode_PHAccount_PickListRef_DateDeleted ON dbo.Job
+(
+	JobTypeCode ASC,
+	PHAccount ASC,
+	PickListRef ASC,
+	DateDeleted ASC
+)
+INCLUDE (StopId) 
+WHERE DateDeleted IS NULL
+WITH (SORT_IN_TEMPDB = ON)
 GO
-CREATE NONCLUSTERED INDEX [IDX_Job_DateDelete_ResolutionStatus] ON [dbo].[Job] ([DateDeleted],[ResolutionStatusId])INCLUDE ([Id],[PHAccount],[InvoiceNumber],[StopId])
+CREATE NONCLUSTERED INDEX IDX_Job_DateDelete_ResolutionStatus ON Job
+(
+	DateDeleted ASC,
+	ResolutionStatusId ASC
+)
+INCLUDE 
+(
+    PHAccount,
+	InvoiceNumber,
+	StopId
+) 
+WHERE DateDeleted IS NULL
+WITH (SORT_IN_TEMPDB = ON)
+GO

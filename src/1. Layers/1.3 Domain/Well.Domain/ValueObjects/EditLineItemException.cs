@@ -18,7 +18,8 @@
         public string ResolutionStatus { get; set; }
         public string AccountCode { get; set; }
         public string Invoice { get; set; }
-        public string Type { get; set; }
+        public string JobTypeDescription { get; set; }
+        public JobType JobType { get; set; }
         public string ProductNumber { get; set; }
         public string DriverReason { get; set; }
         public string Product { get; set; }

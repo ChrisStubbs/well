@@ -16,5 +16,6 @@
         public int CreditQuantity { get; set; }
         public decimal CreditValue { get; set; }
         public string AssignedTo { get; set; }
+        public int InvoiceId { get; set; }
     }
 }

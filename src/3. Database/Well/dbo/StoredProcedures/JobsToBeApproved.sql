@@ -34,7 +34,8 @@ AS
 		si.[By] AS SubmittedBy,
 		si.[On] AS DateSubmitted,
 		Credit.CreditQuantity,
-		Credit.CreditValue
+		Credit.CreditValue, 
+		(SELECT TOP 1 ActivityId From LineItem l JOIN JobDetail jd ON l.Id = jd.LineItemId AND jd.JobId = j.id) AS InvoiceId
 	FROM 
 		Job j
 		INNER JOIN Stop AS s 

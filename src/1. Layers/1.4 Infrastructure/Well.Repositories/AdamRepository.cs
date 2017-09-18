@@ -34,6 +34,11 @@
             _globalUpliftTransactionFactory = globalUpliftTransactionFactory;
         }
 
+        // PLEASE NOTE There is no transaction scope in ADAM.  If a transaction of lines plus header fails 
+        // partway, some lines from the transaction may have written to ADAM.  Therefore, each event must be 
+        // marked as processed and if necessary, a new event containing only the data that still needs to be sent to ADAM,
+        // inserted into the ExceptionEvent table 
+
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
         {
             var linesToRemove = new Dictionary<int, string>();
@@ -86,18 +91,46 @@
                     }
                     catch (AdamProviderException adamException)
                     {
-                        this.logger.LogError("ADAM error occurred writing credit header!", adamException);
+                        //todo if ADAM fails here, the credit transaction has had the successful lines removed so 
+                        //write new exception event with header
 
-                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        if (linesToRemove.Any())
+                        {
+                            this.eventRepository.InsertCreditEventTransaction(creditTransaction);
+                            this.logger.LogError("ADAM error occurred writing credit header!", adamException);
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                             $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
                             EventId.AdamCreditHeaderException);
+                        }
+                        else
+                        {
+                            // nothing has been written to ADAM so no change needed to the transaction
+                            this.logger.LogError("ADAM error occurred writing credit header only - no change to transaction!", adamException);
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                            $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
+                            EventId.AdamCreditHeaderException);
+
+                            return AdamResponse.AdamDownNoChange;
+                        }
                     }
                 }
             }
             else
             {
-                this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
-                return AdamResponse.AdamDown;
+                //if ADAM fails here write new exception event with remaining lines + header
+                if (linesToRemove.Any())
+                {
+                    this.eventRepository.InsertCreditEventTransaction(creditTransaction);
+                    this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
+                    return AdamResponse.AdamDown;
+                }
+                else
+                {
+                    // nothing has been written to ADAM so no change needed to the transaction
+                    this.logger.LogError("ADAM error occurred writing credit.");
+                    return AdamResponse.AdamDownNoChange;
+
+                }
             }
 
             return AdamResponse.Unknown;
@@ -264,18 +297,42 @@
                     }
                     catch (AdamProviderException adamException)
                     {
-                        this.logger.LogError("ADAM error occurred writing pod header!", adamException);
+                        if (linesToRemove.Count == 0)
+                        {
+                            this.logger.LogError("ADAM error occurred writing pod header only - no change to transaction!", adamException);
 
-                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                       $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
-                            EventId.AdamPodHeaderException);
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                                $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
+                                EventId.AdamPodHeaderException);
+
+                            return AdamResponse.AdamDownNoChange;
+                        }
+                        else
+                        {
+                            this.eventRepository.InsertPodTransaction(pod);
+                            this.logger.LogError("ADAM error occurred writing pod header!", adamException);
+
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                                $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
+                                EventId.AdamPodHeaderException);
+                        }
                     }
                 }
             }
             else
             {
-                this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
-                return AdamResponse.AdamDown;
+                if (linesToRemove.Count == 0)
+                {
+                    this.logger.LogError("ADAM error occurred writing pod!");
+                    return AdamResponse.AdamDownNoChange;
+                }
+                else
+                {
+                    this.eventRepository.InsertPodTransaction(pod);
+                    this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
+                    return AdamResponse.AdamDown;
+                }
+
             }
 
             return AdamResponse.Unknown;

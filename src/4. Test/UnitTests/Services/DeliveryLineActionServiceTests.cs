@@ -1,4 +1,209 @@
-﻿// TODO 
+﻿namespace PH.Well.UnitTests.Services
+{
+    using System.Collections.Generic;
+    using Moq;
+    using NUnit.Framework;
+    using Repositories.Contracts;
+    using Well.Domain;
+    using Well.Domain.Enums;
+    using Well.Domain.ValueObjects;
+    using Well.Services.Contracts;
+    using Well.Services.DeliveryActions;
+
+    [TestFixture]
+    public class DeliveryLineActionServiceTests
+    {
+        private Mock<IAdamRepository> adamRepository;
+        private Mock<IJobRepository> jobRepository;
+        private Mock<IEnumerable<IDeliveryLinesAction>> actionHandlers;
+        private Mock<IJobDetailRepository> jobDetailRepository;
+        private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
+        private Mock<IJobService> jobService;
+        private Mock<IExceptionEventRepository> eventRepository;
+
+        private DeliveryLineActionService service;
+
+        [SetUp]
+        public void Setup()
+        {
+            this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
+            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            this.actionHandlers = new Mock<IEnumerable<IDeliveryLinesAction>>(MockBehavior.Strict);
+            this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
+            this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
+            this.jobService = new Mock<IJobService>(MockBehavior.Strict);
+            this.eventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+
+            this.service = new DeliveryLineActionService(this.adamRepository.Object,
+                this.jobRepository.Object,
+                this.eventRepository.Object,
+                this.actionHandlers.Object,
+                this.jobDetailRepository.Object,
+                this.jobDetailDamageRepository.Object,
+                this.jobService.Object);
+        }
+
+        public class CreditTransactionTests : DeliveryLineActionServiceTests
+        {
+            [Test]
+            public void SuccessfulCreditMarksEventAsProcessed()
+            {
+                var creditTransaction = new CreditTransaction {JobId = 1, BranchId = 2};
+                var eventId = 10;
+                var settings = new AdamSettings {Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server"};
+                this.adamRepository.Setup(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.Success);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                this.service.CreditTransaction(creditTransaction, eventId, settings);
+                this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Once);
+            }
+
+            [Test]
+            public void AdamDownResponseCreditMarksEventAsProcessed()
+            {
+                var creditTransaction = new CreditTransaction { JobId = 1, BranchId = 2 };
+                var eventId = 10;
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+                this.adamRepository.Setup(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.AdamDown);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                this.service.CreditTransaction(creditTransaction, eventId, settings);
+                this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Once);
+            }
+
+            [Test]
+            public void AdamUnknownResponseCreditMarksEventAsProcessed()
+            {
+                var creditTransaction = new CreditTransaction { JobId = 1, BranchId = 2 };
+                var eventId = 10;
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+                this.adamRepository.Setup(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.Unknown);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                this.service.CreditTransaction(creditTransaction, eventId, settings);
+                this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Once);
+            }
+
+            [Test]
+            public void AdamDownNoChangeResponseCreditDoesNotMarkEventAsProcessed()
+            {
+                var creditTransaction = new CreditTransaction { JobId = 1, BranchId = 2 };
+                var eventId = 10;
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+                this.adamRepository.Setup(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.AdamDownNoChange);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                this.service.CreditTransaction(creditTransaction, eventId, settings);
+                this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Never);
+            }
+        }
+
+        public class PodTests : DeliveryLineActionServiceTests
+        {
+            [Test]
+            public void NoPodCreatedForAdamWhenNoInvoiceNumberOnJob()
+            {
+                var job = new Job {Id = 1, InvoiceNumber = string.Empty };
+                var pod = new PodEvent { Id = 1, BranchId = 2 };
+                var eventId = 10;
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+
+                this.jobRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(job);
+                this.jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<Job>()));
+                this.adamRepository.Setup(x => x.Pod(It.IsAny<PodEvent>(), It.IsAny<AdamSettings>(), It.IsAny<Job>()));
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+                
+                this.service.Pod(pod, eventId, settings);
+
+                this.adamRepository.Verify(x => x.Pod(It.IsAny<PodEvent>(), It.IsAny<AdamSettings>(), It.IsAny<Job>()), Times.Never());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Never);
+
+            }
+
+            [Test]
+            public void PodCreatedForAdamWhenInvoiceNumberExistsAndItIsACleanDelivery()
+            {
+                var job = new Job { Id = 1, InvoiceNumber = "1234567" };
+                var pod = new PodEvent { Id = 1, BranchId = 2 };
+                var eventId = 10;
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+
+                this.jobRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(job);
+                this.jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
+                this.jobDetailRepository.Setup(x => x.Update(It.IsAny<JobDetail>()));
+                this.jobDetailDamageRepository.Setup(x => x.Update(It.IsAny<JobDetailDamage>()));
+                this.jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<Job>())).Returns(job);
+                this.adamRepository.Setup(x => x.Pod(It.IsAny<PodEvent>(), It.IsAny<AdamSettings>(), It.IsAny<Job>())).Returns(AdamResponse.Success);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                this.service.Pod(pod, eventId, settings);
+
+                this.adamRepository.Verify(x => x.Pod(It.IsAny<PodEvent>(), It.IsAny<AdamSettings>(), It.IsAny<Job>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Once);
+                this.jobRepository.Verify(x => x.GetById(It.IsAny<int>()), Times.Exactly(2));
+                this.jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Once);
+                this.jobDetailRepository.Verify(x => x.Update(It.IsAny<JobDetail>()), Times.Never);
+                this.jobDetailDamageRepository.Verify(x => x.Update(It.IsAny<JobDetailDamage>()), Times.Never());
+                this.jobService.Verify(x => x.PopulateLineItemsAndRoute(It.IsAny<Job>()), Times.Once());
+
+            }
+        }
+
+        public class PodTransactionTests : DeliveryLineActionServiceTests
+        {
+            [Test]
+            public void SuccessfulPodTransactionCompletesEvent()
+            {
+                var job = new Job { Id = 1, InvoiceNumber = "1234567" };
+                var podTransaction = new PodTransaction {BranchId = 2, JobId = 1};
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+                this.jobRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(job);
+                this.jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
+                this.jobDetailRepository.Setup(x => x.Update(It.IsAny<JobDetail>()));
+                this.jobDetailDamageRepository.Setup(x => x.Update(It.IsAny<JobDetailDamage>()));
+                this.jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<Job>())).Returns(job);
+
+                this.adamRepository.Setup(x => x.PodTransaction(It.IsAny<PodTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.Success);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                service.PodTransaction(podTransaction, 1, settings);
+
+                this.adamRepository.Verify(x => x.PodTransaction(It.IsAny<PodTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Once);
+
+            }
+
+            [Test]
+            public void NoChangeToPodTransactionDoesNotCompletesEvent()
+            {
+                var job = new Job { Id = 1, InvoiceNumber = "1234567" };
+                var podTransaction = new PodTransaction { BranchId = 2, JobId = 1 };
+                var settings = new AdamSettings { Password = "pass", Port = 1, Rfs = "rfs", Username = "flp", Server = "Server" };
+                this.jobRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(job);
+                this.jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
+                this.jobDetailRepository.Setup(x => x.Update(It.IsAny<JobDetail>()));
+                this.jobDetailDamageRepository.Setup(x => x.Update(It.IsAny<JobDetailDamage>()));
+                this.jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<Job>())).Returns(job);
+
+                this.adamRepository.Setup(x => x.PodTransaction(It.IsAny<PodTransaction>(), It.IsAny<AdamSettings>())).Returns(AdamResponse.AdamDownNoChange);
+                this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
+
+                service.PodTransaction(podTransaction, 1, settings);
+
+                this.adamRepository.Verify(x => x.PodTransaction(It.IsAny<PodTransaction>(), It.IsAny<AdamSettings>()), Times.Once());
+                this.eventRepository.Verify(x => x.MarkEventAsProcessed(It.IsAny<int>()), Times.Never);
+
+            }
+        }
+
+        }
+}
+
+// TODO 
 /*
 namespace PH.Well.UnitTests.Services
 {

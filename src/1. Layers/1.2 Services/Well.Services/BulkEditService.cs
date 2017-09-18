@@ -22,6 +22,17 @@
         private readonly IUserNameProvider userNameProvider;
         private readonly IJobService jobService;
 
+        private static readonly JobType[] BulkEditableJobTypes =
+        {
+            JobType.Alcohol,
+            JobType.Ambient,
+            JobType.Chilled,
+            JobType.Frozen,
+            JobType.Tobacco
+        };
+
+        
+
         public BulkEditService(
             ILogger logger,
             IJobService jobService,
@@ -105,8 +116,10 @@
         {
             var username = this.userNameProvider.GetUserName();
             var editableJobs = jobService.PopulateLineItemsAndRoute(jobs).ToList()
-                .Where(x => x.ResolutionStatus.IsEditable() &&
-                            LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
+                .Where(x =>
+                    x.ResolutionStatus.IsEditable()
+                    && BulkEditableJobTypes.Contains(x.JobType)
+                    && LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
             return editableJobs.Where(x => jobService.CanEdit(x, username));
         }

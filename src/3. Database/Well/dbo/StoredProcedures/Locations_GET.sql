@@ -45,8 +45,7 @@ AS
 		        INNER JOIN JobDetail jd on ld.LineItemId = jd.LineItemId
 		        INNER JOIN Job j on j.Id = jd.JobId
 	        WHERE 
-		        (ld.DeliveryActionId = 0 OR ld.DeliveryActionId IS NULL)
-		        AND j.ResolutionStatusId > 1
+		        j.ResolutionStatusId > 1
 				AND jd.DateDeleted IS NULL
 				AND j.DateDeleted IS NULL
 	        GROUP BY ld.ActivityId

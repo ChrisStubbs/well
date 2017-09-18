@@ -1,6 +1,9 @@
 ﻿namespace PH.Well.Domain.Enums
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using Extensions;
 
     public enum JobType
     {
@@ -38,5 +41,39 @@
 
         [Description("NotDef")]
         NotDefined = 11
+    }
+
+    public static class JobTypeDescriptions
+    {
+        private static readonly Dictionary<int, string> descriptions;
+        private static readonly Dictionary<string, JobType> values;
+
+        static JobTypeDescriptions()
+        {
+            descriptions = new Dictionary<int, string>();
+            values = new Dictionary<string, JobType>(StringComparer.InvariantCultureIgnoreCase);
+
+            foreach (JobType item in System.Enum.GetValues(typeof(JobType)))
+            {
+                var desc = EnumExtensions.GetDescription(item);
+                descriptions.Add((int)item, desc);
+
+                values.Add(desc, item);
+            }
+        }
+
+        public static string Description(this JobType value)
+        {
+            return descriptions[(int)value];
+        }
+
+        public static JobType FromDescription(string value)
+        {
+            JobType result = JobType.Unknown;
+
+            values.TryGetValue(value, out result);
+
+            return result;
+        }
     }
 }

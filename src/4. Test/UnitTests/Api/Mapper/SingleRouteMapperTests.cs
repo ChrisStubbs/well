@@ -54,7 +54,7 @@
 
                 var job = JobFactory.New
                     .With(x => x.StopId = stop.Id)
-                    .With(x => x.JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
+                    .With(x => x. JobTypeCode = EnumExtensions.GetDescription(JobType.GlobalUplift))
                     .With(x => x.JobStatus = JobStatus.CompletedOnPaper)
                     .With(x => x.JobDetails = GetTwoCleanAndOneExceptionJobDetail())
                     .With(x => x.ResolutionStatus = ResolutionStatus.Credited)

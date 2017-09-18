@@ -33,7 +33,7 @@ INNER JOIN
 INNER JOIN
 		Account a on a.StopId = s.Id
 INNER JOIN 
-		JobType jt on jt.Code =  j.JobTypeCode
+		JobType jt on jt.Id =  j.JobTypeId
 INNER JOIN 
 		JobStatus js on js.Id = j.JobStatusId
 INNER JOIN 

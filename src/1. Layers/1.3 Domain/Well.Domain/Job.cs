@@ -24,16 +24,19 @@ namespace PH.Well.Domain
 
         public int ActivityId { get; set; }
 
-        public string JobTypeCode { get; set; }
+        private string jobTypeCode;
+        public string JobTypeCode
+        {
+            get { return jobTypeCode; }
+            // This setter is currently a workaround required for import which is still using JobTypeCode to identify job type
+            set
+            {
+                jobTypeCode = value;
+                JobType = JobTypeDescriptions.FromDescription(value);
+            }
+        }
 
-        public string JobType { get; set; }
-
-        /// <summary>
-        /// Helper property to get jobType as enum value
-        /// Current JobType property should be renamed to JobTypeDescription
-        /// JobTypeEnumValue should be then called JobType and mapped from JobType database value
-        /// </summary>
-        public JobType JobTypeEnumValue { get { return EnumExtensions.GetValueFromDescription<JobType>(JobTypeCode); } }
+        public JobType JobType { get; set; }
 
         public string JobTypeAbbreviation { get; set; }
 

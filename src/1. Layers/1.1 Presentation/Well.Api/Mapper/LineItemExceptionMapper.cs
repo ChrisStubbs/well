@@ -64,7 +64,7 @@
                 ResolutionStatus = job.ResolutionStatus?.Description,
                 Id = line.Id,
                 Invoice = job.InvoiceNumber,
-                Type = job.JobType,
+                Type = EnumExtensions.GetDescription(job.JobType),
                 ProductNumber = line.ProductCode,
                 Product = line.ProductDescription,
                 DriverReason = line.DriverReason,

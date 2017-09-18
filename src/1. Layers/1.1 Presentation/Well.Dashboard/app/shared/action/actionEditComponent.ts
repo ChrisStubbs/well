@@ -101,6 +101,13 @@ export class ActionEditComponent implements IObservableAlive
             }
         }
 
+        if (this.source.type == 'UPL-STD')
+        {
+            this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter, (current: ILookupValue) => {
+                return current.key != 'Credit';
+            });
+        }
+
         return this.deliveryActionsWithFilter;
     }
 

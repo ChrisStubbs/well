@@ -17,11 +17,13 @@ namespace PH.Well.Api.Mapper
     {
         private readonly IJobService jobService;
         private readonly IUserNameProvider userNameProvider;
+        private readonly ILookupService lookupService;
 
-        public StopMapper(IJobService jobService, IUserNameProvider userNameProvider)
+        public StopMapper(IJobService jobService, IUserNameProvider userNameProvider, ILookupService lookupService)
         {
             this.jobService = jobService;
             this.userNameProvider = userNameProvider;
+            this.lookupService = lookupService;
         }
 
         public StopModel Map(List<Branch> branches, RouteHeader route, Stop stop, List<Job> jobs, List<Assignee> assignees,
@@ -54,6 +56,9 @@ namespace PH.Well.Api.Mapper
 
         private IList<StopModelItem> MapItems(List<Job> jobs, IList<JobDetailLineItemTotals> jobDetailTotalsPerStop)
         {
+            var jobTypes = this.lookupService.GetLookup(LookupType.JobType)
+                .ToDictionary(k => int.Parse(k.Key), v => v.Value);
+
             return jobs
                 .Where(p => p.JobType != JobType.Documents)
                 .SelectMany(p =>
@@ -93,7 +98,7 @@ namespace PH.Well.Api.Mapper
                                 JobId = p.Id,
                                 Invoice = p.InvoiceNumber,
                                 InvoiceId = p.ActivityId,
-                                Type = EnumExtensions.GetDescription(p.JobType),
+                                Type = jobTypes[(int)p.JobType],
                                 JobTypeAbbreviation = p.JobTypeAbbreviation,
                                 Account = p.PhAccount,
                                 AccountID = p.PhAccountId,

@@ -42,8 +42,12 @@ export class ActionEditComponent implements IObservableAlive
     private exceptionTypes: Array<ILookupValue>;
     private commentReasons: Array<ILookupValue>;
     private lineItemActions: Array<LineItemAction> = [];
+    // Magic numbers need to go somewhere
     private creditActionValue = 1;
     private podActionValue = 3;
+    private exceptionTypeShort = 1;
+    private jobTypeUplift = 10;
+    
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
     private canEditExceptions: boolean = false;
@@ -178,7 +182,15 @@ export class ActionEditComponent implements IObservableAlive
             return;
         }
 
-        if (this.actionsForm.valid) {
+        // Check all groups if all errors are warrnings
+        const checkHasOnlyWarnings = () => {
+            return _.every(this.actionsForm.controls,
+                (control: AbstractControl) => {
+                    return _.every(control.errors, (error) => { return error.isWarning; });
+                });
+        };
+
+        if (this.actionsForm.valid || checkHasOnlyWarnings()) {
 
             _.each(this.actionsForm.controls['actionsGroup'].value,
                 (value: any, index: number) => {
@@ -311,6 +323,7 @@ export class ActionEditComponent implements IObservableAlive
         if (sum > this.source.invoiced) {
             const totalError = {
                 totalQuantity: true,
+                isWarning: false,
                 message: 'Total quantity (' + sum + ') is greater than invoiced (' + this.source.invoiced + ')'
             };
 
@@ -320,10 +333,31 @@ export class ActionEditComponent implements IObservableAlive
         if (_.find(formArray.value, item => item.quantity < 0)) {
             const negativeQuantityError = {
                 totalQuantity: true,
+                isWarning: false,
                 message: 'Quantity field should not be a negative number'
             };
 
             errors.push(negativeQuantityError);
+        }
+
+        if (this.source.jobType == this.jobTypeUplift) {
+            _.each(formArray.value,
+                value => {
+                    if (Number(value.action) === this.creditActionValue &&
+                        value.exceptionType == this.exceptionTypeShort) {
+
+                        errors.push({
+                            upliftShortCredit: true,
+                            isWarning: true,
+                            message:
+                                'Please be aware that you are creating credit ' +
+                                    'for goods that have not been returned to branch. ' +
+                                    'Are you sure?'
+                        });
+                        // break loop
+                        return false;
+                    }
+                });
         }
 
         if (errors.length > 0) {

@@ -124,7 +124,7 @@
             importService.ImportStops(header, importMapper, importCommands);
 
             // Calculate well status
-            routeService.ComputeWellStatus(header.Id);
+            routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(header.Id);
         }
 
         public virtual int GetRouteOwnerId(RouteHeader header)

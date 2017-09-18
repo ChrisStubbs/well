@@ -26,6 +26,7 @@ BEGIN
 		rh.[ShortDeliveries],
 		rh.[DamagesRejected],
 		rh.[DamagesAccepted],
+		rh.[WellStatus] RouteWellStatus,
 		rh.[CreatedBy],
 		rh.[DateCreated],
 		rh.[UpdatedBy],

@@ -72,6 +72,7 @@
                     x.For<IStopService>().Use<StopService>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IActivityRepository>().Use<ActivityRepository>();
+                    x.For<INotificationRepository>().Use<NotificationRepository>();
                 });
         }
     }

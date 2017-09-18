@@ -37,11 +37,21 @@
             this.jobService = jobService;
         }
 
+        // PLEASE NOTE There is no transaction scope in ADAM.  If a transaction of lines plus header fails 
+        // partway, some lines from the transaction may have written to ADAM.  Therefore, each event must be 
+        // marked as processed and if necessary, a new event containing only the data that still needs to be sent to ADAM,
+        // inserted into the ExceptionEvent table 
+
         public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings);
+            // the event must be marked as processed, because a new event is created if the original one failed
+            // The new event will not include any lines successfully writtten
 
-            this.MarkAsDone(eventId, adamResponse);
+            if (adamResponse != AdamResponse.AdamDownNoChange)
+            {
+                this.eventRepository.MarkEventAsProcessed(eventId);
+            }
         }
 
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
@@ -101,8 +111,14 @@
         {
             var adamResponse = this.adamRepository.PodTransaction(podTransaction, adamSettings);
 
-            this.MarkAsDone(eventId, adamResponse);
-            this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
+            //this.MarkAsDone(eventId, adamResponse);
+            //Mark the podevent as processed, even if it failed - there will be a new PodTransaction
+            //Unless there was no change
+            if (adamResponse != AdamResponse.AdamDownNoChange)
+            {
+                this.eventRepository.MarkEventAsProcessed(eventId);
+                this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
+            }
         }
 
         public void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings)

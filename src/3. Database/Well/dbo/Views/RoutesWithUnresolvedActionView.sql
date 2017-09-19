@@ -11,13 +11,13 @@ AS
             CONVERT(Bit, MIN(ISNULL(lia.DeliveryActionId, 0))) AS HasNotDefinedDeliveryAction,
 			MAX(rh.RouteOwnerId) AS BranchId
         FROM 
-            JobDetail jd 
-            INNER JOIN LineItemAction lia ON jd.LineItemId = lia.LineItemId
-            INNER JOIN Job j ON jd.JobId = j.id
+            LineItem li 
+            INNER JOIN LineItemAction lia ON li.Id = lia.LineItemId
+            INNER JOIN Job j ON li.JobId = j.id
             INNER JOIN [Stop] s ON j.StopId = s.id
 			INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
         WHERE 
-            jd.DateDeleted IS NULL
+            li.DateDeleted IS NULL
             AND lia.DateDeleted IS NULL
             AND j.DateDeleted IS NULL
             AND s.DateDeleted IS NULL

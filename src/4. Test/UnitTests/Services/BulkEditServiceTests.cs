@@ -148,7 +148,7 @@
                                 .With(x => x.Quantity = 2)
                                 .With(x => x.DeliveryAction = DeliveryAction.NotDefined)
                                 .With(x => x.Source = JobDetailSource.Assembler)
-                                .With(x => x.Reason = JobDetailReason.AccumulatedDamages).Build();
+                                .With(x => x.Reason = JobDetailReason.BookingError).Build();
                 var lia2 = LineItemActionFactory.New.With(x => x.LineItemId = 2).Build();
                 var lia3 = LineItemActionFactory.New.With(x => x.LineItemId = 3).Build();
 

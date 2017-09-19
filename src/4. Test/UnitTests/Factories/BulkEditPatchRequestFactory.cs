@@ -9,7 +9,7 @@
         {
             Entity.DeliveryAction = DeliveryAction.Credit;
             Entity.Source = JobDetailSource.Assembler;
-            Entity.Reason = JobDetailReason.AccumulatedDamages;
+            Entity.Reason = JobDetailReason.BookingError;
         }
     }
 }

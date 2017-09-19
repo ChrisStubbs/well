@@ -464,6 +464,9 @@
     <None Include="ManualStep\scripts\up\026_RemoveStopStatusView.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\027_UpdateLineItemTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

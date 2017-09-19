@@ -3,21 +3,22 @@
     using Contracts;
     using Domain;
     using Domain.Enums;
+    using Domain.Extensions;
 
     public class AdamImportMapper : IAdamImportMapper
     {
-        public void MapStop(Stop from, Stop to)
+        public void MapStop(Stop source, Stop destination)
         {
-            to.PlannedStopNumber = from.PlannedStopNumber;
-            to.RouteHeaderId = from.RouteHeaderId;
-            to.RouteHeaderCode = from.RouteHeaderCode;
-            to.DropId = from.DropId;
-            to.DeliveryDate = from.DeliveryDate;
+            destination.PlannedStopNumber = source.PlannedStopNumber;
+            destination.RouteHeaderId = source.RouteHeaderId;
+            destination.RouteHeaderCode = source.RouteHeaderCode;
+            destination.DropId = source.DropId;
+            destination.DeliveryDate = source.DeliveryDate;
 
-            to.AllowOvers = from.AllowOvers;
-            to.CustUnatt = from.CustUnatt;
-            to.PHUnatt = from.PHUnatt;
-            to.AccountBalance = from.AccountBalance;
+            destination.AllowOvers = source.AllowOvers;
+            destination.CustUnatt = source.CustUnatt;
+            destination.PHUnatt = source.PHUnatt;
+            destination.AccountBalance = source.AccountBalance;
         }
 
         public RouteHeader MapRouteHeader(RouteHeader source, RouteHeader destination)

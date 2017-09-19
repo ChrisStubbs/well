@@ -38,11 +38,11 @@
             this.jobService = jobService;
         }
 
-        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
+        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool jobHasMovedStops)
         {
             importMapper.MapJob(fileJob, existingJob);
 
-            if (existingJob.WellStatus == WellStatus.Bypassed)
+            if (existingJob.WellStatus == WellStatus.Bypassed && jobHasMovedStops )
             {
                 existingJob.JobStatus = JobStatus.Replanned;
                 existingJob.WellStatus = existingJob.JobStatus.ToWellStatus();

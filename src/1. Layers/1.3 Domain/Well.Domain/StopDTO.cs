@@ -134,6 +134,9 @@ namespace PH.Well.Domain
         public decimal AccountBalance => EntityAttribute.ParseDecimal(this.EntityAttributes.FirstOrDefault(x => x.Code == "ACCBAL"));
         
         public WellStatus WellStatus { get; set; }
+
+        // used on the import to check whether the stop has 
+        public bool HasStopMoved { get; set; }
      
     }
 }

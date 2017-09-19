@@ -2,16 +2,17 @@
 {
     using Contracts;
     using Domain;
+    using Domain.Extensions;
 
     public class EpodImportMapper : IEpodImportMapper
     {
-        public void MapStop(Stop from, Stop to)
+        public void MapStop(Stop source, Stop destination)
         {
-            to.StopStatusCode = from.StopStatusCode;
-            to.StopStatusDescription = from.StopStatusDescription;
-            to.PerformanceStatusCode = from.PerformanceStatusCode;
-            to.PerformanceStatusDescription = from.PerformanceStatusDescription;
-            to.StopByPassReason = from.StopByPassReason;
+            destination.StopStatusCode = source.StopStatusCode;
+            destination.StopStatusDescription = source.StopStatusDescription;
+            destination.PerformanceStatusCode = source.PerformanceStatusCode;
+            destination.PerformanceStatusDescription = source.PerformanceStatusDescription;
+            destination.StopByPassReason = source.StopByPassReason;
         }
 
         public void MapJob(Job source, Job destination)

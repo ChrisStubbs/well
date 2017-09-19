@@ -206,6 +206,7 @@
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
+    <Compile Include="Infrastructure\AdamRepositoryTests.cs" />
     <Compile Include="Infrastructure\AmendmentRepositoryTests.cs" />
     <Compile Include="Infrastructure\BaseDapperProxyTests.cs" />
     <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />

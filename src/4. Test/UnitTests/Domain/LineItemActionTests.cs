@@ -44,7 +44,7 @@ namespace PH.Well.UnitTests.Domain
                 yield return new TestCaseData(
                     LineItemActionFactory.New
                         .GenerateForHasChange()
-                        .With(p => p.Reason = Well.Domain.Enums.JobDetailReason.AccumulatedDamages).Build())
+                        .With(p => p.Reason = Well.Domain.Enums.JobDetailReason.BookingError).Build())
                     .Returns(true);
                 yield return new TestCaseData(
                     LineItemActionFactory.New

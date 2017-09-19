@@ -26,14 +26,15 @@ namespace PH.Well.Domain.Mappers
                 cfg.CreateMap<Account, AccountDTO>();
 
                 cfg.CreateMap<JobDTO, Job>()
-                 .ForMember(m => m.JobTypeCode, p => p.ResolveUsing((s, d) =>
-                 {
-                     if (!string.IsNullOrWhiteSpace(s.JobTypeCode))
-                     {
-                         return s.JobTypeCode;
-                     }
-                     return s.JobTypeCodeTransend;
-                 }));
+                    .ForMember(m => m.JobTypeCode, p => p.ResolveUsing((s, d) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(s.JobTypeCode))
+                        {
+                            return s.JobTypeCode;
+                        }
+                        return s.JobTypeCodeTransend;
+                    }))
+                    .ForMember(m => m.JobType, opt => opt.Ignore());
 
                 cfg.CreateMap<Job, JobDTO>()
                 .ForMember(m => m.OrdOuters, p => p.ResolveUsing((s, d) =>

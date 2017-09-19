@@ -107,9 +107,10 @@
 
         private void UpdateJobDetails(IEnumerable<JobDetail> jobDetails, int jobId)
         {
+            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p => p.LineNumber);
             foreach (var detail in jobDetails)
             {
-                var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
+                var existingJobDetail = existingJobDetails[detail.LineNumber].FirstOrDefault();
 
                 if (existingJobDetail != null)
                 {

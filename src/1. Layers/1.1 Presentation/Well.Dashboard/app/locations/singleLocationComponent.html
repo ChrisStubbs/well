@@ -83,96 +83,96 @@
         <div class="table-responsive table-container col-md-12">
             <table class="table table-striped" style="table-layout: fixed">
                 <thead>
-                <tr>
-                    <th style="width: 3%">
-                        <a href="#" (click)="expandAll($event)">
-                            <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
-                            <ng-template #allExpended>
-                                <span class="fa fa-arrow-circle-down"></span>
-                            </ng-template>
-                            <ng-template #notAllExpanded>
-                                <span class="fa fa-arrow-circle-right"></span>
-                            </ng-template>
-                        </a>
-                    </th>
-                    <th  style="width: 11%">
-                        <div class="text-center">Driver</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.driver" (change)="buildGridSource()" title="">
+                    <tr>
+                        <th style="width: 3%">
+                            <a href="#" (click)="expandAll($event)">
+                                <div *ngIf="areAllExpanded(); then allExpended else notAllExpanded"> </div>
+                                <ng-template #allExpended>
+                                    <span class="fa fa-arrow-circle-down"></span>
+                                </ng-template>
+                                <ng-template #notAllExpanded>
+                                    <span class="fa fa-arrow-circle-right"></span>
+                                </ng-template>
+                            </a>
+                        </th>
+                        <th  style="width: 11%">
+                            <div class="text-center">Driver</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.driver" (change)="buildGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let d of drivers" [value]="d">
+                                        {{ d }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th style="width: 14%">
+                            <div class="text-center">Date</div>
+                            <div>
+                                <input type="date" [(ngModel)]="filters.dateFormatted" (change)="buildGridSource()" class="form-control">
+                            </div>
+                        </th>
+                        <th  style="width: 10%">
+                            <div class="text-center">Job Type</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.jobTypeId" (change)="buildGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
+                                        {{ jobType.value }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th  style="width: 10%">
+                            <div class="text-center">Job Status</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.jobStatus" (change)="buildGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let js of wellStatus" [value]="js.value">
+                                        {{ js.value }}
+                                    </option>
+                                </select>
+                            </div>
+                        </th>
+                        <th style="width: 14%" colspan="2">
+                            <div class="text-center col-md-6">Exceptions</div>
+                            <div class="text-center col-md-6">Clean</div>
+                            <select class="form-control" [(ngModel)]="filters.exceptions" (change)="buildGridSource()" title="">
                                 <option value>All</option>
-                                <option *ngFor="let d of drivers" [value]="d">
-                                    {{ d }}
+                                <option value="1">With Exceptions</option>
+                                <option value="2">All Clean</option>
+                            </select>
+                        </th>
+                        <th style="width: 7%">
+                            <div class="text-center">T.B.A.</div>
+                            <div class="form-control-placeholder">&nbsp;</div>
+                        </th>
+                        <th style="width: 7%">
+                            <div class="text-center">Credit</div>
+                            <div class="form-control-placeholder">&nbsp;</div>
+                        </th>
+                        <th style="width: 12%">
+                            <div class="text-center">Assignee</div>
+                            <div>
+                                <select class="form-control" [(ngModel)]="filters.assignee" (change)="buildGridSource()" title="">
+                                    <option value>All</option>
+                                    <option *ngFor="let a of assignees" [value]="a">{{a}}</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th style="width: 9%">
+                            <div class="text-center">Exception Resolution</div>
+                            <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="buildGridSource()" title="">
+                                <option value>All</option>
+                                <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
+                                    {{resolutionStatus.value}}
                                 </option>
                             </select>
-                        </div>
-                    </th>
-                    <th style="width: 14%">
-                        <div class="text-center">Date</div>
-                        <div>
-                            <input type="date" [(ngModel)]="filters.dateFormatted" (change)="buildGridSource()" class="form-control">
-                        </div>
-                    </th>
-                    <th  style="width: 10%">
-                        <div class="text-center">Job Type</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.jobTypeId" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option *ngFor="let jobType of jobTypes" [value]="jobType.key">
-                                    {{ jobType.value }}
-                                </option>
-                            </select>
-                        </div>
-                    </th>
-                    <th  style="width: 10%">
-                        <div class="text-center">Job Status</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.jobStatus" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option *ngFor="let js of wellStatus" [value]="js.value">
-                                    {{ js.value }}
-                                </option>
-                            </select>
-                        </div>
-                    </th>
-                    <th style="width: 14%" colspan="2">
-                        <div class="text-center col-md-6">Exceptions</div>
-                        <div class="text-center col-md-6">Clean</div>
-                        <select class="form-control" [(ngModel)]="filters.exceptions" (change)="buildGridSource()" title="">
-                            <option value>All</option>
-                            <option value="1">With Exceptions</option>
-                            <option value="2">All Clean</option>
-                        </select>
-                    </th>
-                    <th style="width: 7%">
-                        <div class="text-center">T.B.A.</div>
-                        <div class="form-control-placeholder">&nbsp;</div>
-                    </th>
-                    <th style="width: 7%">
-                        <div class="text-center">Credit</div>
-                        <div class="form-control-placeholder">&nbsp;</div>
-                    </th>
-                    <th style="width: 12%">
-                        <div class="text-center">Assignee</div>
-                        <div>
-                            <select class="form-control" [(ngModel)]="filters.assignee" (change)="buildGridSource()" title="">
-                                <option value>All</option>
-                                <option *ngFor="let a of assignees" [value]="a">{{a}}</option>
-                            </select>
-                        </div>
-                    </th>
-                    <th style="width: 9%">
-                        <div class="text-center">Exception Resolution</div>
-                        <select class="form-control" [(ngModel)]="filters.resolutionId" (change)="buildGridSource()" title="">
-                            <option value>All</option>
-                            <option *ngFor="let resolutionStatus of resolutionStatuses" [value]="resolutionStatus.key">
-                                {{resolutionStatus.value}}
-                            </option>
-                        </select>
-                    </th>
-                    <th class="colCheckbox" *ngIf="canDoManualActions || canEditExceptions" style="width: 3%">
-                        <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectLocations($event.target.checked, null)">
-                    </th>
-                </tr>
+                        </th>
+                        <th class="colCheckbox" *ngIf="canDoManualActions || canEditExceptions" style="width: 3%">
+                            <input type="checkbox" title="" [checked]="allChildrenSelected(null)" (change)="selectLocations($event.target.checked, null)">
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of gridSource">

@@ -97,7 +97,7 @@
         {
             Entity.Id = 1;
             Entity.Sequence = 1;
-            Entity.JobTypeCode = "001";
+            Entity.JobTypeCode = JobTypeDescriptions.Description(JobType.Alcohol);
             Entity.PhAccount = "J001";
             Entity.PickListRef = "J002";
             Entity.InvoiceNumber = "J0032";

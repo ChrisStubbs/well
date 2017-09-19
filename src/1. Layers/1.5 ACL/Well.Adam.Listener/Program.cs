@@ -97,6 +97,7 @@
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IPodService>().Use<PodService>();
                     x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
+                    x.For<INotificationRepository>().Use<NotificationRepository>();
                 });
         }
     }

@@ -1,4 +1,5 @@
-﻿using PH.Shared.Well.Data.EF;
+﻿using System.Diagnostics;
+using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Constants;
 
 namespace PH.Well.Repositories.Read
@@ -39,6 +40,9 @@ namespace PH.Well.Repositories.Read
 
             if (branch != null)
             {
+                var sw = new Stopwatch();
+                sw.Start();
+
                 var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
                     .Where(p => p.BranchId == branchId)
                     .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
@@ -95,6 +99,9 @@ namespace PH.Well.Repositories.Read
                     .Where(p => p.BranchId == branchId)
                     .ToDictionary(k => k.Routeid, v => new {v.WithExceptions, v.WithOutExceptions});
 
+                sw.Stop();
+                sw.Start();
+
                 var routeHeaders = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .Select(x => new
@@ -127,7 +134,7 @@ namespace PH.Well.Repositories.Read
                     return null;
                 };
 
-                return routeHeaders
+                var result = routeHeaders
                     .Select(item =>
                     {
                         var routeWellStatus = (item.WellStatus.HasValue)
@@ -167,6 +174,10 @@ namespace PH.Well.Repositories.Read
                         return route;
                     })
                     .ToList();
+
+                sw.Stop();
+
+                return result;
             }
 
             return new List<Route>();

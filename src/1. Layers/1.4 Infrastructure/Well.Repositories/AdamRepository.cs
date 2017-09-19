@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Common;
     using System.Linq;
     using AIA.Adam.RFS;
     using AIA.ADAM.DataProvider;
@@ -21,9 +22,15 @@
         private readonly IEventLogger eventLogger;
         private readonly IPodTransactionFactory podTransactionFactory;
         private readonly IExceptionEventRepository eventRepository;
-        private readonly IGlobalUpliftTransactionFactory _globalUpliftTransactionFactory;
+        private readonly IGlobalUpliftTransactionFactory globalUpliftTransactionFactory;
 
-        public AdamRepository(ILogger logger, IJobRepository jobRepository, IEventLogger eventLogger, IPodTransactionFactory podTransactionFactory, IDeliveryReadRepository deliveryReadRepository, IExceptionEventRepository eventRepository, IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
+        public AdamRepository(ILogger logger,
+            IJobRepository jobRepository,
+            IEventLogger eventLogger,
+            IPodTransactionFactory podTransactionFactory,
+            IDeliveryReadRepository deliveryReadRepository,
+            IExceptionEventRepository eventRepository,
+            IGlobalUpliftTransactionFactory globalUpliftTransactionFactory)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -31,7 +38,18 @@
             this.eventLogger = eventLogger;
             this.podTransactionFactory = podTransactionFactory;
             this.eventRepository = eventRepository;
-            _globalUpliftTransactionFactory = globalUpliftTransactionFactory;
+            this.globalUpliftTransactionFactory = globalUpliftTransactionFactory;
+        }
+
+
+        public virtual DbConnection GetAdamConnection(AdamSettings adamSettings)
+        {
+            return new AdamConnection(GetConnection(adamSettings));
+        }
+
+        public virtual DbCommand GetAdamCommand(DbConnection connection)
+        {
+            return new AdamCommand(connection as AdamConnection);
         }
 
         // PLEASE NOTE There is no transaction scope in ADAM.  If a transaction of lines plus header fails 
@@ -41,25 +59,25 @@
 
         public AdamResponse Credit(CreditTransaction creditTransaction, AdamSettings adamSettings)
         {
-            var linesToRemove = new Dictionary<int, string>();
+            var linesToRemove = new List<int>();
 
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     connection.Open();
 
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         foreach (var line in creditTransaction.LineSql.OrderBy(x => x.Key))
                         {
                             command.CommandText = line.Value;
                             command.ExecuteNonQuery();
-                            linesToRemove.Add(line.Key, line.Value);
+                            linesToRemove.Add(line.Key);
                         }
                     }
                 }
-                catch (AdamProviderException adamException)
+                catch (Exception adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
@@ -70,18 +88,18 @@
 
             foreach (var line in linesToRemove)
             {
-                creditTransaction.LineSql.Remove(line.Key);
+                creditTransaction.LineSql.Remove(line);
             }
 
             if (creditTransaction.CanWriteHeader)
             {
-                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                using (var connection = GetAdamConnection(adamSettings))
                 {
                     try
                     {
                         connection.Open();
 
-                        using (var command = new AdamCommand(connection))
+                        using (var command = GetAdamCommand(connection))
                         {
                             command.CommandText = creditTransaction.HeaderSql;
                             command.ExecuteNonQuery();
@@ -89,7 +107,7 @@
                             return AdamResponse.Success;
                         }
                     }
-                    catch (AdamProviderException adamException)
+                    catch (Exception adamException)
                     {
                         //todo if ADAM fails here, the credit transaction has had the successful lines removed so 
                         //write new exception event with header
@@ -101,6 +119,7 @@
                             this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                             $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
                             EventId.AdamCreditHeaderException);
+                            return AdamResponse.AdamDown;
                         }
                         else
                         {
@@ -197,13 +216,13 @@
             var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
             if (delivery.GrnNumber != String.Empty)
             {
-                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                using (var connection = GetAdamConnection(adamSettings))
                 {
                     try
                     {
                         connection.Open();
 
-                        using (var command = new AdamCommand(connection))
+                        using (var command = GetAdamCommand(connection))
                         {
                             var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
                             var today = DateTime.Now.ToShortDateString();
@@ -229,14 +248,10 @@
                         }
                         return AdamResponse.Success;
                     }
-                    catch (AdamProviderException adamException)
+                    catch (Exception adamException)
                     {
                         this.logger.LogError("ADAM error occurred!", adamException);
-
-                        if (adamException.AdamErrorId == AdamError.ADAMNOTRUNNING)
-                        {
-                            return AdamResponse.AdamDown;
-                        }
+                        return AdamResponse.AdamDown;
                     }
                 }
             }
@@ -249,13 +264,13 @@
             var job = this.jobRepository.GetById(pod.JobId);
             var linesToRemove = new Dictionary<int, string>();
 
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     connection.Open();
 
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         foreach (var line in pod.LineSql.OrderBy(x => x.Key))
                         {
@@ -265,7 +280,7 @@
                         }
                     }
                 }
-                catch (AdamProviderException adamException)
+                catch (Exception adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
@@ -281,13 +296,13 @@
 
             if (pod.CanWriteHeader)
             {
-                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                using (var connection = GetAdamConnection(adamSettings))
                 {
                     try
                     {
                         connection.Open();
 
-                        using (var command = new AdamCommand(connection))
+                        using (var command = GetAdamCommand(connection))
                         {
                             command.CommandText = pod.HeaderSql;
                             command.ExecuteNonQuery();
@@ -295,9 +310,19 @@
                             return AdamResponse.Success;
                         }
                     }
-                    catch (AdamProviderException adamException)
+                    catch (Exception adamException)
                     {
-                        if (linesToRemove.Count == 0)
+                        if (linesToRemove.Any())
+                        {
+                            this.eventRepository.InsertPodTransaction(pod);
+                            this.logger.LogError("ADAM error occurred writing pod header!", adamException);
+
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                                $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
+                                EventId.AdamPodHeaderException);
+                            return AdamResponse.AdamDown;
+                        }
+                        else
                         {
                             this.logger.LogError("ADAM error occurred writing pod header only - no change to transaction!", adamException);
 
@@ -307,32 +332,22 @@
 
                             return AdamResponse.AdamDownNoChange;
                         }
-                        else
-                        {
-                            this.eventRepository.InsertPodTransaction(pod);
-                            this.logger.LogError("ADAM error occurred writing pod header!", adamException);
-
-                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                                $"Adam exception {adamException} when writing POD header for pod transaction {pod.HeaderSql}",
-                                EventId.AdamPodHeaderException);
-                        }
                     }
                 }
             }
             else
             {
-                if (linesToRemove.Count == 0)
-                {
-                    this.logger.LogError("ADAM error occurred writing pod!");
-                    return AdamResponse.AdamDownNoChange;
-                }
-                else
+                if (linesToRemove.Any())
                 {
                     this.eventRepository.InsertPodTransaction(pod);
                     this.logger.LogError("ADAM error occurred writing pod! Remaining pod details recorded.");
                     return AdamResponse.AdamDown;
                 }
-
+                else
+                {
+                    this.logger.LogError("ADAM error occurred writing pod!");
+                    return AdamResponse.AdamDownNoChange;
+                }
             }
 
             return AdamResponse.Unknown;
@@ -341,17 +356,16 @@
 
         public AdamResponse Pod(PodEvent podEvent, AdamSettings adamSettings, Job job)
         {
-            //var job = this.jobRepository.GetById(podEvent.Id);
             var pod = podTransactionFactory.Build(job, podEvent.BranchId);
             var linesToRemove = new Dictionary<int, string>();
 
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     connection.Open();
 
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         foreach (var line in pod.LineSql.OrderBy(x => x.Key))
                         {
@@ -361,7 +375,7 @@
                         }
                     }
                 }
-                catch (AdamProviderException adamException)
+                catch (Exception adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing POD line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
@@ -377,13 +391,13 @@
 
             if (pod.CanWriteHeader)
             {
-                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                using (var connection = GetAdamConnection(adamSettings))
                 {
                     try
                     {
                         connection.Open();
 
-                        using (var command = new AdamCommand(connection))
+                        using (var command = GetAdamCommand(connection))
                         {
                             command.CommandText = pod.HeaderSql;
                             command.ExecuteNonQuery();
@@ -391,7 +405,7 @@
                             return AdamResponse.Success;
                         }
                     }
-                    catch (AdamProviderException adamException)
+                    catch (Exception adamException)
                     {
                         this.eventRepository.InsertPodTransaction(pod);
                         this.logger.LogError("ADAM error occurred writing pod header!", adamException);
@@ -416,13 +430,13 @@
         {
             var linesToRemove = new Dictionary<int, string>();
 
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     connection.Open();
 
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         foreach (var line in amend.LineSql.OrderBy(x => x.Key))
                         {
@@ -432,7 +446,7 @@
                         }
                     }
                 }
-                catch (AdamProviderException adamException)
+                catch (Exception adamException)
                 {
                     this.logger.LogError("ADAM error occurred writing amendment line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
@@ -448,13 +462,13 @@
 
             if (amend.CanWriteHeader)
             {
-                using (var connection = new AdamConnection(GetConnection(adamSettings)))
+                using (var connection = GetAdamConnection(adamSettings))
                 {
                     try
                     {
                         connection.Open();
 
-                        using (var command = new AdamCommand(connection))
+                        using (var command = GetAdamCommand(connection))
                         {
                             command.CommandText = amend.HeaderSql;
                             command.ExecuteNonQuery();
@@ -462,20 +476,53 @@
                             return AdamResponse.Success;
                         }
                     }
-                    catch (AdamProviderException adamException)
+                    catch (Exception adamException)
                     {
-                        this.logger.LogError("ADAM error occurred writing amend header!", adamException);
+                        //this.logger.LogError("ADAM error occurred writing amend header!", adamException);
 
-                        this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
-                            $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
-                            EventId.AdamAmendmentHeaderTransactionException);
+                        //this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                        //    $"Adam exception {adamException} when writing amend header for amend transaction {amend.HeaderSql}",
+                        //    EventId.AdamAmendmentHeaderTransactionException);
+
+                        if (linesToRemove.Any())
+                        {
+                            this.eventRepository.InsertAmendmentTransaction(amend);
+                            this.logger.LogError("ADAM error occurred writing amend header!", adamException);
+
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                                $"Adam exception {adamException} when writing POD header for amend transaction {amend.HeaderSql}",
+                                EventId.AdamAmendmentHeaderTransactionException);
+                            return AdamResponse.AdamDown;
+                        }
+                        else
+                        {
+                            this.logger.LogError("ADAM error occurred writing amend header only - no change to transaction!", adamException);
+
+                            this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
+                                $"Adam exception {adamException} when writing POD header for amend transaction {amend.HeaderSql}",
+                                EventId.AdamAmendmentHeaderTransactionException);
+
+                            return AdamResponse.AdamDownNoChange;
+                        }
                     }
                 }
             }
             else
             {
-                this.logger.LogError("ADAM error occurred writing amendment! Remaining amend details recorded.");
-                return AdamResponse.AdamDown;
+                //this.logger.LogError("ADAM error occurred writing amendment! Remaining amend details recorded.");
+                //return AdamResponse.AdamDown;
+
+                if (linesToRemove.Any())
+                {
+                    this.eventRepository.InsertAmendmentTransaction(amend);
+                    this.logger.LogError("ADAM error occurred writing amendment! Remaining amendment details recorded.");
+                    return AdamResponse.AdamDown;
+                }
+                else
+                {
+                    this.logger.LogError("ADAM error occurred writing amendment!");
+                    return AdamResponse.AdamDownNoChange;
+                }
             }
 
             return AdamResponse.Unknown;
@@ -533,14 +580,14 @@
 
         public virtual AdamResponse WriteGlobalUpliftLine(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
-            string sql = _globalUpliftTransactionFactory.LineSql(transaction);
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            string sql = globalUpliftTransactionFactory.LineSql(transaction);
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     transaction.LineDidWrite = false;
                     connection.Open();
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         command.CommandText = sql;
                         command.ExecuteNonQuery();
@@ -573,14 +620,14 @@
 
         public virtual AdamResponse WriteGlobalUpliftHeader(GlobalUpliftTransaction transaction, AdamSettings adamSettings)
         {
-            string sql = _globalUpliftTransactionFactory.HeaderSql(transaction);
-            using (var connection = new AdamConnection(GetConnection(adamSettings)))
+            string sql = globalUpliftTransactionFactory.HeaderSql(transaction);
+            using (var connection = GetAdamConnection(adamSettings))
             {
                 try
                 {
                     transaction.HeaderDidWrite = false;
                     connection.Open();
-                    using (var command = new AdamCommand(connection))
+                    using (var command = GetAdamCommand(connection))
                     {
                         command.CommandText = sql;
                         command.ExecuteNonQuery();

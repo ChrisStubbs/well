@@ -6,8 +6,8 @@ AS
 		WellStatus,
 		r.RouteNumber,
 		r.RouteDate,
-		r.RouteOwnerId AS BranchId
-		[WellStatus] RouteWellStatus,
+		r.RouteOwnerId AS BranchId,
+		[WellStatus] RouteWellStatus
 	FROM 
 		RouteHeader r
 		INNER JOIN @filter f

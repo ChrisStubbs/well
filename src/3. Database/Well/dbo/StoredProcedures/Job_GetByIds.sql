@@ -5,7 +5,9 @@ AS
 		j.Id
 		,j.Sequence
 		,j.JobTypeCode
-		,j.JobTypeId AS JobType
+		,jb.Id AS JobType
+		,jb.Description AS JobTypeDescription
+		,jb.Abbreviation AS JobTypeAbbreviation
 		,j.PHAccount
 		,j.PickListRef
 		,j.InvoiceNumber
@@ -43,8 +45,7 @@ AS
 		,j.OuterDiscrepancyFound
 		,a.Id AS PhAccountId
 		,a.Name AS PhAccountName
-		,credit.CreditValue
-		,jb.Abbreviation AS JobTypeAbbreviation
+		,credit.CreditValue		
 		,CAST(j.ResolutionStatusId as INTEGER) AS ResolutionStatus
 		,OuterCount
 		,j.ActivityId

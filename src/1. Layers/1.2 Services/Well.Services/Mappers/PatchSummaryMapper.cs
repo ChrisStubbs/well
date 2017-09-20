@@ -38,7 +38,7 @@ namespace PH.Well.Services.Mappers
             {
                 JobId = job.Id,
                 Invoice = job.InvoiceNumber,
-                Type = EnumExtensions.GetDescription(job.JobType),
+                Type =job.JobTypeDisplayText,
                 Account = job.PhAccount,
                 ShortQuantity = lineItems.Sum(li => li.TotalShortQty),
                 BypassQuantity = lineItems.Sum(li => li.TotalBypassQty),

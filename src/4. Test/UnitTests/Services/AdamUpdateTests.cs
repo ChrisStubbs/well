@@ -101,13 +101,14 @@
                 var routeUpdate = new RouteUpdates();
 
                 routeUpdate.Stops.Add(stopUpdate);
+                var parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
+                };
 
                 this.routeHeaderRepository.Setup(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode))).Returns((RouteHeader)null);
+                        x.GetByNumberDateBranch(parameters)).Returns(new List<GetByNumberDateBranchResult>());
 
                 this.logger.Setup(
                     x =>
@@ -127,14 +128,15 @@
 
                 //ACT
                 this.service.Update(routeUpdate);
+                parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
+                };
 
                 //ASSERT
                 this.routeHeaderRepository.Verify(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode)), Times.Once);
+                        x.GetByNumberDateBranch(parameters), Times.Once);
 
                 this.logger.Verify(
                     x =>
@@ -187,13 +189,22 @@
                 routeUpdate.Stops.Add(stopUpdate);
 
                 var routeHeader = RouteHeaderFactory.New.Build();
+                var result = new GetByNumberDateBranchResult
+                {
+                    BranchId = routeHeader.RouteOwnerId,
+                    Id = routeHeader.Id,
+                    RouteDate = routeHeader.RouteDate.Value,
+                    RouteNumber = routeHeader.RouteNumber,
+                    WellStatus = routeHeader.RouteWellStatus
+                };
+                var parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate =  stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
+                };
 
                 this.routeHeaderRepository.Setup(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
+                        x.GetByNumberDateBranch(parameters)).Returns(new List<GetByNumberDateBranchResult> { result });
 
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode)))
                     .Returns(new Stop());
@@ -207,10 +218,7 @@
                 //ASSERT
                 this.routeHeaderRepository.Verify(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode)), Times.Once);
+                        x.GetByNumberDateBranch(parameters), Times.Once);
 
                 this.logger.Verify(
                     x =>
@@ -256,13 +264,23 @@
                 stopUpdate.Jobs.Add(jobUpdate);
 
                 var routeHeader = RouteHeaderFactory.New.Build();
+                var result = new GetByNumberDateBranchResult
+                {
+                    BranchId = routeHeader.RouteOwnerId,
+                    Id = routeHeader.Id,
+                    RouteDate = routeHeader.RouteDate.Value,
+                    RouteNumber = routeHeader.RouteNumber,
+                    WellStatus = routeHeader.RouteWellStatus
+                };
+
+                var parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
+                };
 
                 this.routeHeaderRepository.Setup(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode))).Returns(routeHeader);
+                        x.GetByNumberDateBranch(parameters)).Returns(new List<GetByNumberDateBranchResult> { result });
 
                 this.stopRepository.Setup(x => x.GetByJobDetails(jobUpdate.PickListRef, jobUpdate.PhAccount, routeHeader.RouteOwnerId))
                     .Returns((Stop)null);
@@ -299,15 +317,15 @@
 
                 //ACT
                 this.service.Update(routeUpdate);
-
+                parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
+                };
 
                 //Assert
                 this.routeHeaderRepository.Verify(
                     x =>
-                        x.GetByNumberDateBranch(
-                            stopUpdate.RouteNumber,
-                            stopUpdate.DeliveryDate.Value,
-                            int.Parse(stopUpdate.StartDepotCode)), Times.Once);
+                        x.GetByNumberDateBranch(parameters), Times.Once);
 
                 this.mapper.Verify(x => x.Map(stopUpdate, It.IsAny<Stop>()), Times.Once);
 
@@ -417,10 +435,10 @@
 
                 stopUpdate.Jobs.Add(job);
 
-                this.jobRepository.Setup(x=> x.GetByStopId(stop.Id)).Returns(new List<Job>());
+                this.jobRepository.Setup(x => x.GetByStopId(stop.Id)).Returns(new List<Job>());
 
                 this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode))).Returns(stop);
-                
+
                 this.mapper.Setup(x => x.Map(stopUpdate, stop));
 
                 this.stopRepository.Setup(x => x.Update(stop));
@@ -443,7 +461,7 @@
                 //ASSERT
                 this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
 
-                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()),Times.Once);
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Once);
 
                 jobStatusService.Verify(x => x.ComputeWellStatus(It.IsAny<int>()), Times.Once);
 

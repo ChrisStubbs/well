@@ -11,6 +11,7 @@ namespace PH.Well.Repositories
         public const string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
         public const string RouteHeaderInsert = "RouteHeader_Insert";
         public const string RouteHeaderUpdate = "RouteHeader_Update";
+        public const string UpdateFieldsFromImported = "UpdateRouteHeaderFieldsFromImportedFile";
         public const string RouteHeaderGetById = "RouteHeader_GetById";
         public const string RouteHeaderUpdateWellStatus = "RouteHeader_UpdateWellStatus";
         public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";

@@ -8,6 +8,7 @@
     using Domain;
     using Domain.Enums;
     using Repositories.Contracts;
+    using System.Linq;
 
     public class AdamImportService : IAdamImportService
     {
@@ -46,15 +47,40 @@
 
         public void Import(RouteDelivery route)
         {
+            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
+                .Select(p => 
+                {
+                    p.RouteOwnerId = GetRouteOwnerId(p);
+
+                    return new GetByNumberDateBranchFilter
+                    {
+                        BranchId = p.RouteOwnerId,
+                        RouteDate = p.RouteDate.Value,
+                        RouteNumber = p.RouteNumber
+                    };
+                })
+                .ToList())
+                .ToDictionary(k => new { k.BranchId, k.RouteDate, k.RouteNumber });
+
             foreach (var header in route.RouteHeaders)
             {
                 try
                 {
                     using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
                     {
+                        var key = new
+                        {
+                            BranchId = header.RouteOwnerId,
+                            RouteDate = header.RouteDate.Value,
+                            header.RouteNumber
+                        };
+
                         deadlockRetryHelper.Retry(() =>
-                            this.ImportRouteHeader(header, route.RouteId)
+                            this.ImportRouteHeader(header, 
+                                route.RouteId, 
+                                existingRouteHeader.ContainsKey(key) ? existingRouteHeader[key] : null)
                         );
+                        //TODO Improve: Can we execute this after the for?
                         routeHeaderRepository.DeleteRouteHeaderWithNoStops();
                         transactionScope.Complete();
                     }
@@ -71,40 +97,33 @@
             }
         }
 
-        public void ImportRouteHeader(RouteHeader header, int routeId)
+        private void ImportRouteHeader(RouteHeader header, int routeId, GetByNumberDateBranchResult existingRouteHeader = null)
         {
             header.RoutesId = routeId;
-            header.RouteOwnerId = GetRouteOwnerId(header);
-
-            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
-                header.RouteNumber,
-                header.RouteDate.Value,
-                header.RouteOwnerId);
 
             if (existingRouteHeader != null)
             {
-                if (existingRouteHeader.IsCompleted)
+                if (existingRouteHeader.WellStatus == WellStatus.Complete || existingRouteHeader.WellStatus == WellStatus.CompleteWithBypass)
                 {
                     var message = $"Ignoring Route update. Route is Complete  " +
                                   $"route header id ({existingRouteHeader.Id}) " +
-                                  $"number ({existingRouteHeader.RouteNumber}), " +
-                                  $"route date ({existingRouteHeader.RouteDate.Value}), " +
-                                  $"branch ({existingRouteHeader.RouteOwnerId})";
+                                  $"number ({header.RouteNumber}), " +
+                                  $"route date ({header.RouteDate.Value}), " +
+                                  $"branch ({header.RouteOwnerId})";
                     logger.LogDebug(message);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
                     return;
                 }
 
                 header.Id = existingRouteHeader.Id;
-                existingRouteHeader = importMapper.MapRouteHeader(header, existingRouteHeader);
+                routeHeaderRepository.UpdateFieldsFromImported(importMapper.MapRouteHeader(header));
 
-                routeHeaderRepository.Update(existingRouteHeader);
                 logger.LogDebug(
                     $"Updating Route  " +
                     $"route header id ({existingRouteHeader.Id}) " +
-                    $"number ({existingRouteHeader.RouteNumber}), " +
-                    $"route date ({existingRouteHeader.RouteDate.Value}), " +
-                    $"branch ({existingRouteHeader.RouteOwnerId})"
+                    $"number ({header.RouteNumber}), " +
+                    $"route date ({header.RouteDate.Value}), " +
+                    $"branch ({header.RouteOwnerId})"
                 );
             }
             else
@@ -133,7 +152,5 @@
                  ? (int)Branches.NotDefined
                  : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
         }
-
-
     }
 }

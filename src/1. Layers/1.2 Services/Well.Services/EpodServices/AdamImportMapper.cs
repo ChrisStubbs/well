@@ -4,6 +4,7 @@
     using Domain;
     using Domain.Enums;
     using Domain.Extensions;
+    using Repositories.Contracts;
 
     public class AdamImportMapper : IAdamImportMapper
     {
@@ -21,14 +22,17 @@
             destination.AccountBalance = source.AccountBalance;
         }
 
-        public RouteHeader MapRouteHeader(RouteHeader source, RouteHeader destination)
+        public RouteHeaderFromImportedFile MapRouteHeader(RouteHeader source)
         {
-            destination.StartDepotCode = source.StartDepotCode;
-            destination.RouteDate = source.RouteDate;
-            destination.RouteNumber = source.RouteNumber;
-            destination.PlannedStops = source.PlannedStops;
-            destination.RouteOwnerId = source.RouteOwnerId;
-            return destination;
+            return new RouteHeaderFromImportedFile
+            {
+                Id = source.Id,
+                PlannedStops = source.PlannedStops,
+                RouteDate = source.RouteDate,
+                RouteNumber = source.RouteNumber,
+                RouteOwnerId = source.RouteOwnerId,
+                StartDepotCode = source.StartDepotCode
+            };
         }
 
         public void MapJob(Job source, Job destination)

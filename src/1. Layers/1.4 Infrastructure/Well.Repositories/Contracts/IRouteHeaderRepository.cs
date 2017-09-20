@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Domain;
+    using Domain.Enums;
 
     public interface IRouteHeaderRepository : IRepository<RouteHeader, int>
     {
@@ -26,10 +27,39 @@
         
         IEnumerable<RouteHeader> GetRouteHeadersGetByRoutesId(int routesId);
 
-        RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId);
+        IList<GetByNumberDateBranchResult> GetByNumberDateBranch(IList<GetByNumberDateBranchFilter> filter);
 
         void DeleteRouteHeaderWithNoStops();
 
         void UpdateWellStatus(RouteHeader routeHeader);
+
+        void UpdateFieldsFromImported(RouteHeaderFromImportedFile newData);
     }
+
+    public struct GetByNumberDateBranchFilter
+    {
+        public string RouteNumber { get; set; }
+        public DateTime RouteDate { get; set; }
+        public int BranchId { get; set; }
+    }
+
+    public class GetByNumberDateBranchResult
+    {
+        public int Id { get; set; }
+        public WellStatus WellStatus { get; set; }
+        public string RouteNumber { get; set; }
+        public DateTime RouteDate { get; set; }
+        public int BranchId { get; set; }
+    }
+
+    public class RouteHeaderFromImportedFile
+    {
+        public int Id { get; set; }
+        public string StartDepotCode { get; set; }
+        public DateTime? RouteDate { get; set; }
+        public string RouteNumber { get; set; }
+        public int PlannedStops { get; set; }
+        public int RouteOwnerId { get; set; }
+    }
+
 }

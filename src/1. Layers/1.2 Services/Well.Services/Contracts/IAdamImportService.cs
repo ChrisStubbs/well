@@ -6,6 +6,6 @@
     {
         void Import(RouteDelivery route);
 
-        void ImportRouteHeader(RouteHeader header, int routeId);
+        //void ImportRouteHeader(RouteHeader header, int routeId);
     }
 }

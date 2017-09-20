@@ -97,6 +97,7 @@ namespace PH.Well.Services
 
                 job = GetJob(job.Id);
                 job.ResolutionStatus = jobResolutionStatus.GetCurrentResolutionStatus(job);
+                jobRepository.SaveJobResolutionStatus(job);
                 jobRepository.Update(job);
                 // Compute well status
                 jobService.ComputeAndPropagateWellStatus(job);

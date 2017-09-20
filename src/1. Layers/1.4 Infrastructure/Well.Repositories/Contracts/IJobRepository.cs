@@ -31,8 +31,6 @@
 
         void UpdateStatus(int jobId, JobStatus status);
 
-        void SetJobResolutionStatus(int jobId, string status);
-
         IEnumerable<JobRoute> GetJobsRoute(IEnumerable<int> jobIds);
 
         JobRoute GetJobRoute(int jobId);

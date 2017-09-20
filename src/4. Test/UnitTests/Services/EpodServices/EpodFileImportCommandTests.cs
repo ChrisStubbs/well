@@ -202,7 +202,7 @@
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { new Job() });
                 jobService.Setup(x => x.GetNextResolutionStatus(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
-                jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
             }
 
             [Test]
@@ -219,7 +219,7 @@
                 jobService.Verify(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>()), Times.Never);
                 jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Never);
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Never);
-                jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Never);
+                jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Never);
             }
 
             [Test]
@@ -253,14 +253,14 @@
                 jobRepository.Setup(x => x.Update(job1));
                 jobRepository.Setup(x => x.Update(job2));
 
-                jobRepository.Setup(x => x.SetJobResolutionStatus(1, ResolutionStatus.Imported.Description));
-                jobRepository.Setup(x => x.SetJobResolutionStatus(2, ResolutionStatus.Imported.Description));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
 
                 commands.RunPostInvoicedProcessing(updatedJobIds);
 
                 jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(2));
-                jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+                jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
 
             }
         }

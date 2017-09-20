@@ -154,7 +154,7 @@
                     jobService.SetInitialJobStatus(fileJob);
                     fileJob.ResolutionStatus = ResolutionStatus.Imported;
                     jobRepository.Save(fileJob);
-                    jobRepository.SetJobResolutionStatus(fileJob.Id, fileJob.ResolutionStatus.Description);
+                    jobRepository.SaveJobResolutionStatus(fileJob);
                     updateJobIds.Add(fileJob.Id);
 
                     fileJob.JobDetails.ForEach(

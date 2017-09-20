@@ -207,13 +207,13 @@
 
         public void UpdateFieldsFromImported(RouteHeaderFromImportedFile newData)
         {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteHeaderUpdate)
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UpdateFieldsFromImported)
                 .AddParameter("Id", newData.Id, DbType.Int32)
                 .AddParameter("PlannedStops", newData.PlannedStops, DbType.Int16)
                 .AddParameter("RouteDate", newData.RouteDate, DbType.DateTime)
                 .AddParameter("RouteNumber", newData.RouteNumber, DbType.String)
                 .AddParameter("RouteOwnerId", newData.RouteOwnerId, DbType.Int32)
-                .AddParameter("StartDepotCode", newData.StartDepotCode, DbType.String)
+                .AddParameter("StartDepot", newData.StartDepot, DbType.Int32)
             .Execute();
         }
     }

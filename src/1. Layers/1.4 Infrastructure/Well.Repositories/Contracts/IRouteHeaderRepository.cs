@@ -55,7 +55,7 @@
     public class RouteHeaderFromImportedFile
     {
         public int Id { get; set; }
-        public string StartDepotCode { get; set; }
+        public int StartDepot { get; set; }
         public DateTime? RouteDate { get; set; }
         public string RouteNumber { get; set; }
         public int PlannedStops { get; set; }

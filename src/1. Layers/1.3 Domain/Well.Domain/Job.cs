@@ -38,7 +38,11 @@ namespace PH.Well.Domain
 
         public JobType JobType { get; set; }
 
+        public string JobTypeDescription { get; set; }
+
         public string JobTypeAbbreviation { get; set; }
+
+        public string JobTypeDisplayText => $"{JobTypeDescription} ({JobTypeAbbreviation})";
 
         public string PickListRef { get; set; }
 

@@ -79,14 +79,14 @@
             var fileType = this.fileTypeService.DetermineFileType(fileInfo.Name);
             switch (fileType)
             {
-                case EpodFileType.AdamInsert:
-                case EpodFileType.AdamUpdate:
+                case EpodFileType.Route:
+                case EpodFileType.Order:
                     return new[]
                     {
                         fileInfo.ModificationTime,
                         fileInfo.CreationTime
                     }.Min();
-                case EpodFileType.EpodUpdate:
+                case EpodFileType.Epod:
                     var nameParts = fileInfo.Name.Split('_');
                     var timeString = nameParts[2] + nameParts[3].Substring(0, 6);
                     return DateTime.ParseExact(timeString, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
@@ -105,16 +105,16 @@
 
             switch (fileType)
             {
-                case EpodFileType.AdamInsert:
-                    this.AdamImport(filePath, filename);
+                case EpodFileType.Route:
+                    this.HandleRoute(filePath, filename);
                     break;
 
-                case EpodFileType.AdamUpdate:
-                    this.AdamUpdate(filePath, filename);
+                case EpodFileType.Order:
+                    this.HandleOrder(filePath, filename);
                     break;
 
-                case EpodFileType.EpodUpdate:
-                    this.EpodUpdate(filePath, filename);
+                case EpodFileType.Epod:
+                    this.HandleEpod(filePath, filename);
                     break;
             }
 
@@ -125,7 +125,7 @@
             this.logger.LogDebug($"{filePath} processed!");
         }
 
-        private void AdamImport(string filePath, string filename)
+        private void HandleRoute(string filePath, string filename)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
             try
@@ -147,7 +147,7 @@
             }
         }
 
-        private void AdamUpdate(string filePath, string filename)
+        private void HandleOrder(string filePath, string filename)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteUpdates));
             try
@@ -167,7 +167,7 @@
             }
         }
 
-        private void EpodUpdate(string filePath, string filename)
+        private void HandleEpod(string filePath, string filename)
         {
             try
             {

@@ -105,7 +105,7 @@ export class ActionEditComponent implements IObservableAlive
             }
         }
 
-        if (this.source.jobType == this.jobTypeUplift) 
+        if (this.source.jobType == this.jobTypeUplift && this.source.bypass > 0) 
         {
             this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter, 
                 (current: ILookupValue) => +current.key != this.creditActionValue);

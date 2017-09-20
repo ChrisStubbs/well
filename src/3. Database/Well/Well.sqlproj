@@ -464,6 +464,13 @@
     <None Include="ManualStep\scripts\up\026_RemoveStopStatusView.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\Types\GetByNumberDateBranchFilter.sql" />
+    <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
+    <None Include="ManualStep\scripts\up\027_UpdateLineItemTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Build Include="dbo\Types\GetByNumberDateBranchFilter.sql" />
+    <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

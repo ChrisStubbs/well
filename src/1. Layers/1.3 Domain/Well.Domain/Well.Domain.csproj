@@ -128,6 +128,7 @@
     <Compile Include="JobDetailDamage.cs" />
     <Compile Include="SingleLocation.cs" />
     <Compile Include="StopDTO.cs" />
+    <Compile Include="StopImportStatus.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummary.cs" />
     <Compile Include="ValueObjects\ActionSubmitSummaryItem.cs" />
     <Compile Include="ValueObjects\ActivitySource.cs" />

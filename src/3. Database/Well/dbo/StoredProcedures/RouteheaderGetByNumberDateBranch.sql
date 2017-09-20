@@ -1,43 +1,16 @@
 ﻿CREATE PROCEDURE [dbo].[RouteheaderGetByNumberDateBranch]
-	@RouteNumber			VARCHAR(50),
-	@RouteDate				DATETIME,
-	@BranchId				INT
+	@filter GetByNumberDateBranchFilter READONLY
 AS
-BEGIN
-	 
-	SELECT [Id],
-		[CompanyId],
-		[RouteNumber],
-		[RouteDate],
-		[DriverName],	
-		[StartDepotCode],
-		[RouteOwnerId],
-		[PlannedStops],
-		[ActualStopsCompleted],
-		[RoutesId],
-		[RouteStatusCode],
-		[RouteStatusDescription],
-		[PerformanceStatusCode],
-		[PerformanceStatusDescription],
-		[LastRouteUpdate],
-		[AuthByPass],
-		[NonAuthByPass],
-		[ShortDeliveries],
-		[DamagesRejected],
-		[DamagesAccepted],
-		[WellStatus] RouteWellStatus,
-		[CreatedBy],
-		[DateCreated],
-		[UpdatedBy],
-		[DateUpdated],
-		[Version]
-  FROM 
-	[dbo].[RouteHeader]
-  WHERE 
-	[RouteNumber] = @RouteNumber
-  AND 
-	[RouteDate] = @RouteDate
-  AND
-	[RouteOwnerId] = @BranchId
-END
-
+	SELECT 
+		Id,
+		WellStatus,
+		r.RouteNumber,
+		r.RouteDate,
+		r.RouteOwnerId AS BranchId,
+		[WellStatus] RouteWellStatus
+	FROM 
+		RouteHeader r
+		INNER JOIN @filter f
+			ON r.RouteNumber = f.RouteNumber
+			AND r.RouteDate = f.RouteDate
+			AND r.RouteOwnerId = f.BranchId

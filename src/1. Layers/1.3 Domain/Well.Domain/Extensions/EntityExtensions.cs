@@ -1,7 +1,6 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
-    using System.Linq;
     using Enums;
 
     public static class StopExtensions
@@ -11,7 +10,7 @@
         {
             if (!currentStop.HasMoved(originalStop))
             {
-                return null;
+                return originalStop.Previously;
             }
 
             return !originalStop.DeliveryDate.ToShortDateString().Equals(currentStop.DeliveryDate.ToShortDateString(), StringComparison.InvariantCultureIgnoreCase)

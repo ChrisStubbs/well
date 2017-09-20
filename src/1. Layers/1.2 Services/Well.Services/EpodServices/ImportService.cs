@@ -51,8 +51,8 @@
 
             IList<Stop> existingStopsBothSources = GetExistingStops(fileRouteHeader.Stops.Select(s => s.TransportOrderReference).Distinct().ToList());
 
-            var savedStops = new List<Stop>();
-            var completedStops = new List<Stop>();
+            var stopImportStatuses = new List<StopImportStatus>();
+
             //loop through all stops in the file
             foreach (var s in fileRouteHeader.Stops)
             {
@@ -67,18 +67,20 @@
                     fileStop.Jobs.ForEach(x => x.StopId = fileStop.Id);
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Save(fileStop.Account);
-                    savedStops.Add(fileStop);
+                    stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.New));
                 }
                 // Update Existing
                 else if (!originalStop.HasStopBeenCompleted())
                 {
                     originalStop.Previously = originalStop.GetPreviously(fileStop);
+                    //bool stopHasMoved = originalStop.TransportOrderReference != fileStop.TransportOrderReference;
+                        //originalStop.HasMoved(fileStop);
                     importMapper.MapStop(fileStop, originalStop);
                     stopRepository.Update(originalStop);
                     fileStop.Id = originalStop.Id;
                     fileStop.Jobs.ForEach(x => x.StopId = originalStop.Id);
-                    savedStops.Add(fileStop);
 
+                    stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.Updated));
                 }
                 else
                 {
@@ -87,15 +89,18 @@
                                   $"identifier ({originalStop.Identifier()}), " +
                                   $"route header Id ({originalStop.RouteHeaderId})";
                     logger.LogDebug(message);
-                    completedStops.Add(originalStop);
+                    stopImportStatuses.Add(new StopImportStatus(originalStop, StopImportStatus.Status.IgnoredAsCompleted));
                 }
 
             }
 
-            ImportJobs(fileRouteHeader, savedStops.SelectMany(j => j.Jobs).ToList(), importMapper, importCommands, completedStops);
+            ImportJobs(fileRouteHeader, stopImportStatuses, importMapper, importCommands);
+
             DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader, importCommands);
             // Batch update WellStatus for stops
-            UpdateWellStatusForStops(savedStops.Select(x => x.Id).ToArray());
+            UpdateWellStatusForStops(
+                stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
+                .Select(x => x.Stop.Id).ToArray());
         }
 
         private void UpdateWellStatusForStops(params int[] stopIds)
@@ -110,10 +115,7 @@
         {
             var routeFileCommands = importCommands as IAdamFileImportCommands;
             // Only delete Stops on Route File import
-            if (routeFileCommands != null)
-            {
-                routeFileCommands.DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader.Stops);
-            }
+            routeFileCommands?.DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader.Stops);
         }
 
         private void AddHeaderInformationToStops(RouteHeader header)
@@ -129,13 +131,16 @@
 
         public void ImportJobs(
             RouteHeader routeHeader,
-            IList<Job> fileJobs,
+            IList<StopImportStatus> stopImportStatuses,
             IImportMapper importMapper,
-            IImportCommands importCommands,
-            IList<Stop> completedStops)
+            IImportCommands importCommands)
         {
             var branchId = routeHeader.RouteOwnerId;
             var existingRouteJobIdAndStopId = jobRepository.GetJobStopsByRouteHeaderId(routeHeader.Id).ToList();
+            var fileJobs =
+                stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
+                .Select(s => s.Stop).SelectMany(j => j.Jobs).ToList();
+
             var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
 
             List<int> updateJobIds = new List<int>();
@@ -164,14 +169,14 @@
                     this.ImportJobDetails(fileJob.JobDetails);
 
                     DoAfterJobCreation(importCommands, fileJob, routeHeader);
-
                 }
 
                 // Update Existings
                 else if (originalJob.CanWeUpdateJobOnImport())
                 {
+                    bool jobHasMovedStops = originalJob.StopId != fileJob.StopId;
                     originalJob.StopId = fileJob.StopId;
-                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader);
+                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader,  jobHasMovedStops);
                     updateJobIds.Add(originalJob.Id);
                 }
                 else
@@ -186,7 +191,7 @@
 
             // updates Location/Activity/LineItem/Bag tables from imported data
             importCommands.PostJobImport(updateJobIds);
-
+            var completedStops = stopImportStatuses.Where(x => x.ImportStatus == StopImportStatus.Status.IgnoredAsCompleted).Select(s => s.Stop).ToList();
             //Delete Jobs Not In File
             var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops).ToList();
 
@@ -197,13 +202,10 @@
         {
             //only do this if we are doing an epod update
             var epodimportCommands = importCommands as IEpodFileImportCommands;
-            if (epodimportCommands != null)
-            {
-                epodimportCommands.AfterJobCreation(job, job, routeHeader);
-            }
+            epodimportCommands?.AfterJobCreation(job, job, routeHeader);
         }
 
-        private IList<Stop> GetExistingStops(List<string> transportOrderReference)
+        private IList<Stop> GetExistingStops(IList<string> transportOrderReference)
         {
             var stopIds = stopRepository.GetStopByTransportOrderRefIncludingSoftDeleted(transportOrderReference).ToList();
             stopRepository.ReinstateStopSoftDeletedByImport(stopIds);

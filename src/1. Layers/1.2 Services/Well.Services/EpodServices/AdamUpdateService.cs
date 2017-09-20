@@ -83,10 +83,12 @@
 
         private void Insert(StopUpdate stop)
         {
-            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
-                stop.RouteNumber,
-                stop.DeliveryDate.Value,
-                int.Parse(stop.StartDepotCode));
+            var header = new List<GetByNumberDateBranchFilter>
+            {
+                new GetByNumberDateBranchFilter{ BranchId = int.Parse(stop.StartDepotCode), RouteDate = stop.DeliveryDate.Value, RouteNumber = stop.RouteNumber }
+            };
+
+            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(header).FirstOrDefault();
 
             if (existingRouteHeader == null)
             {
@@ -271,7 +273,7 @@
             }
         }
 
-        private void InsertStops(StopUpdate stopInsert, RouteHeader header)
+        private void InsertStops(StopUpdate stopInsert, GetByNumberDateBranchResult header)
         {
             var job = stopInsert.Jobs.FirstOrDefault();
 
@@ -282,7 +284,7 @@
                 return;
             }
 
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.RouteOwnerId);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.BranchId);
 
             if (existingStop != null)
             {

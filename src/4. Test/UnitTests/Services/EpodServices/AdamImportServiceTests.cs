@@ -54,33 +54,5 @@
                 routeService.Object
             );
         }
-
-        public class ImportRouteHeader : RouteImportServiceTests
-        {
-            [Test]
-            public void ShouldGetExistingRouteHeaderWithRouteNumberDateAndOwnerId()
-            {
-                var routeId = 1;
-                var routeNn = "001";
-                var routeDate = DateTime.Today;
-                var routeOwnerId = 5;
-                var rh = new RouteHeader { RouteNumber = routeNn, RouteDate = routeDate };
-
-                mockRouteImportService.Setup(x => x.GetRouteOwnerId(rh)).Returns(routeOwnerId);
-
-                mockRouteImportService.Object.ImportRouteHeader(rh, routeId);
-
-                routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(
-                    It.IsAny<string>(),
-                    It.IsAny<DateTime>(),
-                    It.IsAny<int>()), Times.Once);
-
-                routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(
-                    routeNn,
-                    routeDate,
-                    routeOwnerId), Times.Once);
-
-            }
-        }
     }
 }

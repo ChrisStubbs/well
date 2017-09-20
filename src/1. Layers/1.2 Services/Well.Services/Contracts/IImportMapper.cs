@@ -1,7 +1,7 @@
 ﻿namespace PH.Well.Services.Contracts
 {
     using Domain;
-
+    using Repositories.Contracts;
 
     public interface IImportMapper
     {
@@ -12,7 +12,7 @@
 
     public interface IAdamImportMapper : IImportMapper
     {
-        RouteHeader MapRouteHeader(RouteHeader source, RouteHeader destination);
+        RouteHeaderFromImportedFile MapRouteHeader(RouteHeader source);
 
     }
     public interface IEpodImportMapper : IImportMapper

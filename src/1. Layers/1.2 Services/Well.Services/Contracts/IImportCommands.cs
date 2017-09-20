@@ -6,7 +6,7 @@
 
     public interface IImportCommands
     {
-        void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader);
+        void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool jobHasMovedStops);
         void PostJobImport(IList<int> jobIds);
         IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops);
     }

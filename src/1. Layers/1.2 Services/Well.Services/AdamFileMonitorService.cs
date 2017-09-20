@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Services
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -61,11 +62,23 @@
             var files =
                 directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
                     .OrderBy(f => GetDateStampFromFile(new ImportFileInfo(f)));
+            var stopWatch = new Stopwatch();
 
             foreach (var file in files)
             {
+                stopWatch.Restart();
+
+                this.logger.LogDebug($"Start to process file {file.FullName}");
                 this.fileService.WaitForFile(file.FullName);
                 this.Process(file.FullName);
+
+                var ts = stopWatch.Elapsed;
+
+                var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+
+                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }
 

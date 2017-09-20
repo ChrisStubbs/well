@@ -26,8 +26,8 @@
         //AccumulatedDamages = 8,
         //[Description("Recall Product")]
         //RecallProduct = 9,
-        [Description("Customer Damaged")]
-        CustomerDamaged = 10,
+        //[Description("Customer Damaged")]
+        //CustomerDamaged = 10,
         [Description("Short Dated")]
         ShortDated = 11,
         //[Description("Vouchers")]

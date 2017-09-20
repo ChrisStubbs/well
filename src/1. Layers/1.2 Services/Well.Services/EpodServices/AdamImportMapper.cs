@@ -31,7 +31,7 @@
                 RouteDate = source.RouteDate,
                 RouteNumber = source.RouteNumber,
                 RouteOwnerId = source.RouteOwnerId,
-                StartDepotCode = source.StartDepotCode
+                StartDepot = source.StartDepot
             };
         }
 

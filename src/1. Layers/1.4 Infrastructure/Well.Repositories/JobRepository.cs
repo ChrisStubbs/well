@@ -208,15 +208,6 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
-        public void SetJobResolutionStatus(int jobId, string status)
-        {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobResolutionStatusInsert)
-                .AddParameter("Status", status, DbType.String)
-                .AddParameter("JobId", jobId, DbType.Int32)
-                .AddParameter("CreatedBy", this.CurrentUser, DbType.String)
-                .Execute();
-        }
-
         public void SetJobToSubmittedStatus(int jobId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobSetToStatus)
@@ -289,7 +280,11 @@ namespace PH.Well.Repositories
 
         public void SaveJobResolutionStatus(Job job)
         {
-            this.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobResolutionStatusInsert)
+                .AddParameter("Status", job.ResolutionStatus.Description, DbType.String)
+                .AddParameter("JobId", job.Id, DbType.Int32)
+                .AddParameter("CreatedBy", this.CurrentUser, DbType.String)
+                .Execute();
         }
 
         public IEnumerable<JobToBeApproved> GetJobsToBeApproved()

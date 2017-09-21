@@ -4,12 +4,12 @@
 	@RouteDate		SmallDateTime,
 	@RouteNumber	VarChar(12), 
 	@RouteOwnerId	INT,
-	@StartDepotCode	INT
+	@StartDepot		INT
 AS	
 	UPDATE RouteHeader SET 
 		PlannedStops = @PlannedStops,
 		RouteDate = @RouteDate,
 		RouteNumber = @RouteNumber,
 		RouteOwnerId = @RouteOwnerId,
-		StartDepotCode = @StartDepotCode
+		StartDepotCode = @StartDepot
 	WHERE Id = @Id

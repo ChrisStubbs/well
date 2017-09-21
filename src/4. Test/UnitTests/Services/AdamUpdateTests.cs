@@ -296,7 +296,7 @@
 
                 this.mapper.Setup(x => x.Map(jobUpdate, It.IsAny<Job>()));
 
-                this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+                this.jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
 
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
@@ -345,7 +345,8 @@
 
                 stopService.Verify(x => x.ComputeAndPropagateWellStatus(It.IsAny<int>()));
 
-                this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+
+                this.jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Once);
 
                 this.postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Once);
             }
@@ -449,7 +450,7 @@
 
                 jobStatusService.Setup(x => x.ComputeWellStatus(It.IsAny<int>())).Returns(true);
 
-                this.jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+                this.jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
 
                 this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
 
@@ -459,7 +460,7 @@
                 this.service.Update(routeUpdate);
 
                 //ASSERT
-                this.jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+                this.jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Once);
 
                 postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Once);
 

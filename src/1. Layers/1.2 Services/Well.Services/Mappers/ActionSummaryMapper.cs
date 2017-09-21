@@ -76,7 +76,7 @@ namespace PH.Well.Services.Mappers
                         result.Items.Add(new ActionSubmitSummaryItem
                         {
                             Identifier = firstItem.InvoiceNumber,
-                            JobType = EnumExtensions.GetDescription(firstItem.JobType),
+                            JobType = firstItem.JobTypeDisplayText,
                             TotalCreditValue = invoiceItems.Sum(x => x.TotalCreditValue),
                             TotalActionValue = invoiceItems.Sum(x => x.TotalActionValue),
                             TotalCreditQty = invoiceItems.Sum(x => x.TotalCreditQty),

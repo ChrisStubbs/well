@@ -146,7 +146,7 @@ export class SingleRouteFilter implements IFilter
                         return sourceRow.exceptions > 0;
                     }
 
-                    return sourceRow.clean > 0;
+                    return sourceRow.clean > 0 && sourceRow.exceptions == 0;
                 };
 
             case 'resolutionId':

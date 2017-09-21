@@ -24,20 +24,6 @@ namespace PH.Well.Repositories.Read
             this.wellEntities = wellEntities;
         }
 
-        //public IEnumerable<AppSearchResult> Search(AppSearchParameters searchParameters)
-        //{
-        //    return dapperReadProxy.WithStoredProcedure(StoredProcedures.AppSearch)
-        //        .AddParameter("BranchId", searchParameters.BranchId, DbType.Int32)
-        //        .AddParameter("Date", searchParameters.Date, DbType.Date)
-        //        .AddParameter("Account", string.IsNullOrWhiteSpace(searchParameters.Account) ? null : searchParameters.Account, DbType.String)
-        //        .AddParameter("Invoice", string.IsNullOrWhiteSpace(searchParameters.Invoice) ? null : searchParameters.Invoice, DbType.String)
-        //        .AddParameter("Route", string.IsNullOrWhiteSpace(searchParameters.Route) ? null : searchParameters.Route, DbType.String)
-        //        .AddParameter("Driver", string.IsNullOrWhiteSpace(searchParameters.Driver) ? null : searchParameters.Driver, DbType.String)
-        //        .AddParameter("DeliveryType", searchParameters.DeliveryType, DbType.Int32)
-        //        .AddParameter("Status", searchParameters.Status, DbType.Int32)
-        //        .Query<AppSearchResult>();
-        //}
-
         /// <summary>
         /// Provide search results based search criteria
         /// </summary>
@@ -67,8 +53,8 @@ namespace PH.Well.Repositories.Read
                     var invoices = wellEntities.Activity.Where(x => x.DocumentNumber == searchParameters.Invoice && x.Location.BranchId == branchId);
                     if (searchParameters.HasDate)
                     {
-                        invoices =
-                            invoices.Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
+                        invoices = invoices
+                            .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
                     }
                     foreach (var activity in invoices)
                     {
@@ -89,7 +75,7 @@ namespace PH.Well.Repositories.Read
                         accounts =
                             accounts.Where(x => x.Stop.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
                     }
-                    foreach (var account in accounts /*.Select(x=> new {x.StopId})*/)
+                    foreach (var account in accounts)
                     {
                         results.Add(new AppSearchResult()
                         {
@@ -126,25 +112,12 @@ namespace PH.Well.Repositories.Read
                         results.Add(new AppSearchResult()
                         {
                             BranchId = searchParameters.BranchId,
-                            RouteId = account.RoutesId,
+                            RouteId = account.Id,
                         });
                     }
                 }
-
-                // DIJ: Not currently using delivery type or job type searches
-                //if (searchParameters.HasDeliveryType)
-                //{
-                //    var jobTypeCode =
-                //        wellEntities.JobType.FirstOrDefault(x => x.Id == searchParameters.DeliveryType.Value);
-                //    routes = routes.Where(x => x.Stop.Any(y => y.Job.Any(z => z.JobTypeCode == jobTypeCode.Code)));
-                //}
-
-                //if (searchParameters.HasStatus)
-                //{
-                //    var status = wellEntities.WellStatus.FirstOrDefault(x => x.Id == (byte) searchParameters.Status.Value);
-                //    routes = routes.Where(x=>x.Well)
-                //}
             }
+
             return results;
         }
     }

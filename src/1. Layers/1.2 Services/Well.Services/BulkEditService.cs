@@ -98,6 +98,7 @@
                     {
                         job.ResolutionStatus = jobService.GetCurrentResolutionStatus(job);
                         jobRepository.Update(job);
+                        jobRepository.SaveJobResolutionStatus(job);
                         result.Statuses.Add(new JobIdResolutionStatus(job.Id, job.ResolutionStatus));
                     }
 

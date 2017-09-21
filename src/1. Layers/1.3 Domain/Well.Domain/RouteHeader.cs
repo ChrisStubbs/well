@@ -74,7 +74,7 @@
             {
                 if (string.IsNullOrWhiteSpace(this.StartDepotCode))
                 {
-                    return (int)Branches.NotDefined;
+                    return RouteOwnerId;
                 }
 
                 return (int)Enum.Parse(typeof(Branches), this.StartDepotCode, true);

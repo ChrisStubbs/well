@@ -222,7 +222,7 @@
                         this.jobDetailRepository.Save(newDetail);
                     }
 
-                    this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
+                    this.jobRepository.SaveJobResolutionStatus(newJob);
                     updatedJobIds.Add(newJob.Id);
                 }
             }
@@ -343,7 +343,7 @@
                 this.mapper.Map(update, job);
 
                 this.jobRepository.Save(job);
-                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                this.jobRepository.SaveJobResolutionStatus(job);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
                 insertedJobIds.Add(job.Id);

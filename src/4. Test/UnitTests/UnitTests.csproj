@@ -228,7 +228,6 @@
     <Compile Include="MSDTC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
-    <Compile Include="Services\AdamImportServiceTests.cs" />
     <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\AmendmentServiceTests.cs" />
     <Compile Include="Services\AppSearchServiceTests.cs" />

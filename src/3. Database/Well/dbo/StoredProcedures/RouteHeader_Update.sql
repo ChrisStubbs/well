@@ -4,7 +4,7 @@
 	@RouteStatusDescription			VARCHAR(255) = NULL,
 	@PerformanceStatusCode			VARCHAR(50) = NULL,
 	@PerformanceStatusDescription	VARCHAR(255) = NULL,
-	@LastRouteUpdate				DATETIME,
+	@LastRouteUpdate				DATETIME = NULL,
 	@AuthByPass						INT,
 	@NonAuthByPass					INT,
 	@ShortDeliveries				INT,

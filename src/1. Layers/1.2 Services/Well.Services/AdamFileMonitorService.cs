@@ -151,7 +151,7 @@
 
                     routes.RouteId = route.Id;
 
-                    this.adamImportService.Import(routes);
+                    this.adamImportService.Import(routes, filename);
                 }
             }
             catch (Exception exception)

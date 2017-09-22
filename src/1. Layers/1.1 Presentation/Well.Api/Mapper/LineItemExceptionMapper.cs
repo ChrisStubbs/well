@@ -65,7 +65,7 @@
                 Id = line.Id,
                 Invoice = job.InvoiceNumber,
                 JobType = job.JobType,
-                JobTypeDescription = EnumExtensions.GetDescription(job.JobType),
+                JobTypeDescription =job.JobTypeDisplayText,
                 ProductNumber = line.ProductCode,
                 Product = line.ProductDescription,
                 DriverReason = line.DriverReason,

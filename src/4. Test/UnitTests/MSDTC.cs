@@ -17,11 +17,11 @@ namespace PH.Well.UnitTests
         /// This method contains code that can test whether DTC can be used
         /// </summary>
         [Test]
-        [Explicit("Not specific to application functionality specific")]
+        [Explicit("Not specific to application functionality")]
         public void TestDtcCapability()
         {
             string connectionString =
-                @"Data Source=ho-ms-dbuat2\SQLSERVER2014;Failover Partner=;Initial Catalog=Well;Integrated Security=True";
+                @"Data Source=ho-ms-dbprd1\SQLSERVER2014;Failover Partner=;Initial Catalog=Well;Integrated Security=True";
 
             using (TransactionScope transactionScope = new TransactionScope())
             {

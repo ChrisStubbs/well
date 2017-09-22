@@ -173,7 +173,7 @@ namespace PH.Well.UnitTests.Services
                     Times.Once);
 
                 // Should create line items when manually completing only for standard uplift jobs
-                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Exactly(2));
             }
 
             [Test]
@@ -186,7 +186,7 @@ namespace PH.Well.UnitTests.Services
                     Times.Once);
 
                 // Should create line items when manually completing only for standard uplift jobs
-                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Exactly(2));
             }
         }
 

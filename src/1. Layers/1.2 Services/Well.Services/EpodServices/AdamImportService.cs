@@ -45,12 +45,12 @@
             this.routeService = routeService;
         }
 
-        public void Import(RouteDelivery route)
+        public void Import(RouteDelivery route, string fileName)
         {
             var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
-                .Select(p => 
+                .Select(p =>
                 {
-                    p.RouteOwnerId = GetRouteOwnerId(p);
+                    p.RouteOwnerId = GetBranchId(p, fileName);
 
                     return new GetByNumberDateBranchFilter
                     {
@@ -66,6 +66,7 @@
             {
                 try
                 {
+                    header.RouteOwnerId = GetBranchId(header, fileName);
                     using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
                     {
                         var key = new
@@ -76,8 +77,8 @@
                         };
 
                         deadlockRetryHelper.Retry(() =>
-                            this.ImportRouteHeader(header, 
-                                route.RouteId, 
+                            this.ImportRouteHeader(header,
+                                route.RouteId,
                                 existingRouteHeader.ContainsKey(key) ? existingRouteHeader[key] : null)
                         );
                         //TODO Improve: Can we execute this after the for?
@@ -146,11 +147,31 @@
             routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(header.Id);
         }
 
-        public virtual int GetRouteOwnerId(RouteHeader header)
+        public virtual int GetBranchId(RouteHeader header, string filename)
         {
-            return string.IsNullOrWhiteSpace(header.RouteOwner)
-                 ? (int)Branches.NotDefined
-                 : (int)Enum.Parse(typeof(Branches), header.RouteOwner, true);
+            var branchId = GetBranchId(header.RouteOwner);
+            if (branchId == (int)Branches.NotDefined)
+            {
+                branchId = GetBranchIdFallBack(filename);
+            }
+            return branchId;
+        }
+
+        private int GetBranchIdFallBack(string filename)
+        {
+            var split = filename.Split('_');
+            if (split.Length > 1)
+            {
+                return GetBranchId(split[1]);
+            }
+            return (int)Branches.NotDefined;
+        }
+
+        public virtual int GetBranchId(string branchShortName)
+        {
+            return string.IsNullOrWhiteSpace(branchShortName)
+                ? (int)Branches.NotDefined
+                : (int)Enum.Parse(typeof(Branches), branchShortName, true);
         }
     }
 }

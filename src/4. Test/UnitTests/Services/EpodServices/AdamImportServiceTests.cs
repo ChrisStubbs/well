@@ -7,12 +7,13 @@
     using Well.Common;
     using Well.Common.Contracts;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Well.Services;
     using Well.Services.Contracts;
     using Well.Services.EpodServices;
 
     [TestFixture]
-    public class RouteImportServiceTests
+    public class AdamImportServiceTests
     {
         private Mock<ILogger> logger;
         private Mock<IEventLogger> eventLogger;
@@ -53,6 +54,16 @@
                 dbConfiguration.Object,
                 routeService.Object
             );
+        }
+
+        public class TheGetRouteOwnerIdMethod : AdamImportServiceTests
+        {
+            [Test]
+            public void ShouldReturnUndefinedIfNullBranchShortName()
+            {
+                mockRouteImportService.CallBase = true;
+                Assert.That(mockRouteImportService.Object.GetBranchId((string)null),Is.EqualTo((int)Branches.NotDefined));
+            }
         }
     }
 }

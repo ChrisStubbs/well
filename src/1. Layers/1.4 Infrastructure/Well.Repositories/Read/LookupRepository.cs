@@ -49,6 +49,7 @@ namespace PH.Well.Repositories.Read
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.Driver)
                 .Query<KeyValuePair<string, string>>()
+                .OrderBy(p => p.Value)
                 .ToList();
         }
 

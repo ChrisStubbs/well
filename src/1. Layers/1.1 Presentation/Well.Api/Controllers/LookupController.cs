@@ -16,7 +16,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [Route("Lookup/{lookUp}")]
-        public Dictionary<string, string> Get(string lookUp)
+        public IList<KeyValuePair<string, string>> Get(string lookUp)
         {
             LookupType lookupValue;
 
@@ -26,8 +26,7 @@ namespace PH.Well.Api.Controllers
                 throw new ArgumentException($"{lookUp}");
             }
 
-            return lookupService.GetLookup(lookupValue)
-                .ToDictionary(k => k.Key, v => v.Value);
+            return lookupService.GetLookup(lookupValue);
         }
     }
 }

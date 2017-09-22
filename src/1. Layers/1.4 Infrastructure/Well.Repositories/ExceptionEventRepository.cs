@@ -87,7 +87,7 @@ namespace PH.Well.Repositories
             var data = amendmentEvent
                 .Select(p => new
                 {
-                    @Event = JsonConvert.SerializeObject(amendmentEvent),
+                    @Event = JsonConvert.SerializeObject(p),
                     ExceptionActionId = (int)EventAction.Amendment,
                     DateCanBeProcessed = DateTime.Now,
                     CreatedBy = this.CurrentUser,

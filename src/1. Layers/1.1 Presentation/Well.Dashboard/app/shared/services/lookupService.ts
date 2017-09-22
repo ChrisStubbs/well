@@ -26,38 +26,22 @@ export class LookupService
     {
         const stringLookupName = LookupsEnum[lookupName];
         const lookupKey = this.key + stringLookupName;
-        const storedValue = this.storageService.retrieve(lookupKey);
+        const storedValue = <Array<ILookupValue>> this.storageService.retrieve(lookupKey);
 
-        if (!_.isNil(storedValue))
-        {
-            return Observable.of([]).map(value => {
-                return storedValue;
-            });
+        if (!_.isNil(storedValue)) {
+            return Observable.of(storedValue);
         }
 
         const url = this.globalSettingsService.globalSettings.apiUrl + 'Lookup/' + encodeURIComponent(stringLookupName);
 
         return this.http.get(url)
-            .map((response: Response) =>
-            {
-                const value = response.json();
-                const objectToSave = [];
+            .catch(e => this.httpErrorService.handleError(e))
+            .map((response: Response) => {
 
-                _.each(_.keys(value), (current: string) => {
-                    let newObj: ILookupValue;
+                const value: Array<ILookupValue> = response.json();
+                this.storageService.store(lookupKey, value);
 
-                    newObj =
-                        {
-                            key: current, value: value[current]
-                        };
-                    objectToSave.push(newObj);
-                });
-
-                //objectToSave = _.sortBy(objectToSave, 'value');
-                this.storageService.store(lookupKey, objectToSave);
-
-                return objectToSave;
-            })
-            .catch(e => this.httpErrorService.handleError(e));
+                return value;
+            });
     }
 }

@@ -61,7 +61,7 @@ namespace PH.Well.Adam.Events
                     }
                     catch (Exception ex)
                     {
-                        this.logger.LogDebug($"Exception during ProcessSingleEvent: {ex.Message}");
+                        this.logger.LogError("Exception during ProcessSingleEvent:", ex);
                     }
                 }
             }

@@ -1,7 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[Stop_UpdateWellStatus]
-	@Id				int,
-	@WellStatusId	TinyInt
+	@Data WellStatusUpdate ReadOnly
 AS
 	UPDATE Stop
-	SET WellStatus = @WellStatusId
-	WHERE Id = @Id
+	SET WellStatus = s.WellStatus
+	FROM 
+	(
+		SELECT d.EntityKey AS StopId, d.WellStatus
+		FROM @Data d
+	) s
+	WHERE Id = s.StopId

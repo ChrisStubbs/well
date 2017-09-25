@@ -38,45 +38,47 @@ namespace PH.Well.UnitTests.Services
         [Test]
         public void Should_ComputeStopWellStatusAndUpdate()
         {
-            var stop = GetStopWithStatusChange();
-            var changed = service.ComputeWellStatus(stop);
+            var stops = new List<Stop> { GetStopWithStatusChange(), GetStopWithStatusChange() };
+            var ids = stops.Select(p => p.Id).ToList();
 
-            // Stop updated
-            stopRepository.Verify(x => x.UpdateWellStatus(stop));
-            // Status changed
-            Assert.AreEqual(WellStatus.Complete, stop.WellStatus);
-            // Change reported
-            Assert.True(changed);
+            stops[0].Id = 1;
+            stops[1].Id = 2;
+
+            this.stopRepository.Setup(p => p.GetForWellStatusCalculationById(ids)).Returns(stops);
+            service.ComputeWellStatus(ids);
+
+            stops[0].WellStatus = WellStatus.Complete;
+            stops[1].WellStatus = WellStatus.Complete;
+
+            this.stopRepository.Verify(p => p.GetForWellStatusCalculationById(ids), Times.Once);
+            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y=> y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)), Times.Once);
         }
 
         [Test]
         public void ShouldNot_ComputeStopWellStatusAndUpdate()
         {
-            var stop = GetStopWithoutStatusChange();
-            var changed = service.ComputeWellStatus(stop);
+            var stops = new List<Stop> { GetStopWithoutStatusChange() };
+            var stopsIds = stops.Select(p => p.Id).ToList();
+
+            this.stopRepository.Setup(p => p.GetForWellStatusCalculationById(stopsIds)).Returns(stops);
+
+            service.ComputeWellStatus(stopsIds);
 
             // Stop updated
-            stopRepository.Verify(x => x.UpdateWellStatus(stop),Times.Never);
+            stopRepository.Verify(x => x.UpdateWellStatus(stops), Times.Never);
             // Status not changed
-            Assert.AreEqual(WellStatus.Complete, stop.WellStatus);
-            // Not changed
-            Assert.False(changed);
+            Assert.AreEqual(WellStatus.Complete, stops[0].WellStatus);
         }
 
         [Test]
         public void Should_ComputeAndPropagateStopWellStatus()
         {
             var stop = GetStopWithStatusChange();
-            var changed = service.ComputeAndPropagateWellStatus(stop);
-
+            service.ComputeAndPropagateWellStatus(stop);
             // Stop updated
-            stopRepository.Verify(x => x.UpdateWellStatus(stop));
+            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(p => p[0] == stop)), Times.Once);
             // Propagated to route service
             routeService.Verify(x => x.ComputeWellStatus(stop.RouteHeaderId));
-            // Status changed
-            Assert.AreEqual(WellStatus.Complete, stop.WellStatus);
-            // Change reported
-            Assert.True(changed);
         }
 
         [Test]
@@ -86,7 +88,7 @@ namespace PH.Well.UnitTests.Services
             var changed = service.ComputeAndPropagateWellStatus(stop);
 
             // Stop updated
-            stopRepository.Verify(x => x.UpdateWellStatus(stop), Times.Never);
+            stopRepository.Verify(x => x.UpdateWellStatus(It.IsAny<IList<Stop>>()), Times.Never);
             // Dont propagate
             routeService.Verify(x => x.ComputeWellStatus(stop.RouteHeaderId), Times.Never);
             // Status not changed

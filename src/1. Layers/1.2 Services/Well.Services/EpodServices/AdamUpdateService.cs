@@ -147,7 +147,7 @@
                 }
 
                 // Compute stop well status and propagate to calculate route well status
-                stopService.ComputeAndPropagateWellStatus(existingStop.Id);
+                stopService.ComputeAndPropagateWellStatus(existingStop);
 
                 transactionScope.Complete();
             }
@@ -235,11 +235,12 @@
             List<Job> jobsToBeDeleted = GetJobIdsToBeDeleted(existingJobs, jobs);
             importService.DeleteJobs(jobsToBeDeleted);
         }
-
-        //TODO: Test this
+        
         private List<Job> GetJobIdsToBeDeleted(IList<Job> existingJobs, IList<JobUpdate> jobsInFile)
         {
-            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier()).ToDictionary(k => k);
+            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier())
+                .Distinct() //some times the uplifts come duplicated for n reasons. we discard the duplicates 
+                .ToDictionary(k => k);
             return existingJobs.Where(j => !jobIdentifiersInFile.ContainsKey(j.Identifier())).ToList();
         }
 

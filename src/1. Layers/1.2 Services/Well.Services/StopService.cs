@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,11 @@ namespace PH.Well.Services
 {
     public class StopService : IStopService
     {
-        #region Private fields
         private readonly IStopRepository stopRepository;
         private readonly IRouteService routeService;
         private readonly IWellStatusAggregator wellStatusAggregator;
         private readonly IJobRepository jobRepository;
 
-        #endregion Private fields
-
-        #region Constructors
         public StopService(IStopRepository stopRepository, IRouteService routeService, IWellStatusAggregator wellStatusAggregator,IJobRepository jobRepository)
         {
             this.routeService = routeService;
@@ -28,25 +25,31 @@ namespace PH.Well.Services
             this.jobRepository = jobRepository;
             this.stopRepository = stopRepository;
         }
-        #endregion Constructors
 
-        #region Public methods
-        
-        public bool ComputeWellStatus(int stopId)
+        public void ComputeWellStatus(IList<int> stopId)
         {
-            var stop = GetStopForWellStatusCalculation(stopId);
-            return ComputeWellStatus(stop);
+            var stops = new ConcurrentBag<Stop>();
+
+            Parallel.ForEach(stopRepository.GetForWellStatusCalculationById(stopId), s =>
+            {
+                if (ComputeWellStatus(s))
+                {
+                    stops.Add(s);
+                }
+            });
+
+            this.SaveNewWellStatus(stops.Select(p => p).ToList());
         }
 
-        public bool ComputeWellStatus(Stop stop)
+        public bool ComputeAndPropagateWellStatus(Stop stop)
         {
-            // Compute new well status
-            var newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus).ToArray());
-
-            if (stop.WellStatus != newWellStatus)
+            if (ComputeWellStatus(stop))
             {
-                stop.WellStatus = newWellStatus;
-                stopRepository.UpdateWellStatus(stop);
+                this.SaveNewWellStatus(new[] { stop }.ToList());
+
+                // Cascade any change back up to the route header
+                this.routeService.ComputeWellStatus(stop.RouteHeaderId);
+
                 return true;
             }
 
@@ -55,42 +58,37 @@ namespace PH.Well.Services
 
         public bool ComputeAndPropagateWellStatus(int stopId)
         {
-            var stop = GetStopForWellStatusCalculation(stopId);
+            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
+
+            if (stop == null)
+            {
+                throw new ArgumentException($"Stop not found id : {stopId}", nameof(stopId));
+            }
+
             return ComputeAndPropagateWellStatus(stop);
         }
 
-        public bool ComputeAndPropagateWellStatus(Stop stop)
+        private void SaveNewWellStatus(IList<Stop> stops)
         {
-            var changed = ComputeWellStatus(stop);
-            if (changed)
+            if (stops.Any())
             {
-                // Cascade any change back up to the route header
-                this.routeService.ComputeWellStatus(stop.RouteHeaderId);
+                stopRepository.UpdateWellStatus(stops);
             }
-
-            return changed;
         }
 
-        #endregion Public methods
-
-        #region Private methods
-
-        /// <summary>
-        /// Helper method to get stop with minimum information required for computing WellStatus
-        /// </summary>
-        /// <param name="stopId"></param>
-        /// <exception cref="ArgumentException">When stop not found</exception>
-        /// <returns></returns>
-        private Stop GetStopForWellStatusCalculation(int stopId)
+        private bool ComputeWellStatus(Stop stop)
         {
-            var stop = stopRepository.GetForWellStatusCalculationById(stopId);
-            if (stop != null)
-            {
-                return stop;
-            }
-            throw new ArgumentException($"Stop not found id : {stopId}", nameof(stopId));
-        }
+            // Compute new well status
+            var newWellStatus = wellStatusAggregator.Aggregate(stop.Jobs.Select(x => x.WellStatus).ToArray());
 
-        #endregion  Private methods
+            if (stop.WellStatus != newWellStatus)
+            {
+                stop.WellStatus = newWellStatus;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

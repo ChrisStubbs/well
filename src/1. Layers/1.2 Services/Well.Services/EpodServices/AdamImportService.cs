@@ -104,7 +104,7 @@
 
             if (existingRouteHeader != null)
             {
-                if (existingRouteHeader.WellStatus == WellStatus.Complete || existingRouteHeader.WellStatus == WellStatus.CompleteWithBypass)
+                if (existingRouteHeader.WellStatus == WellStatus.Complete)
                 {
                     var message = $"Ignoring Route update. Route is Complete  " +
                                   $"route header id ({existingRouteHeader.Id}) " +

@@ -27,9 +27,6 @@
         [Description("In Progress")]
         RouteInProgress = 5,
 
-        [Description("Complete/Bypassed")]
-        CompleteWithBypass = 6,
-
         [Description("Replanned")]
         Replanned = 7
     }
@@ -43,8 +40,7 @@
             WellStatus.Replanned,
             WellStatus.RouteInProgress,
             WellStatus.Complete,
-            WellStatus.Bypassed,
-            WellStatus.CompleteWithBypass
+            WellStatus.Bypassed
         };
 
         public static WellStatus[] OrderedJobStatuses =
@@ -54,28 +50,25 @@
             WellStatus.Replanned,
             WellStatus.RouteInProgress,
             WellStatus.Complete,
-            WellStatus.Bypassed,
-            WellStatus.CompleteWithBypass
+            WellStatus.Bypassed
         };
 
         public static WellStatus[] OrderedStopStatuses =
         {
             WellStatus.Planned, 
             WellStatus.Invoiced,
-            WellStatus.Replanned,
             WellStatus.RouteInProgress, 
             WellStatus.Complete, 
-            WellStatus.Bypassed, 
-            WellStatus.CompleteWithBypass
+            WellStatus.Bypassed
         };
 
         public static WellStatus[] OrderedRouteStatuses =
         {
             WellStatus.Planned,
+            WellStatus.Invoiced,
             WellStatus.RouteInProgress,
             WellStatus.Complete,
-            WellStatus.Bypassed,
-            WellStatus.CompleteWithBypass
+            WellStatus.Bypassed
         };
 
         /// <summary>

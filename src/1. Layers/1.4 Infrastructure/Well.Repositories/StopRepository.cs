@@ -174,12 +174,19 @@
                 .AddParameter("UpdatedBy", CurrentUser, DbType.String)
                 .Execute();
         }
-
-        public void UpdateWellStatus(Stop stop)
+        
+        public void UpdateWellStatus(IList<Stop> stop)
         {
+            var data = stop
+                .Select(p => new
+                {
+                    EntityKey = p.Id,
+                    WellStatus = (int)p.WellStatus
+                })
+                .ToList();
+
             this.dapperProxy.WithStoredProcedure(StoredProcedures.StopUpdateWellStatus)
-                .AddParameter("Id", stop.Id, DbType.Int32)
-                .AddParameter("WellStatusId", (int) stop.WellStatus, DbType.Int16)
+                .AddParameter("Data", data.ToDataTables(), DbType.Object)
                 .Execute();
         }
 
@@ -198,6 +205,31 @@
             }
 
             return stop;
+        }
+
+        public IList<Stop> GetForWellStatusCalculationById(IList<int> stopId)
+        {
+            //i am refactoring this queries 
+            //the idea is to get all jobs from all stops in a single query calculate the well status
+            //and save
+            //classes:
+            //    ImportService.UpdateWellStatusForStops =>
+            //    StopService.ComputeWellStatus(IList<int> stopId) =>
+            //    get the data calculate and save
+
+            return dapperProxy.WithStoredProcedure(StoredProcedures.Job_GetForWellStatusCalculationByStopIds)
+                    .AddParameter("StopIds", stopId.ToIntDataTables("StopIds"), DbType.Object)
+                    .Query<Job>()
+                    .GroupBy(p => p.StopId)
+                    .Select(p =>
+                    {
+                        return new Stop
+                        {
+                            Id = p.Key,
+                            Jobs = p.ToList()
+                        };
+                    })
+                    .ToList();
         }
     }
 }

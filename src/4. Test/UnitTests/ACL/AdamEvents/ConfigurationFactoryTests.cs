@@ -37,10 +37,10 @@ namespace PH.Well.UnitTests.ACL.AdamEvents
         {
             AdamSettings defaultSettings = AdamSettingsFactory.GetAdamSettings(Branch.Default);
             TestSettings("servername", "servername", defaultSettings.Port, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
-            TestSettings("servername:1234", "servername", 1234, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
-            TestSettings("servername:1234;rfspath", "servername", 1234, "rfspath", defaultSettings.Username, defaultSettings.Password);
-            TestSettings("servername:1234:rfspath,username", "servername", 1234, "rfspath", "username", defaultSettings.Password);
-            TestSettings("servername:1234:rfspath,username,pa$$word", "servername", 1234, "rfspath", "username", "pa$$word");
+            TestSettings("servername;1234", "servername", 1234, defaultSettings.Rfs, defaultSettings.Username, defaultSettings.Password);
+            TestSettings("servername;1234;rfspath", "servername", 1234, "rfspath", defaultSettings.Username, defaultSettings.Password);
+            TestSettings("servername;1234;rfspath;username", "servername", 1234, "rfspath", "username", defaultSettings.Password);
+            TestSettings("servername;1234;rfspath;username;pa$$word", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
@@ -55,10 +55,10 @@ namespace PH.Well.UnitTests.ACL.AdamEvents
             TestSettings("Password=pa$$word", defaults.Server, defaults.Port, defaults.Rfs, defaults.Username, "pa$$word");
 
             // Test in progressively complex groups of settings in non-sequential order
-            TestSettings("Port=1234,Server=servername", "servername", 1234, defaults.Rfs, defaults.Username, defaults.Password);
-            TestSettings("Rfs=rfspath;Server=servername:Port=1234;", "servername", 1234, "rfspath", defaults.Username, defaults.Password);
-            TestSettings("Server=servername:Port=1234:Rfs=rfspath,Username=username", "servername", 1234, "rfspath", "username", defaults.Password);
-            TestSettings("Password=pa$$word;Server=servername:Port=1234:Username=username,Rfs=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
+            TestSettings("Port=1234;Server=servername", "servername", 1234, defaults.Rfs, defaults.Username, defaults.Password);
+            TestSettings("Rfs=rfspath;Server=servername;Port=1234;", "servername", 1234, "rfspath", defaults.Username, defaults.Password);
+            TestSettings("Server=servername;Port=1234;Rfs=rfspath;Username=username", "servername", 1234, "rfspath", "username", defaults.Password);
+            TestSettings("Password=pa$$word;Server=servername;Port=1234;Username=username;Rfs=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
 
         }
 
@@ -66,21 +66,21 @@ namespace PH.Well.UnitTests.ACL.AdamEvents
         public void KeyNamesAreCaseInsensitive()
         {
             // Test case-insensitivity of key names
-            TestSettings("PaSsWoRd=pa$$word;SeRveR=servername:PoRt=1234:UsErNaMe=username,RfS=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
+            TestSettings("PaSsWoRd=pa$$word;SeRveR=servername;PoRt=1234;UsErNaMe=username;RfS=rfspath", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
         public void KeysAndValuesAreTrimmed()
         {
             // Test whitespace is removed from values and key names
-            TestSettings("   Password = pa$$word ; Server = servername : Port = 1234 : Username = username, Rfs  =  rfspath ", "servername", 1234, "rfspath", "username", "pa$$word");
+            TestSettings("   Password = pa$$word ; Server = servername ; Port = 1234 ; Username = username; Rfs  =  rfspath ", "servername", 1234, "rfspath", "username", "pa$$word");
         }
 
         [Test]
         public void ValuesCanContainSpecialCharacters()
         {
             // Test values can contain likely special characters
-            TestSettings("Password=pa$$w!#£&*()[]~/\\;Server=servername.palmerharvey.co.uk:Port=1234:Username=first.last,Rfs=rfspath",
+            TestSettings("Password=pa$$w!#£&*()[]~/\\;Server=servername.palmerharvey.co.uk;Port=1234;Username=first.last;Rfs=rfspath",
                 "servername.palmerharvey.co.uk", 
                 1234, 
                 "rfspath", 

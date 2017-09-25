@@ -12,7 +12,7 @@ namespace PH.Well.Services
     {
         #region Constants
 
-        private static readonly char[] Delimiters = {';', ':', ','};
+        private static readonly char[] Delimiters = {';'};
         private const string UsernameKey = "username";
         private const string PasswordKey = "password";
         private const string ServerKey = "server";

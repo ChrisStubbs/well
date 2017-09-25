@@ -21,7 +21,7 @@ namespace PH.Well.UnitTests
         public void TestDtcCapability()
         {
             string connectionString =
-                @"Data Source=ho-ms-dbprd2\SQLSERVER2014;Failover Partner=;Initial Catalog=Well;Integrated Security=True";
+                @"Data Source=ho-ms-dbprd1\SQLSERVER2014;Failover Partner=;Initial Catalog=Well;Integrated Security=True";
 
             using (TransactionScope transactionScope = new TransactionScope())
             {

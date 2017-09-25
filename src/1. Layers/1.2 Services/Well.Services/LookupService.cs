@@ -125,7 +125,8 @@ namespace PH.Well.Services
 
         private IList<KeyValuePair<string, string>> GetResolutionStatus()
         {
-           return  ResolutionStatus.AllStatus
+            return ResolutionStatus.AllStatus
+                .Where(x => x != ResolutionStatus.Invalid && x != ResolutionStatus.Approved)
                 .Select(x => new KeyValuePair<string, string>(x.Value.ToString(), x.Description))
                 .ToList();
 

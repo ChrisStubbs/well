@@ -39,11 +39,10 @@ export class AssignGrnModal implements IObservableAlive
         this.isVisible = this.canSubmitMissingGRN;
     }
 
-    private submit(): void
+    private submitGrn(): void
     {
         this.jobService.setGrnForJob(this.model.jobId, this.grnNumber)
-            .subscribe(data =>
-            {
+            .subscribe(data => {
                 this.model.grnNumber = this.grnNumber;
                 this.onGrnAssigned.emit(this.model);
                 this.close();

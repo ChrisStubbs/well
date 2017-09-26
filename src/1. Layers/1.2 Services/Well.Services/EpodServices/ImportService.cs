@@ -212,12 +212,13 @@
             return isJobReplanned;
         }
 
-        private bool HasJobMovedStops(Job originalJob, Job fileJob)
+        public virtual bool HasJobMovedStops(Job originalJob, Job fileJob)
         {
             return originalJob.StopId != fileJob.StopId;
         }
 
-        private bool HasStopBeenReplanned(IStopMoveIdentifiers newIdentifier, IStopMoveIdentifiers original)
+        //TODO: TEST THIS
+        public virtual bool HasStopBeenReplanned(IStopMoveIdentifiers newIdentifier, IStopMoveIdentifiers original)
         {
             if (newIdentifier.RouteHeaderId != original.RouteHeaderId)
             {

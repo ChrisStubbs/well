@@ -118,6 +118,7 @@ export class ApprovalsComponent implements IObservableAlive
                 this.assigneesTo.push(current.assignedTo || 'Unallocated');
             });
 
+            this.assignees = _.sortBy(_.uniq(this.assignees));
             this.assigneesTo = _.sortBy(_.uniq(this.assigneesTo));
         }
 

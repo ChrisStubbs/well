@@ -15,8 +15,7 @@ namespace PH.Well.Services
         {
             List<WellStatus> uniqueStatus = wellStatuses.Distinct().ToList();
 
-            var anyCompleted = uniqueStatus.Any(x => x == WellStatus.Complete || x == WellStatus.CompleteWithBypass ||
-                                                     x == WellStatus.Bypassed);
+            var anyCompleted = uniqueStatus.Any(x => x == WellStatus.Complete || x == WellStatus.Bypassed);
 
             var anyInProgress = uniqueStatus.Any(x => x == WellStatus.RouteInProgress);
 

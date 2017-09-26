@@ -1,10 +1,13 @@
 ﻿namespace PH.Well.Services.EpodServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Contracts;
     using Domain.Enums;
     using Domain.Extensions;
     using Domain.Mappers;
@@ -49,7 +52,8 @@
 
             var existingRouteStopsFromDb = stopRepository.GetStopByRouteHeaderId(fileRouteHeader.Id);
 
-            IList<Stop> existingStopsBothSources = GetExistingStops(fileRouteHeader.Stops.Select(s => s.TransportOrderReference).Distinct().ToList());
+            var existingStopsBothSources = GetExistingStops(fileRouteHeader.Stops.Select(s => s.TransportOrderReference).Distinct().ToList())
+                .ToDictionary(k => k.TransportOrderReference, StringComparer.CurrentCultureIgnoreCase);
 
             var stopImportStatuses = new List<StopImportStatus>();
 
@@ -58,13 +62,14 @@
             {
                 Stop fileStop = AutoMapperConfig.Mapper.Map<StopDTO, Stop>(s);
 
-                var originalStop = FindOriginalStop(existingStopsBothSources, fileStop);
+                var originalStop = existingStopsBothSources.ContainsKey(fileStop.TransportOrderReference)
+                    ? existingStopsBothSources[fileStop.TransportOrderReference] : (Stop)null;
 
                 //Is New
                 if (originalStop == null)
                 {
                     stopRepository.Save(fileStop);
-                    fileStop.Jobs.ForEach(x => x.StopId = fileStop.Id);
+                    Parallel.ForEach(fileStop.Jobs, x => x.StopId = fileStop.Id);
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Save(fileStop.Account);
                     stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.New));
@@ -72,15 +77,14 @@
                 // Update Existing
                 else if (!originalStop.HasStopBeenCompleted())
                 {
+                    var originalStopIdentifiers = originalStop.CloneStopIdentifiers();
                     originalStop.Previously = originalStop.GetPreviously(fileStop);
-                    //bool stopHasMoved = originalStop.TransportOrderReference != fileStop.TransportOrderReference;
-                        //originalStop.HasMoved(fileStop);
                     importMapper.MapStop(fileStop, originalStop);
                     stopRepository.Update(originalStop);
                     fileStop.Id = originalStop.Id;
-                    fileStop.Jobs.ForEach(x => x.StopId = originalStop.Id);
+                    Parallel.ForEach(fileStop.Jobs, x => x.StopId = originalStop.Id);
 
-                    stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.Updated));
+                    stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.Updated, originalStopIdentifiers));
                 }
                 else
                 {
@@ -89,7 +93,7 @@
                                   $"identifier ({originalStop.Identifier()}), " +
                                   $"route header Id ({originalStop.RouteHeaderId})";
                     logger.LogDebug(message);
-                    stopImportStatuses.Add(new StopImportStatus(originalStop, StopImportStatus.Status.IgnoredAsCompleted));
+                    stopImportStatuses.Add(new StopImportStatus(originalStop, StopImportStatus.Status.IgnoredAsCompleted, originalStop.CloneStopIdentifiers()));
                 }
 
             }
@@ -98,17 +102,9 @@
 
             DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader, importCommands);
             // Batch update WellStatus for stops
-            UpdateWellStatusForStops(
+            stopService.ComputeWellStatus(
                 stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
                 .Select(x => x.Stop.Id).ToArray());
-        }
-
-        private void UpdateWellStatusForStops(params int[] stopIds)
-        {
-            foreach (var id in stopIds)
-            {
-                stopService.ComputeWellStatus(id);
-            }
         }
 
         private void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, RouteHeader fileRouteHeader, IImportCommands importCommands)
@@ -120,7 +116,7 @@
 
         private void AddHeaderInformationToStops(RouteHeader header)
         {
-            header.Stops.ForEach(
+            Parallel.ForEach(header.Stops,
                 x =>
                 {
                     x.RouteHeaderId = header.Id;
@@ -174,9 +170,10 @@
                 // Update Existings
                 else if (originalJob.CanWeUpdateJobOnImport())
                 {
-                    bool jobHasMovedStops = originalJob.StopId != fileJob.StopId;
+                    bool isJobReplanned = IsJobReplanned(stopImportStatuses, fileJob, originalJob);
+
                     originalJob.StopId = fileJob.StopId;
-                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader,  jobHasMovedStops);
+                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader, isJobReplanned);
                     updateJobIds.Add(originalJob.Id);
                 }
                 else
@@ -196,6 +193,56 @@
             var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops).ToList();
 
             DeleteJobs(jobsToBeDeleted);
+        }
+
+        public bool IsJobReplanned(IList<StopImportStatus> stopImportStatuses, Job fileJob, Job originalJob)
+        {
+            bool isJobReplanned = false;
+
+            if (originalJob.WellStatus == WellStatus.Bypassed)
+            {
+                isJobReplanned = HasJobMovedStops(originalJob, fileJob);
+
+                if (!isJobReplanned)
+                {
+                    var stopImportStatus = stopImportStatuses.First(s => s.Stop.Id == fileJob.StopId);
+                    isJobReplanned = HasStopBeenReplanned(stopImportStatus.Stop, stopImportStatus.OriginalStopIdentifiers);
+                }
+            }
+            return isJobReplanned;
+        }
+
+        public virtual bool HasJobMovedStops(Job originalJob, Job fileJob)
+        {
+            return originalJob.StopId != fileJob.StopId;
+        }
+
+        //TODO: TEST THIS
+        public virtual bool HasStopBeenReplanned(IStopMoveIdentifiers newIdentifier, IStopMoveIdentifiers original)
+        {
+            if (newIdentifier.RouteHeaderId != original.RouteHeaderId)
+            {
+                return true;
+            }
+
+            int originalPlannedStopNumber;
+            if (!int.TryParse(original.PlannedStopNumber, out originalPlannedStopNumber))
+            {
+                return false;
+            }
+
+            int newPlannedStopNumber;
+            if (!int.TryParse(newIdentifier.PlannedStopNumber, out newPlannedStopNumber))
+            {
+                return false;
+            }
+
+            if (originalPlannedStopNumber < newPlannedStopNumber)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void DoAfterJobCreation(IImportCommands importCommands, Job job, RouteHeader routeHeader)
@@ -269,6 +316,8 @@
                 x.Identifier() == job.Identifier()
             );
         }
+
+
 
     }
 }

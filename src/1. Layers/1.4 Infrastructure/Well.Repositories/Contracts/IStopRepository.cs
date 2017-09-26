@@ -24,9 +24,11 @@ namespace PH.Well.Repositories.Contracts
         void DeleteStopByTransportOrderReference(string transportOrderReference);
 
         void ReinstateStopSoftDeletedByImport(IList<int> stopIds);
-
-        void UpdateWellStatus(Stop stop);
+        
+        void UpdateWellStatus(IList<Stop> stop);
 
         Stop GetForWellStatusCalculationById(int stopId);
+
+        IList<Stop> GetForWellStatusCalculationById(IList<int> stopId);
     }
 }

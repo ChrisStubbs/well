@@ -45,6 +45,8 @@ namespace PH.Well.Repositories
         public const string JobUpdateWellStatus = "Job_UpdateWellStatus";
         public const string JobGetForWellStatusCalculationById = "Job_GetForWellStatusCalculationById";
         public const string JobGetForWellStatusCalculationByStopId = "Job_GetForWellStatusCalculationByStopId";
+        public const string Job_GetForWellStatusCalculationByStopIds = "Job_GetForWellStatusCalculationByStopIds";
+
         public const string JobUpdate = "Job_Update";
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";

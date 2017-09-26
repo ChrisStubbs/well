@@ -80,7 +80,7 @@ namespace PH.Well.Services
 
         public RouteHeader ComputeWellStatusAndNotifyIfChangedFromCompleted(int routeId)
         {
-            RouteHeader routeHeader = routeHeaderRepository.GetRouteHeaderById(routeId);
+            var routeHeader = routeHeaderRepository.GetRouteHeaderById(routeId);
             if (routeHeader != null)
             {
                 var existingStatus = routeHeader.RouteWellStatus;

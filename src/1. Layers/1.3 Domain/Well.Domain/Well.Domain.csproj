@@ -57,11 +57,12 @@
     <Compile Include="CommentReason.cs" />
     <Compile Include="Constants\RouteStatusCode.cs" />
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
+    <Compile Include="Contracts\IStopMoveIdentifiers.cs" />
     <Compile Include="DateThreshold.cs" />
     <Compile Include="Enums\JobIssueType.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />
-    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Extensions\StopExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\JobExtensions.cs" />
     <Compile Include="Extensions\ResolutionStatusExtensions.cs" />

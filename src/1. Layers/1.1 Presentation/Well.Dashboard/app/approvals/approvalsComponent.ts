@@ -118,6 +118,7 @@ export class ApprovalsComponent implements IObservableAlive
                 this.assigneesTo.push(current.assignedTo || 'Unallocated');
             });
 
+            this.assignees = _.sortBy(_.uniq(this.assignees));
             this.assigneesTo = _.sortBy(_.uniq(this.assigneesTo));
         }
 
@@ -229,7 +230,7 @@ export class ApprovalsComponent implements IObservableAlive
     }
 
     public onAssigned(event: AssignModalResult) {
-        const userName = _.isNil(event.newUser) ? undefined : event.newUser.name;
+        const userName = _.isNil(event.newUser) ? 'Unallocated' : event.newUser.name; 
 
         _.find(this.source, (current: Approval) => {
             const item = <Approval>event.source;

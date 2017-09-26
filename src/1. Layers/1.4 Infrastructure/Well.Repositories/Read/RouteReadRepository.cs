@@ -162,7 +162,7 @@ namespace PH.Well.Repositories.Read
                                 (noGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
                                 (pendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
                             JobIds = item.JobIds.ToList(),
-                            DriverName = item.DriverName
+                            DriverName = item.DriverName ?? string.Empty
                         };
 
                         return route;

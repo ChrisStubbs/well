@@ -41,7 +41,14 @@
                 jobDetailRepository.Object,
                 jobDetailDamageRepository.Object,
                 stopService.Object);
+        }
 
+        public class TheIsJobReplannedMethod : ImportServiceTest
+        {
+            public void ShouldNotReplanIfJobIFOriginalJobIsNotBypassed()
+            {
+                
+            }
         }
     }
 }

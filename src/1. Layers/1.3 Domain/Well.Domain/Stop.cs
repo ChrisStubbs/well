@@ -3,13 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using Extensions;
+    using Contracts;
     using PH.Well.Domain.Enums;
+    
 
     [Serializable()]
-    public class Stop : Entity<int>
+    public class Stop : Entity<int> , IStopMoveIdentifiers
     {
         public Stop()
         {
@@ -71,4 +70,6 @@
 
         public bool DeletedByImport { get; set; }
     }
+
+   
 }

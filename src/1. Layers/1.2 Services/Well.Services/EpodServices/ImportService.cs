@@ -217,7 +217,10 @@
             return originalJob.StopId != fileJob.StopId;
         }
 
-        //TODO: TEST THIS
+        
+        // A stop is considered replanned if it has
+        // Moved to a different route
+        // Its planned stop number has moved forward
         public virtual bool HasStopBeenReplanned(IStopMoveIdentifiers newIdentifier, IStopMoveIdentifiers original)
         {
             if (newIdentifier.RouteHeaderId != original.RouteHeaderId)

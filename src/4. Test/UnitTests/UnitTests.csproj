@@ -242,7 +242,7 @@
     <Compile Include="Services\EpodServices\EpodFileImportCommandTests.cs" />
     <Compile Include="Services\EpodServices\EpodImportMapperTests.cs" />
     <Compile Include="Services\EpodServices\EpodImportServiceTests.cs" />
-    <Compile Include="Services\EpodServices\ImportServiceTest.cs" />
+    <Compile Include="Services\EpodServices\ImportServiceTests.cs" />
     <Compile Include="Services\JobResolutionStatusTests.cs" />
     <Compile Include="Services\JobStatusServiceTests.cs" />
     <Compile Include="Services\ExceptionEventServiceTests.cs" />

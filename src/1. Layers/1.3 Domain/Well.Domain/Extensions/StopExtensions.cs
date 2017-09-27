@@ -5,7 +5,6 @@
 
     public static class StopExtensions
     {
-
         public static string GetPreviously(this Stop currentStop, Stop originalStop)
         {
             if (!currentStop.HasMoved(originalStop))
@@ -31,6 +30,15 @@
         public static bool HasStopBeenCompleted(this Stop stop)
         {
          return stop.WellStatus == WellStatus.Complete;
+        }
+
+        public static Stop CloneStopIdentifiers(this Stop source)
+        {
+            return new Stop
+            {
+                PlannedStopNumber = source.PlannedStopNumber,
+                RouteHeaderId = source.RouteHeaderId
+            };
         }
     }
 

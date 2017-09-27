@@ -63,7 +63,7 @@
             UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true, false);
         }
 
-        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool jobHasMovedStops)
+        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool isJobReplanned)
         {
             UpdateExistingJobWithEvents(fileJob, existingJob, routeHeader);
         }

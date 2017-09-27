@@ -105,7 +105,7 @@
                         <div>C.O.D. <a href="" title="Cash on delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                         <div>P.O.D. <a href="" title="Proof of delivery"><span class="glyphicon glyphicon-info-sign">&nbsp;</span></a></div>
                     </th>
-                    <th style="width: 14%" colspan="2">
+                    <th style="width: 14%" [attr.colspan]="gridSource.length == 0 ? 0 : 2">
                         <div class="text-center col-md-6">Exceptions</div>
                         <div class="text-center col-md-6">Clean</div>
                         <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGridSource()" title="">

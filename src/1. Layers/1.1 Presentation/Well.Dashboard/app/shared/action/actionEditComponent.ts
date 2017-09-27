@@ -60,7 +60,6 @@ export class ActionEditComponent implements IObservableAlive
 
     public ngOnInit()
     {
-        this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);
         this.fillLookups();
         this.createLineItemActionsForm(new EditLineItemException());
     }
@@ -232,7 +231,8 @@ export class ActionEditComponent implements IObservableAlive
     private loadSource(editLineItemException: EditLineItemException): void
     {
         this.source = editLineItemException;
-        this.canEditExceptions = this.canEditExceptions && this.source.canEditActions;
+        this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions) 
+            && this.source.canEditActions;
         this.lineItemActions = this.source.lineItemActions || [];
     }
 

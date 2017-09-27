@@ -38,7 +38,7 @@ namespace PH.Well.Repositories
 
             return GetByIds(jobIds);
         }
-        
+
         private IQueryable<JobDetailLineItemTotals> ToLineItemTotals(IQueryable<PH.Shared.Well.Data.EF.JobDetail> jobDetails)
         {
             return jobDetails
@@ -73,8 +73,17 @@ namespace PH.Well.Repositories
 
         public IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
-            return ToLineItemTotals(wellEntities.JobDetail.Where(x => x.Job.Stop.RouteHeaderId == routeHeaderId))
-                .ToList();
+            return wellEntities.ExceptionTotalsPerSingleRoute
+                            .Where(p => p.RouteId == routeHeaderId)
+                            .Select(p => new JobDetailLineItemTotals
+                            {
+                                JobId = p.JobId,
+                                RouteId = routeHeaderId,
+                                StopId = p.StopId,
+                                TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
+                                TotalClean = p.NumberOfClean.Value
+                            })
+                            .ToList();
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
@@ -387,7 +396,7 @@ namespace PH.Well.Repositories
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdateWellStatus)
                 .AddParameter("Id", job.Id, DbType.Int32)
-                .AddParameter("WellStatusId", (int) job.WellStatus, DbType.Int16)
+                .AddParameter("WellStatusId", (int)job.WellStatus, DbType.Int16)
                 .Execute();
         }
 

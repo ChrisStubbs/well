@@ -75,7 +75,7 @@
                     stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.New));
                 }
                 // Update Existing
-                else if (!originalStop.HasStopBeenCompleted())
+                else if (IsEpodImport(importCommands) || !originalStop.HasStopBeenCompleted())
                 {
                     var originalStopIdentifiers = originalStop.CloneStopIdentifiers();
                     originalStop.Previously = originalStop.GetPreviously(fileStop);
@@ -112,6 +112,12 @@
             var routeFileCommands = importCommands as IAdamFileImportCommands;
             // Only delete Stops on Route File import
             routeFileCommands?.DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader.Stops);
+        }
+
+        private bool IsEpodImport(IImportCommands importCommands)
+        {
+            var epodComs = importCommands as IEpodFileImportCommands;
+            return epodComs != null;
         }
 
         private void AddHeaderInformationToStops(RouteHeader header)

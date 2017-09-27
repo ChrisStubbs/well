@@ -473,6 +473,7 @@
     <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopIds.sql" />
     <Build Include="dbo\Types\WellStatusUpdate.sql" />
+    <Build Include="dbo\Views\ExceptionTotalsPerSingleRoute.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

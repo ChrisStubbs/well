@@ -30,7 +30,7 @@
 
         public static bool HasStopBeenCompleted(this Stop stop)
         {
-            return stop.WellStatus == WellStatus.Complete;
+         return stop.WellStatus == WellStatus.Complete;
         }
     }
 

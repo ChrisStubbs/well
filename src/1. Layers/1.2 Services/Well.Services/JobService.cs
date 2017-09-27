@@ -161,8 +161,7 @@
                 || job.JobStatus == JobStatus.CompletedOnPaper  )
                 //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
                 //|| job.JobStatus == JobStatus.Bypassed) 
-                && IsJobAssignedToUser(job, userName)
-                && job.JobType != JobType.GlobalUplift;
+                && IsJobAssignedToUser(job, userName);
         }
 
         private bool IsJobAssignedToUser(Job job, string userName)

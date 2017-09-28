@@ -81,17 +81,14 @@ namespace PH.Well.Services
                 {
                     job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
 
+
                     // Clear job exceptions
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     // Update job
                     epodFileImportCommands.UpdateWithEvents(job, job.JobRoute.BranchId, job.JobRoute.RouteDate);
 
-                    // Create LineItemActions if manually complete standard uplift job or manually bypass non standard uplift job
-                    if ((job.JobTypeCode == "UPL-STD" && completionType == ManualCompletionType.CompleteAsClean) ||
-                        (job.JobTypeCode != "UPL-STD" && completionType == ManualCompletionType.CompleteAsBypassed))
-                    {
-                        this.postImportRepository.PostTranSendImport(new[] {job.Id});
-                    }
+                    // Create LineItemActions 
+                    this.postImportRepository.PostTranSendImport(new[] {job.Id});
 
                     // Compute well status
                     jobService.ComputeAndPropagateWellStatus(job);

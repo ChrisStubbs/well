@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services.Mappers
+﻿using PH.Well.Domain.Extensions;
+
+namespace PH.Well.Services.Mappers
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -74,7 +76,7 @@
                         result.Items.Add(new ActionSubmitSummaryItem
                         {
                             Identifier = firstItem.InvoiceNumber,
-                            JobType = firstItem.JobType,
+                            JobType = firstItem.JobTypeDisplayText,
                             TotalCreditValue = invoiceItems.Sum(x => x.TotalCreditValue),
                             TotalActionValue = invoiceItems.Sum(x => x.TotalActionValue),
                             TotalCreditQty = invoiceItems.Sum(x => x.TotalCreditQty),

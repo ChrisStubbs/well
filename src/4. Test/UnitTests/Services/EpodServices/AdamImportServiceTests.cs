@@ -7,12 +7,13 @@
     using Well.Common;
     using Well.Common.Contracts;
     using Well.Domain;
+    using Well.Domain.Enums;
     using Well.Services;
     using Well.Services.Contracts;
     using Well.Services.EpodServices;
 
     [TestFixture]
-    public class RouteImportServiceTests
+    public class AdamImportServiceTests
     {
         private Mock<ILogger> logger;
         private Mock<IEventLogger> eventLogger;
@@ -55,31 +56,13 @@
             );
         }
 
-        public class ImportRouteHeader : RouteImportServiceTests
+        public class TheGetRouteOwnerIdMethod : AdamImportServiceTests
         {
             [Test]
-            public void ShouldGetExistingRouteHeaderWithRouteNumberDateAndOwnerId()
+            public void ShouldReturnUndefinedIfNullBranchShortName()
             {
-                var routeId = 1;
-                var routeNn = "001";
-                var routeDate = DateTime.Today;
-                var routeOwnerId = 5;
-                var rh = new RouteHeader { RouteNumber = routeNn, RouteDate = routeDate };
-
-                mockRouteImportService.Setup(x => x.GetRouteOwnerId(rh)).Returns(routeOwnerId);
-
-                mockRouteImportService.Object.ImportRouteHeader(rh, routeId);
-
-                routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(
-                    It.IsAny<string>(),
-                    It.IsAny<DateTime>(),
-                    It.IsAny<int>()), Times.Once);
-
-                routeHeaderRepository.Verify(x => x.GetByNumberDateBranch(
-                    routeNn,
-                    routeDate,
-                    routeOwnerId), Times.Once);
-
+                mockRouteImportService.CallBase = true;
+                Assert.That(mockRouteImportService.Object.GetBranchId((string)null),Is.EqualTo((int)Branches.NotDefined));
             }
         }
     }

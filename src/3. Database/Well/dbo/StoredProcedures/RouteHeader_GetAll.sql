@@ -93,6 +93,7 @@ SELECT [j].[Id]
       ,[j].[DateUpdated]
       ,[j].[Version]
 	  ,[j].[JobStatusId] as JobStatus
+	  ,j.JobTypeId as JobType
   FROM [dbo].[Job] j
 	INNER JOIN [dbo].[Stop] s
 		on j.StopId = s.Id

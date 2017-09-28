@@ -10,6 +10,7 @@ AS
             END) AS HasNull,
             MAX(r.routenumber) Routenumber,
             r.id routeid, 
+			s.Id AS StopId,
 			MAX(RouteOwnerId) AS BranchId
         FROM 
             Job j
@@ -19,17 +20,13 @@ AS
             inner JOIN RouteHeader r
                 ON s.RouteHeaderId = r.Id
 				AND r.DateDeleted IS NULL
-            INNER JOIN JobDetail jd
-                ON j.id = jd.JobId
-				AND jd.DateDeleted IS NULL
             LEFT JOIN LineItem li
-                ON jd.LineItemId = li.id
+                ON j.Id = li.JobId
 				AND li.DateDeleted is null
             LEFT join LineItemAction lia
                 on li.Id = lia.LineItemId
 				AND lia.DateDeleted is null
         WHERE
-            --j.JobTypeCode NOT IN ('UPL-SAN', 'DEL-DOC', 'NOTDEF')
             j.DateDeleted IS NULL
             AND j.ResolutionStatusId > 1 --imported
         GROUP BY 

@@ -61,24 +61,28 @@
                 job1 = JobFactory.New
                     .With(x => x.Id = 1)
                     .With(x => x.ResolutionStatus = ResolutionStatus.ActionRequired)
+                    .With(x => x.JobType = JobType.Alcohol)
                     .With(x => x.LineItems.Add(LineItemFactory.New.With(li => li.Id = 2020).AddNotDefinedAction().Build()))
                     .Build();
 
                 job2 = JobFactory.New
                     .With(x => x.Id = 2)
                     .With(x => x.ResolutionStatus = ResolutionStatus.ActionRequired)
+                    .With(x => x.JobType = JobType.Alcohol)
                     .With(x => x.LineItems.Add(LineItemFactory.New.AddCloseAction().Build())) // wont be included as close has 0 quantity
                     .Build();
 
                 job3 = JobFactory.New
                     .With(x => x.Id = 3)
                     .With(x => x.ResolutionStatus = ResolutionStatus.ActionRequired)
+                    .With(x => x.JobType = JobType.Alcohol)
                     .With(x => x.LineItems.Add(LineItemFactory.New.With(li => li.Id = 2021).AddCreditAction().Build()))
                     .Build();
 
                 job4 = JobFactory.New
                     .With(x => x.Id = 4)
                     .With(x => x.ResolutionStatus = ResolutionStatus.ActionRequired)
+                    .With(x => x.JobType = JobType.Alcohol)
                     .With(x => x.LineItems.Add(LineItemFactory.New.With(li => li.Id = 2022).AddCreditAction().Build()))
                     .Build();
 
@@ -144,7 +148,7 @@
                                 .With(x => x.Quantity = 2)
                                 .With(x => x.DeliveryAction = DeliveryAction.NotDefined)
                                 .With(x => x.Source = JobDetailSource.Assembler)
-                                .With(x => x.Reason = JobDetailReason.AccumulatedDamages).Build();
+                                .With(x => x.Reason = JobDetailReason.BookingError).Build();
                 var lia2 = LineItemActionFactory.New.With(x => x.LineItemId = 2).Build();
                 var lia3 = LineItemActionFactory.New.With(x => x.LineItemId = 3).Build();
 

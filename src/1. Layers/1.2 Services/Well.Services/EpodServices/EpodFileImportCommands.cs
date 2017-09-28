@@ -63,7 +63,7 @@
             UpdateExistingJob(existingJob, existingJob, branchId, routeDate, true, false);
         }
 
-        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
+        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool isJobReplanned)
         {
             UpdateExistingJobWithEvents(fileJob, existingJob, routeHeader);
         }
@@ -110,7 +110,7 @@
             //ProcessGlobalUplift(fileJob, existingJob, branchId, createEvents);
 
             this.jobRepository.Update(existingJob);
-            this.jobRepository.SetJobResolutionStatus(existingJob.Id, existingJob.ResolutionStatus.Description);
+            this.jobRepository.SaveJobResolutionStatus(existingJob);
         }
 
         private void ProcessGlobalUplift(Job fileJob, Job existingJob, int branchId, bool createEvents)
@@ -274,7 +274,7 @@
                     }
 
                     this.jobRepository.Update(job);
-                    this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                    this.jobRepository.SaveJobResolutionStatus(job);
 
                     jobs.Add(job);
                 }

@@ -81,7 +81,7 @@
                                 <select class="form-control" [(ngModel)]="filters.exceptions" (change)="fillGrid()" title="">
                                     <option value>All</option>
                                     <option value="1">With Exceptions</option>
-                                    <option value="2">All Clean</option>
+                                    <option value="2">Without Exceptions</option> <!-- it's no possible to know if the location is 100% clean so lets put the filter like this -->
                                 </select>
                             </div>
                         </th>

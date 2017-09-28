@@ -11,6 +11,7 @@ namespace PH.Well.Repositories
         public const string RouteHeaderCreateOrUpdate = "RouteHeader_CreateOrUpdate";
         public const string RouteHeaderInsert = "RouteHeader_Insert";
         public const string RouteHeaderUpdate = "RouteHeader_Update";
+        public const string UpdateFieldsFromImported = "UpdateRouteHeaderFieldsFromImportedFile";
         public const string RouteHeaderGetById = "RouteHeader_GetById";
         public const string RouteHeaderUpdateWellStatus = "RouteHeader_UpdateWellStatus";
         public const string StopAttributeCreateOrUpdate = "StopAttribute_CreateOrUpdate";
@@ -44,6 +45,8 @@ namespace PH.Well.Repositories
         public const string JobUpdateWellStatus = "Job_UpdateWellStatus";
         public const string JobGetForWellStatusCalculationById = "Job_GetForWellStatusCalculationById";
         public const string JobGetForWellStatusCalculationByStopId = "Job_GetForWellStatusCalculationByStopId";
+        public const string Job_GetForWellStatusCalculationByStopIds = "Job_GetForWellStatusCalculationByStopIds";
+
         public const string JobUpdate = "Job_Update";
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";

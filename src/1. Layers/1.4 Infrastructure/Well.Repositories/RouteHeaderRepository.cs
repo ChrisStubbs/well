@@ -5,6 +5,7 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
+    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain;
@@ -58,15 +59,13 @@
             return routeHeaders;
         }
 
-        public RouteHeader GetByNumberDateBranch(string routeNumber, DateTime routeDate, int branchId)
+        public IList<GetByNumberDateBranchResult> GetByNumberDateBranch(IList<GetByNumberDateBranchFilter> filter)
         {
             return
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.RouteheaderGetByNumberDateBranch)
-                    .AddParameter("RouteNumber", routeNumber, DbType.String)
-                    .AddParameter("RouteDate", routeDate, DbType.DateTime)
-                    .AddParameter("BranchId", branchId, DbType.Int32)
-                    .Query<RouteHeader>()
-                    .FirstOrDefault();
+                    .AddParameter("filter", filter.ToDataTables(), DbType.Object)
+                    .Query<GetByNumberDateBranchResult>()
+                    .ToList();
         }
 
         public void DeleteRouteHeaderWithNoStops()
@@ -204,6 +203,18 @@
                 .AddParameter("Id", routeHeader.Id, DbType.Int32)
                 .AddParameter("WellStatusId", (int) routeHeader.RouteWellStatus, DbType.Int16)
                 .Execute();
+        }
+
+        public void UpdateFieldsFromImported(RouteHeaderFromImportedFile newData)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UpdateFieldsFromImported)
+                .AddParameter("Id", newData.Id, DbType.Int32)
+                .AddParameter("PlannedStops", newData.PlannedStops, DbType.Int16)
+                .AddParameter("RouteDate", newData.RouteDate, DbType.DateTime)
+                .AddParameter("RouteNumber", newData.RouteNumber, DbType.String)
+                .AddParameter("RouteOwnerId", newData.RouteOwnerId, DbType.Int32)
+                .AddParameter("StartDepot", newData.StartDepot, DbType.Int32)
+            .Execute();
         }
     }
 }

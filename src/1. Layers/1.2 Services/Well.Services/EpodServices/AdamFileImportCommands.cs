@@ -38,11 +38,11 @@
             this.jobService = jobService;
         }
 
-        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader)
+        public void UpdateExistingJob(Job fileJob, Job existingJob, RouteHeader routeHeader, bool isJobReplanned)
         {
             importMapper.MapJob(fileJob, existingJob);
 
-            if (existingJob.WellStatus == WellStatus.Bypassed)
+            if (isJobReplanned)
             {
                 existingJob.JobStatus = JobStatus.Replanned;
                 existingJob.WellStatus = existingJob.JobStatus.ToWellStatus();
@@ -107,9 +107,10 @@
 
         private void UpdateJobDetails(IEnumerable<JobDetail> jobDetails, int jobId)
         {
+            var existingJobDetails = this.jobDetailRepository.GetByJobId(jobId).ToLookup(p => p.LineNumber);
             foreach (var detail in jobDetails)
             {
-                var existingJobDetail = this.jobDetailRepository.GetByJobLine(jobId, detail.LineNumber);
+                var existingJobDetail = existingJobDetails[detail.LineNumber].FirstOrDefault();
 
                 if (existingJobDetail != null)
                 {

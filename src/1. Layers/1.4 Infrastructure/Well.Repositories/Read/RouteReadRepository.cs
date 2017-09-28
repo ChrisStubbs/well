@@ -1,4 +1,5 @@
-﻿using PH.Shared.Well.Data.EF;
+﻿using System.Diagnostics;
+using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Constants;
 
 namespace PH.Well.Repositories.Read
@@ -127,7 +128,7 @@ namespace PH.Well.Repositories.Read
                     return null;
                 };
 
-                return routeHeaders
+                var result = routeHeaders
                     .Select(item =>
                     {
                         var routeWellStatus = (item.WellStatus.HasValue)
@@ -161,12 +162,14 @@ namespace PH.Well.Repositories.Read
                                 (noGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
                                 (pendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
                             JobIds = item.JobIds.ToList(),
-                            DriverName = item.DriverName
+                            DriverName = item.DriverName ?? string.Empty
                         };
 
                         return route;
                     })
                     .ToList();
+
+                return result;
             }
 
             return new List<Route>();

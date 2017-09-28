@@ -40,7 +40,8 @@
                             <div class="col-md-3">
                                 <select class="form-control" id="source" name="source"
                                         [(ngModel)]="source"
-                                        pattern="^[1-9][0-9]*$">
+                                        pattern="^[1-9][0-9]*$"
+                                        [disabled]="deliveryAction == 2">
                                     <option *ngFor="let source of sources" [value]="source.key">
                                         {{ source.value }}
                                     </option>
@@ -52,7 +53,8 @@
                             <div class="col-md-3">
                                 <select class="form-control" id="reason" name="reason"
                                         [(ngModel)]="reason"
-                                        pattern="^[1-9][0-9]*$">
+                                        pattern="^[1-9][0-9]*$"
+                                        [disabled]="deliveryAction == 2">
                                     <option *ngFor="let reason of reasons" [value]="reason.key">
                                         {{ reason.value }}
                                     </option>

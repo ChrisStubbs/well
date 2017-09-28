@@ -23,7 +23,7 @@ namespace PH.Well.UnitTests.Factories
             {
                 LineItemId = this.Entity.Id,
                 DeliveryAction = Well.Domain.Enums.DeliveryAction.Credit,
-                Reason = JobDetailReason.AccumulatedDamages,
+                Reason = JobDetailReason.BookingError,
                 Source = JobDetailSource.Checker,
                 Quantity = 10
             });

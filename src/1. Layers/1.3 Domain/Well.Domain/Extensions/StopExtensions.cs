@@ -1,17 +1,15 @@
 ﻿namespace PH.Well.Domain.Extensions
 {
     using System;
-    using System.Linq;
     using Enums;
 
     public static class StopExtensions
     {
-
         public static string GetPreviously(this Stop currentStop, Stop originalStop)
         {
             if (!currentStop.HasMoved(originalStop))
             {
-                return null;
+                return originalStop.Previously;
             }
 
             return !originalStop.DeliveryDate.ToShortDateString().Equals(currentStop.DeliveryDate.ToShortDateString(), StringComparison.InvariantCultureIgnoreCase)
@@ -32,6 +30,15 @@
         public static bool HasStopBeenCompleted(this Stop stop)
         {
             return stop.WellStatus == WellStatus.Complete;
+        }
+
+        public static Stop CloneStopIdentifiers(this Stop source)
+        {
+            return new Stop
+            {
+                PlannedStopNumber = source.PlannedStopNumber,
+                RouteHeaderId = source.RouteHeaderId
+            };
         }
     }
 

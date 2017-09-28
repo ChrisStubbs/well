@@ -48,7 +48,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in DriverCompleted status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_DriverCompleted()
         {
@@ -69,7 +69,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in ActionRequired status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_ActionRequired()
         {
@@ -91,7 +91,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in PendingSubmission status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_PendingSubmission()
         {
@@ -144,7 +144,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in PendingApproval status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_PendingApproval()
         {
@@ -177,7 +177,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in Approved status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_Approved()
         {
@@ -210,7 +210,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in Credited status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_Credited()
         {
@@ -252,7 +252,7 @@ namespace PH.Well.UnitTests.Services
 
         [Test]
         [Description("Check if the Job is in Resolved status")]
-        [Category("JobResolutionStatus get status")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public void Test_ResolutionStatus_Resolved()
         {
@@ -291,6 +291,29 @@ namespace PH.Well.UnitTests.Services
             Assert.That(newStatus, Is.Not.EqualTo(ResolutionStatus.Resolved));
         }
 
+        [Test]
+        [Description("Check that only Resolve and Credited status can be closed")]
+        [Category("JobResolutionStatus")]
+        [Category("JobService")]
+        public void TryCloseJob()
+        {
+            var job = new Job();
+
+            foreach(var resolutionStatus in ResolutionStatus.AllStatus)
+            {
+                job.ResolutionStatus = resolutionStatus;
+
+                if (resolutionStatus == ResolutionStatus.Resolved
+                    || resolutionStatus.Value == ResolutionStatus.Credited)
+                {
+                    Assert.That(sut.TryCloseJob(job), Is.EqualTo(job.ResolutionStatus | ResolutionStatus.Closed));
+                }
+                else
+                {
+                    Assert.That(sut.TryCloseJob(job), Is.EqualTo(job.ResolutionStatus));
+                }
+            }
+        }
     }
 
     [TestFixture]
@@ -298,7 +321,7 @@ namespace PH.Well.UnitTests.Services
     {
         [Test]
         [TestCaseSource(typeof(JobResolutionStatusTestsSource), nameof(JobResolutionStatusTestsSource.StepForward))]
-        [Category("JobResolutionStatus StepForward")]
+        [Category("JobResolutionStatus")]
         [Category("JobService")]
         public ResolutionStatus JobResolutionStatusStepForward(Job job, IUserThresholdService userThresholdService, IDateThresholdService dateThresholdService)
         {

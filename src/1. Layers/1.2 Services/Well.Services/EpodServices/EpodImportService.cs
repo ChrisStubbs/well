@@ -6,6 +6,7 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
+    using Domain.Enums;
     using Repositories.Contracts;
 
     public class EpodImportService : IEpodImportService
@@ -93,7 +94,7 @@
                 importService.ImportStops(fileHeader, epodImportMapper, importCommands);
 
                 // Calculate well status
-                routeService.ComputeWellStatus(existingHeader.Id);
+                routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(existingHeader.Id);
             }
             else
             {

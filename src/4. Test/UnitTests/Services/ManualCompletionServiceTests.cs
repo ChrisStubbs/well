@@ -119,7 +119,7 @@ namespace PH.Well.UnitTests.Services
                 standardUpliftJob = JobFactory.New.With(x => x.Id = 2)
                     .WithJobRoute(22, DateTime.Today.AddDays(-1))
                     .With(x => x.WellStatus = WellStatus.Invoiced)
-                    .With(x => x.JobTypeCode = "UPL-STD").Build();
+                    .With(x => x.JobType = JobType.StandardUplift).Build();
 
                 job3 = JobFactory.New.With(x => x.Id = 3)
                     .WithJobRoute(33, DateTime.Today.AddDays(-2))
@@ -173,7 +173,7 @@ namespace PH.Well.UnitTests.Services
                     Times.Once);
 
                 // Should create line items when manually completing only for standard uplift jobs
-                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Exactly(2));
             }
 
             [Test]
@@ -186,7 +186,7 @@ namespace PH.Well.UnitTests.Services
                     Times.Once);
 
                 // Should create line items when manually completing only for standard uplift jobs
-                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Once);
+                postImportRepository.Verify(x => x.PostTranSendImport(It.IsAny<IEnumerable<int>>()), Times.Exactly(2));
             }
         }
 

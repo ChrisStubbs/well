@@ -146,11 +146,15 @@ export class SingleRouteFilter implements IFilter
                         return sourceRow.exceptions > 0;
                     }
 
-                    return sourceRow.exceptions == 0;
+                    return sourceRow.clean > 0 && sourceRow.exceptions == 0;
                 };
 
             case 'resolutionId':
-                return GridHelpersFunctions.enumBitwiseAndCompare;
+                return (value: number, value2: number, sourceRow: SingleRouteItem) =>
+                {
+                    return GridHelpersFunctions.enumBitwiseAndCompare(value, value2) ||
+                        GridHelpersFunctions.enumBitwiseAndCompare(value2, value);
+                };
         }
 
         return undefined;

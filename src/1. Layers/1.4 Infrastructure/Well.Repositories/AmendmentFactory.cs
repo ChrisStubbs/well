@@ -52,7 +52,7 @@
             }
 
             var header =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{amendment.CustomerReference}');";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{amendment.CustomerReference.Truncate(9)}');";
 
             var amendmentTransaction = new AmendmentTransaction
             {

@@ -58,8 +58,7 @@ namespace PH.Well.Domain.Enums
             ResolutionStatusClosed,
             ResolutionStatusManuallyCompleted | ResolutionStatusClosed
         };
-
-        #region Properties
+        
         public int Value { get; }
         public string Description { get; }
         public static ResolutionStatus Imported => Values[ResolutionStatusImported];
@@ -74,18 +73,13 @@ namespace PH.Well.Domain.Enums
         public static ResolutionStatus Closed => Values[ResolutionStatusClosed];
         public static ResolutionStatus Invalid => Values[ResolutionStatusInvalid];
         public static IList<ResolutionStatus> AllStatus => ResolutionStatus.Values.Select(p => p.Value).ToList();
-        #endregion Properties
-
-        #region Constructor
-
+        
         private ResolutionStatus(int resolutionStatus, string description)
         {
             this.Value = resolutionStatus;
             this.Description = description;
         }
-        #endregion Constructor
 
-        #region Operators
         public static ResolutionStatus operator &(ResolutionStatus val1, ResolutionStatus val2)
         {
             if (!(CombinableAndStatuses.Any(p => p == val1.Value) && CombinableAndStatuses.Any(p => p == val2.Value)))
@@ -187,9 +181,7 @@ namespace PH.Well.Domain.Enums
         {
             return $"{this.Value} - {this.Description}";
         }
-        #endregion Operators
-
-        #region Overrides
+        
         public override int GetHashCode()
         {
             return this.Value;
@@ -206,6 +198,5 @@ namespace PH.Well.Domain.Enums
 
             return this == item;
         }
-        #endregion Overrides
     }
 }

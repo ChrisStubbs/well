@@ -97,7 +97,10 @@ export class RoutesComponent implements IObservableAlive
                 }, 'routeNumber'], ['desc', 'asc']);
 
                 this.fillGridSource();
-
+                this.routeNumbers = [];
+                this.drivers = [];
+                this.assignees = [];
+                
                 _.forEach(this.routes, (current: Route) =>
                 {
                     if (!current.assignee) {

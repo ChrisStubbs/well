@@ -1,21 +1,21 @@
 ﻿CREATE PROCEDURE [dbo].[RouteHeader_Update]
-	@Id INT,
-	@RouteStatusCode		    VARCHAR(50) = NULL,
-	@RouteStatusDescription VARCHAR(255) = NULL,
-	@PerformanceStatusCode VARCHAR(50) = NULL,
-	@PerformanceStatusDescription VARCHAR(255) = NULL,
-	@LastRouteUpdate			DATETIME,
-	@AuthByPass				INT,
-	@NonAuthByPass			INT,
-	@ShortDeliveries		INT,
-	@DamagesRejected		INT, 
-	@DamagesAccepted		INT,
-	@DriverName VARCHAR(255),
-	@UpdatedBy VARCHAR(50),
-	@UpdatedDate DATETIME,
-	@StartDepotCode			INT,
-	@PlannedStops			TINYINT,
-	@WellStatus				TINYINT
+	@Id								INT,
+	@RouteStatusCode				VARCHAR(50) = NULL,
+	@RouteStatusDescription			VARCHAR(255) = NULL,
+	@PerformanceStatusCode			VARCHAR(50) = NULL,
+	@PerformanceStatusDescription	VARCHAR(255) = NULL,
+	@LastRouteUpdate				DATETIME = NULL,
+	@AuthByPass						INT,
+	@NonAuthByPass					INT,
+	@ShortDeliveries				INT,
+	@DamagesRejected				INT, 
+	@DamagesAccepted				INT,
+	@DriverName						VARCHAR(255),
+	@UpdatedBy						VARCHAR(50),
+	@UpdatedDate					DATETIME,
+	@StartDepotCode					INT,
+	@PlannedStops					TINYINT,
+	@WellStatus						TINYINT
 AS	
 BEGIN
 	SET NOCOUNT ON;

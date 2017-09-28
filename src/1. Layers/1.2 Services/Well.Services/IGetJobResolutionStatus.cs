@@ -7,5 +7,7 @@ namespace PH.Well.Services
     {
         ResolutionStatus GetCurrentResolutionStatus(Job job);
         ResolutionStatus GetNextResolutionStatus(Job job);
+
+        ResolutionStatus TryCloseJob(Job job);
     }
 }

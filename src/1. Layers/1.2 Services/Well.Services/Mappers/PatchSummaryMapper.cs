@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services.Mappers
+﻿using PH.Well.Domain.Extensions;
+
+namespace PH.Well.Services.Mappers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -36,7 +38,7 @@
             {
                 JobId = job.Id,
                 Invoice = job.InvoiceNumber,
-                Type = job.JobType,
+                Type =job.JobTypeDisplayText,
                 Account = job.PhAccount,
                 ShortQuantity = lineItems.Sum(li => li.TotalShortQty),
                 BypassQuantity = lineItems.Sum(li => li.TotalBypassQty),

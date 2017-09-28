@@ -127,9 +127,9 @@
 
                 mockCommands.Setup(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()));
 
-                mockCommands.Object.UpdateExistingJob(fileJob, existingJob, routeHeader);
+                mockCommands.Object.UpdateExistingJob(fileJob, existingJob, routeHeader, false);
                 mockCommands.Verify(x => x.UpdateExistingJob(It.IsAny<Job>(), It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once);
-                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true,false), Times.Once);
+                mockCommands.Verify(x => x.UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true, false), Times.Once);
 
                 Assert.That(existingJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.DriverCompleted));
             }
@@ -146,7 +146,7 @@
 
                 var routeHeader = RouteHeaderFactory.New.Build();
 
-                commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
+                commands.UpdateExistingJob(fileJob, existingJob, routeHeader, false);
                 exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
             }
 
@@ -159,14 +159,14 @@
                 var existingJob = JobFactory.New
                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
                     .Build();
-                
+
                 var routeHeader = RouteHeaderFactory.New.Build();
 
-                commands.UpdateExistingJob(fileJob, existingJob, routeHeader);
+                commands.UpdateExistingJob(fileJob, existingJob, routeHeader, false);
                 //exceptionEventRepository.Verify(x => x.InsertPodEvent(It.Is<PodEvent>(
                 //    pod => pod.Id == existingJob.Id && pod.BranchId == routeHeader.RouteOwnerId
                 //), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
-               // exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
+                // exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
                 podService.Verify(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()));
             }
         }
@@ -202,7 +202,7 @@
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { new Job() });
                 jobService.Setup(x => x.GetNextResolutionStatus(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
-                jobRepository.Setup(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
             }
 
             [Test]
@@ -219,7 +219,7 @@
                 jobService.Verify(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>()), Times.Never);
                 jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Never);
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Never);
-                jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Never);
+                jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Never);
             }
 
             [Test]
@@ -253,14 +253,14 @@
                 jobRepository.Setup(x => x.Update(job1));
                 jobRepository.Setup(x => x.Update(job2));
 
-                jobRepository.Setup(x => x.SetJobResolutionStatus(1, ResolutionStatus.Imported.Description));
-                jobRepository.Setup(x => x.SetJobResolutionStatus(2, ResolutionStatus.Imported.Description));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
+                jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
 
                 commands.RunPostInvoicedProcessing(updatedJobIds);
 
                 jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(2));
-                jobRepository.Verify(x => x.SetJobResolutionStatus(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(2));
+                jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
 
             }
         }
@@ -289,13 +289,13 @@
 
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
 
-                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources,new List<Stop>());
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, new List<Stop>());
 
-                jobRepository.Verify(x=> x.GetByIds(It.Is<IEnumerable<int>>( jobIds=>
-                    jobIds.Count() == 2 
+                jobRepository.Verify(x => x.GetByIds(It.Is<IEnumerable<int>>(jobIds =>
+                    jobIds.Count() == 2
                     && jobIds.Contains(4)
                     && jobIds.Contains(6)
-                    )),Times.Once);
+                    )), Times.Once);
 
             }
         }

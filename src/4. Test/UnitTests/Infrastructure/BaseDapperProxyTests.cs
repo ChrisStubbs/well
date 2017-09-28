@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
     using Factories;
     using Moq;
     using NUnit.Framework;
@@ -44,8 +45,12 @@
             }
             try
             {
+                var parameters = new List<GetByNumberDateBranchFilter>
+                {
+                    new GetByNumberDateBranchFilter { BranchId = 3,  RouteDate =  new DateTime(2017, 09, 01),  RouteNumber = "117" }
+                };
                 //this should not throw as parameters are reset to Null
-                routeHeaderRepository.GetByNumberDateBranch("117", new DateTime(2017, 09, 01), 3);
+                routeHeaderRepository.GetByNumberDateBranch(parameters);
             }
             catch (Exception e)
             {

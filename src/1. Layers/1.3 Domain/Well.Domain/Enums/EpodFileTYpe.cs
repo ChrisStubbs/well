@@ -5,13 +5,13 @@
     public enum EpodFileType
     {
         [Description("ROUTE_")]
-        AdamInsert = 1,
+        Route = 1,
 
         [Description("ePOD_")]
-        EpodUpdate = 2,
+        Epod = 2,
 
         [Description("Order_")]
-        AdamUpdate = 3,
+        Order = 3,
 
         Unknown = 4
     }

@@ -85,7 +85,7 @@
             {
                 return false;
             }
-            switch (job.JobTypeEnumValue)
+            switch (job.JobType)
             {
                 case JobType.Unknown:
                     return false;

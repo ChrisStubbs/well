@@ -86,9 +86,8 @@
       <HintPath>..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.19\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Shared.Well.Data.EF.1.0.0.20\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\structuremap.3.1.1.134\lib\net40\StructureMap.dll</HintPath>
@@ -206,6 +205,7 @@
     <Compile Include="Factories\RouteHeaderFactory.cs" />
     <Compile Include="Factories\BranchFactory.cs" />
     <Compile Include="Factories\StopFactory.cs" />
+    <Compile Include="Infrastructure\AdamRepositoryTests.cs" />
     <Compile Include="Infrastructure\AmendmentRepositoryTests.cs" />
     <Compile Include="Infrastructure\BaseDapperProxyTests.cs" />
     <Compile Include="Infrastructure\LineItemActionRepositoryTests.cs" />
@@ -228,7 +228,6 @@
     <Compile Include="MSDTC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActiveDirectoryServiceTests.cs" />
-    <Compile Include="Services\AdamImportServiceTests.cs" />
     <Compile Include="Services\AdamUpdateTests.cs" />
     <Compile Include="Services\AmendmentServiceTests.cs" />
     <Compile Include="Services\AppSearchServiceTests.cs" />

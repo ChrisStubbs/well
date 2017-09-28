@@ -14,17 +14,7 @@ BEGIN
 		rh.Id as RouteId
 		,s.Id as StopId
 		,rh.RouteOwnerId as BranchId
-		--,rh.RouteDate
-		--,j.PHAccount
-		--,a.Code
-		--,a.Name
 		,j.InvoiceNumber as InvoiceNumber
-		--,rh.RouteNumber
-		--,rh.DriverName
-		----,jt.Id
-		--,j.JobTypeCode
-		----,js.Id
-		--,js.Description
 FROM	RouteHeader rh
 INNER JOIN
 		[Stop] s ON s.RouteHeaderId = rh.Id
@@ -33,7 +23,7 @@ INNER JOIN
 INNER JOIN
 		Account a on a.StopId = s.Id
 INNER JOIN 
-		JobType jt on jt.Code =  j.JobTypeCode
+		JobType jt on jt.Id =  j.JobTypeId
 INNER JOIN 
 		JobStatus js on js.Id = j.JobStatusId
 INNER JOIN 

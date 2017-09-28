@@ -13,7 +13,8 @@ export class EditLineItemException {
     public resolutionStatus: string;
     public accountCode: string;
     public invoice: string;
-    public type: string;
+    public jobTypeDescription: string;
+    public jobType: number;
     public productNumber: string;
     public driverReason: string;
     public product: string;

@@ -83,10 +83,12 @@
 
         private void Insert(StopUpdate stop)
         {
-            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(
-                stop.RouteNumber,
-                stop.DeliveryDate.Value,
-                int.Parse(stop.StartDepotCode));
+            var header = new List<GetByNumberDateBranchFilter>
+            {
+                new GetByNumberDateBranchFilter{ BranchId = int.Parse(stop.StartDepotCode), RouteDate = stop.DeliveryDate.Value, RouteNumber = stop.RouteNumber }
+            };
+
+            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(header).FirstOrDefault();
 
             if (existingRouteHeader == null)
             {
@@ -145,7 +147,7 @@
                 }
 
                 // Compute stop well status and propagate to calculate route well status
-                stopService.ComputeAndPropagateWellStatus(existingStop.Id);
+                stopService.ComputeAndPropagateWellStatus(existingStop);
 
                 transactionScope.Complete();
             }
@@ -220,7 +222,7 @@
                         this.jobDetailRepository.Save(newDetail);
                     }
 
-                    this.jobRepository.SetJobResolutionStatus(newJob.Id, newJob.ResolutionStatus.Description);
+                    this.jobRepository.SaveJobResolutionStatus(newJob);
                     updatedJobIds.Add(newJob.Id);
                 }
             }
@@ -233,11 +235,12 @@
             List<Job> jobsToBeDeleted = GetJobIdsToBeDeleted(existingJobs, jobs);
             importService.DeleteJobs(jobsToBeDeleted);
         }
-
-        //TODO: Test this
+        
         private List<Job> GetJobIdsToBeDeleted(IList<Job> existingJobs, IList<JobUpdate> jobsInFile)
         {
-            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier()).ToDictionary(k => k);
+            var jobIdentifiersInFile = jobsInFile.Select(x => x.Identifier())
+                .Distinct() //some times the uplifts come duplicated for n reasons. we discard the duplicates 
+                .ToDictionary(k => k);
             return existingJobs.Where(j => !jobIdentifiersInFile.ContainsKey(j.Identifier())).ToList();
         }
 
@@ -271,7 +274,7 @@
             }
         }
 
-        private void InsertStops(StopUpdate stopInsert, RouteHeader header)
+        private void InsertStops(StopUpdate stopInsert, GetByNumberDateBranchResult header)
         {
             var job = stopInsert.Jobs.FirstOrDefault();
 
@@ -282,7 +285,7 @@
                 return;
             }
 
-            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.RouteOwnerId);
+            var existingStop = this.stopRepository.GetByJobDetails(job.PickListRef, job.PhAccount, header.BranchId);
 
             if (existingStop != null)
             {
@@ -341,7 +344,7 @@
                 this.mapper.Map(update, job);
 
                 this.jobRepository.Save(job);
-                this.jobRepository.SetJobResolutionStatus(job.Id, job.ResolutionStatus.Description);
+                this.jobRepository.SaveJobResolutionStatus(job);
 
                 this.InsertJobDetails(update.JobDetails, job.Id);
                 insertedJobIds.Add(job.Id);

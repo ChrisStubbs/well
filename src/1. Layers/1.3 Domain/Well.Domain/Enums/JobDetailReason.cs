@@ -18,28 +18,28 @@
         BookingError = 4,
         [Description("Picking Error")]
         PickingError = 5,
-        [Description("Other Error")]
-        OtherError = 6,
+        //[Description("Other Error")]
+        //OtherError = 6,
         [Description("Administration")]
         Administration = 7,
-        [Description("Accumulated Damages")]
-        AccumulatedDamages = 8,
-        [Description("Recall Product")]
-        RecallProduct = 9,
-        [Description("Customer Damaged")]
-        CustomerDamaged = 10,
+        //[Description("Accumulated Damages")]
+        //AccumulatedDamages = 8,
+        //[Description("Recall Product")]
+        //RecallProduct = 9,
+        //[Description("Customer Damaged")]
+        //CustomerDamaged = 10,
         [Description("Short Dated")]
         ShortDated = 11,
-        [Description("Vouchers")]
-        Vouchers = 12,
+        //[Description("Vouchers")]
+        //Vouchers = 12,
         [Description("Signed Short")]
         SignedShort = 13,
         [Description("Out Of Date Stock")]
         OutOfDateStock = 14,
         [Description("Short T.B.A.")]
         ShortTBA = 15,
-        [Description("Availability Guarantee")]
-        AvailabilityGuarantee = 16,
+        //[Description("Availability Guarantee")]
+        //AvailabilityGuarantee = 16,
         [Description("Freezer Chiller Breakdown")]
         FreezerChillerBreakdown = 17,
         [Description("Not Enough Room")]
@@ -52,8 +52,8 @@
         NotOrdered = 21,
         [Description("Shop Closed No Staff")]
         ShopClosedNoStaff = 22,
-        [Description("Minimum Drop Charge")]
-        MinimumDropCharge = 23
+        //[Description("Minimum Drop Charge")]
+        //MinimumDropCharge = 23
     }
 
     public static class JobDetailReasonDescriptions

@@ -1,9 +1,7 @@
 ﻿namespace PH.Well.Common
 {
     using System;
-
     using NLog;
-
     using ILogger = Contracts.ILogger;
 
     public class NLogger : ILogger

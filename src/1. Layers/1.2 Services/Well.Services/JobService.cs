@@ -157,10 +157,10 @@
 
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced 
+            return (job.WellStatus == WellStatus.Invoiced
                 || job.WellStatus == WellStatus.Replanned
-                || job.JobStatus == JobStatus.CompletedOnPaper  )
-                || job.WellStatus == WellStatus.Bypassed
+                || job.JobStatus == JobStatus.CompletedOnPaper
+                || job.WellStatus == WellStatus.Bypassed)
                 && IsJobAssignedToUser(job, userName);
         }
 
@@ -516,7 +516,7 @@
         public bool ComputeAndPropagateWellStatus(Job job)
         {
             if (ComputeWellStatus(job))
-            { 
+            {
                 // Propagate to parent job & sibling activity/invoice
                 this.stopService.ComputeAndPropagateWellStatus(job.StopId);
                 // TODO Implement activity service this.activityService.ComputeAndPropagateWellStatus(job.ActivityId);

@@ -129,12 +129,12 @@
             Assert.That(lines[0].JobId, Is.EqualTo(1));
             Assert.That(lines[0].Quantity, Is.EqualTo(0));
             Assert.That(lines[0].ProductCode, Is.EqualTo("12345"));
-            Assert.That(lines[0].Reason, Is.EqualTo(2));
+            Assert.That(lines[0].Reason, Is.EqualTo(3));
 
             Assert.That(lines[1].JobId, Is.EqualTo(1));
             Assert.That(lines[1].Quantity, Is.EqualTo(0));
             Assert.That(lines[1].ProductCode, Is.EqualTo("32165"));
-            Assert.That(lines[1].Reason, Is.EqualTo(3));
+            Assert.That(lines[1].Reason, Is.EqualTo(2));
         }
 
 
@@ -201,7 +201,7 @@
             Assert.That(lines[1].JobId, Is.EqualTo(1));
             Assert.That(lines[1].Quantity, Is.EqualTo(0));
             Assert.That(lines[1].ProductCode, Is.EqualTo("22345"));
-            Assert.That(lines[1].Reason, Is.EqualTo(3));
+            Assert.That(lines[1].Reason, Is.EqualTo(2));
 
             Assert.That(lines[2].JobId, Is.EqualTo(1));
             Assert.That(lines[2].Quantity, Is.EqualTo(1));

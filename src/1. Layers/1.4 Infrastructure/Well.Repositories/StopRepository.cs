@@ -221,14 +221,12 @@
                     .AddParameter("StopIds", stopId.ToIntDataTables("StopIds"), DbType.Object)
                     .Query<Job>()
                     .GroupBy(p => p.StopId)
-                    .Select(p =>
-                    {
-                        return new Stop
+                    .Select(p =>new Stop
                         {
                             Id = p.Key,
                             Jobs = p.ToList()
-                        };
-                    })
+                        }
+                    )
                     .ToList();
         }
     }

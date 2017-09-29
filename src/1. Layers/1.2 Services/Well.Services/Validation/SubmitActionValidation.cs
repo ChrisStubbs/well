@@ -29,7 +29,7 @@
             this.jobService = jobService;
         }
 
-        public SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs)
+        public SubmitActionResult Validate(int[] jobsId, IEnumerable<Job> jobs)
         {
             var jobList = jobs.ToList();
             var username = this.userNameProvider.GetUserName();
@@ -40,7 +40,7 @@
                 return new SubmitActionResult { Message = $"User not found ({username}). Can not submit exceptions" };
             }
 
-            var userJobs = userRepository.GetUserJobsByJobIds(submitAction.JobIds);
+            var userJobs = userRepository.GetUserJobsByJobIds(jobsId);
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {

@@ -5,6 +5,6 @@
     public interface ISubmitActionService
     {
         SubmitActionResult SubmitAction(SubmitActionModel submitAction);
-        ActionSubmitSummary GetSubmitSummary(SubmitActionModel submitAction,bool isStopLevel);
+        ActionSubmitSummary GetSubmitSummary(int[] jobsId, bool isStopLevel);
     }
 }

@@ -4,11 +4,9 @@
     using System.Data;
     using System.Linq;
     using Common.Contracts;
-    using Common.Extensions;
     using Contracts;
     using Dapper;
     using Domain;
-    using Domain.Enums;
 
     public class JobDetailRepository : DapperRepository<JobDetail, int>, IJobDetailRepository
     {

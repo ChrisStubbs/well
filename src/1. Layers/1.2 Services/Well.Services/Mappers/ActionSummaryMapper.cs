@@ -23,9 +23,8 @@ namespace PH.Well.Services.Mappers
             this.stopRepository = stopRepository;
         }
 
-        public ActionSubmitSummary Map(SubmitActionModel submitAction, bool isStopLevel, IList<Job> jobs)
+        public ActionSubmitSummary Map(bool isStopLevel, IList<Job> jobs)
         {
-
             var result = new ActionSubmitSummary();
 
             if (jobs.Any())

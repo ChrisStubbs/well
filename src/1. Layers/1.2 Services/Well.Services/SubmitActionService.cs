@@ -48,14 +48,52 @@
             this.userRepository = userRepository;
             this.podService = podService;
         }
+        private SubmitActionResult Reject(int[] jobsId)
+        {
+            var result = new SubmitActionResult();
 
-        public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
+            foreach (var job in GetJobs(jobsId))
+            {
+                var status = jobService.StepBack(job);
+
+                if (status == ResolutionStatus.Invalid)
+                {
+                    result.Warnings.Add($"Job no {job.Id} invoice: {job.InvoiceNumber} can not be rejected.");
+                }
+                else
+                {
+                    job.ResolutionStatus = status;
+                    jobRepository.SaveJobResolutionStatus(job);
+                    jobRepository.Update(job);
+                }
+            }
+
+            if (result.Warnings.Count == jobsId.Count())
+            {
+                result.Message = "No jobs were rejected.";
+                result.IsValid = false;
+            }
+            else if (result.Warnings.Any())
+            {
+                result.Message = "One or more jobs could not be submitted";
+                result.IsValid = true;
+            }
+            else
+            {
+                result.Message = "All jobs were successfully rejected.";
+                result.IsValid = true;
+            }
+
+            return result;
+        }
+
+        private SubmitActionResult Approve(int[] jobsId)
         {
             SubmitActionResult result = null;
 
-            List<Job> jobs = GetJobs(submitAction);
+            List<Job> jobs = GetJobs(jobsId);
 
-            result = validator.Validate(submitAction, jobs);
+            result = validator.Validate(jobsId, jobs);
 
             if (!result.IsValid)
             {
@@ -74,7 +112,7 @@
                         if (jobResolutionStatus == ResolutionStatus.PendingSubmission
                             || jobResolutionStatus == ResolutionStatus.PendingApproval)
                         {
-                            job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
+                            job.ResolutionStatus = jobService.StepForward(job);
                             jobRepository.SaveJobResolutionStatus(job);
 
                             if (jobService.GetCurrentResolutionStatus(job) == ResolutionStatus.Approved)
@@ -89,7 +127,7 @@
                                 }
 
                                 //lets close the job
-                                job.ResolutionStatus = jobService.GetNextResolutionStatus(job);
+                                job.ResolutionStatus = jobService.StepForward(job);
                                 jobRepository.SaveJobResolutionStatus(job);
 
                                 //if is one of this status it means that is ready to be closed
@@ -126,14 +164,25 @@
             }
             catch (Exception ex)
             {
-                logger.LogError($"Error Submitting actions for JobIds {string.Join(",", submitAction.JobIds)}", ex);
+                logger.LogError($"Error Submitting actions for JobIds {string.Join(",", jobsId)}", ex);
                 return new SubmitActionResult { Message = "Error submitting. No actions have been processed" };
             }
         }
 
-        private List<Job> GetJobs(SubmitActionModel submitAction)
+
+        public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {
-            var jobs = jobRepository.GetByIds(submitAction.JobIds).ToList();
+            if (submitAction.Submit)
+            {
+                return this.Approve(submitAction.JobIds);
+            }
+
+            return this.Reject(submitAction.JobIds);
+        }
+
+        private List<Job> GetJobs(int[] jobsId)
+        {
+            var jobs = jobRepository.GetByIds(jobsId).ToList();
             jobs = jobService.PopulateLineItemsAndRoute(jobs).ToList();
             return jobs;
         }
@@ -154,22 +203,21 @@
             exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
         }
 
-        public ActionSubmitSummary GetSubmitSummary(SubmitActionModel submitAction, bool isStopLevel)
+        public ActionSubmitSummary GetSubmitSummary(int[] jobsId, bool isStopLevel)
         {
             SubmitActionResult result = null;
-            List<Job> jobs = GetJobs(submitAction);
+            List<Job> jobs = GetJobs(jobsId);
 
-            result = validator.Validate(submitAction, jobs);
+            result = validator.Validate(jobsId, jobs);
             if (!result.IsValid)
             {
                 return new ActionSubmitSummary { Summary = result.Message };
             }
 
-            var summary = actionSummaryMapper.Map(submitAction, isStopLevel, jobs);
+            var summary = actionSummaryMapper.Map(isStopLevel, jobs);
             summary.Warnings = result.Warnings;
 
             return summary;
         }
-
     }
 }

@@ -27,9 +27,66 @@
                 <span class="glyphicon glyphicon-refresh"></span>
             </button>
             <button type="button" class="btn btn-primary" (click)="clearFilter()">Clear Filter</button>
-            <button *ngIf="!isReadOnlyUser" type="button" class="btn btn-success" (click)="submitActions()">Submit</button>
+            <button *ngIf="!isReadOnlyUser" 
+                    type="button" 
+                    [disabled]="disableSubmitActions()"
+                    class="btn btn-success" 
+                    (click)="submitActions()">Submit</button>
+            <button *ngIf="!isReadOnlyUser" 
+                    [disabled]="disableSubmitActions()" 
+                    type="button" 
+                    class="btn btn-danger"
+                    data-toggle="modal" 
+                    data-target="#confirmModal">Reject</button>
         </div>
     </div>
+
+     <div id="confirmModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Reject Exceptions</h4>
+                </div>
+                <div class="modal-body table-responsive table-container">
+                    <table class="table table-striped" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Invoice No</th>
+                                <th>Submitted by</th>
+                                <th>Quantity</th>
+                                <th>Credit Value</th>
+                            </tr>
+                        <tbody>
+                            <tr *ngFor="let item of selectedItems()">
+                                <td>{{item.account}}</td>
+                                <td>{{item.invoiceNumber}}</td>
+                                <td>{{item.submittedBy}}</td>
+                                <td class="text-right">{{item.creditQuantity}}</td>
+                                <td class="text-right">{{item.creditValue | currency:'GBP':true}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-right"> {{getTotalQuantitySelected()}}</td>
+                                <td class="text-right"> {{getTotalCreditedSelected() | currency:'GBP':true}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" #closeModal>Close</button>
+                    <button type="button" class="btn btn-primary" (click)="rejectExceptions()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
     <div class="row">
         <div class="table-responsive table-container col-md-12">
             <table class="table table-striped" style="table-layout: fixed">

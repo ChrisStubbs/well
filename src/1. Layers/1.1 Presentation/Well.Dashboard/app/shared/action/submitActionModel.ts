@@ -1,4 +1,6 @@
-export interface ISubmitActionModel {
+export interface ISubmitActionModel 
+{
+    submit: boolean;
     jobIds: number[];
 }
 

@@ -17,7 +17,8 @@
         private readonly List<Func<Job, ResolutionStatus>> evaluators;
         private readonly IUserThresholdService userThresholdService;
         private readonly IDateThresholdService dateThresholdService;
-        private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> steps;
+        private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> stepsForward;
+        private readonly Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> stepsBack;
         private readonly IAssigneeReadRepository assigneeReadRepository;
         private readonly ILineItemSearchReadRepository lineItemRepository;
         private readonly IUserNameProvider userNameProvider;
@@ -40,7 +41,8 @@
         {
             this.jobRepository = jobRepository;
             this.evaluators = new List<Func<Job, ResolutionStatus>>();
-            this.steps = new Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>>();
+            this.stepsForward = new Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>>();
+            this.stepsBack = new Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>>();
             this.userThresholdService = userThresholdService;
             this.dateThresholdService = dateThresholdService;
             this.assigneeReadRepository = assigneeReadRepository;
@@ -195,7 +197,12 @@
 
         #region IJobResolutionStatus
 
-        private void fillSteps()
+        private void fillStepsBack()
+        {
+            stepsBack.Add(ResolutionStatus.PendingApproval, job => ResolutionStatus.ApprovalRejected);
+        }
+
+        private void fillStepsForward()
         {
             Func<ResolutionStatus, Job, ResolutionStatus> AfterCompletionStep = (currentCompletionStatus, job) =>
             {
@@ -223,15 +230,32 @@
                 return current;
             };
 
-            steps.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
+            Func<Job, ResolutionStatus, ResolutionStatus> PendingSubmissionApprovalRejected = (job, newStatus) =>
+            {
+                if (this.userThresholdService.UserHasRequiredCreditThreshold(job) 
+                    && job.LineItems.Any() //must have lineitems
+                    && !job.LineItems.SelectMany(p => p.LineItemActions) //none of the action can be on NotDefined
+                        .Any(p => p.DeliveryAction == DeliveryAction.NotDefined))
+                {
+                    return ResolutionStatus.Approved;
+                }
 
-            steps.Add(ResolutionStatus.DriverCompleted, job => AfterCompletionStep(ResolutionStatus.DriverCompleted, job));
+                return newStatus;
+            };
 
-            steps.Add(ResolutionStatus.ManuallyCompleted, job => AfterCompletionStep(ResolutionStatus.ManuallyCompleted, job));
+            stepsForward.Add(ResolutionStatus.Imported, job => ResolutionStatus.DriverCompleted);
 
-            steps.Add(ResolutionStatus.ActionRequired, GetCurrentResolutionStatus);
+            stepsForward.Add(ResolutionStatus.DriverCompleted, job => AfterCompletionStep(ResolutionStatus.DriverCompleted, job));
 
-            steps.Add(ResolutionStatus.PendingSubmission, job =>
+            stepsForward.Add(ResolutionStatus.ManuallyCompleted, job => AfterCompletionStep(ResolutionStatus.ManuallyCompleted, job));
+
+            stepsForward.Add(ResolutionStatus.ActionRequired, GetCurrentResolutionStatus);
+
+            stepsForward.Add(ResolutionStatus.PendingSubmission, job => PendingSubmissionApprovalRejected(job, ResolutionStatus.PendingApproval));
+
+            stepsForward.Add(ResolutionStatus.ApprovalRejected, job => PendingSubmissionApprovalRejected(job, ResolutionStatus.ApprovalRejected));
+
+            stepsForward.Add(ResolutionStatus.PendingApproval, job =>
             {
 
                 if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
@@ -242,18 +266,7 @@
                 return ResolutionStatus.PendingApproval;
             });
 
-            steps.Add(ResolutionStatus.PendingApproval, job =>
-            {
-
-                if (this.userThresholdService.UserHasRequiredCreditThreshold(job))
-                {
-                    return ResolutionStatus.Approved;
-                }
-
-                return ResolutionStatus.PendingApproval;
-            });
-
-            steps.Add(ResolutionStatus.Approved, job =>
+            stepsForward.Add(ResolutionStatus.Approved, job =>
             {
                 if (job.LineItems.SelectMany(p => p.LineItemActions).Any(p => p.DeliveryAction == DeliveryAction.Credit))
                 {
@@ -263,9 +276,9 @@
                 return ResolutionStatus.Resolved;
             });
 
-            steps.Add(ResolutionStatus.Credited, job => tryToClose(job, ResolutionStatus.Credited));
+            stepsForward.Add(ResolutionStatus.Credited, job => tryToClose(job, ResolutionStatus.Credited));
 
-            steps.Add(ResolutionStatus.Resolved, job => tryToClose(job, ResolutionStatus.Resolved));
+            stepsForward.Add(ResolutionStatus.Resolved, job => tryToClose(job, ResolutionStatus.Resolved));
         }
 
         private void fillEvaluators()
@@ -384,16 +397,29 @@
             }
         }
 
-        private Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> Steps
+        private Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> StepsForward
         {
             get
             {
-                if (this.steps.Count == 0)
+                if (this.stepsForward.Count == 0)
                 {
-                    this.fillSteps();
+                    this.fillStepsForward();
                 }
 
-                return this.steps;
+                return this.stepsForward;
+            }
+        }
+
+        private Dictionary<ResolutionStatus, Func<Job, ResolutionStatus>> StepsBack
+        {
+            get
+            {
+                if (this.stepsBack.Count == 0)
+                {
+                    this.fillStepsBack();
+                }
+
+                return this.stepsBack;
             }
         }
 
@@ -404,11 +430,21 @@
                 .FirstOrDefault(p => p != null) ?? ResolutionStatus.Invalid;
         }
 
-        public ResolutionStatus GetNextResolutionStatus(Job job)
+        public ResolutionStatus StepForward(Job job)
         {
-            if (this.Steps.ContainsKey(job.ResolutionStatus))
+            if (this.StepsForward.ContainsKey(job.ResolutionStatus))
             {
-                return this.Steps[job.ResolutionStatus](job);
+                return this.StepsForward[job.ResolutionStatus](job);
+            }
+
+            return ResolutionStatus.Invalid;
+        }
+
+        public ResolutionStatus StepBack(Job job)
+        {
+            if (this.StepsBack.ContainsKey(job.ResolutionStatus))
+            {
+                return this.StepsBack[job.ResolutionStatus](job);
             }
 
             return ResolutionStatus.Invalid;

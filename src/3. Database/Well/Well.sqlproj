@@ -80,7 +80,7 @@
     <None Include="Well.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
+    <Build Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <Build Include="dbo\Tables\JobDetailReason.sql" />
     <None Include="ManualStep\roundhouse.0.8.6\bin\rh.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

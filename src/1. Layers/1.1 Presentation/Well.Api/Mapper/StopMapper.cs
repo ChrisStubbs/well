@@ -1,4 +1,4 @@
-﻿using PH.Well.Common.Contracts;
+using PH.Well.Common.Contracts;
 using PH.Well.Services.Contracts;
 
 namespace PH.Well.Api.Mapper

@@ -75,7 +75,7 @@
             }
             else if (result.Warnings.Any())
             {
-                result.Message = "One or more jobs could not be submitted";
+                result.Message = "One or more jobs could not be submitted.";
                 result.IsValid = true;
             }
             else

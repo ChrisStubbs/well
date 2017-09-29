@@ -20,9 +20,12 @@ BEGIN
 	FROM JobDetailDamage jdd
 	INNER JOIN JobDetail jd on jd.Id = jdd.JobDetailId
 	INNER JOIN @JobIds jobIds ON jobIds.Value = jd.JobId
+	INNER JOIN Job j on j.Id = jd.JobId
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
-	WHERE lia.Id IS NULL
+	WHERE lia.Id IS NULL AND j.JobTypeCode != 'UPL-GLO'
+
+	
 
 	-- shorts
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	
@@ -33,6 +36,7 @@ BEGIN
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL AND jd.ShortQty > 0 and j.JobStatusId != dbo.JobStatus_Bypass()
+		   AND j.JobTypeCode != 'UPL-GLO'
 
 	-- bypass
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	
@@ -43,6 +47,7 @@ BEGIN
 	INNER JOIN LineItem li on jd.LineItemId = li.Id
 	LEFT JOIN LineItemAction lia on li.Id = lia.LineItemId AND lia.DateDeleted IS NULL
 	WHERE lia.Id IS NULL and j.JobStatusId = dbo.JobStatus_Bypass() and jd.OriginalDespatchQty > 0
+		  AND j.JobTypeCode != 'UPL-GLO'
 
 	-- successful uplift
 	INSERT INTO @NewLineItemAction(Quantity, ExceptionType, LineItemId, PDAReasonDescription)	

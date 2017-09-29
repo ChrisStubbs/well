@@ -471,28 +471,45 @@ namespace PH.Well.UnitTests.Services
             [Category("JobService")]
             public void CanManuallyComplete_Should_Check_WellStatus()
             {
-                var job = new Job
+
+                foreach (WellStatus wellStatus in Enum.GetValues(typeof(WellStatus)))
                 {
-                    WellStatus = WellStatus.Planned
-                };
+                    var job = new Job
+                    {
+                        WellStatus = wellStatus
+                    };
 
-                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+                    var canManuallyComplete = this.service.CanManuallyComplete(job, "User");
 
-                job.WellStatus = WellStatus.Invoiced;
-
-                Assert.IsTrue(this.service.CanManuallyComplete(job, "User"));
-
-                job.WellStatus = WellStatus.Complete;
-
-                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
-
-                job.WellStatus = WellStatus.Bypassed;
-
-                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
-
-                job.WellStatus = WellStatus.RouteInProgress;
-
-                Assert.IsFalse(this.service.CanManuallyComplete(job, "User"));
+                    switch (wellStatus)
+                    {
+                        case WellStatus.Unknown:
+                            Assert.False(canManuallyComplete);
+                                break;
+                           
+                        case WellStatus.Planned:
+                            Assert.False(canManuallyComplete);
+                            break;
+                        case WellStatus.Invoiced:
+                            Assert.True(canManuallyComplete);
+                            break;
+                        case WellStatus.Complete:
+                            Assert.False(canManuallyComplete);
+                            break;
+                        case WellStatus.Bypassed:
+                            Assert.True(canManuallyComplete);
+                            break;
+                        case WellStatus.RouteInProgress:
+                            Assert.False(canManuallyComplete);
+                            break;
+                        case WellStatus.Replanned:
+                            Assert.True(canManuallyComplete);
+                            break;
+                        default:
+                            Assert.True(false,"New Well Status Added: Consider whether you need to be able to manually complete jobs with this status");
+                            break;
+                    }
+                }
             }
 
             [Test]

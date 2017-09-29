@@ -10,7 +10,8 @@
     using Repositories.Contracts;
     using Shared.Well.Data.EF;
     using Well.Domain.ValueObjects;
-
+    using System.Data.Entity;
+    using System.Linq;
 
     [TestFixture]
     public class JobRepositoryTests
@@ -19,7 +20,7 @@
 
         private Mock<IWellDapperProxy> dapperProxy;
         private Mock<IUserNameProvider> userNameProvider;
-
+        private Mock<WellEntities> wellEnteties;
         private JobRepository repository;
         private string UserName = "TestUser";
 
@@ -30,7 +31,9 @@
             this.dapperProxy = new Mock<IWellDapperProxy>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("user");
-            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object, new Mock<WellEntities>().Object);
+            this.wellEnteties = new Mock<WellEntities>();
+
+            this.repository = new JobRepository(this.logger.Object, this.dapperProxy.Object, userNameProvider.Object, wellEnteties.Object);
             //////this.repository.CurrentUser = UserName;
         }
 
@@ -101,6 +104,28 @@
 
                 this.dapperProxy.Verify(x => x.Execute(), Times.Once);
             }
+        }
+
+        [Test]
+        public void JobDetailTotalsPerRouteHeader_Should_Get_The_Number_Of_Exceptions_Right()
+        {
+            var mockSet = new Mock<DbSet<ExceptionTotalsPerSingleRoute>>();
+            var data = new List<ExceptionTotalsPerSingleRoute>()
+                {
+                    new ExceptionTotalsPerSingleRoute { RouteId = 1, NumberOfClean = 10, TotalLInes = 10 }
+                }
+                .AsQueryable();
+
+            mockSet.As<IQueryable<ExceptionTotalsPerSingleRoute>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<ExceptionTotalsPerSingleRoute>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<ExceptionTotalsPerSingleRoute>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<ExceptionTotalsPerSingleRoute>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
+
+            wellEnteties.Setup(c => c.ExceptionTotalsPerSingleRoute).Returns(mockSet.Object);
+
+            var sut = this.repository.JobDetailTotalsPerRouteHeader(1).First();
+
+            Assert.That(sut.TotalExceptions, Is.EqualTo(0));
         }
     }
 }

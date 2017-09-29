@@ -49,7 +49,7 @@
 
         public int ShortQty { get; set; }
 
-        public int ShortsActionId { get; set; }
+        public int? ShortsActionId { get; set; }
 
         public DeliveryAction ShortsAction => (DeliveryAction)this.ShortsActionId;
         

@@ -154,15 +154,14 @@
                     && IsJobAssignedToUser(job, userName)
                    && job.JobType != JobType.GlobalUplift;
         }
+
         public bool CanManuallyComplete(Job job, string userName)
         {
-            return (job.WellStatus == WellStatus.Invoiced 
+            return (job.WellStatus == WellStatus.Invoiced
                 || job.WellStatus == WellStatus.Replanned
-                || job.JobStatus == JobStatus.CompletedOnPaper  )
-                //todo when the job is bypassed and manually completed we need to avoid recreating the bypassed line items
-                //|| job.JobStatus == JobStatus.Bypassed) 
-                && IsJobAssignedToUser(job, userName)
-                && job.JobType != JobType.GlobalUplift;
+                || job.JobStatus == JobStatus.CompletedOnPaper
+                || job.WellStatus == WellStatus.Bypassed)
+                && IsJobAssignedToUser(job, userName);
         }
 
         private bool IsJobAssignedToUser(Job job, string userName)
@@ -517,7 +516,7 @@
         public bool ComputeAndPropagateWellStatus(Job job)
         {
             if (ComputeWellStatus(job))
-            { 
+            {
                 // Propagate to parent job & sibling activity/invoice
                 this.stopService.ComputeAndPropagateWellStatus(job.StopId);
                 // TODO Implement activity service this.activityService.ComputeAndPropagateWellStatus(job.ActivityId);

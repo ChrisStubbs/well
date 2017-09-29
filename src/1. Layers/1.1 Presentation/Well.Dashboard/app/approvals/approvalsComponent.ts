@@ -240,6 +240,7 @@ export class ApprovalsComponent implements IObservableAlive
 
         this.assignees = [];
         this.assigneesTo = [];
+        this.filters.assignedTo = '';
         this.fillGridSource();
     }
 

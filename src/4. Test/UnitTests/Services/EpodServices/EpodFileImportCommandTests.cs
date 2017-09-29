@@ -200,7 +200,7 @@
                 jobRepository.Setup(x => x.GetJobsWithLineItemActions(It.IsAny<List<int>>())).Returns(It.IsAny<IEnumerable<int>>());
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(It.IsAny<IEnumerable<Job>>()); ;
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { new Job() });
-                jobService.Setup(x => x.GetNextResolutionStatus(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
+                jobService.Setup(x => x.StepForward(It.IsAny<Job>())).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));
                 jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
             }
@@ -217,7 +217,7 @@
                 jobRepository.Verify(x => x.GetJobsWithLineItemActions(It.IsAny<List<int>>()), Times.Never);
                 jobRepository.Verify(x => x.GetByIds(It.IsAny<IEnumerable<int>>()), Times.Never);
                 jobService.Verify(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>()), Times.Never);
-                jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Never);
+                jobService.Verify(x => x.StepForward(It.IsAny<Job>()), Times.Never);
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Never);
                 jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Never);
             }
@@ -248,8 +248,8 @@
 
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(new List<Job> { job1, job2 });
 
-                jobService.Setup(x => x.GetNextResolutionStatus(job1)).Returns(ResolutionStatus.Imported);
-                jobService.Setup(x => x.GetNextResolutionStatus(job2)).Returns(ResolutionStatus.Imported);
+                jobService.Setup(x => x.StepForward(job1)).Returns(ResolutionStatus.Imported);
+                jobService.Setup(x => x.StepForward(job2)).Returns(ResolutionStatus.Imported);
                 jobRepository.Setup(x => x.Update(job1));
                 jobRepository.Setup(x => x.Update(job2));
 
@@ -258,7 +258,7 @@
 
                 commands.RunPostInvoicedProcessing(updatedJobIds);
 
-                jobService.Verify(x => x.GetNextResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
+                jobService.Verify(x => x.StepForward(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.Update(It.IsAny<Job>()), Times.Exactly(2));
                 jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Exactly(2));
 

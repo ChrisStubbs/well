@@ -10,5 +10,6 @@
         public int? StopId { get; set; }
         public int? RouteId { get; set; }
         public int? JobId { get; set; }
+        public int TotalClean { get; set; }
     }
 }

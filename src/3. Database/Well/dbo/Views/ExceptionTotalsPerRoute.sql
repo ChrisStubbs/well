@@ -26,6 +26,7 @@ AS
             LEFT join LineItemAction lia
                 on li.Id = lia.LineItemId
 				AND lia.DateDeleted is null
+				AND lia.ExceptionTypeId != 4 --uplift
         WHERE
             j.DateDeleted IS NULL
             AND j.ResolutionStatusId > 1 --imported

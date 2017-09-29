@@ -4,9 +4,7 @@
     using System.Threading.Tasks;
     using Common;
     using Common.Contracts;
-    using Repositories;
     using Repositories.Contracts;
-    using Services;
     using Services.Contracts;
 
     using StructureMap;

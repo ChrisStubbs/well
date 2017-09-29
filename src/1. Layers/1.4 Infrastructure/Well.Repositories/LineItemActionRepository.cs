@@ -63,8 +63,6 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.LineItemActionDeleteForJob)
                 .AddParameter("JobId", jobId, DbType.Int32)
-                .AddParameter("UpdatedBy", CurrentUser, DbType.String)
-                .AddParameter("UpdatedDate", DateTime.Now, DbType.DateTime)
                 .Execute();
         }
 

@@ -1,13 +1,13 @@
-import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { LookupService } from '../services/lookupService';
-import { IObservableAlive } from '../IObservableAlive';
-import { LookupsEnum } from '../services/lookupsEnum';
-import { Observable } from 'rxjs';
-import { ILookupValue } from '../services/ILookupValue';
-import { IBulkEditPatchRequest, IBulkEditResult } from './bulkEditItem';
-import { BulkEditService } from './bulkEditService';
-import { NgForm } from '@angular/forms';
-import { IPatchSummary, IPatchSummaryItem } from '../models/patchSummary';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter }    from '@angular/core';
+import { LookupService }                                                    from '../services/lookupService';
+import { IObservableAlive }                                                 from '../IObservableAlive';
+import { LookupsEnum }                                                      from '../services/lookupsEnum';
+import { Observable }                                                       from 'rxjs';
+import { ILookupValue }                                                     from '../services/ILookupValue';
+import { IBulkEditPatchRequest, IBulkEditResult }                           from './bulkEditItem';
+import { BulkEditService }                                                  from './bulkEditService';
+import { NgForm }                                                           from '@angular/forms';
+import { IPatchSummary, IPatchSummaryItem }                                 from '../models/patchSummary';
 
 @Component({
     selector: 'bulk-edit-action-modal',

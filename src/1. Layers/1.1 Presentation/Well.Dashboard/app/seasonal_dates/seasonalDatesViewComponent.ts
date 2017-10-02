@@ -53,8 +53,8 @@ export class SeasonalDatesViewComponent implements IObservableAlive {
     {
         const result = [];
 
-        this.seasonalDates.forEach((item: SeasonalDate) => {
-            console.log(item.fromDate);
+        this.seasonalDates.forEach((item: SeasonalDate) => 
+        {
             result.push(new Date(item.fromDate).getFullYear());
         });
 

@@ -8,48 +8,17 @@
 
     public class UserRoleProvider : System.Web.Security.RoleProvider, IUserRoleProvider
     {
-        private const string CacheKey = "ph.orderwell";
-
-        private readonly HttpContextCache cache;
 
         public override string ApplicationName { get; set; }
 
-        public UserRoleProvider()
-        {
-            this.cache = new HttpContextCache();
-        }
-
         public override bool IsUserInRole(string username, string roleName)
         {
-            var roles = this.GetRolesForUser(username);
-
-            return roles.Any(role => role == roleName);
+            return this.GetRolesForUser(username).Any(role => role == roleName);
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            var cachedRoles = this.cache.Get<string[]>(CacheKey, username);
-
-            if (cachedRoles != null && cachedRoles.Length > 0)
-            {
-                return cachedRoles;
-            }
-
-            var roles = GetRoles(username);
-
-            var shouldCacheRoles = true;
-
-            if (System.Configuration.ConfigurationManager.AppSettings["shouldCacheRoles"] != null)
-            {
-                shouldCacheRoles = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["ShouldCacheRoles"]);
-            }
-
-            if (shouldCacheRoles)
-            {
-                this.cache.AddItem(CacheKey, username, roles, 5);
-            }
-
-            return roles;
+            return GetRoles(username);
         }
 
         #region methods not in use
@@ -98,21 +67,17 @@
 
         private static string[] GetRoles(string username)
         {
-            string[] roles;
-
             try
             {
                 var roleProvideHelper = new RoleProviderHelper();
 
-                roles = roleProvideHelper.GetRoles(username);
+                return roleProvideHelper.GetRoles(username);
             }
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex);
-                roles = new string[0];
+                return new string[0];
             }
-
-            return roles;
         }
     }
 }

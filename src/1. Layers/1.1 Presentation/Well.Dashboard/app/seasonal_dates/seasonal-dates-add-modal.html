@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add seasonal date range</h4>
+                <h4 class="modal-title">Add seasonal date range</h4> 
             </div>
             <div class="modal-body">
                 <div *ngIf="errors && errors.length > 0">
@@ -13,21 +13,21 @@
                 <div class="form-horizontal">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Description</label>
+                            <label class="col-md-3 control-label" for="seasonal-date-description">Description</label>
                             <div class="col-md-9">
                                 <input type="text" id="seasonal-date-description" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description"/>
                             </div>
                         </div>
-                        <div class="form-group has-error">
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="fromDate">From</label>
                             <div class="col-md-9">
-                                <input id="fromDate" type="date" [(ngModel)]="seasonalDate.fromDate" />
+                                <input id="fromDate" type="date" class="form-control" [(ngModel)]="seasonalDate.fromDate" />
                             </div>
                         </div>
-                        <div class="form-group has-error">
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="toDate">To</label>
                             <div class="col-md-9">
-                                <input id="toDate" type="date" [(ngModel)]="seasonalDate.toDate" />
+                                <input id="toDate" type="date" class="form-control" [(ngModel)]="seasonalDate.toDate" />
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="btn-group"><button id="seasonal-date-save" type="button" class="btn btn-primary" (click)="save()">Save</button></div>
+                <div class="btn-group"><button id="seasonal-date-save" type="button" class="btn btn-primary" [disabled]="canSave()" (click)="save()">Save</button></div>
                 <div class="btn-group"><button id="seasonal-date-close" type="button" class="btn btn-default" (click)="hide()">Close</button></div>
             </div>
         </div>

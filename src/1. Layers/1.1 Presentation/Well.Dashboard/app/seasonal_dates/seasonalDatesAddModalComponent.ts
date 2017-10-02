@@ -1,10 +1,12 @@
-import {Component, ViewChild, EventEmitter, Output} from '@angular/core';
-import {Response} from '@angular/http';
-import {SeasonalDate} from './seasonalDate';
-import {ToasterService} from 'angular2-toaster/angular2-toaster';
-import {BranchCheckboxComponent} from '../shared/branch/branchCheckboxComponent';
-import {SeasonalDateService} from './seasonalDateService';
-import {HttpResponse} from '../shared/models/httpResponse';
+import {Component, ViewChild, EventEmitter, Output}     from '@angular/core';
+import {Response}                                       from '@angular/http';
+import {SeasonalDate}                                   from './seasonalDate';
+import {ToasterService}                                 from 'angular2-toaster/angular2-toaster';
+import {BranchCheckboxComponent}                        from '../shared/branch/branchCheckboxComponent';
+import {SeasonalDateService}                            from './seasonalDateService';
+import {HttpResponse}                                   from '../shared/models/httpResponse';
+import * as moment                                      from 'moment';
+import * as _                                           from 'lodash';
 
 @Component({
     selector: 'ow-seasonal-add-modal',
@@ -33,6 +35,15 @@ export class SeasonalDatesAddModalComponent {
 
     public clear() {
         this.seasonalDate = new SeasonalDate();
+    }
+
+    public canSave(): boolean
+    {
+        return !(!_.isNil(this.branch)
+            && this.branch.selectedBranches.length > 0
+            && (!_.isNil(this.seasonalDate.description) && this.seasonalDate.description.trim().length > 0)
+            && moment(this.seasonalDate.fromDate).isValid()
+            && moment(this.seasonalDate.toDate).isValid());
     }
 
     public save() {

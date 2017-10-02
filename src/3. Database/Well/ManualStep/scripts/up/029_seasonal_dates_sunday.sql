@@ -10,7 +10,7 @@ INSERT INTO SeasonalDate
     ([Description], [From], [To], CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)
     OUTPUT inserted.Id INTO @tmp
 SELECT 
-    'Sunday' AS [Description], 
+    'Sunday - ' + CONVERT(VarChar(6),  DATEADD(dd, number, @d)) AS [Description], 
     DATEADD(dd, number, @d) AS [From], 
     DATEADD(dd, number, @d) AS [To],
     'Deployment' AS CreatedBy,

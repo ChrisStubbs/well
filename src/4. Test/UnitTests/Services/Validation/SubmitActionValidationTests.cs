@@ -96,7 +96,7 @@ namespace PH.Well.UnitTests.Services.Validation
             public void ShouldReturnInvalidIfUserNotFound()
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns((User)null);
-                var result = validator.Validate(submitAction, jobs);
+                var result = validator.Validate(submitAction.JobIds, jobs);
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"User not found (Me). Can not submit exceptions"));
             }
@@ -106,7 +106,7 @@ namespace PH.Well.UnitTests.Services.Validation
             {
                 this.userRepository.Setup(x => x.GetByIdentity("Me")).Returns(user);
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob> { new UserJob { JobId = 2 } });
-                var result = validator.Validate(submitAction, jobs);
+                var result = validator.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"User not assigned to all the items selected can not submit exceptions"));
@@ -119,7 +119,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.userRepository.Setup(x => x.GetUserJobsByJobIds(submitAction.JobIds)).Returns(new List<UserJob>());
                 this.jobs.Add(new Job { ResolutionStatus = ResolutionStatus.ActionRequired });
 
-                var result = validator.Validate(submitAction, jobs);
+                var result = validator.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo("There are no jobs 'Pending Submission' for the selected items"));
@@ -134,7 +134,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 this.jobs.Add(new Job { Id = 1, InvoiceNumber = "Inv1", ResolutionStatus = ResolutionStatus.ActionRequired });
                 this.jobs.Add(new Job { Id = 4, InvoiceNumber = "sd", ResolutionStatus = ResolutionStatus.PendingApproval });
 
-                var result = validator.Validate(submitAction, jobs);
+                var result = validator.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"Can not submit exceptions for jobs. " +
@@ -158,7 +158,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(It.IsAny<IEnumerable<Job>>(),
                     It.IsAny<SubmitActionResult>()));
 
-                var result = stubbedValidator.Object.Validate(submitAction, jobs);
+                var result = stubbedValidator.Object.Validate(submitAction.JobIds, jobs);
 
                 Assert.True(result.IsValid);
                 Assert.True(result.Warnings.Any());
@@ -175,7 +175,7 @@ namespace PH.Well.UnitTests.Services.Validation
                 stubbedValidator.Setup(x => x.HasEarliestSubmitDateBeenReached(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
                 stubbedValidator.Setup(x => x.ValidateJobsCanBeEdited(jobs, It.IsAny<SubmitActionResult>())).Callback(setResultValid);
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(false);
-                var result = stubbedValidator.Object.Validate(submitAction, jobs);
+                var result = stubbedValidator.Object.Validate(submitAction.JobIds, jobs);
 
                 stubbedValidator.Verify(x => x.ValidateUserForCrediting(new SubmitActionResult()), Times.Never);
                 Assert.That(result.IsValid, Is.True);
@@ -199,7 +199,7 @@ namespace PH.Well.UnitTests.Services.Validation
                     r.Message = "User Not Valid";
                 });
 
-                var result = stubbedValidator.Object.Validate(submitAction, jobs);
+                var result = stubbedValidator.Object.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Message, Is.EqualTo($"User Not Valid"));
@@ -220,7 +220,7 @@ namespace PH.Well.UnitTests.Services.Validation
                     .Callback<SubmitActionResult>(r => r.IsValid = true);
                 stubbedValidator.Setup(x => x.HaveItemsToCredit(jobs)).Returns(true);
 
-                var result = stubbedValidator.Object.Validate(submitAction, jobs);
+                var result = stubbedValidator.Object.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.True);
             }

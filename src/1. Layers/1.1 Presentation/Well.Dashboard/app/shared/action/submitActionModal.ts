@@ -64,6 +64,7 @@ export class SubmitActionModal implements IObservableAlive
     private submit()
     {
         const submitAction: ISubmitActionModel = {
+            submit: true,
             jobIds: this.summaryData.jobIds
         };
 

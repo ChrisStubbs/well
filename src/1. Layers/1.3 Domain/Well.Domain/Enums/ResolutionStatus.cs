@@ -15,6 +15,7 @@ namespace PH.Well.Domain.Enums
         private const int ResolutionStatusDriverCompleted = 2;
         private const int ResolutionStatusActionRequired = 4;
         private const int ResolutionStatusPendingSubmission = 8;
+        private const int ResolutionStatusApprovalRejected = 1024;
         private const int ResolutionStatusPendingApproval = 16;
         private const int ResolutionStatusApproved = 32;
         private const int ResolutionStatusCredited = 64;
@@ -30,6 +31,7 @@ namespace PH.Well.Domain.Enums
             { ResolutionStatusDriverCompleted, new ResolutionStatus(ResolutionStatusDriverCompleted, "Driver Completed")},
             { ResolutionStatusActionRequired, new ResolutionStatus(ResolutionStatusActionRequired, "Action Required")},
             { ResolutionStatusPendingSubmission, new ResolutionStatus(ResolutionStatusPendingSubmission, "Pending Submission")},
+            { ResolutionStatusApprovalRejected, new ResolutionStatus(ResolutionStatusApprovalRejected, "Approval Rejected")},
             { ResolutionStatusPendingApproval, new ResolutionStatus(ResolutionStatusPendingApproval, "Pending Approval")},
             { ResolutionStatusApproved, new ResolutionStatus(ResolutionStatusApproved, "Approved")},
             { ResolutionStatusCredited, new ResolutionStatus(ResolutionStatusCredited, "Credited")},
@@ -60,18 +62,33 @@ namespace PH.Well.Domain.Enums
         };
         
         public int Value { get; }
+
         public string Description { get; }
+
         public static ResolutionStatus Imported => Values[ResolutionStatusImported];
+
         public static ResolutionStatus DriverCompleted => Values[ResolutionStatusDriverCompleted];
+
         public static ResolutionStatus ManuallyCompleted => Values[ResolutionStatusManuallyCompleted];
+
         public static ResolutionStatus ActionRequired => Values[ResolutionStatusActionRequired];
+
         public static ResolutionStatus PendingSubmission => Values[ResolutionStatusPendingSubmission];
+
+        public static ResolutionStatus ApprovalRejected => Values[ResolutionStatusApprovalRejected];
+
         public static ResolutionStatus PendingApproval => Values[ResolutionStatusPendingApproval];
+
         public static ResolutionStatus Approved => Values[ResolutionStatusApproved];
+
         public static ResolutionStatus Credited => Values[ResolutionStatusCredited];
+
         public static ResolutionStatus Resolved => Values[ResolutionStatusResolved];
+
         public static ResolutionStatus Closed => Values[ResolutionStatusClosed];
+
         public static ResolutionStatus Invalid => Values[ResolutionStatusInvalid];
+
         public static IList<ResolutionStatus> AllStatus => ResolutionStatus.Values.Select(p => p.Value).ToList();
         
         private ResolutionStatus(int resolutionStatus, string description)

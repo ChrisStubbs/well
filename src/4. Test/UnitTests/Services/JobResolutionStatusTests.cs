@@ -97,7 +97,7 @@ namespace PH.Well.UnitTests.Services
         {
             var job = JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.Build()))
-                .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the status*/)
+                .With(p => p.ResolutionStatus = ResolutionStatus.Invalid /*doesn't really matter the initial status*/)
                 .Build();
             var newStatus = sut.GetCurrentResolutionStatus(job);
             //no line
@@ -319,21 +319,35 @@ namespace PH.Well.UnitTests.Services
     [TestFixture]
     public class JobResolutionStatusStepForwardTests
     {
+        private Mock<IJobRepository> jobRepository;
+        private Mock<IAssigneeReadRepository> assigneeReadRepository;
+        private Mock<ILineItemSearchReadRepository> lineItemRepository;
+        private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IUserRepository> userRepository;
+        private Mock<IStopService> stopService;
+        private Mock<IActivityService> activityService;
+        private Mock<IWellStatusAggregator> wellStatusAggregator;
+
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.jobRepository = new Mock<IJobRepository>();
+            this.assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            this.lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            this.userNameProvider = new Mock<IUserNameProvider>();
+            this.userRepository = new Mock<IUserRepository>();
+            this.stopService = new Mock<IStopService>();
+            this.activityService = new Mock<IActivityService>();
+            this.wellStatusAggregator = new Mock<IWellStatusAggregator>();
+        }
+
         [Test]
         [TestCaseSource(typeof(JobResolutionStatusTestsSource), nameof(JobResolutionStatusTestsSource.StepForward))]
         [Category("JobResolutionStatus")]
         [Category("JobService")]
         public ResolutionStatus JobResolutionStatusStepForward(Job job, IUserThresholdService userThresholdService, IDateThresholdService dateThresholdService)
         {
-            var jobRepository = new Mock<IJobRepository>();
-            var assigneeReadRepository = new Mock<IAssigneeReadRepository>();
-            var lineItemRepository = new Mock<ILineItemSearchReadRepository>();
-            var userNameProvider = new Mock<IUserNameProvider>();
-            var userRepository = new Mock<IUserRepository>();
-            var stopService = new Mock<IStopService>();
-            var activityService = new Mock<IActivityService>();
-            var wellStatusAggregator = new Mock<IWellStatusAggregator>();
-
             var sut = new JobService(
                 jobRepository.Object,
                 userThresholdService,
@@ -346,7 +360,36 @@ namespace PH.Well.UnitTests.Services
                 activityService.Object,
                 wellStatusAggregator.Object);
 
-            return sut.GetNextResolutionStatus(job);
+            return sut.StepForward(job);
+        }
+
+        [Test]
+        public void JobResolutionStatusStepBack()
+        {
+            var mockUserThresholdService = new Mock<IUserThresholdService>();
+            var mockDateThresholdService = new Mock<IDateThresholdService>();
+
+            var job = JobFactory.New
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.PendingApproval)
+                .Build();
+
+            mockDateThresholdService.Setup(p => p.GracePeriodEnd(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>())).Returns(DateTime.Now);
+            mockUserThresholdService.Setup(p => p.UserHasRequiredCreditThreshold(It.IsAny<Job>())).Returns(true);
+
+            var sut = new JobService(
+                jobRepository.Object,
+                mockUserThresholdService.Object,
+                mockDateThresholdService.Object,
+                assigneeReadRepository.Object,
+                lineItemRepository.Object,
+                userNameProvider.Object,
+                userRepository.Object,
+                stopService.Object,
+                activityService.Object,
+                wellStatusAggregator.Object);
+
+            Assert.That(sut.StepBack(job), Is.EqualTo(ResolutionStatus.ApprovalRejected));
         }
     }
 
@@ -360,6 +403,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(ResolutionStatus.DriverCompleted)
                     .SetDescription("Job should move to DriverCompleted");
 
+                /*** DriverCompleted ***/
                 yield return new TestCaseData(DriverCompletedOutWindowComplainNoActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Closed | ResolutionStatus.DriverCompleted)
                     .SetDescription("DriverCompleted Job should move to Close");
@@ -387,8 +431,12 @@ namespace PH.Well.UnitTests.Services
                 yield return new TestCaseData(DriverCompletedInWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
                     .Returns(ResolutionStatus.DriverCompleted)
                     .SetDescription("DriverCompleted Job should stay in DriverCompleted");
-            
 
+                yield return new TestCaseData(DriverCompletedOutWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Closed | ResolutionStatus.DriverCompleted)
+                    .SetDescription("DriverCompleted Job should move to Close Driver Completed");
+
+                /*** ManuallyCompleted ***/
                 yield return new TestCaseData(ManuallyCompletedOutWindowComplainNoActions(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Closed | ResolutionStatus.ManuallyCompleted)
                     .SetDescription("ManuallyCompleted Job should move to Close");
@@ -417,10 +465,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(ResolutionStatus.ManuallyCompleted)
                     .SetDescription("ManuallyCompleted Job should stay in ManuallyCompleted");
 
-                yield return new TestCaseData(DriverCompletedOutWindowComplainWithActionZeroQuantity(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
-                    .Returns(ResolutionStatus.Closed | ResolutionStatus.DriverCompleted)
-                    .SetDescription("DriverCompleted Job should move to Close Driver Completed");
-
+                /*** ActionRequired ***/
                 yield return new TestCaseData(ActionRequired(true), CreateUserThresholdService(true), DateThresholdService(DateTime.Now.AddDays(2)))
                     .Returns(ResolutionStatus.ActionRequired)
                     .SetDescription("ActionRequired Job should stay in ActionRequired");
@@ -429,14 +474,41 @@ namespace PH.Well.UnitTests.Services
                     .Returns(ResolutionStatus.PendingSubmission)
                     .SetDescription("ActionRequired Job should move to PendingSubmission");
 
+                ///*** PendingSubmission ***/
                 yield return new TestCaseData(GoodPendingSubmission(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Approved)
                     .SetDescription("PendingSubmission Job should move to Approved");
+
+                yield return new TestCaseData(GoodPendingSubmission(), CreateUserThresholdService(false), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.PendingApproval)
+                    .SetDescription("PendingSubmission Job should not move to Approved");
+
+                yield return new TestCaseData(BadPendingSubmission(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.PendingApproval)
+                    .SetDescription("PendingApproval Job should not move to Approved");
 
                 yield return new TestCaseData(BadPendingSubmission(), CreateUserThresholdService(false), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.PendingApproval)
                     .SetDescription("PendingApproval Job should not move to Approved");
 
+                ///*** Approval Rejected ***/
+                yield return new TestCaseData(GoodApprovalRejected(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.Approved)
+                    .SetDescription("ApprovalRejected Job should move to Approved");
+
+                yield return new TestCaseData(GoodApprovalRejected(), CreateUserThresholdService(false), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.ApprovalRejected)
+                    .SetDescription("ApprovalRejected Job should not move to Approved");
+
+                yield return new TestCaseData(BadApprovalRejected(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.ApprovalRejected)
+                    .SetDescription("PendingApproval Job should not move to Approved");
+
+                yield return new TestCaseData(BadApprovalRejected(), CreateUserThresholdService(false), DateThresholdService(DateTime.Now))
+                    .Returns(ResolutionStatus.ApprovalRejected)
+                    .SetDescription("ApprovalRejected Job should not move to Approved");
+
+                /*** Approved ***/
                 yield return new TestCaseData(Approved(true), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Credited)
                     .SetDescription("Approved Job should not move to Credited");
@@ -445,6 +517,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(ResolutionStatus.Resolved)
                     .SetDescription("Approved Job should not move to Resolved");
 
+                /*** Credited ***/
                 yield return new TestCaseData(CreditedOutWindowComplain(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Closed | ResolutionStatus.Credited)
                     .SetDescription("Credited Job should move  to Closed - Credited");
@@ -453,6 +526,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(ResolutionStatus.Credited)
                     .SetDescription("Credited Job should stay in Credited");
 
+                /*** Resolved ***/
                 yield return new TestCaseData(ResolvedOutWindowComplain(), CreateUserThresholdService(true), DateThresholdService(DateTime.Now))
                     .Returns(ResolutionStatus.Closed | ResolutionStatus.Resolved)
                     .SetDescription("Credited Job should move to Closed - Resolved");
@@ -463,7 +537,7 @@ namespace PH.Well.UnitTests.Services
             }
         }
 
-        private static IUserThresholdService CreateUserThresholdService(bool withinThreshol)
+        internal static IUserThresholdService CreateUserThresholdService(bool withinThreshol)
         {
             var mock = new Mock<IUserThresholdService>();
 
@@ -553,9 +627,6 @@ namespace PH.Well.UnitTests.Services
                 .Build();
         }
 
-
-        #region manual Completion
-
         private static Job ManuallyCompletedOutWindowComplainNoActions()
         {
             return JobFactory.New
@@ -628,8 +699,6 @@ namespace PH.Well.UnitTests.Services
                 .Build();
         }
 
-        #endregion
-
         private static Job ActionRequired(bool addNotDefinedAction)
         {
             var job = JobFactory.New
@@ -669,6 +738,22 @@ namespace PH.Well.UnitTests.Services
             return JobFactory.New
                 .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddNotDefinedAction().Build()))
                 .With(p => p.ResolutionStatus = ResolutionStatus.PendingSubmission)
+                .Build();
+        }
+
+        private static Job GoodApprovalRejected()
+        {
+            return JobFactory.New
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddCreditAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ApprovalRejected)
+                .Build();
+        }
+
+        private static Job BadApprovalRejected()
+        {
+            return JobFactory.New
+                .With(p => p.LineItems.Add(LineItemFactory.New.AddCloseAction().AddNotDefinedAction().Build()))
+                .With(p => p.ResolutionStatus = ResolutionStatus.ApprovalRejected)
                 .Build();
         }
 

@@ -267,7 +267,7 @@
 
                 foreach (var job in updatedJobs)
                 {
-                    var status = this.jobService.GetNextResolutionStatus(job);
+                    var status = this.jobService.StepForward(job);
                     if (status != ResolutionStatus.Invalid)
                     {
                         job.ResolutionStatus = status;

@@ -71,7 +71,6 @@
             { CallBase = true };
         }
 
-
         public class TheSubmitActionMethod : SubmitActionServiceTests
         {
             private SubmitActionModel submitAction;
@@ -107,14 +106,95 @@
             }
 
             [Test]
+            [Category("SubmitActionService")]
+            [Category("Reject Jobs")]
+            public void ShouldRejectAllJobs()
+            {
+                submitAction = new SubmitActionModel { JobIds = new[] { 1, 2 }, Submit = false };
+
+                jobs = new List<Job>
+                {
+                    new Job { ResolutionStatus = ResolutionStatus.PendingApproval, Id = 1, InvoiceNumber = "1" },
+                    new Job { ResolutionStatus = ResolutionStatus.PendingApproval, Id = 2, InvoiceNumber = "2" }
+                };
+
+                jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+                jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(jobs);
+                jobService.Setup(x => x.StepBack(It.IsAny<Job>())).Returns(ResolutionStatus.ApprovalRejected);
+
+                var result = submitActionService.SubmitAction(submitAction);
+
+                Assert.IsTrue(result.IsValid);
+                Assert.That(result.Message, Is.EqualTo("All jobs were successfully rejected."));
+
+                jobRepository.Verify(p => p.SaveJobResolutionStatus(It.Is<Job>(j => j.ResolutionStatus == ResolutionStatus.ApprovalRejected)), Times.Exactly(2));
+                jobRepository.Verify(p => p.Update(It.Is<Job>(j => j.ResolutionStatus == ResolutionStatus.ApprovalRejected)), Times.Exactly(2));
+            }
+
+            [Test]
+            [Category("SubmitActionService")]
+            [Category("Reject Jobs")]
+            public void ShouldRejectSomeJobs()
+            {
+                submitAction = new SubmitActionModel { JobIds = new[] { 1, 2 }, Submit = false };
+
+                jobs = new List<Job>
+                {
+                    new Job { ResolutionStatus = ResolutionStatus.PendingApproval, Id = 1, InvoiceNumber = "1" },
+                    new Job { ResolutionStatus = ResolutionStatus.PendingApproval, Id = 2, InvoiceNumber = "2" }
+                };
+
+                jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+                jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(jobs);
+                jobService.Setup(x => x.StepBack(It.Is<Job>(p => p.Id == 1))).Returns(ResolutionStatus.ApprovalRejected);
+                jobService.Setup(x => x.StepBack(It.Is<Job>(p => p.Id == 2))).Returns(ResolutionStatus.Invalid);
+
+                var result = submitActionService.SubmitAction(submitAction);
+
+                Assert.IsTrue(result.IsValid);
+                Assert.That(result.Message, Is.EqualTo("One or more jobs could not be submitted."));
+                Assert.That(result.Warnings.Count, Is.EqualTo(1));
+
+                jobRepository.Verify(p => p.SaveJobResolutionStatus(It.Is<Job>(j => j.ResolutionStatus == ResolutionStatus.ApprovalRejected)), Times.Once);
+                jobRepository.Verify(p => p.Update(It.Is<Job>(j => j.ResolutionStatus == ResolutionStatus.ApprovalRejected)), Times.Once);
+            }
+
+            [Test]
+            [Category("SubmitActionService")]
+            [Category("Reject Jobs")]
+            public void ShouldNotRejectAllJobs()
+            {
+                submitAction = new SubmitActionModel { JobIds = new[] { 1, 2 }, Submit = false };
+
+                jobs = new List<Job>
+                {
+                    new Job { ResolutionStatus = ResolutionStatus.Approved, Id = 1, InvoiceNumber = "1" },
+                    new Job { ResolutionStatus = ResolutionStatus.Approved, Id = 2, InvoiceNumber = "2" }
+                };
+
+                jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+                jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(jobs);
+                jobService.Setup(x => x.StepBack(It.IsAny<Job>())).Returns(ResolutionStatus.Invalid);
+
+                var result = submitActionService.SubmitAction(submitAction);
+
+                Assert.IsFalse(result.IsValid);
+                Assert.That(result.Message, Is.EqualTo("No jobs were rejected."));
+                Assert.That(result.Warnings.Count, Is.EqualTo(2));
+
+                jobRepository.Verify(p => p.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Never);
+                jobRepository.Verify(p => p.Update(It.IsAny<Job>()), Times.Never);
+            }
+
+            [Test]
             public void ShouldReturnInvalidIfValidationFails()
             {
-                submitAction = new SubmitActionModel { JobIds = new[] { 1 } };
+                submitAction = new SubmitActionModel { JobIds = new[] { 1 }, Submit = true };
                 jobs = new List<Job>();
                 jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(It.IsAny<IEnumerable<Job>>())).Returns(jobs);
                 var submitActionResult = new SubmitActionResult { IsValid = false };
-                validator.Setup(x => x.Validate(submitAction, jobs)).Returns(submitActionResult);
+                validator.Setup(x => x.Validate(submitAction.JobIds, jobs)).Returns(submitActionResult);
 
                 var results = submitActionService.SubmitAction(submitAction);
                 Assert.That(results, Is.EqualTo(submitActionResult));
@@ -220,7 +300,7 @@
 
             private void WithHappyPathSetup()
             {
-                submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 } };
+                submitAction = new SubmitActionModel { JobIds = new[] { 1, 2, 3 }, Submit = true };
 
                 job1 = JobFactory.New.With(x => x.Id = 1).Build();
                 job2 = JobFactory.New.With(x => x.Id = 2).Build();
@@ -230,16 +310,16 @@
                 jobRepository.Setup(x => x.GetByIds(submitAction.JobIds)).Returns(jobs);
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobs)).Returns(jobs);
                 var submitActionResult = new SubmitActionResult { IsValid = true };
-                validator.Setup(x => x.Validate(submitAction, jobs)).Returns(submitActionResult);
+                validator.Setup(x => x.Validate(submitAction.JobIds, jobs)).Returns(submitActionResult);
 
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job1)).Returns(job1GetCurrentResolutionStatusQueue.Dequeue);
-                jobService.Setup(x => x.GetNextResolutionStatus(job1)).Returns(job1GetNextResolutionStatusQueue.Dequeue);
+                jobService.Setup(x => x.StepForward(job1)).Returns(job1GetNextResolutionStatusQueue.Dequeue);
 
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job2)).Returns(job2GetCurrentResolutionStatusQueue.Dequeue);
-                jobService.Setup(x => x.GetNextResolutionStatus(job2)).Returns(job2GetNextResolutionStatusQueue.Dequeue);
+                jobService.Setup(x => x.StepForward(job2)).Returns(job2GetNextResolutionStatusQueue.Dequeue);
 
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job3)).Returns(job3GetCurrentResolutionStatusQueue.Dequeue);
-                jobService.Setup(x => x.GetNextResolutionStatus(job3)).Returns(job3GetNextResolutionStatusQueue.Dequeue);
+                jobService.Setup(x => x.StepForward(job3)).Returns(job3GetNextResolutionStatusQueue.Dequeue);
 
                 jobRepository.Setup(x => x.SaveJobResolutionStatus(job1)).Callback<Job>(j => job1SaveJobResolutionStatus.Add(j.ResolutionStatus));
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));

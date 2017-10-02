@@ -6,6 +6,6 @@
 
     public interface ISubmitActionValidation
     {
-        SubmitActionResult Validate(SubmitActionModel submitAction, IEnumerable<Job> jobs);
+        SubmitActionResult Validate(int[] jobsId, IEnumerable<Job> jobs);
     }
 }

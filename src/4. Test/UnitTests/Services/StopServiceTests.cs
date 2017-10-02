@@ -39,10 +39,9 @@ namespace PH.Well.UnitTests.Services
         public void Should_ComputeStopWellStatusAndUpdate()
         {
             var stops = new List<Stop> { GetStopWithStatusChange(), GetStopWithStatusChange() };
-            var ids = stops.Select(p => p.Id).ToList();
-
             stops[0].Id = 1;
             stops[1].Id = 2;
+            var ids = stops.Select(p => p.Id).ToList();
 
             this.stopRepository.Setup(p => p.GetForWellStatusCalculationById(ids)).Returns(stops);
             service.ComputeWellStatus(ids);

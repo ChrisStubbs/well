@@ -13,7 +13,8 @@ USING	(VALUES	(1,			'Imported'),
 				(256 | 64,  'Closed - Credited'),
 				(256 | 128, 'Closed - Resolved'),
 				(512,		'Manually Completed'),
-				(512 | 256,	'Closed - Manually Completed')
+				(512 | 256,	'Closed - Manually Completed'),
+				(1024,		'Approval Rejected')
 		)
 AS Source (Id, [Description])
 	ON Target.Id = Source.Id

@@ -97,13 +97,13 @@
             }
         }
 
-        public Task ExecuteAsync()
+        public async Task ExecuteAsync()
         {
             using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
             {
                 try
                 {
-                    return connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
+                    await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
                 }
                 finally
                 {

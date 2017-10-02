@@ -147,7 +147,7 @@
                 }
 
                 // Compute stop well status and propagate to calculate route well status
-                stopService.ComputeAndPropagateWellStatus(existingStop);
+                stopService.ComputeAndPropagateWellStatus(existingStop.Id);
 
                 transactionScope.Complete();
             }

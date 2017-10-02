@@ -81,7 +81,6 @@ namespace PH.Well.Services
                 {
                     job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
 
-
                     // Clear job exceptions
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);
                     // Update job
@@ -112,6 +111,7 @@ namespace PH.Well.Services
             foreach (var job in invoicedJobs)
             {
                 job.JobStatus = JobStatus.Clean;
+                job.PerformanceStatus = PerformanceStatus.Compl;
             }
         }
 

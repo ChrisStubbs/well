@@ -466,7 +466,7 @@
 
                 jobStatusService.Verify(x => x.ComputeWellStatus(It.IsAny<int>()), Times.Once);
 
-                stopService.Verify(x => x.ComputeAndPropagateWellStatus(It.IsAny<Stop>()));
+                stopService.Verify(x => x.ComputeAndPropagateWellStatus(It.IsAny<int>()));
             }
         }
 

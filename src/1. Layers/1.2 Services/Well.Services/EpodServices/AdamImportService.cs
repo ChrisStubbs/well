@@ -81,8 +81,7 @@
                                 route.RouteId,
                                 existingRouteHeader.ContainsKey(key) ? existingRouteHeader[key] : null)
                         );
-                        //TODO Improve: Can we execute this after the for?
-                        routeHeaderRepository.DeleteRouteHeaderWithNoStops();
+
                         transactionScope.Complete();
                     }
                 }
@@ -96,6 +95,8 @@
                         EventId.ImportException);
                 }
             }
+
+            routeHeaderRepository.DeleteRouteHeaderWithNoStops();
         }
 
         private void ImportRouteHeader(RouteHeader header, int routeId, GetByNumberDateBranchResult existingRouteHeader = null)

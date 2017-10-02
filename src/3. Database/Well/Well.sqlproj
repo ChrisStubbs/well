@@ -80,7 +80,7 @@
     <None Include="Well.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
+    <Build Include="dbo\StoredProcedures\CustomerRoyalException_Get.sql" />
     <Build Include="dbo\Tables\JobDetailReason.sql" />
     <None Include="ManualStep\roundhouse.0.8.6\bin\rh.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -473,6 +473,10 @@
     <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopIds.sql" />
     <Build Include="dbo\Types\WellStatusUpdate.sql" />
+    <Build Include="dbo\Views\ExceptionTotalsPerSingleRoute.sql" />
+    <None Include="ManualStep\scripts\up\028_GlobalUplifts_RemoveLineItemActions.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

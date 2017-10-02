@@ -6,6 +6,6 @@
 
     public interface IActionSummaryMapper
     {
-        ActionSubmitSummary Map(SubmitActionModel submitAction, bool isStopLevel, IList<Job> jobs);
+        ActionSubmitSummary Map(bool isStopLevel, IList<Job> jobs);
     }
 }

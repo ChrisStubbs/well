@@ -1,4 +1,10 @@
-import { Component, ViewChild }             from '@angular/core';
+import { 
+    ISubmitActionModel, 
+    ISubmitActionResult 
+}                                           from './../shared/action/submitActionModel';
+import { VOID_VALUE }                       from '@angular/animations/browser/src/render/transition_animation_engine';
+import { NumberFormatStyle }                from '@angular/common/src/pipes/intl';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute }                   from '@angular/router';
 import { IObservableAlive }                 from '../shared/IObservableAlive';
 import { ApprovalsService }                 from './approvalsService';
@@ -11,6 +17,8 @@ import { AssignModalResult, AssignModel }   from '../shared/components/assignMod
 import { Branch }                           from '../shared/branch/branch';
 import { SecurityService }                  from '../shared/services/securityService';
 import { SubmitActionModal }                from '../shared/action/submitActionModal';
+import { ActionService }                    from '../shared/action/action';
+import { ToasterService }                   from 'angular2-toaster';
 
 class Sort {
     constructor() {
@@ -43,7 +51,7 @@ class Sort {
 @Component({
     selector: 'ow-approval',
     templateUrl: './app/approvals/approvalsComponent.html',
-    providers: [ApprovalsService],
+    providers: [ApprovalsService, ActionService],
     styles: ['.colAccount {width: 10% } ' +
         '.colInvoice {width: 10% } ' +
         '.colQty { width: 6% }' +
@@ -59,6 +67,7 @@ export class ApprovalsComponent implements IObservableAlive
     public sortField: Sort;
 
     @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
+    @ViewChild('closeModal') private closeBtn: ElementRef;
 
     private gridSource: Array<Approval> = [];
     private assignees: Array<string> = [];
@@ -68,13 +77,16 @@ export class ApprovalsComponent implements IObservableAlive
     private thresholdFilter: boolean = false;
     private isReadOnlyUser: boolean = false;
     private inputFilterTimer: any;
+    private totalQuantity: number = 0;
 
     constructor(
         private approvalsService: ApprovalsService,
         private route: ActivatedRoute,
         private securityService: SecurityService,
         private globalSettingsService: GlobalSettingsService,
-        private branchService: BranchService) { }
+        private actionService: ActionService,
+        private branchService: BranchService,
+        private toasterService: ToasterService) { }
 
     public ngOnInit(): void
     {
@@ -104,7 +116,8 @@ export class ApprovalsComponent implements IObservableAlive
             });
     }
 
-    public fillGridSource(): void {
+    public fillGridSource(): void 
+    {
 
         const filteredValues =
             GridHelpersFunctions.applyGridFilter<Approval, ApprovalFilter>(this.source, this.filters);
@@ -182,6 +195,16 @@ export class ApprovalsComponent implements IObservableAlive
         return this.selectedItems().length == 0;
     }
 
+    private getTotalQuantitySelected(): number 
+    {
+        return _.sumBy(this.selectedItems(), (current: Approval) => current.creditQuantity);
+    }
+
+    private getTotalCreditedSelected(): number 
+    {
+        return _.sumBy(this.selectedItems(), (current: Approval) => current.creditValue);
+    }
+
     private submitActions(): void {
         this.submitActionModal.show();
     }
@@ -240,6 +263,7 @@ export class ApprovalsComponent implements IObservableAlive
 
         this.assignees = [];
         this.assigneesTo = [];
+        this.filters.assignedTo = '';
         this.fillGridSource();
     }
 
@@ -247,5 +271,30 @@ export class ApprovalsComponent implements IObservableAlive
         const branch = { id: line.branchId } as Branch;
         const jobIds = [line.jobId];
         return new AssignModel(line.assignedTo, branch, jobIds, line);
+    }
+
+    private rejectExceptions(): void
+    {
+        const submitAction: ISubmitActionModel = {
+            submit: false,
+            jobIds: this.getSelectedJobIds()
+        };
+
+        this.actionService.post(submitAction)
+            .takeWhile(() => this.isAlive)
+            .subscribe(((res: ISubmitActionResult) => 
+            {
+                this.closeBtn.nativeElement.click();
+                if (res.isValid)
+                {
+                    this.toasterService.pop('success', res.message, '');
+                    
+                    this.refreshDataFromAPI();
+                }
+                else
+                {
+                    this.toasterService.pop('error', res.message, '');
+                }   
+            }));
     }
 }

@@ -21,7 +21,7 @@
         public SingleRouteMapper(IStopStatusService stopStatusService)
         {
             this.stopStatusService = stopStatusService;
-        }
+        } 
 
         public SingleRoute Map(List<Branch> branches,
             RouteHeader route,
@@ -78,13 +78,11 @@
                 var stopAssignee = Assignee.GetDisplayNames(assignee.Where(x => x.StopId == stop.Id).ToList());
 
                 var jobExceptions = jobDetailTotalsPerRouteHeader
-                    .ToLookup(k => k.JobId);
+                    .ToDictionary(p => p.JobId);
 
                 foreach (var job in stopJobs)
                 {
                     JobType jobType = job.JobType;
-                    var totalException = jobExceptions[job.Id].Count(p => p.TotalExceptions > 0);
-                    var clean = jobExceptions[job.Id].Count(p => p.TotalExceptions == 0);
 
                     var item = new SingleRouteItem
                     {
@@ -107,8 +105,8 @@
                         JobStatusDescription = jobStatuses[job.JobStatus],
                         Cod = job.Cod,
                         Pod = job.IsProofOfDelivery,
-                        Exceptions = totalException,
-                        Clean = clean,
+                        Exceptions = jobExceptions.ContainsKey(job.Id) ? jobExceptions[job.Id].TotalExceptions : 0,
+                        Clean = jobExceptions.ContainsKey(job.Id) ? jobExceptions[job.Id].TotalClean : 0,
                         Credit = job.CreditValue,
                         Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
                         Account = job.PhAccount,

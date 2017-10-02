@@ -14,7 +14,15 @@ export class SeasonalDateService {
 
     public getSeasonalDates(): Observable<SeasonalDate[]> {
         return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'seasonaldate')
-            .map((res: Response) => <SeasonalDate[]>res.json());
+            .map((res: Response) => 
+            {    
+                const seasons = <SeasonalDate[]>res.json();
+                const result = [];
+
+                seasons.forEach((item: SeasonalDate) => result.push(Object.assign(new SeasonalDate(), item)));
+
+                return result;
+            });
     }
 
     public removeSeasonalDate(seasonalDateId: number): Observable<any> {

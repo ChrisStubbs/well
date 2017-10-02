@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Api.Models
 {
+    using System;
     using System.Collections.ObjectModel;
 
     using PH.Well.Domain;
@@ -15,9 +16,9 @@
 
         public string Description { get; set; }
 
-        public string FromDate { get; set; }
+        public DateTime FromDate { get; set; }
 
-        public string ToDate { get; set; }
+        public DateTime ToDate { get; set; }
 
         public string BranchName { get; set; }
 

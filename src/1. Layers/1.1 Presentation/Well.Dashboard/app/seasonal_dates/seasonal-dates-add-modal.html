@@ -18,16 +18,16 @@
                                 <input type="text" id="seasonal-date-description" class="form-control" placeholder="Description" [(ngModel)]="seasonalDate.description"/>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">From</label>
+                        <div class="form-group has-error">
+                            <label class="col-md-3 control-label" for="fromDate">From</label>
                             <div class="col-md-9">
-                                <input type="date" [(ngModel)]="seasonalDate.fromDate" />
+                                <input id="fromDate" type="date" [(ngModel)]="seasonalDate.fromDate" />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">To</label>
+                        <div class="form-group has-error">
+                            <label class="col-md-3 control-label" for="toDate">To</label>
                             <div class="col-md-9">
-                                <input type="date" [(ngModel)]="seasonalDate.toDate" />
+                                <input id="toDate" type="date" [(ngModel)]="seasonalDate.toDate" />
                             </div>
                         </div>
                     </div>

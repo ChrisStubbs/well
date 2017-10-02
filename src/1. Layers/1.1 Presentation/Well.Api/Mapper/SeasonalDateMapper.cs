@@ -16,8 +16,8 @@
             {
                 Id = model.Id,
                 Description = model.Description,
-                From = DateTime.Parse(model.FromDate),
-                To = DateTime.Parse(model.ToDate)
+                From = model.FromDate,
+                To = model.ToDate
             };
 
             model.Branches.ForEach(x => seasonalDate.Branches.Add(x));
@@ -31,8 +31,8 @@
             {
                 Id = seasonalDate.Id,
                 Description = seasonalDate.Description,
-                FromDate = seasonalDate.From.ToShortDateString(),
-                ToDate = seasonalDate.To.ToShortDateString()
+                FromDate = seasonalDate.From,
+                ToDate = seasonalDate.To
             };
 
             foreach (var branch in seasonalDate.Branches)

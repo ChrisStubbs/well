@@ -28,7 +28,7 @@
         [Test]
         public void DescriptionRequired()
         {
-            var model = new SeasonalDateModel { Description = null, FromDate = "01/01/2000", ToDate = "01/01/2001" };
+            var model = new SeasonalDateModel { Description = null, FromDate = new DateTime(2000, 1, 1), ToDate = new DateTime(2000, 1, 1) };
             model.Branches.Add(new Branch());
 
             Assert.IsFalse(this.validator.IsValid(model));
@@ -41,7 +41,7 @@
         [Test]
         public void DescriptionRange()
         {
-            var model = new SeasonalDateModel { Description = new string('a', 256), FromDate = "01/01/2000", ToDate = "01/01/2001" };
+            var model = new SeasonalDateModel { Description = new string('a', 256), FromDate = new DateTime(2000, 1, 1), ToDate = new DateTime(2000, 1, 1) };
             model.Branches.Add(new Branch());
 
             Assert.IsFalse(this.validator.IsValid(model));
@@ -52,61 +52,9 @@
         }
 
         [Test]
-        public void FromDateRequired()
-        {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "", ToDate = "01/01/2001" };
-            model.Branches.Add(new Branch());
-
-            Assert.IsFalse(this.validator.IsValid(model));
-
-            Assert.That(this.validator.Errors.Count, Is.EqualTo(1));
-
-            Assert.That(this.validator.Errors[0], Is.EqualTo("From date is required!"));
-        }
-
-        [Test]
-        public void FromDateInvalid()
-        {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "foo", ToDate = "01/01/2001" };
-            model.Branches.Add(new Branch());
-
-            Assert.IsFalse(this.validator.IsValid(model));
-
-            Assert.That(this.validator.Errors.Count, Is.EqualTo(1));
-
-            Assert.That(this.validator.Errors[0], Is.EqualTo("From date is not a valid date!"));
-        }
-
-        [Test]
-        public void ToDateRequired()
-        {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "01/01/2001", ToDate = "" };
-            model.Branches.Add(new Branch());
-
-            Assert.IsFalse(this.validator.IsValid(model));
-
-            Assert.That(this.validator.Errors.Count, Is.EqualTo(1));
-
-            Assert.That(this.validator.Errors[0], Is.EqualTo("To date is required!"));
-        }
-
-        [Test]
-        public void ToDateInvalid()
-        {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "01/01/2001", ToDate = "foo" };
-            model.Branches.Add(new Branch());
-
-            Assert.IsFalse(this.validator.IsValid(model));
-
-            Assert.That(this.validator.Errors.Count, Is.EqualTo(1));
-
-            Assert.That(this.validator.Errors[0], Is.EqualTo("To date is not a valid date!"));
-        }
-
-        [Test]
         public void FromDatePastToDate()
         {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "01/01/2001", ToDate = "01/01/2000" };
+            var model = new SeasonalDateModel { Description = "foo", FromDate = new DateTime(2060, 1, 1), ToDate = new DateTime(2000, 1, 1) };
             model.Branches.Add(new Branch());
 
             Assert.IsFalse(this.validator.IsValid(model));
@@ -119,7 +67,7 @@
         [Test]
         public void BranchRequired()
         {
-            var model = new SeasonalDateModel { Description = "foo", FromDate = "01/01/2001", ToDate = "01/01/2002" };
+            var model = new SeasonalDateModel { Description = "foo", FromDate = new DateTime(2001, 1, 1), ToDate = new DateTime(2002, 1, 1) };
 
             Assert.IsFalse(this.validator.IsValid(model));
 

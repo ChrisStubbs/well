@@ -18,7 +18,7 @@ import { Branch }                           from '../shared/branch/branch';
 import { SecurityService }                  from '../shared/services/securityService';
 import { SubmitActionModal }                from '../shared/action/submitActionModal';
 import { ActionService }                    from '../shared/action/action';
-import { ToasterService } from 'angular2-toaster';
+import { ToasterService }                   from 'angular2-toaster';
 
 class Sort {
     constructor() {

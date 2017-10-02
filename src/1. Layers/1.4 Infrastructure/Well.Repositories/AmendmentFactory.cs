@@ -10,6 +10,7 @@
     public class AmendmentFactory : IAmendmentFactory
     {
         private readonly IUserRepository userRepository;
+        private const string defaultCustomerRef = "Unknown";
 
         public AmendmentFactory(IUserRepository userRepository)
         {
@@ -28,6 +29,7 @@
             var lineDictionary = new Dictionary<int, string>();
             var totalOfLines = amendment.AmendmentLines.Count;
             var endFlag = 0;
+            var customerRef = defaultCustomerRef;
 
             foreach (var line in amendment.AmendmentLines)
             {
@@ -37,12 +39,16 @@
                     endFlag = 1;
                 }
 
-
                 var productCodeNumeric = 0;
                 var result = Int32.TryParse(line.ProductCode, out productCodeNumeric);
                 if (!result)
                 {
                     productCodeNumeric = 0;
+                }
+
+                if (amendment.CustomerReference != string.Empty)
+                {
+                    customerRef = amendment.CustomerReference.Truncate(9);
                 }
 
                 var amendLine =
@@ -52,7 +58,7 @@
             }
 
             var header =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{amendment.CustomerReference.Truncate(9)}');";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{customerRef}');";
 
             var amendmentTransaction = new AmendmentTransaction
             {

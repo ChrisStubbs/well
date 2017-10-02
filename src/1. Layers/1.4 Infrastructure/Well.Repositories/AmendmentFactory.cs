@@ -39,7 +39,6 @@
                     endFlag = 1;
                 }
 
-
                 var productCodeNumeric = 0;
                 var result = Int32.TryParse(line.ProductCode, out productCodeNumeric);
                 if (!result)

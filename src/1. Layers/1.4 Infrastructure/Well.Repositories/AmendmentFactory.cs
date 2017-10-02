@@ -10,6 +10,7 @@
     public class AmendmentFactory : IAmendmentFactory
     {
         private readonly IUserRepository userRepository;
+        private const string defaultCustomerRef = "Unknown";
 
         public AmendmentFactory(IUserRepository userRepository)
         {
@@ -28,6 +29,7 @@
             var lineDictionary = new Dictionary<int, string>();
             var totalOfLines = amendment.AmendmentLines.Count;
             var endFlag = 0;
+            var customerRef = defaultCustomerRef;
 
             foreach (var line in amendment.AmendmentLines)
             {
@@ -45,6 +47,11 @@
                     productCodeNumeric = 0;
                 }
 
+                if (amendment.CustomerReference != string.Empty)
+                {
+                    customerRef = amendment.CustomerReference.Truncate(9);
+                }
+
                 var amendLine =
                     $"INSERT INTO WELLLINE.WELLNAMDREC (WELLNAMDGUID, WELLNAMDRCDTYPE, WELLNAMDSEQNUM, WELLNAMDPROD, WELLNAMDQTDELDEL, WELLNAMDQTDELSHT, WELLNAMDQTDELDAM, WELLNAMDQTDELREJ, WELLNAMDQTAMDDEL, WELLNAMDQTAMDSHT, WELLNAMDQTAMDDAM, WELLNAMDQTAMDREJ, WELLNAMDENDLINE) VALUES( {line.JobId}, {(int)EventAction.Amendment}, {lineCount}, {productCodeNumeric},  {line.DeliveredQuantity}, {line.ShortTotal}, {line.DamageTotal}, {line.RejectedTotal}, {line.AmendedDeliveredQuantity}, {line.AmendedShortTotal}, {line.AmendedDamageTotal}, {line.AmendedRejectedTotal}, {endFlag});";
 
@@ -52,7 +59,7 @@
             }
 
             var header =
-                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{amendment.CustomerReference.Truncate(9)}');";
+                $"INSERT INTO WELLHEAD (WELLHDCREDAT, WELLHDCRETIM, WELLHDGUID, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDLINECOUNT, WELLHDCUSTREF) VALUES('{today}', '{now}', '{amendment.JobId}', {(int)EventAction.Amendment}, '{initials}', {amendment.BranchId}, {acno}, {amendment.InvoiceNumber.Truncate(9)}, {lineCount}, '{customerRef}');";
 
             var amendmentTransaction = new AmendmentTransaction
             {

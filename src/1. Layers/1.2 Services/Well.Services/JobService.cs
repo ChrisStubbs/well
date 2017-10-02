@@ -307,7 +307,10 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission || job.ResolutionStatus == ResolutionStatus.ManuallyCompleted))
+                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission 
+                || job.ResolutionStatus == ResolutionStatus.ManuallyCompleted
+                || job.ResolutionStatus == ResolutionStatus.ApprovalRejected
+                ))
                 {
                     if (actions.All(p => p.DeliveryAction != DeliveryAction.NotDefined))
                     {

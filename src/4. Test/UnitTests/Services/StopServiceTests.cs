@@ -13,13 +13,15 @@ using PH.Well.Services.Contracts;
 
 namespace PH.Well.UnitTests.Services
 {
+    using System.Threading;
+
     [TestFixture]
     public class StopServiceTests
     {
         private StopService service;
         private Mock<IStopRepository> stopRepository;
         private Mock<IRouteService> routeService;
-        private Mock<IJobRepository> jobRepository; 
+        private Mock<IJobRepository> jobRepository;
         private Mock<WellStatusAggregator> wellStatusAggregator = new Mock<WellStatusAggregator>()
         {
             CallBase = true
@@ -49,8 +51,9 @@ namespace PH.Well.UnitTests.Services
             stops[0].WellStatus = WellStatus.Complete;
             stops[1].WellStatus = WellStatus.Complete;
 
+            Thread.Sleep(10);
             this.stopRepository.Verify(p => p.GetForWellStatusCalculationById(ids), Times.Once);
-            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y=> y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)), Times.Once);
+            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y => y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)), Times.Once);
         }
 
         [Test]
@@ -101,7 +104,7 @@ namespace PH.Well.UnitTests.Services
             return new Stop
             {
                 WellStatus = WellStatus.Unknown,
-                Jobs = new[] {new Job { WellStatus = WellStatus.Complete} }.ToList()
+                Jobs = new[] { new Job { WellStatus = WellStatus.Complete } }.ToList()
             };
         }
 

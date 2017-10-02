@@ -51,7 +51,7 @@ class Sort {
 @Component({
     selector: 'ow-approval',
     templateUrl: './app/approvals/approvalsComponent.html',
-    providers: [ApprovalsService, ActionService, ToasterService],
+    providers: [ApprovalsService, ActionService],
     styles: ['.colAccount {width: 10% } ' +
         '.colInvoice {width: 10% } ' +
         '.colQty { width: 6% }' +
@@ -85,8 +85,8 @@ export class ApprovalsComponent implements IObservableAlive
         private securityService: SecurityService,
         private globalSettingsService: GlobalSettingsService,
         private actionService: ActionService,
-        private toasterService: ToasterService,
-        private branchService: BranchService) { }
+        private branchService: BranchService,
+        private toasterService: ToasterService) { }
 
     public ngOnInit(): void
     {
@@ -287,14 +287,13 @@ export class ApprovalsComponent implements IObservableAlive
                 this.closeBtn.nativeElement.click();
                 if (res.isValid)
                 {
-                    //this.toasterService.pop('success', res.message, '');
-                    alert('yes');
+                    this.toasterService.pop('success', res.message, '');
+                    
                     this.refreshDataFromAPI();
                 }
                 else
                 {
-                    //this.toasterService.pop('error', res.message, '');
-                    alert('ups!');
+                    this.toasterService.pop('error', res.message, '');
                 }   
             }));
     }

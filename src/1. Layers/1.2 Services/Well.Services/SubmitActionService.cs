@@ -75,7 +75,7 @@
             }
             else if (result.Warnings.Any())
             {
-                result.Message = "One or more jobs could not be submitted";
+                result.Message = "One or more jobs could not be submitted.";
                 result.IsValid = true;
             }
             else
@@ -168,7 +168,6 @@
                 return new SubmitActionResult { Message = "Error submitting. No actions have been processed" };
             }
         }
-
 
         public SubmitActionResult SubmitAction(SubmitActionModel submitAction)
         {

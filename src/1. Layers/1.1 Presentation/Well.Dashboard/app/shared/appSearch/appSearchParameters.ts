@@ -9,4 +9,5 @@ export class AppSearchParameters
     public deliveryType?: number;
     public status?: number;
     public routeIds: number[];
+    public upliftInvoiceNumber: string;
 }

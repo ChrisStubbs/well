@@ -10,6 +10,7 @@
         public string Invoice { get; set; }
         public string Route { get; set; }
         public string Driver { get; set; }
+        public string UpliftInvoiceNumber { get; set; }
 
         /// <summary>
         /// This is a subset of the JobType table
@@ -29,8 +30,8 @@
         public bool HasAccount => !string.IsNullOrEmpty(this.Account);
         public bool HasRoute=> !string.IsNullOrEmpty(this.Route);
         public bool HasDriver => !string.IsNullOrEmpty(this.Driver);
-        public bool IsRouteSearch => HasBranch && !HasInvoice && !HasAccount;
-
+        public bool IsRouteSearch => HasBranch && !HasInvoice && !HasAccount && !HasUpliftInvoiceNumber;
+        public bool HasUpliftInvoiceNumber => !string.IsNullOrEmpty(this.UpliftInvoiceNumber);
         public void Format()
         {
             Driver = Driver?.Trim();

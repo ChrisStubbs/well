@@ -92,7 +92,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ManualStep\scripts\up\022_Drop_CreditThreshold_Tables.sql" />
-    <None Include="ManualStep\scripts\up\029_seasonal_dates_sunday.sql" />
+    <None Include="ManualStep\scripts\up\029_seasonal_dates_sunday.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />

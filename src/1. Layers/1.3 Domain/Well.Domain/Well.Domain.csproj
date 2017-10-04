@@ -59,6 +59,7 @@
     <Compile Include="Contracts\ILineItemActionResolution.cs" />
     <Compile Include="Contracts\IStopMoveIdentifiers.cs" />
     <Compile Include="DateThreshold.cs" />
+    <Compile Include="Enums\ActivityType.cs" />
     <Compile Include="Enums\JobIssueType.cs" />
     <Compile Include="Enums\ManualCompletionType.cs" />
     <Compile Include="Enums\ResolutionStatus.cs" />

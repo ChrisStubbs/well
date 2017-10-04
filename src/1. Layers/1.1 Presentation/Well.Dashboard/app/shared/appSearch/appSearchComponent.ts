@@ -60,7 +60,8 @@ export class AppSearch implements IObservableAlive
                 'route': new FormControl(),
                 'driver': new FormControl(),
                 'deliveryType': new FormControl(),
-                'status': new FormControl()
+                'status': new FormControl(),
+                'upliftInvoiceNumber': new FormControl()
             });
 
         this.fillBranches();
@@ -131,6 +132,7 @@ export class AppSearch implements IObservableAlive
         parameters.deliveryType = formData.deliveryType;
         parameters.status = formData.status;
         parameters.routeIds = [];
+        parameters.upliftInvoiceNumber = formData.upliftInvoiceNumber;
 
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
@@ -144,7 +146,7 @@ export class AppSearch implements IObservableAlive
                 }
 
                 // If user searched by invoice and single result was found - navigate to invoice screen
-                if (parameters.invoice && result.invoiceIds.length === 1) {
+                if ((parameters.invoice || parameters.upliftInvoiceNumber) && result.invoiceIds.length === 1) {
                     this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
                     this.onSearch.emit();
                     return;

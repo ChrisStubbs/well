@@ -9,6 +9,7 @@ namespace PH.Well.Repositories.Read
     using Common.Contracts;
     using Contracts;
     using Dapper;
+    using Domain.Enums;
     using Domain.ValueObjects;
 
     public class AppSearchReadRepository : IAppSearchReadRepository
@@ -50,20 +51,12 @@ namespace PH.Well.Repositories.Read
                 // If an invoice number is supplied, see if that activity exists
                 if (searchParameters.HasInvoice)
                 {
-                    var invoices = wellEntities.Activity.Where(x => x.DocumentNumber == searchParameters.Invoice && x.Location.BranchId == branchId);
-                    if (searchParameters.HasDate)
-                    {
-                        invoices = invoices
-                            .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
-                    }
-                    foreach (var activity in invoices)
-                    {
-                        results.Add(new AppSearchResult()
-                        {
-                            BranchId = searchParameters.BranchId,
-                            InvoiceId = activity.Id,
-                        });
-                    }
+                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Invoice);
+                }
+
+                if (searchParameters.HasUpliftInvoiceNumber)
+                {
+                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Uplift);
                 }
 
                 // If an account number exists, find matching accounts
@@ -119,6 +112,31 @@ namespace PH.Well.Repositories.Read
             }
 
             return results;
+        }
+
+        private void ActivitySearch(AppSearchParameters searchParameters, int branchId, List<AppSearchResult> results, Domain.Enums.ActivityType activityType)
+        {
+            var documentNumber = string.Empty;
+            documentNumber = activityType == ActivityType.Uplift ? searchParameters.UpliftInvoiceNumber : searchParameters.Invoice;
+
+            var invoices = wellEntities.Activity
+                .Where(x => x.DocumentNumber == documentNumber
+                            && x.ActivityTypeId == (byte)activityType
+                            && x.Location.BranchId == branchId);
+
+            if (searchParameters.HasDate)
+            {
+                invoices = invoices
+                    .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
+            }
+            foreach (var activity in invoices)
+            {
+                results.Add(new AppSearchResult()
+                {
+                    BranchId = searchParameters.BranchId,
+                    InvoiceId = activity.Id,
+                });
+            }
         }
     }
 }

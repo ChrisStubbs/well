@@ -51,7 +51,7 @@ namespace PH.Well.UnitTests.Services
             stops[0].WellStatus = WellStatus.Complete;
             stops[1].WellStatus = WellStatus.Complete;
 
-            Thread.Sleep(10);
+            Thread.Sleep(100);
             this.stopRepository.Verify(p => p.GetForWellStatusCalculationById(ids), Times.Once);
             stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y => y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)), Times.Once);
         }

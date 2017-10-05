@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Domain.Enums;
+
+namespace PH.Well.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -25,9 +27,9 @@
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            var jobs = request.JobIds.Any() ?
-                bulkEditService.GetEditableJobsByJobId(request.JobIds).ToArray() :
-                bulkEditService.GetEditableJobsByLineItemId(request.LineItemIds).ToArray();
+            var jobs = request.JobIds.Any()
+                ? bulkEditService.GetEditableJobsByJobId(request.JobIds).ToArray()
+                : bulkEditService.GetEditableJobsByLineItemId(request.LineItemIds).ToArray();
 
             if (!jobs.Any())
             {
@@ -38,26 +40,26 @@
 
         [HttpGet]
         [Route("bulkedit/Summary/Jobs/")]
-        public PatchSummary GetSummaryForJob([FromUri]int[] id)
+        public PatchSummary GetSummaryForJob([FromUri]int[] id, DeliveryAction deliveryAction)
         {
             if (id == null || id.Length == 0)
             {
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            return bulkEditService.GetByJobs(id);
+            return bulkEditService.GetByJobs(id, deliveryAction);
         }
 
         [HttpGet]
         [Route("bulkedit/Summary/LineItems/")]
-        public PatchSummary GetSummaryForLineItems([FromUri]int[] id)
+        public PatchSummary GetSummaryForLineItems([FromUri]int[] id, DeliveryAction deliveryAction)
         {
             if (id == null || id.Length == 0)
             {
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            return bulkEditService.GetByLineItems(id);
+            return bulkEditService.GetByLineItems(id, deliveryAction);
         }
     }
 }

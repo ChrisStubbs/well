@@ -21,6 +21,17 @@ namespace PH.Well.Services
         private readonly IJobService jobService;
         private readonly ICommentReasonRepository commentReasonRepository;
 
+        private static readonly JobType[] ActionableJobTypes =
+        {
+            JobType.Tobacco,
+            JobType.Ambient,
+            JobType.Alcohol,
+            JobType.Chilled,
+            JobType.Frozen,
+            JobType.GlobalUplift,
+            JobType.StandardUplift
+        };
+
         public LineItemActionService(
             ILineItemActionRepository lineItemActionRepository,
             ILineItemSearchReadRepository lineItemRepository,
@@ -150,6 +161,53 @@ namespace PH.Well.Services
 
             lineItemActionRepository.Update(lineItemAction);
             return lineItemRepository.GetById(lineItemAction.LineItemId);
+        }
+
+        /// <summary>
+        /// Checks if job is of type that can be actioned otherwise throw exception
+        /// </summary>
+        /// <param name="job"></param>
+        /// <exception cref="ArgumentOutOfRangeException">When job is not actionable</exception>
+        private void CheckJobIsActionable(Job job)
+        {
+            if (!ActionableJobTypes.Contains(job.JobType))
+            {
+                throw new ArgumentOutOfRangeException(nameof(job.JobType), job.JobType,
+                    $"{job.JobType} is not valid to action");
+            }
+        }
+
+        public bool CanSetActionForJob(Job job, DeliveryAction deliveryAction)
+        {
+            // Validate job type for which actions can be set
+            CheckJobIsActionable(job);
+
+            // Global uplift jobs can not be credited or Pod hence should only be closed
+            if (job.JobType == JobType.GlobalUplift)
+            {
+                if (deliveryAction == DeliveryAction.Credit || deliveryAction == DeliveryAction.Pod)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            if (job.IsProofOfDelivery)
+            {
+                if (deliveryAction == DeliveryAction.Credit)
+                {
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                if (deliveryAction == DeliveryAction.Pod)
+                {
+                    return false;
+                }
+                return true;
+            }
         }
 
     }

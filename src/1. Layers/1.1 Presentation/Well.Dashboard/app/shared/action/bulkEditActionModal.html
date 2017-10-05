@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md-3">
                                 <select class="form-control" id="deliveryAction" name="deliveryAction"
-                                        [(ngModel)]="deliveryAction"
+                                        [(ngModel)]="deliveryAction" (change)="onDeliveryActionChange($event.target.value)"
                                         pattern="^[1-9][0-9]*$">
                                     <option *ngFor="let action of deliveryActions" [value]="action.key">
                                         {{ action.value }}

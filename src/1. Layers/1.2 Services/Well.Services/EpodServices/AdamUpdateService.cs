@@ -137,7 +137,7 @@
                 this.eventLogger.TryWriteToEventLog(
                     EventSource.WellAdamXmlImport,
                     $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})",
-                    7222);
+                    7223);
 
                 return;
             }

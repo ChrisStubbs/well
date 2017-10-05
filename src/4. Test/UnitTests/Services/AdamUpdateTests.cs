@@ -414,6 +414,84 @@
             }
 
             [Test]
+            public void ShouldNotProcessIfStopIsComplete()
+            {
+                //ARRANGE
+                var routeUpdate = new RouteUpdates();
+
+                var stopUpdate = new StopUpdate
+                {
+                    RouteNumberAndDropNumber = "001 02",
+                    DeliveryDate = DateTime.Now,
+                    StartDepotCode = "22",
+                    ActionIndicator = "U",
+                    TransportOrderRef = "BIR-000001"
+                };
+
+                routeUpdate.Stops.Add(stopUpdate);
+
+                var stop = StopFactory.New.Build();
+
+                var job = new JobUpdate { JobTypeCode = "DEL-FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
+
+                stopUpdate.Jobs.Add(job);
+
+                this.jobRepository.Setup(x => x.GetByStopId(stop.Id)).Returns(new List<Job>());
+
+                this.stopRepository.Setup(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode))).Returns(stop);
+
+                this.mapper.Setup(x => x.Map(stopUpdate, stop));
+
+                this.stopRepository.Setup(x => x.Update(stop));
+
+                this.mapper.Setup(x => x.Map(It.IsAny<JobUpdate>(), It.IsAny<Job>()));
+
+                this.jobStatusService.Setup(x => x.SetIncompleteJobStatus(It.IsAny<Job>()));
+
+                jobStatusService.Setup(x => x.ComputeWellStatus(It.IsAny<int>())).Returns(true);
+
+                this.jobRepository.Setup(x => x.SaveJobResolutionStatus(It.IsAny<Job>()));
+
+                this.jobRepository.Setup(x => x.Save(It.IsAny<Job>()));
+                this.logger.Setup(x =>
+                     x.LogDebug(
+                            $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})"));
+
+                this.eventLogger.Setup(
+                    x =>
+                        x.TryWriteToEventLog(
+                            EventSource.WellAdamXmlImport,
+                            $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})",
+                            7223, EventLogEntryType.Error)).Returns(true);
+
+                this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
+
+                //ACT
+                this.service.Update(routeUpdate);
+
+                //ASSERT
+                this.logger.Verify(
+                    x =>
+                        x.LogDebug(
+                            $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})"), Times.Once);
+
+                this.eventLogger.Verify(
+                    x =>
+                        x.TryWriteToEventLog(
+                            EventSource.WellAdamXmlImport,
+                            $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})",
+                            7223, EventLogEntryType.Error), Times.Once);
+
+                this.jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Never);
+
+                postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
+
+                jobStatusService.Verify(x => x.ComputeWellStatus(It.IsAny<int>()), Times.Never);
+
+                stopService.Verify(x => x.ComputeAndPropagateWellStatus(It.IsAny<int>()), Times.Never);
+            }
+
+            [Test]
             public void ShouldProcessCorrectly()
             {
                 //ARRANGE
@@ -431,6 +509,8 @@
                 routeUpdate.Stops.Add(stopUpdate);
 
                 var stop = StopFactory.New.Build();
+
+                stop.WellStatus = WellStatus.Invoiced;
 
                 var job = new JobUpdate { JobTypeCode = "DEL-FRZ", PickListRef = "233333", PhAccount = "33222.222", InvoiceNumber = "343434" };
 

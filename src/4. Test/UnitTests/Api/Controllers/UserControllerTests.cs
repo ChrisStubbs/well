@@ -251,10 +251,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 var user = new User { Id = 227 };
                 this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns(user);
 
-                var response = this.Controller.UserByName("lee grunion");
-
-                var returnedUser = new User();
-                response.TryGetContentValue(out returnedUser);
+                var returnedUser = this.Controller.UserByName("lee grunion");
 
                 Assert.That(returnedUser, Is.Not.Null);
                 Assert.That(returnedUser.Id, Is.EqualTo(227));
@@ -263,12 +260,8 @@ namespace PH.Well.UnitTests.Api.Controllers
             [Test]
             public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
             {
-
                 this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns((User)null);
-                var response = this.Controller.UserByName("lee grunion");
-
-                var returnedUser = new User();
-                response.TryGetContentValue(out returnedUser);
+                var returnedUser = this.Controller.UserByName("lee grunion");
 
                 Assert.That(returnedUser, Is.Null);
             }

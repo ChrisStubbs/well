@@ -26,7 +26,18 @@
 
             foreach (var domain in domainsToSearch)
             {
-                var context = new PrincipalContext(ContextType.Domain, domain);
+                PrincipalContext context;
+
+                try
+                {
+                    context = new PrincipalContext(ContextType.Domain, domain);
+                }
+                catch (Exception)
+                {
+                    //the server may be down
+                    //try the next one 
+                    continue;
+                }
                 
                 name = name.Trim();
 

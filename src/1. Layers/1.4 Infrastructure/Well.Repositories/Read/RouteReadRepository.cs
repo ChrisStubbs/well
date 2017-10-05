@@ -171,7 +171,7 @@ namespace PH.Well.Repositories.Read
 
                 return result;
             }
-
+            logger.LogDebug($"No branch found for the User '{username}'");
             return new List<Route>();
         }
         

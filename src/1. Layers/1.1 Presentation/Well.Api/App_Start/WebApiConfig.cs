@@ -22,6 +22,7 @@
             config.EnableCors(cors);
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Filters.Add(new AuthorizeAttribute());
         }
     }
 }

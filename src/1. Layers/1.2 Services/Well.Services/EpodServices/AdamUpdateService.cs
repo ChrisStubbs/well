@@ -130,6 +130,18 @@
                 return;
             }
 
+            if (existingStop.HasStopBeenCompleted())
+            {
+                this.logger.LogDebug(
+                    $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})");
+                this.eventLogger.TryWriteToEventLog(
+                    EventSource.WellAdamXmlImport,
+                    $"Existing stop is complete for picklist ({job.PickListRef}), account ({job.PhAccount})",
+                    7222);
+
+                return;
+            }
+
             this.mapper.Map(stop, existingStop);
 
             using (var transactionScope = new TransactionScope())

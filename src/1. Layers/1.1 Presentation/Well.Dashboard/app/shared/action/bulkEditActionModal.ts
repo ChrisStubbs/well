@@ -7,7 +7,8 @@ import { ILookupValue }                                                     from
 import { IBulkEditPatchRequest, IBulkEditResult }                           from './bulkEditItem';
 import { BulkEditService }                                                  from './bulkEditService';
 import { NgForm }                                                           from '@angular/forms';
-import { IPatchSummary, IPatchSummaryItem }                                 from '../models/patchSummary';
+import { IPatchSummary, IPatchSummaryItem } from '../models/patchSummary';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'bulk-edit-action-modal',
@@ -72,10 +73,10 @@ export class BulkEditActionModal implements IObservableAlive
         let observable: Observable<IPatchSummary>;
         if (this.lineItemIds.length > 0)
         {
-            observable = this.bulkEditService.getSummaryForLineItems(this.lineItemIds);
+            observable = this.bulkEditService.getSummaryForLineItems(this.lineItemIds, this.deliveryAction);
         } else if (this.jobIds.length > 0)
         {
-            observable = this.bulkEditService.getSummaryForJob(this.jobIds);
+            observable = this.bulkEditService.getSummaryForJob(this.jobIds, this.deliveryAction);
         }
         if (observable)
         {
@@ -96,13 +97,13 @@ export class BulkEditActionModal implements IObservableAlive
         this.closeModal.nativeElement.click();
     }
 
-    private getPatchRequest(): IBulkEditPatchRequest
-    {
+    private getPatchRequest(): IBulkEditPatchRequest {
+        const jobIds = <number[]> _.map(this.editItems, 'jobId');
         return {
             deliveryAction: this.deliveryAction,
             source: this.source,
             reason: this.reason,
-            jobIds: this.jobIds,
+            jobIds: jobIds,
             lineItemIds: this.lineItemIds
         };
     }
@@ -124,5 +125,9 @@ export class BulkEditActionModal implements IObservableAlive
     private isFormValid(): boolean {
         return this.currentForm.form.valid
             && this.editItems.length > 0;
+    }
+
+    private onDeliveryActionChange(): void {
+        this.populateEditItems();
     }
 }

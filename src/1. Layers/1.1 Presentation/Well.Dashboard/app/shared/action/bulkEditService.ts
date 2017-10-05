@@ -15,21 +15,21 @@ export class BulkEditService
         private globalSettingsService: GlobalSettingsService,
         private httpErrorService: HttpErrorService) { }
 
-    public getSummaryForJob(jobIds: Array<number>): Observable<IPatchSummary>
+    public getSummaryForJob(jobIds: Array<number>, deliveryAction: number): Observable<IPatchSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'bulkedit/summary/jobs';
-        return this.get(url, jobIds);
+        return this.get(url, jobIds, deliveryAction);
     }
 
-    public getSummaryForLineItems(lineitemIds: Array<number>): Observable<IPatchSummary>
+    public getSummaryForLineItems(lineitemIds: Array<number>, deliveryAction: number): Observable<IPatchSummary>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'bulkedit/summary/lineitems';
-        return this.get(url, lineitemIds);
+        return this.get(url, lineitemIds, deliveryAction);
     }
 
-    private get(url: string, ids: Array<number>): Observable<IPatchSummary>
+    private get(url: string, ids: Array<number>, deliveryAction: number): Observable<IPatchSummary>
     {
-        return this.http.get(url, { params: { id: ids } })
+        return this.http.get(url, { params: { id: ids, deliveryAction: deliveryAction } })
             .map((response: Response) => <IPatchSummary>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }

@@ -25,6 +25,7 @@
         private BulkEditService bulkEditService;
         private Mock<IUserNameProvider> userNameProvider;
         public User User = new User { Id = 1 };
+        private Mock<ILineItemActionService> lineItemActionService;
 
         [SetUp]
         public void Setup()
@@ -33,6 +34,7 @@
             jobRepository = new Mock<IJobRepository>();
             mapper = new Mock<IPatchSummaryMapper>();
             userNameProvider = new Mock<IUserNameProvider>();
+            lineItemActionService = new Mock<ILineItemActionService>();
            
             lineItemActionRepository = new Mock<ILineItemActionRepository>(MockBehavior.Strict);
             jobService = new Mock<IJobService>(MockBehavior.Strict);
@@ -43,8 +45,9 @@
                 jobRepository.Object,
                 mapper.Object,
                 lineItemActionRepository.Object,
-                userNameProvider.Object
-                );
+                userNameProvider.Object,
+                lineItemActionService.Object
+            );
         }
 
         public class TheGetEditableJobsMethod : BulkEditServiceTests
@@ -133,7 +136,8 @@
                     jobRepository.Object,
                     mapper.Object,
                     lineItemActionRepository.Object,
-                    userNameProvider.Object
+                    userNameProvider.Object,
+                    lineItemActionService.Object
                     )
                 { CallBase = true };
             }
@@ -141,7 +145,7 @@
             [Test]
             public void ShouldCallUpdateOnAllLineItemsToUpdate()
             {
-                var editableJobs = new List<Job>();
+                var editableJobs =new []{ JobFactory.New.Build()}.ToList();
                 var lineItemIds = new List<int>();
                 var lia1 = LineItemActionFactory.New
                                 .With(x => x.LineItemId = 1)
@@ -158,8 +162,15 @@
                                     .With(x => x.Source = JobDetailSource.Customer)
                                     .With(x => x.Reason = JobDetailReason.BookingError).Build();
 
-                stubbedService.Setup(x => x.LineItemActionsToUpdate(editableJobs, lineItemIds)).Returns(lineItemActions);
+                stubbedService.Setup(x => x.LineItemActionsToEdit(It.IsAny<Job>(), lineItemIds))
+                    .Returns(lineItemActions);
+
                 lineItemActionRepository.Setup(x => x.Update(It.IsAny<LineItemAction>()));
+                lineItemActionService.Setup(x => x.CanSetActionForJob(It.IsAny<Job>(), It.IsAny<DeliveryAction>()))
+                    .Returns(true);
+
+                jobService.Setup(x => x.GetCurrentResolutionStatus(It.IsAny<Job>()))
+                    .Returns(ResolutionStatus.Closed);
 
                 var result = stubbedService.Object.Update(editableJobs, patchRequest, lineItemIds);
 
@@ -192,7 +203,8 @@
                 var patchRequest = BulkEditPatchRequestFactory.New.Build();
                 stubbedService.Setup(x => x.LineItemActionsToUpdate(editableJobs, lineItemIds)).Returns(lineItemActions);
                 lineItemActionRepository.Setup(x => x.Update(It.IsAny<LineItemAction>()));
-
+                lineItemActionService.Setup(x => x.CanSetActionForJob(It.IsAny<Job>(), It.IsAny<DeliveryAction>()))
+                    .Returns(true);
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job1)).Returns(ResolutionStatus.Invalid);
                 jobService.Setup(x => x.GetCurrentResolutionStatus(job2)).Returns(ResolutionStatus.Approved);
                 jobRepository.Setup(x => x.Update(It.IsAny<Job>()));

@@ -21,7 +21,7 @@ export class UserThresholdLevelComponent implements IObservableAlive {
     public isAlive: boolean = true;
     public username: string;
     public httpResponse: HttpResponse = new HttpResponse();
-    public user: User;
+    public user: User = undefined;
     private creditThresholds: Array<CreditThreshold> = [];
     private currentThreshold: CreditThreshold = new CreditThreshold();
 
@@ -46,10 +46,14 @@ export class UserThresholdLevelComponent implements IObservableAlive {
             .takeWhile(() => this.isAlive)
             .subscribe(result => {
                 this.user = result[0] as User;
-                this.creditThresholds = result[1] as Array<CreditThreshold>;
-                
-                this.currentThreshold = _.find(this.creditThresholds,
-                    (creditThreshold: CreditThreshold) => creditThreshold.id == this.user.creditThresholdId);
+
+                if (!_.isNil(this.user))
+                {
+                    this.creditThresholds = result[1] as Array<CreditThreshold>;
+                    
+                    this.currentThreshold = _.find(this.creditThresholds,
+                        (creditThreshold: CreditThreshold) => creditThreshold.id == this.user.creditThresholdId);
+                }
             });
     }
 

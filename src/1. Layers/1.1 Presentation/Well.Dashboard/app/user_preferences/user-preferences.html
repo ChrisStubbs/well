@@ -23,7 +23,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="grid-row" *ngFor="let user of users | paginate: { itemsPerPage: rowCount, currentPage: p }" (click)="userSelected(user)">
+                        <tr class="grid-row" style="cursor: pointer" *ngFor="let user of users | paginate: { itemsPerPage: rowCount, currentPage: p }" 
+                        (click)="userSelected(user)">
                             <td>{{user.name}}</td>
                             <td>{{user.jobDescription}}</td>
                             <td>{{user.domain}}</td>
@@ -37,5 +38,4 @@
         </div>
     </div>
 </div>
-<ow-user-preference-modal></ow-user-preference-modal>
 

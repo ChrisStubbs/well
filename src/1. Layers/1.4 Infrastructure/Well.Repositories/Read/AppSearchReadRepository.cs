@@ -62,18 +62,19 @@ namespace PH.Well.Repositories.Read
                 // If an account number exists, find matching accounts
                 if (searchParameters.HasAccount)
                 {
-                    var accounts = wellEntities.Account.Where(x => x.Code == searchParameters.Account && x.Location.BranchId == branchId);
+                    var locations = wellEntities.Location.Where(x => x.AccountCode == searchParameters.Account && x.BranchId == branchId);
                     if (searchParameters.HasDate)
                     {
-                        accounts =
-                            accounts.Where(x => x.Stop.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
+                        locations =
+                            locations.Where(x => x.Stop.Any(
+                                s => s.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value)));
                     }
-                    foreach (var account in accounts)
+                    foreach (var location in locations)
                     {
                         results.Add(new AppSearchResult()
                         {
                             BranchId = searchParameters.BranchId,
-                            LocationId = account.LocationId
+                            LocationId = location.Id
                         });
                     }
                 }

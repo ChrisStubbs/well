@@ -20,6 +20,7 @@
         private readonly IPatchSummaryMapper mapper;
         private readonly ILineItemActionRepository lineItemActionRepository;
         private readonly IUserNameProvider userNameProvider;
+        private readonly ILineItemActionService lineItemActionService;
         private readonly IJobService jobService;
 
         private static readonly JobType[] BulkEditableJobTypes =
@@ -31,34 +32,36 @@
             JobType.Tobacco
         };
 
-        
-
         public BulkEditService(
             ILogger logger,
             IJobService jobService,
             IJobRepository jobRepository,
             IPatchSummaryMapper mapper,
             ILineItemActionRepository lineItemActionRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            ILineItemActionService lineItemActionService)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.mapper = mapper;
             this.lineItemActionRepository = lineItemActionRepository;
             this.userNameProvider = userNameProvider;
+            this.lineItemActionService = lineItemActionService;
             this.jobService = jobService;
         }
 
-        public PatchSummary GetByLineItems(IEnumerable<int> lineItemIds)
+        public PatchSummary GetByLineItems(IEnumerable<int> lineItemIds, DeliveryAction deliveryAction)
         {
             lineItemIds = lineItemIds.ToArray();
-            var jobs = GetEditableJobsByLineItemId(lineItemIds);
+            var jobs = GetEditableJobsByLineItemId(lineItemIds)
+                .Where(j => lineItemActionService.CanSetActionForJob(j, deliveryAction));
             return mapper.Map(jobs, lineItemIds);
         }
 
-        public PatchSummary GetByJobs(IEnumerable<int> jobIds)
+        public PatchSummary GetByJobs(IEnumerable<int> jobIds, DeliveryAction deliveryAction)
         {
-            var jobs = GetEditableJobsByJobId(jobIds);
+            var jobs = GetEditableJobsByJobId(jobIds)
+                .Where(j => lineItemActionService.CanSetActionForJob(j, deliveryAction));
             return mapper.Map(jobs);
         }
 
@@ -80,22 +83,28 @@
             {
                 using (var transactionScope = new TransactionScope())
                 {
-                    foreach (var lineItemAction in LineItemActionsToUpdate(editableJobs, lineItemIds))
-                    {
-                        if (resolution.DeliveryAction == DeliveryAction.Close)
-                        {
-                            lineItemAction.Quantity = 0;
-                        }
-
-                        lineItemAction.DeliveryAction = resolution.DeliveryAction;
-                        lineItemAction.Source = resolution.Source;
-                        lineItemAction.Reason = resolution.Reason;
-                        lineItemActionRepository.Update(lineItemAction);
-                        result.LineItemIds.Add(lineItemAction.LineItemId);
-                    }
-
                     foreach (var job in editableJobs)
                     {
+                        if (!lineItemActionService.CanSetActionForJob(job, resolution.DeliveryAction))
+                        {
+                            throw new InvalidOperationException(
+                                $"Can not set delivery action : {resolution.DeliveryAction} for job line item exceptions");
+                        }
+
+                        foreach (var lineItemAction in LineItemActionsToEdit(job,lineItemIds))
+                        {
+                            if (resolution.DeliveryAction == DeliveryAction.Close)
+                            {
+                                lineItemAction.Quantity = 0;
+                            }
+
+                            lineItemAction.DeliveryAction = resolution.DeliveryAction;
+                            lineItemAction.Source = resolution.Source;
+                            lineItemAction.Reason = resolution.Reason;
+                            lineItemActionRepository.Update(lineItemAction);
+                            result.LineItemIds.Add(lineItemAction.LineItemId);
+                        }
+
                         job.ResolutionStatus = jobService.GetCurrentResolutionStatus(job);
                         jobRepository.Update(job);
                         jobRepository.SaveJobResolutionStatus(job);
@@ -130,7 +139,7 @@
             return jobsToEdit.SelectMany(x => LineItemActionsToEdit(x, lineItemIds));
         }
 
-        private IEnumerable<LineItemAction> LineItemActionsToEdit(Job job, IEnumerable<int> lineItemIds)
+        public virtual IEnumerable<LineItemAction> LineItemActionsToEdit(Job job, IEnumerable<int> lineItemIds)
         {
             var lineIds = lineItemIds?.ToArray() ?? new int[] { };
 

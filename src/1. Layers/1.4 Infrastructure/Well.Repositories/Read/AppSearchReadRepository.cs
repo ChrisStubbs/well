@@ -121,8 +121,14 @@ namespace PH.Well.Repositories.Read
 
             var invoices = wellEntities.Activity
                 .Where(x => x.DocumentNumber == documentNumber
-                            && x.ActivityTypeId == (byte)activityType
                             && x.Location.BranchId == branchId);
+
+            // This is workaround when searching for something different than invoice because it seems that Activity.ActivityTypeId is wrongly set
+            if (activityType != ActivityType.Invoice)
+            {
+                invoices = invoices.Where(x => x.ActivityTypeId == (byte) ActivityType.Uplift ||
+                                               x.ActivityTypeId == (byte) ActivityType.NotDefined);
+            }
 
             if (searchParameters.HasDate)
             {

@@ -2,31 +2,40 @@
     <li class="active">User Threshold Levels</li>
 </ol>
 <div class="content">
-    <div class="alert alert-info">
-        <strong>Select the threshold level to set up for {{username}}</strong>
-        <br/>
-    </div>
-    <div class="well">
-        <div class="form-group">
-
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle enabled-action"
-                        id="credit-threshold-dropdown"
-                        type="button"
-                        data-toggle="dropdown" aria-haspopup="true">
-                    <span *ngIf="currentThreshold">{{currentThreshold.description}} <span class="caret"></span></span>
-                    <span *ngIf="!currentThreshold">Select Level <span class="caret"></span></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filter-option">
-                    <li *ngFor="let threshold of creditThresholds"><a (click)="setSelectedLevel(threshold)">{{threshold.description}} <span class="badge">{{threshold.threshold}}</span></a></li>
-                </ul>
-            </div>
-
+    <div *ngIf="user != null; then exists else doesnt"></div>
+    <ng-template #exists>
+        <div class="alert alert-info">
+            <strong>Select the threshold level to set up for {{username}}</strong>
+            <br/>
         </div>
-    </div>
-    <div class="text-right">
-        <button class="btn btn-primary" (click)="save()" [disabled]="!currentThreshold">Save</button>
-    </div>
+        <div class="well">
+            <div class="form-group">
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle enabled-action"
+                            id="credit-threshold-dropdown"
+                            type="button"
+                            data-toggle="dropdown" aria-haspopup="true">
+                        <span *ngIf="currentThreshold">{{currentThreshold.description}} <span class="caret"></span></span>
+                        <span *ngIf="!currentThreshold">Select Level <span class="caret"></span></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="filter-option">
+                        <li *ngFor="let threshold of creditThresholds"><a (click)="setSelectedLevel(threshold)">{{threshold.description}} <span class="badge">{{threshold.threshold}}</span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="text-right">
+            <button class="btn btn-primary" (click)="save()" [disabled]="!currentThreshold">Save</button>
+        </div>
+    </ng-template>
+    <ng-template #doesnt>
+       <div class="alert alert-danger">
+            <strong>User {{username}} does not exists</strong>
+            <br/>
+        </div>
+    </ng-template>
 </div>
 
 

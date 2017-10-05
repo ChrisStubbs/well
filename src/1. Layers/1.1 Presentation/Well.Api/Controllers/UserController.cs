@@ -84,29 +84,16 @@
         [HttpPost]
         public HttpResponseMessage CreateUser(string userIdentity)
         {
-            try
-            {
-                var user = this.activeDirectoryService.GetUser(userIdentity);
+            return this.Request.CreateResponse(HttpStatusCode.Created, this.Save(userIdentity));
+        }
 
-                // this method is used via the BDD for setting up test users so we are just defaulting 
-                // the threshold level to max for now
+        private User Save(string userIdentity)
+        {
+            var user = this.activeDirectoryService.GetUser(userIdentity);
 
-                // KD - BDD isn't run as far as i know if we need default thresholds it would need to be implemented differently
-                // user.ThresholdLevelId = (int)ThresholdLevel.Level1;
+            this.userRepository.Save(user);
 
-                ////// DIJ - Why are we changing current user?
-                //////this.userRepository.CurrentUser = userIdentity;
-
-                this.userRepository.Save(user);
-
-                return this.Request.CreateResponse(HttpStatusCode.Created, user);
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to save user {userIdentity}", exception);
-
-                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            return user;
         }
 
         [Route("users/{name}")]
@@ -126,21 +113,41 @@
         [Route("user/{name}")]
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
         [HttpGet]
-        public HttpResponseMessage UserByName(string name)
+        public User UserByName(string name)
         {
-            try
-            {
-                var user = userRepository.GetByName(name);
-                return this.Request.CreateResponse(HttpStatusCode.OK, user);
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to get user by name {name}", exception);
+            var user = userRepository.GetByName(name);
 
-                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+            if (user == null)
+            {
+                user = this.CreateNewUser(name);
             }
+
+            if (user == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return user;
         }
 
+        /// <summary>
+        /// Used when it's been trying set set a threshold for a non existing DB user
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private User CreateNewUser(string name)
+        {
+            var usr = this.activeDirectoryService.FindUsers(name.Split(' ')[0], Api.Configuration.DomainsToSearch)
+                .ToList()
+                .FirstOrDefault(p => p.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+
+            if (usr == null)
+            {
+                return null;
+            }
+
+            return this.Save($"{usr.Domain}\\{usr.Name.Replace(' ', '.')}");
+        }
 
         [Route("assign-user-to-jobs")]
         [HttpPost]

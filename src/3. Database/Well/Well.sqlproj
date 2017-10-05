@@ -71,6 +71,11 @@
     <Folder Include="ManualStep\scripts\up" />
     <Folder Include="dbo\Views" />
     <Folder Include="Post-Deployement" />
+    <Folder Include="Schemas" />
+    <Folder Include="Storage" />
+    <Folder Include="archive" />
+    <Folder Include="archive\Tables" />
+    <Folder Include="Storage\FileGroup" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Deploy.ps1">
@@ -474,12 +479,26 @@
     </None>
     <Build Include="dbo\Types\GetByNumberDateBranchFilter.sql" />
     <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
+    <Build Include="Schemas\archive.sql" />
+    <Build Include="archive\Tables\LineItemActionComment.sql" />
+    <Build Include="archive\Tables\LineItemAction.sql" />
+    <Build Include="archive\Tables\LineItem.sql" />
+    <Build Include="archive\Tables\JobDetailDamage.sql" />
+    <Build Include="archive\Tables\JobDetail.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopIds.sql" />
     <Build Include="dbo\Types\WellStatusUpdate.sql" />
     <Build Include="dbo\Views\ExceptionTotalsPerSingleRoute.sql" />
     <None Include="ManualStep\scripts\up\028_GlobalUplifts_RemoveLineItemActions.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="archive\Tables\Job.sql" />
+    <Build Include="Storage\FileGroup\Archive.sql" />
+    <Build Include="archive\Tables\Stop.sql" />
+    <Build Include="archive\Tables\RouteHeader.sql" />
+    <Build Include="archive\Tables\Account.sql" />
+    <Build Include="archive\Tables\Location.sql" />
+    <Build Include="archive\Tables\Bag.sql" />
+    <Build Include="archive\Tables\Activity.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

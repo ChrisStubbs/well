@@ -4,6 +4,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Net;
     using System.Net.Http;
     using Moq;
@@ -260,10 +261,22 @@ namespace PH.Well.UnitTests.Api.Controllers
             [Test]
             public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
             {
-                this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns((User)null);
-                var returnedUser = this.Controller.UserByName("lee grunion");
+                var firstName = "A";
+                var lastName = "User";
+                var userName = $"{firstName} {lastName}";
+                var usr = new User { Name = userName, Domain = "Domain" };
+                var resultUsers = new List<User> { usr };
 
-                Assert.That(returnedUser, Is.Null);
+                //Domain\A.User
+                this.activeDirectoryService.Setup(p => p.GetUser($"{resultUsers[0].Domain}\\{firstName}.{lastName}")).Returns(usr);
+                this.activeDirectoryService.Setup(p => p.FindUsers(firstName, It.IsAny<string>())).Returns(resultUsers);
+                this.userRepository.Setup(x => x.GetByName(userName)).Returns((User)null);
+                this.userRepository.Setup(p => p.Save(usr));
+
+                var returnedUser = this.Controller.UserByName(userName);
+
+                Assert.That(returnedUser, Is.EqualTo(usr));
+                userRepository.Verify(p => p.Save(usr), Times.Once);
             }
         }
     }

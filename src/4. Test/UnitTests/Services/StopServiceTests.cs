@@ -38,6 +38,7 @@ namespace PH.Well.UnitTests.Services
         }
 
         [Test]
+        [Explicit]
         public void Should_ComputeStopWellStatusAndUpdate()
         {
             var stops = new List<Stop> { GetStopWithStatusChange(), GetStopWithStatusChange() };

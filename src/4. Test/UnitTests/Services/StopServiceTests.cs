@@ -38,7 +38,6 @@ namespace PH.Well.UnitTests.Services
         }
 
         [Test]
-        [Explicit]
         public void Should_ComputeStopWellStatusAndUpdate()
         {
             var stops = new List<Stop> { GetStopWithStatusChange(), GetStopWithStatusChange() };
@@ -52,9 +51,11 @@ namespace PH.Well.UnitTests.Services
             stops[0].WellStatus = WellStatus.Complete;
             stops[1].WellStatus = WellStatus.Complete;
 
-            Thread.Sleep(100);
             this.stopRepository.Verify(p => p.GetForWellStatusCalculationById(ids), Times.Once);
-            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y => y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)), Times.Once);
+            stopRepository.Verify(x => x.UpdateWellStatus(It.Is<IList<Stop>>(y => 
+                (y[0].Id == stops[0].Id && y[1].Id == stops[1].Id)
+             || (y[0].Id == stops[1].Id && y[1].Id == stops[0].Id)
+            )), Times.Once);
         }
 
         [Test]

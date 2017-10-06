@@ -258,7 +258,6 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.That(returnedUser.Id, Is.EqualTo(227));
             }
 
-            [Explicit("Being fixed currently breaks TC build")]
             [Test]
             public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
             {

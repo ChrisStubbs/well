@@ -7,7 +7,6 @@
     using Common.Extensions;
     using Domain;
     using Repositories.Contracts;
-    using Services.Contracts;
 
     public class ApprovalController : ApiController
     {
@@ -22,6 +21,7 @@
             this.jobRepository = jobRepository;
             this.assigneeRepository = assigneeRepository;
         }
+
         public IEnumerable<JobToBeApproved> Get()
         {
             var jobs = jobRepository.GetJobsToBeApproved();

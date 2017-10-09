@@ -168,26 +168,17 @@
         [HttpGet]
         public HttpResponseMessage GetWarnings()
         {
-            try
+            var widgetWarnings = this.widgetRepository.GetAll().OrderBy(x => x.WarningLevel).ToList();
+            var model = new List<WidgetWarningModel>();
+
+            foreach (var warning in widgetWarnings)
             {
-                var widgetWarnings = this.widgetRepository.GetAll().OrderBy(x => x.WarningLevel).ToList();
-                var model = new List<WidgetWarningModel>();
+                var mappedModel = this.mapper.Map(warning);
 
-                foreach (var warning in widgetWarnings)
-                {
-                    var mappedModel = this.mapper.Map(warning);
-
-                    model.Add(mappedModel);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, model);
-
+                model.Add(mappedModel);
             }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex,
-                    "An error occurred when getting widget warnings");
-            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
@@ -195,26 +186,17 @@
         [HttpPost]
         public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
         {
-            try
+            if (!this.validator.IsValid(model, isUpdate))
             {
-                if (!this.validator.IsValid(model, isUpdate))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK,
-                        new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
-                }
-
-                var widgetWarning = this.mapper.Map(model);
-
-                this.widgetRepository.Save(widgetWarning);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new {success = true});
+                return this.Request.CreateResponse(HttpStatusCode.OK,
+                    new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
             }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to save widget warning", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new {failure = true});
-            }
+            var widgetWarning = this.mapper.Map(model);
+
+            this.widgetRepository.Save(widgetWarning);
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
@@ -222,18 +204,9 @@
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
-            try
-            {
-                this.widgetRepository.Delete(id);
+            this.widgetRepository.Delete(id);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to delete widget warning(id):{id}", exception);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PH.Well.Api.Controllers
     using Domain;
     using Repositories.Contracts;
     using Services.Contracts;
-    
+
     public class BranchController : BaseApiController
     {
         private readonly ILogger logger;
@@ -31,7 +31,7 @@ namespace PH.Well.Api.Controllers
 
         public BranchController(
             ILogger logger,
-            IBranchRepository branchRepository, 
+            IBranchRepository branchRepository,
             IServerErrorResponseHandler serverErrorResponseHandler,
             IBranchService branchService,
             IBranchModelMapper branchModelMapper,
@@ -50,25 +50,18 @@ namespace PH.Well.Api.Controllers
         [HttpGet]
         public HttpResponseMessage Get(string username = null)
         {
-            try
+            var branches = this.branchRespository.GetAllValidBranches();
+
+            if (branches.Any())
             {
-                var branches = this.branchRespository.GetAllValidBranches();
+                var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserIdentityName : username.Replace('-', ' '));
 
-                if (branches.Any())
-                {
-                    var userBranches = this.branchRespository.GetBranchesForUser(string.IsNullOrWhiteSpace(username) ? this.UserIdentityName : username.Replace('-', ' '));
+                IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
 
-                    IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
-
-                    return this.Request.CreateResponse(HttpStatusCode.OK, model);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.NotFound);
+                return this.Request.CreateResponse(HttpStatusCode.OK, model);
             }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
-            }
+
+            return this.Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         [HttpGet]
@@ -77,7 +70,7 @@ namespace PH.Well.Api.Controllers
             var branch = this.branchRespository.GetAllValidBranches().FirstOrDefault(x => x.Id == id);
             if (branch != null)
             {
-                var branchArray = new[] {branch};
+                var branchArray = new[] { branch };
                 return Request.CreateResponse(branchModelMapper.Map(branchArray, branchArray).Single());
             }
             else
@@ -90,66 +83,46 @@ namespace PH.Well.Api.Controllers
         [HttpGet]
         public HttpResponseMessage Get(int seasonalDateId)
         {
-            try
+            var branches = this.branchRespository.GetAllValidBranches();
+
+            if (branches.Any())
             {
-                var branches = this.branchRespository.GetAllValidBranches();
+                var userBranches = this.branchRespository.GetBranchesForSeasonalDate(seasonalDateId);
 
-                if (branches.Any())
-                {
-                    var userBranches = this.branchRespository.GetBranchesForSeasonalDate(seasonalDateId);
+                IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
 
-                    IEnumerable<BranchModel> model = this.branchModelMapper.Map(branches, userBranches);
-
-                    return this.Request.CreateResponse(HttpStatusCode.OK, model);
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.NotFound);
+                return this.Request.CreateResponse(HttpStatusCode.OK, model);
             }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting branches!");
-            }
+
+            return this.Request.CreateResponse(HttpStatusCode.NotFound);
+
         }
 
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches)
         {
-            try
+            if (branches.Length > 0)
             {
-                if (branches.Length > 0)
-                {
-                    this.branchService.SaveBranchesForUser(branches);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-                }
+                this.branchService.SaveBranchesForUser(branches);
+                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+            }
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to save branches for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+
         }
-        
+
         [Route("save-branches-on-behalf-of-user")]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches, string username, string domain)
         {
-            try
+            if (branches.Length > 0)
             {
-                if (branches.Length > 0)
-                {
-                    this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, domain);
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-                }
+                this.branchService.SaveBranchesOnBehalfOfAUser(branches, username, domain);
+                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+            }
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to save branches for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+
         }
 
         [HttpGet]

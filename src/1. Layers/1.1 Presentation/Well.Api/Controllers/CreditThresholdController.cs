@@ -26,8 +26,8 @@ namespace PH.Well.Api.Controllers
         private readonly IUserThresholdService userThresholdService;
 
         public CreditThresholdController(
-            ICreditThresholdRepository creditThresholdRepository, 
-            ILogger logger, 
+            ICreditThresholdRepository creditThresholdRepository,
+            ILogger logger,
             ICreditThresholdMapper mapper,
             IUserRepository userRepository,
             IUserNameProvider userNameProvider,
@@ -63,18 +63,10 @@ namespace PH.Well.Api.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
-            try
-            {
-                this.creditThresholdRepository.Delete(id);
+            this.creditThresholdRepository.Delete(id);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to delete credit threshold (id):{id}", exception);
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
         }
 
         [Route("credit-threshold/{isUpdate:bool}")]
@@ -86,26 +78,19 @@ namespace PH.Well.Api.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            try
-            {
-                var creditThreshold = this.mapper.Map(model);
+            var creditThreshold = this.mapper.Map(model);
 
-                if (isUpdate)
-                {
-                    creditThresholdRepository.Update(creditThreshold);
-                }
-                else
-                {
-                    creditThresholdRepository.Save(creditThreshold);
-                }
-                
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-            }
-            catch (Exception exception)
+            if (isUpdate)
             {
-                this.logger.LogError("Error when trying to save credit threshold date", exception);
-                throw;
+                creditThresholdRepository.Update(creditThreshold);
             }
+            else
+            {
+                creditThresholdRepository.Save(creditThreshold);
+            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+
         }
 
         [Route("credit-threshold/getByUser")]
@@ -113,17 +98,9 @@ namespace PH.Well.Api.Controllers
         [AllowAnonymous]
         public HttpResponseMessage GetByUser()
         {
-            try
-            {
-                var threshold = userThresholdService.GetCreditThreshold(this.UserIdentityName);
-                return this.Request.CreateResponse(HttpStatusCode.OK, threshold);
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to get credit threshold for:{this.UserIdentityName}", exception);
+            var threshold = userThresholdService.GetCreditThreshold(this.UserIdentityName);
+            return this.Request.CreateResponse(HttpStatusCode.OK, threshold);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
         }
     }
 }

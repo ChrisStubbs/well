@@ -381,6 +381,18 @@ export class ActionEditComponent implements IObservableAlive
     private isBypassExceptionType(item: LineItemAction): boolean {
         return LineItemActionValidator.isBypassExceptionType(item);
     }
+    
+    private getCanEditActionsReason(): Array<string>
+    {
+        if (_.isNil(this.source.canEditActionsReason))
+        {
+            return [];
+        }
+
+        const values = this.source.canEditActionsReason.split(/\r?\n/);
+
+        return values.slice(0, values.length - 1);
+    }
 }
 
 // This class along with createLineItemActionFromGroup should probably be refactored into component
@@ -481,7 +493,7 @@ class LineItemActionValidator implements Validator {
         return (!this.lineItemAction.id || this.lineItemAction.id == 0);
     }
 
-    public applyToLineItemActionFrom(group: FormGroup) {
+    public applyToLineItemActionFrom(group: FormGroup): void {
         group.setValidators((control: FormGroup) => this.validate(control));
 
         const action = group.controls['action'];

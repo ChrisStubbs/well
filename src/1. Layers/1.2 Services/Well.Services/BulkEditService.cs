@@ -131,7 +131,7 @@
                     && BulkEditableJobTypes.Contains(x.JobType)
                     && LineItemActionsToEdit(x, lineItemIds).Any()).ToArray();
 
-            return editableJobs.Where(x => jobService.CanEdit(x, username));
+            return editableJobs.Where(x => string.IsNullOrEmpty(jobService.CanEdit(x, username)));
         }
 
         public virtual IEnumerable<LineItemAction> LineItemActionsToUpdate(IEnumerable<Job> jobsToEdit, IEnumerable<int> lineItemIds)

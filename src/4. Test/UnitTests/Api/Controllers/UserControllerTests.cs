@@ -160,7 +160,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 var response = this.Controller.Assign(job);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
             }
 
             [Test]
@@ -176,7 +176,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 var response = this.Controller.Assign(job);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
+                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
             }
         }
 

@@ -33,11 +33,11 @@ export class UserService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public assign(userJobs: UserJobs): Observable<any> {
+    public assign(userJobs: UserJobs): Observable<Array<number>> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-jobs',
             JSON.stringify(userJobs),
             this.globalSettingsService.jsonOptions)
-            .map(res => res.json())
+            .map(res => <Array<number>> res.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 

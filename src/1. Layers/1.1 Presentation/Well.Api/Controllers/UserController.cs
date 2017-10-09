@@ -158,14 +158,32 @@
 
             if (user != null && jobs.Any())
             {
+                var assignedJobIds = new List<int>();
                 foreach (var job in jobs)
                 {
+                    // Skip pending approval job allocation if it is not explicitl
+                    if (job.ResolutionStatus == ResolutionStatus.PendingApproval &&
+                        !userJobs.AllocatePendingApprovalJobs)
+                    {
+                        continue;
+                    }
+
                     this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                    assignedJobIds.Add(job.Id);
                 }
-                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+
+                if (assignedJobIds.Any())
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
+                }
+                else
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+                }
+                
             }
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
         }
 
         [Route("unassign-user-from-jobs")]

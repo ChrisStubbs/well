@@ -393,7 +393,7 @@ namespace PH.Well.UnitTests.Services
                     ResolutionStatus = ResolutionStatus.DriverCompleted
                 };
 
-                return this.service.CanEdit(job, user);
+                return this.service.CanEdit(job, user) == string.Empty;
             }
 
             [Test]
@@ -405,35 +405,35 @@ namespace PH.Well.UnitTests.Services
                     ResolutionStatus = ResolutionStatus.DriverCompleted
                 };
 
-                Assert.IsTrue(this.service.CanEdit(job, "User"));
+                Assert.IsTrue(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.ActionRequired;
-                Assert.IsTrue(this.service.CanEdit(job, "User"));
+                Assert.IsTrue(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.PendingSubmission;
-                Assert.IsTrue(this.service.CanEdit(job, "User"));
+                Assert.IsTrue(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.PendingApproval;
-                Assert.IsTrue(this.service.CanEdit(job, "User"));
+                Assert.IsTrue(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.Imported;
-                Assert.IsFalse(this.service.CanEdit(job, "User"));
+                Assert.IsFalse(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.Approved;
-                Assert.IsFalse(this.service.CanEdit(job, "User"));
+                Assert.IsFalse(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.Credited;
-                Assert.IsFalse(this.service.CanEdit(job, "User"));
+                Assert.IsFalse(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.Resolved;
-                Assert.IsFalse(this.service.CanEdit(job, "User"));
+                Assert.IsFalse(this.service.CanEdit(job, "User") == string.Empty);
 
                 job.ResolutionStatus = ResolutionStatus.Closed;
-                Assert.IsFalse(this.service.CanEdit(job, "User"));
+                Assert.IsFalse(this.service.CanEdit(job, "User") == string.Empty);
             }
 
             [Test]
-            [TestCase(JobType.GlobalUplift, ExpectedResult = false,Description = "Global uplift jobs should not be editable")]
+            [TestCase(JobType.GlobalUplift, ExpectedResult = false, Description = "Global uplift jobs should not be editable")]
             [TestCase(JobType.Alcohol, ExpectedResult = true)]
             [Category("JobService")]
             public bool CanEditActions_Should_Check_JobType(JobType jobType)
@@ -446,7 +446,7 @@ namespace PH.Well.UnitTests.Services
                     ResolutionStatus = ResolutionStatus.ActionRequired
                 };
 
-                return service.CanEdit(job, "User");
+                return service.CanEdit(job, "User") == string.Empty;
             }
         }
 
@@ -550,7 +550,7 @@ namespace PH.Well.UnitTests.Services
                     ResolutionStatus = ResolutionStatus.ActionRequired
                 };
 
-                return service.CanEdit(job, "User");
+                return service.CanEdit(job, "User") == string.Empty;
             }
         }
 

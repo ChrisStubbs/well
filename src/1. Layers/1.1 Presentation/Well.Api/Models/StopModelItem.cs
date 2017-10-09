@@ -28,7 +28,8 @@
         public bool HasUnresolvedActions { get; set; }
         public int GrnProcessType { get; set; }
         public string GrnNumber { get; set; }
-        public bool CanEdit { get; set; }
+        public bool CanEdit => string.IsNullOrEmpty(this.CanEditReason);
+        public string CanEditReason { get; set; }
         public int LocationId { get; set; }
         public bool CompletedOnPaper { get; set; }
         public bool HasLineItemActions { get; set; }

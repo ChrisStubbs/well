@@ -501,6 +501,8 @@
     <Build Include="archive\Tables\Activity.sql" />
     <Build Include="dbo\Tables\ELMAH_Error.sql" />
     <Build Include="dbo\StoredProcedures\ELMAH_GetErrorXml.sql" />
+    <Build Include="dbo\Tables\GlobalUplift.sql" />
+    <Build Include="dbo\Tables\GlobalUpliftAttempt.sql" />
     <Build Include="dbo\StoredProcedures\ELMAH_GetErrorsXml.sql" />
     <Build Include="dbo\StoredProcedures\ELMAH_LogError.sql" />
   </ItemGroup>

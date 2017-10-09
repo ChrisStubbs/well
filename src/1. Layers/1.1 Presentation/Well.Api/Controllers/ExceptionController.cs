@@ -72,7 +72,5 @@
         {
             return lineItemExceptionMapper.Map(new[] { lineItemActionService.UpdateLineItemActions(update) }).First();
         }
-
-
     }
 }

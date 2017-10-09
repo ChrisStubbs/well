@@ -92,24 +92,6 @@
 
                 this.seasonalDateRepository.Verify(x => x.Delete(id), Times.Once);
             }
-
-            [Test]
-            public void ShouldLogErrorWhenThrown()
-            {
-                var exception = new Exception();
-
-                var id = 32;
-
-                this.seasonalDateRepository.Setup(x => x.Delete(id)).Throws(exception);
-
-                this.logger.Setup(x => x.LogError("Error when trying to delete seasonal date (id):32", exception));
-
-                var response = this.Controller.Delete(id);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-                this.logger.Verify(x => x.LogError("Error when trying to delete seasonal date (id):32", exception), Times.Once);
-            }
         }
     }
 }

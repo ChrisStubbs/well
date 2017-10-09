@@ -14,7 +14,7 @@
         private readonly IServerErrorResponseHandler serverErrorResponseHandler;
 
         public JobDetailReasonController(IServerErrorResponseHandler serverErrorResponseHandler, IUserNameProvider userNameProvider)
-            :base(userNameProvider)
+            : base(userNameProvider)
         {
             this.serverErrorResponseHandler = serverErrorResponseHandler;
         }
@@ -23,20 +23,13 @@
         [Route("damage-reasons")]
         public HttpResponseMessage Get()
         {
-            try
+            var jobDetailReasons = Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x => new
             {
-                var jobDetailReasons = Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x => new
-                {
-                    id = (int)x.Key,
-                    description = x.Value
-                });
+                id = (int)x.Key,
+                description = x.Value
+            });
 
-                return Request.CreateResponse(HttpStatusCode.OK, jobDetailReasons);
-            }
-            catch (Exception ex)
-            {
-                return serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting damage reasons");
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, jobDetailReasons);
         }
     }
 }

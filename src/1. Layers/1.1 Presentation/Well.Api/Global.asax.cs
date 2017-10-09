@@ -9,6 +9,8 @@
     {
         protected void Application_Start()
         {
+            RouteTable.Routes.Ignore("{resource}.axd/{*pathInfo}");
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -212,7 +212,7 @@ export class ActivityComponent implements IObservableAlive
     {
         const branch = { id: this.source.branchId } as Branch;
         const jobIds = _.uniq(_.map(this.source.details, 'jobId'));
-        return new AssignModel(this.source.assignee, branch, jobIds, undefined);
+        return new AssignModel(this.source.assignee, branch, jobIds, undefined, false);
     }
 
     public onAssigned(event: AssignModalResult)

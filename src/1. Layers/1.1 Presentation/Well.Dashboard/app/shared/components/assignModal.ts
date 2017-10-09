@@ -76,21 +76,20 @@ export class AssignModal implements IObservableAlive
     {
         this.userJobs.jobIds = newModel.jobIds;
         this.userJobs.userId = user.id;
-        newModel.assigned = user.name;
+        this.userJobs.allocatePendingApprovalJobs = newModel.allocatePendingApprovalJobs;
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Response) => this.handleResponse(res, newModel, user));
+            .subscribe((res) => this.handleResponse(res, newModel, user));
     }
 
     public unassign(newModel: AssignModel): void
     {
-        newModel.assigned = undefined;
         this.userService.unassign(newModel.jobIds)
             .takeWhile(() => this.isAlive)
             .subscribe((res: Response) => this.handleResponse(res, newModel, undefined));
     }
 
-    private handleResponse(res: Response, newModel: AssignModel, user: IUser): void
+    private handleResponse(res: any, newModel: AssignModel, user: IUser): void
     {
         const result = new AssignModalResult();
 
@@ -98,8 +97,17 @@ export class AssignModal implements IObservableAlive
 
         if (this.httpResponse.success)
         {
-            this.toasterService.pop('success', 'Jobs have been assigned', '');
+            if (user) {
+                newModel.assigned = user.name;
+                result.newUser = user;
+            } else {
+                newModel.assigned = undefined;
+                result.newUser = undefined;
+            }
+
             result.assigned = true;
+            this.model = newModel;
+            this.toasterService.pop('success', 'Jobs have been assigned', '');
         }
         if (this.httpResponse.failure)
         {
@@ -107,8 +115,6 @@ export class AssignModal implements IObservableAlive
         }
         this.hide();
         result.source = newModel.objectSource;
-        result.newUser = user;
-        this.model = newModel;
 
         this.onAssigned.emit(result);
         this.buildUsersSource();

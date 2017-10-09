@@ -270,7 +270,7 @@ export class ApprovalsComponent implements IObservableAlive
     public getAssignModel(line: Approval): AssignModel {
         const branch = { id: line.branchId } as Branch;
         const jobIds = [line.jobId];
-        return new AssignModel(line.assignedTo, branch, jobIds, line);
+        return new AssignModel(line.assignedTo, branch, jobIds, line, true);
     }
 
     private rejectExceptions(): void

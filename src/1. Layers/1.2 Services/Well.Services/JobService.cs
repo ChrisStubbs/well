@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Transactions;
     using Common.Contracts;
     using Domain.Extensions;
@@ -150,11 +151,26 @@
             }
         }
 
-        public bool CanEdit(Job job, string userName)
+        public string CanEdit(Job job, string userName)
         {
-            return job.ResolutionStatus.IsEditable()
-                    && IsJobAssignedToUser(job, userName)
-                   && job.JobType != JobType.GlobalUplift;
+            var result = new StringBuilder();
+
+            if (!job.ResolutionStatus.IsEditable())
+            {
+                result.AppendLine(ResolutionStatusExtensions.IsNotEditableMessage());
+        }
+
+            if (!IsJobAssignedToUser(job, userName))
+            {
+                result.AppendLine("Job must be assigned to current user.");
+            }
+
+            if (job.JobType == JobType.GlobalUplift)
+            {
+                result.AppendLine("Global Uplift jobs cannot be edited.");
+            }
+
+            return result.ToString();
         }
 
         public bool CanManuallyComplete(Job job, string userName)

@@ -28,6 +28,7 @@ export class EditLineItemException {
     public lineItemActions: Array<LineItemAction>;
     public isExpanded: boolean;
     public canEditActions: boolean;
+    public canEditActionsReason: string;
     public hasUnresolvedActions: boolean;
     public readonly isProofOfDelivery: boolean;
 }

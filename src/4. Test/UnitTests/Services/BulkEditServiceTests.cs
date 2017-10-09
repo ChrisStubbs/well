@@ -96,7 +96,7 @@
             public void ShouldReturnEditableJobs()
             {
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
-                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
+                jobService.Setup(x => x.CanEdit(It.IsAny<Job>(), It.IsAny<string>())).Returns(string.Empty);
               
                 var editableJobs = bulkEditService.GetEditableJobs(jobList).ToArray();
 
@@ -112,7 +112,7 @@
                 jobService.Setup(x => x.PopulateLineItemsAndRoute(jobList)).Returns(jobList);
                 var expectedJobs = new List<Job>(new[] {job1, job3});
                 jobService.Setup(x => x.CanEdit(It.Is<Job>(y => expectedJobs.Contains(y)), It.IsAny<string>()))
-                    .Returns(true);
+                    .Returns(string.Empty);
 
                 var editableJobs = bulkEditService.GetEditableJobs(jobList, new List<int> {2020, 2021}).ToArray();
 

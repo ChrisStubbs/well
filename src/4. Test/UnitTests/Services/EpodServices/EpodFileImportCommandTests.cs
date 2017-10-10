@@ -29,6 +29,7 @@
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
         private Mock<IPostImportRepository> postImportRepository;
         private Mock<IPodService> podService;
+        private Mock<ILineItemActionRepository> lineItemActionRepository;
 
         private EpodFileImportCommands commands;
         private Mock<EpodFileImportCommands> mockCommands;
@@ -46,6 +47,7 @@
             jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>();
             postImportRepository = new Mock<IPostImportRepository>();
             podService = new Mock<IPodService>();
+            lineItemActionRepository = new Mock<ILineItemActionRepository>();
 
 
             commands = new EpodFileImportCommands(
@@ -58,7 +60,8 @@
                 jobDetailRepository.Object,
                 jobDetailDamageRepository.Object,
                 postImportRepository.Object,
-                podService.Object);
+                podService.Object,
+                lineItemActionRepository.Object);
 
             mockCommands = new Mock<EpodFileImportCommands>(
                 logger.Object,
@@ -70,7 +73,8 @@
                 jobDetailRepository.Object,
                 jobDetailDamageRepository.Object,
                 postImportRepository.Object,
-                podService.Object)
+                podService.Object,
+                lineItemActionRepository.Object)
             { CallBase = true };
         }
 
@@ -145,9 +149,11 @@
                                     .Build();
 
                 var routeHeader = RouteHeaderFactory.New.Build();
+                lineItemActionRepository.Setup(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()));
 
                 commands.UpdateExistingJob(fileJob, existingJob, routeHeader, false);
                 exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()));
             }
 
             [Test]
@@ -159,6 +165,7 @@
                 var existingJob = JobFactory.New
                     .With(x => x.ProofOfDelivery = (int)ProofOfDelivery.CocaCola)
                     .Build();
+                lineItemActionRepository.Setup(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()));
 
                 var routeHeader = RouteHeaderFactory.New.Build();
 
@@ -168,6 +175,7 @@
                 //), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
                 // exceptionEventRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
                 podService.Verify(x => x.CreatePodEvent(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()));
+                lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()));
             }
         }
 

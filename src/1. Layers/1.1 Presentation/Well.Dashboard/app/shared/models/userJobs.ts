@@ -3,3 +3,8 @@ export class UserJobs {
     public jobIds: number[];
     public allocatePendingApprovalJobs: boolean;
 }
+
+export class AssignJobResult {
+    public success: boolean;
+    public message: string;
+}

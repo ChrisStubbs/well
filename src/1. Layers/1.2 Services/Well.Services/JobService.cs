@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services
+﻿using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.Services
 {
     using System;
     using System.Collections.Generic;
@@ -158,7 +160,7 @@
             if (!job.ResolutionStatus.IsEditable())
             {
                 result.AppendLine(ResolutionStatusExtensions.IsNotEditableMessage());
-        }
+            }
 
             if (!IsJobAssignedToUser(job, userName))
             {
@@ -248,7 +250,7 @@
 
             Func<Job, ResolutionStatus, ResolutionStatus> PendingSubmissionApprovalRejected = (job, newStatus) =>
             {
-                if (this.userThresholdService.UserHasRequiredCreditThreshold(job) 
+                if (this.userThresholdService.UserHasRequiredCreditThreshold(job)
                     && job.LineItems.Any() //must have lineitems
                     && !job.LineItems.SelectMany(p => p.LineItemActions) //none of the action can be on NotDefined
                         .Any(p => p.DeliveryAction == DeliveryAction.NotDefined))
@@ -323,7 +325,7 @@
             {
                 var actions = job.LineItems.SelectMany(p => p.LineItemActions).ToList();
 
-                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission 
+                if (actions.Any() && (job.ResolutionStatus <= ResolutionStatus.PendingSubmission
                 || job.ResolutionStatus == ResolutionStatus.ManuallyCompleted
                 || job.ResolutionStatus == ResolutionStatus.ApprovalRejected
                 ))
@@ -578,6 +580,76 @@
                 return true;
             }
             return false;
+        }
+
+        public AssignJobResult Assign(UserJobs userJobs)
+        {
+            var user = userRepository.GetById(userJobs.UserId);
+            var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
+
+            if (user != null && jobs.Any())
+            {
+                // Allocate all jobs in list
+                if (userJobs.AllocatePendingApprovalJobs)
+                {
+                    foreach (var job in jobs)
+                    {
+                        this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                    }
+
+                    return new AssignJobResult(true, "Jobs have been assigned");
+                }
+                // Allocate excluding Pending Approval jobs
+                else
+                {
+                    return AssignExcludingPendingApprovalJobs(jobs, user);
+                }
+            }
+
+            return new AssignJobResult(false, "Error occurred");
+        }
+
+        /// <summary>
+        /// Helper method that acts as Strategy and shouldn't be used on its own 
+        /// </summary>
+        /// <param name="jobs"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private AssignJobResult AssignExcludingPendingApprovalJobs(IEnumerable<Job> jobs, User user)
+        {
+            var jobsToAssign = jobs.Where(x => x.ResolutionStatus != ResolutionStatus.PendingApproval).ToList();
+            if (jobsToAssign.Any())
+            {
+                foreach (var job in jobsToAssign)
+                {
+                    this.userRepository.AssignJobToUser(user.Id, job.Id);
+                }
+
+                return new AssignJobResult(true, "Jobs have been assigned");
+            }
+            
+            // If code reaches here it means that all jobs in jobs were PendingApproval
+            var multipleJobs = jobs.Count() > 1;
+            if (multipleJobs)
+            {
+                return new AssignJobResult(false,
+                    "Jobs can not be assigned as they are currently in a status of Pending Approval");
+            }
+            else
+            {
+                return new AssignJobResult(false,
+                    "Job cannot be assigned as it is currently in a status of Pending Approval");
+            }
+        }
+
+        public AssignJobResult UnAssign(IEnumerable<int> jobIds)
+        {
+            foreach (var jobId in jobIds)
+            {
+                this.userRepository.UnAssignJobToUser(jobId);
+            }
+
+            return new AssignJobResult(true, "Jobs have been unassigned");
         }
     }
 }

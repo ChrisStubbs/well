@@ -75,6 +75,8 @@
                     x.For<IEpodProvider>().Use<EpodFtpProvider>();
                     x.For<IPodService>().Use<PodService>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
+
+                    x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
                 });
                 
                 

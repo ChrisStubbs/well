@@ -26,12 +26,12 @@
         private readonly ISeasonalDateValidator validator;
 
         public SeasonalDateController(
-            ISeasonalDateRepository seasonalDateRepository, 
-            ILogger logger, 
+            ISeasonalDateRepository seasonalDateRepository,
+            ILogger logger,
             ISeasonalDateMapper mapper,
             ISeasonalDateValidator validator,
             IUserNameProvider userNameProvider)
-            :base(userNameProvider)
+            : base(userNameProvider)
         {
             this.seasonalDateRepository = seasonalDateRepository;
             this.logger = logger;
@@ -40,7 +40,7 @@
 
             //////this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
-        
+
         public HttpResponseMessage Get()
         {
             var seasonalDates = this.seasonalDateRepository.GetAll().OrderBy(x => x.From).ToList();
@@ -61,43 +61,25 @@
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
-            try
-            {
-                this.seasonalDateRepository.Delete(id);
+            this.seasonalDateRepository.Delete(id);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to delete seasonal date (id):{id}", exception);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
         [Route("seasonal-date")]
         [HttpPost]
         public HttpResponseMessage Post(SeasonalDateModel model)
         {
-            try
+            if (!this.validator.IsValid(model))
             {
-                if (!this.validator.IsValid(model))
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
-                }
-
-                var seasonalDate = this.mapper.Map(model);
-
-                this.seasonalDateRepository.Save(seasonalDate);
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
+                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, errors = this.validator.Errors.ToArray() });
             }
-            catch (Exception exception)
-            {
-                this.logger.LogError($"Error when trying to save seasonal date {model.Description}", exception);
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            var seasonalDate = this.mapper.Map(model);
+
+            this.seasonalDateRepository.Save(seasonalDate);
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
     }
 }

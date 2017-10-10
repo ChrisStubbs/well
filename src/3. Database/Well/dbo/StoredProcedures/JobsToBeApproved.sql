@@ -23,7 +23,7 @@ AS
 				AND jrs.Job = MaxDates.Job
 				AND jrs.Status = @PendingApproval
 	)
-	SELECT 
+	SELECT DISTINCT
 		j.id AS JobId,
 		b.Id AS BranchId, 
 		b.Name AS BranchName, 

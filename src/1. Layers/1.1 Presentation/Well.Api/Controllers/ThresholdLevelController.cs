@@ -18,7 +18,7 @@ namespace PH.Well.Api.Controllers
         private readonly ILogger logger;
         private readonly IUserThresholdService userThresholdService;
 
-        public ThresholdLevelController(ILogger logger, IUserNameProvider userNameProvider,IUserThresholdService userThresholdService):
+        public ThresholdLevelController(ILogger logger, IUserNameProvider userNameProvider, IUserThresholdService userThresholdService) :
             base(userNameProvider)
         {
             this.logger = logger;
@@ -29,23 +29,8 @@ namespace PH.Well.Api.Controllers
         [HttpPost]
         public HttpResponseMessage Post(int thresholdId, string username)
         {
-            try
-            {
-                userThresholdService.SetThresholdLevel(username, thresholdId);
-                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-            }
-            catch (UserNotFoundException)
-            {
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true, message = $"{username} does not exist please set the user up via 'User Branch Preferences'" });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError(
-                    $"Error occured when trying to save a threshold with id ({thresholdId}) for user ({username})",
-                    exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
-
+            userThresholdService.SetThresholdLevel(username, thresholdId);
+            return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
         }
     }
 }

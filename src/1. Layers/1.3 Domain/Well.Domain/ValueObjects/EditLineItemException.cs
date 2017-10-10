@@ -30,7 +30,8 @@
         public int Shorts { get; set; }
         public int Bypass { get; set; }
         public int Quantity { get; set; }
-        public bool CanEditActions { get; set; }
+        public bool CanEditActions => string.IsNullOrEmpty(this.CanEditActionsReason);
+        public string CanEditActionsReason { get; set; }
         public string Resolution { get; set; }
         public bool IsProofOfDelivery { get; set; }
         public bool HasUnresolvedActions => LineItemActions.Any(x => x.DeliveryAction == DeliveryAction.NotDefined);

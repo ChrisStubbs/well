@@ -37,19 +37,10 @@
         [HttpGet]
         public HttpResponseMessage Get()
         {
-
-            try
-            {
-                var notifications = this.notificationRepository.GetNotifications().ToList();
-                return !notifications.Any()
-                   ? this.Request.CreateResponse(HttpStatusCode.NotFound)
-                    : this.Request.CreateResponse(HttpStatusCode.OK, notifications);
-            }
-            catch (Exception ex)
-            {
-                return this.serverErrorResponseHandler.HandleException(Request, ex, "An error occurred when getting notifications");
-            }
-
+            var notifications = this.notificationRepository.GetNotifications().ToList();
+            return !notifications.Any()
+               ? this.Request.CreateResponse(HttpStatusCode.NotFound)
+                : this.Request.CreateResponse(HttpStatusCode.OK, notifications);
         }
 
         // AllowAnonymous to let ADAM post errors - do not remove

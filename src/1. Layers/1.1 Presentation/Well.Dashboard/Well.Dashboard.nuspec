@@ -18,7 +18,5 @@
 	<file src="favicon.ico" />
 	<file src="Global.asax" />
 	<file src="Web.config" />
-	<file src="Web.Debug.config" />
-	<file src="Web.Release.config" />
    </files>
 </package>

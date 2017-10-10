@@ -24,7 +24,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, 
+        public UserController(IBranchService branchService,
             IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
             IUserNameProvider userNameProvider,
@@ -54,7 +54,7 @@
         {
             return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
         }
-        
+
         public IList<User> Get()
         {
             var data = this.userRepository.Get().ToList();
@@ -108,7 +108,7 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
-        
+
 
         [Route("user/{name}")]
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
@@ -153,47 +153,49 @@
         [HttpPost]
         public HttpResponseMessage Assign(UserJobs userJobs)
         {
-            try
-            {
-                var user = userRepository.GetById(userJobs.UserId);
-                var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
+            var user = userRepository.GetById(userJobs.UserId);
+            var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
 
-                if (user != null && jobs.Any())
+            if (user != null && jobs.Any())
+            {
+                var assignedJobIds = new List<int>();
+                foreach (var job in jobs)
                 {
-                    foreach (var job in jobs)
+                    // Skip pending approval job allocation if it is not explicitl
+                    if (job.ResolutionStatus == ResolutionStatus.PendingApproval &&
+                        !userJobs.AllocatePendingApprovalJobs)
                     {
-                        this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                        continue;
                     }
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+
+                    this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                    assignedJobIds.Add(job.Id);
                 }
 
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
+                if (assignedJobIds.Any())
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
+                }
+                else
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+                }
+                
             }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to assign job for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
         }
 
         [Route("unassign-user-from-jobs")]
         [HttpPost]
         public HttpResponseMessage UnAssign(int[] jobIds)
         {
-            try
+            foreach (var jobId in jobIds)
             {
-                foreach (var jobId in jobIds)
-                {
-                    this.userRepository.UnAssignJobToUser(jobId);
-                }
-                
-                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+                this.userRepository.UnAssignJobToUser(jobId);
             }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to unassign the user from the job", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+
+            return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
         }
     }
 }

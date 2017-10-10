@@ -84,4 +84,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ActivityTypeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="052a2949-9dc6-4125-b58d-a57b957c2b5b" ChangeDateTime="10/09/2017 08:14:26">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[Postcode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AddressLines" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3c832dcd-1ce0-482c-98f3-c4b18c551679" ChangeDateTime="10/09/2017 09:31:40">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[IX_GlobalUpliftAttempt_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_GlobalUpliftAttempt_GlobalUpliftIdDate]" />
+  </Operation>
 </Operations>

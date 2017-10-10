@@ -25,7 +25,6 @@ export class NotificationsService {
 
         return this.http.get(url)
             .map((response: Response) => <Notification[]>response.json())
-            .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(e => this.httpErrorService.handleError(e));
     }
 

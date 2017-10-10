@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using Elmah.Contrib.WebApi;
 
 namespace PH.Well.Dashboard
 {

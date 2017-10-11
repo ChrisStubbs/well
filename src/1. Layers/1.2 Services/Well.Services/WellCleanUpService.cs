@@ -10,6 +10,7 @@
     using Domain.ValueObjects;
     using Repositories.Contracts;
     using System.Collections.Concurrent;
+    using Domain;
 
     public class WellCleanUpService : IWellCleanUpService
     {
@@ -19,6 +20,7 @@
         private readonly IAmendmentService amendmentService;
         private readonly IJobRepository jobRepository;
         private readonly IWellCleanConfig configuration;
+        private readonly IExceptionEventRepository exceptionEventRepository;
 
         public WellCleanUpService(
             ILogger logger,
@@ -26,7 +28,8 @@
             IDateThresholdService dateThresholdService,
             IAmendmentService amendmentService,
             IJobRepository jobRepository,
-            IWellCleanConfig configuration)
+            IWellCleanConfig configuration,
+            IExceptionEventRepository exceptionEventRepository)
         {
             this.logger = logger;
             this.wellCleanUpRepository = wellCleanUpRepository;
@@ -34,35 +37,39 @@
             this.amendmentService = amendmentService;
             this.jobRepository = jobRepository;
             this.configuration = configuration;
+            this.exceptionEventRepository = exceptionEventRepository;
         }
 
-        public async Task SoftDelete()
+        public async Task Clean()
         {
-            logger.LogDebug("Start soft delete");
+            logger.LogDebug("Start clean delete");
 
-            var routesData = this.GetJobsFromRoutes();
+            var jobsForClean = this.GetJobsAvailableForClean();
 
             try
             {
-                var data = await this.FilterLookup(routesData);
+                var data = await this.FilterLookup(jobsForClean);
                 var jobsToDelete = data
                     .SelectMany(p => p)
                     .Select(p => p.JobId)
                     .ToList();
 
-                using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required,
+                    new TimeSpan(0, 0, configuration.WellCleanTransactionTimeoutSeconds)))
                 {
-                    logger.LogDebug("Start generating amendments delete");
-                    await amendmentService.ProcessAmendmentsAsync(jobsToDelete);
-                    logger.LogDebug("Finished generating amendments");
+                    logger.LogDebug("Start generating amendments documents");
+                    amendmentService.ProcessAmendments(jobsToDelete);
+                    logger.LogDebug("Finished generating amendments documnets");
 
                     logger.LogDebug("Start soft delete jobs activities and children");
-                    await this.SoftDelete(jobsToDelete);
-
+                    SoftDeleteInBatches(jobsToDelete, configuration.SoftDeleteBatchSize);
                     logger.LogDebug("Finished soft delete jobs activities and children");
-
                     transactionScope.Complete();
                 }
+
+                logger.LogDebug("Start update statistics");
+                wellCleanUpRepository.UpdateStatistics();
+                logger.LogDebug("Finished update statistics");
             }
             catch (System.AggregateException ex)
             {
@@ -77,19 +84,22 @@
             }
 
             logger.LogDebug("Start delete completed");
+
+            await Task.Run(() => Console.WriteLine("Complete"));
         }
 
-        private Task<List<NonSoftDeletedRoutesJobs>[]> FilterLookup(ILookup<int, NonSoftDeletedRoutesJobs> data)
+        private Task<List<JobForClean>[]> FilterLookup(ILookup<int, JobForClean> data)
         {
-            return Task.WhenAll(data.Select(p => this.HandleBranchRoutes(p.ToList())).ToList());
+            var nonProcessedEvents = exceptionEventRepository.GetAllUnprocessed().ToList();
+            return Task.WhenAll(data.Select(p => this.HandleBranchRoutes(p.ToList(), nonProcessedEvents)).ToList());
         }
 
-        private Task<List<NonSoftDeletedRoutesJobs>> HandleBranchRoutes(IList<NonSoftDeletedRoutesJobs> data)
+        private Task<List<JobForClean>> HandleBranchRoutes(IList<JobForClean> data, IList<ExceptionEvent> nonProcessedEvents)
         {
             return Task.Run(async () =>
             {
-                var values = new ConcurrentBag<NonSoftDeletedRoutesJobs>();
-
+                var values = new ConcurrentBag<JobForClean>();
+                ;
                 foreach (var item in data)
                 {
                     DateTime compareDate;
@@ -105,7 +115,10 @@
 
                     if (compareDate <= DateTime.Now)
                     {
-                        values.Add(item);
+                        if (nonProcessedEvents.All(x => x.SourceId != item.JobId.ToString()))
+                        {
+                            values.Add(item);
+                        }
                     }
                 };
 
@@ -113,45 +126,37 @@
             });
         }
 
-        private ILookup<int, NonSoftDeletedRoutesJobs> GetJobsFromRoutes()
+        private ILookup<int, JobForClean> GetJobsAvailableForClean()
         {
-            return wellCleanUpRepository.GetNonSoftDeletedRoutes()
+            return wellCleanUpRepository.GetJobsAvailableForClean()
                 .ToLookup(k => k.BranchId);
-        }
-
-        private Task SoftDelete(IList<int> jobIds)
-        {
-            return Task.Run(() =>
-            {
-                SoftDeleteInBatches(jobIds, configuration.SoftDeleteBatchSize);
-            });
         }
 
         public void SoftDeleteInBatches(IList<int> jobIds, int batchSize)
         {
             if (batchSize <= 0)
             {
-                throw  new ArgumentException("Batchsize must be greater than 0");
+                batchSize = 1000;
             }
 
-            int offset = 0;
-            int totalRecords = jobIds.Count;
+            double max = Math.Ceiling(jobIds.Count / (double)batchSize);
 
-            while (offset < totalRecords)
+            foreach (var p in Enumerable.Range(0, (int)max))
             {
-                var jobIdBatch = jobIds.Skip(offset).Take(batchSize).ToList();
-                DoSoftDelete(jobIdBatch);
-                offset += batchSize;
+                DoClean(jobIds.Skip(p * batchSize).Take(batchSize).ToList());
             }
         }
 
-        private void DoSoftDelete(List<int> jobIdBatch)
+        private void DoClean(List<int> jobIdBatch)
         {
             jobRepository.JobsSetResolutionStatusClosed(jobIdBatch);
-            jobRepository.CascadeSoftDeleteJobs(jobIdBatch);
-            wellCleanUpRepository.DeleteStops(jobIdBatch);
-            wellCleanUpRepository.DeleteRoutes(jobIdBatch);
+            wellCleanUpRepository.CleanJobs(jobIdBatch);
+            wellCleanUpRepository.CleanStops();
+            wellCleanUpRepository.CleanRouteHeader();
+            wellCleanUpRepository.CleanRoutes();
+            wellCleanUpRepository.CleanActivities();
         }
+
     }
 }
 

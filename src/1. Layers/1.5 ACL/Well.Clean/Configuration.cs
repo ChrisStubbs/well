@@ -11,9 +11,16 @@
             {
                 SoftDeleteBatchSize = x;
             }
-            
+
+            x = 0;
+            if (int.TryParse(ConfigurationManager.AppSettings["WellCleanTransactionTimeoutSeconds"], out x))
+            {
+                WellCleanTransactionTimeoutSeconds = x;
+            }
+
         }
 
         public int SoftDeleteBatchSize { get; set; } = 1000;
+        public int WellCleanTransactionTimeoutSeconds { get; set; } = 600;
     }
 }

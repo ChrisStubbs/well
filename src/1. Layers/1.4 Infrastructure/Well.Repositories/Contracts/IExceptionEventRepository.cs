@@ -36,6 +36,5 @@ namespace PH.Well.Repositories.Contracts
 
         bool GlobalUpliftEventCreatedForJob(string jobId);
 
-        Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent);
     }
 }

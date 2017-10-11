@@ -30,7 +30,6 @@
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
 	[LineItemId] INT NULL,
 	[BagId] INT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL

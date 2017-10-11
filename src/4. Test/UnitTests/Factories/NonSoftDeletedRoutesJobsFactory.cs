@@ -8,7 +8,7 @@ using PH.Well.Domain.ValueObjects;
 
 namespace PH.Well.UnitTests.Factories
 {
-    public class NonSoftDeletedRoutesJobsFactory : EntityFactory<NonSoftDeletedRoutesJobsFactory, NonSoftDeletedRoutesJobs>
+    public class NonSoftDeletedRoutesJobsFactory : EntityFactory<NonSoftDeletedRoutesJobsFactory, JobForClean>
     {
         public NonSoftDeletedRoutesJobsFactory()
         {

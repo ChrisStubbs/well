@@ -19,7 +19,6 @@
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
     [DateDeleted] DATETIME NULL, 
-	[Version] [TIMESTAMP] NOT NULL,
 	[DeletedByImport] BIT DEFAULT 0,
 	[ArchiveDate] SMALLDATETIME NOT NULL
 ) ON Archive

@@ -82,28 +82,6 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(podEvent, EventAction.Pod, dateCanBeProcessed, jobId);
         }
 
-        public Task InsertAmendmentTransactionAsync(IList<AmendmentTransaction> amendmentEvent)
-        {
-            var data = amendmentEvent
-                .Select(p => new
-                {
-                    @Event = JsonConvert.SerializeObject(p),
-                    ExceptionActionId = (int)EventAction.Amendment,
-                    DateCanBeProcessed = DateTime.Now,
-                    CreatedBy = this.CurrentUser,
-                    DateCreated = DateTime.Now,
-                    UpdatedBy = this.CurrentUser,
-                    DateUpdated = DateTime.Now,
-                })
-                .ToList()
-                .ToDataTables();
-
-            var par = new DynamicParameters();
-
-            par.Add("Data", data, DbType.Object);
-
-            return this.dapperProxy.ExecuteAsync(par, StoredProcedures.EventInsertBulk);
-        }
 
         public void InsertAmendmentTransaction(AmendmentTransaction amendmentEvent)
         {

@@ -5,7 +5,7 @@ import {IUser}                  from '../models/iuser';
 import {GlobalSettingsService}  from '../globalSettings';
 import {HttpErrorService}       from './httpErrorService';
 import {LogService}             from './logService';
-import {UserJobs}               from '../models/userJobs';
+import { UserJobs, AssignJobResult}               from '../models/userJobs';
 import {HttpService}            from './httpService';
 import 'rxjs/add/operator/map';
 
@@ -33,15 +33,15 @@ export class UserService {
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public assign(userJobs: UserJobs): Observable<Array<number>> {
+    public assign(userJobs: UserJobs): Observable<AssignJobResult> {
         return this.http.post(this.globalSettingsService.globalSettings.apiUrl + 'assign-user-to-jobs',
             JSON.stringify(userJobs),
             this.globalSettingsService.jsonOptions)
-            .map(res => <Array<number>> res.json())
+            .map(res => res.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public unassign(jobIds: number[]): Observable<any> {
+    public unassign(jobIds: number[]): Observable<AssignJobResult> {
         return this.http.post(
             this.globalSettingsService.globalSettings.apiUrl + 'unassign-user-from-jobs',
             JSON.stringify(jobIds),

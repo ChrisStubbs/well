@@ -8,6 +8,7 @@ BEGIN
       ,[ExceptionActionId]
       ,[Processed]
 	  ,[DateCanBeProcessed]
+	  ,[SourceId]
       ,[CreatedBy]
       ,[DateCreated]
       ,[UpdatedBy]

@@ -106,6 +106,7 @@ namespace PH.Well.Repositories
         public const string ArchiveRouteHeader = "Archive_RouteHeader";
         public const string ArchiveRoutes = "Archive_Routes";
         public const string ArchiveActivity = "Archive_Activity";
+        public const string ArchiveExceptionEvent = "Archive_ExceptionEvent";
 
         public const string UsersGet = "Users_Get";
         public const string UserSave = "UserSave";
@@ -219,7 +220,5 @@ namespace PH.Well.Repositories
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
 
         public const string UpdateStatistics = "sp_updatestats";
-
-
     }
 }

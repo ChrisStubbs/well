@@ -89,5 +89,12 @@
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.UpdateStatistics).Execute();
         }
+
+        public void CleanExceptionEvents()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveExceptionEvent)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
     }
 }

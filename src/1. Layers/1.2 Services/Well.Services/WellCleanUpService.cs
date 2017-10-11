@@ -67,6 +67,10 @@
                     transactionScope.Complete();
                 }
 
+                logger.LogDebug("Start clean Exception Events");
+                wellCleanUpRepository.CleanExceptionEvents();
+                logger.LogDebug("Finished clean Exception Events");
+
                 logger.LogDebug("Start update statistics");
                 wellCleanUpRepository.UpdateStatistics();
                 logger.LogDebug("Finished update statistics");

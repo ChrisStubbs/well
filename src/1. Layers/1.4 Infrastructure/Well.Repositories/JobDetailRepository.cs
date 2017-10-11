@@ -44,14 +44,10 @@
         {
             var jobDetails = grid.Read<JobDetail>().ToList();
             var jobDetailDamages = grid.Read<JobDetailDamage>().ToList();
-            var actions = grid.Read<JobDetailAction>().ToList();
-
             foreach (var jobDetail in jobDetails)
             {
                 jobDetail.JobDetailDamages =
                     new List<JobDetailDamage>(jobDetailDamages.Where(n => n.JobDetailId == jobDetail.Id));
-                jobDetail.Actions =
-                    new List<JobDetailAction>(actions.Where(a => a.JobDetailId == jobDetail.Id));
             }
 
             return jobDetails;

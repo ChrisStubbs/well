@@ -105,7 +105,6 @@
     <Compile Include="Contracts\ICustomerRoyaltyExceptionRepository.cs" />
     <Compile Include="Contracts\IDateThresholdRepository.cs" />
     <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
-    <Compile Include="Contracts\IJobDetailActionRepository.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
     <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />
     <Compile Include="Contracts\ILineItemActionRepository.cs" />
@@ -140,7 +139,6 @@
     <Compile Include="DateThresholdRepository.cs" />
     <Compile Include="ExceptionEventRepository.cs" />
     <Compile Include="GlobalUpliftTransactionFactory.cs" />
-    <Compile Include="JobDetailActionRepository.cs" />
     <Compile Include="JobDetailDamageRepository.cs" />
     <Compile Include="LineItemActionCommentRepository.cs" />
     <Compile Include="LineItemActionRepository.cs" />

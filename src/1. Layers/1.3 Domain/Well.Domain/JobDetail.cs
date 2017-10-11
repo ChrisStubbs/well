@@ -15,7 +15,6 @@
         public JobDetail()
         {
             this.JobDetailDamages = new List<JobDetailDamage>();
-            this.Actions = new List<JobDetailAction>();
         }
 
         public int LineNumber { get; set; }
@@ -78,9 +77,7 @@
         public JobDetailStatus ShortsStatus { get; set; }
 
         public List<JobDetailDamage> JobDetailDamages { get; set; }
-
-        public List<JobDetailAction> Actions { get; set; }
-
+        
         public int JobDetailReasonId { get; set; }
 
         public int JobDetailSourceId { get; set; }
@@ -101,7 +98,6 @@
                 $"Short Qty changed from {originalJobDetail.ShortQty} to {ShortQty}. ");
 
             AuditDamages(auditBuilder, originalJobDetail.JobDetailDamages);
-            AuditActions(auditBuilder, originalJobDetail.Actions);
 
             string entry = string.Empty;
             if (auditBuilder.Length > 0)
@@ -145,28 +141,6 @@
             }
         }
 
-        private void AuditActions(StringBuilder auditBuilder, List<JobDetailAction> originalActions)
-        {
-            var isChanged = originalActions.Count != Actions.Count ||
-                                 originalActions.OrderBy(o => o.Action).SequenceEqual(Actions.OrderBy(d => d.Action)) == false;
-
-            if (isChanged && originalActions.Count == 0)
-            {
-                auditBuilder.Append($"Actions added {string.Join(", ", Actions.Select(d => d.GetString()))}. ");
-            }
-            else if (isChanged && Actions.Count == 0)
-            {
-                auditBuilder.Append(
-                    $"Actions removed, old actions {string.Join(", ", originalActions.Select(d => d.GetString()))}. ");
-            }
-            else if (isChanged)
-            {
-                auditBuilder.Append($"Actions changed from " +
-                    $"'{string.Join(", ", originalActions.Select(d => d.GetString()))}' to " +
-                    $"'{string.Join(", ", Actions.Select(d => d.GetString()))}'. ");
-            }
-        }
-
         public decimal CreditValueForThreshold()
         {
             var sumQty = this.JobDetailDamages.Sum(d => d.Qty);
@@ -176,11 +150,6 @@
         }
 
         public int DamageQty => JobDetailDamages.Sum(x => x.Qty);
-
-        public bool IsClean()
-        {
-            return !this.Actions.Any();
-        }
 
         public bool IsTobaccoBag()
         {

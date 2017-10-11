@@ -16,7 +16,10 @@ USING	(VALUES	(1,'DEL-TOB','Tobacco', 'Tob', dbo.ActivityType_Invoice(),'deploym
 AS Source (Id, Code, Description, Abbreviation, ActivityTypeId, CreatedBy, CreatedDate, LastUpdatedBy, LastUpdatedDate)
 	ON Target.Id = Source.Id
 WHEN MATCHED 
-	AND (Target.Description != Source.Description)
+	AND ((Target.Description != Source.Description) 
+	OR (Target.Code != Source.Code)
+	OR (Target.Abbreviation != Source.Abbreviation) 
+	OR (Target.ActivityTypeId != Source.ActivityTypeId) )
 	THEN
 	UPDATE SET 
 			Code			= Source.Code,

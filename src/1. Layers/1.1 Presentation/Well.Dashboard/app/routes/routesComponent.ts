@@ -1,20 +1,21 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { Route } from './route';
-import { RouteFilter } from './routeFilter';
-import { RoutesService } from './routesService';
-import { BranchService } from '../shared/branch/branchService';
-import { AppSearchParameters } from '../shared/appSearch/appSearch';
-import { AssignModel, AssignModalResult } from '../shared/components/components';
-import { Branch } from '../shared/branch/branch';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { LookupService, LookupsEnum, ILookupValue } from '../shared/services/services';
-import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import { SecurityService } from '../shared/services/securityService';
+import { ActivatedRoute }                               from '@angular/router';
+import { Component }                                    from '@angular/core';
+import { Router }                                       from '@angular/router';
+import { GlobalSettingsService }                        from '../shared/globalSettings';
+import { Route }                                        from './route';
+import { RouteFilter }                                  from './routeFilter';
+import { RoutesService }                                from './routesService';
+import { BranchService }                                from '../shared/branch/branchService';
+import { AppSearchParameters }                          from '../shared/appSearch/appSearch';
+import { AssignModel, AssignModalResult }               from '../shared/components/components';
+import { Branch }                                       from '../shared/branch/branch';
+import { IObservableAlive }                             from '../shared/IObservableAlive';
+import { LookupService, LookupsEnum, ILookupValue }     from '../shared/services/services';
+import * as _                                           from 'lodash';
+import { Observable }                                   from 'rxjs/Observable';
+import { GridHelpersFunctions }                         from '../shared/gridHelpers/gridHelpersFunctions';
+import { SecurityService }                              from '../shared/services/securityService';
+import { Assignee }                                     from './../shared/models/assignee';
 import 'rxjs/Rx';
 
 @Component({
@@ -89,7 +90,7 @@ export class RoutesComponent implements IObservableAlive {
 
                 this.fillGridSource();
                 this.routeNumbers = [];
-                this.drivers = [];
+                this.drivers = []; 
                 this.assignees = [];
 
                 _.forEach(this.routes, (current: Route) => {
@@ -99,7 +100,11 @@ export class RoutesComponent implements IObservableAlive {
 
                     this.routeNumbers.push(current.routeNumber);
                     this.drivers.push(current.driverName);
-                    this.assignees.push(current.assignee);
+                    
+                    if (!_.isNil(current.assignees))
+                    {
+                        current.assignees.forEach((current: Assignee) => this.assignees.push(current.name));
+                    }
                 });
 
                 this.routeNumbers = this.sortAndUniq(this.routeNumbers);

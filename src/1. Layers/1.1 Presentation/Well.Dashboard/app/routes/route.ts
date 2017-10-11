@@ -1,3 +1,4 @@
+import { Assignee } from './../shared/models/assignee';
 import { DatePipe } from '@angular/common';
 
 export class Route
@@ -25,6 +26,7 @@ export class Route
     public cleanCount: number;
     public driverName: string;
     public assignee: string;
+    public assignees: Assignee[];
     public jobIds: number[];
     public jobIssueType: number;
 }

@@ -22,7 +22,6 @@ IF OBJECT_ID ('Audit___RefactorLog', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit___
 IF OBJECT_ID ('Audit_HolidayExceptions', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_HolidayExceptions;
 IF OBJECT_ID ('Audit_Account_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_Account_Audit;
 IF OBJECT_ID ('Audit_CreditThreshold_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_CreditThreshold_Audit;
-IF OBJECT_ID ('Audit_JobDetailAction', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_JobDetailAction;
 IF OBJECT_ID ('Audit_Job_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_Job_Audit;
 IF OBJECT_ID ('Audit_JobDetailByPassReasons', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_JobDetailByPassReasons;
 IF OBJECT_ID ('Audit_JobDetail_Audit', 'TR') IS NOT NULL DROP TRIGGER dbo.Audit_JobDetail_Audit;

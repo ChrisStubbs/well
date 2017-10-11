@@ -128,7 +128,7 @@ namespace PH.Well.Services
             }
 
             // Any damages are an exception or any shorts are an exception or outer discrepancy found is an exception
-            if (!hasException && (job.JobDetails.Any(x => x.IsClean() == false) || job.OuterDiscrepancyUpdate))
+            if (!hasException && job.OuterDiscrepancyUpdate)
             {
                 hasException = true;
             }

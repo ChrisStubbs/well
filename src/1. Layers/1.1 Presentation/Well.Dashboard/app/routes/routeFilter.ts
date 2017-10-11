@@ -1,3 +1,4 @@
+import { Assignee }             from './../shared/models/assignee';
 import { IFilter }              from '../shared/gridHelpers/IFilter';
 import * as _                   from 'lodash';
 import { AppSearchParameters }  from '../shared/appSearch/appSearchParameters';
@@ -41,8 +42,18 @@ export class RouteFilter implements IFilter
             case 'routeNumber':
             case 'dateFormatted':
             case 'driverName':
-            case 'assignee':
                 return GridHelpersFunctions.isEqualFilter;
+                
+            case 'assignee':
+                return (value: string, value2: string, sourceRow: Route) =>
+                {
+                    if (_.isNil(sourceRow.assignees))
+                    {
+                        return value2 == 'Unallocated';
+                    }
+
+                    return sourceRow.assignees.some((current: Assignee) => current.name == value2);
+                };
 
             case 'jobIssueType':
                 return (value: number, value2: number) =>

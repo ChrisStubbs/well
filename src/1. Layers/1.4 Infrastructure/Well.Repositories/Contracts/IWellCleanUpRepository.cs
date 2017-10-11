@@ -20,5 +20,7 @@
         void CleanRoutes();
 
         void UpdateStatistics();
+
+        void CleanExceptionEvents();
     }
 }

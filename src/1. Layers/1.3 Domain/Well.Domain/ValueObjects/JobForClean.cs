@@ -3,7 +3,7 @@
     using System;
     using Enums;
 
-    public class NonSoftDeletedRoutesJobs
+    public class JobForClean
     {
         public int JobId { get; set; }
         public int? JobRoyaltyCodeId { get; set; }

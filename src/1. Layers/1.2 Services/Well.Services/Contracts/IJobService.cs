@@ -1,4 +1,5 @@
 ﻿using PH.Well.Domain;
+using PH.Well.Domain.ValueObjects;
 
 namespace PH.Well.Services.Contracts
 {
@@ -52,5 +53,9 @@ namespace PH.Well.Services.Contracts
         IEnumerable<Job> GetJobsWithRoute(IEnumerable<int> jobIds);
 
         IEnumerable<int> GetJobsIdsAssignedToCurrentUser(IEnumerable<int> jobIds);
+
+        AssignJobResult Assign(UserJobs userJobs);
+
+        AssignJobResult UnAssign(IEnumerable<int> jobIds);
     }
 }

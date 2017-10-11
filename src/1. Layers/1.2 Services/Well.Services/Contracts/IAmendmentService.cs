@@ -6,6 +6,6 @@
     public interface IAmendmentService
     {
         void ProcessAmendments(IEnumerable<int> jobIds);
-        Task ProcessAmendmentsAsync(IEnumerable<int> jobIds);
+        
     }
 }

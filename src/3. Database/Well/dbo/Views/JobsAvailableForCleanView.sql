@@ -1,4 +1,4 @@
-﻿CREATE VIEW NonSoftDeletedRoutesJobsView
+﻿CREATE VIEW JobsAvailableForCleanView
 AS 
     SELECT 
         rh.RouteDate,
@@ -13,8 +13,8 @@ AS
         inner join Stop s ON rh.id = s.RouteHeaderId
         inner join Job j ON s.id = j.StopId
     WHERE
-        rh.DateDeleted IS NULL
-        AND j.ResolutionStatusId IN 
+        --rh.DateDeleted IS NULL
+        j.ResolutionStatusId IN 
         (
             SELECT Id
             FROM ResolutionStatus

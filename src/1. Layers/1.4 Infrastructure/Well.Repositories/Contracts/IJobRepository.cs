@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.Repositories.Contracts
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;

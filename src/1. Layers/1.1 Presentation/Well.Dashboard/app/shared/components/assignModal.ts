@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, Input }   from '@angular/core';
 import { Response }                                 from '@angular/http';
 import { IUser, HttpResponse, UserService }         from '../shared';
-import { UserJobs }                                 from '../models/userJobs';
+import { UserJobs, AssignJobResult }                from '../models/userJobs';
 import * as _                                       from 'lodash';
 import { IObservableAlive }                         from '../IObservableAlive';
 import { AssignModalResult }                        from './assignModel';
@@ -79,23 +79,23 @@ export class AssignModal implements IObservableAlive
         this.userJobs.allocatePendingApprovalJobs = newModel.allocatePendingApprovalJobs;
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)
-            .subscribe((res) => this.handleResponse(res, newModel, user));
+            .subscribe((result: AssignJobResult) => this.handleResponse(result, newModel, user));
     }
 
     public unassign(newModel: AssignModel): void
     {
         this.userService.unassign(newModel.jobIds)
             .takeWhile(() => this.isAlive)
-            .subscribe((res: Response) => this.handleResponse(res, newModel, undefined));
+            .subscribe((result: AssignJobResult) => this.handleResponse(result, newModel, undefined));
     }
 
-    private handleResponse(res: any, newModel: AssignModel, user: IUser): void
+    private handleResponse(res: AssignJobResult, newModel: AssignModel, user: IUser): void
     {
         const result = new AssignModalResult();
 
-        this.httpResponse = JSON.parse(JSON.stringify(res));
+        //this.httpResponse = JSON.parse(JSON.stringify(res));
 
-        if (this.httpResponse.success)
+        if (res.success)
         {
             if (user) {
                 newModel.assigned = user.name;
@@ -107,11 +107,10 @@ export class AssignModal implements IObservableAlive
 
             result.assigned = true;
             this.model = newModel;
-            this.toasterService.pop('success', 'Jobs have been assigned', '');
+            this.toasterService.pop('success', res.message, '');
         }
-        if (this.httpResponse.failure)
-        {
-            this.toasterService.pop('error', 'Jobs unassigned', '');
+        else {
+            this.toasterService.pop('error', res.message, '');
         }
         this.hide();
         result.source = newModel.objectSource;

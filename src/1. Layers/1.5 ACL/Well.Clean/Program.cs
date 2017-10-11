@@ -13,10 +13,10 @@
     {
         public static void Main(string[] args)
         {
-            SoftDelete().Wait();
+            Clean().Wait();
         }
 
-        private static Task SoftDelete()
+        private static Task Clean()
         {
             var container = InitIoc();
 
@@ -28,7 +28,7 @@
                 2123,
                 EventLogEntryType.Information);
 
-            return container.GetInstance<IWellCleanUpService>().SoftDelete();
+            return container.GetInstance<IWellCleanUpService>().Clean();
         }
 
         /// <summary>

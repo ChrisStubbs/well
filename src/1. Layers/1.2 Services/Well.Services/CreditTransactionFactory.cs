@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Security.Cryptography.X509Certificates;
     using Contracts;
     using Domain.Enums;
     using Domain.ValueObjects;
@@ -46,6 +46,10 @@
             var acno = (int)(Convert.ToDecimal(job.PhAccount) * 1000);
             var today = DateTime.Now.ToShortDateString();
             var now = DateTime.Now.ToShortTimeString();
+
+            // do not try to credit TOTES, it will fail in the world of ADAM
+            var item = deliveryLines.FirstOrDefault(x => x.ProductCode == "TOTES");
+            deliveryLines.Remove(item);
 
             var totalOfLines = deliveryLines.Count;
             var source = 0;

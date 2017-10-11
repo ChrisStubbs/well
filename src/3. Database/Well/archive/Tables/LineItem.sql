@@ -13,7 +13,6 @@
 	[CreatedDate] SMALLDATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] SMALLDATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
     [DateDeleted] SMALLDATETIME NULL, 
 	[DeletedByImport] BIT DEFAULT 0,
 	[JobId] INT NULL,

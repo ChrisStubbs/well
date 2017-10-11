@@ -9,6 +9,6 @@
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
-    [DateDeleted] DATETIME NULL, 
+    [DateDeleted] DATETIME NULL,
+	[ArchiveDate] SMALLDATETIME NOT NULL
  ) ON ARCHIVE

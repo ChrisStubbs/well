@@ -152,7 +152,7 @@
     <Compile Include="ValueObjects\JobResolutionStatus.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
-    <Compile Include="ValueObjects\RouteBranch.cs" />
+    <Compile Include="ValueObjects\JobForClean.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />
     <Compile Include="ValueObjects\SubmitActionResult.cs" />
     <Compile Include="ValueObjects\EditLineItemException.cs" />

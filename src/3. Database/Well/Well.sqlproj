@@ -200,7 +200,6 @@
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\StoredProcedures\JobDetailDamage_GetByJobId.sql" />
     <Build Include="dbo\Tables\ActionStatus.sql" />
-    <Build Include="dbo\Tables\JobDetailAction.sql" />
     <Build Include="dbo\StoredProcedures\RouteIdsToRemoveGet.sql" />
     <Build Include="dbo\StoredProcedures\RouteToRemoveFullObjectGraphGet.sql" />
     <Build Include="dbo\StoredProcedures\SeasonalDatesByBranchGet.sql" />
@@ -426,12 +425,10 @@
     <Build Include="dbo\StoredProcedures\Stops_GetByIds.sql" />
     <None Include="ManualStep\scripts\up\021_Drop_Not_Needed_StopProcedures.sql" />
     <Build Include="dbo\Types\StringTableType.sql" />
-    <Build Include="dbo\Views\NonSoftDeletedRoutesJobsView.sql" />
+    <Build Include="dbo\Views\JobsAvailableForCleanView.sql" />
     <Build Include="dbo\Types\EventTableType.sql" />
     <Build Include="dbo\StoredProcedures\EventInsertBulk.sql" />
     <Build Include="dbo\StoredProcedures\CleanJobsSetResolutionStatusClosed.sql" />
-    <Build Include="dbo\StoredProcedures\CleanStops.sql" />
-    <Build Include="dbo\StoredProcedures\CleanRoutes.sql" />
     <Build Include="dbo\Types\IdentifyJobTableType.sql" />
     <Build Include="dbo\StoredProcedures\JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted.sql" />
     <Build Include="dbo\StoredProcedures\Jobs_CascadeSoftDelete.sql" />
@@ -496,9 +493,20 @@
     <Build Include="archive\Tables\Stop.sql" />
     <Build Include="archive\Tables\RouteHeader.sql" />
     <Build Include="archive\Tables\Account.sql" />
-    <Build Include="archive\Tables\Location.sql" />
     <Build Include="archive\Tables\Bag.sql" />
     <Build Include="archive\Tables\Activity.sql" />
+    <Build Include="archive\Tables\Routes.sql" />
+    <Build Include="archive\Tables\JobResolutionStatus.sql" />
+    <Build Include="dbo\StoredProcedures\Archive_Jobs.sql" />
+    <Build Include="archive\Tables\UserJob.sql" />
+    <None Include="ManualStep\scripts\up\030_Remove_CleanSprocs.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Build Include="dbo\StoredProcedures\Archive_Stops.sql" />
+    <Build Include="dbo\StoredProcedures\Archive_RouteHeader.sql" />
+    <Build Include="dbo\StoredProcedures\Archive_Routes.sql" />
+    <Build Include="dbo\StoredProcedures\Archive_Activity.sql" />
+    <Build Include="dbo\Tables\JobDetailAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

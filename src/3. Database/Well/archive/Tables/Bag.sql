@@ -7,7 +7,6 @@
 	[CreatedDate] DATETIME NOT NULL,
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
     [DateDeleted] DATETIME NULL,
 	[DateArchived] SMALLDATETIME NOT NULL
 )ON Archive

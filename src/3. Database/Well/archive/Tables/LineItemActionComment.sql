@@ -11,6 +11,5 @@
 	[DateUpdated] DATETIME NOT NULL,
 	[DateDeleted] DATETIME NULL,
 	[DeletedByImport] BIT DEFAULT 0,
-	[Version] [TIMESTAMP] NOT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
 )ON Archive

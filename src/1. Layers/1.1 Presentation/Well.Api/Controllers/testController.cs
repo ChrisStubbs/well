@@ -20,7 +20,7 @@ namespace PH.Well.Api.Controllers
 
         public async Task<DateTime> Get()
         {
-            await this.wellCleanUpService.SoftDelete();
+            await this.wellCleanUpService.Clean();
 
             return DateTime.Now;
         }

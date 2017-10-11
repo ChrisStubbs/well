@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PH.Well.Domain.ValueObjects;
-using PH.Well.Repositories.Contracts;
-using PH.Well.Common.Extensions;
-using PH.Well.Domain.Enums;
-
-namespace PH.Well.Repositories
+﻿namespace PH.Well.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
     using Common.Contracts;
+    using Common.Extensions;
+    using Contracts;
+    using Domain.ValueObjects;
 
     public class WellCleanUpRepository : IWellCleanUpRepository
     {
@@ -24,10 +19,10 @@ namespace PH.Well.Repositories
             this.userNameProvider = userNameProvider;
         }
 
-        public IList<NonSoftDeletedRoutesJobs> GetNonSoftDeletedRoutes()
+        public IList<JobForClean> GetJobsAvailableForClean()
         {
-            var strSQL = "SELECT RouteDate, JobId, StopId, RouteId, ResolutionStatus, BranchId, RoyaltyCode FROM NonSoftDeletedRoutesJobsView";
-            var result = new List<NonSoftDeletedRoutesJobs>();
+            var strSQL = "SELECT RouteDate, JobId, StopId, RouteId, ResolutionStatus, BranchId, RoyaltyCode FROM JobsAvailableForCleanView";
+            var result = new List<JobForClean>();
 
             Action<IDataReader> callBack = reader =>
             {
@@ -35,7 +30,7 @@ namespace PH.Well.Repositories
 
                 while (reader.Read())
                 {
-                    result.Add(new NonSoftDeletedRoutesJobs
+                    result.Add(new JobForClean
                     {
                         BranchId = reader.GetInt32(reader.GetOrdinal("BranchId")),
                         JobId = reader.GetInt32(reader.GetOrdinal("JobId")),
@@ -53,23 +48,41 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        public void DeleteStops(IList<int> jobIds)
+        public void CleanStops()
         {
-            dapperProxy.WithStoredProcedure(StoredProcedures.CleanStops)
-                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
-                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", userNameProvider.GetUserName(), DbType.String)
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveStops)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
                 .Execute();
         }
 
-        public void DeleteRoutes(IList<int> jobIds)
+   
+        public void CleanRouteHeader()
         {
-            dapperProxy.WithStoredProcedure(StoredProcedures.CleanRoutes)
-                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
-                .AddParameter("DateDeleted", DateTime.Now, DbType.DateTime)
-                .AddParameter("UpdatedBy", userNameProvider.GetUserName(), DbType.String)
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveRouteHeader)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
                 .Execute();
         }
 
+        public void CleanRoutes()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveRoutes)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
+
+        public void CleanActivities()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveActivity)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
+
+        public void CleanJobs(IList<int> jobIds)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.ArchiveJobs)
+                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+                .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
+                .Execute();
+        }
     }
 }

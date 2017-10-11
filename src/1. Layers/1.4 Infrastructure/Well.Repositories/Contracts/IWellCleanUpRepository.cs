@@ -18,5 +18,7 @@
         void CleanJobs(IList<int> jobIds);
 
         void CleanRoutes();
+
+        void UpdateStatistics();
     }
 }

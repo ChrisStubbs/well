@@ -50,7 +50,7 @@
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            if (!this.jobService.CanEdit(job, this.userNameProvider.GetUserName()))
+            if (!string.IsNullOrEmpty(this.jobService.CanEdit(job, this.userNameProvider.GetUserName())))
             {
                 throw new HttpResponseException(new HttpResponseMessage
                 {
@@ -72,7 +72,5 @@
         {
             return lineItemExceptionMapper.Map(new[] { lineItemActionService.UpdateLineItemActions(update) }).First();
         }
-
-
     }
 }

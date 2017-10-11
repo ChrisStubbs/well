@@ -84,5 +84,10 @@
                 .AddParameter("ArchiveDate", DateTime.Now, DbType.DateTime)
                 .Execute();
         }
+
+        public void UpdateStatistics()
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.UpdateStatistics).Execute();
+        }
     }
 }

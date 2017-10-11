@@ -23,6 +23,7 @@
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IPostImportRepository postImportRepository;
         private readonly IPodService podService;
+        private readonly ILineItemActionRepository lineItemActionRepository;
 
         public EpodFileImportCommands(
             ILogger logger,
@@ -34,7 +35,8 @@
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
             IPostImportRepository postImportRepository,
-            IPodService podService)
+            IPodService podService,
+            ILineItemActionRepository lineItemActionRepository)
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
@@ -46,6 +48,7 @@
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.postImportRepository = postImportRepository;
             this.podService = podService;
+            this.lineItemActionRepository = lineItemActionRepository;
         }
 
         public void AfterJobCreation(Job fileJob, Job existingJob, RouteHeader routeHeader)
@@ -108,6 +111,10 @@
             // GRN event shouldn probably be created during epod update
             //TODO: This needs to re-instated
             //ProcessGlobalUplift(fileJob, existingJob, branchId, createEvents);
+
+            // in case a previous epod file has left actions behind - can occur if a job is bypassed and replanned but the
+            // bypass epod file is transmitted after the replan file...
+            this.lineItemActionRepository.DeleteAllLineItemActionsForJob(existingJob.Id);
 
             this.jobRepository.Update(existingJob);
             this.jobRepository.SaveJobResolutionStatus(existingJob);

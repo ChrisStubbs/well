@@ -5,5 +5,7 @@
         public int UserId { get; set; }
 
         public int[] JobIds { get; set; }
+
+        public bool AllocatePendingApprovalJobs { get; set; }
     }
 }

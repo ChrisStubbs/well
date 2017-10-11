@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Api.Models;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Linq;
@@ -21,20 +23,20 @@
         private readonly IBranchService branchService;
         private readonly IUserRepository userRepository;
         private readonly ILogger logger;
-        private readonly IJobRepository jobRepository;
+        private readonly IJobService jobService;
         private readonly IActiveDirectoryService activeDirectoryService;
 
-        public UserController(IBranchService branchService, 
+        public UserController(IBranchService branchService,
             IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
             IUserNameProvider userNameProvider,
-            IJobRepository jobRepository)
+            IJobService jobService)
             : base(userNameProvider)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
             this.logger = logger;
-            this.jobRepository = jobRepository;
+            this.jobService = jobService;
             this.activeDirectoryService = activeDirectoryService;
         }
 
@@ -54,7 +56,7 @@
         {
             return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
         }
-        
+
         public IList<User> Get()
         {
             var data = this.userRepository.Get().ToList();
@@ -108,7 +110,7 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK, users.OrderBy(x => x.Name).ToList());
         }
-        
+
 
         [Route("user/{name}")]
         //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
@@ -151,49 +153,16 @@
 
         [Route("assign-user-to-jobs")]
         [HttpPost]
-        public HttpResponseMessage Assign(UserJobs userJobs)
+        public AssignJobResult Assign(UserJobs userJobs)
         {
-            try
-            {
-                var user = userRepository.GetById(userJobs.UserId);
-                var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
-
-                if (user != null && jobs.Any())
-                {
-                    foreach (var job in jobs)
-                    {
-                        this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
-                    }
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-                }
-
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { notAcceptable = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to assign job for the user", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return jobService.Assign(userJobs);
         }
 
         [Route("unassign-user-from-jobs")]
         [HttpPost]
-        public HttpResponseMessage UnAssign(int[] jobIds)
+        public AssignJobResult UnAssign(int[] jobIds)
         {
-            try
-            {
-                foreach (var jobId in jobIds)
-                {
-                    this.userRepository.UnAssignJobToUser(jobId);
-                }
-                
-                return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
-            }
-            catch (Exception exception)
-            {
-                this.logger.LogError("Error when trying to unassign the user from the job", exception);
-                return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-            }
+            return jobService.UnAssign(jobIds);
         }
     }
 }

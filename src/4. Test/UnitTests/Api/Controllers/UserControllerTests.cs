@@ -4,6 +4,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Net;
     using System.Net.Http;
     using Moq;
@@ -23,8 +24,10 @@ namespace PH.Well.UnitTests.Api.Controllers
         private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
         private Mock<IUserNameProvider> userNameProvider;
-        private Mock<IJobRepository> jobRepository;
+
         private Mock<ICreditThresholdRepository> creditThresholdRepository;
+        private Mock<IJobService> jobService;
+
         [SetUp]
         public void Setup()
         {
@@ -34,7 +37,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
-            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            jobService = new Mock<IJobService>();
             this.creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
 
             //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
@@ -44,7 +47,7 @@ namespace PH.Well.UnitTests.Api.Controllers
                 this.userRepository.Object,
                 this.logger.Object,
                 this.userNameProvider.Object,
-                this.jobRepository.Object
+                jobService.Object
                 );
             SetupController();
         }
@@ -123,126 +126,6 @@ namespace PH.Well.UnitTests.Api.Controllers
             }
         }
 
-        public class TheAssignMethod : UserControllerTests
-        {
-            [Test]
-            public void ShouldAssignTheJobsToAUser()
-            {
-                var job = new UserJobs { JobIds = new[] { 2, 3 }, UserId = 5 };
-
-                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
-                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobIds[0]));
-                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobIds[1]));
-
-                jobRepository.Setup(j => j.GetByIds(job.JobIds)).Returns(new List<Job> { new Job { Id = 2 }, new Job { Id = 3 } });
-
-                var response = this.Controller.Assign(job);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("success"));
-
-                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, It.IsAny<int>()), Times.Exactly(2));
-                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, job.JobIds[0]), Times.Once);
-                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, job.JobIds[1]), Times.Once);
-            }
-
-            [Test]
-            public void ShouldReturnNotAcceptableIfNoUser()
-            {
-                var job = new UserJobs { JobIds = new[] { 2 }, UserId = 5 };
-
-                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns((User)null);
-                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobIds[0]));
-
-                jobRepository.Setup(j => j.GetByIds(job.JobIds)).Returns(new List<Job> { new Job { Id = 2 } });
-
-                var response = this.Controller.Assign(job);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
-            }
-
-            [Test]
-            public void ShouldReturnNotAcceptableIfNoJob()
-            {
-                var job = new UserJobs { JobIds = new[] { 2 }, UserId = 5 };
-
-                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
-                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobIds[0]));
-
-                jobRepository.Setup(j => j.GetByIds(job.JobIds)).Returns(new List<Job>());
-
-                var response = this.Controller.Assign(job);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("notAcceptable"));
-            }
-
-            [Test]
-            public void ShouldLogErrorWhenExceptionThrown()
-            {
-                var job = new UserJobs { JobIds = new[] { 2 }, UserId = 5 };
-
-                var exception = new Exception();
-                this.userRepository.Setup(x => x.GetById(job.UserId)).Returns(new User());
-                jobRepository.Setup(j => j.GetByIds(job.JobIds)).Returns(new List<Job> { new Job { Id = 2 } });
-
-                this.userRepository.Setup(x => x.AssignJobToUser(job.UserId, job.JobIds[0])).Throws(exception);
-
-                this.logger.Setup(x => x.LogError("Error when trying to assign job for the user", exception));
-
-                var response = this.Controller.Assign(job);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
-
-                this.userRepository.Verify(x => x.AssignJobToUser(job.UserId, job.JobIds[0]), Times.Once);
-                this.logger.Verify(x => x.LogError("Error when trying to assign job for the user", exception), Times.Once);
-            }
-        }
-
-        public class TheUnAssignMethod : UserControllerTests
-        {
-            [Test]
-            public void ShouldUnAssignTheJobsToAUser()
-            {
-                var jobIds = new[] { 5, 7 };
-
-                this.userRepository.Setup(x => x.UnAssignJobToUser(5));
-                this.userRepository.Setup(x => x.UnAssignJobToUser(7));
-
-                var response = this.Controller.UnAssign(jobIds);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("success"));
-
-
-                this.userRepository.Verify(x => x.UnAssignJobToUser(5), Times.Once);
-                this.userRepository.Verify(x => x.UnAssignJobToUser(7), Times.Once);
-            }
-
-            [Test]
-            public void ShouldLogErrorWhenExceptionThrown()
-            {
-                var jobIds = new[] { 5 };
-
-                var exception = new Exception();
-
-                //////this.userRepository.SetupSet(x => x.CurrentUser = It.IsAny<string>());
-                this.userRepository.Setup(x => x.UnAssignJobToUser(5)).Throws(exception);
-
-                this.logger.Setup(x => x.LogError("Error when trying to unassign the user from the job", exception));
-
-                var response = this.Controller.UnAssign(jobIds);
-
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Content.ReadAsStringAsync().Result, Does.Contain("failure"));
-
-                this.userRepository.Verify(x => x.UnAssignJobToUser(5), Times.Once);
-                this.logger.Verify(x => x.LogError("Error when trying to unassign the user from the job", exception), Times.Once);
-            }
-        }
-
         public class TheUserByNameMethod : UserControllerTests
         {
             [Test]
@@ -257,14 +140,25 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.That(returnedUser.Id, Is.EqualTo(227));
             }
 
-            [Explicit("Being fixed currently breaks TC build")]
             [Test]
             public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
             {
-                this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns((User)null);
-                var returnedUser = this.Controller.UserByName("lee grunion");
+                var firstName = "A";
+                var lastName = "User";
+                var userName = $"{firstName} {lastName}";
+                var usr = new User { Name = userName, Domain = "Domain" };
+                var resultUsers = new List<User> { usr };
 
-                Assert.That(returnedUser, Is.Null);
+                //Domain\A.User
+                this.activeDirectoryService.Setup(p => p.GetUser($"{resultUsers[0].Domain}\\{firstName}.{lastName}")).Returns(usr);
+                this.activeDirectoryService.Setup(p => p.FindUsers(firstName, It.IsAny<string>())).Returns(resultUsers);
+                this.userRepository.Setup(x => x.GetByName(userName)).Returns((User)null);
+                this.userRepository.Setup(p => p.Save(usr));
+
+                var returnedUser = this.Controller.UserByName(userName);
+
+                Assert.That(returnedUser, Is.EqualTo(usr));
+                userRepository.Verify(p => p.Save(usr), Times.Once);
             }
         }
     }

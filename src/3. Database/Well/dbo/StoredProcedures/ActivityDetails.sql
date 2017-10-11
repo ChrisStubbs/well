@@ -32,7 +32,7 @@ AS
 		CONVERT(Bit, (
 			SELECT COUNT(LineItemAction)
 			FROM LineWithProblems la
-			WHERE la.Id = a.LineItemId AND la.DeliveryActionId = 0 --NotDefined
+			WHERE la.Id = a.LineItemId AND (la.DeliveryActionId = 0 OR la.DeliveryActionId IS NULL)--NotDefined
 		)) AS HasNoDefinedActions,
 		CONVERT(Bit, (
 			SELECT COUNT(LineItemAction)

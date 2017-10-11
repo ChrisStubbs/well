@@ -63,11 +63,13 @@
 
                     logger.LogDebug("Start soft delete jobs activities and children");
                     SoftDeleteInBatches(jobsToDelete, configuration.SoftDeleteBatchSize);
-
                     logger.LogDebug("Finished soft delete jobs activities and children");
-
                     transactionScope.Complete();
                 }
+
+                logger.LogDebug("Start update statistics");
+                wellCleanUpRepository.UpdateStatistics();
+                logger.LogDebug("Finished update statistics");
             }
             catch (System.AggregateException ex)
             {
@@ -83,7 +85,7 @@
 
             logger.LogDebug("Start delete completed");
 
-            await Task.Run(() => Console.WriteLine("bla"));
+            await Task.Run(() => Console.WriteLine("Complete"));
         }
 
         private Task<List<JobForClean>[]> FilterLookup(ILookup<int, JobForClean> data)

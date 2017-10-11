@@ -22,20 +22,9 @@ namespace PH.Well.Api.Controllers
         [HttpPost]
         public HttpResponseMessage SetGrn(SetGrnModel input)
         {
-            try
-            {
-                _jobService.SetGrn(input.Id, input.Grn);
+            _jobService.SetGrn(input.Id, input.Grn);
 
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, JsonConvert.SerializeObject(new
-                {
-                    Message = e.Message,
-                    customError = true
-                }));
-            }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

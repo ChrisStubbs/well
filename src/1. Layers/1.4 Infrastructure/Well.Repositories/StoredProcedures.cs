@@ -2,6 +2,8 @@
 
 namespace PH.Well.Repositories
 {
+    using Microsoft.Ajax.Utilities;
+
     public struct StoredProcedures
     {
         public const string RouteHeaderGetAll = "RouteHeader_GetAll";
@@ -215,6 +217,9 @@ namespace PH.Well.Repositories
         public const string DateThresholdUpdate = "DateThreshold_Update";
 
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
-        
+
+        public const string UpdateStatistics = "sp_updatestats";
+
+
     }
 }

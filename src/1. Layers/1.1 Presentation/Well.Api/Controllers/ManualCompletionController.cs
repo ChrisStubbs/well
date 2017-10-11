@@ -27,42 +27,23 @@
 
         public IEnumerable<JobIdResolutionStatus> Patch(ManualCompletionRequest request)
         {
-            try
+            if (!request.JobIds.Any())
             {
-                if (!request.JobIds.Any())
-                {
-                    throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
-                }
-                return manualCompletionService.Complete(request.JobIds, request.ManualCompletionType)
-                    .Select(x => new JobIdResolutionStatus(x.Id, x.ResolutionStatus));
+                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
-            {
-                logger.LogError("ManualCompletionController Patch error", ex);
-                throw new HttpResponseException(System.Net.HttpStatusCode.InternalServerError);
-            }
-
+            return manualCompletionService.Complete(request.JobIds, request.ManualCompletionType)
+                .Select(x => new JobIdResolutionStatus(x.Id, x.ResolutionStatus));
         }
 
         [HttpGet]
         [Route("ManualCompletion/Summary")]
         public PatchSummary GetSummary([FromUri]int[] ids)
         {
-            try
+            if (ids == null || ids.Length == 0)
             {
-                if (ids == null || ids.Length == 0)
-                {
-                    throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
-                }
-                return summaryMapper.Map(manualCompletionService.GetJobsAvailableForCompletion(ids));
+                throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
-            {
-                logger.LogError("ManualCompletionController Get error", ex);
-                throw new HttpResponseException(System.Net.HttpStatusCode.InternalServerError);
-            }
-
-
+            return summaryMapper.Map(manualCompletionService.GetJobsAvailableForCompletion(ids));
         }
     }
 }

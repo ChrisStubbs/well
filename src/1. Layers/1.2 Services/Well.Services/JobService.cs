@@ -158,7 +158,7 @@
             if (!job.ResolutionStatus.IsEditable())
             {
                 result.AppendLine(ResolutionStatusExtensions.IsNotEditableMessage());
-        }
+            }
 
             if (!IsJobAssignedToUser(job, userName))
             {

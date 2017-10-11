@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using PH.Well.Api.Models;
+
+namespace PH.Well.Api.Controllers
 {
     using System;
     using System.Linq;
@@ -21,20 +23,20 @@
         private readonly IBranchService branchService;
         private readonly IUserRepository userRepository;
         private readonly ILogger logger;
-        private readonly IJobRepository jobRepository;
+        private readonly IJobService jobService;
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public UserController(IBranchService branchService,
             IActiveDirectoryService activeDirectoryService,
             IUserRepository userRepository, ILogger logger,
             IUserNameProvider userNameProvider,
-            IJobRepository jobRepository)
+            IJobService jobService)
             : base(userNameProvider)
         {
             this.branchService = branchService;
             this.userRepository = userRepository;
             this.logger = logger;
-            this.jobRepository = jobRepository;
+            this.jobService = jobService;
             this.activeDirectoryService = activeDirectoryService;
         }
 
@@ -151,51 +153,16 @@
 
         [Route("assign-user-to-jobs")]
         [HttpPost]
-        public HttpResponseMessage Assign(UserJobs userJobs)
+        public AssignJobResult Assign(UserJobs userJobs)
         {
-            var user = userRepository.GetById(userJobs.UserId);
-            var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
-
-            if (user != null && jobs.Any())
-            {
-                var assignedJobIds = new List<int>();
-                foreach (var job in jobs)
-                {
-                    // Skip pending approval job allocation if it is not explicitl
-                    if (job.ResolutionStatus == ResolutionStatus.PendingApproval &&
-                        !userJobs.AllocatePendingApprovalJobs)
-                    {
-                        continue;
-                    }
-
-                    this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
-                    assignedJobIds.Add(job.Id);
-                }
-
-                if (assignedJobIds.Any())
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.Created, new {success = true});
-                }
-                else
-                {
-                    return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
-                }
-                
-            }
-
-            return this.Request.CreateResponse(HttpStatusCode.OK, new { failure = true });
+            return jobService.Assign(userJobs);
         }
 
         [Route("unassign-user-from-jobs")]
         [HttpPost]
-        public HttpResponseMessage UnAssign(int[] jobIds)
+        public AssignJobResult UnAssign(int[] jobIds)
         {
-            foreach (var jobId in jobIds)
-            {
-                this.userRepository.UnAssignJobToUser(jobId);
-            }
-
-            return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
+            return jobService.UnAssign(jobIds);
         }
     }
 }

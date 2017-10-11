@@ -217,7 +217,7 @@
             //    StopService.ComputeWellStatus(IList<int> stopId) =>
             //    get the data calculate and save
 
-            return dapperProxy.WithStoredProcedure(StoredProcedures.Job_GetForWellStatusCalculationByStopIds)
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobGetForWellStatusCalculationByStopIds)
                     .AddParameter("StopIds", stopId.ToIntDataTables("StopIds"), DbType.Object)
                     .Query<Job>()
                     .GroupBy(p => p.StopId)

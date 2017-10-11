@@ -1,3 +1,4 @@
+import { Assignee } from './../shared/models/assignee';
 import { Component, ViewChild } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RoutesService } from './routesService';
@@ -97,7 +98,7 @@ export class SingleRouteComponent implements IObservableAlive {
                 this.routeDate = data.routeDate;
                 this.branch = data.branch;
 
-                this.source = this.buildGridSource(data.items);
+                this.source = this.buildGridSource(data.items); 
                 this.fillGridSource();
             });
     }
@@ -254,18 +255,25 @@ export class SingleRouteComponent implements IObservableAlive {
         _.map(this.source, (current: SingleRouteSource) => {
             if (!current.stopAssignee) {
                 current.stopAssignee = 'Unallocated';
-
-                _.each(current.items,
-                    (item: SingleRouteItem) => {
-                        item.assignee = 'Unallocated';
-                    });
             }
 
             const filteredValues =
                 GridHelpersFunctions.applyGridFilter<SingleRouteItem, SingleRouteFilter>(current.items, this.filters);
 
-            assignees.push(current.stopAssignee);
+            _.each(current.items,
+                (item: SingleRouteItem) => {
+                    item.assignee = item.assignee || 'Unallocated';
 
+                    if (!_.isNil(item.assignees) && item.assignees.length > 0)
+                    {
+                        item.assignees.forEach((a: Assignee) => assignees.push(a.name));
+                    }
+                    else
+                    {
+                        assignees.push('Unallocated');
+                    }
+                });
+            
             if (!_.isEmpty(filteredValues)) {
                 const newItem: SingleRouteSource = _.clone(current);
 

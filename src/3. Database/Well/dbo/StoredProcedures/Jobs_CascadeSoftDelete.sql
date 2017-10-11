@@ -52,8 +52,8 @@ AS
     -----------------------------
     UPDATE LineItemAction
     SET DateDeleted = @DateDeleted
-		,LastUpdatedBy	= @UpdatedBy
 		,DeletedByImport = @DeletedByImport
+		,LastUpdatedBy	= @UpdatedBy
     OUTPUT inserted.Id, inserted.Id INTO @TableIds
     WHERE LineItemId IN (SELECT Id FROM @TableIds)
 
@@ -62,6 +62,14 @@ AS
     ------------------------------------
     UPDATE LineItemActionComment
     SET DateDeleted = @DateDeleted
-		,UpdatedBy	= @UpdatedBy
 		,DeletedByImport = @DeletedByImport
+		,UpdatedBy	= @UpdatedBy
     WHERE LineItemActionId IN (SELECT Additional FROM @TableIds)
+
+	------------------
+	--- Delete Bag ---
+	------------------
+	UPDATE Bag
+	SET DateDeleted = @DateDeleted
+		,LastUpdatedBy	= @UpdatedBy
+	WHERE Id IN (SELECT BagId FROM LineItem l JOIN @TableIds i ON l.Id = i.Id)

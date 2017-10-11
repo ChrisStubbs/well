@@ -94,7 +94,6 @@
     <Compile Include="Enums\ThresholdLevel.cs" />
     <Compile Include="Enums\WidgetType.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="JobDetailAction.cs" />
     <Compile Include="JobDetailDamageDTO.cs" />
     <Compile Include="JobDetailDTO.cs" />
     <Compile Include="JobDTO.cs" />
@@ -140,6 +139,7 @@
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
     <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
+    <Compile Include="ValueObjects\AssignJobResult.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
     <Compile Include="ValueObjects\JobStop.cs" />
     <Compile Include="ValueObjects\PatchSummaryItem.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="ValueObjects\JobResolutionStatus.cs" />
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
-    <Compile Include="ValueObjects\RouteBranch.cs" />
+    <Compile Include="ValueObjects\JobForClean.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />
     <Compile Include="ValueObjects\SubmitActionResult.cs" />
     <Compile Include="ValueObjects\EditLineItemException.cs" />

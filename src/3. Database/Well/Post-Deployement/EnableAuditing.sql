@@ -10,9 +10,6 @@
 --EXEC   [dbo].[AuditTrigger] @SourceTableName = N'JobDetail', @Deletes = 1, @Inserts = 1, @Updates = 1
 --GO
 
---EXEC   [dbo].[AuditTrigger] @SourceTableName = N'JobDetailAction', @Deletes = 1, @Inserts = 1, @Updates = 1
---GO
-
 --EXEC   [dbo].[AuditTrigger] @SourceTableName = N'JobDetailDamage', @Deletes = 1, @Inserts = 1, @Updates = 1
 --GO
 

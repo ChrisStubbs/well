@@ -31,3 +31,10 @@ CREATE NONCLUSTERED INDEX IDX_LineItem_DateDeleted ON LineItem (DateDeleted ASC)
 INCLUDE (ActivityId,JobId) 
 WHERE DateDeleted IS NULL
 WITH (SORT_IN_TEMPDB = ON) 
+
+GO 
+
+CREATE NONCLUSTERED INDEX IDx_LineItem_JobId
+ON [dbo].[LineItem] ([JobId])
+INCLUDE ([Id])
+

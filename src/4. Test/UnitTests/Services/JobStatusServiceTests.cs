@@ -28,13 +28,13 @@ namespace PH.Well.UnitTests.Services
         private JobService service;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IAssigneeReadRepository> assigneeReadRepository;
-        private readonly Mock<IUserThresholdService> userThreshold = new Mock<IUserThresholdService>();
-        private readonly Mock<IDateThresholdService> dateThresholdService = new Mock<IDateThresholdService>();
-        private readonly Mock<ILineItemSearchReadRepository> lineItemRepository = new Mock<ILineItemSearchReadRepository>();
-        private readonly Mock<IUserRepository> userRepository = new Mock<IUserRepository>();
-        private readonly Mock<IStopService> stopService = new Mock<IStopService>();
-        private readonly Mock<IActivityService> activityService = new Mock<IActivityService>();
-        private readonly Mock<WellStatusAggregator> wellStatusAggregator = new Mock<WellStatusAggregator>();
+        private Mock<IUserThresholdService> userThreshold;
+        private Mock<IDateThresholdService> dateThresholdService;
+        private Mock<ILineItemSearchReadRepository> lineItemRepository;
+        private Mock<IUserRepository> userRepository;
+        private Mock<IStopService> stopService;
+        private Mock<IActivityService> activityService;
+        private Mock<WellStatusAggregator> wellStatusAggregator;
 
         [SetUp]
         public void Setup()
@@ -45,9 +45,16 @@ namespace PH.Well.UnitTests.Services
 
             Thread.CurrentPrincipal = principal;
 
-            this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            this.assigneeReadRepository = new Mock<IAssigneeReadRepository>();
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
+            assigneeReadRepository = new Mock<IAssigneeReadRepository>();
+            userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            userThreshold = new Mock<IUserThresholdService>();
+            dateThresholdService = new Mock<IDateThresholdService>();
+            lineItemRepository = new Mock<ILineItemSearchReadRepository>();
+            userRepository = new Mock<IUserRepository>();
+            stopService = new Mock<IStopService>();
+            activityService = new Mock<IActivityService>();
+            wellStatusAggregator = new Mock<WellStatusAggregator>();
 
             assigneeReadRepository.Setup(p => p.GetByJobId(It.IsAny<int>())).Returns(new Assignee { IdentityName = "User" });
 
@@ -554,6 +561,118 @@ namespace PH.Well.UnitTests.Services
             }
         }
 
+        public class JobAssignmentTests : JobServiceTests
+        {
+            private IEnumerable<Job> pendingApprovalJobs = new[]
+            {
+                new Job() {Id = 1, ResolutionStatus = ResolutionStatus.PendingApproval},
+                new Job() {Id = 2, ResolutionStatus = ResolutionStatus.PendingApproval}
+            };
+
+            private IEnumerable<Job> standardJobs = new[] {new Job {Id = 3}, new Job {Id = 4}};
+
+            [Test]
+            public void ShouldAssignTheJobsToAUser()
+            {
+                var jobs = standardJobs.ToList();
+                var user = new User();
+                var userJobs = new UserJobs
+                {
+                    JobIds = jobs.Select(x => x.Id).ToArray(),
+                    UserId = user.Id
+                };
+
+                userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(jobs);
+
+                var result = service.Assign(userJobs);
+
+                Assert.True(result.Success);
+                this.userRepository.Verify(x => x.AssignJobToUser(user.Id, It.IsAny<int>()), Times.Exactly(2));
+            }
+
+            [Test]
+            public void ShouldAssignJobsIncludingPendingApproval()
+            {
+                var user = new User();
+                var allJobs = standardJobs.Concat(pendingApprovalJobs).ToList();
+                var userJobs = new UserJobs
+                {
+                    JobIds = allJobs.Select(x => x.Id).ToArray(),
+                    UserId = user.Id,
+                    AllocatePendingApprovalJobs = true
+                };
+
+                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(allJobs);
+
+                var result = service.Assign(userJobs);
+
+                Assert.True(result.Success);
+                foreach (var job in allJobs)
+                {
+                    this.userRepository.Verify(x => x.AssignJobToUser(user.Id, job.Id), Times.Exactly(1));
+                }
+            }
+
+            [Test]
+            public void ShouldReturnFailureIfNoUser()
+            {
+                jobRepository.Setup(j => j.GetByIds(It.IsAny<int[]>())).Returns(standardJobs);
+                var result = service.Assign(new UserJobs {JobIds = standardJobs.Select(x => x.Id).ToArray()});
+                Assert.False(result.Success);
+            }
+
+            [Test]
+            public void ShouldReturnFailureIfNoJob()
+            {
+                var user = new User();
+                var userJobs = new UserJobs
+                {
+                    UserId = user.Id
+                };
+
+                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(new List<Job>());
+
+                var result = service.Assign(userJobs);
+                Assert.False(result.Success);
+            }
+
+            [Test]
+            public void ShouldReturnFailureIfAllJobsArePendingApproval()
+            {
+                var user = new User();
+                var userJobs = new UserJobs
+                {
+                    JobIds = pendingApprovalJobs.Select(x => x.Id).ToArray(),
+                    UserId = user.Id,
+                    AllocatePendingApprovalJobs = false // Exclude pending approval jobs
+                };
+
+                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(pendingApprovalJobs);
+
+                var result = service.Assign(userJobs);
+
+                Assert.False(result.Success);
+            }
+            
+
+            [Test]
+            public void ShouldUnAssignJobs()
+            {
+                var jobIds = standardJobs.Select(x => x.Id);
+                var result = service.UnAssign(jobIds);
+
+                Assert.True(result.Success);
+
+                foreach (var jobId in jobIds)
+                {
+                    this.userRepository.Verify(x => x.UnAssignJobToUser(jobId), Times.Once);
+                }
+            }
+        }
 
         [Test]
         public void SetGrnShouldFailAfterSubmissionDate()

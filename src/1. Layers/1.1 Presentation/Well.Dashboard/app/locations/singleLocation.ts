@@ -1,3 +1,4 @@
+import { Assignee }             from '../shared/models/assignee';
 import { DatePipe }             from '@angular/common';
 import { IFilter }              from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
@@ -63,7 +64,7 @@ export class SingleLocation
     public clean: number;
     public tba: number;
     public credit: number;
-    public assignee: string;
+    public assignee: Assignee;
     public resolution: string;
     public resolutionId: number;
     public isInvoice: boolean;
@@ -99,8 +100,13 @@ export class SingleLocationFilter implements IFilter
             case 'driver':
             case 'dateFormatted':
             case 'jobStatus':
-            case 'assignee':
                 return GridHelpersFunctions.isEqualFilter;
+
+            case 'assignee':
+                return (value: string, value2: string, sourceRow: SingleLocation) => 
+                {
+                    return value2 == sourceRow.assignee.name;
+                };
 
             case 'jobTypeId':
                 return (value: number, value2: string) =>

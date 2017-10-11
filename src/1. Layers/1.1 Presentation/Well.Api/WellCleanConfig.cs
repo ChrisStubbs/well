@@ -15,5 +15,6 @@
         }
 
         public int SoftDeleteBatchSize { get; set; } = 1000;
+        public int WellCleanTransactionTimeoutSeconds { get; set; } = 1200;
     }
 }

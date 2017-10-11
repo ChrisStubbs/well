@@ -48,7 +48,7 @@ export class SingleLocationComponent implements IObservableAlive {
 
     private gridSource: Array<SingleLocationGroup> = [];
     private filters = new SingleLocationFilter();
-    private source: SingleLocationHeader = new SingleLocationHeader();
+    private source: SingleLocationHeader = new SingleLocationHeader(); 
     private canEditExceptions: boolean;
     private canDoManualActions: boolean;
 
@@ -88,11 +88,10 @@ export class SingleLocationComponent implements IObservableAlive {
                 this.drivers = [];
                 this.assignees = [];
 
-                _.forEach(this.source.details, (current: SingleLocation) => {
-                    current.assignee = current.assignee || 'Unallocated';
-
+                _.forEach(this.source.details, (current: SingleLocation) => 
+                {
                     this.drivers.push(current.driver || '');
-                    this.assignees.push(current.assignee);
+                    this.assignees.push(_.isNil(current.assignee) ? 'Unallocated' : current.assignee.name);
                 });
 
                 this.drivers = _.chain(this.drivers).uniq().filter(current => !_.isEmpty(current)).orderBy().value();
@@ -212,7 +211,7 @@ export class SingleLocationComponent implements IObservableAlive {
         const branch = { id: this.source.branchId } as Branch;
         const jobIds = [location.jobId];
 
-        return new AssignModel(location.assignee, branch, jobIds, location, false);
+        return new AssignModel(location.assignee.name, branch, jobIds, location, false);
     }
 
     public onAssigned(event: AssignModalResult): void {
@@ -220,7 +219,7 @@ export class SingleLocationComponent implements IObservableAlive {
         const location = _.find(this.source.details,
             (value: SingleLocation) => value.invoice == event.source.invoice) as SingleLocation;
 
-        location.assignee = userName;
+        location.assignee.name = userName;
 
         this.buildGridSource();
     }

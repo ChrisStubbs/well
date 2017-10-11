@@ -162,7 +162,6 @@
     <Compile Include="Common\StringExtensionTests.cs" />
     <Compile Include="Dashboard\StructuremapTests.cs" />
     <Compile Include="Domain\AssigneeTests.cs" />
-    <Compile Include="Domain\JobDetailActionTests.cs" />
     <Compile Include="Domain\JobDetailTests.cs" />
     <Compile Include="Domain\JobTests.cs" />
     <Compile Include="Domain\LineItemActionTests.cs" />

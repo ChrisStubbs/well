@@ -108,7 +108,7 @@
                         Exceptions = jobExceptions.ContainsKey(job.Id) ? jobExceptions[job.Id].TotalExceptions : 0,
                         Clean = jobExceptions.ContainsKey(job.Id) ? jobExceptions[job.Id].TotalClean : 0,
                         Credit = job.CreditValue,
-                        Assignee = Assignee.GetDisplayNames(assignee.Where(x => x.JobId == job.Id).ToList()),
+                        Assignees = assignee.Where(x => x.JobId == job.Id).ToList(),
                         Account = job.PhAccount,
                         AccountName = job.PhAccountName,
                         WellStatus = job.WellStatus,

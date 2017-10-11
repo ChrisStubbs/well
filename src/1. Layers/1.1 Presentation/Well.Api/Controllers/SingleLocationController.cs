@@ -23,12 +23,14 @@
         {
             var data = this.locationRepository.GetSingleLocationById(id);
             var jobIds = data.Details.Select(p => p.JobId).Distinct();
-            var assignees = assigneeRepository.GetByJobIds(jobIds).ToDictionary(k => k.JobId, v => v.Name);
+            var assignees = assigneeRepository.GetByJobIds(jobIds).ToDictionary(k => k.JobId);
 
             data.Details = data.Details
                 .Select(p =>
                 {
-                    p.Assignee = assignees.ContainsKey(p.JobId) ? assignees[p.JobId] : string.Empty;
+                    p.Assignee = assignees.ContainsKey(p.JobId) ? 
+                        assignees[p.JobId] 
+                        : new Domain.ValueObjects.Assignee { Name = "Unallocated" };
                     p.JobStatus = EnumExtensions.GetDescription((WellStatus)p.WellStatus);
 
                     return p;

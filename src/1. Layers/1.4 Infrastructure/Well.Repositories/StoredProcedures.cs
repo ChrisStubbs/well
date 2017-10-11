@@ -2,6 +2,8 @@
 
 namespace PH.Well.Repositories
 {
+    using Microsoft.Ajax.Utilities;
+
     public struct StoredProcedures
     {
         public const string RouteHeaderGetAll = "RouteHeader_GetAll";
@@ -45,13 +47,14 @@ namespace PH.Well.Repositories
         public const string JobUpdateWellStatus = "Job_UpdateWellStatus";
         public const string JobGetForWellStatusCalculationById = "Job_GetForWellStatusCalculationById";
         public const string JobGetForWellStatusCalculationByStopId = "Job_GetForWellStatusCalculationByStopId";
-        public const string Job_GetForWellStatusCalculationByStopIds = "Job_GetForWellStatusCalculationByStopIds";
+        public const string JobGetForWellStatusCalculationByStopIds = "Job_GetForWellStatusCalculationByStopIds";
 
         public const string JobUpdate = "Job_Update";
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
         public const string JobsCascadeSoftDelete = "Jobs_CascadeSoftDelete";
+        public const string ArchiveJobs = "Archive_Jobs";
         public const string JobsReinstateSoftDeletedByImport = "Jobs_ReinstateSoftDeletedByImport";
         public const string StopsReinstateSoftDeletedByImport = "Stops_ReinstateSoftDeletedByImport";
         public const string SaveGrn = "SaveGrn";
@@ -98,8 +101,12 @@ namespace PH.Well.Repositories
         public const string GetBranchesForSeasonalDate = "GetBranchesForSeasonalDate";
         public const string GetBranchesForCleanPreference = "GetBranchesForCleanPreference";
         public const string CleanJobsSetResolutionStatusClosed = "CleanJobsSetResolutionStatusClosed";
-        public const string CleanStops = "CleanStops";
-        public const string CleanRoutes = "CleanRoutes";
+
+        public const string ArchiveStops = "Archive_Stops";
+        public const string ArchiveRouteHeader = "Archive_RouteHeader";
+        public const string ArchiveRoutes = "Archive_Routes";
+        public const string ArchiveActivity = "Archive_Activity";
+        public const string ArchiveExceptionEvent = "Archive_ExceptionEvent";
 
         public const string UsersGet = "Users_Get";
         public const string UserSave = "UserSave";
@@ -211,6 +218,7 @@ namespace PH.Well.Repositories
         public const string DateThresholdUpdate = "DateThreshold_Update";
 
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
-        
+
+        public const string UpdateStatistics = "sp_updatestats";
     }
 }

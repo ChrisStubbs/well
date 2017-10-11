@@ -14,6 +14,7 @@ namespace PH.Well.Repositories
     using Domain;
     using Domain.Enums;
     using Domain.ValueObjects;
+    using System.Threading.Tasks;
 
     public class JobRepository : DapperRepository<Job, int>, IJobRepository
     {
@@ -61,7 +62,7 @@ namespace PH.Well.Repositories
                     ShortTotal = x.LineItem.LineItemAction
                         .Where(y => y.ExceptionType.Id == (int)ExceptionType.Short && y.DateDeleted == null)
                         .Sum(y => (int?)y.Quantity) ?? 0,
-                    TotalExceptions = x.LineItem.LineItemAction.Where(y => y.DateDeleted == null).Count(),
+                    TotalExceptions = x.LineItem.LineItemAction.Count(y => y.DateDeleted == null),
                 });
         }
 
@@ -374,7 +375,7 @@ namespace PH.Well.Repositories
                 .AddParameter("DeletedByImport", deletedByImport, DbType.Boolean)
                 .Execute();
         }
-
+        
         public void ReinstateJobsSoftDeletedByImport(IList<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)

@@ -18,7 +18,6 @@
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
 	[LocationId] INT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
 ) ON Archive

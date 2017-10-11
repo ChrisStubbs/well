@@ -70,7 +70,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IUserStatsRepository>().Use<UserStatsRepository>();
             For<ISeasonalDateRepository>().Use<SeasonalDateRepository>();
             For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
-            For<IJobDetailActionRepository>().Use<JobDetailActionRepository>();
             For<IWidgetRepository>().Use<WidgetRepository>();
             For<IUserThresholdService>().Use<UserThresholdService>();
             For<ICreditTransactionFactory>().Use<CreditTransactionFactory>();

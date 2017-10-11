@@ -1,3 +1,4 @@
+import { Assignee }             from './../shared/models/assignee';
 import * as _                   from 'lodash';
 import { IFilter }              from '../shared/gridHelpers/IFilter';
 import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
@@ -29,6 +30,7 @@ export class SingleRouteItem implements IGrnAssignable
     public stopStatus: string;
     public tba: number;
     public stopAssignee: string;
+    public assignees: Assignee[];
     public resolution: string;
     public resolutionId: number;
     public invoice: string;
@@ -133,9 +135,19 @@ export class SingleRouteFilter implements IFilter
                     };
 
             case 'wellStatus':
-            case 'assignee':
                 return (value: any, valu2: any) => {
                     return GridHelpersFunctions.isEqualFilter(String(value), String(valu2));
+                };
+
+            case 'assignee':
+                return (value: string, value2: string, sourceRow: SingleRouteItem) =>
+                {
+                    if (_.isNil(sourceRow.assignees) || sourceRow.assignees.length == 0)
+                    {
+                        return value2 == 'Unallocated';
+                    }
+
+                    return sourceRow.assignees.some((current: Assignee) => current.name == value2);
                 };
 
             case 'exceptions':

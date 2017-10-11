@@ -93,12 +93,23 @@
 
                         foreach (var lineItemAction in LineItemActionsToEdit(job,lineItemIds))
                         {
+                            var productCode = job.LineItems.Where(x => x.Id == lineItemAction.LineItemId).Select(x => x.ProductCode).FirstOrDefault();
+
                             if (resolution.DeliveryAction == DeliveryAction.Close)
                             {
                                 lineItemAction.Quantity = 0;
                             }
 
-                            lineItemAction.DeliveryAction = resolution.DeliveryAction;
+                            if (productCode == "TOTES")
+                            {
+                                lineItemAction.Quantity = 0;
+                                lineItemAction.DeliveryAction = DeliveryAction.Close;
+                            }
+                            else
+                            {
+                                lineItemAction.DeliveryAction = resolution.DeliveryAction;
+                            }
+                            
                             lineItemAction.Source = resolution.Source;
                             lineItemAction.Reason = resolution.Reason;
                             lineItemActionRepository.Update(lineItemAction);

@@ -42,7 +42,6 @@
 	[DateCreated] DATETIME NOT NULL,
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
-	[Version] [TIMESTAMP] NOT NULL,
 	[JobStatusId] TINYINT NOT NULL DEFAULT 1,
 	[ActivityId] INT NULL,
 	ResolutionStatusId INT NULL,

@@ -1,5 +1,5 @@
-﻿import { IAppSearchResultItem} from './IAppSearchResultItem';
+﻿import { IAppSearchItem } from './IAppSearchItem';
 export interface IAppSearchResult {
     branchId: number;
-    items: IAppSearchResultItem[];
+    items: IAppSearchItem[];
 }

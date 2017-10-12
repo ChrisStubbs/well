@@ -101,7 +101,7 @@ namespace PH.Well.Repositories.Read
                     }
                     foreach (var route in routes.Take(maxResultsPerType))
                     {
-                        results.Add(new AppSearchRouteItem(route.RouteNumber, route.DriverName,
+                        results.Add(new AppSearchRouteItem(route.Id,route.RouteNumber, route.DriverName,
                             route.RouteDate.GetValueOrDefault()));
                     }
                 }
@@ -119,7 +119,6 @@ namespace PH.Well.Repositories.Read
                 .Where(x => x.DocumentNumber == documentNumber
                             && x.Location.BranchId == branchId);
 
-            // This is workaround when searching for something different than invoice because it seems that Activity.ActivityTypeId is wrongly set
             if (activityType != ActivityType.Invoice)
             {
                 query = query.Where(x => x.ActivityTypeId == (byte) ActivityType.Uplift);
@@ -131,15 +130,14 @@ namespace PH.Well.Repositories.Read
                     .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
             }
 
-           
-            var invoices = query.Take(maxResultsPerType).Select(x => new
+            var invoices = query.Select(x => new
             {
                 x.Id,
                 x.DocumentNumber,
                 x.ActivityTypeId,
-                Date = x.Job.FirstOrDefault().Stop.RouteHeader.RouteDate,
-                AccountName = x.Job.FirstOrDefault().Stop.Account.FirstOrDefault().Name
-            }).ToList();
+                Date = x.Job.FirstOrDefault(j=> j.DateDeleted == null).Stop.RouteHeader.RouteDate,
+                AccountName = x.Location.Name + "FFs"
+            }).Take(maxResultsPerType).ToList();
 
             foreach (var activity in invoices)
             {

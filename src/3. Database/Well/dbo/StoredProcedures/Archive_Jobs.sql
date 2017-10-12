@@ -202,12 +202,12 @@ AS
 		,[BagId]
 		,[ArchiveDate])
 	FROM dbo.JobDetail jd
-	INNER JOIN LineItem li ON li.id = jd.LineItemId
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
+	INNER JOIN @JobIds jobIds ON jd.JobId = jobIds.Value
 	PRINT ('Deleted JobDetail')
 	PRINT ('----------------')
 
-		--JobDetail
+
+	--JobDetail
 	DELETE jd
 	OUTPUT Deleted.[Id]
 		,Deleted.[LineNumber]
@@ -277,7 +277,8 @@ AS
 		,[BagId]
 		,[ArchiveDate])
 	FROM dbo.JobDetail jd
-	INNER JOIN @JobIds jobIds ON jd.JobId = jobIds.Value
+	INNER JOIN LineItem li ON li.id = jd.LineItemId
+	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
 	PRINT ('Deleted JobDetail')
 	PRINT ('----------------')
 	

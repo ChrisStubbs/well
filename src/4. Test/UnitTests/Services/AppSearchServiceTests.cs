@@ -25,7 +25,7 @@
             public void ShouldCallSearchRepositorySearchMethodWithCorrectParams()
             {
                 var searchParams = new AppSearchParameters();
-                var searchResults = new List<AppSearchResult>();
+                var searchResults = new List<AppSearchItem>();
 
                 searchReadRepository.Setup(x => x.Search(searchParams)).Returns(searchResults);
 
@@ -33,28 +33,6 @@
                 searchReadRepository.Verify(x => x.Search(It.IsAny<AppSearchParameters>()), Times.Once);
                 searchReadRepository.Verify(x => x.Search(searchParams), Times.Once);
             }
-
-            //[Test] DIJ
-            //public void ShouldReturnAppSearchResultSummaryWithCorrectDistinctValues()
-            //{
-
-            //    var searchParams = new AppSearchParameters();
-            //    var searchResults = new List<AppSearchResult>
-            //    {
-            //        new AppSearchResult {RouteId = 1, StopId = 2},
-            //        new AppSearchResult {RouteId = 1, StopId = 2},
-            //        new AppSearchResult {RouteId = 1, StopId = 3},
-            //        new AppSearchResult {RouteId = 4, StopId = 4},
-            //    };
-
-            //    searchReadRepository.Setup(x => x.Search(searchParams)).Returns(searchResults);
-
-            //    var result = service.GetAppSearchResult(searchParams);
-
-            //    Assert.AreEqual(string.Join(",", result.RouteIds), "1,4");
-            //    Assert.AreEqual(string.Join(",", result.StopIds), "2,3,4");
-            //}
-
         }
     }
 }

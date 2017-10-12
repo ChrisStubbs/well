@@ -5,6 +5,6 @@ namespace PH.Well.Repositories.Read
 {
     public interface IAppSearchReadRepository
     {
-        IEnumerable<AppSearchResult> Search(AppSearchParameters searchParameters);
+        IEnumerable<AppSearchItem> Search(AppSearchParameters searchParameters);
     }
 }

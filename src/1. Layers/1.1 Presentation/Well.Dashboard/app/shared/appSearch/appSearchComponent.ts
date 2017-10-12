@@ -24,6 +24,7 @@ import { ToasterService }                   from 'angular2-toaster/angular2-toas
 import * as _                               from 'lodash';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import { IAppSearchResult, IAppSearchResultItem } from './appSearch';
 
 @Component({
     selector: 'ow-appSearch',
@@ -39,7 +40,8 @@ export class AppSearch implements IObservableAlive
     public showMoreFilters = false;
     public drivers: ILookupValue[];
     public isAlive: boolean = true;
-    @Output() public onSearch = new EventEmitter();
+    @Output() public onSearch: EventEmitter<IAppSearchResult> = new EventEmitter<IAppSearchResult>();
+    private currentResult: IAppSearchResult;
 
     public constructor(
         private lookupService: LookupService,
@@ -112,6 +114,7 @@ export class AppSearch implements IObservableAlive
     public resetSearch(): void {
         this.searchForm.reset();
         this.setDefaultBranch();
+        this.currentResult = undefined;
     }
 
     public search(event: any): void {
@@ -136,41 +139,42 @@ export class AppSearch implements IObservableAlive
 
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
-            .subscribe((result: IAppSearchResultSummary) => 
+            .subscribe((result: IAppSearchResult) => 
             {
                 // If no locations matched
-                if (!result.locationIds.length && !result.routeIds.length && !result.invoiceIds.length) {
-                    this.toasterService.pop('warning', 'No results found for your search criteria');
-                    this.onSearch.emit();
-                    return;
-                }
+                //if (!result.locationIds.length && !result.routeIds.length && !result.invoiceIds.length) {
+                //    this.toasterService.pop('warning', 'No results found for your search criteria');
+                //    this.onSearch.emit();
+                //    return;
+                //}
 
-                // If user searched by invoice and single result was found - navigate to invoice screen
-                if ((parameters.invoice || parameters.upliftInvoiceNumber) && result.invoiceIds.length === 1) {
-                    this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
-                    this.onSearch.emit();
-                    return;
-                }
+                //// If user searched by invoice and single result was found - navigate to invoice screen
+                //if ((parameters.invoice || parameters.upliftInvoiceNumber) && result.invoiceIds.length === 1) {
+                //    this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
+                //    this.onSearch.emit();
+                //    return;
+                //}
 
-                if (result.locationIds.length === 1) {
-                    this.router.navigateByUrl('/singlelocation?locationId=' + result.locationIds[0]);
-                    this.onSearch.emit();
-                    return;
-                }
+                //if (result.locationIds.length === 1) {
+                //    this.router.navigateByUrl('/singlelocation?locationId=' + result.locationIds[0]);
+                //    this.onSearch.emit();
+                //    return;
+                //}
 
-                if (result.routeIds.length === 1) {
-                    this.router.navigateByUrl('/singleroute/' + result.routeIds[0]);
-                    this.onSearch.emit();
-                    return;
-                }
+                //if (result.routeIds.length === 1) {
+                //    this.router.navigateByUrl('/singleroute/' + result.routeIds[0]);
+                //    this.onSearch.emit();
+                //    return;
+                //}
 
-                if (this.isNonFilterSearch(parameters)) {
-                    parameters.routeIds = (result.routeIds.length > 0) ? result.routeIds : [-1];
-                }
+                //if (this.isNonFilterSearch(parameters)) {
+                //    parameters.routeIds = (result.routeIds.length > 0) ? result.routeIds : [-1];
+                //}
 
-                this.router.navigate(['/routes'], { queryParams: parameters });
-                this.onSearch.emit();
+                //this.router.navigate(['/routes'], { queryParams: parameters });
 
+                this.currentResult = result;
+                this.onSearch.emit(result);
                 return;
 
             });

@@ -28,6 +28,7 @@
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -238,6 +239,8 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\IAppSearchResult.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\IAppSearchResultItem.ts" />
     <TypeScriptCompile Include="app\shared\branch\branchNameComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\completedOnPaperComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\crmLinkController.ts" />

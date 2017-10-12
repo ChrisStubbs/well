@@ -88,3 +88,56 @@
     </div>
  
 </form>
+<div *ngIf="currentResult">
+    <div class="list-group">
+        <ng-container *ngFor="let item of currentResult.items">
+            <a href="#" class="list-group-item" *ngIf="item.itemType == 1">
+                <div class="row" >
+                    <div class="col-xs-3">
+                        <label>Type</label><span> {{item.type}}</span>
+                    </div> 
+                    <div class="col-xs-3">
+                        <label>Date</label><span> {{item.date | date:'dd MMM yyyy'}}</span>
+                    </div> 
+                    <div class="col-xs-3">
+                        <label>Document Number</label><span> {{item.documentNumber}}</span>
+                    </div> 
+                    <div class="col-xs-3">
+                        <label>Name</label><span> {{item.LocationName}}</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="list-group-item" *ngIf="item.itemType == 2">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label>Type</label><span> Location</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Name</label><span> {{item.name}}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Account Number</label><span> {{item.accountNumber}}</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="list-group-item" *ngIf="item.itemType == 3">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label>Type</label><span> Route</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Date</label><span> {{item.date | date:'dd MMM yyyy' }}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Route Number</label><span> {{item.routeNumber}}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Driver Name</label><span> {{item.driverName}}</span>
+                    </div>
+                </div>
+            </a>
+        </ng-container>
+    </div>
+</div>

@@ -138,8 +138,8 @@
     <Compile Include="ValueObjects\Amendment.cs" />
     <Compile Include="ValueObjects\AmendmentTransaction.cs" />
     <Compile Include="ValueObjects\AppSearchParameters.cs" />
+    <Compile Include="ValueObjects\AppSearchItem.cs" />
     <Compile Include="ValueObjects\AppSearchResult.cs" />
-    <Compile Include="ValueObjects\AppSearchResultSummary.cs" />
     <Compile Include="ValueObjects\AssignJobResult.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
     <Compile Include="ValueObjects\JobStop.cs" />

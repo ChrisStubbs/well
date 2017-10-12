@@ -19,7 +19,7 @@ AS
             SELECT Id
             FROM ResolutionStatus
             WHERE 
-                Id = 1 --'Imported'
+                Id = 1 --'Imported'   see note below **
                 OR Id = 2 --'Driver Completed'
                 OR Id = 512 --'Manually Completed'
                 OR 256 & Id != 0 --all closed status
@@ -29,3 +29,4 @@ AS
 			1, --'Awaiting Invoice'
 			2 -- 'InComplete'
 		)
+--**  Not We are retirning Imported resolution status as if it is Imported the jobs status will wither be 'Awaiting Invoice' or 'InComplete'

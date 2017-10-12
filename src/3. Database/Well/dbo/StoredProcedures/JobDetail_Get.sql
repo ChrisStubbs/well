@@ -58,17 +58,4 @@ AS
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jdd.JobDetailId
   WHERE	DateDeleted IS NULL
 
-  SELECT a.Id
-		,a.[JobDetailId]
-		,a.[Quantity]
-		,a.ActionId as [Action]
-		,a.StatusId as [Status]
-		,a.[CreatedBy]
-		,a.[DateCreated]
-		,a.[UpdatedBy]
-		,a.[DateUpdated]
-		,a.[Version]
-	From [dbo].[JobDetailAction] a
-	INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = a.JobDetailId	
-
 RETURN 0

@@ -507,7 +507,6 @@
     <Build Include="dbo\StoredProcedures\Archive_RouteHeader.sql" />
     <Build Include="dbo\StoredProcedures\Archive_Routes.sql" />
     <Build Include="dbo\StoredProcedures\Archive_Activity.sql" />
-    <Build Include="dbo\Tables\JobDetailAction.sql" />
     <Build Include="dbo\Tables\ELMAH_Error.sql" />
     <Build Include="dbo\StoredProcedures\ELMAH_GetErrorXml.sql" />
     <Build Include="dbo\Tables\GlobalUplift.sql" />

@@ -13,7 +13,6 @@ namespace PH.Well.Domain
         public JobDetailDTO()
         {
             this.JobDetailDamages = new List<JobDetailDamageDTO>();
-            this.Actions = new List<JobDetailAction>();
             this.EntityAttributes = new List<EntityAttribute>();
             this.EntityAttributeValues = new List<EntityAttributeValue>();
         }
@@ -247,9 +246,6 @@ namespace PH.Well.Domain
         [XmlArray("JobDetailDamages")]
         [XmlArrayItem("JobDetailDamage", typeof(JobDetailDamageDTO))]
         public List<JobDetailDamageDTO> JobDetailDamages { get; set; }
-
-        [XmlIgnore]
-        public List<JobDetailAction> Actions { get; set; }
 
         [XmlArray("EntityAttributes")]
         [XmlArrayItem("Attribute", typeof(EntityAttribute))]

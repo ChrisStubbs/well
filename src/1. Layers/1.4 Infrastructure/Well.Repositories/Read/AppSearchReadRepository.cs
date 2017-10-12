@@ -53,12 +53,12 @@ namespace PH.Well.Repositories.Read
                 // If an invoice number is supplied, see if that activity exists
                 if (searchParameters.HasInvoice)
                 {
-                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Invoice);
+                    ActivitySearch(SearchActivityByDocumentNumber(searchParameters, branchId), results);
                 }
 
                 if (searchParameters.HasUpliftInvoiceNumber)
                 {
-                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Uplift);
+                    ActivitySearch(SearchActivityByInitialDocumentNumber(searchParameters, branchId), results);
                 }
 
                 // If an account number exists, find matching accounts
@@ -110,19 +110,11 @@ namespace PH.Well.Repositories.Read
             return results;
         }
 
-        private void ActivitySearch(AppSearchParameters searchParameters, int branchId, List<AppSearchItem> results, Domain.Enums.ActivityType activityType)
+        private IQueryable<Activity> SearchActivityByInitialDocumentNumber(AppSearchParameters searchParameters, int branchId)
         {
-            var documentNumber = string.Empty;
-            documentNumber = activityType == ActivityType.Uplift ? searchParameters.UpliftInvoiceNumber : searchParameters.Invoice;
-
             var query = wellEntities.Activity
-                .Where(x => x.DocumentNumber == documentNumber
+                .Where(x => x.InitialDocument == searchParameters.UpliftInvoiceNumber
                             && x.Location.BranchId == branchId);
-
-            if (activityType != ActivityType.Invoice)
-            {
-                query = query.Where(x => x.ActivityTypeId == (byte) ActivityType.Uplift);
-            }
 
             if (searchParameters.HasDate)
             {
@@ -130,19 +122,39 @@ namespace PH.Well.Repositories.Read
                     .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
             }
 
+            return query;
+        }
+
+        private IQueryable<Activity> SearchActivityByDocumentNumber(AppSearchParameters searchParameters, int branchId)
+        {
+            var query = wellEntities.Activity
+                .Where(x => x.DocumentNumber == searchParameters.Invoice
+                            && x.Location.BranchId == branchId);
+
+            if (searchParameters.HasDate)
+            {
+                query = query
+                    .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
+            }
+
+            return query;
+        }
+
+        private void ActivitySearch(IQueryable<Activity> query, List<AppSearchItem> results)
+        {
             var invoices = query.Select(x => new
             {
                 x.Id,
                 x.DocumentNumber,
                 x.ActivityTypeId,
-                Date = x.Job.FirstOrDefault(j=> j.DateDeleted == null).Stop.RouteHeader.RouteDate,
-                AccountName = x.Location.Name + "FFs"
+                Date = x.Job.FirstOrDefault(j => j.DateDeleted == null).Stop.RouteHeader.RouteDate,
+                AccountName = x.Location.Name
             }).Take(maxResultsPerType).ToList();
 
             foreach (var activity in invoices)
             {
                 results.Add(new AppSearchInvoiceItem(activity.Id, activity.DocumentNumber,
-                    ((ActivityType) activity.ActivityTypeId).ToString(), activity.AccountName,
+                    ((ActivityType)activity.ActivityTypeId).ToString(), activity.AccountName,
                     activity.Date.GetValueOrDefault()));
             }
         }

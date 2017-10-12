@@ -76,6 +76,7 @@ import { CrmLinkController } from './shared/components/crmLinkController';
 import { ManualCompletionModal } from './shared/manualCompletion/manualCompletionModal';
 import { BranchNameComponent } from './shared/branch/branchNameComponent';
 import { BranchDateThresholdComponent, BranchDateThresholdService } from './branch-role/branchDateThresholdModule';
+import { CloseExceptionsForBranchComponent } from './exceptions/CloseExceptionsForBranchComponent';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -88,7 +89,8 @@ import { BranchDateThresholdComponent, BranchDateThresholdService } from './bran
         UserThresholdLevelComponent, WidgetWarningRemoveModalComponent, WidgetWarningEditModalComponent, AccountFlagsComponent, ButtonDropDownComponent,
         StopComponent, SubmitActionModal, EditExceptionsComponent, EditExceptionsModal, ActionEditComponent,
         ActivityComponent, AssignGrnModal, BulkEditActionModal, SingleLocationComponent, ManualCompletionModal,
-        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent, CompletedOnPaperComponent
+        CrmLinkController, LocationsComponent, ManualCompletionModal, BranchNameComponent, BranchDateThresholdComponent, CompletedOnPaperComponent,
+        CloseExceptionsForBranchComponent
     ],
     imports: [
         ChartsModule, ToasterModule, BrowserModule, FormsModule, HttpModule, RouterModule, TabsModule, routing, Ng2PaginationModule,

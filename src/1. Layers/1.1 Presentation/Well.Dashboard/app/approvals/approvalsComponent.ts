@@ -292,7 +292,7 @@ export class ApprovalsComponent implements IObservableAlive
                     this.refreshDataFromAPI();
                 }
                 else
-                {
+                { 
                     this.toasterService.pop('error', res.message, '');
                 }   
             }));

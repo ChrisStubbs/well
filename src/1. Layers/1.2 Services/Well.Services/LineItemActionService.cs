@@ -58,6 +58,14 @@ namespace PH.Well.Services
             {
                 return null;
             }
+
+            this.SaveLineItemActions(job, lineItem, lineItemActions);
+
+            return this.lineItemRepository.GetById(lineItem.Id);
+        }
+
+        private void SaveLineItemActions(Job job, LineItem lineItem, IEnumerable<LineItemAction> lineItemActions)
+        {
             var itemActions = lineItemActions as LineItemAction[] ?? lineItemActions.ToArray();
 
             using (var transactionScope = new TransactionScope())
@@ -80,7 +88,7 @@ namespace PH.Well.Services
 
                     if (action.IsTransient())
                     {
-                        action.LineItemId = lineItemId;
+                        action.LineItemId = lineItem.Id;
                         lineItemActionRepository.Save(action);
                     }
                     else
@@ -115,9 +123,6 @@ namespace PH.Well.Services
 
                 transactionScope.Complete();
             }
-
-            return this.lineItemRepository.GetById(lineItemId);
-
         }
 
         private Job GetJob(int jobId )
@@ -128,7 +133,6 @@ namespace PH.Well.Services
 
         public LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate)
         {
-
             var lineItemAction = new LineItemAction
             {
                 LineItemId = lineItemActionUpdate.LineItemId,
@@ -210,5 +214,31 @@ namespace PH.Well.Services
             }
         }
 
+        public void CloseExceptionsForBranch(int branchId, DateTime routeDate)
+        {
+            var lineItems = lineItemRepository.GetLineItemBranchRouteDate(branchId, routeDate);
+
+            foreach (var item in lineItems)
+            {
+                var changedLineItems = item.LineItemActions
+                    .Select(p =>
+                    {
+                        var result = p.Copy();
+
+                        result.DateUpdated = DateTime.Now;
+                        result.DeliveryAction = DeliveryAction.Close;
+                        result.ExceptionType = ExceptionType.NotDefined;
+                        result.Quantity = 0;
+                        result.Reason = JobDetailReason.NotDefined;
+                        result.Source = JobDetailSource.NotDefined;
+                        result.UpdatedBy = "Well";
+
+                        return result;
+                    })
+                .ToList();
+                //i have to make sure that the whole job is resolution status = closed
+                this.SaveLineItemActions(new Job { Id = item.JobId }, item, changedLineItems);
+            }
+        }
     }
 }

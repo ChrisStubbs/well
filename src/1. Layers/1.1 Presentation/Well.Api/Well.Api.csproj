@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\AppSearchController.cs" />
     <Compile Include="Controllers\BulkEditController.cs" />
+    <Compile Include="Controllers\CloseExceptionsForBranchController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\ManualCompletionController.cs" />

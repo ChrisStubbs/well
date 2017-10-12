@@ -6,8 +6,7 @@ import 'rxjs/add/operator/takeWhile';
 
 @Component({
     selector: 'ow-menubarappSearch',
-    templateUrl: './app/shared/appSearch/menuBarAppSearchComponent.html',
-    styles: ['.modal-dialog { width: 782px}']
+    templateUrl: './app/shared/appSearch/menuBarAppSearchComponent.html'
 })
 export class MenuBarAppSearchComponent {
     private alive: boolean = true;
@@ -33,6 +32,6 @@ export class MenuBarAppSearchComponent {
 
     public onSearch(): void
     {
-        this.closeSearch();
+        //this.closeSearch();
     }
 }

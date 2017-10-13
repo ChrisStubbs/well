@@ -75,7 +75,7 @@
                             command.ExecuteNonQuery();
                             linesToRemove.Add(line.Key);
 
-                            var message = "Successful credit line : " + line.Value;
+                            var message = "Successful credit line : " + line.Key + " for jobId :" + creditTransaction.JobId;
                             this.logger.LogDebug(message);
                         }
                     }
@@ -107,7 +107,7 @@
                             command.CommandText = creditTransaction.HeaderSql;
                             command.ExecuteNonQuery();
 
-                            var message = "Successful credit header : " + creditTransaction.HeaderSql;
+                            var message = "Successful credit header for jobId : " + creditTransaction.JobId;
                             this.logger.LogDebug(message);
                             return AdamResponse.Success;
                         }

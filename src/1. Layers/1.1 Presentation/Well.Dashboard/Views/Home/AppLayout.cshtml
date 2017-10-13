@@ -35,7 +35,7 @@
                     </a>
                     <ow-menubarappSearch></ow-menubarappSearch>
                 </li>
-                <li *ngIf="IsWellAdmin" class="dropdown pull-right" id="admin-dropdown">
+                <li *ngIf="IsWellAdmin || IsWellDeveloper" class="dropdown pull-right" id="admin-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="admin-dropdown-anchor">
                         Admin <span class="caret"></span>
                     </a>
@@ -43,6 +43,7 @@
                         <li><a id="user-preference-selection" routerLink="/preferences" routerLinkActive="active">User Branch Preferences</a></li>
                         <li><a id="user-threshold" routerLink="/user-threshold" routerLinkActive="active">User Threshold Level</a></li>
                         <li><a id="branch-preference" routerLink="/branch-role" routerLinkActive="active">Branch Parameters</a></li>
+                        <li *ngIf="IsWellDeveloper"><a routerLink="/closeExceptionsForBranch" routerLinkActive="active" title="View notifications">closeExceptionsForBranch</a></li>
                     </ul>
                 </li>
             </ul>

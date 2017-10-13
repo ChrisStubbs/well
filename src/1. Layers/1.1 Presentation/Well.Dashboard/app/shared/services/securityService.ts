@@ -12,6 +12,7 @@ export class SecurityService
     public static adminPages: string = 'Access Admin Pages';
     public static submitCreditApprovals: string = 'Submit Credit Approvals';
     public static submitMissingGRN: string = 'Submit Missing GRN';
+    public static developer: string = 'Developer';
 
     constructor(private router: Router,
                 private storageService: SessionStorageService) { }

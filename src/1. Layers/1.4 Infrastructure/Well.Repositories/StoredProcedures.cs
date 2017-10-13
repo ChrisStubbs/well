@@ -172,6 +172,7 @@ namespace PH.Well.Repositories
         public const string LineItemActionGetByLineItemId = "LineItemAction_GetByLineItemId";
         public const string LineItemActionGetByLineItemIds = "LineItemAction_GetByLineItemIds";
         public const string LineItemIdsGetByJobIds = "LineItemIds_GetByJobIds";
+        public const string LineItemByBranchRouteDate = "LineItemByBranchRouteDate";
 
         //Line Item Actions
         public const string LineItemActionInsertByUser = "LineItemAction_InsertByUser";

@@ -1,3 +1,4 @@
+import { CloseExceptionsForBranchComponent } from './exceptions/CloseExceptionsForBranchComponent';
 import { Routes, RouterModule } from '@angular/router';
 import {AccountComponent} from './account/accountComponent';
 import {ApprovalsComponent} from './approvals/approvalsComponent';
@@ -34,7 +35,8 @@ const routes: Routes = [
     { path: 'stops/:id', component: StopComponent },
     { path: 'invoice/:id', component: ActivityComponent },
     { path: 'singlelocation', component: SingleLocationComponent },
-    { path: 'locations', component: LocationsComponent }
+    { path: 'locations', component: LocationsComponent },
+    { path: 'closeExceptionsForBranch', component: CloseExceptionsForBranchComponent}
 ];
 
 export const appRoutingProviders: any[] = [];

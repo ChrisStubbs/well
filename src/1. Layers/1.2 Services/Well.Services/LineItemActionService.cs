@@ -58,66 +58,71 @@ namespace PH.Well.Services
             {
                 return null;
             }
-            var itemActions = lineItemActions as LineItemAction[] ?? lineItemActions.ToArray();
 
             using (var transactionScope = new TransactionScope())
             {
-                foreach (var action in itemActions)
-                {
-                    var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
-
-                    // Create default comment for close action every time when action is saved
-                    if (action.DeliveryAction == DeliveryAction.Close)
-                    {
-                        var defaultCommentReason = commentReasonRepository.GetAll().Single(x => x.IsDefault);
-                        action.Comments.Add(new LineItemActionComment
-                        {
-                            CommentDescription = defaultCommentReason.Description,
-                            CommentReasonId = defaultCommentReason.Id,
-                            ToQty = 0
-                        });
-                    }
-
-                    if (action.IsTransient())
-                    {
-                        action.LineItemId = lineItemId;
-                        lineItemActionRepository.Save(action);
-                    }
-                    else
-                    {
-                        if (original != null && original.HasChanges(action))
-                        {
-                            lineItemActionRepository.Update(action);
-                        }
-                    }
-
-                    foreach (var comment in action.Comments.Where(x => x.IsTransient()))
-                    {
-                        comment.LineItemActionId = action.Id;
-                        comment.FromQty = original?.Quantity;
-                        comment.ToQty = action.Quantity;
-                        commentRepository.Save(comment);
-                    }
-                }
-
-                foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)
-                                                                                && x.Originator != Originator.Driver))
-                {
-                    lineItemActionRepository.Delete(itemToDelete);
-                }
-
-                job = GetJob(job.Id);
-                job.ResolutionStatus = jobResolutionStatus.GetCurrentResolutionStatus(job);
-                jobRepository.SaveJobResolutionStatus(job);
-                jobRepository.Update(job);
-                // Compute well status
-                jobService.ComputeAndPropagateWellStatus(job);
-
+                this.SaveLineItemActions(job, lineItem, lineItemActions);
                 transactionScope.Complete();
             }
+            return this.lineItemRepository.GetById(lineItem.Id);
+        }
 
-            return this.lineItemRepository.GetById(lineItemId);
+        private Job SaveLineItemActions(Job job, LineItem lineItem, IEnumerable<LineItemAction> lineItemActions)
+        {
+            var itemActions = lineItemActions as LineItemAction[] ?? lineItemActions.ToArray();
+            
+            foreach (var action in itemActions)
+            {
+                var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
 
+                // Create default comment for close action every time when action is saved
+                if (action.DeliveryAction == DeliveryAction.Close)
+                {
+                    var defaultCommentReason = commentReasonRepository.GetAll().Single(x => x.IsDefault);
+                    action.Comments.Add(new LineItemActionComment
+                    {
+                        CommentDescription = defaultCommentReason.Description,
+                        CommentReasonId = defaultCommentReason.Id,
+                        ToQty = 0
+                    });
+                }
+
+                if (action.IsTransient())
+                {
+                    action.LineItemId = lineItem.Id;
+                    lineItemActionRepository.Save(action);
+                }
+                else
+                {
+                    if (original != null && original.HasChanges(action))
+                    {
+                        lineItemActionRepository.Update(action);
+                    }
+                }
+
+                foreach (var comment in action.Comments.Where(x => x.IsTransient()))
+                {
+                    comment.LineItemActionId = action.Id;
+                    comment.FromQty = original?.Quantity;
+                    comment.ToQty = action.Quantity;
+                    commentRepository.Save(comment);
+                }
+            }
+
+            foreach (var itemToDelete in lineItem.LineItemActions.Where(x => !itemActions.Select(y => y.Id).Contains(x.Id)
+                                                                            && x.Originator != Originator.Driver))
+            {
+                lineItemActionRepository.Delete(itemToDelete);
+            }
+
+            job = GetJob(job.Id);
+            job.ResolutionStatus = jobResolutionStatus.GetCurrentResolutionStatus(job);
+            jobRepository.SaveJobResolutionStatus(job);
+            jobRepository.Update(job);
+            // Compute well status
+            jobService.ComputeAndPropagateWellStatus(job);
+
+            return job;
         }
 
         private Job GetJob(int jobId )
@@ -128,7 +133,6 @@ namespace PH.Well.Services
 
         public LineItem InsertLineItemActions(LineItemActionUpdate lineItemActionUpdate)
         {
-
             var lineItemAction = new LineItemAction
             {
                 LineItemId = lineItemActionUpdate.LineItemId,
@@ -210,5 +214,60 @@ namespace PH.Well.Services
             }
         }
 
+        public void CloseExceptionsForBranch(int branchId, DateTime routeDate)
+        {
+            var lineItems = lineItemRepository.GetLineItemBranchRouteDate(branchId, routeDate);
+
+            using (var transactionScope = new TransactionScope())
+            {
+                foreach (var item in lineItems)
+                {
+                    var changedLineItems = item.LineItemActions
+                        .Select(p =>
+                        {
+                            var result = p.Copy();
+
+                            result.DateUpdated = DateTime.Now;
+                            result.DeliveryAction = DeliveryAction.Close;
+                            result.ExceptionType = ExceptionType.NotDefined;
+                            result.Quantity = 0;
+                            result.Reason = JobDetailReason.NotDefined;
+                            result.Source = JobDetailSource.NotDefined;
+                            result.UpdatedBy = "Well";
+
+                            return result;
+                        })
+                    .ToList();
+                    //i have to make sure that the whole job is resolution status = closed
+                    var job = this.SaveLineItemActions(new Job { Id = item.JobId }, item, changedLineItems);
+
+                    //lets close the job 
+                    var status = jobResolutionStatus.StepForward(job);
+
+                    if (status != job.ResolutionStatus)
+                    {
+                        while ((status & ResolutionStatus.Closed) != ResolutionStatus.Closed)
+                        {
+                            job.ResolutionStatus = status;
+                            jobRepository.SaveJobResolutionStatus(job);
+                            jobRepository.Update(job);
+                            // Compute well status
+                            jobService.ComputeAndPropagateWellStatus(job);
+
+                            status = jobResolutionStatus.StepForward(job);
+                        }
+
+                        //save the close status
+                        job.ResolutionStatus = status;
+                        jobRepository.SaveJobResolutionStatus(job);
+                        jobRepository.Update(job);
+                        // Compute well status
+                        jobService.ComputeAndPropagateWellStatus(job);
+                    }
+                }
+
+                transactionScope.Complete();
+            }
+        }
     }
 }

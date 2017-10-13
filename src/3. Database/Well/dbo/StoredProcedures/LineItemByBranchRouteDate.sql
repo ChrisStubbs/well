@@ -2,7 +2,6 @@
 	@BranchId int = 0,
 	@RouteDate Date
 AS
-
 	SELECT 
         li.Id, 
         li.LineNumber, 
@@ -28,6 +27,7 @@ AS
             ON li.Id = jd.LineItemId
         INNER JOIN Job j
             ON jd.JobId = j.id
+			AND (j.ResolutionStatusId & 256) != 256
         INNER JOIN [Stop] s
             ON j.StopId = s.Id
         INNER JOIN RouteHeader rh
@@ -62,6 +62,7 @@ AS
             ON lia.LineItemId = jd.LineItemId
         INNER JOIN Job j
             ON jd.JobId = j.id
+			AND (j.ResolutionStatusId & 256) != 256
         INNER JOIN [Stop] s
             ON j.StopId = s.Id
         INNER JOIN RouteHeader rh

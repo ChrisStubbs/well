@@ -15,6 +15,7 @@ export class AppComponent implements IObservableAlive
     public version: string = '';
     public branches: string = '';
     public IsWellAdmin: boolean;
+    public IsWellDeveloper: boolean;
 
     constructor(
         private globalSettingsService: GlobalSettingsService,
@@ -28,6 +29,7 @@ export class AppComponent implements IObservableAlive
             .subscribe(b => this.fetchBranches());
 
         this.IsWellAdmin = securityService.userHasPermission(SecurityService.adminPages) || false;
+        this.IsWellDeveloper = securityService.userHasPermission(SecurityService.developer) || false;
     }
 
     public ngOnDestroy(): void

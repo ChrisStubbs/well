@@ -19,8 +19,6 @@ namespace PH.Well.Api.Controllers
 
         public IHttpActionResult Post(CloseExceptionsForBranchParameters parameters)
         {
-            //CloseExceptionsForBranch
-
             for (int i = 0; i < (parameters.To - parameters.From).Days ; i++)
             {
                 this.lineItemActionService.CloseExceptionsForBranch(parameters.BranchId, parameters.From.AddDays(i));

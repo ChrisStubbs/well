@@ -70,7 +70,7 @@ namespace PH.Well.Services
         private Job SaveLineItemActions(Job job, LineItem lineItem, IEnumerable<LineItemAction> lineItemActions)
         {
             var itemActions = lineItemActions as LineItemAction[] ?? lineItemActions.ToArray();
-            
+
             foreach (var action in itemActions)
             {
                 var original = lineItem.LineItemActions.FirstOrDefault(x => x.Id == action.Id);
@@ -116,16 +116,20 @@ namespace PH.Well.Services
             }
 
             job = GetJob(job.Id);
-            job.ResolutionStatus = jobResolutionStatus.GetCurrentResolutionStatus(job);
-            jobRepository.SaveJobResolutionStatus(job);
-            jobRepository.Update(job);
-            // Compute well status
-            jobService.ComputeAndPropagateWellStatus(job);
-
+            var status = jobResolutionStatus.GetCurrentResolutionStatus(job);
+            if (status != job.ResolutionStatus
+                && (job.ResolutionStatus & ResolutionStatus.Closed) != ResolutionStatus.Closed)
+            {
+                job.ResolutionStatus = status;
+                jobRepository.SaveJobResolutionStatus(job);
+                jobRepository.Update(job);
+                // Compute well status
+                jobService.ComputeAndPropagateWellStatus(job);
+            }
             return job;
         }
 
-        private Job GetJob(int jobId )
+        private Job GetJob(int jobId)
         {
             var job = jobRepository.GetById(jobId);
             return jobService.PopulateLineItemsAndRoute(job);
@@ -218,9 +222,10 @@ namespace PH.Well.Services
         {
             var lineItems = lineItemRepository.GetLineItemBranchRouteDate(branchId, routeDate);
 
-            using (var transactionScope = new TransactionScope())
+
+            foreach (var item in lineItems)
             {
-                foreach (var item in lineItems)
+                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 30, 0)))
                 {
                     var changedLineItems = item.LineItemActions
                         .Select(p =>
@@ -244,7 +249,8 @@ namespace PH.Well.Services
                     //lets close the job 
                     var status = jobResolutionStatus.StepForward(job);
 
-                    if (status != job.ResolutionStatus)
+                    if (status != job.ResolutionStatus
+                        && (job.ResolutionStatus & ResolutionStatus.Closed) != ResolutionStatus.Closed)
                     {
                         while ((status & ResolutionStatus.Closed) != ResolutionStatus.Closed)
                         {
@@ -257,16 +263,18 @@ namespace PH.Well.Services
                             status = jobResolutionStatus.StepForward(job);
                         }
 
-                        //save the close status
-                        job.ResolutionStatus = status;
-                        jobRepository.SaveJobResolutionStatus(job);
-                        jobRepository.Update(job);
-                        // Compute well status
-                        jobService.ComputeAndPropagateWellStatus(job);
+                        if (status != ResolutionStatus.Invalid)
+                        {
+                            //save the close status
+                            job.ResolutionStatus = status;
+                            jobRepository.SaveJobResolutionStatus(job);
+                            jobRepository.Update(job);
+                            // Compute well status
+                            jobService.ComputeAndPropagateWellStatus(job);
+                        }
                     }
+                    transactionScope.Complete();
                 }
-
-                transactionScope.Complete();
             }
         }
     }

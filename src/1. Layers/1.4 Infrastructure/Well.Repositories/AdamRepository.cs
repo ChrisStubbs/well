@@ -74,12 +74,15 @@
                             command.CommandText = line.Value;
                             command.ExecuteNonQuery();
                             linesToRemove.Add(line.Key);
+
+                            var message = "Successful credit line : " + line.Value;
+                            this.logger.LogDebug(message);
                         }
                     }
                 }
                 catch (Exception adamException)
                 {
-                    this.logger.LogError("ADAM error occurred writing credit line!", adamException);
+                    this.logger.LogError("1. ADAM error occurred writing credit line!", adamException);
                     this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                         $"Adam exception {adamException} when writing credit line for credit event transaction {creditTransaction.HeaderSql}",
                         EventId.AdamCreditException);
@@ -104,6 +107,8 @@
                             command.CommandText = creditTransaction.HeaderSql;
                             command.ExecuteNonQuery();
 
+                            var message = "Successful credit header : " + creditTransaction.HeaderSql;
+                            this.logger.LogDebug(message);
                             return AdamResponse.Success;
                         }
                     }
@@ -115,7 +120,7 @@
                         if (linesToRemove.Any())
                         {
                             this.eventRepository.InsertCreditEventTransaction(creditTransaction);
-                            this.logger.LogError("ADAM error occurred writing credit header!", adamException);
+                            this.logger.LogError("2. ADAM error occurred writing credit header!", adamException);
                             this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                             $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
                             EventId.AdamCreditHeaderException);
@@ -124,7 +129,7 @@
                         else
                         {
                             // nothing has been written to ADAM so no change needed to the transaction
-                            this.logger.LogError("ADAM error occurred writing credit header only - no change to transaction!", adamException);
+                            this.logger.LogError("3. ADAM error occurred writing credit header only - no change to transaction!", adamException);
                             this.eventLogger.TryWriteToEventLog(EventSource.WellApi,
                             $"Adam exception {adamException} when writing credit header for credit event transaction {creditTransaction.HeaderSql}",
                             EventId.AdamCreditHeaderException);
@@ -140,13 +145,13 @@
                 if (linesToRemove.Any())
                 {
                     this.eventRepository.InsertCreditEventTransaction(creditTransaction);
-                    this.logger.LogError("ADAM error occurred writing credit line! Remaining credit details recorded.");
+                    this.logger.LogError("4. ADAM error occurred writing credit line! Remaining credit details recorded.");
                     return AdamResponse.AdamDown;
                 }
                 else
                 {
                     // nothing has been written to ADAM so no change needed to the transaction
-                    this.logger.LogError("ADAM error occurred writing credit.");
+                    this.logger.LogError("5. ADAM error occurred writing credit.");
                     return AdamResponse.AdamDownNoChange;
 
                 }
@@ -155,6 +160,7 @@
             return AdamResponse.Unknown;
         }
 
+        //todo unused, remove
         public AdamResponse ExecuteCredit(AdamSettings adamSettings, string commandString)
         {
             using (var connection = new AdamConnection(GetConnection(adamSettings)))

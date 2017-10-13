@@ -61,6 +61,7 @@
             this.MarkAsDone(eventId, adamResponse);
         }
 
+        //todo unused, remove?
         public ProcessDeliveryActionResult ProcessDeliveryActions(Job job)
         {
             List<ProcessDeliveryActionResult> results;

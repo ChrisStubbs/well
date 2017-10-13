@@ -48,23 +48,35 @@
 
             try
             {
+
+                var batchSize = 1000;
+                if (configuration.SoftDeleteBatchSize > 0)
+                {
+                    batchSize = configuration.SoftDeleteBatchSize;
+                }
+
                 var data = await this.FilterLookup(jobsForClean);
                 var jobsToDelete = data
                     .SelectMany(p => p)
                     .Select(p => p.JobId)
                     .ToList();
 
-                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required,
-                    new TimeSpan(0, 0, configuration.WellCleanTransactionTimeoutSeconds)))
-                {
-                    logger.LogDebug("Start generating amendments documents");
-                    amendmentService.ProcessAmendments(jobsToDelete);
-                    logger.LogDebug("Finished generating amendments documnets");
 
-                    logger.LogDebug("Start soft delete jobs activities and children");
-                    SoftDeleteInBatches(jobsToDelete, configuration.SoftDeleteBatchSize);
-                    logger.LogDebug("Finished soft delete jobs activities and children");
-                    transactionScope.Complete();
+                foreach (var jobs in Batch(jobsToDelete,batchSize))
+                {
+                    var jobList = jobs.ToList();
+                    using (var transactionScope = new TransactionScope(TransactionScopeOption.Required,
+                        new TimeSpan(0, 0, configuration.WellCleanTransactionTimeoutSeconds)))
+                    {
+                        logger.LogDebug("Start generating amendments documents");
+                        amendmentService.ProcessAmendments(jobList);
+                        logger.LogDebug("Finished generating amendments documnets");
+
+                        logger.LogDebug("Start soft delete jobs activities and children");
+                        SoftDeleteInBatches(jobList, configuration.SoftDeleteBatchSize);
+                        logger.LogDebug("Finished soft delete jobs activities and children");
+                        transactionScope.Complete();
+                    }
                 }
 
                 logger.LogDebug("Start clean Exception Events");
@@ -161,6 +173,26 @@
             wellCleanUpRepository.CleanActivities();
         }
 
+        static IEnumerable<IEnumerable<T>> Batch<T>(IEnumerable<T> source, int size)
+        {
+            var list = new List<T>(size);
+
+            foreach (T item in source)
+            {
+                list.Add(item);
+                if (list.Count == size)
+                {
+                    List<T> chunk = list;
+                    list = new List<T>(size);
+                    yield return chunk;
+                }
+            }
+
+            if (list.Count > 0)
+            {
+                yield return list;
+            }
+        }
     }
 }
 

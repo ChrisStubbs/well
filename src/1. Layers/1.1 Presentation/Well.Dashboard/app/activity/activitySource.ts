@@ -27,6 +27,7 @@ export class ActivitySource
     public resolutionId: number;
     public locationId: number;
     public details: Array<ActivitySourceDetail>;
+    public initialDocument: string;
 }
 
 export class ActivitySourceGroup

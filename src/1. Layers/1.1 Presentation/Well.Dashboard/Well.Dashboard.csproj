@@ -28,6 +28,7 @@
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -238,6 +239,12 @@
     <TypeScriptCompile Include="app\shared\action\bulkEditActionModal.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditItem.ts" />
     <TypeScriptCompile Include="app\shared\action\bulkEditService.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\AppSearchInvoiceItem.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\AppSearchItemType.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\AppSearchLocationItem.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\AppSearchRouteItem.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\IAppSearchResult.ts" />
+    <TypeScriptCompile Include="app\shared\appSearch\IAppSearchItem.ts" />
     <TypeScriptCompile Include="app\shared\branch\branchNameComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\completedOnPaperComponent.ts" />
     <TypeScriptCompile Include="app\shared\components\crmLinkController.ts" />
@@ -546,7 +553,6 @@
     <TypeScriptCompile Include="app\shared\appSearch\appSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchParameters.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\appSearchService.ts" />
-    <TypeScriptCompile Include="app\shared\appSearch\iAppSearchResultSummary.ts" />
     <TypeScriptCompile Include="app\shared\appSearch\menuBarAppSearchComponent.ts" />
     <TypeScriptCompile Include="app\shared\CompositeSpecification.ts" />
     <Content Include="app\shared\loadingComponent.ts" />

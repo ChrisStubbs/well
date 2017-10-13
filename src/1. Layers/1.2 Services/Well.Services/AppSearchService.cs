@@ -14,10 +14,14 @@
             this.searchReadRepository = searchReadRepository;
         }
 
-        public AppSearchResultSummary GetAppSearchResult(AppSearchParameters searchParams)
+        public AppSearchResult GetAppSearchResult(AppSearchParameters searchParams)
         {
             var results = searchReadRepository.Search(searchParams).ToArray();
-            return AppSearchResultSummary.Get(results, searchParams.BranchId);
+            return new AppSearchResult
+            {
+                BranchId = searchParams.BranchId,
+                Items = results
+            };
         }
     }
 }

@@ -7,6 +7,7 @@
 	[PlannedStopNumber] [varchar](4) NOT NULL,
 	[JobStatusId] [tinyint] NOT NULL,
 	[CollectedQty] [smallint] NULL,
+	[SourceFilename] VARCHAR(100) NULL,
     CONSTRAINT [PK_GlobalUpliftAttempt] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

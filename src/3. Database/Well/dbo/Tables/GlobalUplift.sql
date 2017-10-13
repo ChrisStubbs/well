@@ -16,6 +16,7 @@
 	[ContactNumber] VARCHAR(50) NULL,
  [AddressLines] VARCHAR(1000) NULL, 
     [Postcode] VARCHAR(10) NULL, 
+	[SourceFilename] VARCHAR(100) NULL,
     CONSTRAINT [PK_GlobalUplift] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

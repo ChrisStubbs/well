@@ -64,6 +64,7 @@ namespace PH.Well.Repositories
                         })
                         .FirstOrDefault(),
                     ItemNumber = x.DocumentNumber,
+                    InitialDocument = x.InitialDocument,
                     x.LocationId
                 }).FirstOrDefault();
 
@@ -114,7 +115,8 @@ namespace PH.Well.Repositories
                 ResolutionStatus = activitySource.Job.ResolutionStatusId.GetValueOrDefault(),
                 LocationId = (int)activitySource.LocationId,
                 Assignees = users.ToList(),
-                Details = details
+                Details = details,
+                InitialDocument = activitySource.InitialDocument
             };
 
             return result;

@@ -37,6 +37,10 @@
                     <ng-template #noCod>No</ng-template>
                 </div>
             </div>
+            <div class="row">
+                <label class="col-md-4">Assigned to</label>
+                <div class="col-md-8"><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -70,16 +74,16 @@
                 <div class="col-md-7">{{source.itemNumber}}</div>
             </div>
             <div class="row">
+                <label class="col-md-5">CSF/Pick List No</label>
+                <div class="col-md-7">{{source.initialDocument}}</div>
+            </div>
+            <div class="row">
                 <label class="col-md-5">Date</label>
                 <div class="col-md-7">{{source.date | date:'dd MMM yy'}}</div>
             </div>
             <div class="row">
                 <label class="col-md-5">Driver</label>
                 <div class="col-md-7">{{source.driver}}</div>
-            </div>
-            <div class="row">
-                <label class="col-md-5">Assigned to</label>
-                <div class="col-md-7"><assign-modal (onAssigned)="onAssigned($event)" [model]="getAssignModel()"></assign-modal></div>
             </div>
         </div>
     </div>

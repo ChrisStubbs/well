@@ -49,7 +49,7 @@
         </div>
         <div class="col-lg-6">
             <div class="pull-right">
-                <button type="reset" class="btn btn-primary">Clear</button>&nbsp;&nbsp;
+                <button type="reset" class="btn btn-primary" (click)="resetSearch()">Clear</button>&nbsp;&nbsp;
                 <button id="appSearchSearch" type="submit" class="btn btn-success" [disabled]="isEmptySearch()">Search</button>
             </div>
         </div>
@@ -57,7 +57,7 @@
     <div *ngIf="showMoreFilters">
         <div class="form-group form-group-lg">
             <div class="col-lg-6">
-                <label for="searchUplift" class="col-lg-3 control-label">Uplift Invoice No.</label>
+                <label for="searchUplift" class="col-lg-3 control-label">CSF/Pick List No</label>
                 <div class="col-lg-9">
                     <input id="searchUplift" type="text" class="form-control" formControlName="upliftInvoiceNumber">
                 </div>
@@ -88,3 +88,58 @@
     </div>
  
 </form>
+<div *ngIf="currentResult">
+    <hr/>
+    <h4>Results</h4>
+    <div class="list-group">
+        <ng-container *ngFor="let item of currentResult.items">
+            <a class="list-group-item" (click)="navigateToItem(item)" *ngIf="item.itemType == appSearchItemType.Invoice">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <label>Type</label><span> {{item.type}}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Date</label><span> {{item.date | date:'dd MMM yyyy'}}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Document Number</label><span> {{item.documentNumber}}</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Name</label><span> {{item.locationName}}</span>
+                    </div>
+                </div>
+            </a>
+
+            <a class="list-group-item" (click)="navigateToItem(item)" *ngIf="item.itemType == appSearchItemType.Location">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <label>Type</label><span> Location</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Name</label><span> {{item.name}}</span>
+                    </div>
+                    <div class="col-xs-7">
+                        <label>Account Number</label><span> {{item.accountNumber}}</span>
+                    </div>
+                </div>
+            </a>
+
+            <a class="list-group-item" (click)="navigateToItem(item)" *ngIf="item.itemType == appSearchItemType.Route">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <label>Type</label><span> Route</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Date</label><span> {{item.date | date:'dd MMM yyyy' }}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <label>Route Number</label><span> {{item.routeNumber}}</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Driver Name</label><span> {{item.driverName}}</span>
+                    </div>
+                </div>
+            </a>
+        </ng-container>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using PH.Shared.Well.Data.EF;
+﻿using System.Data.Entity;
+using PH.Shared.Well.Data.EF;
 
 namespace PH.Well.Repositories.Read
 {
@@ -17,6 +18,7 @@ namespace PH.Well.Repositories.Read
         private readonly ILogger logger;
         private readonly IDapperReadProxy dapperReadProxy;
         private readonly WellEntities wellEntities;
+        private int maxResultsPerType = 5;
 
         public AppSearchReadRepository(ILogger logger, IDapperReadProxy dapperReadProxy, WellEntities wellEntities)
         {
@@ -39,10 +41,10 @@ namespace PH.Well.Repositories.Read
         ///         + Route
         ///     [Any] + Date
         /// </remarks>
-        public IEnumerable<AppSearchResult> Search(AppSearchParameters searchParameters)
+        public IEnumerable<AppSearchItem> Search(AppSearchParameters searchParameters)
         {
             searchParameters.Format();
-            var results = new List<AppSearchResult>();
+            var results = new List<AppSearchItem>();
 
             // Should always have a branch
             if (searchParameters.HasBranch)
@@ -51,12 +53,12 @@ namespace PH.Well.Repositories.Read
                 // If an invoice number is supplied, see if that activity exists
                 if (searchParameters.HasInvoice)
                 {
-                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Invoice);
+                    ActivitySearch(SearchActivityByDocumentNumber(searchParameters, branchId), results);
                 }
 
                 if (searchParameters.HasUpliftInvoiceNumber)
                 {
-                    ActivitySearch(searchParameters, branchId, results, Domain.Enums.ActivityType.Uplift);
+                    ActivitySearch(SearchActivityByInitialDocumentNumber(searchParameters, branchId), results);
                 }
 
                 // If an account number exists, find matching accounts
@@ -69,13 +71,9 @@ namespace PH.Well.Repositories.Read
                             locations.Where(x => x.Stop.Any(
                                 s => s.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value)));
                     }
-                    foreach (var location in locations)
+                    foreach (var location in locations.Take(maxResultsPerType))
                     {
-                        results.Add(new AppSearchResult()
-                        {
-                            BranchId = searchParameters.BranchId,
-                            LocationId = location.Id
-                        });
+                        results.Add(new AppSearchLocationItem(location.Id, location.Name, location.AccountCode));
                     }
                 }
 
@@ -101,13 +99,10 @@ namespace PH.Well.Repositories.Read
                     {
                         routes = routes.Where(x => x.RouteDate == searchParameters.Date.Value);
                     }
-                    foreach (var account in routes /*.Select(x=> new {x.StopId})*/)
+                    foreach (var route in routes.Take(maxResultsPerType))
                     {
-                        results.Add(new AppSearchResult()
-                        {
-                            BranchId = searchParameters.BranchId,
-                            RouteId = account.Id,
-                        });
+                        results.Add(new AppSearchRouteItem(route.Id,route.RouteNumber, route.DriverName,
+                            route.RouteDate.GetValueOrDefault()));
                     }
                 }
             }
@@ -115,34 +110,52 @@ namespace PH.Well.Repositories.Read
             return results;
         }
 
-        private void ActivitySearch(AppSearchParameters searchParameters, int branchId, List<AppSearchResult> results, Domain.Enums.ActivityType activityType)
+        private IQueryable<Activity> SearchActivityByInitialDocumentNumber(AppSearchParameters searchParameters, int branchId)
         {
-            var documentNumber = string.Empty;
-            documentNumber = activityType == ActivityType.Uplift ? searchParameters.UpliftInvoiceNumber : searchParameters.Invoice;
-
-            var invoices = wellEntities.Activity
-                .Where(x => x.DocumentNumber == documentNumber
+            var query = wellEntities.Activity
+                .Where(x => x.InitialDocument == searchParameters.UpliftInvoiceNumber
                             && x.Location.BranchId == branchId);
-
-            // This is workaround when searching for something different than invoice because it seems that Activity.ActivityTypeId is wrongly set
-            if (activityType != ActivityType.Invoice)
-            {
-                invoices = invoices.Where(x => x.ActivityTypeId == (byte) ActivityType.Uplift ||
-                                               x.ActivityTypeId == (byte) ActivityType.NotDefined);
-            }
 
             if (searchParameters.HasDate)
             {
-                invoices = invoices
+                query = query
                     .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
             }
+
+            return query;
+        }
+
+        private IQueryable<Activity> SearchActivityByDocumentNumber(AppSearchParameters searchParameters, int branchId)
+        {
+            var query = wellEntities.Activity
+                .Where(x => x.DocumentNumber == searchParameters.Invoice
+                            && x.Location.BranchId == branchId);
+
+            if (searchParameters.HasDate)
+            {
+                query = query
+                    .Where(x => x.Job.Any(y => y.Stop.DeliveryDate == searchParameters.Date.Value));
+            }
+
+            return query;
+        }
+
+        private void ActivitySearch(IQueryable<Activity> query, List<AppSearchItem> results)
+        {
+            var invoices = query.Select(x => new
+            {
+                x.Id,
+                x.DocumentNumber,
+                x.ActivityTypeId,
+                Date = x.Job.FirstOrDefault(j => j.DateDeleted == null).Stop.RouteHeader.RouteDate,
+                AccountName = x.Location.Name
+            }).Take(maxResultsPerType).ToList();
+
             foreach (var activity in invoices)
             {
-                results.Add(new AppSearchResult()
-                {
-                    BranchId = searchParameters.BranchId,
-                    InvoiceId = activity.Id,
-                });
+                results.Add(new AppSearchInvoiceItem(activity.Id, activity.DocumentNumber,
+                    ((ActivityType)activity.ActivityTypeId).ToString(), activity.AccountName,
+                    activity.Date.GetValueOrDefault()));
             }
         }
     }

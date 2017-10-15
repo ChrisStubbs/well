@@ -108,7 +108,7 @@ export class AppSearch implements IObservableAlive {
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
             .subscribe(branches => {
-                this.branches = <any>branches;
+                this.branches = branches;
                 this.setDefaultBranch();
             });
     }
@@ -205,7 +205,7 @@ export class AppSearch implements IObservableAlive {
     }
 
     private navigateToLocation(item: AppSearchLocationItem) {
-        this.router.navigateByUrl('/singlelocation?locationId=' + item.id);
+        this.router.navigate(['/singlelocation'], { queryParams: {locationId: item.id}});
     }
 
     private navigateToSingleRoute(item: AppSearchRouteItem) {

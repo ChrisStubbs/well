@@ -29,7 +29,7 @@
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
-            var monitorService = container.GetInstance<IAdamFileMonitorService>();
+            var monitorService = container.GetInstance<IFileMonitorService>();
 
             monitorService.Monitor(Configuration.RootFolder);
         }
@@ -52,7 +52,7 @@
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
-                    x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
+                    x.For<IFileMonitorService>().Use<FileMonitorService>();
                     x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
@@ -98,6 +98,12 @@
                     x.For<IPodService>().Use<PodService>();
                     x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
+                    x.For<IWellCleanConfig>().Use<Configuration>();
+                    x.For<IWellCleanUpService>().Use<WellCleanUpService>();
+                    x.For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+                    x.For<IAmendmentService>().Use<AmendmentService>();
+                    x.For<IAmendmentFactory>().Use<AmendmentFactory>();
+                    x.For<IAmendmentRepository>().Use<AmendmentRepository>();
                 });
         }
     }

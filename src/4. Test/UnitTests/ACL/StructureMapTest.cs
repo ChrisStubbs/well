@@ -22,8 +22,8 @@
         public void CheckAdamListenerIoc()
         {
             var container = PH.Well.Adam.Listener.Program.InitIoc();
-            IAdamFileMonitorService monitorService;
-            Assert.DoesNotThrow(() => monitorService = container.GetInstance<IAdamFileMonitorService>());
+            IFileMonitorService monitorService;
+            Assert.DoesNotThrow(() => monitorService = container.GetInstance<IFileMonitorService>());
         }
         
         [Test]

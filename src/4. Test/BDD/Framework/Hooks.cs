@@ -172,7 +172,7 @@
                                                 x.For<IFileTypeService>().Use<FileTypeService>();
                                                 x.For<IFileService>().Use<FileService>();
                                                 x.For<IAccountRepository>().Use<AccountRepository>();
-                                                x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
+                                                x.For<IFileMonitorService>().Use<FileMonitorService>();
                                                 x.For<INotificationRepository>().Use<NotificationRepository>();
                                                 x.For<IDapperProxy>().Use<WellDapperProxy>();
                                                 x.For<IEventLogger>().Use<EventLogger>();

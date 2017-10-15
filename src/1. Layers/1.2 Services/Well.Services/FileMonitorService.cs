@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Xml.Serialization;
 
     using PH.Well.Common;
@@ -17,7 +18,7 @@
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
-    public class AdamFileMonitorService : IAdamFileMonitorService
+    public class FileMonitorService : IFileMonitorService
     {
         private readonly ILogger logger;
         private readonly IEventLogger eventLogger;
@@ -28,11 +29,11 @@
         private readonly IAdamUpdateService adamUpdateService;
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IEpodFileProvider epodProvider;
+        private readonly IWellCleanUpService wellCleanUpService;
 
-        private string RootFolder { get; set; }
-        readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER|EPOD)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex fileNameRegEx = new Regex("^(ROUTE|ORDER|EPOD|CLEAN)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public AdamFileMonitorService(
+        public FileMonitorService(
             ILogger logger,
             IEventLogger eventLogger,
             IFileService fileService,
@@ -41,7 +42,8 @@
             IAdamImportService adamImportService,
             IAdamUpdateService adamUpdateService,
             IRouteHeaderRepository routeHeaderRepository,
-            IEpodFileProvider epodProvider)
+            IEpodFileProvider epodProvider,
+            IWellCleanUpService wellCleanUpService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -52,15 +54,15 @@
             this.adamUpdateService = adamUpdateService;
             this.routeHeaderRepository = routeHeaderRepository;
             this.epodProvider = epodProvider;
+            this.wellCleanUpService = wellCleanUpService;
         }
 
         public void Monitor(string rootFolder)
         {
-            this.RootFolder = rootFolder;
             var directoryInfo = new DirectoryInfo(rootFolder);
 
             var files =
-                directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
+                directoryInfo.GetFiles().Where(f => IsRecognisedFileName(f.Name))
                     .OrderBy(f => GetDateStampFromFile(new ImportFileInfo(f)));
             var stopWatch = new Stopwatch();
 
@@ -74,17 +76,15 @@
 
                 var ts = stopWatch.Elapsed;
 
-                var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                    ts.Hours, ts.Minutes, ts.Seconds,
-                    ts.Milliseconds / 10);
+                var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
 
                 this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }
 
-        public bool IsRouteOrOrderFile(string fileName)
+        public bool IsRecognisedFileName(string fileName)
         {
-            return routeOrOrderRegEx.IsMatch(fileName);
+            return fileNameRegEx.IsMatch(fileName);
         }
 
         public DateTime GetDateStampFromFile(ImportFileInfo fileInfo)
@@ -99,6 +99,7 @@
                         fileInfo.ModificationTime,
                         fileInfo.CreationTime
                     }.Min();
+                case EpodFileType.Clean:
                 case EpodFileType.Epod:
                     var nameParts = fileInfo.Name.Split('_');
                     var timeString = nameParts[2] + nameParts[3].Substring(0, 6);
@@ -129,6 +130,9 @@
                 case EpodFileType.Epod:
                     this.HandleEpod(filePath, filename);
                     break;
+                case EpodFileType.Clean:
+                    this.HandleClean(filePath);
+                    break;
             }
 
             this.fileModule.MoveFile(
@@ -136,6 +140,18 @@
                 Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd"), adicionalDataPath));
 
             this.logger.LogDebug($"{filePath} processed!");
+        }
+
+        private void HandleClean(string filePath)
+        {
+            try
+            {
+                wellCleanUpService.Clean().Wait();
+            }
+            catch (Exception exception)
+            {
+                this.LogError(exception, filePath);
+            }
         }
 
         private void HandleRoute(string filePath, string filename)

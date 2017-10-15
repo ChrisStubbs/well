@@ -1,4 +1,8 @@
-﻿namespace PH.Well.Api.Controllers
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+
+namespace PH.Well.Api.Controllers
 {
     using System.Web.Http;
     using Domain.ValueObjects;
@@ -13,7 +17,7 @@
             this.appSearchService = appSearchService;
         }
 
-        public AppSearchResultSummary Get([FromUri]AppSearchParameters parameters)
+        public AppSearchResult Get([FromUri]AppSearchParameters parameters)
         {
             return appSearchService.GetAppSearchResult(parameters);
         }

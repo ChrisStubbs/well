@@ -7,14 +7,14 @@
         public WellCleanConfig()
         {
             var x = 0;
-            if (int.TryParse(ConfigurationManager.AppSettings["SoftDeleteBatchSize"], out x))
+            if (int.TryParse(ConfigurationManager.AppSettings["CleanBatchSize"], out x))
             {
-                SoftDeleteBatchSize = x;
+                CleanBatchSize = x;
             }
 
         }
 
-        public int SoftDeleteBatchSize { get; set; } = 1000;
+        public int CleanBatchSize { get; set; } = 1000;
         public int WellCleanTransactionTimeoutSeconds { get; set; } = 1200;
     }
 }

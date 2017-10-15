@@ -96,7 +96,7 @@
     <Compile Include="Contracts\IFileService.cs" />
     <Compile Include="Contracts\IFileTypeService.cs" />
     <Compile Include="Contracts\IFriendlyNameService.cs" />
-    <Compile Include="Contracts\IAdamFileMonitorService.cs" />
+    <Compile Include="Contracts\IFileMonitorService.cs" />
     <Compile Include="Contracts\IOrderImportMapper.cs" />
     <Compile Include="Contracts\IUserThresholdService.cs" />
     <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="DeliveryActions\DeliveryLineActionService.cs" />
     <Compile Include="FileModule.cs" />
     <Compile Include="FileService.cs" />
-    <Compile Include="AdamFileMonitorService.cs" />
+    <Compile Include="FileMonitorService.cs" />
     <Compile Include="FileTypeService.cs" />
     <Compile Include="LineItemActionService.cs" />
     <Compile Include="LookupService.cs" />

@@ -133,7 +133,7 @@
   <ItemGroup>
     <Compile Include="ACL\AdamEvents\ConfigurationFactoryTests.cs" />
     <Compile Include="ACL\AdamEvents\EventProcessorTests.cs" />
-    <Compile Include="ACL\AdamListener\AdamFileMonitorServiceTests.cs" />
+    <Compile Include="ACL\AdamListener\FileMonitorServiceTests.cs" />
     <Compile Include="ACL\StructureMapTest.cs" />
     <Compile Include="ACL\Task.GlobalUplifts\GlobalUpliftsTests.cs" />
     <Compile Include="AdamResilienceTests.cs" />

@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Repositories.Read
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -73,6 +74,32 @@
                 .Query<int>();
 
             return GetLineItemByIds(lineItemIds);
+        }
+
+        public IEnumerable<LineItem> GetLineItemBranchRouteDate(int branchId, DateTime routeDate)
+        {
+            var lineItems = new List<LineItem>();
+
+            this.dapperReadProxy.WithStoredProcedure(StoredProcedures.LineItemByBranchRouteDate)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .AddParameter("RouteDate", routeDate, DbType.Date)
+                .QueryMultiple(gridReader => 
+                {
+
+                    lineItems = gridReader.Read<LineItem>().ToList();
+                    var lineItemActions = gridReader.Read<LineItemAction>().ToList();
+
+                    foreach (var lineItem in lineItems)
+                    {
+                        lineItem.LineItemActions = lineItemActions
+                            .Where(x => x.LineItemId == lineItem.Id)
+                            .ToList();
+                    }
+
+                    return lineItems;
+                });
+
+            return lineItems;
         }
     }
 }

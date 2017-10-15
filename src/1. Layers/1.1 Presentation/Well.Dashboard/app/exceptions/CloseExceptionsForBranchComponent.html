@@ -1,0 +1,37 @@
+<div class="form-horizontal content">
+    <div class="form-group form-group-lg">
+        <div class="row">
+            <div class="col-lg-4" [ngClass]="selectedBranch ? 'has-success' : 'has-error'" >
+                <label for="branch" class="col-lg-3 control-label">Branch</label>
+                <div class="col-lg-9">
+                    <select class="form-control" 
+                        id="branch"
+                        [(ngModel)]="selectedBranch">
+                        <option *ngFor="let branch of branches" [value]="branch[0]">
+                            {{ branch[1] }}
+                        </option>
+                    </select>            
+                </div>
+            </div>
+            <div class="col-lg-4" [ngClass]="selectedDateFrom ? 'has-success' : 'has-error'">
+                <label for="dateFrom" class="col-lg-3 control-label">From Date</label>
+                <div class="col-lg-9">
+                    <input type="date" id="dateFrom" class="form-control" [(ngModel)]="selectedDateFrom" >
+                </div>
+            </div>
+            <div class="col-lg-4" [ngClass]="selectedDateTo ? 'has-success' : 'has-error'">
+                <label for="dateTo" class="col-lg-3 control-label">To Date</label>
+                <div class="col-lg-9">
+                    <input type="date" id="dateTo" class="form-control" [(ngModel)]="selectedDateTo" >
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pull-right">
+                <button class="btn btn-success" type="submit" (click)="closeActions()" [disabled]="!(selectedDateFrom && selectedDateTo && selectedBranch)">close Actions</button>
+            </div>
+        </div>
+    </div>
+</div>

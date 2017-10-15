@@ -2,6 +2,7 @@
 
 namespace PH.Well.Services.Contracts
 {
+    using System;
     using System.Collections.Generic;
     using Domain;
     using Domain.ValueObjects;
@@ -19,5 +20,7 @@ namespace PH.Well.Services.Contracts
         /// <param name="deliveryAction"></param>
         /// <returns></returns>
         bool CanSetActionForJob(Job job,  DeliveryAction deliveryAction);
+
+        void CloseExceptionsForBranch(int branchId, DateTime routeDate);
     }
 }

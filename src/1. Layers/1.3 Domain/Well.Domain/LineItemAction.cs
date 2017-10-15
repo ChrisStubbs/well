@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Contracts;
     using Enums;
 
@@ -12,19 +13,43 @@
             Comments = new List<LineItemActionComment>();
         }
         public int LineItemId { get; set; }
+
         public ExceptionType ExceptionType { get; set; }
+
         public int Quantity { get; set; }
+
         public JobDetailSource Source { get; set; }
+
         public JobDetailReason Reason { get; set; }
+
         public DateTime? ReplanDate { get; set; }
+
         public DateTime? SubmittedDate { get; set; } 
+
         public DateTime? ApprovalDate { get; set; }
+
         public string ApprovedBy { get; set; }
+
         public string ActionedBy { get; set; }
+
         public Originator Originator { get; set; }
+
         public DeliveryAction DeliveryAction { get; set; }
+
         public IList<LineItemActionComment> Comments { get; set; }
+
         public string PdaReasonDescription { get; set; }
+
+        public LineItemAction Copy()
+        {
+            var result = (LineItemAction)this.MemberwiseClone();
+
+            result.Comments = this.Comments
+                .Select(p => p.Copy())
+                .ToList();
+
+            return result;
+        }
 
         public bool HasChanges(LineItemAction item)
         {
@@ -40,7 +65,5 @@
                    || Originator != item.Originator
                    || DeliveryAction != item.DeliveryAction;
         }
-
-
     }
 }

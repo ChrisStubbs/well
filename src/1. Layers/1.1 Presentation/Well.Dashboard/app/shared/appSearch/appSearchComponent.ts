@@ -1,37 +1,41 @@
-import { Component, Output, EventEmitter }  from '@angular/core';
-import { Router }                           from '@angular/router';
-import { BranchService }                    from '../branch/branchService';
-import { GlobalSettingsService }            from '../globalSettings';
-import
-{
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { BranchService } from '../branch/branchService';
+import { GlobalSettingsService } from '../globalSettings';
+import {
     FormGroup,
     FormControl,
     FormBuilder,
     Validators
-}                                           from '@angular/forms';
-import { IAppSearchResultSummary }          from './iAppSearchResultSummary';
-import { AppSearchParameters }              from './appSearchParameters';
-import { AppSearchService }                 from './appSearchService';
-import
-{
+} from '@angular/forms';
+import {
     LookupService,
     LookupsEnum,
     ILookupValue
-}                                           from '../services/services';
-import { IObservableAlive }                 from '../IObservableAlive';
-import { Observable }                       from 'rxjs';
-import { ToasterService }                   from 'angular2-toaster/angular2-toaster';
-import * as _                               from 'lodash';
+} from '../services/services';
+import { IObservableAlive } from '../IObservableAlive';
+import { Observable } from 'rxjs';
+import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import * as _ from 'lodash';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import {
+    IAppSearchResult,
+    IAppSearchItem,
+    AppSearchItemType,
+    AppSearchParameters,
+    AppSearchInvoiceItem,
+    AppSearchLocationItem,
+    AppSearchRouteItem
+} from './appSearch';
+import { AppSearchService } from './appSearchService';
 
 @Component({
     selector: 'ow-appSearch',
     templateUrl: 'app/shared/appSearch/appSearchComponent.html',
     providers: [AppSearchService]
 })
-export class AppSearch implements IObservableAlive
-{
+export class AppSearch implements IObservableAlive {
     public branches: Array<[string, string]>;
     public jobStatus: ILookupValue[];
     public jobTypes: ILookupValue[];
@@ -39,7 +43,9 @@ export class AppSearch implements IObservableAlive
     public showMoreFilters = false;
     public drivers: ILookupValue[];
     public isAlive: boolean = true;
-    @Output() public onSearch = new EventEmitter();
+    @Output() public onSearch: EventEmitter<IAppSearchResult> = new EventEmitter<IAppSearchResult>();
+    private currentResult: IAppSearchResult;
+    private appSearchItemType;
 
     public constructor(
         private lookupService: LookupService,
@@ -48,7 +54,11 @@ export class AppSearch implements IObservableAlive
         private fb: FormBuilder,
         private appSearchService: AppSearchService,
         private router: Router,
-        private toasterService: ToasterService) { }
+        private toasterService: ToasterService) {
+
+        // Instance of enum
+        this.appSearchItemType = AppSearchItemType;
+    }
 
     public ngOnInit(): void {
         this.searchForm = this.fb.group(
@@ -83,8 +93,7 @@ export class AppSearch implements IObservableAlive
             });
     }
 
-    private setDefaultBranch(): void
-    {
+    private setDefaultBranch(): void {
         if (_.isNil(this.branches)) {
             this.searchForm.value.branch = undefined;
             return;
@@ -95,12 +104,11 @@ export class AppSearch implements IObservableAlive
         }
     }
 
-    private fillBranches(): void
-    {
+    private fillBranches(): void {
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
             .subscribe(branches => {
-                this.branches = <any>branches;
+                this.branches = branches;
                 this.setDefaultBranch();
             });
     }
@@ -112,6 +120,7 @@ export class AppSearch implements IObservableAlive
     public resetSearch(): void {
         this.searchForm.reset();
         this.setDefaultBranch();
+        this.currentResult = undefined;
     }
 
     public search(event: any): void {
@@ -136,43 +145,29 @@ export class AppSearch implements IObservableAlive
 
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
-            .subscribe((result: IAppSearchResultSummary) => 
-            {
+            .subscribe((result: IAppSearchResult) => {
                 // If no locations matched
-                if (!result.locationIds.length && !result.routeIds.length && !result.invoiceIds.length) {
+                if (result.items.length === 0) {
                     this.toasterService.pop('warning', 'No results found for your search criteria');
                     this.onSearch.emit();
                     return;
                 }
 
-                // If user searched by invoice and single result was found - navigate to invoice screen
-                if ((parameters.invoice || parameters.upliftInvoiceNumber) && result.invoiceIds.length === 1) {
-                    this.router.navigateByUrl('/invoice/' + result.invoiceIds[0]);
-                    this.onSearch.emit();
-                    return;
-                }
-
-                if (result.locationIds.length === 1) {
-                    this.router.navigateByUrl('/singlelocation?locationId=' + result.locationIds[0]);
-                    this.onSearch.emit();
-                    return;
-                }
-
-                if (result.routeIds.length === 1) {
-                    this.router.navigateByUrl('/singleroute/' + result.routeIds[0]);
-                    this.onSearch.emit();
+                // Single result found so can navigate
+                if (result.items.length === 1) {
+                    this.navigateToItem(result.items[0]);
                     return;
                 }
 
                 if (this.isNonFilterSearch(parameters)) {
-                    parameters.routeIds = (result.routeIds.length > 0) ? result.routeIds : [-1];
+                    const routeIds = _.map(_.filter(result.items, { itemType: 3 }), (item) => { return item.id; });
+                    parameters.routeIds = (routeIds.length > 0) ? routeIds : [-1];
                 }
 
-                this.router.navigate(['/routes'], { queryParams: parameters });
-                this.onSearch.emit();
-
+                //this.router.navigate(['/routes'], { queryParams: parameters });
+                this.currentResult = result;
+                this.onSearch.emit(result);
                 return;
-
             });
     }
 
@@ -189,5 +184,31 @@ export class AppSearch implements IObservableAlive
 
     public showMore(): void {
         this.showMoreFilters = !this.showMoreFilters;
+    }
+
+    private navigateToItem(item: IAppSearchItem) {
+        switch (item.itemType) {
+            case AppSearchItemType.Invoice:
+                this.navigateToInvoice(<AppSearchInvoiceItem>item);
+                return;
+            case AppSearchItemType.Location:
+                this.navigateToLocation(<AppSearchLocationItem>item);
+                return;
+            case AppSearchItemType.Route:
+                this.navigateToSingleRoute(<AppSearchRouteItem>item);
+                return;
+        }
+    }
+
+    private navigateToInvoice(item: AppSearchInvoiceItem) {
+        this.router.navigateByUrl('/invoice/' + item.id);
+    }
+
+    private navigateToLocation(item: AppSearchLocationItem) {
+        this.router.navigate(['/singlelocation'], { queryParams: {locationId: item.id}});
+    }
+
+    private navigateToSingleRoute(item: AppSearchRouteItem) {
+        this.router.navigateByUrl('/singleroute/' + item.id);
     }
 }

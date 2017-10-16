@@ -13,6 +13,9 @@
         [Description("Order_")]
         Order = 3,
 
-        Unknown = 4
+        [Description("CLEAN_")]
+        Clean = 4,
+
+        Unknown = 5
     }
 }

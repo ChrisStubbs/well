@@ -14,6 +14,7 @@ namespace PH.Well.UnitTests.Services
     using System.Configuration;
     using System.Linq;
     using NUnit.Framework.Internal;
+    using Well.Common.Contracts;
     using ILogger = Well.Common.Contracts.ILogger;
 
     [TestFixture]
@@ -26,6 +27,7 @@ namespace PH.Well.UnitTests.Services
         private Mock<IJobRepository> jobRepository;
         private Mock<IWellCleanConfig> config;
         private Mock<IExceptionEventRepository> exceptionEventRepository;
+        private Mock<IDbConfiguration> dbConfig;
         private WellCleanUpService cleanupService;
 
         [SetUp]
@@ -37,10 +39,10 @@ namespace PH.Well.UnitTests.Services
             amendmentService = new Mock<IAmendmentService>();
             jobRepository = new Mock<IJobRepository>();
             config = new Mock<IWellCleanConfig>();
-            config.SetupGet(x => x.SoftDeleteBatchSize).Returns(5000);
+            config.SetupGet(x => x.CleanBatchSize).Returns(5000);
 
             exceptionEventRepository = new Mock<IExceptionEventRepository>();
-
+            dbConfig = new Mock<IDbConfiguration>();
             cleanupService = new WellCleanUpService(
                 logger.Object,
                 wellCleanUpRepository.Object,
@@ -48,7 +50,8 @@ namespace PH.Well.UnitTests.Services
                 amendmentService.Object,
                 jobRepository.Object,
                 config.Object,
-                exceptionEventRepository.Object);
+                exceptionEventRepository.Object,
+                dbConfig.Object);
         }
 
         [Test]

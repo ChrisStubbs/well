@@ -10,6 +10,8 @@
     using Domain.ValueObjects;
     using Repositories.Contracts;
     using System.Collections.Concurrent;
+    using System.Diagnostics;
+    using Common;
     using Domain;
 
     public class WellCleanUpService : IWellCleanUpService
@@ -21,6 +23,7 @@
         private readonly IJobRepository jobRepository;
         private readonly IWellCleanConfig configuration;
         private readonly IExceptionEventRepository exceptionEventRepository;
+        private readonly IDbConfiguration dbConfig;
 
         public WellCleanUpService(
             ILogger logger,
@@ -29,7 +32,8 @@
             IAmendmentService amendmentService,
             IJobRepository jobRepository,
             IWellCleanConfig configuration,
-            IExceptionEventRepository exceptionEventRepository)
+            IExceptionEventRepository exceptionEventRepository,
+            IDbConfiguration dbConfig)
         {
             this.logger = logger;
             this.wellCleanUpRepository = wellCleanUpRepository;
@@ -38,45 +42,52 @@
             this.jobRepository = jobRepository;
             this.configuration = configuration;
             this.exceptionEventRepository = exceptionEventRepository;
+            this.dbConfig = dbConfig;
         }
 
         public async Task Clean()
         {
-            logger.LogDebug("Start clean delete");
-
+            var stopWatch = new Stopwatch();
+            stopWatch.Restart();
+            logger.LogDebug("Start clean process");
+            int batchSize;
+            int noOfJobs;
+            int totalNoOfBatches;
             var jobsForClean = this.GetJobsAvailableForClean();
 
             try
             {
-
-                var batchSize = 1000;
-                if (configuration.SoftDeleteBatchSize > 0)
+                batchSize = 1000;
+                if (configuration.CleanBatchSize > 0)
                 {
-                    batchSize = configuration.SoftDeleteBatchSize;
+                    batchSize = configuration.CleanBatchSize;
                 }
 
+                logger.LogDebug($"WellCleanTransactionTimeoutSeconds: {configuration.WellCleanTransactionTimeoutSeconds}");
+                logger.LogDebug($"transactionTimeoutSeconds: {dbConfig.TransactionTimeout}");
+                logger.LogDebug($"CommandTimeoutSeconds: {dbConfig.CommandTimeout}");
+                logger.LogDebug($"Batch Size: {batchSize}");
+                
+                logger.LogDebug("Start determining jobs to clean");
                 var data = await this.FilterLookup(jobsForClean);
                 var jobsToDelete = data
                     .SelectMany(p => p)
                     .Select(p => p.JobId)
                     .ToList();
+                logger.LogDebug("Finish determining jobs to clean");
 
+                var batchNo = 0;
+                noOfJobs = jobsToDelete.Count;
+                totalNoOfBatches = (noOfJobs + batchSize - 1) / batchSize;
 
-                foreach (var jobs in Batch(jobsToDelete,batchSize))
+                logger.LogDebug($"Start cleaning in batches");
+                logger.LogDebug($"No Of Jobs to clean: {noOfJobs}");
+                foreach (var jobs in Utilities.Batch(jobsToDelete, batchSize))
                 {
+                    batchNo++;
+                    logger.LogDebug($"Processing batch {batchNo} of {totalNoOfBatches}");
                     var jobList = jobs.ToList();
-                    using (var transactionScope = new TransactionScope(TransactionScopeOption.Required,
-                        new TimeSpan(0, 0, configuration.WellCleanTransactionTimeoutSeconds)))
-                    {
-                        logger.LogDebug("Start generating amendments documents");
-                        amendmentService.ProcessAmendments(jobList);
-                        logger.LogDebug("Finished generating amendments documnets");
-
-                        logger.LogDebug("Start soft delete jobs activities and children");
-                        SoftDeleteInBatches(jobList, configuration.SoftDeleteBatchSize);
-                        logger.LogDebug("Finished soft delete jobs activities and children");
-                        transactionScope.Complete();
-                    }
+                    ProcessAmmendmentsAndClean(jobList);
                 }
 
                 logger.LogDebug("Start clean Exception Events");
@@ -99,9 +110,30 @@
                 throw;
             }
 
-            logger.LogDebug("Start delete completed");
+            var ts = stopWatch.Elapsed;
+
+            var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+
+            logger.LogDebug($"Clean process cleaned {noOfJobs} jobs in {totalNoOfBatches} batches of {batchSize}" +
+                            $"and took {elapsedTime}");
 
             await Task.Run(() => Console.WriteLine("Complete"));
+        }
+
+        private void ProcessAmmendmentsAndClean(List<int> jobList)
+        {
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.Required,
+                new TimeSpan(0, 0, configuration.WellCleanTransactionTimeoutSeconds)))
+            {
+                logger.LogDebug("Start generating amendments documents");
+                amendmentService.ProcessAmendments(jobList);
+                logger.LogDebug("Finished generating amendments documnets");
+
+                logger.LogDebug("Start clean of jobs activities and children");
+                CleanJobsStopsRoutesAndActivities(jobList);
+                logger.LogDebug("Finished clean of jobs activities and children");
+                transactionScope.Complete();
+            }
         }
 
         private Task<List<JobForClean>[]> FilterLookup(ILookup<int, JobForClean> data)
@@ -159,40 +191,26 @@
 
             foreach (var p in Enumerable.Range(0, (int)max))
             {
-                DoClean(jobIds.Skip(p * batchSize).Take(batchSize).ToList());
+                CleanJobsStopsRoutesAndActivities(jobIds.Skip(p * batchSize).Take(batchSize).ToList());
             }
         }
 
-        private void DoClean(List<int> jobIdBatch)
+        private void CleanJobsStopsRoutesAndActivities(List<int> jobIdBatch)
         {
+            logger.LogDebug("Set Resolution Status");
             jobRepository.JobsSetResolutionStatusClosed(jobIdBatch);
+            logger.LogDebug("Clean Jobs");
             wellCleanUpRepository.CleanJobs(jobIdBatch);
+            logger.LogDebug("Clean Stops");
             wellCleanUpRepository.CleanStops();
+            logger.LogDebug("Clean Routeheader");
             wellCleanUpRepository.CleanRouteHeader();
+            logger.LogDebug("Clean Routes");
             wellCleanUpRepository.CleanRoutes();
+            logger.LogDebug("Clean Activities");
             wellCleanUpRepository.CleanActivities();
         }
 
-        static IEnumerable<IEnumerable<T>> Batch<T>(IEnumerable<T> source, int size)
-        {
-            var list = new List<T>(size);
-
-            foreach (T item in source)
-            {
-                list.Add(item);
-                if (list.Count == size)
-                {
-                    List<T> chunk = list;
-                    list = new List<T>(size);
-                    yield return chunk;
-                }
-            }
-
-            if (list.Count > 0)
-            {
-                yield return list;
-            }
-        }
     }
 }
 

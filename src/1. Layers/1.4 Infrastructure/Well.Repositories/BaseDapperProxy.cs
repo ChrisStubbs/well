@@ -58,7 +58,10 @@
             {
                 try
                 {
-                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                    return action(
+                        connection.QueryMultiple(this.storedProcedure, this.parameters, 
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: DbConfiguration.CommandTimeout));
                 }
                 finally
                 {
@@ -73,7 +76,9 @@
             {
                 try
                 {
-                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, commandType: CommandType.StoredProcedure));
+                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, 
+                        commandType: CommandType.StoredProcedure,
+                        commandTimeout: DbConfiguration.CommandTimeout));
                 }
                 finally
                 {

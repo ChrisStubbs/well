@@ -9,9 +9,9 @@ AS
             END)) AS NoGRNButNeeds,
 		MAX(rh.RouteOwnerId) AS BranchId
     FROM 
-        Job j
-		INNER JOIN [Stop] s ON j.StopId = s.id
-        INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+        Job j WITH (NOLOCK)
+		INNER JOIN [Stop] s WITH (NOLOCK) ON j.StopId = s.id
+        INNER JOIN RouteHeader rh WITH (NOLOCK) on s.RouteHeaderId = rh.Id
 	WHERE 
         j.DateDeleted IS NULL
     GROUP BY 

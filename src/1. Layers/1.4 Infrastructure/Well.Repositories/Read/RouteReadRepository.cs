@@ -52,20 +52,23 @@ namespace PH.Well.Repositories.Read
                     .Where(p => p.BranchId == branchId)
                     .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
 
-                var jobs = wellEntities.RouteHeader
+                var routeHeaderData = wellEntities.RouteHeader
                     .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
-                    .SelectMany(p => p.Stop
-                        .Where(s => s.DateDeleted == null)
+                    .ToList();
+                var routeIds = routeHeaderData.Select(p => p.Id).ToList();
+
+                var jobs = wellEntities.Stop
+                        .Where(s => s.DateDeleted == null 
+                            && routeIds.Contains(s.RouteHeaderId ))
                         .SelectMany(s => s.Job
                             .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
                                         j.JobTypeCode != "UPL-SAN")
                             .Select(uj => new
                             {
                                 Users = uj.UserJob.Select(a => a.User.Name),
-                                Route = p.Id,
+                                Route = s.RouteHeaderId,
                                 Stop = s.Id
                             })
-                        )
                     ).ToList()
                     //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
                     .GroupBy(p => new {p.Route, p.Stop})
@@ -92,12 +95,10 @@ namespace PH.Well.Repositories.Read
                     .GroupBy(p => p.Route)
                     .ToDictionary(k => k.Key, v => v.ToList());
 
-                var exceptionTotals = wellEntities.ExceptionTotalsPerRoute
-                    .Where(p => p.BranchId == branchId)
+                var exceptionTotals = this.getTotals(branchId)
                     .ToDictionary(k => k.Routeid, v => new {v.WithExceptions, v.WithOutExceptions});
 
-                var routeHeaders = wellEntities.RouteHeader
-                    .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
+                var routeHeaders = routeHeaderData
                     .Select(x => new
                     {
                         RouteId = x.Id,
@@ -139,7 +140,7 @@ namespace PH.Well.Repositories.Read
                         var noGRNButNeeds = routesWithNoGRNView.ContainsKey(item.RouteId) ? routesWithNoGRNView[item.RouteId] : false;
                         var pendingSubmission = routesWithPendingSubmitionsView.ContainsKey(item.RouteId) ? routesWithPendingSubmitionsView[item.RouteId] : false;
 
-                        var route = new Route()
+                        return new Route()
                         {
                             Id = item.RouteId,
                             BranchId = item.BranchId,
@@ -164,8 +165,6 @@ namespace PH.Well.Repositories.Read
                             JobIds = item.JobIds.ToList(),
                             DriverName = item.DriverName ?? string.Empty
                         };
-
-                        return route;
                     })
                     .ToList();
 
@@ -174,7 +173,16 @@ namespace PH.Well.Repositories.Read
             logger.LogDebug($"No branch found for the User '{username}'");
             return new List<Route>();
         }
-        
+
+
+        private IList<ExceptionTotalsPerRoute> getTotals(int branchId)
+        {
+            return this.dapperReadProxy.WithStoredProcedure(StoredProcedures.ExceptionTotalsPerRoute)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .Query<ExceptionTotalsPerRoute>()
+                .ToList();
+        }
+
         public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
         {
             var readRoutes = grid.Read<Route>().ToList();

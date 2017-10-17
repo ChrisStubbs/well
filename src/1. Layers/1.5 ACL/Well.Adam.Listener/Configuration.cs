@@ -46,7 +46,8 @@ namespace PH.Well.Adam.Listener
                     var branchIdStrings = ConfigurationManager.AppSettings["branchesToProcess"].Split(';');
                     foreach (var branchIdString in branchIdStrings)
                     {
-                        if (int.TryParse(branchIdString, out int branchId))
+                        int branchId;
+                        if (int.TryParse(branchIdString, out branchId))
                         {
                             var branch = (Branch) branchId;
                             result.Add(branch);

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PH.Well.Domain.Enums;
+using PH.Well.Services.Contracts;
 
 namespace PH.Well.Adam.Listener
 {
@@ -13,20 +15,32 @@ namespace PH.Well.Adam.Listener
         public static string RootFolder => ConfigurationManager.AppSettings["rootFolder"];
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
         public int DeadlockRetryDelayMilliseconds => int.Parse(ConfigurationManager.AppSettings["deadlockRetryDelayMilliseconds"]);
+
+        private static IEnumerable<Branch> branchesToProcess;
         public static IEnumerable<Branch> BranchesToProcess
         {
             get
             {
-                var result = new List<Branch>();
-                var branchIds = ConfigurationManager.AppSettings["branchesToProcess"].Split(';');
-                foreach (var branchId in branchIds)
+                if (branchesToProcess == null)
                 {
-                    var branch = (Branch) int.Parse(branchId);
-                    result.Add(branch);
+                    var result = new List<Branch>();
+                    var branchIdStrings = ConfigurationManager.AppSettings["branchesToProcess"].Split(';');
+                    foreach (var branchIdString in branchIdStrings)
+                    {
+                        if (int.TryParse(branchIdString, out int branchId))
+                        {
+                            var branch = (Branch) branchId;
+                            result.Add(branch);
+                        }
+                    }
+
+                    branchesToProcess = result;
                 }
 
-                return result;
+                return branchesToProcess;
             }
         }
+
+
     }
 }

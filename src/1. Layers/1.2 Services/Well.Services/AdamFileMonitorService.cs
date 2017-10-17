@@ -57,11 +57,6 @@
         {
             var directoryInfo = new DirectoryInfo(config.RootFolder);
 
-            if (!directoryInfo.Exists)
-            {
-                return;
-            }
-
             var files =
                 directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
                     .Select(x => new ImportFileInfo(x))
@@ -120,28 +115,26 @@
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
-            if (config.ProcessFiles)
+            switch (fileType)
             {
-                switch (fileType)
-                {
-                    case EpodFileType.Route:
-                        this.HandleRoute(importFile.FullName, filename);
-                        break;
+                case EpodFileType.Route:
+                    this.HandleRoute(importFile.FullName, filename,config);
+                    break;
 
-                    case EpodFileType.Order:
-                        this.HandleOrder(importFile.FullName, filename);
-                        break;
+                case EpodFileType.Order:
+                    this.HandleOrder(importFile.FullName, filename, config);
+                    break;
 
-                    case EpodFileType.Epod:
-                        this.HandleEpod(importFile.FullName, filename);
-                        break;
-                }
+                case EpodFileType.Epod:
+                    this.HandleEpod(importFile.FullName, filename, config);
+                    break;
             }
+           
             this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config));
             this.logger.LogDebug($"{importFile.FullName} processed!");
         }
 
-        private void HandleRoute(string filePath, string filename)
+        private void HandleRoute(string filePath, string filename,IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
             try
@@ -154,7 +147,7 @@
 
                     routes.RouteId = route.Id;
 
-                    this.adamImportService.Import(routes, filename);
+                    this.adamImportService.Import(routes, filename, config);
                 }
             }
             catch (Exception exception)
@@ -163,7 +156,7 @@
             }
         }
 
-        private void HandleOrder(string filePath, string filename)
+        private void HandleOrder(string filePath, string filename, IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteUpdates));
             try
@@ -174,7 +167,7 @@
 
                     this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
-                    this.adamUpdateService.Update(routes);
+                    this.adamUpdateService.Update(routes,config);
                 }
             }
             catch (Exception exception)
@@ -183,11 +176,11 @@
             }
         }
 
-        private void HandleEpod(string filePath, string filename)
+        private void HandleEpod(string filePath, string filename, IImportConfig config)
         {
             try
             {
-                this.epodProvider.Import(filePath, filename);
+                this.epodProvider.Import(filePath, filename, config);
             }
             catch (Exception exception)
             {

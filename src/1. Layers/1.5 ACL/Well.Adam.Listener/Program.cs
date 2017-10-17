@@ -35,28 +35,9 @@ namespace PH.Well.Adam.Listener
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             var monitorService = container.GetInstance<IAdamFileMonitorService>();
-            var fileService = container.GetInstance<IFileService>();
+            var config = new AdamFileMonitorServiceConfig(Configuration.RootFolder, Configuration.BranchesToProcess);
 
-            var allBranches = Enum.GetValues(typeof(Branch)).Cast<Branch>().Distinct();
-            var branchesToProcess = Configuration.BranchesToProcess.ToList();
-
-            var monitorServiceConfigs = allBranches.Select(x =>
-            {
-                var root = Path.Combine(Configuration.RootFolder, fileService.GetBranchFolder(x));
-                bool processFiles = branchesToProcess.Contains(x);
-                return new AdamFileMonitorServiceConfig(root, processFiles);
-            }).ToList();
-
-            // Fallback option if files are not in their branch folder
-            //var fallbackMonitorConfig = new AdamFileMonitorServiceConfig(Configuration.RootFolder, true);
-            var fallbackMonitorConfig = new AdamFileMonitorServiceConfig(Configuration.RootFolder, false);
-
-            monitorServiceConfigs.Add(fallbackMonitorConfig);
-
-            foreach (var config in monitorServiceConfigs)
-            {
-                monitorService.Monitor(config);
-            }
+            monitorService.Monitor(config);
         }
 
         /// <summary>
@@ -124,45 +105,6 @@ namespace PH.Well.Adam.Listener
                     x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
                 });
-        }
-
-        public string GetBranchFolder(Branch branch)
-        {
-            string abbreviation = "";
-            switch (branch)
-            {
-                case Branch.Medway:
-                    abbreviation = "med"; break;
-                case Branch.Coventry:
-                    abbreviation = "cov"; break;
-                case Branch.Fareham:
-                    abbreviation = "far"; break;
-                case Branch.Dunfermline:
-                    abbreviation = "dun"; break;
-                case Branch.Leeds:
-                    abbreviation = "lee"; break;
-                case Branch.Hemel:
-                    abbreviation = "hem"; break;
-                case Branch.Birtley:
-                    abbreviation = "bir"; break;
-                case Branch.Belfast:
-                    abbreviation = "bel"; break;
-                case Branch.Brandon:
-                    abbreviation = "bra"; break;
-                case Branch.Plymouth:
-                    abbreviation = "ply"; break;
-                case Branch.Bristol:
-                    abbreviation = "bri"; break;
-                case Branch.Haydock:
-                    abbreviation = "hay"; break;
-                case Branch.NotDefined:
-                case Branch.Default:
-                    abbreviation = "Test"; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(branch));
-            }
-
-            return $"{(int)branch:00}{abbreviation}";
         }
     }
 }

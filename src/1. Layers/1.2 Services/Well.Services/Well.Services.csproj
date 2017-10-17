@@ -61,6 +61,7 @@
     <Compile Include="AppSearchService.cs" />
     <Compile Include="AdamFileMonitorServiceConfig.cs" />
     <Compile Include="Contracts\IAdamFileMonitorServiceConfig.cs" />
+    <Compile Include="Contracts\IImportConfig.cs" />
     <Compile Include="Contracts\IPodService.cs" />
     <Compile Include="PodService.cs" />
     <Compile Include="BranchService.cs" />

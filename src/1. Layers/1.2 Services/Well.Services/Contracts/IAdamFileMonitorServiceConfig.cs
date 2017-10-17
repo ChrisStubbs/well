@@ -1,15 +1,10 @@
 ﻿namespace PH.Well.Services.Contracts
 {
-    public interface IAdamFileMonitorServiceConfig
+    public interface IAdamFileMonitorServiceConfig : IImportConfig
     {
         /// <summary>
         /// Location to monitor
         /// </summary>
         string RootFolder { get; }
-
-        /// <summary>
-        /// Whether should process files before archiving
-        /// </summary>
-        bool ProcessFiles { get; }
     }
 }

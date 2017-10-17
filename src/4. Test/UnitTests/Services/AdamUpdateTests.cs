@@ -46,6 +46,7 @@
         private Mock<IImportService> importService;
         private Mock<IStopService> stopService;
         private Mock<IRouteService> routeService;
+        private TestImportConfig config = new TestImportConfig();
 
         [SetUp]
         public void Setup()
@@ -127,7 +128,7 @@
                 //postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
                 parameters = new List<GetByNumberDateBranchFilter>
                 {
                     new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
@@ -213,7 +214,7 @@
                 //postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
 
                 //ASSERT
                 this.routeHeaderRepository.Verify(
@@ -316,7 +317,7 @@
                 this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
                 parameters = new List<GetByNumberDateBranchFilter>
                 {
                     new GetByNumberDateBranchFilter { BranchId = int.Parse(stopUpdate.StartDepotCode),  RouteDate = stopUpdate.DeliveryDate.Value,  RouteNumber = stopUpdate.RouteNumber }
@@ -393,7 +394,7 @@
                 postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
 
                 //ASSERT
                 this.stopRepository.Verify(x => x.GetByJobDetails(job.PickListRef, job.PhAccount, int.Parse(stopUpdate.StartDepotCode)), Times.Once);
@@ -467,7 +468,7 @@
                 this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
 
                 //ASSERT
                 this.logger.Verify(
@@ -537,7 +538,7 @@
                 this.postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
                 //ACT
-                this.service.Update(routeUpdate);
+                this.service.Update(routeUpdate, config);
 
                 //ASSERT
                 this.jobRepository.Verify(x => x.SaveJobResolutionStatus(It.IsAny<Job>()), Times.Once);
@@ -580,11 +581,19 @@
 
                 postImportRepository.Setup(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()));
 
-                service.Update(routeUpdate);
+                service.Update(routeUpdate, config);
 
                 stopRepository.Verify(x => x.DeleteStopByTransportOrderReference(stopUpdate.TransportOrderRef), Times.Once);
 
                 postImportRepository.Verify(x => x.PostImportUpdate(It.IsAny<IEnumerable<int>>()), Times.Never);
+            }
+        }
+
+        public class TestImportConfig : IImportConfig
+        {
+            public bool ProcessDataForBranch(Well.Domain.Enums.Branch branch)
+            {
+                return true;
             }
         }
     }

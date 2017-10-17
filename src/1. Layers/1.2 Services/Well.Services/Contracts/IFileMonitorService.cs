@@ -2,6 +2,6 @@
 {
     public interface IFileMonitorService
     {
-        void Monitor(string rootFolder);
+        void Monitor(IAdamFileMonitorServiceConfig config);
     }
 }

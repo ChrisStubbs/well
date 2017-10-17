@@ -57,8 +57,15 @@
             this.routeService = routeService;
         }
 
-        public void Update(RouteUpdates route)
+        public void Update(RouteUpdates route, IImportConfig config)
         {
+            var branch = (Domain.Enums.Branch) Enum.Parse(typeof(Branches), route.Stops.First().StartDepotCode, true);
+            if (!config.ProcessDataForBranch(branch))
+            {
+                logger.LogDebug("Skip RouteUpdates");
+                return;
+            }
+
             //TODO: refactor for improvement. we may be able to put all insert/delete/update together and do it in async 
             foreach (var stop in route.Stops)
             {

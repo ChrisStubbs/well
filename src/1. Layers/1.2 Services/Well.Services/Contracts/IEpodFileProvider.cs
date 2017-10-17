@@ -2,6 +2,6 @@
 {
     public interface IEpodFileProvider
     {
-        void Import(string filePath, string filename);
+        void Import(string filePath, string filename, IImportConfig config);
     }
 }

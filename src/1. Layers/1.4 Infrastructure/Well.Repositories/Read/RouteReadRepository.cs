@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Transactions;
 using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Constants;
 
@@ -29,56 +30,62 @@ namespace PH.Well.Repositories.Read
 
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
-            var branch = wellEntities.UserBranch
-                .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
-                .Select(x => new
+            using (var scope = new TransactionScope(System.Transactions.TransactionScopeOption.Required,
+                new System.Transactions.TransactionOptions
                 {
-                    x.Branch.Id,
-                    x.Branch.Name
-                })
-                .FirstOrDefault();
-
-            if (branch != null)
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted
+                }))
             {
-                var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
+                var branch = wellEntities.UserBranch
+                    .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
+                    .Select(x => new
+                    {
+                        x.Branch.Id,
+                        x.Branch.Name
+                    })
+                    .FirstOrDefault();
 
-                var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.HasNotDefinedDeliveryAction.Value);
+                if (branch != null)
+                {
+                    var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
 
-                var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
+                    var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.HasNotDefinedDeliveryAction.Value);
+
+                    var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
 
                 var routeHeaderData = wellEntities.RouteHeader
-                    .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
+                        .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .ToList();
                 var routeIds = routeHeaderData.Select(p => p.Id).ToList();
 
                 var jobs = wellEntities.Stop
                         .Where(s => s.DateDeleted == null 
                             && routeIds.Contains(s.RouteHeaderId ))
-                        .SelectMany(s => s.Job
-                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
-                                        j.JobTypeCode != "UPL-SAN")
-                            .Select(uj => new
-                            {
-                                Users = uj.UserJob.Select(a => a.User.Name),
+                            .SelectMany(s => s.Job
+                                .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
+                                            j.JobTypeCode != "UPL-SAN")
+                                .Select(uj => new
+                                {
+                                    Users = uj.UserJob.Select(a => a.User.Name),
                                 Route = s.RouteHeaderId,
-                                Stop = s.Id
-                            })
-                    ).ToList()
-                    //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
-                    .GroupBy(p => new {p.Route, p.Stop})
-                    //select distinct users inside the group
-                    .Select(p =>
-                    {
-                        var distinctUsers = p.SelectMany(data => data.Users).Distinct().ToList();
+                                    Stop = s.Id
+                                })
+                        ).ToList()
+                        //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
+                        .GroupBy(p => new { p.Route, p.Stop })
+                        //select distinct users inside the group
+                        .Select(p =>
+                        {
+                            var distinctUsers = p.SelectMany(data => data.Users).Distinct().ToList();
 
                         if (distinctUsers == null || distinctUsers.Count() == 0)
-                        {
+                            {
                             return new
                             {
                                 Users = new List<string> {"Unallocated"},
@@ -113,28 +120,28 @@ namespace PH.Well.Repositories.Read
                     })
                     .ToList();
 
-                Func<int, List<Assignee>> getAssignees = routeId =>
-                {
-                    if (jobs.ContainsKey(routeId))
+                    Func<int, List<Assignee>> getAssignees = routeId =>
                     {
-                        return jobs[routeId]
-                            .SelectMany(p => p.Users)
-                            .Select(p => new Assignee()
-                            {
-                                RouteId = routeId,
-                                Name = p
-                            }).ToList();
-                    }
+                        if (jobs.ContainsKey(routeId))
+                        {
+                            return jobs[routeId]
+                                .SelectMany(p => p.Users)
+                                .Select(p => new Assignee()
+                                {
+                                    RouteId = routeId,
+                                    Name = p
+                                }).ToList();
+                        }
 
-                    return null;
-                };
+                        return null;
+                    };
 
-                var result = routeHeaders
-                    .Select(item =>
-                    {
-                        var routeWellStatus = (item.WellStatus.HasValue)
-                            ? (WellStatus) item.WellStatus
-                            : WellStatus.Unknown;
+                    var result = routeHeaders
+                        .Select(item =>
+                        {
+                            var routeWellStatus = (item.WellStatus.HasValue)
+                                ? (WellStatus)item.WellStatus
+                                : WellStatus.Unknown;
 
                         var hasNotDefinedDeliveryAction = routesWithUnresolvedActionView.ContainsKey(item.RouteId) ? routesWithUnresolvedActionView[item.RouteId] : false;
                         var noGRNButNeeds = routesWithNoGRNView.ContainsKey(item.RouteId) ? routesWithNoGRNView[item.RouteId] : false;
@@ -182,7 +189,7 @@ namespace PH.Well.Repositories.Read
                 .Query<ExceptionTotalsPerRoute>()
                 .ToList();
         }
-
+        
         public List<Route> GetReadRoutesFromGrid(SqlMapper.GridReader grid)
         {
             var readRoutes = grid.Read<Route>().ToList();

@@ -79,7 +79,12 @@
                 var ts = stopWatch.Elapsed;
 
                 var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
-
+                // Abort if a file called stop.txt exists in exe folder
+                if (File.Exists("stop.txt"))
+                {
+                    File.Delete("stop.txt");
+                    return;
+                }
                 this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }

@@ -29,7 +29,6 @@
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IEpodFileProvider epodProvider;
 
-        private string RootFolder { get; set; }
         readonly Regex routeOrOrderRegEx = new Regex("^(ROUTE|ORDER|EPOD)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public AdamFileMonitorService(
@@ -54,14 +53,20 @@
             this.epodProvider = epodProvider;
         }
 
-        public void Monitor(string rootFolder)
+        public void Monitor(IAdamFileMonitorServiceConfig config)
         {
-            this.RootFolder = rootFolder;
-            var directoryInfo = new DirectoryInfo(rootFolder);
+            var directoryInfo = new DirectoryInfo(config.RootFolder);
+
+            if (!directoryInfo.Exists)
+            {
+                return;
+            }
 
             var files =
                 directoryInfo.GetFiles().Where(f => IsRouteOrOrderFile(f.Name))
-                    .OrderBy(f => GetDateStampFromFile(new ImportFileInfo(f)));
+                    .Select(x => new ImportFileInfo(x))
+                    .OrderBy(GetDateStampFromFile).ToList();
+
             var stopWatch = new Stopwatch();
 
             foreach (var file in files)
@@ -70,7 +75,7 @@
 
                 this.logger.LogDebug($"Start to process file {file.FullName}");
                 this.fileService.WaitForFile(file.FullName);
-                this.Process(file.FullName);
+                this.Process(file, config);
 
                 var ts = stopWatch.Elapsed;
 
@@ -108,34 +113,32 @@
             }
         }
 
-        public void Process(string filePath)
+        public void Process(ImportFileInfo importFile, IAdamFileMonitorServiceConfig config)
         {
-            var filename = Path.GetFileName(filePath);
+            var filename = importFile.Name;
             var fileType = this.fileTypeService.DetermineFileType(filename);
-            var adicionalDataPath = string.Empty;
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
-            switch (fileType)
+            if (config.ProcessFiles)
             {
-                case EpodFileType.Route:
-                    this.HandleRoute(filePath, filename);
-                    break;
+                switch (fileType)
+                {
+                    case EpodFileType.Route:
+                        this.HandleRoute(importFile.FullName, filename);
+                        break;
 
-                case EpodFileType.Order:
-                    this.HandleOrder(filePath, filename);
-                    break;
+                    case EpodFileType.Order:
+                        this.HandleOrder(importFile.FullName, filename);
+                        break;
 
-                case EpodFileType.Epod:
-                    this.HandleEpod(filePath, filename);
-                    break;
+                    case EpodFileType.Epod:
+                        this.HandleEpod(importFile.FullName, filename);
+                        break;
+                }
             }
-
-            this.fileModule.MoveFile(
-                filePath,
-                Path.Combine(Configuration.ArchiveLocation, DateTime.Now.ToString("yyyyMMdd"), adicionalDataPath));
-
-            this.logger.LogDebug($"{filePath} processed!");
+            this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config));
+            this.logger.LogDebug($"{importFile.FullName} processed!");
         }
 
         private void HandleRoute(string filePath, string filename)
@@ -201,22 +204,33 @@
                 3332);
         }
 
+        private string GetArchivePath(ImportFileInfo importFile,IAdamFileMonitorServiceConfig config)
+        {
+            return Path.Combine(config.RootFolder, "archive", GetDateStampFromFile(importFile).ToString("yyyyMMdd"));
+        }
+
         public class ImportFileInfo
         {
+            /// <summary>
+            /// Full file path path
+            /// </summary>
+            public string FullName { get; set; }
+
             public string Name { get; }
 
             public DateTime ModificationTime { get; }
 
             public DateTime CreationTime { get; }
 
-            public ImportFileInfo(string fileName, DateTime modificationTime, DateTime creationTime)
+            public ImportFileInfo(string fullName, string fileName, DateTime modificationTime, DateTime creationTime)
             {
+                FullName = fullName;
                 Name = fileName;
                 ModificationTime = modificationTime;
                 CreationTime = creationTime;
             }
 
-            public ImportFileInfo(FileInfo fileInfo):this(fileInfo.Name,fileInfo.LastWriteTime,fileInfo.CreationTime)
+            public ImportFileInfo(FileInfo fileInfo):this(fileInfo.FullName, fileInfo.Name,fileInfo.LastWriteTime,fileInfo.CreationTime)
             {
                 
             }

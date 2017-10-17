@@ -154,14 +154,14 @@
                 Assert.That(mockImportService.Object.HasStopBeenReplanned(newIdentifier, original), Is.True);
             }
 
-            [Test]
-            public void StopIsReplannedIfPlannedStopNumberHasMovedForward()
-            {
-                IStopMoveIdentifiers newIdentifier = StopFactory.New.With(s => s.PlannedStopNumber = "02").Build();
-                IStopMoveIdentifiers original = StopFactory.New.With(s => s.PlannedStopNumber = "01").Build();
-                mockImportService.CallBase = true;
-                Assert.That(mockImportService.Object.HasStopBeenReplanned(newIdentifier, original), Is.True);
-            }
+            //[Test]
+            //public void StopIsReplannedIfPlannedStopNumberHasMovedForward()
+            //{
+            //    IStopMoveIdentifiers newIdentifier = StopFactory.New.With(s => s.PlannedStopNumber = "02").Build();
+            //    IStopMoveIdentifiers original = StopFactory.New.With(s => s.PlannedStopNumber = "01").Build();
+            //    mockImportService.CallBase = true;
+            //    Assert.That(mockImportService.Object.HasStopBeenReplanned(newIdentifier, original), Is.True);
+            //}
 
             [Test]
             public void StopIsNotReplannedIfPlannedStopNumberHasMovedBackwardsAndRouteRemainsTheSame()

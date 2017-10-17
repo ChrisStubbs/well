@@ -8,12 +8,12 @@ AS
             END)) PendingSubmission,
 		MAX(rh.RouteOwnerId) AS BranchId
    FROM    
-        Job j
-        INNER JOIN [Stop] s 
+        Job j WITH (NOLOCK)
+        INNER JOIN [Stop] s WITH (NOLOCK) 
             ON j.StopId = s.Id
-        INNER JOIN RouteHeader rh 
+        INNER JOIN RouteHeader rh WITH (NOLOCK) 
             ON s.RouteHeaderId = rh.Id
-        INNER JOIN ResolutionStatus r 
+        INNER JOIN ResolutionStatus r WITH (NOLOCK) 
             ON j.ResolutionStatusId = r.Id 
     WHERE
 		j.DateDeleted IS NULL

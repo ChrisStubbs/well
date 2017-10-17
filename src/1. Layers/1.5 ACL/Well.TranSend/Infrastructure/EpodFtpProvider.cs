@@ -97,6 +97,12 @@
                     {
                         this.ftpClient.DeleteFile(Path.GetFileName(targetFileName));
                     }
+                    // Abort if a file called stop.txt exists in exe folder
+                    if (File.Exists("stop.txt"))
+                    {
+                        File.Delete("stop.txt");
+                        return;
+                    }
                 }
                 else
                 {

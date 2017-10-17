@@ -521,6 +521,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\ExceptionTotalsPerRoute.sql" />
+    <None Include="ManualStep\scripts\up\032_Remove_View.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

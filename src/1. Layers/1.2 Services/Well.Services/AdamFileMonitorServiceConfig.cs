@@ -18,6 +18,12 @@ namespace PH.Well.Services
 
         public bool ProcessDataForBranch(Branch branch)
         {
+            // If no branches are specified assume all should be processed
+            if (branchesToProcess == null || !branchesToProcess.Any())
+            {
+                return true;
+            }
+
             return branchesToProcess.Contains(branch);
         }
     }

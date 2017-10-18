@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services.EpodServices
+﻿using System.Linq;
+
+namespace PH.Well.Services.EpodServices
 {
     using System;
     using System.IO;
@@ -22,7 +24,7 @@
             this.routeHeaderRepository = routeHeaderRepository;
         }
 
-        public void Import(string filePath, string filename)
+        public void Import(string filePath, string filename,IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
 
@@ -31,6 +33,14 @@
                 using (var streamReader = new StreamReader(filePath))
                 {
                     var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
+
+
+                    int branchId = 0;
+                    if (!routes.RouteHeaders.First().TryParseBranchIdFromRouteNumber(out branchId) || !config.ProcessDataForBranch((Well.Domain.Enums.Branch)branchId))
+                    {
+                        logger.LogDebug($"Skip route delivery {filePath}");
+                        return;
+                    }
 
                     var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
 

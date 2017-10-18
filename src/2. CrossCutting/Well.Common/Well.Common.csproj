@@ -87,6 +87,7 @@
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FtpClient.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />
     <Compile Include="HttpWebRequestExtensions.cs" />

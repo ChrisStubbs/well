@@ -1,4 +1,9 @@
-﻿namespace PH.Well.Adam.Listener
+﻿using System;
+using System.IO;
+using System.Linq;
+using PH.Well.Domain.Enums;
+
+namespace PH.Well.Adam.Listener
 {
     using System.Diagnostics;
     using System.Globalization;
@@ -29,9 +34,10 @@
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
-            var monitorService = container.GetInstance<IAdamFileMonitorService>();
+            var monitorService = container.GetInstance<IFileMonitorService>();
+            var config = new AdamFileMonitorServiceConfig(Configuration.RootFolder, Configuration.BranchesToProcess);
 
-            monitorService.Monitor(Configuration.RootFolder);
+            monitorService.Monitor(config);
         }
 
         /// <summary>
@@ -52,7 +58,7 @@
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();
                     x.For<IJobDetailDamageRepository>().Use<JobDetailDamageRepository>();
                     x.For<IAccountRepository>().Use<AccountRepository>();
-                    x.For<IAdamFileMonitorService>().Use<AdamFileMonitorService>();
+                    x.For<IFileMonitorService>().Use<FileMonitorService>();
                     x.For<IOrderImportMapper>().Use<OrderImportMapper>();
                     x.For<IFileService>().Use<FileService>();
                     x.For<IFileModule>().Use<FileModule>();
@@ -98,6 +104,12 @@
                     x.For<IPodService>().Use<PodService>();
                     x.For<ILineItemActionRepository>().Use<LineItemActionRepository>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
+                    x.For<IWellCleanConfig>().Use<Configuration>();
+                    x.For<IWellCleanUpService>().Use<WellCleanUpService>();
+                    x.For<IWellCleanUpRepository>().Use<WellCleanUpRepository>();
+                    x.For<IAmendmentService>().Use<AmendmentService>();
+                    x.For<IAmendmentFactory>().Use<AmendmentFactory>();
+                    x.For<IAmendmentRepository>().Use<AmendmentRepository>();
                 });
         }
     }

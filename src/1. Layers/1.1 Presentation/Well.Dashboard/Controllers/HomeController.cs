@@ -8,11 +8,6 @@
         [HttpGet]
         public virtual ActionResult Index()
         {
-            //Elmah.ErrorSignal.FromCurrentContext().Raise()
-            var customEx = new System.Exception("Hello I am testing Elmah", new System.NotSupportedException());
-            ErrorSignal.FromCurrentContext().Raise(customEx);
-
-
             return View();
         }
 

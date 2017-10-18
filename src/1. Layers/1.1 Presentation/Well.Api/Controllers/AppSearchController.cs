@@ -21,37 +21,5 @@ namespace PH.Well.Api.Controllers
         {
             return appSearchService.GetAppSearchResult(parameters);
         }
-
-        //public Test Get([FromUri]AppSearchParameters parameters)
-        //{
-        //    var testItems = Enumerable.Range(1, 25).Select(x => new
-        //        TestItem
-        //    {
-        //        Type = (x % 2 == 0) ? "invoice" : "location",
-        //        Description = $"Search item numero {x}",
-
-        //    }).ToList();
-
-        //    return new Test
-        //    {
-        //        BranchId = 99999,
-        //        Items = testItems
-        //    };
-        //}
-
-        public class Test
-        {
-            public int BranchId { get; set; }
-
-            public IEnumerable<TestItem> Items { get; set; }
-        }
-
-        public class TestItem
-        {
-            public string Type { get; set; }
-            public string Description { get; set; }
-
-            public object Data { get; set; }
-        }
     }
 }

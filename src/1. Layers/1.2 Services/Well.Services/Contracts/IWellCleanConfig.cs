@@ -2,7 +2,7 @@
 {
     public interface IWellCleanConfig
     {
-        int SoftDeleteBatchSize { get; set; }
+        int CleanBatchSize { get; set; }
         int WellCleanTransactionTimeoutSeconds { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.UnitTests.ACL.AdamListener
 {
@@ -10,7 +11,7 @@ namespace PH.Well.UnitTests.ACL.AdamListener
     using Well.Services.Contracts;
 
     [TestFixture]
-    public class AdamFileMonitorServiceTests
+    public class FileMonitorServiceTests
     {
 
         private Mock<ILogger> logger;
@@ -22,8 +23,9 @@ namespace PH.Well.UnitTests.ACL.AdamListener
         private Mock<IAdamImportService> adamImportService;
         private Mock<IAdamUpdateService> adamUpdateService;
         private Mock<IRouteHeaderRepository> routeHeaderRepository;
-        private AdamFileMonitorService fileMonitorService;
+        private FileMonitorService fileMonitorService;
         private Mock<IEpodFileProvider> epodProvider;
+        private Mock<IWellCleanUpService> wellCleanUpService;
 
         [SetUp]
         public void SetUp()
@@ -37,8 +39,9 @@ namespace PH.Well.UnitTests.ACL.AdamListener
             adamUpdateService = new Mock<IAdamUpdateService>();
             routeHeaderRepository = new Mock<IRouteHeaderRepository>();
             epodProvider = new Mock<IEpodFileProvider>();
+            wellCleanUpService = new Mock<IWellCleanUpService>();
 
-            fileMonitorService = new AdamFileMonitorService(
+            fileMonitorService = new FileMonitorService(
                 logger.Object,
                 eventLogger.Object,
                 fileService.Object,
@@ -47,10 +50,11 @@ namespace PH.Well.UnitTests.ACL.AdamListener
                 adamImportService.Object,
                 adamUpdateService.Object,
                 routeHeaderRepository.Object,
-                epodProvider.Object);
+                epodProvider.Object,
+                wellCleanUpService.Object);
         }
 
-        public class TheIsRouteOrOrderFileMethod : AdamFileMonitorServiceTests
+        public class TheIsRouteOrOrderFileMethod : FileMonitorServiceTests
         {
             [Test]
             [TestCase("ORDER_123", ExpectedResult = true)]
@@ -61,7 +65,7 @@ namespace PH.Well.UnitTests.ACL.AdamListener
             [TestCase("Fiona_", ExpectedResult = false)]
             public bool ShouldOnlyReturnTrueIfPrefixedWithOrderOrRouteOrEpod(string fileName)
             {
-                return fileMonitorService.IsRouteOrOrderFile(fileName);
+                return fileMonitorService.IsRecognisedFileName(fileName);
             }
         }
 
@@ -70,17 +74,21 @@ namespace PH.Well.UnitTests.ACL.AdamListener
         {
             var routeFileModifiedTime = new DateTime(2017, 9, 11, 9, 17, 8);
             var routeFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
-            var routeFileInfo = new AdamFileMonitorService.ImportFileInfo("ROUTE_PLY_170912_0915.xml",
+
+            var routeFileName = "ROUTE_PLY_170912_0915.xml";
+            var routeFileInfo = new FileMonitorService.ImportFileInfo(routeFileName, routeFileName,
                 routeFileModifiedTime, routeFileCreateTime);
 
             var orderFileModifiedTime = new DateTime(2017, 9, 11, 23, 36, 44);
             var orderFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
-            var orderFileInfo = new AdamFileMonitorService.ImportFileInfo("ORDER_PLY_170912_2335.xml",
+            var orderFileName = "ORDER_PLY_170912_2335.xml";
+            var orderFileInfo = new FileMonitorService.ImportFileInfo(orderFileName, orderFileName,
                 orderFileModifiedTime, orderFileCreateTime);
 
             // For epod files date is taken from file name
             var expectedEpodFileTime = new DateTime(2017, 9, 11, 14, 53, 16);
-            var epodFileInfo = new AdamFileMonitorService.ImportFileInfo("ePOD__20170911_14531601151733.xml",
+            var epodFileName = "ePOD__20170911_14531601151733.xml";
+            var epodFileInfo = new FileMonitorService.ImportFileInfo(epodFileName, epodFileName,
                 DateTime.Now, DateTime.Now);
 
             var routeFileStamp = fileMonitorService.GetDateStampFromFile(routeFileInfo);
@@ -94,7 +102,6 @@ namespace PH.Well.UnitTests.ACL.AdamListener
 
             Assert.AreEqual(expectedEpodFileTime, epodFileStamp);
         }
-
-
+        
     }
 }

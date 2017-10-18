@@ -4,6 +4,6 @@
 
     public interface IAdamUpdateService
     {
-        void Update(RouteUpdates route);
+        void Update(RouteUpdates route, IImportConfig config);
     }
 }

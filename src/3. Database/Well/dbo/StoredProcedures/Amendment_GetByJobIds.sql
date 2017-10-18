@@ -10,12 +10,12 @@ SELECT
 	,u.IdentityName AS AmenderName
 	,j.CustomerRef AS CustomerReference
 	FROM 
-		dbo.Job j
+		dbo.Job j with(NoLock)
 		INNER JOIN @Ids ids ON ids.Value = j.Id	
-		INNER JOIN dbo.[Stop] s ON s.Id = j.StopId
-		INNER JOIN dbo.RouteHeader rh ON rh.Id = s.RouteHeaderId
-		INNER JOIN dbo.UserJob uj ON uj.JobId = j.Id 
-		INNER JOIN dbo.[User] u ON u.Id = uj.UserId
+		INNER JOIN dbo.[Stop] s with(NoLock) ON s.Id = j.StopId
+		INNER JOIN dbo.RouteHeader rh with(NoLock) ON rh.Id = s.RouteHeaderId
+		INNER JOIN dbo.UserJob uj with(NoLock) ON uj.JobId = j.Id 
+		INNER JOIN dbo.[User] u with(NoLock) ON u.Id = uj.UserId
 		--WHERE j.JobTypeCode != 'DEL-DOC' 
 
 SELECT 
@@ -32,10 +32,10 @@ SELECT
 	,ISNULL(liav.RejectedTotal,0) AS AmendedRejectedTotal
 FROM dbo.Job j
 INNER JOIN @Ids ids ON ids.Value = j.Id	
-INNER JOIN dbo.UserJob uj ON uj.JobId = j.Id 
-INNER JOIN dbo.[User] u ON u.Id = uj.UserId
-LEFT JOIN dbo.JobDetail jd ON jd.JobId = j.Id
-LEFT JOIN dbo.JobDetailTotalsView jdtv on jdtv.JobDetailId = jd.Id
-LEFT JOIN dbo.LineItemAmendmentsView liav on liav.LineItemId = jd.LineItemId
+INNER JOIN dbo.UserJob uj with(NoLock) ON uj.JobId = j.Id 
+INNER JOIN dbo.[User] u with(NoLock) ON u.Id = uj.UserId
+LEFT JOIN dbo.JobDetail jd with(NoLock) ON jd.JobId = j.Id
+LEFT JOIN dbo.JobDetailTotalsView jdtv with(NoLock) on jdtv.JobDetailId = jd.Id
+LEFT JOIN dbo.LineItemAmendmentsView liav with(NoLock) on liav.LineItemId = jd.LineItemId
 WHERE (jdtv.ShortTotal != liav.ShortTotal OR jdtv.DamageTotal != liav.DamageTotal OR jdtv.RejectedTotal != liav.RejectedTotal)
 --AND j.JobTypeCode != 'DEL-DOC' 

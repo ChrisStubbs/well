@@ -22,11 +22,14 @@ export class HttpErrorService
         {
             try
             {
-                const message: string = error.json()
-                    ? JSON.stringify(error.json())
-                    : (error.status ? error.status.toString() : 'Server error');
-                this.logService.log('HTTP Error: ' + message);
-                this.toasterService.pop('error', message, '');
+                // const message: string = error.json()
+                //     ? JSON.stringify(error.json())
+                //     : (error.status ? error.status.toString() : 'Server error');
+                // this.logService.log('HTTP Error: ' + message);
+
+                this.toasterService.pop('error',
+                    'Looks like something went worng. The error has been logged and reported.', 
+                    '');
             }
             catch (ex)
             {

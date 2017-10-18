@@ -220,7 +220,7 @@
         public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
         {
             var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
-            if (delivery.GrnNumber != String.Empty)
+            if (delivery != null && !string.IsNullOrWhiteSpace(delivery.GrnNumber))
             {
                 using (var connection = GetAdamConnection(adamSettings))
                 {
@@ -230,7 +230,7 @@
 
                         using (var command = GetAdamCommand(connection))
                         {
-                            var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
+                            var acno = (int) (Convert.ToDecimal(delivery.AccountCode) * 1000);
                             var today = DateTime.Now.ToShortDateString();
                             var now = DateTime.Now.ToShortTimeString();
 
@@ -245,7 +245,7 @@
                                 string.Format(
                                     "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
                                     "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
-                                    now, (int)EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
+                                    now, (int) EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
                                     delivery.GrnProcessType, grnNumeric);
 
                             command.CommandText = commandString;

@@ -1,4 +1,6 @@
-﻿namespace PH.Well.UnitTests.Services
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.UnitTests.Services
 {
     using System.Collections.Generic;
     using Moq;
@@ -20,6 +22,7 @@
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
         private Mock<IJobService> jobService;
         private Mock<IExceptionEventRepository> eventRepository;
+        private Mock<ILogger> logger;
 
         private DeliveryLineActionService service;
 
@@ -33,6 +36,7 @@
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.jobService = new Mock<IJobService>(MockBehavior.Strict);
             this.eventRepository = new Mock<IExceptionEventRepository>(MockBehavior.Strict);
+            logger = new Mock<ILogger>();
 
             this.service = new DeliveryLineActionService(this.adamRepository.Object,
                 this.jobRepository.Object,
@@ -40,7 +44,8 @@
                 this.actionHandlers.Object,
                 this.jobDetailRepository.Object,
                 this.jobDetailDamageRepository.Object,
-                this.jobService.Object);
+                this.jobService.Object,
+                logger.Object);
         }
 
         public class CreditTransactionTests : DeliveryLineActionServiceTests

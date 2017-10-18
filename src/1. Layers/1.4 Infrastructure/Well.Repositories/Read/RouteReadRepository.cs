@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Transactions;
 using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Constants;
 
@@ -29,149 +30,163 @@ namespace PH.Well.Repositories.Read
 
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
-            var branch = wellEntities.UserBranch
-                .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
-                .Select(x => new
+            using (var scope = new TransactionScope(System.Transactions.TransactionScopeOption.Required,
+                new System.Transactions.TransactionOptions
                 {
-                    x.Branch.Id,
-                    x.Branch.Name
-                })
-                .FirstOrDefault();
-
-            if (branch != null)
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted
+                }))
             {
-                var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
+                var branch = wellEntities.UserBranch
+                    .Where(x => x.User.IdentityName == username && x.Branch.Id == branchId)
+                    .Select(x => new
+                    {
+                        x.Branch.Id,
+                        x.Branch.Name
+                    })
+                    .FirstOrDefault();
 
-                var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.HasNotDefinedDeliveryAction.Value);
+                if (branch != null)
+                {
+                    var routesWithNoGRNView = this.wellEntities.RoutesWithNoGRNView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.NoGRNButNeeds.Value);
 
-                var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
-                    .Where(p => p.BranchId == branchId)
-                    .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
+                    var routesWithUnresolvedActionView = this.wellEntities.RoutesWithUnresolvedActionView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.HasNotDefinedDeliveryAction.Value);
+
+                    var routesWithPendingSubmitionsView = this.wellEntities.RoutesWithPendingSubmitionsView
+                        .Where(p => p.BranchId == branchId)
+                        .ToDictionary(k => k.Id, v => v.PendingSubmission.Value);
 
                 var routeHeaderData = wellEntities.RouteHeader
-                    .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
+                        .Where(x => x.RouteOwnerId == branch.Id && x.DateDeleted == null)
                     .ToList();
                 var routeIds = routeHeaderData.Select(p => p.Id).ToList();
 
                 var jobs = wellEntities.Stop
                         .Where(s => s.DateDeleted == null 
                             && routeIds.Contains(s.RouteHeaderId ))
-                        .SelectMany(s => s.Job
-                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
-                                        j.JobTypeCode != "UPL-SAN")
-                            .Select(uj => new
-                            {
-                                Users = uj.UserJob.Select(a => a.User.Name),
+                            .SelectMany(s => s.Job
+                                .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
+                                            j.JobTypeCode != "UPL-SAN")
+                                .Select(uj => new
+                                {
+                                    Users = uj.UserJob.Select(a => a.User.Name),
                                 Route = s.RouteHeaderId,
-                                Stop = s.Id
-                            })
-                    ).ToList()
-                    //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
-                    .GroupBy(p => new {p.Route, p.Stop})
-                    //select distinct users inside the group
-                    .Select(p =>
-                    {
-                        var distinctUsers = p.SelectMany(data => data.Users).Distinct().ToList();
-
-                        if (distinctUsers == null || distinctUsers.Count() == 0)
+                                    Stop = s.Id
+                                })
+                        ).ToList()
+                        //group the data by route and stop, because the total unallocated will be displayed not as total jobs but total stops
+                        .GroupBy(p => new { p.Route, p.Stop })
+                        //select distinct users inside the group
+                        .Select(p =>
                         {
+                            var distinctUsers = p.SelectMany(data => data.Users).Distinct().ToList();
+
+                            if (distinctUsers == null || distinctUsers.Count() == 0)
+                            {
+                                return new
+                                {
+                                    Users = new List<string> { "Unallocated" },
+                                    p.Key.Route
+                                };
+                            }
+
                             return new
                             {
-                                Users = new List<string> {"Unallocated"},
+                                Users = distinctUsers,
                                 p.Key.Route
                             };
-                        }
-
-                        return new
-                        {
-                            Users = distinctUsers,
-                            p.Key.Route
-                        };
-                    })
-                    .GroupBy(p => p.Route)
-                    .ToDictionary(k => k.Key, v => v.ToList());
+                        })
+                        .GroupBy(p => p.Route)
+                        .ToDictionary(k => k.Key, v => v.ToList());
 
                 var exceptionTotals = this.getTotals(branchId)
-                    .ToDictionary(k => k.Routeid, v => new {v.WithExceptions, v.WithOutExceptions});
+                        .ToDictionary(k => k.Routeid, v => new { v.WithExceptions, v.WithOutExceptions });
 
                 var routeHeaders = routeHeaderData
-                    .Select(x => new
+                        .Select(x => new
+                        {
+                            RouteId = x.Id,
+                            BranchId = x.RouteOwnerId,
+                            BranchName = branch.Name,
+                            RouteNumber = x.RouteNumber,
+                            RouteDate = x.RouteDate,
+                            StopCount = x.Stop.Where(p => p.DateDeleted == null).Count(),
+                            x.WellStatus,
+                            DriverName = x.DriverName,
+                            JobIds = x.Stop.SelectMany(y => y.Job.Where(z => z.DateDeleted == null).Select(a => a.Id))
+                        })
+                        .ToList();
+
+                    Func<int, List<Assignee>> getAssignees = routeId =>
                     {
-                        RouteId = x.Id,
-                        BranchId = x.RouteOwnerId,
-                        BranchName = branch.Name,
-                        RouteNumber = x.RouteNumber,
-                        RouteDate = x.RouteDate,
-                        StopCount = x.Stop.Where(p => p.DateDeleted == null).Count(),
-                        x.WellStatus,
-                        DriverName = x.DriverName,
-                        JobIds = x.Stop.SelectMany(y => y.Job.Where(z => z.DateDeleted == null).Select(a => a.Id))
-                    })
-                    .ToList();
+                        if (jobs.ContainsKey(routeId))
+                        {
+                            return jobs[routeId]
+                                .SelectMany(p => p.Users)
+                                .Select(p => new Assignee()
+                                {
+                                    RouteId = routeId,
+                                    Name = p
+                                }).ToList();
+                        }
 
-                Func<int, List<Assignee>> getAssignees = routeId =>
-                {
-                    if (jobs.ContainsKey(routeId))
-                    {
-                        return jobs[routeId]
-                            .SelectMany(p => p.Users)
-                            .Select(p => new Assignee()
-                            {
-                                RouteId = routeId,
-                                Name = p
-                            }).ToList();
-                    }
+                        return null;
+                    };
 
-                    return null;
-                };
+                    var result = routeHeaders
+                        .Select(item =>
+                        {
+                            var routeWellStatus = (item.WellStatus.HasValue)
+                                ? (WellStatus)item.WellStatus
+                                : WellStatus.Unknown;
 
-                var result = routeHeaders
-                    .Select(item =>
-                    {
-                        var routeWellStatus = (item.WellStatus.HasValue)
-                            ? (WellStatus) item.WellStatus
-                            : WellStatus.Unknown;
-
-                        var hasNotDefinedDeliveryAction = routesWithUnresolvedActionView.ContainsKey(item.RouteId) ? routesWithUnresolvedActionView[item.RouteId] : false;
-                        var noGRNButNeeds = routesWithNoGRNView.ContainsKey(item.RouteId) ? routesWithNoGRNView[item.RouteId] : false;
-                        var pendingSubmission = routesWithPendingSubmitionsView.ContainsKey(item.RouteId) ? routesWithPendingSubmitionsView[item.RouteId] : false;
+                            var hasNotDefinedDeliveryAction = routesWithUnresolvedActionView.ContainsKey(item.RouteId)
+                                ? routesWithUnresolvedActionView[item.RouteId]
+                                : false;
+                            var noGRNButNeeds = routesWithNoGRNView.ContainsKey(item.RouteId)
+                                ? routesWithNoGRNView[item.RouteId]
+                                : false;
+                            var pendingSubmission = routesWithPendingSubmitionsView.ContainsKey(item.RouteId)
+                                ? routesWithPendingSubmitionsView[item.RouteId]
+                                : false;
 
                         return new Route()
-                        {
-                            Id = item.RouteId,
-                            BranchId = item.BranchId,
-                            BranchName = item.BranchName,
-                            RouteNumber = item.RouteNumber,
-                            RouteDate = item.RouteDate.Value,
-                            StopCount = item.StopCount,
-                            ExceptionCount = exceptionTotals.ContainsKey(item.RouteId)
-                                ? exceptionTotals[item.RouteId].WithExceptions.Value
-                                : 0,
-                            CleanCount = exceptionTotals.ContainsKey(item.RouteId)
-                                ? exceptionTotals[item.RouteId].WithOutExceptions.Value
-                                : 0,
-                            RouteStatusId = (int) routeWellStatus,
-                            RouteStatus = routeWellStatus.Description(),
+                            {
+                                Id = item.RouteId,
+                                BranchId = item.BranchId,
+                                BranchName = item.BranchName,
+                                RouteNumber = item.RouteNumber,
+                                RouteDate = item.RouteDate.Value,
+                                StopCount = item.StopCount,
+                                ExceptionCount = exceptionTotals.ContainsKey(item.RouteId)
+                                    ? exceptionTotals[item.RouteId].WithExceptions.Value
+                                    : 0,
+                                CleanCount = exceptionTotals.ContainsKey(item.RouteId)
+                                    ? exceptionTotals[item.RouteId].WithOutExceptions.Value
+                                    : 0,
+                                RouteStatusId = (int)routeWellStatus,
+                                RouteStatus = routeWellStatus.Description(),
 
-                            Assignees = getAssignees(item.RouteId),
-                            JobIssueType =
-                                (hasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
-                                (noGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
-                                (pendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
-                            JobIds = item.JobIds.ToList(),
-                            DriverName = item.DriverName ?? string.Empty
-                        };
-                    })
-                    .ToList();
-
-                return result;
+                                Assignees = getAssignees(item.RouteId),
+                                JobIssueType =
+                                    (hasNotDefinedDeliveryAction ? JobIssueType.ActionRequired : JobIssueType.All) |
+                                    (noGRNButNeeds ? JobIssueType.MissingGRN : JobIssueType.All) |
+                                    (pendingSubmission ? JobIssueType.PendingSubmission : JobIssueType.All),
+                                JobIds = item.JobIds.ToList(),
+                                DriverName = item.DriverName ?? string.Empty
+                            };
+                        })
+                        .ToList();
+                    scope.Complete();
+                    return result;
+                }
+                scope.Complete();
+                logger.LogDebug($"No branch found for the User '{username}'");
+                return new List<Route>();
             }
-            logger.LogDebug($"No branch found for the User '{username}'");
-            return new List<Route>();
         }
 
 

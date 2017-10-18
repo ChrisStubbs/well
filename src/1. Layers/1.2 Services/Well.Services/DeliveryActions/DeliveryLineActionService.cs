@@ -1,4 +1,6 @@
-﻿namespace PH.Well.Services.DeliveryActions
+﻿using PH.Well.Common.Contracts;
+
+namespace PH.Well.Services.DeliveryActions
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -18,6 +20,7 @@
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IJobService jobService;
+        private readonly ILogger logger;
 
         public DeliveryLineActionService(
             IAdamRepository adamRepository,
@@ -26,7 +29,8 @@
             IEnumerable<IDeliveryLinesAction> actionHandlers,
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
-            IJobService jobService)
+            IJobService jobService,
+            ILogger logger)
         {
             this.adamRepository = adamRepository;
             this.jobRepository = jobRepository;
@@ -35,6 +39,7 @@
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.jobService = jobService;
+            this.logger = logger;
         }
 
         // PLEASE NOTE There is no transaction scope in ADAM.  If a transaction of lines plus header fails 
@@ -56,7 +61,18 @@
 
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
+            var adamResponse = AdamResponse.Success;
+            // Workaround to stop accumulating events which are impossible to success
+            // We are only interested in checking if job exists. 
+            // Used GetForWellStatusCalculationById because its much quicker than GetById method
+            if (jobRepository.GetForWellStatusCalculationById(grnEvent.Id) != null)
+            {
+                adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
+            }
+            else
+            {
+                logger.LogError($"Can not send GRN event. Could not find job with id {grnEvent.Id}");
+            }
 
             this.MarkAsDone(eventId, adamResponse);
         }

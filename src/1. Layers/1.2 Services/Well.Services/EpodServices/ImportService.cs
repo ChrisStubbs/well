@@ -11,6 +11,7 @@
     using Domain.Enums;
     using Domain.Extensions;
     using Domain.Mappers;
+    using Domain.ValueObjects;
     using Repositories.Contracts;
 
     public class ImportService : IImportService
@@ -143,14 +144,17 @@
                 stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
                 .Select(s => s.Stop).SelectMany(j => j.Jobs).ToList();
 
-            var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
+            var existingJobsBothSources = GetExistingJobs(branchId, fileJobs)
+                .ToDictionary(k => k.Identifier(), StringComparer.CurrentCultureIgnoreCase);
 
             List<int> updateJobIds = new List<int>();
 
             foreach (var fileJob in fileJobs.Where(fj => fj.IncludeJobTypeInImport()))
             {
-                var originalJob = FindOriginalJob(existingJobsBothSources, fileJob);
-
+                var originalJob = existingJobsBothSources.ContainsKey(fileJob.Identifier()) 
+                    ? existingJobsBothSources[fileJob.Identifier()]
+                    : (ReinstateJob)null;
+                
                 if (originalJob == null)
                 {
                     jobService.SetInitialJobStatus(fileJob);
@@ -179,13 +183,13 @@
                     bool isJobReplanned = IsJobReplanned(stopImportStatuses, fileJob, originalJob);
 
                     originalJob.StopId = fileJob.StopId;
-                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader, isJobReplanned);
-                    updateJobIds.Add(originalJob.Id);
+                    importCommands.UpdateExistingJobFromReinstateJob(fileJob, originalJob, routeHeader, isJobReplanned);
+                    updateJobIds.Add(originalJob.JobId);
                 }
                 else
                 {
                     var message = $"Ignoring Job update. Job is Complete  " +
-                                  $"job id ({originalJob.Id}) " +
+                                  $"job id ({originalJob.JobId}) " +
                                   $"identifier ({fileJob.Identifier()}), " +
                                   $"branch id  ({branchId})";
                     logger.LogDebug(message);
@@ -196,18 +200,21 @@
             importCommands.PostJobImport(updateJobIds);
             var completedStops = stopImportStatuses.Where(x => x.ImportStatus == StopImportStatus.Status.IgnoredAsCompleted).Select(s => s.Stop).ToList();
             //Delete Jobs Not In File
-            var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops).ToList();
+            var jobsToBeDeleted = importCommands.GetJobsToBeDeleted(
+                existingRouteJobIdAndStopId,
+                existingJobsBothSources.Values.Select(p => new Tuple<int, int>(p.JobId, p.StopId)).ToList(), 
+                completedStops).ToList();
 
             DeleteJobs(jobsToBeDeleted);
         }
 
-        public bool IsJobReplanned(IList<StopImportStatus> stopImportStatuses, Job fileJob, Job originalJob)
+        public bool IsJobReplanned(IList<StopImportStatus> stopImportStatuses, Job fileJob, ReinstateJob originalJob)
         {
             bool isJobReplanned = false;
 
             if (originalJob.WellStatus == WellStatus.Bypassed)
             {
-                isJobReplanned = HasJobMovedStops(originalJob, fileJob);
+                isJobReplanned = originalJob.StopId != fileJob.StopId;
 
                 if (!isJobReplanned)
                 {
@@ -217,14 +224,8 @@
             }
             return isJobReplanned;
         }
-
-        public virtual bool HasJobMovedStops(Job originalJob, Job fileJob)
-        {
-            return originalJob.StopId != fileJob.StopId;
-        }
-
         
-        // A stop is considered replanned if it has
+        // A stop is considered re-planned if it has
         // Moved to a different route
         public virtual bool HasStopBeenReplanned(IStopMoveIdentifiers newIdentifier, IStopMoveIdentifiers original)
         {
@@ -283,14 +284,9 @@
             }
         }
 
-        private IList<Job> GetExistingJobs(int branchId, IList<Job> jobs)
+        private IList<ReinstateJob> GetExistingJobs(int branchId, IList<Job> jobs)
         {
-            var existing = jobRepository.
-                GetExistingJobsIdsIncludingSoftDeleted(branchId, jobs).ToList();
-
-            jobRepository.ReinstateJobsSoftDeletedByImport(existing);
-
-            return jobRepository.GetByIds(existing).ToList();
+            return jobRepository.ReinstateJobsSoftDeletedByImport(branchId, jobs);
         }
 
         private void ImportJobDetails(IEnumerable<JobDetail> jobDetails)
@@ -317,15 +313,5 @@
                 this.jobDetailDamageRepository.Save(damage);
             }
         }
-
-        private Job FindOriginalJob(IList<Job> existingJobs, Job job)
-        {
-            return existingJobs.FirstOrDefault(x =>
-                x.Identifier() == job.Identifier()
-            );
-        }
-
-
-
     }
 }

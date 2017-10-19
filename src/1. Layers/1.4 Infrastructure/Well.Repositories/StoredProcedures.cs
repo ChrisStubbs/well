@@ -51,6 +51,7 @@ namespace PH.Well.Repositories
         public const string ExceptionTotalsPerRoute = "ExceptionTotalsPerRoute";
 
         public const string JobUpdate = "Job_Update";
+        public const string UpdateReinstateJob = "UpdateReinstateJob";
         public const string JobGetById = "Job_GetById";
         public const string JobAttributeCreateOrUpdate = "JobAttribute_CreateOrUpdate";
         public const string JobDeleteById = "Job_DeleteById";
@@ -77,7 +78,7 @@ namespace PH.Well.Repositories
         public const string JobGetByBranchAndInvoiceNumberWithFullObjectGraph = "Job_GetByBranchAndInvoiceNumber";
         public const string JobGetByIds = "Job_GetByIds";
         public const string JobGetByRouteHeaderId = "Job_GetByRouteHeaderId";
-        public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted";
+        //public const string GetJobIdsByBranchAccountPickListRefAndJobType = "JobIds_GetByBranchAccountPickListRefAndJobTypeIncludeSoftDeleted";
         public const string JobDetailGet = "JobDetail_Get";
         public const string JobDetailInsert = "JobDetail_Insert";
         public const string JobDetailUpdate = "JobDetail_Update";

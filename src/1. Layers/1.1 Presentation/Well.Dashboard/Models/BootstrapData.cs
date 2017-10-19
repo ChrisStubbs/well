@@ -19,6 +19,5 @@
         public string UsersBranches { get; set; }
 
         public Dictionary<string, string> ConfigDictionary { get; set; }
-
     }
 }

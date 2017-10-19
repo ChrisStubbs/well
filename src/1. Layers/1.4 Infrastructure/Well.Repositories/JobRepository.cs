@@ -31,6 +31,30 @@ namespace PH.Well.Repositories
             return GetByIds(new List<int>() { id }).FirstOrDefault();
         }
 
+        public void UpdateReinstateJob(Job entity)
+        {
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.UpdateReinstateJob)
+                .AddParameter("Id", entity.Id, DbType.Int32)
+                .AddParameter("JobStatusId", (int)entity.JobStatus, DbType.Int16)
+                .AddParameter("WellStatusId", (int)entity.WellStatus, DbType.Int16)
+                .AddParameter("ResolutionStatusId", entity.ResolutionStatus.Value, DbType.Int16)
+                .AddParameter("Sequence", entity.Sequence, DbType.Int32)
+                .AddParameter("JobTypeCode", entity.JobTypeCode, DbType.String)
+                .AddParameter("PhAccount", entity.PhAccount, DbType.String)
+                .AddParameter("PickListRef", entity.PickListRef, DbType.String)
+                .AddParameter("InvoiceNumber", entity.InvoiceNumber, DbType.String)
+                .AddParameter("CustomerRef", entity.CustomerRef, DbType.String)
+                .AddParameter("PerformanceStatus", (int)entity.PerformanceStatus, DbType.Int32)
+                .AddParameter("Picked", entity.Picked, DbType.Boolean)
+                .AddParameter("OrdOuters", entity.OrdOuters, DbType.Int32)
+                .AddParameter("InvOuters", entity.InvOuters, DbType.Int32)
+                .AddParameter("AllowSoCrd", entity.AllowSoCrd, DbType.Boolean)
+                .AddParameter("Cod", entity.Cod, DbType.String)
+                .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
+                .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
+                .Execute();
+        }
+
         public IEnumerable<Job> GetByStopId(int id)
         {
             var jobIds = dapperProxy.WithStoredProcedure(StoredProcedures.JobGetByStopId)
@@ -351,20 +375,20 @@ namespace PH.Well.Repositories
             return result;
         }
 
-        public IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs)
-        {
-            var data = jobs.Select(p => new
-            {
-                p.PhAccount,
-                p.PickListRef,
-                p.JobTypeCode
-            }).ToList().ToDataTables();
+        //public IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs)
+        //{
+        //    var data = jobs.Select(p => new
+        //    {
+        //        p.PhAccount,
+        //        p.PickListRef,
+        //        p.JobTypeCode
+        //    }).ToList().ToDataTables();
 
-            return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
-                .AddParameter("BranchId", branchId, DbType.Int32)
-                .AddParameter("IdentifyJobTable", data, DbType.Object)
-                .Query<int>();
-        }
+        //    return this.dapperProxy.WithStoredProcedure(StoredProcedures.GetJobIdsByBranchAccountPickListRefAndJobType)
+        //        .AddParameter("BranchId", branchId, DbType.Int32)
+        //        .AddParameter("IdentifyJobTable", data, DbType.Object)
+        //        .Query<int>();
+        //}
 
         public void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false)
         {
@@ -375,13 +399,24 @@ namespace PH.Well.Repositories
                 .AddParameter("DeletedByImport", deletedByImport, DbType.Boolean)
                 .Execute();
         }
-        
-        public void ReinstateJobsSoftDeletedByImport(IList<int> jobIds)
+
+        public IList<ReinstateJob> ReinstateJobsSoftDeletedByImport(int branchId, IList<Job> jobs)
         {
-            dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)
-                .AddParameter("JobIds", jobIds.ToIntDataTables("JobIds"), DbType.Object)
+            var data = jobs.Select(p => new
+            {
+                p.PhAccount,
+                p.PickListRef,
+                p.JobTypeCode
+            })
+            .ToList()
+            .ToDataTables();
+
+            return dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)
+                .AddParameter("BranchId", branchId, DbType.Int32)
+                .AddParameter("IdentifyJobTable", data, DbType.Object)
                 .AddParameter("UpdatedBy", CurrentUser, DbType.String)
-                .Execute();
+                .Query<ReinstateJob>()
+                .ToList();
         }
 
         public void JobsSetResolutionStatusClosed(IList<int> jobIds)

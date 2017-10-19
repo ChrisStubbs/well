@@ -64,10 +64,14 @@ GO
 CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted ON JobDetail (DateDeleted ASC) 
 INCLUDE (JobId, LineItemId) WHERE [DateDeleted] IS NULL
 WITH (SORT_IN_TEMPDB = ON)
-
 GO 
+
 CREATE NONCLUSTERED INDEX IDX_JobDetail_BagId
 ON [dbo].[JobDetail] ([BagId])
 INCLUDE ([JobId])
+GO
 
+CREATE NONCLUSTERED INDEX IDX_JobDetail_DateDeleted_DeletedByImport
+ON JobDetail (DeletedByImport, DateDeleted)
+INCLUDE (JobId)
 GO

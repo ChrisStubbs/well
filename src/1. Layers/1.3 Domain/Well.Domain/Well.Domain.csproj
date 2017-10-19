@@ -159,6 +159,7 @@
     <Compile Include="ValueObjects\JobRoute.cs" />
     <Compile Include="ValueObjects\LineItemActionSubmitModel.cs" />
     <Compile Include="ValueObjects\JobForClean.cs" />
+    <Compile Include="ValueObjects\ReinstateJob.cs" />
     <Compile Include="ValueObjects\SubmitActionModel.cs" />
     <Compile Include="ValueObjects\SubmitActionResult.cs" />
     <Compile Include="ValueObjects\EditLineItemException.cs" />
@@ -220,7 +221,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

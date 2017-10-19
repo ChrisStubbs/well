@@ -170,6 +170,79 @@ namespace PH.Well.UnitTests.Common
             Assert.That($"{sut.PhAccount} - {sut.PickListRef} - {sut.JobTypeCode}", Is.EqualTo(sut.Identifier()));
         }
 
+        [Test]
+        [Description("Check if the job can be updated")]
+        [Category("Extension")]
+        [Category("Job")]
+        public void CheckCanWeUpdateJobOnImport()
+        {
+            foreach (WellStatus item in System.Enum.GetValues(typeof(WellStatus)))
+            {
+                var sut = JobFactory.New
+                    .With(p => p.WellStatus = item)
+                    .Build();
+
+                var testedValue = item != WellStatus.Complete;
+
+                Assert.That(sut.CanWeUpdateJobOnImport(), Is.EqualTo(testedValue));
+            }
+        }
+        
+        [Test]
+        [Description("Check if ReinstateJob Identifier is been create correctly")]
+        [Category("Extension")]
+        [Category("ReinstateJob")]
+        public void ShouldCreateIdentifierForReinstateJob()
+        {
+            var sut = new ReinstateJob
+            {
+                PhAccount = "PhAccount",
+                PickListRef = "PickListRef",
+                JobTypeCode = "JobTypeCode"
+            };
+
+            Assert.That($"{sut.PhAccount} - {sut.PickListRef} - {sut.JobTypeCode}", Is.EqualTo(sut.Identifier()));
+        }
+
+        [Test]
+        [Description("ReinstateJob Identifier And Job Identifier Should Be Equal")]
+        [Category("Extension")]
+        [Category("ReinstateJob")]
+        public void ReinstateJob_And_Job_Identifier_Should_Be_Equal()
+        {
+            var sut = new ReinstateJob
+            {
+                PhAccount = "PhAccount",
+                PickListRef = "PickListRef",
+                JobTypeCode = "JobTypeCode"
+            };
+
+            var job = JobFactory.New
+                .With(p => p.PhAccount = "PhAccount")
+                .With(p => p.PickListRef = "PickListRef")
+                .With(p => p.JobTypeCode = "JobTypeCode")
+                .Build();
+
+            Assert.That(job.Identifier(), Is.EqualTo(sut.Identifier()));
+        }
+
+        [Test]
+        [Description("Check if the ReinstateJob can be updated")]
+        [Category("Extension")]
+        [Category("ReinstateJob")]
+        public void CheckCanWeUpdateReinstateJobOnImport()
+        {
+            foreach (WellStatus item in System.Enum.GetValues(typeof(WellStatus)))
+            {
+                var sut = JobFactory.New
+                    .With(p => p.WellStatus = item)
+                    .Build();
+
+                var testedValue = item != WellStatus.Complete;
+
+                Assert.That(sut.CanWeUpdateJobOnImport(), Is.EqualTo(testedValue));
+            }
+        }
 
         public class TheIncludeJobTypeInImportMethod : JobExtensionsTests
         {

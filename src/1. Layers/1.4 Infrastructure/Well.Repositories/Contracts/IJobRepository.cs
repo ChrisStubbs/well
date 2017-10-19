@@ -10,6 +10,7 @@
     {
         Job GetById(int id);
 
+        void UpdateReinstateJob(Job job);
         IEnumerable<Job> GetByIds(IEnumerable<int> jobIds);
 
         IEnumerable<Job> GetByRouteHeaderId(int routeHeaderId);
@@ -54,11 +55,11 @@
 
         Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
 
-        IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(int branchId, IEnumerable<Job> jobs);
+        //IEnumerable<int> GetExistingJobsIdsIncludingSoftDeleted(IEnumerable<Job> jobs);
 
         void CascadeSoftDeleteJobs(IList<int> jobIds, bool deletedByImport = false);
 
-        void ReinstateJobsSoftDeletedByImport(IList<int> jobIds);
+        IList<ReinstateJob> ReinstateJobsSoftDeletedByImport(int branchId, IList<Job> jobs);
 
         void JobsSetResolutionStatusClosed(IList<int> jobIds);
 

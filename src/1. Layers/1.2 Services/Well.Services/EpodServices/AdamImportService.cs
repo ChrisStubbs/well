@@ -9,6 +9,7 @@
     using Domain.Enums;
     using Repositories.Contracts;
     using System.Linq;
+    using System.Diagnostics;
 
     public class AdamImportService : IAdamImportService
     {
@@ -108,6 +109,9 @@
 
         private void ImportRouteHeader(RouteHeader header, int routeId, GetByNumberDateBranchResult existingRouteHeader = null)
         {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             header.RoutesId = routeId;
 
             if (existingRouteHeader != null)
@@ -153,6 +157,12 @@
 
             // Calculate well status
             routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(header.Id);
+
+            var ts = stopWatch.Elapsed;
+
+            var elapsedTime = $"route header id ({header.Id}) took {ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+
+            logger.LogDebug(elapsedTime);
         }
 
         public virtual int GetBranchId(RouteHeader header, string filename)

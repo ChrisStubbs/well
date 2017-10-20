@@ -40,7 +40,7 @@ namespace PH.Well.Repositories.Read
                 if (userBranch)
                 {
                     var routeHeaders = wellEntities.RouteHeader
-                        .Where(x => x.RouteOwnerId == branchId && x.DateDeleted == null)
+                        .Where(x => x.RouteOwnerId == branchId)
                         .Select(x => new
                         {
                             RouteId = x.Id,
@@ -48,7 +48,7 @@ namespace PH.Well.Repositories.Read
                             BranchName = x.Branch.Name,
                             RouteNumber = x.RouteNumber,
                             RouteDate = x.RouteDate,
-                            StopCount = x.Stop.Count(p => p.DateDeleted == null),
+                            StopCount = x.Stop.Count(),
                             x.WellStatus,
                             DriverName = x.DriverName,
                             x.ExceptionCount,
@@ -56,18 +56,15 @@ namespace PH.Well.Repositories.Read
                             x.HasNotDefinedDeliveryAction,
                             x.NoGRNButNeeds,
                             x.PendingSubmission,
-                            JobIds = x.Stop.SelectMany(y => y.Job.Where(z => z.DateDeleted == null).Select(a => a.Id))
+                            JobIds = x.Stop.SelectMany(y => y.Job.Select(a => a.Id))
                         })
                         .ToList();
 
                     var routeIds = routeHeaders.Select(x => x.RouteId).ToList();
 
                     var jobs = wellEntities.Stop
-                        .Where(s => s.DateDeleted == null
-                                    && routeIds.Contains(s.RouteHeaderId))
+                        .Where(s => routeIds.Contains(s.RouteHeaderId))
                         .SelectMany(s => s.Job
-                            .Where(j => j.DateDeleted == null && j.JobTypeCode != "DEL-DOC" &&
-                                        j.JobTypeCode != "UPL-SAN")
                             .Select(uj => new
                             {
                                 Users = uj.UserJob.Select(a => a.User.Name),

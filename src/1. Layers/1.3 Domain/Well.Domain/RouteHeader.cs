@@ -322,5 +322,15 @@
         public bool IsCompleted => !string.IsNullOrEmpty(RouteStatusCode) && RouteStatusCode.Equals(Constants.RouteStatusCode.Completed);
 
         public WellStatus RouteWellStatus { get; set; }
+
+        public bool? NoGRNButNeeds { get; set; }
+
+        public bool? HasNotDefinedDeliveryAction { get; set; }
+
+        public bool? PendingSubmission { get; set; }
+
+        public int? ExceptionCount { get; set; }
+
+        public int? CleanCount { get; set; }
     }
 }

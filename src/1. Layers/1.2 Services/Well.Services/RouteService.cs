@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using PH.Well.Domain;
+using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Enums;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services.Contracts;
+using Notification = PH.Well.Domain.Notification;
+using RouteHeader = PH.Well.Domain.RouteHeader;
+using WellStatus = PH.Well.Domain.Enums.WellStatus;
 
 namespace PH.Well.Services
 {
@@ -23,6 +27,7 @@ namespace PH.Well.Services
         private readonly IStopRepository stopRepository;
         private readonly INotificationRepository notificationRepository;
         private readonly IUserNameProvider userNameProvider;
+        private readonly WellEntities wellEntities;
 
         #endregion Private fields
 
@@ -32,13 +37,15 @@ namespace PH.Well.Services
             IWellStatusAggregator wellStatusAggregator,
             IStopRepository stopRepository,
             INotificationRepository notificationRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            WellEntities wellEntities)
         {
             this.routeHeaderRepository = routeHeaderRepository;
             this.wellStatusAggregator = wellStatusAggregator;
             this.stopRepository = stopRepository;
             this.notificationRepository = notificationRepository;
             this.userNameProvider = userNameProvider;
+            this.wellEntities = wellEntities;
         }
         #endregion Constructors
 
@@ -98,7 +105,7 @@ namespace PH.Well.Services
                                        $"Date: {routeHeader.RouteDate.ToShortDateString()} " +
                                        $"Route No: {routeHeader.RouteNumber}. " +
                                        $"Please check the route for amended stops that require completion",
-                        Source =  userNameProvider.GetUserName()
+                        Source = userNameProvider.GetUserName()
                     };
 
                     notificationRepository.SaveNotification(notification);
@@ -107,6 +114,55 @@ namespace PH.Well.Services
                 return routeHeader;
             }
             throw new ArgumentException($"RouteHeader not found id : {routeId}", nameof(routeId));
+        }
+
+        public void UpdateRouteStatistics(int branchId)
+        {
+            var exceptionTotalsDictionary = wellEntities.ExceptionTotalsPerRoute(branchId).ToDictionary(x => x.Routeid);
+
+            var routesTask = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).ToListAsync();
+            var noGRNButNeedsTask = wellEntities.RoutesWithNoGRNView.Where(p => p.BranchId== branchId).ToDictionaryAsync(x=> x.Id);
+            var hasNotDefinedDeliveryActionTask = wellEntities.RoutesWithUnresolvedActionView.Where(p => p.BranchId == branchId).ToDictionaryAsync(x => x.Id);
+            var pendingSubmissionTask = wellEntities.RoutesWithPendingSubmitionsView.Where(p => p.BranchId == branchId).ToDictionaryAsync(x => x.Id);
+
+            Task.WaitAll(routesTask, noGRNButNeedsTask, hasNotDefinedDeliveryActionTask, pendingSubmissionTask);
+
+            foreach (var routeHeader in routesTask.Result)
+            {
+                routeHeader.NoGRNButNeeds = noGRNButNeedsTask.Result.ContainsKey(routeHeader.Id)
+                    ? noGRNButNeedsTask.Result[routeHeader.Id].NoGRNButNeeds.GetValueOrDefault()
+                    : false;
+
+                routeHeader.HasNotDefinedDeliveryAction =
+                    hasNotDefinedDeliveryActionTask.Result.ContainsKey(routeHeader.Id)
+                        ? hasNotDefinedDeliveryActionTask.Result[routeHeader.Id].HasNotDefinedDeliveryAction
+                            .GetValueOrDefault()
+                        : false;
+
+                routeHeader.PendingSubmission = pendingSubmissionTask.Result.ContainsKey(routeHeader.Id)
+                    ? pendingSubmissionTask.Result[routeHeader.Id].PendingSubmission.GetValueOrDefault()
+                    : false;
+
+                var exceptionTotals = exceptionTotalsDictionary.ContainsKey(routeHeader.Id)
+                    ? exceptionTotalsDictionary[routeHeader.Id]
+                    : null;
+
+                if (exceptionTotals != null)
+                {
+                    routeHeader.ExceptionCount = (byte) exceptionTotals.WithExceptions.GetValueOrDefault();
+                    routeHeader.CleanCount = (byte) exceptionTotals.WithOutExceptions.GetValueOrDefault();
+                }
+                else
+                {
+                    routeHeader.ExceptionCount = 0;
+                    routeHeader.CleanCount = 0;
+                }
+
+            }
+
+            // Update routes
+            wellEntities.SaveChanges();
+
         }
 
         #endregion Public methods

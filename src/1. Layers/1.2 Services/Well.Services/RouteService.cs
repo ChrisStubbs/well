@@ -120,27 +120,26 @@ namespace PH.Well.Services
         {
             var exceptionTotalsDictionary = wellEntities.ExceptionTotalsPerRoute(branchId).ToDictionary(x => x.Routeid);
 
-            var routesTask = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).ToListAsync();
-            var noGRNButNeedsTask = wellEntities.RoutesWithNoGRNView.Where(p => p.BranchId== branchId).ToDictionaryAsync(x=> x.Id);
-            var hasNotDefinedDeliveryActionTask = wellEntities.RoutesWithUnresolvedActionView.Where(p => p.BranchId == branchId).ToDictionaryAsync(x => x.Id);
-            var pendingSubmissionTask = wellEntities.RoutesWithPendingSubmitionsView.Where(p => p.BranchId == branchId).ToDictionaryAsync(x => x.Id);
+            var routesTask = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).ToList();
+            var noGRNButNeedsTask = wellEntities.RoutesWithNoGRNView.Where(p => p.BranchId== branchId).ToDictionary(x=> x.Id);
+            var hasNotDefinedDeliveryActionTask = wellEntities.RoutesWithUnresolvedActionView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
+            var pendingSubmissionTask = wellEntities.RoutesWithPendingSubmitionsView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
 
-            Task.WaitAll(routesTask, noGRNButNeedsTask, hasNotDefinedDeliveryActionTask, pendingSubmissionTask);
 
-            foreach (var routeHeader in routesTask.Result)
+            foreach (var routeHeader in routesTask)
             {
-                routeHeader.NoGRNButNeeds = noGRNButNeedsTask.Result.ContainsKey(routeHeader.Id)
-                    ? noGRNButNeedsTask.Result[routeHeader.Id].NoGRNButNeeds.GetValueOrDefault()
+                routeHeader.NoGRNButNeeds = noGRNButNeedsTask.ContainsKey(routeHeader.Id)
+                    ? noGRNButNeedsTask[routeHeader.Id].NoGRNButNeeds.GetValueOrDefault()
                     : false;
 
                 routeHeader.HasNotDefinedDeliveryAction =
-                    hasNotDefinedDeliveryActionTask.Result.ContainsKey(routeHeader.Id)
-                        ? hasNotDefinedDeliveryActionTask.Result[routeHeader.Id].HasNotDefinedDeliveryAction
+                    hasNotDefinedDeliveryActionTask.ContainsKey(routeHeader.Id)
+                        ? hasNotDefinedDeliveryActionTask[routeHeader.Id].HasNotDefinedDeliveryAction
                             .GetValueOrDefault()
                         : false;
 
-                routeHeader.PendingSubmission = pendingSubmissionTask.Result.ContainsKey(routeHeader.Id)
-                    ? pendingSubmissionTask.Result[routeHeader.Id].PendingSubmission.GetValueOrDefault()
+                routeHeader.PendingSubmission = pendingSubmissionTask.ContainsKey(routeHeader.Id)
+                    ? pendingSubmissionTask[routeHeader.Id].PendingSubmission.GetValueOrDefault()
                     : false;
 
                 var exceptionTotals = exceptionTotalsDictionary.ContainsKey(routeHeader.Id)

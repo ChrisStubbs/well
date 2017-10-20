@@ -222,7 +222,7 @@
 
         private string GetArchivePath(ImportFileInfo importFile,IAdamFileMonitorServiceConfig config)
         {
-            return Path.Combine(config.RootFolder, "archive", GetDateStampFromFile(importFile).ToString("yyyyMMdd"));
+            return Path.Combine(config.ArchiveFolder, GetDateStampFromFile(importFile).ToString("yyyyMMdd"));
         }
 
         public class ImportFileInfo

@@ -9,11 +9,13 @@ namespace PH.Well.Services
     {
         private readonly IEnumerable<Branch> branchesToProcess;
         public string RootFolder { get; }
+        public string ArchiveFolder { get; }
 
-        public AdamFileMonitorServiceConfig(string rootFolder,IEnumerable<Branch> branchesToProcess)
+        public AdamFileMonitorServiceConfig(string rootFolder,string archiveFolder,IEnumerable<Branch> branchesToProcess)
         {
             this.branchesToProcess = branchesToProcess;
             RootFolder = rootFolder;
+            ArchiveFolder = archiveFolder;
         }
 
         public bool ProcessDataForBranch(Branch branch)

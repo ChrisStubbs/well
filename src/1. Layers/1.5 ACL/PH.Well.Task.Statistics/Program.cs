@@ -21,14 +21,8 @@ namespace PH.Well.Task.Statistics
         {
             var container = InitIoc();
 
-            var routeService = container.GetInstance<IRouteService>();
-
-            var branches = Enum.GetValues(typeof(Branches)).Cast<Branches>();
-            foreach (var branch in branches)
-            {
-                var branchId = (int) branch;
-                routeService.UpdateRouteStatistics(branchId);
-            }
+            var routeStatistics = container.GetInstance<RouteStatistics>();
+            routeStatistics.UpdateRouteStatistics();
         }
 
         /// <summary>
@@ -51,6 +45,7 @@ namespace PH.Well.Task.Statistics
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<RouteStatistics>().Use<RouteStatistics>();
                 });
         }
     }

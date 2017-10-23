@@ -14,5 +14,7 @@ namespace PH.Well.Repositories.Contracts
         JobDetail GetByJobLine(int jobId, int lineNumber);
 
         void DeleteJobDetailById(int id);
+
+        void SyncLineItem(int JobId);
     }
 }

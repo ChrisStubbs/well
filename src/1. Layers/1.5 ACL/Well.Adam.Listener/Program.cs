@@ -35,7 +35,7 @@ namespace PH.Well.Adam.Listener
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             var monitorService = container.GetInstance<IFileMonitorService>();
-            var config = new AdamFileMonitorServiceConfig(Configuration.RootFolder, Configuration.BranchesToProcess);
+            var config = new AdamFileMonitorServiceConfig(Configuration.RootFolder,Configuration.ArchiveFolder, Configuration.BranchesToProcess);
 
             monitorService.Monitor(config);
         }

@@ -127,5 +127,12 @@
                  .AddParameter("JobDetailId", jobDetailId, DbType.Int32)
                 .Execute();
         }
+
+        public void SyncLineItem(int JobId)
+        {
+            dapperProxy.WithStoredProcedure(StoredProcedures.SyncLineItem)
+                .AddParameter("JobDetailId", JobId, DbType.Int32)
+                .Execute();
+        }
     }
 }

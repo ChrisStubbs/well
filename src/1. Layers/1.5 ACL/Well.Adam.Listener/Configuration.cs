@@ -30,6 +30,8 @@ namespace PH.Well.Adam.Listener
 
         }
         public static string RootFolder => ConfigurationManager.AppSettings["rootFolder"];
+        public static string ArchiveFolder => ConfigurationManager.AppSettings["archiveLocation"];
+
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
         public int DeadlockRetryDelayMilliseconds => int.Parse(ConfigurationManager.AppSettings["deadlockRetryDelayMilliseconds"]);
 

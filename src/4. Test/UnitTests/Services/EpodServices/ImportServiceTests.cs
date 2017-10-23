@@ -1,4 +1,7 @@
-﻿namespace PH.Well.UnitTests.Services.EpodServices
+﻿
+using PH.Well.Domain.ValueObjects;
+
+namespace PH.Well.UnitTests.Services.EpodServices
 {
     using System.Collections.Generic;
     using Factories;
@@ -63,86 +66,59 @@
         public class TheIsJobReplannedMethod : ImportServiceTests
         {
             [Test]
-            [Ignore("I need to refactor this test")]
             public void ShouldReplanIfJobIsBypassedAndHasMovedStops()
             {
-                //IList<StopImportStatus> stopImportStatuses = new List<StopImportStatus>();
-                //Job fileJob = JobFactory.New.Build();
-                //Job originalJob = JobFactory.New.Build();
+                // Setup test. Make sure stop ids are different so jobs will be recognized as moved
+                IList<StopImportStatus> stopImportStatuses = new List<StopImportStatus>();
+                Job fileJob = JobFactory.New
+                    .With(p => p.StopId = -1)
+                    .Build();
+                var originalJob = new ReinstateJob {StopId = 22};
 
-                //mockImportService.Setup(x => x.HasJobMovedStops(originalJob, fileJob)).Returns(true);
+                foreach (WellStatus wellStatus in Enum.GetValues(typeof(WellStatus)))
+                {
+                    originalJob.WellStatusId = (int)wellStatus;
+                    var isReplanned = importService.IsJobReplanned(stopImportStatuses, fileJob, originalJob);
 
-                //foreach (WellStatus wellStatus in Enum.GetValues(typeof(WellStatus)))
-                //{
-                //    originalJob.WellStatus = wellStatus;
-                //    var isReplanned = mockImportService.Object.IsJobReplanned(stopImportStatuses, fileJob, originalJob);
-
-                //    if (wellStatus == WellStatus.Bypassed)
-                //    {
-                //        Assert.That(isReplanned, Is.True);
-                //    }
-                //    else
-                //    {
-                //        Assert.That(isReplanned, Is.False);
-                //    }
-                //}
+                    if (wellStatus == WellStatus.Bypassed)
+                    {
+                        Assert.That(isReplanned, Is.True);
+                    }
+                    else
+                    {
+                        Assert.That(isReplanned, Is.False);
+                    }
+                }
             }
 
             [Test]
-            [Ignore("I need to refactor this test")]
             public void ShouldReplanIfJobIsBypassedAndStopReplanned()
             {
-                //var stop = StopFactory.New.Build();
-                //var originalStopIdentifier = StopFactory.New.Build();
+                var stop = StopFactory.New.With(x => x.Id = 1).Build();
+                var originalStopIdentifier = StopFactory.New.Build();
 
-                //IList<StopImportStatus> stopImportStatuses = new List<StopImportStatus>
-                //{
-                //    new StopImportStatus(stop,StopImportStatus.Status.Updated,originalStopIdentifier)
-                // };
+                IList<StopImportStatus> stopImportStatuses = new List<StopImportStatus>
+                {
+                    new StopImportStatus(stop,StopImportStatus.Status.Updated,originalStopIdentifier)
+                 };
 
-                //Job fileJob = JobFactory.New.With(j => j.StopId = stop.Id).Build();
-                //Job originalJob = JobFactory.New.Build();
+                var fileJob = JobFactory.New.With(j => j.StopId = stop.Id).Build();
+                var originalJob = new ReinstateJob {StopId = 22};
 
-                //mockImportService.Setup(x => x.HasJobMovedStops(originalJob, fileJob)).Returns(false);
-                //mockImportService.Setup(x => x.HasStopBeenReplanned(stop, originalStopIdentifier)).Returns(true);
+                foreach (WellStatus wellStatus in Enum.GetValues(typeof(WellStatus)))
+                {
+                    originalJob.WellStatusId = (int) wellStatus;
+                    var isReplanned = importService.IsJobReplanned(stopImportStatuses, fileJob, originalJob);
 
-                //foreach (WellStatus wellStatus in Enum.GetValues(typeof(WellStatus)))
-                //{
-                //    originalJob.WellStatus = wellStatus;
-                //    var isReplanned = mockImportService.Object.IsJobReplanned(stopImportStatuses, fileJob, originalJob);
-
-                //    if (wellStatus == WellStatus.Bypassed)
-                //    {
-                //        Assert.That(isReplanned, Is.True);
-                //    }
-                //    else
-                //    {
-                //        Assert.That(isReplanned, Is.False);
-                //    }
-                //}
-            }
-        }
-
-        public class TheHasJobMovedStopMethod : ImportServiceTests
-        {
-            [Test]
-            [Ignore("I need to refactor this test")]
-            public void ShouldReturnFalseIfStopIdsAreEqual()
-            {
-                //Job fileJob = JobFactory.New.With(j => j.StopId = 1).Build();
-                //Job originalJob = JobFactory.New.With(j => j.StopId = 1).Build();
-                //mockImportService.CallBase = true;
-                //Assert.That(mockImportService.Object.HasJobMovedStops(originalJob, fileJob), Is.False);
-            }
-
-            [Test]
-            [Ignore("I need to refactor this test")]
-            public void ShouldReturnTrueIfStopIdsAreNotEqual()
-            {
-                //Job fileJob = JobFactory.New.With(j=> j.StopId = 1).Build();
-                //Job originalJob = JobFactory.New.With(j => j.StopId = 2).Build();
-                //mockImportService.CallBase = true;
-                //Assert.That(mockImportService.Object.HasJobMovedStops(originalJob, fileJob), Is.True);
+                    if (wellStatus == WellStatus.Bypassed)
+                    {
+                        Assert.That(isReplanned, Is.True);
+                    }
+                    else
+                    {
+                        Assert.That(isReplanned, Is.False);
+                    }
+                }
             }
         }
 
@@ -156,15 +132,6 @@
                 mockImportService.CallBase = true;
                 Assert.That(mockImportService.Object.HasStopBeenReplanned(newIdentifier, original), Is.True);
             }
-
-            //[Test]
-            //public void StopIsReplannedIfPlannedStopNumberHasMovedForward()
-            //{
-            //    IStopMoveIdentifiers newIdentifier = StopFactory.New.With(s => s.PlannedStopNumber = "02").Build();
-            //    IStopMoveIdentifiers original = StopFactory.New.With(s => s.PlannedStopNumber = "01").Build();
-            //    mockImportService.CallBase = true;
-            //    Assert.That(mockImportService.Object.HasStopBeenReplanned(newIdentifier, original), Is.True);
-            //}
 
             [Test]
             public void StopIsNotReplannedIfPlannedStopNumberHasMovedBackwardsAndRouteRemainsTheSame()

@@ -6,5 +6,7 @@
         /// Location to monitor
         /// </summary>
         string RootFolder { get; }
+
+        string ArchiveFolder { get; }
     }
 }

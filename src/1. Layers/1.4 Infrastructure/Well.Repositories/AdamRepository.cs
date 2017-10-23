@@ -220,46 +220,54 @@
         public AdamResponse Grn(GrnEvent grn, AdamSettings adamSettings)
         {
             var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
-            if (delivery != null && !string.IsNullOrWhiteSpace(delivery.GrnNumber))
+            if (delivery != null)
             {
-                using (var connection = GetAdamConnection(adamSettings))
+                if (!string.IsNullOrWhiteSpace(delivery.GrnNumber))
                 {
-                    try
+                    using (var connection = GetAdamConnection(adamSettings))
                     {
-                        connection.Open();
-
-                        using (var command = GetAdamCommand(connection))
+                        try
                         {
-                            var acno = (int) (Convert.ToDecimal(delivery.AccountCode) * 1000);
-                            var today = DateTime.Now.ToShortDateString();
-                            var now = DateTime.Now.ToShortTimeString();
+                            connection.Open();
 
-                            var grnNumeric = 0;
-                            var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
-                            if (!result)
+                            using (var command = GetAdamCommand(connection))
                             {
-                                grnNumeric = 0;
+                                var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
+                                var today = DateTime.Now.ToShortDateString();
+                                var now = DateTime.Now.ToShortTimeString();
+
+                                var grnNumeric = 0;
+                                var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
+                                if (!result)
+                                {
+                                    grnNumeric = 0;
+                                }
+
+                                var commandString =
+                                    string.Format(
+                                        "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
+                                        "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
+                                        now, (int)EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
+                                        delivery.GrnProcessType, grnNumeric);
+
+                                command.CommandText = commandString;
+                                command.ExecuteNonQuery();
+
                             }
-
-                            var commandString =
-                                string.Format(
-                                    "INSERT INTO WELLHEAD (WELLHDGUID, WELLHDCREDAT, WELLHDCRETIM, WELLHDRCDTYPE, WELLHDOPERATOR, WELLHDBRANCH, WELLHDACNO, WELLHDINVNO, WELLHDGRNCODE, WELLHDGRNRCPTREF) " +
-                                    "VALUES({0}, '{1}', '{2}', {3}, '{4}', {5}, {6}, {7}, {8}, {9});", grn.Id, today,
-                                    now, (int) EventAction.Grn, "WELL", grn.BranchId, acno, delivery.InvoiceNumber,
-                                    delivery.GrnProcessType, grnNumeric);
-
-                            command.CommandText = commandString;
-                            command.ExecuteNonQuery();
-
+                            return AdamResponse.Success;
                         }
-                        return AdamResponse.Success;
-                    }
-                    catch (Exception adamException)
-                    {
-                        this.logger.LogError("ADAM error occurred!", adamException);
-                        return AdamResponse.AdamDown;
+                        catch (Exception adamException)
+                        {
+                            this.logger.LogError("ADAM error occurred!", adamException);
+                            return AdamResponse.AdamDown;
+                        }
                     }
                 }
+
+            }
+            else
+            {
+                logger.LogError($"Can not send GRN event. Could not find job with id {grn.Id}");
             }
 
             return AdamResponse.Unknown;

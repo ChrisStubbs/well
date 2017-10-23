@@ -106,11 +106,13 @@
                         fileInfo.ModificationTime,
                         fileInfo.CreationTime
                     }.Min();
+
                 case EpodFileType.Clean:
                 case EpodFileType.Epod:
                     var nameParts = fileInfo.Name.Split('_');
                     var timeString = nameParts[2] + nameParts[3].Substring(0, 6);
                     return DateTime.ParseExact(timeString, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -136,6 +138,7 @@
                 case EpodFileType.Epod:
                     this.HandleEpod(importFile.FullName, filename, config);
                     break;
+
                 case EpodFileType.Clean:
                     this.HandleClean(importFile.FullName);
                     break;

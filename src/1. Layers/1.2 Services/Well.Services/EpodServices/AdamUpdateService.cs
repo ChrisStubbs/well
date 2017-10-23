@@ -154,8 +154,7 @@
             using (var transactionScope = new TransactionScope())
             {
                 this.stopRepository.Update(existingStop);
-                IList<int> updatedJobIds;
-                this.UpdateJobs(stop.Jobs, existingStop.Id, out updatedJobIds);
+                var updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id);
                 // updates Location/Activity/LineItem/Bag tables from imported data
                 this.postImportRepository.PostImportUpdate(updatedJobIds);
 
@@ -203,9 +202,9 @@
             }
         }
 
-        private void UpdateJobs(IList<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
+        private IList<int> UpdateJobs(IList<JobUpdate> jobs, int stopId)
         {
-            updatedJobIds = new List<int>();
+            var updatedJobIds = new List<int>();
 
             var existingJobs = this.jobRepository.GetByStopId(stopId).ToList();
 
@@ -247,6 +246,8 @@
             }
             
             DeleteJobsNotInFile(jobs, existingJobs);
+
+            return updatedJobIds;
         }
 
         private void DeleteJobsNotInFile(IList<JobUpdate> jobs, List<Job> existingJobs)
@@ -291,6 +292,8 @@
                     this.jobDetailRepository.Save(newJobDetail);
                 }
             }
+
+            this.jobDetailRepository.SyncLineItem(jobId);
         }
 
         private void InsertStops(StopUpdate stopInsert, GetByNumberDateBranchResult header)

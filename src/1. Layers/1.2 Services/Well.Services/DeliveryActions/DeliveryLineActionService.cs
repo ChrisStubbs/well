@@ -61,19 +61,7 @@ namespace PH.Well.Services.DeliveryActions
 
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
-            var adamResponse = AdamResponse.Success;
-            // Workaround to stop accumulating events which are impossible to success
-            // We are only interested in checking if job exists. 
-            // Used GetForWellStatusCalculationById because its much quicker than GetById method
-            if (jobRepository.GetForWellStatusCalculationById(grnEvent.Id) != null)
-            {
-                adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
-            }
-            else
-            {
-                logger.LogError($"Can not send GRN event. Could not find job with id {grnEvent.Id}");
-            }
-
+            var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
             this.MarkAsDone(eventId, adamResponse);
         }
 

@@ -1,4 +1,4 @@
-﻿DECLARE @ArchiveDate DateTime = GETDATE()
+﻿DECLARE @ArchiveDate DateTime = GETDATE();
 	DELETE ex
 	OUTPUT Deleted.[Id]
 		,Deleted.[Event]

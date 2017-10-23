@@ -101,7 +101,7 @@
     <None Include="ManualStep\scripts\up\029_seasonal_dates_sunday.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ManualStep\scripts\up\032_remove_view.sql">
+    <None Include="ManualStep\scripts\up\032_remove_view_v2.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ManualStep\scripts\up\033_fix_seasonal_dates.sql">
@@ -531,7 +531,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\SyncLineItem.sql" />
-    <Build Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql" />
+    <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

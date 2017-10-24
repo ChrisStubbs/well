@@ -201,7 +201,7 @@
             DeleteJobs(jobsToBeDeleted);
         }
 
-        public bool IsJobReplanned(IList<StopImportStatus> stopImportStatuses, Job fileJob, Job originalJob)
+        public virtual bool IsJobReplanned(IList<StopImportStatus> stopImportStatuses, Job fileJob, Job originalJob)
         {
             bool isJobReplanned = false;
 

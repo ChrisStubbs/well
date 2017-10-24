@@ -22,11 +22,11 @@ namespace PH.Well.Repositories.Contracts
 
         void InsertGrnEvent(GrnEvent grnEvent, DateTime dateCanBeProcessed, string jobId);
 
-        bool GrnEventCreatedForJob(string jobId);
+        bool IsGrnEventCreatedForJob(string jobId);
 
         void InsertPodEvent(PodEvent podEvent, string jobId,  DateTime dateCanBeProcessed);
 
-        bool PodEventCreatedForJob(string jobId);
+        bool IsPodEventCreatedForJob(string jobId);
 
         void InsertPodTransaction(PodTransaction podTransaction);
 
@@ -34,7 +34,9 @@ namespace PH.Well.Repositories.Contracts
 
         void InsertGlobalUpliftEvent(GlobalUpliftEvent glovalUpliftEvent, string jobId = null);
 
-        bool GlobalUpliftEventCreatedForJob(string jobId);
+        bool IsGlobalUpliftEventCreatedForJob(string jobId);
+
+        bool IsPodTransactionCreatedForJob(string jobId);
 
     }
 }

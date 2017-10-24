@@ -45,7 +45,7 @@
             this.routeService = routeService;
         }
 
-        public void Import(RouteDelivery route, string fileName)
+        public void Import(RouteDelivery route, string fileName,IImportConfig config)
         {
             var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
                 .Select(p =>
@@ -67,6 +67,13 @@
                 try
                 {
                     header.RouteOwnerId = GetBranchId(header, fileName);
+
+                    if (!config.ProcessDataForBranch((Domain.Enums.Branch) header.RouteOwnerId))
+                    {
+                        logger.LogDebug($"Skip route header {fileName}");
+                        continue;
+                    }
+
                     using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
                     {
                         var key = new

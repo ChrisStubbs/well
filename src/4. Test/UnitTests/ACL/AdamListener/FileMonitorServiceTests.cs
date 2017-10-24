@@ -1,4 +1,5 @@
 ﻿using System;
+using PH.Well.Domain.Enums;
 
 namespace PH.Well.UnitTests.ACL.AdamListener
 {
@@ -73,17 +74,21 @@ namespace PH.Well.UnitTests.ACL.AdamListener
         {
             var routeFileModifiedTime = new DateTime(2017, 9, 11, 9, 17, 8);
             var routeFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
-            var routeFileInfo = new FileMonitorService.ImportFileInfo("ROUTE_PLY_170912_0915.xml",
+
+            var routeFileName = "ROUTE_PLY_170912_0915.xml";
+            var routeFileInfo = new FileMonitorService.ImportFileInfo(routeFileName, routeFileName,
                 routeFileModifiedTime, routeFileCreateTime);
 
             var orderFileModifiedTime = new DateTime(2017, 9, 11, 23, 36, 44);
             var orderFileCreateTime = new DateTime(2017, 9, 13, 11, 46, 35);
-            var orderFileInfo = new FileMonitorService.ImportFileInfo("ORDER_PLY_170912_2335.xml",
+            var orderFileName = "ORDER_PLY_170912_2335.xml";
+            var orderFileInfo = new FileMonitorService.ImportFileInfo(orderFileName, orderFileName,
                 orderFileModifiedTime, orderFileCreateTime);
 
             // For epod files date is taken from file name
             var expectedEpodFileTime = new DateTime(2017, 9, 11, 14, 53, 16);
-            var epodFileInfo = new FileMonitorService.ImportFileInfo("ePOD__20170911_14531601151733.xml",
+            var epodFileName = "ePOD__20170911_14531601151733.xml";
+            var epodFileInfo = new FileMonitorService.ImportFileInfo(epodFileName, epodFileName,
                 DateTime.Now, DateTime.Now);
 
             var routeFileStamp = fileMonitorService.GetDateStampFromFile(routeFileInfo);
@@ -97,7 +102,6 @@ namespace PH.Well.UnitTests.ACL.AdamListener
 
             Assert.AreEqual(expectedEpodFileTime, epodFileStamp);
         }
-
-
+        
     }
 }

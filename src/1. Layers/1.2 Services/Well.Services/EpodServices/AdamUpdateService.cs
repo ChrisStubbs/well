@@ -57,8 +57,15 @@
             this.routeService = routeService;
         }
 
-        public void Update(RouteUpdates route)
+        public void Update(RouteUpdates route, IImportConfig config)
         {
+            var branch = (Domain.Enums.Branch) Enum.Parse(typeof(Branches), route.Stops.First().StartDepotCode, true);
+            if (!config.ProcessDataForBranch(branch))
+            {
+                logger.LogDebug("Skip RouteUpdates");
+                return;
+            }
+
             //TODO: refactor for improvement. we may be able to put all insert/delete/update together and do it in async 
             foreach (var stop in route.Stops)
             {
@@ -147,8 +154,7 @@
             using (var transactionScope = new TransactionScope())
             {
                 this.stopRepository.Update(existingStop);
-                IList<int> updatedJobIds;
-                this.UpdateJobs(stop.Jobs, existingStop.Id, out updatedJobIds);
+                var updatedJobIds = this.UpdateJobs(stop.Jobs, existingStop.Id);
                 // updates Location/Activity/LineItem/Bag tables from imported data
                 this.postImportRepository.PostImportUpdate(updatedJobIds);
 
@@ -196,9 +202,9 @@
             }
         }
 
-        private void UpdateJobs(IList<JobUpdate> jobs, int stopId, out IList<int> updatedJobIds)
+        private IList<int> UpdateJobs(IList<JobUpdate> jobs, int stopId)
         {
-            updatedJobIds = new List<int>();
+            var updatedJobIds = new List<int>();
 
             var existingJobs = this.jobRepository.GetByStopId(stopId).ToList();
 
@@ -240,6 +246,8 @@
             }
             
             DeleteJobsNotInFile(jobs, existingJobs);
+
+            return updatedJobIds;
         }
 
         private void DeleteJobsNotInFile(IList<JobUpdate> jobs, List<Job> existingJobs)
@@ -284,6 +292,8 @@
                     this.jobDetailRepository.Save(newJobDetail);
                 }
             }
+
+            this.jobDetailRepository.SyncLineItem(jobId);
         }
 
         private void InsertStops(StopUpdate stopInsert, GetByNumberDateBranchResult header)

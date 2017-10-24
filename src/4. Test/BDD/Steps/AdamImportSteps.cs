@@ -44,6 +44,7 @@
         private ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
         private IEpodFileProvider epodProvider;
         private IWellCleanUpService wellCleanUpService;
+
         public AdamImportSteps()
         {
             this.container = FeatureContextWrapper.GetContextObject<IContainer>(ContextDescriptors.StructureMapContainer);

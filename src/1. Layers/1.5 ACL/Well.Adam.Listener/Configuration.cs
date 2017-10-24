@@ -1,4 +1,10 @@
-﻿namespace PH.Well.Adam.Listener
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PH.Well.Domain.Enums;
+using PH.Well.Services.Contracts;
+
+namespace PH.Well.Adam.Listener
 {
     using System.Configuration;
     using System.Data;
@@ -24,10 +30,39 @@
 
         }
         public static string RootFolder => ConfigurationManager.AppSettings["rootFolder"];
+        public static string ArchiveFolder => ConfigurationManager.AppSettings["archiveLocation"];
+
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
         public int DeadlockRetryDelayMilliseconds => int.Parse(ConfigurationManager.AppSettings["deadlockRetryDelayMilliseconds"]);
 
         public int CleanBatchSize { get; set; } = 1000;
         public int WellCleanTransactionTimeoutSeconds { get; set; } = 600;
+        private static IEnumerable<Branch> branchesToProcess;
+        public static IEnumerable<Branch> BranchesToProcess
+        {
+            get
+            {
+                if (branchesToProcess == null)
+                {
+                    var result = new List<Branch>();
+                    var branchIdStrings = ConfigurationManager.AppSettings["branchesToProcess"].Split(';');
+                    foreach (var branchIdString in branchIdStrings)
+                    {
+                        int branchId;
+                        if (int.TryParse(branchIdString, out branchId))
+                        {
+                            var branch = (Branch) branchId;
+                            result.Add(branch);
+                        }
+                    }
+
+                    branchesToProcess = result;
+                }
+
+                return branchesToProcess;
+            }
+        }
+
+
     }
 }

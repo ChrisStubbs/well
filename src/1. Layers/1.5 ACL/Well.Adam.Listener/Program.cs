@@ -1,4 +1,9 @@
-﻿namespace PH.Well.Adam.Listener
+﻿using System;
+using System.IO;
+using System.Linq;
+using PH.Well.Domain.Enums;
+
+namespace PH.Well.Adam.Listener
 {
     using System.Diagnostics;
     using System.Globalization;
@@ -30,8 +35,9 @@
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             var monitorService = container.GetInstance<IFileMonitorService>();
+            var config = new AdamFileMonitorServiceConfig(Configuration.RootFolder,Configuration.ArchiveFolder, Configuration.BranchesToProcess);
 
-            monitorService.Monitor(Configuration.RootFolder);
+            monitorService.Monitor(config);
         }
 
         /// <summary>

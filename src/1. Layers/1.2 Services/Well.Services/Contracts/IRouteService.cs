@@ -29,5 +29,7 @@ namespace PH.Well.Services.Contracts
         /// </summary>
         /// <returns></returns>
         RouteHeader ComputeWellStatusAndNotifyIfChangedFromCompleted(int routeId);
+
+        void UpdateRouteStatistics(int branchId);
     }
 }

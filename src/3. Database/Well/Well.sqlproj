@@ -101,6 +101,9 @@
     <None Include="ManualStep\scripts\up\029_seasonal_dates_sunday.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\032_remove_view_v2.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -522,6 +525,13 @@
     </None>
     <Build Include="dbo\StoredProcedures\ExceptionTotalsPerRoute.sql" />
     <None Include="ManualStep\scripts\up\032_Remove_View.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\033_fix_seasonal_dates.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Build Include="dbo\StoredProcedures\SyncLineItem.sql" />
+    <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

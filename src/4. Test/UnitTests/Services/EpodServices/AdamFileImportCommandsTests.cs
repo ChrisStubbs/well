@@ -49,38 +49,37 @@
         public class TheGetJobsToBeDeletedMethod : AdamFileImportCommandsTests
         {
             [Test]
-            [Ignore("I need to refactor this test")]
             public void ShouldOnlyGetJobsThatAreInCurrentStopsAndDontExistInBothSources()
             {
-                //var existingJobsBothSources = new List<Job>
-                //{
-                //    new Job{ Id = 1, StopId = 55 },
-                //    new Job{ Id = 2, StopId = 56 },
-                //    new Job{ Id = 3, StopId = 55 }
-                //};
+                var existingJobsBothSources = new List<Job>
+                {
+                    new Job{ Id = 1, StopId = 55 },
+                    new Job{ Id = 2, StopId = 56 },
+                    new Job{ Id = 3, StopId = 55 }
+                };
 
-                //var existingRouteJobIdAndStopId = new List<JobStop>
-                //{
-                //    new JobStop{ JobId = 1, StopId = 55 }, // in both sources don't delete
-                //    new JobStop{ JobId = 2, StopId = 56 }, // in both sources don't delete
-                //    new JobStop{ JobId = 3, StopId = 55 }, // in both sources don't delete
-                //    new JobStop{ JobId = 4, StopId = 55 }, // for deletion
-                //    new JobStop{ JobId = 5, StopId = 99 }, // for deletion
-                //    new JobStop{ JobId = 6, StopId = 56 }, // for deletion
-                //};
+                var existingRouteJobIdAndStopId = new List<JobStop>
+                {
+                    new JobStop{ JobId = 1, StopId = 55 }, // in both sources don't delete
+                    new JobStop{ JobId = 2, StopId = 56 }, // in both sources don't delete
+                    new JobStop{ JobId = 3, StopId = 55 }, // in both sources don't delete
+                    new JobStop{ JobId = 4, StopId = 55 }, // for deletion
+                    new JobStop{ JobId = 5, StopId = 99 }, // for deletion
+                    new JobStop{ JobId = 6, StopId = 56 }, // for deletion
+                };
 
-                //var completedStops = new List<Stop> { new Stop { Id = 57 } };
+                var completedStops = new List<Stop> { new Stop { Id = 57 } };
 
-                //jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
+                jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(new List<Job>());
 
-                //commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops);
+                commands.GetJobsToBeDeleted(existingRouteJobIdAndStopId, existingJobsBothSources, completedStops);
 
-                //jobRepository.Verify(x => x.GetByIds(It.Is<IEnumerable<int>>(jobIds =>
-                //    jobIds.Count() == 3
-                //    && jobIds.Contains(4)
-                //    && jobIds.Contains(5)
-                //    && jobIds.Contains(6)
-                //)), Times.Once);
+                jobRepository.Verify(x => x.GetByIds(It.Is<IEnumerable<int>>(jobIds =>
+                    jobIds.Count() == 3
+                    && jobIds.Contains(4)
+                    && jobIds.Contains(5)
+                    && jobIds.Contains(6)
+                )), Times.Once);
 
             }
         }

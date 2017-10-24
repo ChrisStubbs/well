@@ -50,26 +50,8 @@
                 existingJob.ResolutionStatus = ResolutionStatus.Imported;
             }
 
-            jobRepository.UpdateReinstateJob(existingJob);
+            jobRepository.Update(existingJob);
             UpdateJobDetails(fileJob.JobDetails, existingJob.Id);
-        }
-
-        public void UpdateExistingJobFromReinstateJob(Job fileJob, ReinstateJob existingJob, RouteHeader routeHeader, bool isJobReplanned)
-        {
-            this.UpdateExistingJob(fileJob,
-                new Job
-                {
-                    Id = existingJob.JobId,
-                    GrnNumber = existingJob.GrnNumber,
-                    RoyaltyCode = existingJob.RoyaltyCode,
-                    ResolutionStatus = existingJob.ResolutionStatus,
-                    StopId = existingJob.StopId,
-                    PhAccount = existingJob.PhAccount,
-                    PickListRef = existingJob.PickListRef,
-                    JobTypeCode = existingJob.JobTypeCode,
-                    WellStatus = existingJob.WellStatus,
-                    JobStatus = existingJob.JobStatus
-                }, routeHeader, isJobReplanned);
         }
 
         public void PostJobImport(IList<int> jobIds)
@@ -78,15 +60,14 @@
             // calculate
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Tuple<int, int>> existingJobIdsBothSources, IList<Stop> completedStops)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops)
         {
             //Adam File will contain all jobs for all stops so delete anything that is not in the latest file
-            var jobIdsToDelete = GetJobsIdsToBeDeleted(
-                existingRouteJobIdAndStopId.Select(x => x.JobId), 
-                existingJobIdsBothSources.Select(p => p.Item1).ToList());
+            var jobIdsToDelete = GetJobsIdsToBeDeleted(existingRouteJobIdAndStopId.Select(x => x.JobId), existingJobsBothSources.Select(x => x.Id));
 
             return jobRepository.GetByIds(jobIdsToDelete).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
+
 
         private IEnumerable<int> GetJobsIdsToBeDeleted(IEnumerable<int> existingRouteJobIds, IEnumerable<int> existingJobIdsBothSources)
         {
@@ -148,5 +129,6 @@
                 }
             }
         }
+
     }
 }

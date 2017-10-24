@@ -16,25 +16,7 @@
             return $"{job.PhAccount} - {job.PickListRef} - {job.JobTypeCode}";
         }
 
-        public static string Identifier(this ReinstateJob job)
-        {
-            return $"{job.PhAccount} - {job.PickListRef} - {job.JobTypeCode}";
-        }
-
         public static bool CanWeUpdateJobOnImport(this Job job)
-        {
-            switch (job.WellStatus)
-            {
-                case WellStatus.Complete:
-                    return false;
-                case WellStatus.Bypassed:
-                    return true;
-                default:
-                    return true;
-            }
-        }
-
-        public static bool CanWeUpdateJobOnImport(this ReinstateJob job)
         {
             switch (job.WellStatus)
             {

@@ -101,10 +101,7 @@
     <None Include="ManualStep\scripts\up\029_seasonal_dates_sunday.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ManualStep\scripts\up\032_remove_view.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ManualStep\scripts\up\033_fix_seasonal_dates.sql">
+    <None Include="ManualStep\scripts\up\032_remove_view_v2.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -464,6 +461,7 @@
     <Build Include="dbo\StoredProcedures\DeleteRouteHeaderWithNoStops.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEventDelete.sql" />
     <Build Include="dbo\StoredProcedures\ExceptionEvent_GetBySourceId.sql" />
+    <Build Include="dbo\Views\ExceptionTotalsPerRoute.sql" />
     <Build Include="dbo\StoredProcedures\LineItemActionDelete.sql" />
     <Build Include="dbo\StoredProcedures\Job_UpdateWellStatus.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationById.sql" />
@@ -526,11 +524,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\ExceptionTotalsPerRoute.sql" />
-    <Build Include="dbo\StoredProcedures\UpdateReinstateJob.sql" />
     <None Include="ManualStep\scripts\up\033_fix_seasonal_dates.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\SyncLineItem.sql" />
+    <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

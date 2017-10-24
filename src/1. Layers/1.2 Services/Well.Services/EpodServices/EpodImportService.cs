@@ -44,13 +44,10 @@
         {
             foreach (var header in route.RouteHeaders)
             {
+                
                 try
                 {
-                    using (var transactionScope = new TransactionScope())
-                    {
-                        deadlockRetryHelper.Retry(() => ImportRouteHeader(header, fileName));
-                        transactionScope.Complete();
-                    }
+                    deadlockRetryHelper.Retry(() => ImportRouteHeaderTransaction(fileName, header));
                 }
                 catch (Exception exception)
                 {
@@ -61,6 +58,15 @@
                         msg,
                         EventId.ImportException);
                 }
+            }
+        }
+
+        private void ImportRouteHeaderTransaction(string fileName, RouteHeader header)
+        {
+            using (var transactionScope = new TransactionScope())
+            {
+                ImportRouteHeader(header, fileName);
+                transactionScope.Complete();
             }
         }
 

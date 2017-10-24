@@ -1,4 +1,5 @@
-﻿using PH.Well.Domain;
+﻿using System.Linq;
+using PH.Well.Domain;
 
 namespace PH.Well.Adam.Events
 {

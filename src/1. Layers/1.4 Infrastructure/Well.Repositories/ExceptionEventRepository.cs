@@ -62,12 +62,12 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(grnEvent, EventAction.Grn, dateCanBeProcessed, jobId);
         }
 
-        public bool GrnEventCreatedForJob(string jobId)
+        public bool IsGrnEventCreatedForJob(string jobId)
         {
             return ExceptionEventCreatedForSourceId(jobId, EventAction.Grn);
         }
 
-        public bool PodEventCreatedForJob(string jobId)
+        public bool IsPodEventCreatedForJob(string jobId)
         {
             return ExceptionEventCreatedForSourceId(jobId, EventAction.Pod);
         }
@@ -93,9 +93,14 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(globalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);
         }
 
-        public bool GlobalUpliftEventCreatedForJob(string jobId)
+        public bool IsGlobalUpliftEventCreatedForJob(string jobId)
         {
             return ExceptionEventCreatedForSourceId(jobId, EventAction.GlobalUplift);
+        }
+
+        public bool IsPodTransactionCreatedForJob(string jobId)
+        {
+            return ExceptionEventCreatedForSourceId(jobId, EventAction.PodTransaction);
         }
 
         private void SerializeToJsonAndInsertEvent(object eventData, EventAction action, DateTime dateCanBeProcessed,

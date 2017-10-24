@@ -224,7 +224,7 @@
                 this.processor.Process();
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
-                this.exceptionEventService.Verify(
+                exceptionEventService.Verify(
                     x => x.PodTransaction(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
                     Times.Once);
             }

@@ -114,7 +114,7 @@
             this.jobService.DetermineStatus(existingJob, branchId);
 
             if (createEvents && existingJob.IsGrnNumberRequired &&
-                !exceptionEventRepository.GrnEventCreatedForJob(existingJob.Id.ToString()))
+                !exceptionEventRepository.IsGrnEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
 
@@ -158,7 +158,7 @@
         private void ProcessGlobalUplift(Job fileJob, Job existingJob, int branchId, bool createEvents)
         {
             if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed &&
-                            !exceptionEventRepository.GlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
+                            !exceptionEventRepository.IsGlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var globalJobDetail = fileJob.JobDetails.FirstOrDefault();
 

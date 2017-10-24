@@ -11,16 +11,10 @@
 
         void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings);
 
-        //AdamResponse Grn(GrnEvent grnEvent, AdamSettings adamSettings, string username);
-
-        ProcessDeliveryActionResult ProcessDeliveryActions(Job job);
-
         void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings);
 
         void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings);
 
         void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings);
-
-        //ProcessDeliveryPodActionResult ProcessDeliveryPodActions(List<DeliveryLine> lines, AdamSettings adamSettings,string username, int branchId);
     }
 }

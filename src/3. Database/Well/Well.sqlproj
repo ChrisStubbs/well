@@ -524,9 +524,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\ExceptionTotalsPerRoute.sql" />
-    <None Include="ManualStep\scripts\up\032_Remove_View.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ManualStep\scripts\up\033_fix_seasonal_dates.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

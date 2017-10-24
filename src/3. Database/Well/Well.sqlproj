@@ -534,6 +534,9 @@
     <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

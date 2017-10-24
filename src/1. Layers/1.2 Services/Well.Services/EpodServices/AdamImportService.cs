@@ -46,8 +46,9 @@
         }
 
 
-        public void Import(RouteDelivery route, string fileName, IImportConfig config)
+        public void Import(RouteDelivery route, string fileName, IImportConfig config, out bool hasErrors)
         {
+            hasErrors = false;
             var existingRouteHeaders = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
                 .Select(p =>
                 {
@@ -96,10 +97,12 @@
                         EventSource.WellAdamXmlImport,
                         msg,
                         EventId.ImportException);
+                    hasErrors = true;
                 }
             }
 
             routeHeaderRepository.DeleteRouteHeaderWithNoStops();
+          
         }
 
         private void ImportRouteHeaderTransaction(RouteDelivery route, RouteHeader header, GetByNumberDateBranchResult existingRouteHeader)

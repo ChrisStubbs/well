@@ -72,7 +72,8 @@
 
             const string filename = "epod_file.xml";
             //ACT
-            epodImportService.Import(route, filename);
+            bool hasErrors = false;
+            epodImportService.Import(route, filename, out hasErrors);
 
             //ASSERT
             this.routeHeaderRepository.Verify(

@@ -21,7 +21,7 @@
         public void CreatePodEvent(Job job, int branchId, DateTime routeDate)
         {
             var royaltyCode = job.GetRoyaltyCode();
-            if (!exceptionEventRepository.PodEventCreatedForJob(job.Id.ToString()))
+            if (!exceptionEventRepository.IsPodEventCreatedForJob(job.Id.ToString()))
             {
                 var podEvent = new PodEvent
                 {

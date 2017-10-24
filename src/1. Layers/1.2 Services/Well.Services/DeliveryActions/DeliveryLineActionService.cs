@@ -50,89 +50,45 @@ namespace PH.Well.Services.DeliveryActions
         public void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Credit(creditTransaction, adamSettings);
-            // the event must be marked as processed, because a new event is created if the original one failed
-            // The new event will not include any lines successfully writtten
-
-            if (adamResponse != AdamResponse.AdamDownNoChange)
-            {
-                this.eventRepository.MarkEventAsProcessed(eventId);
-            }
+            MarkSuccessfulEventAsDone(eventId, adamResponse);
         }
 
         public void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.Grn(grnEvent, adamSettings);
-            this.MarkAsDone(eventId, adamResponse);
-        }
-
-        //todo unused, remove?
-        public ProcessDeliveryActionResult ProcessDeliveryActions(Job job)
-        {
-            List<ProcessDeliveryActionResult> results;
-            using (var transactionScope = new TransactionScope())
-            {
-                results = actionHandlers.Select(p => p.Execute(job)).ToList();
-
-                if (job.CanResolve)
-                {
-                    job.JobStatus = JobStatus.Resolved;
-                }
-                jobRepository.Update(job);
-                job.JobDetails.ForEach(jd =>
-                {
-                    jobDetailRepository.Update(jd);
-                    jd.JobDetailDamages.ForEach(jdd => jobDetailDamageRepository.Update(jdd));
-                });
-
-                transactionScope.Complete();
-            }
-
-            return new ProcessDeliveryActionResult
-            {
-                AdamIsDown = results.Any(p => p.AdamIsDown),
-                Warnings = results.SelectMany(p => p.Warnings).ToList()
-            };
+            MarkSuccessfulEventAsDone(eventId, adamResponse);
         }
 
         public void Pod(PodEvent podEvent, int eventId, AdamSettings adamSettings)
         {
             var job = jobRepository.GetById(podEvent.Id);
 
-            // do not attempt to create a Pod without an invoice number
-            if (!string.IsNullOrEmpty(job.InvoiceNumber))
+            // Do not attempt to create a PodTransaction without an invoice number
+            if (!string.IsNullOrEmpty(job?.InvoiceNumber))
             {
                 job = jobService.PopulateLineItemsAndRoute(job);
-                job.GetAllLineItemActions();
-
                 var adamResponse = this.adamRepository.Pod(podEvent, adamSettings, job);
-
-                //Mark the podevent as processed, even if it failed - there will be a PodTransaction instead
-                this.eventRepository.MarkEventAsProcessed(eventId);
-                this.MarkPodAsResolved(podEvent.Id, adamResponse);
+                MarkSuccessfulEventAsDone(eventId, adamResponse);
             }
         }
 
         public void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.PodTransaction(podTransaction, adamSettings);
-
-            //this.MarkAsDone(eventId, adamResponse);
-            //Mark the podevent as processed, even if it failed - there will be a new PodTransaction
-            //Unless there was no change
-            if (adamResponse != AdamResponse.AdamDownNoChange)
+            if (adamResponse == AdamResponse.Success)
             {
-                this.eventRepository.MarkEventAsProcessed(eventId);
                 this.MarkPodAsResolved(podTransaction.JobId, adamResponse);
             }
+            MarkSuccessfulEventAsDone(eventId, adamResponse);
         }
 
         public void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings)
         {
             var adamResponse = this.adamRepository.AmendmentTransaction(amendmentTransaction, adamSettings);
-            this.MarkAsDone(eventId, adamResponse);
+            this.MarkSuccessfulEventAsDone(eventId, adamResponse);
         }
 
-        private void MarkAsDone(int eventId, AdamResponse response)
+        private void MarkSuccessfulEventAsDone(int eventId, AdamResponse response)
         {
             if (response == AdamResponse.Success)
             {
@@ -165,16 +121,6 @@ namespace PH.Well.Services.DeliveryActions
                     transactionScope.Complete();
                 }
             }
-        }
-
-        private void MarkGrnAsComplete(int eventId, AdamResponse response, string username)
-        {
-            //TODO - prevent re-submission of GRN to ADAM
-            //if (response == AdamResponse.Success)
-            //{
-            //    this.eventRepository.CurrentUser = username;
-            //    this.eventRepository.MarkEventAsProcessed(eventId);
-            //}
         }
     }
 }

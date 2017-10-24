@@ -77,46 +77,17 @@
             UpdateExistingJob(fileJob, existingJob, routeHeader.RouteOwnerId, routeHeader.RouteDate.Value, true, false);
         }
 
-        public void UpdateExistingJobFromReinstateJob(Job fileJob, ReinstateJob existingJob, RouteHeader routeHeader, bool isJobReplanned)
-        {
-            var j = new Job
-            {
-                Id = existingJob.JobId,
-                GrnNumber = existingJob.GrnNumber,
-                RoyaltyCode = existingJob.RoyaltyCode,
-                StopId = existingJob.StopId,
-                PhAccount = existingJob.PhAccount,
-                PickListRef = existingJob.PickListRef,
-                WellStatus = existingJob.WellStatus,
-                JobStatus = existingJob.JobStatus,
-                ResolutionStatus = existingJob.ResolutionStatus,
-                JobTypeCode = existingJob.JobTypeCode
-            };
-
-
-            this.UpdateExistingJob(fileJob, 
-                j, 
-                existingJob.BranchId,
-                existingJob.RouteDate, 
-                true, false, job => this.jobRepository.UpdateReinstateJob(job));
-        }
-
-        private void UpdateExistingJob(Job fileJob, 
-            Job existingJob, 
-            int branchId, 
-            DateTime routeDate, 
-            bool createEvents, 
-            bool includePodBypass,
-            Action<Job> updateJob)
+        //TODO: Need more tests around this
+        public virtual void UpdateExistingJob(Job fileJob, Job existingJob, int branchId, DateTime routeDate,bool createEvents, bool includePodBypass)
         {
             this.epodImportMapper.MapJob(fileJob, existingJob);
 
             this.jobService.DetermineStatus(existingJob, branchId);
 
             if (createEvents && existingJob.IsGrnNumberRequired &&
-                !exceptionEventRepository.GrnEventCreatedForJob(existingJob.Id.ToString()))
+                !exceptionEventRepository.IsGrnEventCreatedForJob(existingJob.Id.ToString()))
             {
-                var grnEvent = new GrnEvent { Id = existingJob.Id, BranchId = branchId };
+                var grnEvent = new GrnEvent {Id = existingJob.Id, BranchId = branchId};
 
                 this.exceptionEventRepository.InsertGrnEvent(grnEvent,
                     dateThresholdService.GracePeriodEnd(routeDate, branchId, existingJob.GetRoyaltyCode()),
@@ -145,20 +116,14 @@
             // bypass epod file is transmitted after the replan file...
             this.lineItemActionRepository.DeleteAllLineItemActionsForJob(existingJob.Id);
 
-            updateJob(existingJob);
+            this.jobRepository.Update(existingJob);
             this.jobRepository.SaveJobResolutionStatus(existingJob);
-        }
-
-        //TODO: Need more tests around this
-        public void UpdateExistingJob(Job fileJob, Job existingJob, int branchId, DateTime routeDate,bool createEvents, bool includePodBypass)
-        {
-            this.UpdateExistingJob(fileJob, existingJob, branchId, routeDate, createEvents, includePodBypass, j => this.jobRepository.Update(existingJob));
         }
 
         private void ProcessGlobalUplift(Job fileJob, Job existingJob, int branchId, bool createEvents)
         {
             if (createEvents && existingJob.JobTypeCode == "UPL-GLO" && existingJob.JobStatus != JobStatus.Bypassed &&
-                            !exceptionEventRepository.GlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
+                            !exceptionEventRepository.IsGlobalUpliftEventCreatedForJob(existingJob.Id.ToString()))
             {
                 var globalJobDetail = fileJob.JobDetails.FirstOrDefault();
 
@@ -268,13 +233,13 @@
             RunPostInvoicedProcessing(jobIds);
         }
 
-        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Tuple<int, int>> existingJobIdsBothSources, IList<Stop> completedStops)
+        public IList<Job> GetJobsToBeDeleted(IList<JobStop> existingRouteJobIdAndStopId, IList<Job> existingJobsBothSources, IList<Stop> completedStops)
         {
             // For Epod files only delete the jobs for the stops
-            var currentStops = existingJobIdsBothSources.Select(s => s.Item2).Distinct();
+            var currentStops = existingJobsBothSources.Select(s => s.StopId).Distinct();
             var existingJobIdsForStops = existingRouteJobIdAndStopId.Where(x => currentStops.Contains(x.StopId));
             var jobIdsToBeDeleted = GetJobsIdsToBeDeleted(existingJobIdsForStops.Select(x => x.JobId),
-                existingJobIdsBothSources.Select(x => x.Item1));
+                existingJobsBothSources.Select(x => x.Id));
 
             return jobRepository.GetByIds(jobIdsToBeDeleted).Where(j => !completedStops.Select(s => s.Id).Contains(j.StopId)).ToList();
         }
@@ -319,9 +284,12 @@
                     this.jobRepository.SaveJobResolutionStatus(job);
 
                     jobs.Add(job);
+                }
 
-                    // Compute well status for jobs
-                    jobService.ComputeWellStatus(job);
+                // Compute well status for jobs
+                foreach (var jobId in updatedJobIds)
+                {
+                    jobService.ComputeWellStatus(jobId);
                 }
             }
 

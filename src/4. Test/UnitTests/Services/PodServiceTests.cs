@@ -41,14 +41,14 @@
                 var branchId = 2;
                 var date = DateTime.Now;
 
-                this.exceptionRepository.Setup(x => x.PodEventCreatedForJob(It.IsAny<string>())).Returns(false);
+                this.exceptionRepository.Setup(x => x.IsPodEventCreatedForJob(It.IsAny<string>())).Returns(false);
                 this.exceptionRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 this.dateThresholdService.Setup(
                     x => x.GracePeriodEnd(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>())).Returns(DateTime.Now);
 
                 this.service.CreatePodEvent(job, branchId, date);
 
-                this.exceptionRepository.Verify(x => x.PodEventCreatedForJob(It.IsAny<string>()), Times.Once);
+                this.exceptionRepository.Verify(x => x.IsPodEventCreatedForJob(It.IsAny<string>()), Times.Once);
                 this.exceptionRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once);
             }
 
@@ -59,14 +59,14 @@
                 var branchId = 2;
                 var date = DateTime.Now;
 
-                this.exceptionRepository.Setup(x => x.PodEventCreatedForJob(It.IsAny<string>())).Returns(true);
+                this.exceptionRepository.Setup(x => x.IsPodEventCreatedForJob(It.IsAny<string>())).Returns(true);
                 this.exceptionRepository.Setup(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()));
                 this.dateThresholdService.Setup(
                     x => x.GracePeriodEnd(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>())).Returns(DateTime.Now);
 
                 this.service.CreatePodEvent(job, branchId, date);
 
-                this.exceptionRepository.Verify(x => x.PodEventCreatedForJob(It.IsAny<string>()), Times.Once);
+                this.exceptionRepository.Verify(x => x.IsPodEventCreatedForJob(It.IsAny<string>()), Times.Once);
                 this.exceptionRepository.Verify(x => x.InsertPodEvent(It.IsAny<PodEvent>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
             }
         }

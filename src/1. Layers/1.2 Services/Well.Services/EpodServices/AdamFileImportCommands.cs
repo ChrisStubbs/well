@@ -62,13 +62,28 @@
                     Id = existingJob.JobId,
                     GrnNumber = existingJob.GrnNumber,
                     RoyaltyCode = existingJob.RoyaltyCode,
-                    ResolutionStatus = existingJob.ResolutionStatus,
+                    ResolutionStatus = ResolutionStatus.DriverCompleted,
                     StopId = existingJob.StopId,
                     PhAccount = existingJob.PhAccount,
                     PickListRef = existingJob.PickListRef,
                     JobTypeCode = existingJob.JobTypeCode,
                     WellStatus = existingJob.WellStatus,
-                    JobStatus = existingJob.JobStatus
+                    JobStatus = existingJob.JobStatus,
+
+                    Sequence = existingJob.Sequence,
+                    CustomerRef = existingJob.CustomerRef,
+                    OrdOuters = existingJob.OrdOuters,
+                    InvOuters = existingJob.InvOuters,
+                    Cod = existingJob.Cod,
+                    JobByPassReason = existingJob.Reason,
+                    OuterCount = existingJob.OuterCount,
+                    TotalOutersOver = existingJob.TotalOutersOver,
+                    DetailOutersOver = existingJob.DetailOutersOver,
+                    Picked = existingJob.Picked,
+                    TotalOutersShort = existingJob.TotalOutersShort,
+                    PerformanceStatus = (PerformanceStatus)existingJob.PerformanceStatusId,
+                    ProofOfDelivery = existingJob.ProofOfDelivery,
+                    InvoiceNumber = existingJob.InvoiceNumber
                 }, routeHeader, isJobReplanned);
         }
 

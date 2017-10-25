@@ -16,7 +16,10 @@
 	@AllowSoCrd BIT,
 	@Cod VARCHAR(50),
 	@AllowReOrd BIT,
-	@TotalOutersShort INT
+	@TotalOutersShort INT,
+	@DetailOutersOver Int,
+	@TotalOutersOver Int,
+	@OuterCount Int
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -40,7 +43,10 @@ BEGIN
 		AllowSOCRD = @AllowSoCrd,
 		Cod = @Cod,
 		AllowReOrd = @AllowReOrd,
-		TotalOutersShort = @TotalOutersShort
+		TotalOutersShort = @TotalOutersShort,
+		DetailOutersOver = @DetailOutersOver,
+		TotalOutersOver = @TotalOutersOver,
+		OuterCount = @OuterCount
 	WHERE
 		Id = @Id
 END

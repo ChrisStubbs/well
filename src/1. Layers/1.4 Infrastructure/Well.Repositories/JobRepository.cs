@@ -52,6 +52,9 @@ namespace PH.Well.Repositories
                 .AddParameter("Cod", entity.Cod, DbType.String)
                 .AddParameter("AllowReOrd", entity.AllowReOrd, DbType.Boolean)
                 .AddParameter("TotalOutersShort", entity.TotalOutersShort, DbType.Int32)
+                .AddParameter("DetailOutersOver", entity.TotalOutersOver, DbType.Int32)
+                .AddParameter("TotalOutersOver", entity.TotalOutersOver, DbType.Int32)
+                .AddParameter("OuterCount", entity.OuterCount, DbType.Int32)
                 .Execute();
         }
 

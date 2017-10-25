@@ -226,10 +226,17 @@ namespace PH.Well.Domain
             get
             {
                 var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "ALLOWSOCRD");
-
+                
                 if (attribute != null)
                 {
                     return attribute.Value != "N";
+                }
+
+                var value = this.EntityAttributeValues.FirstOrDefault(x => x.EntityAttribute.Code == "ALLOWSOCRD");
+
+                if (value != null)
+                {
+                    return value.Value != "N";
                 }
 
                 return false;

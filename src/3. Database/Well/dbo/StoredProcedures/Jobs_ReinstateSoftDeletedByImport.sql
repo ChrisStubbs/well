@@ -18,7 +18,21 @@ AS
 		j.RoyaltyCode,
 		rh.RouteOwnerId AS BranchId,
 		rh.RouteDate,
-        j.ResolutionStatusId
+        j.ResolutionStatusId,
+		j.[Sequence],
+		j.CustomerRef,
+		j.OrdOuters,
+		j.InvOuters,
+		j.Cod,
+		j.Reason,
+		j.OuterCount,
+		j.TotalOutersOver,
+		j.DetailOutersOver,
+		j.Picked,
+		j.TotalOutersShort,
+		j.PerformanceStatusId, 
+		j.ProofOfDelivery,
+		j.InvoiceNumber
 	INTO #JobIds
 	FROM 
 		Job j
@@ -120,7 +134,21 @@ AS
 		j.RoyaltyCode,
 		j.BranchId,
 		j.RouteDate,
-        j.ResolutionStatusId
+        j.ResolutionStatusId,
+		j.[Sequence],
+		j.CustomerRef,
+		j.OrdOuters,
+		j.InvOuters,
+		j.Cod,
+		j.Reason,
+		j.OuterCount,
+		j.TotalOutersOver,
+		j.DetailOutersOver,
+		j.Picked,
+		j.TotalOutersShort,
+		j.PerformanceStatusId, 
+		j.ProofOfDelivery,
+		j.InvoiceNumber
 	FROM #JobIds j
 
 	IF OBJECT_ID('tempdb..#JobIds') IS NOT NULL 

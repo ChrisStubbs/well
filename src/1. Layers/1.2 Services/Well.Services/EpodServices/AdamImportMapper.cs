@@ -43,7 +43,7 @@
             destination.PickListRef = source.PickListRef;
             destination.InvoiceNumber = source.InvoiceNumber;
             destination.CustomerRef = source.CustomerRef;
-            destination.PerformanceStatus = PerformanceStatus.Notdef;
+            destination.PerformanceStatus = PerformanceStatus.Compl;
             destination.Picked = source.Picked;
             destination.OrdOuters = source.OrdOuters;
             destination.InvOuters = source.InvOuters;
@@ -51,6 +51,9 @@
             destination.Cod = source.Cod;
             destination.AllowReOrd = source.AllowReOrd;
             destination.TotalOutersShort = source.TotalOutersShort;
+            destination.Picked = source.Picked;
+            destination.AllowSoCrd = source.AllowSoCrd;
+            destination.JobByPassReason = source.JobByPassReason;
         }
 
         public void MapJobDetail(JobDetail source, JobDetail destination)

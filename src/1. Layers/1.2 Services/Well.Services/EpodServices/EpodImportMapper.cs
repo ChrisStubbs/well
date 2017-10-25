@@ -27,7 +27,9 @@
             destination.TotalOutersShort = source.TotalOutersShort;
             destination.DetailOutersOverUpdate = source.DetailOutersOver;
             destination.DetailOutersShortUpdate = source.DetailOutersShort;
-           
+            destination.Picked = source.Picked;
+            destination.AllowSoCrd = source.AllowSoCrd;
+            destination.JobByPassReason = source.JobByPassReason;
         }
 
         public void MergeRouteHeader(RouteHeader fileRouteHeader, RouteHeader dbRouteHeader)

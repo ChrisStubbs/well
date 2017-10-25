@@ -79,13 +79,14 @@
                 var ts = stopWatch.Elapsed;
 
                 var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
                 // Abort if a file called stop.txt exists in exe folder
                 if (File.Exists("stop.txt"))
                 {
+                    this.logger.LogDebug("the process will stop because it was requested by stop.txt");
                     File.Delete("stop.txt");
                     return;
                 }
-                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }
 
@@ -136,6 +137,7 @@
                 case EpodFileType.Epod:
                     this.HandleEpod(importFile.FullName, filename, config);
                     break;
+
                 case EpodFileType.Clean:
                     this.HandleClean(importFile.FullName);
                     break;
@@ -190,7 +192,7 @@
 
                     this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
-                    this.adamUpdateService.Update(routes,config);
+                    this.adamUpdateService.Update(routes, config);
                 }
             }
             catch (Exception exception)

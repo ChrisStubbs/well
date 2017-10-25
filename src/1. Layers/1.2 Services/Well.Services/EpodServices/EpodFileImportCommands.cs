@@ -89,10 +89,23 @@
                 PickListRef = existingJob.PickListRef,
                 WellStatus = existingJob.WellStatus,
                 JobStatus = existingJob.JobStatus,
-                ResolutionStatus = existingJob.ResolutionStatus,
-                JobTypeCode = existingJob.JobTypeCode
+                ResolutionStatus = ResolutionStatus.DriverCompleted,
+                JobTypeCode = existingJob.JobTypeCode,
+                Sequence = existingJob.Sequence,
+                CustomerRef = existingJob.CustomerRef,
+                OrdOuters = existingJob.OrdOuters,
+                InvOuters = existingJob.InvOuters,
+                Cod = existingJob.Cod,
+                JobByPassReason = existingJob.Reason,
+                OuterCount = existingJob.OuterCount,
+                TotalOutersOver = existingJob.TotalOutersOver,
+                DetailOutersOver = existingJob.DetailOutersOver,
+                Picked = existingJob.Picked,
+                TotalOutersShort = existingJob.TotalOutersShort,
+                PerformanceStatus = (PerformanceStatus)existingJob.PerformanceStatusId, 
+                ProofOfDelivery = existingJob.ProofOfDelivery,
+                InvoiceNumber = existingJob.InvoiceNumber
             };
-
 
             this.UpdateExistingJob(fileJob, 
                 j, 
@@ -319,9 +332,12 @@
                     this.jobRepository.SaveJobResolutionStatus(job);
 
                     jobs.Add(job);
+                }
 
-                    // Compute well status for jobs
-                    jobService.ComputeWellStatus(job);
+                // Compute well status for jobs
+                foreach (var jobId in updatedJobIds)
+                {
+                    jobService.ComputeWellStatus(jobId);
                 }
             }
 

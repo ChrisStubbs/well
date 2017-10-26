@@ -4,7 +4,7 @@
 
     public interface IEpodImportService
     {
-        void Import(RouteDelivery route, string fileName);
-        void ImportRouteHeader(RouteHeader header, string fileName);
+        void Import(RouteDelivery route, string fileName, out bool hasErrors);
+        bool TryImportRouteHeader(RouteHeader header, string fileName);
     }
 }

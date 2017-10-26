@@ -20,11 +20,9 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage SetGrn(SetGrnModel input)
+        public bool SetGrn(SetGrnModel input)
         {
-            _jobService.SetGrn(input.Id, input.Grn);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return _jobService.SetGrn(input.Id, input.Grn);
         }
     }
 }

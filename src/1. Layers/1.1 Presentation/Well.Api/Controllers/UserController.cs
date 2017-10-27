@@ -148,7 +148,7 @@ namespace PH.Well.Api.Controllers
                 return null;
             }
 
-            return this.Save($"{usr.Domain}\\{usr.Name.Replace(' ', '.')}");
+            return this.Save(usr.IdentityName);
         }
 
         [Route("assign-user-to-jobs")]

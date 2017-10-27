@@ -40,17 +40,30 @@
 
         public class TheGetUserMethod : ActiveDirectoryServiceTests
         {
-            /*[Test]
+            [Test, Explicit]
             public void ShouldReturnTheUserFromActiveDirectoryByTheIdentityName()
             {
-                var identityName = "palmerharvey\\fiona.pond";
+                //var identityName = "palmerharvey\\fiona.pond";
+                var identityName = "PALMERHARVEY\\Kenny.OpemipoOke";
 
                 var user = this.service.GetUser(identityName);
 
                 Assert.IsNotNull(user);
 
+                Assert.That(user.Name, Is.EqualTo("Kenny Opemipo Oke"));
+            }
+
+            [Test,Explicit]
+            public void ShouldReturnTheUserFromActiveDirectoryByFirstNameAndSurname()
+            {
+                var identityName = "palmerharvey\\fiona.pond";
+              
+                var user = this.service.GetUser(identityName);
+
+                Assert.IsNotNull(user);
+
                 Assert.That(user.Name, Is.EqualTo("Fiona Pond"));
-            }*/
+            }
         }
     }
 }

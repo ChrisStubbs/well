@@ -1,21 +1,12 @@
 $MsBuild = ${env:ProgramFiles(x86)} + "\MSBuild\14.0\Bin\MSBuild.exe";   
-[string]$currentDir = Get-Location
+
+#get the script path
+$currentDir = [string]$PSCommandPath
+$currentDir = $currentDir -replace "\\BuildSolution.ps1", ""
+
 $SlnFilePath = $currentDir + "\Well.All.sln";  
 $Configuration = "Debug"
 $nuget = $currentDir + "\..\bin\nuget\nuget.exe"
-$roundhouseDir = (Join-Path $currentDir "3. Database\Well\ManualStep\")
-$roundhouseExe = (Join-Path $roundhouseDir "roundhouse.0.8.6\bin\rh.exe")
-$baseSqlPackagePath = "${Env:ProgramFiles(x86)}\Microsoft SQL Server\"
-
-if (Test-Path  ($baseSqlPackagePath + "\120\DAC\bin\SqlPackage.exe"))
-{
-	$sqlPackageDir = (Join-Path $baseSqlPackagePath "\120\DAC\bin")
-}
-elseif (Test-Path  ($baseSqlPackagePath + "\110\DAC\bin\SqlPackage.exe"))
-{
-	$sqlPackageDir = (Join-Path $baseSqlPackagePath "\110\DAC\bin")
-}
-$sqlPackageExe = (Join-Path $sqlPackageDir "SqlPackage.exe")
 
 Write-Host "Pull lastes sources"
 $BuildArgs = @{
@@ -36,11 +27,9 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"       
 }                        
 Start-Process @BuildArgs      
-			
-# Display Progress            
+			     
 Write-Host "Well Clean"   
 
-# Display Progress            
 Write-Host "Restore nuget packages"
      
 $BuildArgs = @{
@@ -50,18 +39,16 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"       
 }                        
 Start-Process @BuildArgs     
-
-# Display Progress            
+      
 Write-Host "Packages restored"  
 
-# Display Progress            
 Write-Host "Build Solution"  
 
 # Prepare the Args for the actual build            
 $BuildArgs = @{            
 	FilePath = $MsBuild            
 	ArgumentList = $SlnFilePath, "/t:rebuild", ("/p:Configuration=" + $Configuration), "/v:minimal" 
-	Wait = $true            
+	#Wait = $true            
 	#WindowStyle = "Hidden"            
 }            
 
@@ -70,32 +57,60 @@ Start-Process @BuildArgs
    
 Write-Host "Well built"
 
-#########################
-
-# Display Progress            
 Write-Host "Run webpack"
      
 $BuildArgs = @{
 	FilePath = "npm"            
 	ArgumentList = "run", "buildProduction"                    
-	Wait = $true    
+	#Wait = $true    
 	#WindowStyle = "Hidden"  
 	WorkingDirectory = $currentDir + "\1. Layers\1.1 Presentation\Well.Dashboard"
 }                        
 Start-Process @BuildArgs     
 
-# Display Progress            
 Write-Host "Webpack ran"  
 
-#########################
+$databaseName = "Well"
+$machineName = "."
+$sqlInstanceName = "SQLSERVER2014"
+$roundhouseDir = (Join-Path $currentDir "3. Database\Well\ManualStep\")
+$roundhouseExe = (Join-Path $roundhouseDir "roundhouse.0.8.6\bin\rh.exe")
+$baseSqlPackagePath = "${Env:ProgramFiles(x86)}\Microsoft SQL Server\"
 
-# Display Progress            
-Write-Host "Publish Database"  
-Write-Host "Run the roundhouse scripts" 
+if (Test-Path  ($baseSqlPackagePath + "\120\DAC\bin\SqlPackage.exe"))
+{
+	$sqlPackageDir = (Join-Path $baseSqlPackagePath "\120\DAC\bin")
+}
+elseif (Test-Path  ($baseSqlPackagePath + "\110\DAC\bin\SqlPackage.exe"))
+{
+	$sqlPackageDir = (Join-Path $baseSqlPackagePath "\110\DAC\bin")
+}
+
+$sqlPackageExe = (Join-Path $sqlPackageDir "SqlPackage.exe")
+$publishSettingsPath = (Join-Path $currentDir "3. Database\Well\Well.xml")
+$dacpac = (Join-Path $currentDir "3. Database\Well\bin\debug\Well.dacpac")
+
+Write-Host $databaseName
+Write-Host $machineName
+Write-Host $sqlInstanceName
+Write-Host $roundhouseDir
+Write-Host $roundhouseExe
+Write-Host $baseSqlPackagePath
+Write-Host $sqlPackageDir
+Write-Host $sqlPackageExe
+Write-Host $publishSettingsPath
+Write-Host $dacpac
+
+Write-Host "Run the roundhouse scripts - Ignore erros if you don't hsave a Well DataBase" 
 Set-Location $roundhouseDir
-& $roundhouseExe /d="Well" /f=scripts /s=".\sqlserver2014" --dnc=true --silent=true
+& $roundhouseExe /d=$databaseName /f=scripts /s=$machineName\$sqlInstanceName --dnc=true --silent=true
+Write-Host "Roundhouse scripts ran"
 
-Write-Host "Run the deployment tool"
+Write-Host "Publish Database"  
 Set-Location $sqlPackageDir
 & $sqlPackageExe /Profile:$publishSettingsPath /TargetDatabaseName:$databaseName /TargetServername:$machineName\$sqlInstanceName /Action:Publish /SourceFile:"$dacpac" | Write-Host
 
+Write-Host "Database Published" 
+
+Write-Host "Done. Press any key to finish"  
+Read-Host

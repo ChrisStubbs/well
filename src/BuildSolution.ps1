@@ -1,4 +1,4 @@
-$MsBuild = ${env:ProgramFiles(x86)} + "\MSBuild\14.0\Bin\MSBuild.exe";   
+$MsBuild = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe";   
 
 #get the script path
 $currentDir = [string]$PSCommandPath

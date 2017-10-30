@@ -146,7 +146,12 @@ namespace PH.Well.UnitTests.Api.Controllers
                 var firstName = "A";
                 var lastName = "User";
                 var userName = $"{firstName} {lastName}";
-                var usr = new User { Name = userName, Domain = "Domain" };
+                var usr = new User
+                {
+                    Name = userName,
+                    Domain = "Domain",
+                    IdentityName = $"Domain\\{firstName}.{lastName}"
+                };
                 var resultUsers = new List<User> { usr };
 
                 //Domain\A.User

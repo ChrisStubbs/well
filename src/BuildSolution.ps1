@@ -27,11 +27,9 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"       
 }                        
 Start-Process @BuildArgs      
-			
-# Display Progress            
+			     
 Write-Host "Well Clean"   
 
-# Display Progress            
 Write-Host "Restore nuget packages"
      
 $BuildArgs = @{
@@ -41,11 +39,9 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"       
 }                        
 Start-Process @BuildArgs     
-
-# Display Progress            
+      
 Write-Host "Packages restored"  
 
-# Display Progress            
 Write-Host "Build Solution"  
 
 # Prepare the Args for the actual build            
@@ -61,9 +57,6 @@ Start-Process @BuildArgs
    
 Write-Host "Well built"
 
-#########################
-
-# Display Progress            
 Write-Host "Run webpack"
      
 $BuildArgs = @{
@@ -75,10 +68,7 @@ $BuildArgs = @{
 }                        
 Start-Process @BuildArgs     
 
-# Display Progress            
 Write-Host "Webpack ran"  
-
-# Display Progress            
 
 $databaseName = "Well"
 $machineName = "."
@@ -111,13 +101,16 @@ Write-Host $sqlPackageExe
 Write-Host $publishSettingsPath
 Write-Host $dacpac
 
-Write-Host "Run the roundhouse scripts" 
+Write-Host "Run the roundhouse scripts - Ignore erros if you don't hsave a Well DataBase" 
 Set-Location $roundhouseDir
 & $roundhouseExe /d=$databaseName /f=scripts /s=$machineName\$sqlInstanceName --dnc=true --silent=true
+Write-Host "Roundhouse scripts ran"
 
 Write-Host "Publish Database"  
 Set-Location $sqlPackageDir
 & $sqlPackageExe /Profile:$publishSettingsPath /TargetDatabaseName:$databaseName /TargetServername:$machineName\$sqlInstanceName /Action:Publish /SourceFile:"$dacpac" | Write-Host
+
+Write-Host "Database Published" 
 
 Write-Host "Done. Press any key to finish"  
 Read-Host

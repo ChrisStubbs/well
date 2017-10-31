@@ -223,5 +223,7 @@ namespace PH.Well.Repositories
         public const string CleanPreferenceDelete = "CleanPreferenceDelete";
 
         public const string UpdateStatistics = "sp_updatestats";
+
+        public const string ImportedFileNameCount = "Routes_FileNameCount";
     }
 }

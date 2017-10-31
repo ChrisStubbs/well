@@ -3,6 +3,7 @@ using PH.Well.Domain.Enums;
 
 namespace PH.Well.UnitTests.ACL.AdamListener
 {
+    using System.IO;
     using Moq;
     using NUnit.Framework;
     using Repositories.Contracts;
@@ -26,7 +27,8 @@ namespace PH.Well.UnitTests.ACL.AdamListener
         private FileMonitorService fileMonitorService;
         private Mock<IEpodFileProvider> epodProvider;
         private Mock<IWellCleanUpService> wellCleanUpService;
-
+        private Mock<IImportedFileRepository> importedFileRepository;
+        private Mock<IAdamFileMonitorServiceConfig> adamFileMonitorServiceConfig;
         [SetUp]
         public void SetUp()
         {
@@ -40,6 +42,8 @@ namespace PH.Well.UnitTests.ACL.AdamListener
             routeHeaderRepository = new Mock<IRouteHeaderRepository>();
             epodProvider = new Mock<IEpodFileProvider>();
             wellCleanUpService = new Mock<IWellCleanUpService>();
+            importedFileRepository = new Mock<IImportedFileRepository>();
+            adamFileMonitorServiceConfig = new Mock<IAdamFileMonitorServiceConfig>();
 
             fileMonitorService = new FileMonitorService(
                 logger.Object,
@@ -51,7 +55,8 @@ namespace PH.Well.UnitTests.ACL.AdamListener
                 adamUpdateService.Object,
                 routeHeaderRepository.Object,
                 epodProvider.Object,
-                wellCleanUpService.Object);
+                wellCleanUpService.Object,
+                importedFileRepository.Object);
         }
 
         public class TheIsRouteOrOrderFileMethod : FileMonitorServiceTests
@@ -102,6 +107,26 @@ namespace PH.Well.UnitTests.ACL.AdamListener
 
             Assert.AreEqual(expectedEpodFileTime, epodFileStamp);
         }
-        
+
+        public class TheProcessMethod : FileMonitorServiceTests
+        {
+            [Test]
+            public void ShouldNotProcessFileIfExists()
+            {
+                const string fullFileName = "C:\\ePOD__20171031_164300";
+                const string fileName = "ePOD__20171031_164300";
+                var fileInfo = new FileMonitorService.ImportFileInfo(fullFileName, fileName, DateTime.Now, DateTime.Now);
+                importedFileRepository.Setup(x => x.HasFileAlreadyBeenImported(fileName)).Returns(true);
+                fileModule.Setup(x => x.MoveFile(fullFileName, $"C:\\temp\\20171031\\Failures"));
+                adamFileMonitorServiceConfig.Setup(x => x.ArchiveFolder).Returns("C:\\temp");
+
+                fileMonitorService.Process(fileInfo, adamFileMonitorServiceConfig.Object);
+
+                logger.Verify(x => x.LogDebug($"{fileName} ignored as already in system !"), Times.Once);
+                fileModule.Verify(x => x.MoveFile(fullFileName, $"C:\\temp\\20171031\\Failures") , Times.Once);
+            }
+        }
+
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,7 +11,10 @@ using PH.Well.Domain.Enums;
 using PH.Well.Domain.ValueObjects;
 using PH.Well.Repositories.Contracts;
 using PH.Well.Services.Contracts;
+using ExceptionType = PH.Well.Domain.Enums.ExceptionType;
+using JobResolutionStatus = PH.Well.Domain.JobResolutionStatus;
 using Notification = PH.Well.Domain.Notification;
+using ResolutionStatus = PH.Well.Domain.Enums.ResolutionStatus;
 using RouteHeader = PH.Well.Domain.RouteHeader;
 using WellStatus = PH.Well.Domain.Enums.WellStatus;
 
@@ -118,45 +122,45 @@ namespace PH.Well.Services
 
         public void UpdateRouteStatistics(int branchId)
         {
-            var exceptionTotalsDictionary = wellEntities.ExceptionTotalsPerRoute(branchId).ToDictionary(x => x.Routeid);
+            var routes = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).ToList();
+            var noGRNButNeeds = wellEntities.RoutesWithNoGRNView.Where(p => p.BranchId== branchId).ToDictionary(x=> x.Id);
+            var hasNotDefinedDeliveryAction = wellEntities.RoutesWithUnresolvedActionView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
+            var pendingSubmission = wellEntities.RoutesWithPendingSubmitionsView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
 
-            var routesTask = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).ToList();
-            var noGRNButNeedsTask = wellEntities.RoutesWithNoGRNView.Where(p => p.BranchId== branchId).ToDictionary(x=> x.Id);
-            var hasNotDefinedDeliveryActionTask = wellEntities.RoutesWithUnresolvedActionView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
-            var pendingSubmissionTask = wellEntities.RoutesWithPendingSubmitionsView.Where(p => p.BranchId == branchId).ToDictionary(x => x.Id);
-
-
-            foreach (var routeHeader in routesTask)
+            var routesExceptionsCount = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).Select(x => new
             {
-                routeHeader.NoGRNButNeeds = noGRNButNeedsTask.ContainsKey(routeHeader.Id)
-                    ? noGRNButNeedsTask[routeHeader.Id].NoGRNButNeeds.GetValueOrDefault()
+                x.Id,
+                ExceptionCount =
+                (byte) x.Stop.Count(s => s.Job.Where(j => j.ResolutionStatusId > 1)
+                    .Any(j => j.LineItem.Any(
+                        l => l.LineItemAction.Any(la => la.ExceptionTypeId != (int) ExceptionType.Uplifted)))),
+
+                CleanCount =
+                (byte) x.Stop.Count(s => s.Job.Where(j => j.ResolutionStatusId > 1)
+                    .All(j => j.LineItem.All(
+                        l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))
+            }).ToDictionary(x => x.Id);
+
+            foreach (var routeHeader in routes)
+            {
+                routeHeader.NoGRNButNeeds = noGRNButNeeds.ContainsKey(routeHeader.Id)
+                    ? noGRNButNeeds[routeHeader.Id].NoGRNButNeeds.GetValueOrDefault()
                     : false;
+
 
                 routeHeader.HasNotDefinedDeliveryAction =
-                    hasNotDefinedDeliveryActionTask.ContainsKey(routeHeader.Id)
-                        ? hasNotDefinedDeliveryActionTask[routeHeader.Id].HasNotDefinedDeliveryAction
-                            .GetValueOrDefault()
+                    hasNotDefinedDeliveryAction.ContainsKey(routeHeader.Id)
+                        ? hasNotDefinedDeliveryAction[routeHeader.Id].HasNotDefinedDeliveryAction.GetValueOrDefault()
                         : false;
 
-                routeHeader.PendingSubmission = pendingSubmissionTask.ContainsKey(routeHeader.Id)
-                    ? pendingSubmissionTask[routeHeader.Id].PendingSubmission.GetValueOrDefault()
+                routeHeader.PendingSubmission = pendingSubmission.ContainsKey(routeHeader.Id)
+                    ? pendingSubmission[routeHeader.Id].PendingSubmission.GetValueOrDefault()
                     : false;
 
-                var exceptionTotals = exceptionTotalsDictionary.ContainsKey(routeHeader.Id)
-                    ? exceptionTotalsDictionary[routeHeader.Id]
-                    : null;
+                var routeExceptions = routesExceptionsCount[routeHeader.Id];
 
-                if (exceptionTotals != null)
-                {
-                    routeHeader.ExceptionCount = (byte) exceptionTotals.WithExceptions.GetValueOrDefault();
-                    routeHeader.CleanCount = (byte) exceptionTotals.WithOutExceptions.GetValueOrDefault();
-                }
-                else
-                {
-                    routeHeader.ExceptionCount = 0;
-                    routeHeader.CleanCount = 0;
-                }
-
+                routeHeader.ExceptionCount = routeExceptions.ExceptionCount;
+                routeHeader.CleanCount = routeExceptions.CleanCount;
             }
 
             // Update routes

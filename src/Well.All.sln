@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.Statistics", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.UatFileCopy", "1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts\PH.Well.Task.UatFileCopy\PH.Well.Task.UatFileCopy.csproj", "{59E9123E-9395-46E8-8DD8-CB9A41D0FF72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PH.Well.Task.GlobalUplifts.EpodFiles", "1. Layers\1.5 ACL\PH.Well.Task.GlobalUplifts.EpodFiles\PH.Well.Task.GlobalUplifts.EpodFiles.csproj", "{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{59E9123E-9395-46E8-8DD8-CB9A41D0FF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59E9123E-9395-46E8-8DD8-CB9A41D0FF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59E9123E-9395-46E8-8DD8-CB9A41D0FF72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,6 +162,7 @@ Global
 		{5939F34D-80EC-499B-943D-E4D9061078AE} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{C5795A27-DCA6-45F2-BA00-F215EB0DD101} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 		{59E9123E-9395-46E8-8DD8-CB9A41D0FF72} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
+		{8ACACC4C-381C-4486-B7D9-4DFC0EE82E45} = {D31061EB-F6E4-48A8-84D5-E8020F13AB11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35CAFF4F-5E7C-48F5-9F52-1113EDA4D391}

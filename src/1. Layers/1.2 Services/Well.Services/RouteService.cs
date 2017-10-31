@@ -141,21 +141,6 @@ namespace PH.Well.Services
                         l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))
             }).ToDictionary(x => x.Id);
 
-            //// Not sure if its right place to define this
-            //var unresolvedJobResolutionStatusesIds = new[]
-            //{
-            //    ResolutionStatus.ActionRequired.Value,
-            //    ResolutionStatus.PendingSubmission.Value,
-            //    ResolutionStatus.PendingApproval.Value
-            //};
-
-            //var outstandingRoutes = wellEntities.RouteHeader.Where(x => x.Branch.Id == branchId).Select(x => new
-            //{
-            //    x.Id,
-            //    HasNotDefinedDeliveryAction =
-            //    x.Stop.Any(s => s.Job.Any(j => unresolvedJobResolutionStatusesIds.Contains((int)j.ResolutionStatusId)))
-            //}).ToDictionary(x => x.Id);
-
             foreach (var routeHeader in routes)
             {
                 routeHeader.NoGRNButNeeds = noGRNButNeeds.ContainsKey(routeHeader.Id)

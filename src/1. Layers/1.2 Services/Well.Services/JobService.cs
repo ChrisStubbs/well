@@ -190,7 +190,7 @@ namespace PH.Well.Services
                 StringComparison.OrdinalIgnoreCase);
         }
 
-        public void SetGrn(int jobId, string grn)
+        public bool SetGrn(int jobId, string grn)
         {
             var job = GetJobsWithRoute(new[] { jobId }).FirstOrDefault();
             if (job != null)
@@ -201,14 +201,15 @@ namespace PH.Well.Services
                                                     jobRoute.BranchId,
                                                     job.GetRoyaltyCode());
 
-                if (earliestSubmitDate < DateTime.Now)
+                if (earliestSubmitDate < DateTime.Now && !string.IsNullOrEmpty(job.GrnNumber))
                 {
-                    throw new Exception("GRN can no longer be modified");
+                    return false;
                 }
 
                 jobRepository.SaveGrn(jobId, grn);
             }
 
+            return true;
         }
 
         #endregion

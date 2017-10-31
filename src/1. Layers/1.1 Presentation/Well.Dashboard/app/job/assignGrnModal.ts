@@ -1,3 +1,4 @@
+import { ToasterService }                           from 'angular2-toaster';
 import { Component, EventEmitter, Output, Input}    from '@angular/core';
 import { JobService }                               from './jobService';
 import {SecurityService}                            from '../shared/services/securityService';
@@ -21,7 +22,10 @@ export class AssignGrnModal implements IObservableAlive
     private canSubmitMissingGRN: boolean = false;
     private isVisible: boolean = false;
 
-    constructor(private jobService: JobService, private securityService: SecurityService) {}
+    constructor(
+        private jobService: JobService, 
+        private toasterService: ToasterService,
+        private securityService: SecurityService) {}
 
     public ngOnInit()
     {
@@ -42,10 +46,18 @@ export class AssignGrnModal implements IObservableAlive
     private submitGrn(): void
     {
         this.jobService.setGrnForJob(this.model.jobId, this.grnNumber)
-            .subscribe(data => {
-                this.model.grnNumber = this.grnNumber;
-                this.onGrnAssigned.emit(this.model);
-                this.close();
+            .subscribe((data: boolean) => 
+            {
+                if (data) 
+                {
+                    this.model.grnNumber = this.grnNumber;
+                    this.onGrnAssigned.emit(this.model);
+                    this.close();
+                }
+                else
+                {
+                    this.toasterService.pop('error', 'GRN can no longer be modified', '');
+                }
             });
     }
 

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.DirectoryServices.AccountManagement;
     using System.Linq;
-
+    using Common.Extensions;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Services.Contracts;
@@ -38,7 +38,7 @@
                     //try the next one 
                     continue;
                 }
-                
+
                 name = name.Trim();
 
                 var firstNameSearch = new UserPrincipal(context) { GivenName = $"{name}*" };
@@ -49,7 +49,7 @@
 
                 this.AddResult(lastNameSearch, domain, users);
             }
-            
+
             return users;
         }
 
@@ -84,8 +84,6 @@
 
             var user = this.Search(domain, firstname, surname, username);
 
-            user.IdentityName = $"{domain}\\{firstname}.{surname}";
-
             return user;
         }
 
@@ -93,26 +91,44 @@
         {
             var search = new PrincipalSearcher(userPrincipal);
 
-            foreach (var result in search.FindAll())
-            {
-                users.Add(new User { Name = result.Name, JobDescription = result.Description, Domain = domain });
-            }
+            users.AddRange(search.FindAll()
+                .Select(result => new User
+                {
+                    Name = result.Name,
+                    JobDescription = result.Description,
+                    Domain = domain,
+                    IdentityName = $"{domain}\\{result.SamAccountName}"
+                }));
         }
 
-        private User Search(string domain, string firstname, string surname, string username)
-        {
-            var context = new PrincipalContext(ContextType.Domain, domain);
 
+        private PrincipalSearcher FirstNameSurnameSearcher(PrincipalContext context, string firstname, string surname)
+        {
             var userPrincipal = new UserPrincipal(context) { GivenName = firstname };
 
             if (!string.IsNullOrWhiteSpace(surname))
             {
                 userPrincipal.Surname = surname;
             }
+            return new PrincipalSearcher(userPrincipal);
+        }
 
-            var search = new PrincipalSearcher(userPrincipal);
+        private PrincipalSearcher SamAccountNameSearcher(PrincipalContext context, string username)
+        {
+            var userPrincipal = new UserPrincipal(context) { SamAccountName = username };
+            return new PrincipalSearcher(userPrincipal);
+        }
 
-            var results = search.FindAll();
+        private User Search(string domain, string firstname, string surname, string username)
+        {
+            var context = new PrincipalContext(ContextType.Domain, domain);
+
+            var results = FirstNameSurnameSearcher(context, firstname, surname).FindAll();
+
+            if (results.Count() != 1)
+            {
+                results = SamAccountNameSearcher(context, username.StripDomain()).FindAll();
+            }
 
             if (results.Count() == 1)
             {
@@ -121,7 +137,7 @@
                 return new User
                 {
                     Name = result.Name,
-                    IdentityName = username,
+                    IdentityName = $"{domain}\\{result.SamAccountName}",
                     JobDescription = result.Description,
                     Domain = domain
                 };
@@ -134,5 +150,7 @@
 
             return null;
         }
+
+
     }
 }

@@ -17,7 +17,7 @@ import {ActivityComponent} from './activity/activityComponent';
 import {SingleLocationComponent, LocationsComponent} from './locations/locations';
 
 const routes: Routes = [
-    { path: 'well/dashboard', redirectTo: '/widgets', pathMatch: 'full' },
+    { path: 'dashboard', redirectTo: '/widgets', pathMatch: 'full' },
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },
     { path: 'unauthorised', component: UnauthorisedComponent },
     { path: 'approvals', component: ApprovalsComponent },

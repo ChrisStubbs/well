@@ -75,40 +75,16 @@ namespace PH.Well.Repositories
         public IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
             return wellEntities.ExceptionTotalsPerSingleRoute
-                            .Where(p => p.RouteId == routeHeaderId)
-                            .Select(p => new JobDetailLineItemTotals
-                            {
-                                JobId = p.JobId,
-                                RouteId = routeHeaderId,
-                                StopId = p.StopId,
-                                TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
-                                TotalClean = p.NumberOfClean.Value
-                            })
-                            .ToList();
-
-            //var jobTotals = wellEntities.Job
-            //    .Where(x => x.Stop.RouteHeader.Id == routeHeaderId && x.ResolutionStatusId > 1).Select(
-            //        j => new
-            //        {
-            //            JobId = j.Id,
-            //            RouteId = j.Stop.RouteHeader.Id,
-            //            StopId = j.Stop.Id,
-            //            TotalExceptions =
-            //            j.LineItem.Count(
-            //                l => l.LineItemAction.Any(la => la.ExceptionTypeId != (int) ExceptionType.Uplifted)),
-            //            TotalClean =
-            //            j.LineItem.Count(
-            //                l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))
-            //        }).AsEnumerable().Select(x => new JobDetailLineItemTotals
-            //    {
-            //        JobId = x.JobId,
-            //        RouteId = x.RouteId,
-            //        StopId = x.StopId,
-            //        TotalExceptions = x.TotalExceptions,
-            //        TotalClean = x.TotalClean
-            //    }).ToList();
-
-            //return jobTotals;
+                .Where(p => p.RouteId == routeHeaderId)
+                .Select(p => new JobDetailLineItemTotals
+                {
+                    JobId = p.JobId,
+                    RouteId = routeHeaderId,
+                    StopId = p.StopId,
+                    TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
+                    TotalClean = p.NumberOfClean.Value
+                })
+                .ToList();
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)

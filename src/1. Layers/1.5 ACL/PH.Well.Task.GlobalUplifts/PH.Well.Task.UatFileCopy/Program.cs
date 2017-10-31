@@ -43,10 +43,11 @@ namespace PH.Well.Task.UatFileCopy
                 StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
             var sources = ConfigurationManager.AppSettings["sources"];
             var archives = ConfigurationManager.AppSettings["archives"];
+            var target = ConfigurationManager.AppSettings["target"];
             var pause = int.Parse(ConfigurationManager.AppSettings["pause"] ?? "60000");
             try
             {
-                ProcessFiles(sources, archives, branches, pause);
+                ProcessFiles(sources, archives, target, branches, pause);
             }
             catch (Exception ex)
             {
@@ -59,9 +60,10 @@ namespace PH.Well.Task.UatFileCopy
         /// </summary>
         /// <param name="sources">Storage spec listing one or more source file locations</param>
         /// <param name="archives">Storage spec listing one or more archive folder locations</param>
+        /// <param name="target">Target folder</param>
         /// <param name="branches">LIst if branches to filter by</param>
         /// <param name="pause">Number of milliseconds to pause after scanning folder, before checking database for processed files</param>
-        private static void ProcessFiles(string sources, string archives, List<int> branches, int pause)
+        private static void ProcessFiles(string sources, string archives, string target, List<int> branches, int pause)
         {
             // Do a macro replacement for date and time
             archives = archives.Replace("{today}", $"{DateTime.Today:yyyyMMdd}");
@@ -102,7 +104,7 @@ namespace PH.Well.Task.UatFileCopy
                 }
                 else
                 {
-                    var target = "UatWellEpod:" + file.Name;
+                    var fileTarget = target + file.Name;
                     var fileInfo = Storage.GetFileInfo(target);
                     if (fileInfo == null || fileInfo.Size != file.Size)
                     {
@@ -125,7 +127,7 @@ namespace PH.Well.Task.UatFileCopy
                         if (match)
                         {
                             Console.WriteLine($"Copying from {file.FullName}");
-                            Storage.Copy(file.FullName, target);
+                            Storage.Copy(file.FullName, fileTarget);
                             fileCount++;
                         }
                     }

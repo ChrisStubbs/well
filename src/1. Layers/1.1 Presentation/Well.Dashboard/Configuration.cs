@@ -9,5 +9,9 @@
         public static string ApplicationName => ConfigurationManager.AppSettings["ApplicationName"];
 
         public static string SecurityApi => ConfigurationManager.AppSettings["SecurityApi"];
+
+        public static string ApplicationBaseHref => ConfigurationManager.AppSettings["ApplicationBaseHref"];
+
+
     }
 }

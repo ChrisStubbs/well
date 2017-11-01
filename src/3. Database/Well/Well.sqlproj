@@ -525,7 +525,7 @@
       <Name>Well-Archive</Name>
       <Project>{138b9918-8dce-47b6-861a-92634460db70}</Project>
       <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
       <DatabaseSqlCmdVariable>WellArchive</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>

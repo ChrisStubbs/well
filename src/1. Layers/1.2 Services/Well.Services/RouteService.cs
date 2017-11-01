@@ -135,10 +135,10 @@ namespace PH.Well.Services
                     .Any(j => j.LineItem.Any(
                         l => l.LineItemAction.Any(la => la.ExceptionTypeId != (int) ExceptionType.Uplifted)))),
 
-                CleanCount =
-                (byte) x.Stop.Count(s => s.Job.Where(j => j.ResolutionStatusId > 1)
-                    .All(j => j.LineItem.All(
-                        l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))
+                CleanCount = (byte) x.Stop.Where(s => s.Job.All(j => j.ResolutionStatusId > 1))
+                    .Count(s => s.Job.All(
+                        j => j.LineItem.All(
+                            l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))
             }).ToDictionary(x => x.Id);
 
             foreach (var routeHeader in routes)

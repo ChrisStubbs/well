@@ -14,7 +14,7 @@ AS
 		,Deleted.[LastUpdatedDate]
 		,Deleted.[DateDeleted]
 		,@ArchiveDate
-	INTO archive.Activity
+	INTO [$(WellArchive)].[dbo].Activity
 		([Id]
 		,[DocumentNumber]
 		,[InitialDocument]

@@ -1,0 +1,16 @@
+IF OBJECT_ID('archive.Activity', 'U') IS NOT NULL	DROP TABLE archive.Activity;
+IF OBJECT_ID('archive.Job', 'U') IS NOT NULL	DROP TABLE archive.Job;
+IF OBJECT_ID('archive.Stop', 'U') IS NOT NULL	DROP TABLE archive.Stop;
+IF OBJECT_ID('archive.JobDetailDamage', 'U') IS NOT NULL	DROP TABLE archive.JobDetailDamage;
+IF OBJECT_ID('archive.RouteHeader', 'U') IS NOT NULL	DROP TABLE archive.RouteHeader;
+IF OBJECT_ID('archive.LineItem', 'U') IS NOT NULL	DROP TABLE archive.LineItem;
+IF OBJECT_ID('archive.Location', 'U') IS NOT NULL	DROP TABLE archive.Location;
+IF OBJECT_ID('archive.LineItemAction', 'U') IS NOT NULL	DROP TABLE archive.LineItemAction;
+IF OBJECT_ID('archive.LineItemActionComment', 'U') IS NOT NULL	DROP TABLE archive.LineItemActionComment;
+IF OBJECT_ID('archive.Account', 'U') IS NOT NULL	DROP TABLE archive.Account;
+IF OBJECT_ID('archive.Bag', 'U') IS NOT NULL	DROP TABLE archive.Bag;
+IF OBJECT_ID('archive.JobDetail', 'U') IS NOT NULL	DROP TABLE archive.JobDetail;
+IF OBJECT_ID('archive.ExceptionEvent', 'U') IS NOT NULL	DROP TABLE archive.ExceptionEvent;
+IF OBJECT_ID('archive.JobResolutionStatus', 'U') IS NOT NULL	DROP TABLE archive.JobResolutionStatus;
+IF OBJECT_ID('archive.Routes', 'U') IS NOT NULL	DROP TABLE archive.Routes;
+IF OBJECT_ID('archive.UserJob', 'U') IS NOT NULL	DROP TABLE archive.UserJob;

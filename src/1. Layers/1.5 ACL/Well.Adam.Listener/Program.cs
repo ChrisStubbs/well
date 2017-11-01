@@ -110,6 +110,7 @@ namespace PH.Well.Adam.Listener
                     x.For<IAmendmentService>().Use<AmendmentService>();
                     x.For<IAmendmentFactory>().Use<AmendmentFactory>();
                     x.For<IAmendmentRepository>().Use<AmendmentRepository>();
+                    x.For<IImportedFileRepository>().Use<ImportedFileRepository>();
                 });
         }
     }

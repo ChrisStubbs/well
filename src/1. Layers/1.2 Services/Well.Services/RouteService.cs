@@ -131,11 +131,11 @@ namespace PH.Well.Services
             {
                 x.Id,
                 ExceptionCount =
-                (byte) x.Stop.Count(s => s.Job.Where(j => j.ResolutionStatusId > 1)
+                (byte) x.Stop.Count(s => s.Job.Where(j => j.ResolutionStatusId > 1 && j.DateDeleted == null)
                     .Any(j => j.LineItem.Any(
                         l => l.LineItemAction.Any(la => la.ExceptionTypeId != (int) ExceptionType.Uplifted)))),
 
-                CleanCount = (byte) x.Stop.Where(s => s.Job.All(j => j.ResolutionStatusId > 1))
+                CleanCount = (byte) x.Stop.Where(s => s.Job.Where(j=> j.DateDeleted == null).All(j => j.ResolutionStatusId > 1))
                     .Count(s => s.Job.All(
                         j => j.LineItem.All(
                             l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))

@@ -135,7 +135,7 @@ namespace PH.Well.Services
                     .Any(j => j.LineItem.Any(
                         l => l.LineItemAction.Any(la => la.ExceptionTypeId != (int) ExceptionType.Uplifted)))),
 
-                CleanCount = (byte) x.Stop.Where(s => s.Job.Where(j=> j.DateDeleted == null).All(j => j.ResolutionStatusId > 1))
+                CleanCount = (byte) x.Stop.Where(s => s.Job.Count(j => j.DateDeleted == null) > 0 && s.Job.Where(j => j.DateDeleted == null).All(j => j.ResolutionStatusId > 1))
                     .Count(s => s.Job.All(
                         j => j.LineItem.All(
                             l => l.LineItemAction.All(la => la.ExceptionTypeId == (int) ExceptionType.Uplifted))))

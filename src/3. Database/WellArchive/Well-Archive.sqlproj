@@ -87,6 +87,7 @@
     <None Include="Deploy.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Well-Archive.nuspec" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\packages\OctoPack.3.0.60\tools\OctoPack.targets" />
 </Project>

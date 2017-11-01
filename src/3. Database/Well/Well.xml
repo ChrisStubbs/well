@@ -9,4 +9,9 @@
     <VerifyDeployment>False</VerifyDeployment>
     <BlockOnPossibleDataLoss>False</BlockOnPossibleDataLoss>
   </PropertyGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="WellArchive">
+      <Value>Well-Archive</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
 </Project> 

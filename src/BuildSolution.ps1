@@ -15,7 +15,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-Start-Process @BuildArgs    
+#Start-Process @BuildArgs    
 Write-Host "Code up to date" 
 
 Write-Host "Cleaning"     
@@ -26,7 +26,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-Start-Process @BuildArgs      
+#Start-Process @BuildArgs      
 			     
 Write-Host "Well Clean"   
 
@@ -38,7 +38,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-Start-Process @BuildArgs     
+#Start-Process @BuildArgs     
       
 Write-Host "Packages restored"  
 
@@ -48,7 +48,7 @@ Write-Host "Build Solution"
 $BuildArgs = @{            
 	FilePath = $MsBuild            
 	ArgumentList = $SlnFilePath, "/t:rebuild", ("/p:Configuration=" + $Configuration), "/v:minimal" 
-	#Wait = $true            
+	Wait = $true            
 	#WindowStyle = "Hidden"            
 }            
 
@@ -66,7 +66,7 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"  
 	WorkingDirectory = $currentDir + "\1. Layers\1.1 Presentation\Well.Dashboard"
 }                        
-Start-Process @BuildArgs     
+#Start-Process @BuildArgs     
 
 Write-Host "Webpack ran"  
 
@@ -90,16 +90,16 @@ $sqlPackageExe = (Join-Path $sqlPackageDir "SqlPackage.exe")
 $publishSettingsPath = (Join-Path $currentDir "3. Database\Well\Well.xml")
 $dacpac = (Join-Path $currentDir "3. Database\Well\bin\debug\Well.dacpac")
 
-Write-Host $databaseName
-Write-Host $machineName
-Write-Host $sqlInstanceName
-Write-Host $roundhouseDir
-Write-Host $roundhouseExe
-Write-Host $baseSqlPackagePath
-Write-Host $sqlPackageDir
-Write-Host $sqlPackageExe
-Write-Host $publishSettingsPath
-Write-Host $dacpac
+#Write-Host $databaseName
+#Write-Host $machineName
+#Write-Host $sqlInstanceName
+#Write-Host $roundhouseDir
+#Write-Host $roundhouseExe
+#Write-Host $baseSqlPackagePath
+#Write-Host $sqlPackageDir
+#Write-Host $sqlPackageExe
+#Write-Host $publishSettingsPath
+#Write-Host $dacpac
 
 Write-Host "Run the roundhouse scripts - Ignore erros if you don't hsave a Well DataBase" 
 Set-Location $roundhouseDir

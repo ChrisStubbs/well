@@ -16,7 +16,7 @@ AS
 			,Deleted.[DateDeleted]
 			,Deleted.[DeletedByImport]
 			,@ArchiveDate
-	INTO Archive.LineItemActionComment
+	INTO [$(WellArchive)].[dbo].LineItemActionComment
 			([Id]
 			,[LineItemActionId]
 			,[CommentReasonId]
@@ -59,7 +59,7 @@ AS
 		  ,Deleted.[DateDeleted]
 		  ,Deleted.[DeletedByImport]
 		  ,@ArchiveDate
-	INTO Archive.LineItemAction
+	INTO [$(WellArchive)].[dbo].LineItemAction
 		  ([Id]
 		  ,[ExceptionTypeId]
 		  ,[Quantity]
@@ -104,7 +104,7 @@ AS
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
 		,@ArchiveDate
-	INTO Archive.JobDetailDamage	
+	INTO [$(WellArchive)].[dbo].JobDetailDamage	
 		([Id]
 		,[JobDetailId]
 		,[Qty]
@@ -167,7 +167,7 @@ AS
 		,Deleted.[LineItemId]
 		,Deleted.[BagId]
 		,@ArchiveDate
-	INTO Archive.JobDetail 
+	INTO [$(WellArchive)].[dbo].JobDetail 
 		([Id]
 		,[LineNumber]
 		,[PHProductCode]
@@ -242,7 +242,7 @@ AS
 		,Deleted.[LineItemId]
 		,Deleted.[BagId]
 		,@ArchiveDate
-	INTO Archive.JobDetail 
+	INTO [$(WellArchive)].[dbo].JobDetail 
 		([Id]
 		,[LineNumber]
 		,[PHProductCode]
@@ -301,7 +301,7 @@ AS
 			,Deleted.[DeletedByImport]
 			,Deleted.[JobId]
 			,@ArchiveDate
-	INTO  Archive.LineItem
+	INTO  [$(WellArchive)].[dbo].LineItem
 		([Id]
 		,[LineNumber]
 		,[ProductCode]
@@ -335,7 +335,7 @@ AS
 			,Deleted.[LastUpdatedDate]
 			,Deleted.[DateDeleted]
 			,@ArchiveDate
-	INTO Archive.Bag	
+	INTO [$(WellArchive)].[dbo].Bag	
 			([Id]
 			,[Barcode]
 			,[Description]
@@ -344,7 +344,7 @@ AS
 			,[LastUpdatedBy]
 			,[LastUpdatedDate]
 			,[DateDeleted]
-			,[DateArchived])
+			,[ArchiveDate])
 	FROM dbo.Bag b
 	INNER JOIN #Bag bid on bid.BagId = b.Id
 	PRINT ('Deleted Bag')
@@ -358,7 +358,7 @@ AS
 		,Deleted.[By]
 		,Deleted.[On]
 		,@ArchiveDate
-	INTO Archive.JobResolutionStatus 
+	INTO [$(WellArchive)].[dbo].JobResolutionStatus 
 		([Id]
 		,[Status]
 		,[Job]
@@ -380,7 +380,7 @@ AS
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
 		,@ArchiveDate
-	INTO Archive.UserJob	
+	INTO [$(WellArchive)].[dbo].UserJob	
 		([Id]
 		,[UserId]
 		,[JobId]
@@ -444,7 +444,7 @@ AS
 		,Deleted.[JobTypeId]
 		,Deleted.[WellStatusId]
 		,@ArchiveDate
-	INTO Archive.Job
+	INTO [$(WellArchive)].[dbo].Job
 	  ([Id]
       ,[Sequence]
       ,[JobTypeCode]

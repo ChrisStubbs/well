@@ -13,7 +13,7 @@ AS
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
 		,@ArchiveDate
-	INTO archive.Routes
+	INTO [$(WellArchive)].[dbo].[Routes]
 		([Id]
 		,[FileName]
 		,[DateDeleted]
@@ -22,7 +22,7 @@ AS
 		,[UpdatedBy]
 		,[DateUpdated]
 		,[ArchiveDate])
-	FROM dbo.Routes r
+	FROM dbo.[Routes] r
 	LEFT JOIN RouteHeader rh on rh.RoutesId = r.Id
 	WHERE r.DateCreated  <= @CleanDate
 	AND rh.Id IS NULL

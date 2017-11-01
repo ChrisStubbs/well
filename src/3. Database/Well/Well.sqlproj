@@ -534,6 +534,7 @@
     <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\Routes_FileNameCount.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

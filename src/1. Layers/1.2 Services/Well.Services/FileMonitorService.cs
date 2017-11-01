@@ -29,6 +29,7 @@
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IEpodFileProvider epodProvider;
         private readonly IWellCleanUpService wellCleanUpService;
+        private readonly IImportedFileRepository importedFileRepository;
 
         readonly Regex fileNameRegEx = new Regex("^(ROUTE|ORDER|EPOD|CLEAN)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -42,7 +43,8 @@
             IAdamUpdateService adamUpdateService,
             IRouteHeaderRepository routeHeaderRepository,
             IEpodFileProvider epodProvider,
-            IWellCleanUpService wellCleanUpService)
+            IWellCleanUpService wellCleanUpService,
+            IImportedFileRepository importedFileRepository)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -54,6 +56,7 @@
             this.routeHeaderRepository = routeHeaderRepository;
             this.epodProvider = epodProvider;
             this.wellCleanUpService = wellCleanUpService;
+            this.importedFileRepository = importedFileRepository;
         }
 
         public void Monitor(IAdamFileMonitorServiceConfig config)
@@ -72,6 +75,7 @@
                 stopWatch.Restart();
 
                 this.logger.LogDebug($"Start to process file {file.FullName}");
+               
                 this.fileService.WaitForFile(file.FullName);
                 this.Process(file, config);
 
@@ -119,13 +123,19 @@
 
         public void Process(ImportFileInfo importFile, IAdamFileMonitorServiceConfig config)
         {
+            if (importedFileRepository.HasFileAlreadyBeenImported(importFile.Name))
+            {
+                this.logger.LogDebug($"{importFile.Name} ignored as already in system !");
+                this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config, false));
+                return;
+            }
+
             var filename = importFile.Name;
             var fileType = this.fileTypeService.DetermineFileType(filename);
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
             bool isSuccess = false;
-
             switch (fileType)
             {
                 case EpodFileType.Route:
@@ -148,6 +158,8 @@
             this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config, isSuccess));
             this.logger.LogDebug($"{importFile.FullName} processed!");
         }
+
+       
 
         private bool TryHandleClean(string filePath)
         {

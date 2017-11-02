@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[Bag]
+﻿CREATE TABLE [dbo].[Bag]
 (
 	[Id] INT NOT NULL,
 	[Barcode] VARCHAR(50) NOT NULL,
@@ -8,5 +8,5 @@
 	[LastUpdatedBy] VARCHAR(50) NOT NULL,
 	[LastUpdatedDate] DATETIME NOT NULL,
     [DateDeleted] DATETIME NULL,
-	[DateArchived] SMALLDATETIME NOT NULL
-)ON Archive
+	[ArchiveDate] SMALLDATETIME NOT NULL
+)

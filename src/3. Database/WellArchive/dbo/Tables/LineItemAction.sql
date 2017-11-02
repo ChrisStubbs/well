@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[LineItemAction]
+﻿CREATE TABLE [dbo].[LineItemAction]
 (
 	[Id] INT NOT NULL,
 	[ExceptionTypeId] INT NOT NULL,
@@ -21,5 +21,5 @@
     [DateDeleted] DATETIME NULL, 
 	[DeletedByImport] BIT DEFAULT 0,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-) ON Archive
+)
 

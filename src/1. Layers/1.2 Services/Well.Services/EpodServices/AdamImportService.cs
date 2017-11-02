@@ -45,9 +45,18 @@
             this.routeService = routeService;
         }
 
-        public void Import(RouteDelivery route, string fileName,IImportConfig config)
+        public void Import(RouteDelivery route, string fileName, IImportConfig config, out bool hasErrors)
         {
-            var existingRouteHeader = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
+            hasErrors = false;
+            var branchId = GetBranchId(route.RouteHeaders.First(), fileName);
+
+            if (!config.ProcessDataForBranch((Domain.Enums.Branch)branchId))
+            {
+                logger.LogDebug($"Skip route header {fileName}");
+                return;
+            }
+
+            var existingRouteHeaders = this.routeHeaderRepository.GetByNumberDateBranch(route.RouteHeaders
                 .Select(p =>
                 {
                     p.RouteOwnerId = GetBranchId(p, fileName);
@@ -67,30 +76,18 @@
                 try
                 {
                     header.RouteOwnerId = GetBranchId(header, fileName);
-
-                    if (!config.ProcessDataForBranch((Domain.Enums.Branch) header.RouteOwnerId))
+                    var key = new
                     {
-                        logger.LogDebug($"Skip route header {fileName}");
-                        continue;
-                    }
+                        BranchId = header.RouteOwnerId,
+                        RouteDate = header.RouteDate.Value,
+                        header.RouteNumber
+                    };
 
-                    using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
-                    {
-                        var key = new
-                        {
-                            BranchId = header.RouteOwnerId,
-                            RouteDate = header.RouteDate.Value,
-                            header.RouteNumber
-                        };
+                    var existingRouteHeader = existingRouteHeaders.ContainsKey(key) ? existingRouteHeaders[key] : null;
 
-                        deadlockRetryHelper.Retry(() =>
-                            this.ImportRouteHeader(header,
-                                route.RouteId,
-                                existingRouteHeader.ContainsKey(key) ? existingRouteHeader[key] : null)
-                        );
-
-                        transactionScope.Complete();
-                    }
+                    deadlockRetryHelper.Retry(() =>
+                            ImportRouteHeaderTransaction(route, header, existingRouteHeader)
+                    );
                 }
                 catch (Exception exception)
                 {
@@ -100,10 +97,21 @@
                         EventSource.WellAdamXmlImport,
                         msg,
                         EventId.ImportException);
+                    hasErrors = true;
                 }
             }
 
             routeHeaderRepository.DeleteRouteHeaderWithNoStops();
+
+        }
+
+        private void ImportRouteHeaderTransaction(RouteDelivery route, RouteHeader header, GetByNumberDateBranchResult existingRouteHeader)
+        {
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
+            {
+                this.ImportRouteHeader(header, route.RouteId, existingRouteHeader);
+                transactionScope.Complete();
+            }
         }
 
         private void ImportRouteHeader(RouteHeader header, int routeId, GetByNumberDateBranchResult existingRouteHeader = null)

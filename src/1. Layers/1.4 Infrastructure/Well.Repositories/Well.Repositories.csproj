@@ -161,6 +161,8 @@
     <Compile Include="Read\AppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAppSearchReadRepository.cs" />
     <Compile Include="Contracts\IAssigneeReadRepository.cs" />
+    <Compile Include="Contracts\IImportedFileRepository.cs" />
+    <Compile Include="Read\ImportedFileRepository.cs" />
     <Compile Include="Read\LookupRepository.cs" />
     <Compile Include="Read\LineItemActionReadRepository.cs" />
     <Compile Include="Read\LineItemSearchReadRepository.cs" />

@@ -71,11 +71,6 @@
     <Folder Include="ManualStep\scripts\up" />
     <Folder Include="dbo\Views" />
     <Folder Include="Post-Deployement" />
-    <Folder Include="Schemas" />
-    <Folder Include="Storage" />
-    <Folder Include="archive" />
-    <Folder Include="archive\Tables" />
-    <Folder Include="Storage\FileGroup" />
     <Folder Include="ManualStep\ManualDeployment" />
   </ItemGroup>
   <ItemGroup>
@@ -480,29 +475,13 @@
     </None>
     <Build Include="dbo\Types\GetByNumberDateBranchFilter.sql" />
     <Build Include="dbo\StoredProcedures\UpdateRouteHeaderFieldsFromImportedFile.sql" />
-    <Build Include="Schemas\archive.sql" />
-    <Build Include="archive\Tables\LineItemActionComment.sql" />
-    <Build Include="archive\Tables\LineItemAction.sql" />
-    <Build Include="archive\Tables\LineItem.sql" />
-    <Build Include="archive\Tables\JobDetailDamage.sql" />
-    <Build Include="archive\Tables\JobDetail.sql" />
     <Build Include="dbo\StoredProcedures\Job_GetForWellStatusCalculationByStopIds.sql" />
     <Build Include="dbo\Types\WellStatusUpdate.sql" />
     <Build Include="dbo\Views\ExceptionTotalsPerSingleRoute.sql" />
     <None Include="ManualStep\scripts\up\028_GlobalUplifts_RemoveLineItemActions.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Build Include="archive\Tables\Job.sql" />
-    <Build Include="Storage\FileGroup\Archive.sql" />
-    <Build Include="archive\Tables\Stop.sql" />
-    <Build Include="archive\Tables\RouteHeader.sql" />
-    <Build Include="archive\Tables\Account.sql" />
-    <Build Include="archive\Tables\Bag.sql" />
-    <Build Include="archive\Tables\Activity.sql" />
-    <Build Include="archive\Tables\Routes.sql" />
-    <Build Include="archive\Tables\JobResolutionStatus.sql" />
     <Build Include="dbo\StoredProcedures\Archive_Jobs.sql" />
-    <Build Include="archive\Tables\UserJob.sql" />
     <None Include="ManualStep\scripts\up\030_Remove_CleanSprocs.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -517,7 +496,6 @@
     <Build Include="dbo\StoredProcedures\ELMAH_GetErrorsXml.sql" />
     <Build Include="dbo\StoredProcedures\ELMAH_LogError.sql" />
     <None Include="ManualStep\ManualDeployment\CleanAllDeletedJobsFromWell.sql" />
-    <Build Include="archive\Tables\ExceptionEvent.sql" />
     <Build Include="dbo\StoredProcedures\Archive_ExceptionEvent.sql" />
     <Build Include="dbo\StoredProcedures\LineItemByBranchRouteDate.sql" />
     <None Include="ManualStep\scripts\up\031_seasonal_dates_saturday.sql">
@@ -534,9 +512,28 @@
     <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Build Include="dbo\StoredProcedures\Routes_FileNameCount.sql" />
+    <None Include="ManualStep\scripts\up\036_DropArchiveTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WellArchive\Well-Archive.sqlproj">
+      <Name>Well-Archive</Name>
+      <Project>{138b9918-8dce-47b6-861a-92634460db70}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>WellArchive</DatabaseSqlCmdVariable>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="WellArchive">
+      <DefaultValue>Well-Archive</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <Import Project="$(SolutionDir)\packages\OctoPack.3.0.60\tools\OctoPack.targets" />
 </Project>

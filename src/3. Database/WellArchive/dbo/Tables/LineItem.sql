@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[LineItem]
+﻿CREATE TABLE [dbo].[LineItem]
 (
 	[Id] INT NOT NULL,
 	[LineNumber] SMALLINT NULL,
@@ -17,4 +17,4 @@
 	[DeletedByImport] BIT DEFAULT 0,
 	[JobId] INT NULL,
     [ArchiveDate] SMALLDATETIME NOT NULL
-)ON Archive
+)

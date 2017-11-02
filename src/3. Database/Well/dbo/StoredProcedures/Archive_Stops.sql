@@ -23,7 +23,7 @@ AS
 		,Deleted.[DateUpdated]
 		,Deleted.[LocationId]
 		,@ArchiveDate
-	INTO archive.Account
+	INTO [$(WellArchive)].[dbo].Account
 		([Id]
 		,[Code]
 		,[AccountTypeCode]
@@ -84,7 +84,7 @@ AS
 		,Deleted.[Location_Id]
 		,Deleted.[WellStatus]
 		,@ArchiveDate
-	INTO archive.Stop 
+	INTO [$(WellArchive)].[dbo].[Stop]
 		([Id]
 		,[TransportOrderReference]
 		,[PlannedStopNumber]

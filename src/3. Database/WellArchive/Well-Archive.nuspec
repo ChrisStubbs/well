@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+	<id>Well-Archive.Database</id>
+	<version>$version$</version>
+    <authors>C# Migration Team</authors>
+    <owners>Palmer and Harvey</owners>
+	<description>Package for Well-Archive Database</description>
+	</metadata>
+	<files>
+		<file src="\bin\Release\Well-Archive.dacpac" target="Content\Deploy" />
+		<file src="\bin\Release\Well-Archive.xml" target="Content\Deploy" />
+		<file src="Deploy.ps1" />
+	</files>
+</package>

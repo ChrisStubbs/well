@@ -40,31 +40,45 @@
             this.deadlockRetryHelper = deadlockRetryHelper;
             this.routeService = routeService;
         }
-        public void Import(RouteDelivery route, string fileName)
+        public void Import(RouteDelivery route, string fileName, out bool hasErrors)
         {
+            hasErrors = false;
             foreach (var header in route.RouteHeaders)
             {
                 try
                 {
-                    using (var transactionScope = new TransactionScope())
+                    var isRouteSuccessful = false;
+                    deadlockRetryHelper.Retry(() => isRouteSuccessful = TryImportRouteHeaderTransaction(fileName, header));
+
+                    if (!isRouteSuccessful)
                     {
-                        deadlockRetryHelper.Retry(() => ImportRouteHeader(header, fileName));
-                        transactionScope.Complete();
+                        hasErrors = true;
                     }
                 }
                 catch (Exception exception)
                 {
-                    string msg = $"Route has an error on import! Route Id ({route.RouteId})";
+                    var msg = $"Route has an error on import! Route Id ({route.RouteId})";
                     logger.LogError(msg, exception);
                     eventLogger.TryWriteToEventLog(
                         EventSource.WellEpodXmlImport,
                         msg,
                         EventId.ImportException);
+                    hasErrors = true;
                 }
             }
         }
 
-        public void ImportRouteHeader(RouteHeader fileHeader, string fileName)
+        private bool TryImportRouteHeaderTransaction(string fileName, RouteHeader header)
+        {
+            using (var transactionScope = new TransactionScope())
+            {
+                var isSuccessful = TryImportRouteHeader(header, fileName);
+                transactionScope.Complete();
+                return isSuccessful;
+            }
+        }
+
+        public bool TryImportRouteHeader(RouteHeader fileHeader, string fileName)
         {
             int branchId;
 
@@ -86,7 +100,7 @@
 
                     eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.EpodUpdateIgnored);
 
-                    return;
+                    return false;
                 }
 
                 epodImportMapper.MergeRouteHeader(fileHeader, existingHeader);
@@ -95,12 +109,14 @@
 
                 // Calculate well status
                 routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(existingHeader.Id);
+                return true;
             }
             else
             {
                 var message = $" Route Number Depot Indicator is not an int... Route Number Depot passed in from from transend is ({fileHeader.RouteNumber}) file {fileName}";
                 logger.LogDebug(message);
                 eventLogger.TryWriteToEventLog(EventSource.WellEpodXmlImport, message, EventId.ImportIgnored);
+                return false;
             }
         }
     }

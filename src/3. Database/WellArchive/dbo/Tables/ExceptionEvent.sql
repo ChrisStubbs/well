@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[ExceptionEvent]
+﻿CREATE TABLE [dbo].[ExceptionEvent]
 (
 	[Id] INT NOT NULL,
 	[Event] [varchar](max) NOT NULL,
@@ -12,4 +12,4 @@
 	[DateUpdated] [datetime] NOT NULL,
 	[Version] [timestamp] NOT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-) ON Archive
+)

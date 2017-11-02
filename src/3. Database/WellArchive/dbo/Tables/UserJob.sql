@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[UserJob]
+﻿CREATE TABLE [dbo].[UserJob]
 (
 	[Id]			INT NOT NULL, 
 	[UserId]		INT NOT NULL,
@@ -8,4 +8,4 @@
 	[UpdatedBy]		VARCHAR(50) NOT NULL,
 	[DateUpdated]	DATETIME NOT NULL,
 	[ArchiveDate]	SMALLDATETIME NOT NULL
-) ON archive
+)

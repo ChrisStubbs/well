@@ -199,6 +199,7 @@
                     EventSource.WellAdamXmlImport,
                     $"Error on deletion of stop transport order reference ({stop.TransportOrderReference})",
                     8332);
+                throw;
             }
         }
 

@@ -20,6 +20,7 @@ namespace PH.Well.Api.DependencyResolution
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using System.Web.Http.ExceptionHandling;
+    using Infrastructure;
 
     public class DefaultRegistry : Registry
     {

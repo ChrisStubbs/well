@@ -5,8 +5,7 @@
 
     public interface IAdamImportService
     {
-        void Import(RouteDelivery route, string fileName, IImportConfig config);
+        void Import(RouteDelivery route, string fileName, IImportConfig config, out bool hasErrors);
 
-        //void ImportRouteHeader(RouteHeader header, int routeId);
     }
 }

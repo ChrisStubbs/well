@@ -169,7 +169,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             if (_archiveFile)
             {
                 var target = Path.Combine(_archivePath, _id);
-                if (File.Exists(target))
+                if (File.Exists(target) && target != _filePath)
                 {
                     File.Delete(target);
                 }

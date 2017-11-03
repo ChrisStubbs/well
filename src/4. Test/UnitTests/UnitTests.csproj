@@ -268,10 +268,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample1.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ACL\Task.GlobalUplifts\Global Uplift sample2.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
     <None Include="packages.config" />

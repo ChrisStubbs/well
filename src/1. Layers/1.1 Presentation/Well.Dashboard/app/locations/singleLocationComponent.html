@@ -186,7 +186,7 @@
                                 <div *ngIf="item.isInvoice; then isInvoice else notInvoice"></div>
                                 <ng-template #isInvoice><span>Invoice: </span></ng-template>
                                 <ng-template #notInvoice><span>Uplift: </span></ng-template>
-                                <a [routerLink]="['/invoice', item.activityId]" *ngIf="item.invoice">{{item.invoice}}</a>
+                                <a [routerLink]="['/invoice', item.activityId]" >{{item.invoice || item.csfNumber}}</a>
                                 &nbsp;
                                 <span>Account Number: </span>
                                 <span>{{item.accountNumber}}</span>

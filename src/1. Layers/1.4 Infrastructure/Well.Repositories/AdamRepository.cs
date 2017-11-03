@@ -188,14 +188,7 @@
             var delivery = this.deliveryReadRepository.GetDeliveryById(grn.Id, this.jobRepository.CurrentUser);
             if (delivery != null)
             {
-                var grnNumeric = 0;
-                var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
-                if (!result)
-                {
-                    grnNumeric = 0;
-                }
-
-                if (grnNumeric != 0)
+                if (!string.IsNullOrWhiteSpace(delivery.GrnNumber))
                 {
                     using (var connection = GetAdamConnection(adamSettings))
                     {
@@ -208,6 +201,13 @@
                                 var acno = (int)(Convert.ToDecimal(delivery.AccountCode) * 1000);
                                 var today = DateTime.Now.ToShortDateString();
                                 var now = DateTime.Now.ToShortTimeString();
+
+                                var grnNumeric = 0;
+                                var result = Int32.TryParse(delivery.GrnNumber, out grnNumeric);
+                                if (!result)
+                                {
+                                    grnNumeric = 0;
+                                }
 
                                 var commandString =
                                     string.Format(

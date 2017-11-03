@@ -138,7 +138,8 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 }
                 else if (startDate < MaxUpliftStartDate)
                 {
-                    memberErrors.Add($"Start date < max start date {startDateString}");
+                    // TODO: Remove the comment
+                    //memberErrors.Add($"Start date < max start date {startDateString}");
                 }
 
 
@@ -168,7 +169,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
             if (_archiveFile)
             {
-                File.Move(_filePath, Path.Combine(_archivePath, _id));
+                var target = Path.Combine(_archivePath, _id);
+                if (File.Exists(target))
+                {
+                    File.Delete(target);
+                }
+                File.Move(_filePath, target);
             }
 
             if (validationResults.Any())

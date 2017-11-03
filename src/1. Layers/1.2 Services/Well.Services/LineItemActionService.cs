@@ -221,11 +221,15 @@ namespace PH.Well.Services
         public void CloseExceptionsForBranch(int branchId, DateTime routeDate)
         {
             var lineItems = lineItemRepository.GetLineItemBranchRouteDate(branchId, routeDate);
-
+            var tOptions = new TransactionOptions
+            {
+                IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted,
+                Timeout = new TimeSpan(0, 30, 0)
+            };
 
             foreach (var item in lineItems)
             {
-                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 30, 0)))
+                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, tOptions))
                 {
                     var changedLineItems = item.LineItemActions
                         .Select(p =>

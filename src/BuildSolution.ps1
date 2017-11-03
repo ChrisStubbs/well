@@ -15,7 +15,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-#Start-Process @BuildArgs    
+Start-Process @BuildArgs    
 Write-Host "Code up to date" 
 
 Write-Host "Cleaning"     
@@ -26,7 +26,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-#Start-Process @BuildArgs      
+Start-Process @BuildArgs      
 			     
 Write-Host "Well Clean"   
 
@@ -38,7 +38,7 @@ $BuildArgs = @{
 	Wait = $true    
 	#WindowStyle = "Hidden"       
 }                        
-#Start-Process @BuildArgs     
+Start-Process @BuildArgs     
       
 Write-Host "Packages restored"  
 
@@ -50,11 +50,8 @@ $BuildArgs = @{
 	ArgumentList = $SlnFilePath, "/t:rebuild", ("/p:Configuration=" + $Configuration), "/v:minimal" 
 	Wait = $true            
 	#WindowStyle = "Hidden"            
-}            
-
-# Start the build            
+}                      
 Start-Process @BuildArgs 
-   
 Write-Host "Well built"
 
 Write-Host "Run webpack"
@@ -66,7 +63,7 @@ $BuildArgs = @{
 	#WindowStyle = "Hidden"  
 	WorkingDirectory = $currentDir + "\1. Layers\1.1 Presentation\Well.Dashboard"
 }                        
-#Start-Process @BuildArgs     
+Start-Process @BuildArgs     
 
 Write-Host "Webpack ran"  
 

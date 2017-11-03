@@ -138,8 +138,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 }
                 else if (startDate < MaxUpliftStartDate)
                 {
-                    // TODO: Remove the comment
-                    //memberErrors.Add($"Start date < max start date {startDateString}");
+                    memberErrors.Add($"Start date < max start date {startDateString}");
                 }
 
 

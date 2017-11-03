@@ -46,15 +46,15 @@ namespace PH.Well.Task.GlobalUplifts.Import
                     _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, exception);
                     //throw exception ? Send email ?
                 }
-                // TODO: Uncomment this
-                //////else if (_routeHeaderRepository.FileAlreadyLoaded(dataSet.Id))
-                //////{
-                //////    var exception = new ValidationException($"Uplift data already imported. Set : {dataSet.Id}");
+                // TODO: DIJ Comment this out to test repeating files
+                else if (_routeHeaderRepository.FileAlreadyLoaded(dataSet.Id))
+                {
+                    var exception = new ValidationException($"Uplift data already imported. Set : {dataSet.Id}");
 
-                //////    _logger.LogError(exception.Message, exception);
-                //////    _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, exception);
-                //////    //throw exception ? Send email ?
-                //////}
+                    _logger.LogError(exception.Message, exception);
+                    _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, exception);
+                    //throw exception ? Send email ?
+                }
                 else
                 {
                     // Create record in Routes table so we can check whether this set was processed or not
@@ -119,11 +119,7 @@ namespace PH.Well.Task.GlobalUplifts.Import
                             record.CustomerReference);
 
                         //Write to adam
-                        // TODO: remove this
-                        if (false)
-                        {
-                            var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
-                        }
+                        var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
 
                         // do we need to check status and do something after ?
                     }

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[JobDetail]
+﻿CREATE TABLE [dbo].[JobDetail]
 (
 	[Id] INT NOT NULL,
 	[LineNumber] INT NOT NULL,
@@ -33,5 +33,5 @@
 	[LineItemId] INT NULL,
 	[BagId] INT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-) ON Archive
+)
 

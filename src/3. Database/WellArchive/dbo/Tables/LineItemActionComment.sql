@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[LineItemActionComment]
+﻿CREATE TABLE [dbo].[LineItemActionComment]
 (
 	[Id] INT NOT NULL,
 	[LineItemActionId] INT NOT NULL,
@@ -12,4 +12,4 @@
 	[DateDeleted] DATETIME NULL,
 	[DeletedByImport] BIT DEFAULT 0,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-)ON Archive
+)

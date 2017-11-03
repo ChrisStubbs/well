@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[Stop]
+﻿CREATE TABLE [dbo].[Stop]
 (
 	[Id] INT NOT NULL,
 	[TransportOrderReference] VARCHAR(50) NOT NULL,
@@ -31,4 +31,4 @@
 	[Location_Id] INT NULL,
 	[WellStatus] TINYINT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-)ON Archive
+)

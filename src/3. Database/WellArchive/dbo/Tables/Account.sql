@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[Account]
+﻿CREATE TABLE [dbo].[Account]
 (
 	[Id] INT NOT NULL,
 	[Code] VARCHAR(20) NOT NULL,
@@ -20,4 +20,4 @@
 	[DateUpdated] DATETIME NOT NULL,
 	[LocationId] INT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-) ON Archive
+)

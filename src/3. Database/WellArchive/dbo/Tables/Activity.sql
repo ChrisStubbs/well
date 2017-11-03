@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[Activity]
+﻿CREATE TABLE [dbo].[Activity]
 (
 	[Id] INT NOT NULL,
 	[DocumentNumber] VARCHAR(40) NULL,
@@ -11,4 +11,4 @@
 	[LastUpdatedDate] DATETIME NOT NULL,
     [DateDeleted] DATETIME NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
- ) ON ARCHIVE
+ )

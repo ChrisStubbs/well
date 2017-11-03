@@ -75,16 +75,16 @@ namespace PH.Well.Repositories
         public IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
             return wellEntities.ExceptionTotalsPerSingleRoute
-                            .Where(p => p.RouteId == routeHeaderId)
-                            .Select(p => new JobDetailLineItemTotals
-                            {
-                                JobId = p.JobId,
-                                RouteId = routeHeaderId,
-                                StopId = p.StopId,
-                                TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
-                                TotalClean = p.NumberOfClean.Value
-                            })
-                            .ToList();
+                .Where(p => p.RouteId == routeHeaderId)
+                .Select(p => new JobDetailLineItemTotals
+                {
+                    JobId = p.JobId,
+                    RouteId = routeHeaderId,
+                    StopId = p.StopId,
+                    TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
+                    TotalClean = p.NumberOfClean.Value
+                })
+                .ToList();
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)

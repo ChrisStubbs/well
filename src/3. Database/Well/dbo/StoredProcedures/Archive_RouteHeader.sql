@@ -30,7 +30,7 @@ AS
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
 		,@ArchiveDate
-	INTO archive.RouteHeader
+	INTO [$(WellArchive)].[dbo].RouteHeader
 		(  [Id]
 		  ,[CompanyId]
 		  ,[RouteNumber]

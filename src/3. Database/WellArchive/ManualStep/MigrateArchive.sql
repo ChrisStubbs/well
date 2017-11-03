@@ -1,8 +1,172 @@
-﻿CREATE PROCEDURE [dbo].[Archive_Jobs]
-	@JobIds IntTableType READONLY,
-    @ArchiveDate DateTime
-AS
-	--LineItemActionComment
+	--Account 
+	DELETE acs
+	OUTPUT Deleted.[Id]
+		,Deleted.[Code]
+		,Deleted.[AccountTypeCode]
+		,Deleted.[DepotId]
+		,Deleted.[Name]
+		,Deleted.[Address1]
+		,Deleted.[Address2]
+		,Deleted.[PostCode]
+		,Deleted.[ContactName]
+		,Deleted.[ContactNumber]
+		,Deleted.[ContactNumber2]
+		,Deleted.[ContactEmailAddress]
+		,Deleted.[DateDeleted]
+		,Deleted.[StopId]
+		,Deleted.[CreatedBy]
+		,Deleted.[DateCreated]
+		,Deleted.[UpdatedBy]
+		,Deleted.[DateUpdated]
+		,Deleted.[LocationId]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].Account
+		([Id]
+		,[Code]
+		,[AccountTypeCode]
+		,[DepotId]
+		,[Name]
+		,[Address1]
+		,[Address2]
+		,[PostCode]
+		,[ContactName]
+		,[ContactNumber]
+		,[ContactNumber2]
+		,[ContactEmailAddress]
+		,[DateDeleted]
+		,[StopId]
+		,[CreatedBy]
+		,[DateCreated]
+		,[UpdatedBy]
+		,[DateUpdated]
+		,[LocationId]
+		,[ArchiveDate])
+	FROM [Well].archive.Account acs
+
+	--Activity 
+	DELETE a
+	OUTPUT Deleted.[Id]
+		,Deleted.[DocumentNumber]
+		,Deleted.[InitialDocument]
+		,Deleted.[ActivityTypeId]
+		,Deleted.[LocationId]
+		,Deleted.[CreatedBy]
+		,Deleted.[CreatedDate]
+		,Deleted.[LastUpdatedBy]
+		,Deleted.[LastUpdatedDate]
+		,Deleted.[DateDeleted]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].Activity
+		([Id]
+		,[DocumentNumber]
+		,[InitialDocument]
+		,[ActivityTypeId]
+		,[LocationId]
+		,[CreatedBy]
+		,[CreatedDate]
+		,[LastUpdatedBy]
+		,[LastUpdatedDate]
+		,[DateDeleted]
+		,[ArchiveDate])
+	FROM [Well].archive.Activity a
+
+	--Stop
+	DELETE s
+	OUTPUT Deleted.[Id]
+		,Deleted.[TransportOrderReference]
+		,Deleted.[PlannedStopNumber]
+		,Deleted.[RouteHeaderCode]
+		,Deleted.[RouteHeaderId]
+		,Deleted.[DropId]
+		,Deleted.[Previously]
+		,Deleted.[LocationId]
+		,Deleted.[DeliveryDate]
+		,Deleted.[ShellActionIndicator]
+		,Deleted.[AllowOvers]
+		,Deleted.[CustUnatt]
+		,Deleted.[PHUnatt]
+		,Deleted.[StopStatusCode]
+		,Deleted.[StopStatusDescription]
+		,Deleted.[PerformanceStatusCode]
+		,Deleted.[PerformanceStatusDescription]
+		,Deleted.[Reason]
+		,Deleted.[DateDeleted]
+		,Deleted.[DeletedByImport]
+		,Deleted.[ActualPaymentCash]
+		,Deleted.[ActualPaymentCheque]
+		,Deleted.[ActualPaymentCard]
+		,Deleted.[AccountBalance]
+		,Deleted.[CreatedBy]
+		,Deleted.[DateCreated]
+		,Deleted.[UpdatedBy]
+		,Deleted.[DateUpdated]
+		,Deleted.[Location_Id]
+		,Deleted.[WellStatus]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].[Stop]
+		([Id]
+		,[TransportOrderReference]
+		,[PlannedStopNumber]
+		,[RouteHeaderCode]
+		,[RouteHeaderId]
+		,[DropId]
+		,[Previously]
+		,[LocationId]
+		,[DeliveryDate]
+		,[ShellActionIndicator]
+		,[AllowOvers]
+		,[CustUnatt]
+		,[PHUnatt]
+		,[StopStatusCode]
+		,[StopStatusDescription]
+		,[PerformanceStatusCode]
+		,[PerformanceStatusDescription]
+		,[Reason]
+		,[DateDeleted]
+		,[DeletedByImport]
+		,[ActualPaymentCash]
+		,[ActualPaymentCheque]
+		,[ActualPaymentCard]
+		,[AccountBalance]
+		,[CreatedBy]
+		,[DateCreated]
+		,[UpdatedBy]
+		,[DateUpdated]
+		,[Location_Id]
+		,[WellStatus]
+		,[ArchiveDate])
+	FROM [Well].[archive].[Stop] s
+
+
+    -- ExceptionEvent
+	DELETE ex
+	OUTPUT Deleted.[Id]
+		,Deleted.[Event]
+		,Deleted.[ExceptionActionId]
+		,Deleted.[Processed]
+		,Deleted.[DateCanBeProcessed]
+		,Deleted.[SourceId]
+		,Deleted.[CreatedBy]
+		,Deleted.[DateCreated]
+		,Deleted.[UpdatedBy]
+		,Deleted.[DateUpdated]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].ExceptionEvent
+		([Id]
+		,[Event]
+		,[ExceptionActionId]
+		,[Processed]
+		,[DateCanBeProcessed]
+		,[SourceId]
+		,[CreatedBy]
+		,[DateCreated]
+		,[UpdatedBy]
+		,[DateUpdated]
+		,[ArchiveDate])
+	FROM [Well].[archive].ExceptionEvent ex
+	
+
+		--LineItemActionComment
 	DELETE c
 	OUTPUT	Deleted.[Id]
 			,Deleted.[LineItemActionId]
@@ -15,8 +179,8 @@ AS
 			,Deleted.[DateUpdated]
 			,Deleted.[DateDeleted]
 			,Deleted.[DeletedByImport]
-			,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].LineItemActionComment
+			,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].LineItemActionComment
 			([Id]
 			,[LineItemActionId]
 			,[CommentReasonId]
@@ -29,12 +193,8 @@ AS
 			,[DateDeleted]
 			,[DeletedByImport]
 			,[ArchiveDate])
-	FROM dbo.LineItemActionComment c
-	INNER JOIN LineItemAction lia ON lia.Id = c.LineItemActionId
-	INNER JOIN LineItem li ON li.Id = lia.LineItemId
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
-	PRINT ('Deleted LineItemActionComment')
-	PRINT ('----------------')
+	FROM [Well].[archive].LineItemActionComment c
+
 
 	--LineItemAction
 	DELETE lia
@@ -58,8 +218,8 @@ AS
 		  ,Deleted.[LastUpdatedDate]
 		  ,Deleted.[DateDeleted]
 		  ,Deleted.[DeletedByImport]
-		  ,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].LineItemAction
+		  ,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].LineItemAction
 		  ([Id]
 		  ,[ExceptionTypeId]
 		  ,[Quantity]
@@ -81,11 +241,7 @@ AS
 		  ,[DateDeleted]
 		  ,[DeletedByImport]
 		  ,[ArchiveDate])
-	FROM dbo.LineItemAction lia
-	INNER JOIN LineItem li ON li.Id = lia.LineItemId
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
-	PRINT ('Deleted LineItemAction')
-	PRINT ('----------------')
+	FROM [Well].[archive].LineItemAction lia
 
 	--JobDetailDamage
 	DELETE jdd
@@ -103,8 +259,8 @@ AS
 		,Deleted.[DateCreated]
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].JobDetailDamage	
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].JobDetailDamage	
 		([Id]
 		,[JobDetailId]
 		,[Qty]
@@ -120,17 +276,7 @@ AS
 		,[UpdatedBy]
 		,[DateUpdated]
 		,[ArchiveDate])
-	FROM dbo.JobDetailDamage jdd
-	INNER JOIN JobDetail Jd ON Jd.Id = jdd.JobDetailId 
-	INNER JOIN @JobIds jobIds ON jd.JobId = jobIds.Value
-	PRINT ('Deleted JobDetailDamage')
-	PRINT ('----------------')
-
-	SELECT jd.BagId 
-	INTO #Bag 
-	FROM dbo.JobDetail jd
-	INNER JOIN LineItem li ON li.id = jd.LineItemId
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
+	FROM [Well].[archive].JobDetailDamage jdd
 
 	--JobDetail
 	DELETE jd
@@ -166,8 +312,8 @@ AS
 		,Deleted.[DateUpdated]
 		,Deleted.[LineItemId]
 		,Deleted.[BagId]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].JobDetail 
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].JobDetail 
 		([Id]
 		,[LineNumber]
 		,[PHProductCode]
@@ -201,86 +347,7 @@ AS
 		,[LineItemId]
 		,[BagId]
 		,[ArchiveDate])
-	FROM dbo.JobDetail jd
-	INNER JOIN @JobIds jobIds ON jd.JobId = jobIds.Value
-	PRINT ('Deleted JobDetail')
-	PRINT ('----------------')
-
-
-	--JobDetail
-	DELETE jd
-	OUTPUT Deleted.[Id]
-		,Deleted.[LineNumber]
-		,Deleted.[PHProductCode]
-		,Deleted.[OriginalDespatchQty]
-		,Deleted.[DeliveredQty]
-		,Deleted.[ProdDesc]
-		,Deleted.[OrderedQty]
-		,Deleted.[ShortQty]
-		,Deleted.[ShortsActionId]
-		,Deleted.[JobDetailReasonId]
-		,Deleted.[JobDetailSourceId]
-		,Deleted.[UnitMeasure]
-		,Deleted.[PHProductType]
-		,Deleted.[PackSize]
-		,Deleted.[SingleOrOuter]
-		,Deleted.[SSCCBarcode]
-		,Deleted.[SubOuterDamageTotal]
-		,Deleted.[SkuGoodsValue]
-		,Deleted.[NetPrice]
-		,Deleted.[JobId]
-		,Deleted.[ShortsStatus]
-		,Deleted.[LineDeliveryStatus]
-		,Deleted.[IsHighValue]
-		,Deleted.[DateLife]
-		,Deleted.[DateDeleted]
-		,Deleted.[DeletedByImport]
-		,Deleted.[CreatedBy]
-		,Deleted.[DateCreated]
-		,Deleted.[UpdatedBy]
-		,Deleted.[DateUpdated]
-		,Deleted.[LineItemId]
-		,Deleted.[BagId]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].JobDetail 
-		([Id]
-		,[LineNumber]
-		,[PHProductCode]
-		,[OriginalDespatchQty]
-		,[DeliveredQty]
-		,[ProdDesc]
-		,[OrderedQty]
-		,[ShortQty]
-		,[ShortsActionId]
-		,[JobDetailReasonId]
-		,[JobDetailSourceId]
-		,[UnitMeasure]
-		,[PHProductType]
-		,[PackSize]
-		,[SingleOrOuter]
-		,[SSCCBarcode]
-		,[SubOuterDamageTotal]
-		,[SkuGoodsValue]
-		,[NetPrice]
-		,[JobId]
-		,[ShortsStatus]
-		,[LineDeliveryStatus]
-		,[IsHighValue]
-		,[DateLife]
-		,[DateDeleted]
-		,[DeletedByImport]
-		,[CreatedBy]
-		,[DateCreated]
-		,[UpdatedBy]
-		,[DateUpdated]
-		,[LineItemId]
-		,[BagId]
-		,[ArchiveDate])
-	FROM dbo.JobDetail jd
-	INNER JOIN LineItem li ON li.id = jd.LineItemId
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
-	PRINT ('Deleted JobDetail')
-	PRINT ('----------------')
+	FROM [Well].[archive].JobDetail jd
 	
 	--LineItem
 	DELETE	li
@@ -300,8 +367,8 @@ AS
 			,Deleted.[DateDeleted]
 			,Deleted.[DeletedByImport]
 			,Deleted.[JobId]
-			,@ArchiveDate
-	INTO  [$(WellArchive)].[dbo].LineItem
+			,Deleted.[ArchiveDate]
+	INTO  [Well-Archive].[dbo].LineItem
 		([Id]
 		,[LineNumber]
 		,[ProductCode]
@@ -319,10 +386,7 @@ AS
 		,[DeletedByImport]
 		,[JobId]
 		,[ArchiveDate])
-	FROM dbo.LineItem li
-	INNER JOIN @JobIds jobIds ON li.JobId = jobIds.Value
-	PRINT ('Deleted LineItem')
-	PRINT ('----------------')
+	FROM [Well].[archive].LineItem li
 
 	--Bag
 	DELETE b
@@ -334,8 +398,8 @@ AS
 			,Deleted.[LastUpdatedBy]
 			,Deleted.[LastUpdatedDate]
 			,Deleted.[DateDeleted]
-			,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].Bag	
+			,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].Bag	
 			([Id]
 			,[Barcode]
 			,[Description]
@@ -344,11 +408,8 @@ AS
 			,[LastUpdatedBy]
 			,[LastUpdatedDate]
 			,[DateDeleted]
-			,[ArchiveDate])
-	FROM dbo.Bag b
-	INNER JOIN #Bag bid on bid.BagId = b.Id
-	PRINT ('Deleted Bag')
-	PRINT ('----------------')
+			,[DateArchived])
+	FROM [Well].[archive].Bag b
 
 	--JobResolutionStatus
 	DELETE jrs
@@ -357,18 +418,15 @@ AS
 		,Deleted.[Job]
 		,Deleted.[By]
 		,Deleted.[On]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].JobResolutionStatus 
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].JobResolutionStatus 
 		([Id]
 		,[Status]
 		,[Job]
 		,[By]
 		,[On]	  
 		,[ArchiveDate])
-	FROM dbo.JobResolutionStatus jrs
-	INNER JOIN @JobIds jobIds ON jrs.Job = jobIds.Value
-	PRINT ('Deleted JobResolutionStatus')
-	PRINT ('----------------')
+	FROM [Well].[archive].JobResolutionStatus jrs
 
 	--UserJob
 	DELETE uj
@@ -379,8 +437,8 @@ AS
 		,Deleted.[DateCreated]
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].UserJob	
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].UserJob	
 		([Id]
 		,[UserId]
 		,[JobId]
@@ -389,11 +447,8 @@ AS
 		,[UpdatedBy]
 		,[DateUpdated]
 		,[ArchiveDate])
-	FROM dbo.UserJob uj
-	INNER JOIN @JobIds jobIds ON uj.JobId = jobIds.Value
-	PRINT ('Deleted UserJob')
-	PRINT ('----------------')
-
+	FROM [Well].[archive].UserJob uj
+	
 	--Job
 	DELETE j
 	OUTPUT Deleted.[Id]
@@ -443,8 +498,8 @@ AS
 		,Deleted.[ResolutionStatusId]
 		,Deleted.[JobTypeId]
 		,Deleted.[WellStatusId]
-		,@ArchiveDate
-	INTO [$(WellArchive)].[dbo].Job
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].Job
 	  ([Id]
       ,[Sequence]
       ,[JobTypeCode]
@@ -493,7 +548,91 @@ AS
       ,[JobTypeId]
       ,[WellStatusId]
       ,[ArchiveDate])
-	FROM dbo.Job j
-	INNER JOIN @JobIds jobIds ON j.Id = jobIds.Value
-	PRINT ('Job')
-	PRINT ('----------------')
+	FROM [Well].[archive].Job j
+
+	-- Routes
+	DELETE rh
+	OUTPUT Deleted.[Id]
+		,Deleted.[CompanyId]
+		,Deleted.[RouteNumber]
+		,Deleted.[RouteDate]
+		,Deleted.[DriverName]
+		,Deleted.[StartDepotCode]
+		,Deleted.[PlannedStops]
+		,Deleted.[ActualStopsCompleted]
+		,Deleted.[RoutesId]
+		,Deleted.[RouteStatusCode]
+		,Deleted.[RouteStatusDescription]
+		,Deleted.[PerformanceStatusCode]
+		,Deleted.[PerformanceStatusDescription]
+		,Deleted.[LastRouteUpdate]
+		,Deleted.[AuthByPass]
+		,Deleted.[NonAuthByPass]
+		,Deleted.[ShortDeliveries]
+		,Deleted.[DamagesRejected]
+		,Deleted.[DamagesAccepted]
+		,Deleted.[RouteOwnerId]
+		,Deleted.[WellStatus]
+		,Deleted.[DateDeleted]
+		,Deleted.[CreatedBy]
+		,Deleted.[DateCreated]
+		,Deleted.[UpdatedBy]
+		,Deleted.[DateUpdated]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].RouteHeader
+		(  [Id]
+		  ,[CompanyId]
+		  ,[RouteNumber]
+		  ,[RouteDate]
+		  ,[DriverName]
+		  ,[StartDepotCode]
+		  ,[PlannedStops]
+		  ,[ActualStopsCompleted]
+		  ,[RoutesId]
+		  ,[RouteStatusCode]
+		  ,[RouteStatusDescription]
+		  ,[PerformanceStatusCode]
+		  ,[PerformanceStatusDescription]
+		  ,[LastRouteUpdate]
+		  ,[AuthByPass]
+		  ,[NonAuthByPass]
+		  ,[ShortDeliveries]
+		  ,[DamagesRejected]
+		  ,[DamagesAccepted]
+		  ,[RouteOwnerId]
+		  ,[WellStatus]
+		  ,[DateDeleted]
+		  ,[CreatedBy]
+		  ,[DateCreated]
+		  ,[UpdatedBy]
+		  ,[DateUpdated]
+		  ,[ArchiveDate]
+		)
+	FROM [Well].[archive].RouteHeader rh
+
+	-- Route
+	DELETE r
+	OUTPUT Deleted.[Id]
+		,Deleted.[FileName]
+		,Deleted.[DateDeleted]
+		,Deleted.[CreatedBy]
+		,Deleted.[DateCreated]
+		,Deleted.[UpdatedBy]
+		,Deleted.[DateUpdated]
+		,Deleted.[ArchiveDate]
+	INTO [Well-Archive].[dbo].[Routes]
+		([Id]
+		,[FileName]
+		,[DateDeleted]
+		,[CreatedBy]
+		,[DateCreated]
+		,[UpdatedBy]
+		,[DateUpdated]
+		,[ArchiveDate])
+	FROM [Well].[archive].[Routes] r
+
+
+	
+
+
+	

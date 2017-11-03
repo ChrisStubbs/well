@@ -1,4 +1,4 @@
-﻿CREATE TABLE [archive].[RouteHeader]
+﻿CREATE TABLE [dbo].[RouteHeader]
 (
 	[Id] INT NOT NULL,
 	[CompanyId] INT NOT NULL,
@@ -27,4 +27,4 @@
 	[UpdatedBy] VARCHAR(50) NOT NULL,
 	[DateUpdated] DATETIME NOT NULL,
 	[ArchiveDate] SMALLDATETIME NOT NULL
-)ON Archive
+)

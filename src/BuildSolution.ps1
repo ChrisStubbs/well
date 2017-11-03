@@ -48,13 +48,10 @@ Write-Host "Build Solution"
 $BuildArgs = @{            
 	FilePath = $MsBuild            
 	ArgumentList = $SlnFilePath, "/t:rebuild", ("/p:Configuration=" + $Configuration), "/v:minimal" 
-	#Wait = $true            
+	Wait = $true            
 	#WindowStyle = "Hidden"            
-}            
-
-# Start the build            
+}                      
 Start-Process @BuildArgs 
-   
 Write-Host "Well built"
 
 Write-Host "Run webpack"
@@ -90,16 +87,16 @@ $sqlPackageExe = (Join-Path $sqlPackageDir "SqlPackage.exe")
 $publishSettingsPath = (Join-Path $currentDir "3. Database\Well\Well.xml")
 $dacpac = (Join-Path $currentDir "3. Database\Well\bin\debug\Well.dacpac")
 
-Write-Host $databaseName
-Write-Host $machineName
-Write-Host $sqlInstanceName
-Write-Host $roundhouseDir
-Write-Host $roundhouseExe
-Write-Host $baseSqlPackagePath
-Write-Host $sqlPackageDir
-Write-Host $sqlPackageExe
-Write-Host $publishSettingsPath
-Write-Host $dacpac
+#Write-Host $databaseName
+#Write-Host $machineName
+#Write-Host $sqlInstanceName
+#Write-Host $roundhouseDir
+#Write-Host $roundhouseExe
+#Write-Host $baseSqlPackagePath
+#Write-Host $sqlPackageDir
+#Write-Host $sqlPackageExe
+#Write-Host $publishSettingsPath
+#Write-Host $dacpac
 
 Write-Host "Run the roundhouse scripts - Ignore erros if you don't hsave a Well DataBase" 
 Set-Location $roundhouseDir

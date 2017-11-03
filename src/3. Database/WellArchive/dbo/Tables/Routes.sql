@@ -1,4 +1,4 @@
-﻿CREATE TABLE archive.Routes
+﻿CREATE TABLE [dbo].[Routes]
 (
 	[Id] INT NOT NULL,
 	[FileName] VARCHAR(255),

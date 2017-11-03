@@ -2,16 +2,11 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>Well</TargetDatabaseName>
-    <DeployScriptFileName>Well.sql</DeployScriptFileName>
+    <TargetDatabaseName>Well-Archive</TargetDatabaseName>
+    <DeployScriptFileName>Well-Archive.sql</DeployScriptFileName>
     <TargetConnectionString>Data Source=.\SQLSERVER2014;Integrated Security=True;Pooling=False</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
     <VerifyDeployment>False</VerifyDeployment>
     <BlockOnPossibleDataLoss>False</BlockOnPossibleDataLoss>
   </PropertyGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="WellArchive">
-      <Value>Well-Archive</Value>
-    </SqlCmdVariable>
-  </ItemGroup>
 </Project> 

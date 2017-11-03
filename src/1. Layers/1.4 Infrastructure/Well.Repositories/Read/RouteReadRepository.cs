@@ -48,7 +48,7 @@ namespace PH.Well.Repositories.Read
                             BranchName = x.Branch.Name,
                             RouteNumber = x.RouteNumber,
                             RouteDate = x.RouteDate,
-                            StopCount = x.Stop.Count(),
+                            StopCount = x.Stop.Count(s=> s.DateUpdated != null),
                             x.WellStatus,
                             DriverName = x.DriverName,
                             x.ExceptionCount,

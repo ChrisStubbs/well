@@ -1,7 +1,8 @@
-﻿namespace PH.Well.Api
+﻿namespace PH.Well.Api.Infrastructure
 {
     using System.Configuration;
     using Services.Contracts;
+
     public class WellCleanConfig : IWellCleanConfig
     {
         public WellCleanConfig()

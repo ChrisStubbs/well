@@ -240,6 +240,7 @@
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
+    <Compile Include="Infrastructure\CsvMediaTypeFormatter.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />
@@ -311,7 +312,7 @@
     <Compile Include="Validators\PHAuthorizeAttribute.cs" />
     <Compile Include="Validators\SeasonalDateValidator.cs" />
     <Compile Include="Validators\WidgetWarningValidator.cs" />
-    <Compile Include="WellCleanConfig.cs" />
+    <Compile Include="Infrastructure\WellCleanConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

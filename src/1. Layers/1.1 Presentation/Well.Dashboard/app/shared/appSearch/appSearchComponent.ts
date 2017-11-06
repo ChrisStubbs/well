@@ -1,24 +1,22 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { BranchService } from '../branch/branchService';
-import { GlobalSettingsService } from '../globalSettings';
+import { Component, Output, EventEmitter }  from '@angular/core';
+import { Router }                           from '@angular/router';
+import { BranchService }                    from '../branch/branchService';
+import { GlobalSettingsService }            from '../globalSettings';
 import {
     FormGroup,
     FormControl,
     FormBuilder,
     Validators
-} from '@angular/forms';
+}                                           from '@angular/forms';
 import {
     LookupService,
     LookupsEnum,
     ILookupValue
-} from '../services/services';
-import { IObservableAlive } from '../IObservableAlive';
-import { Observable } from 'rxjs';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
-import * as _ from 'lodash';
-import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/observable/forkJoin';
+}                                           from '../services/services';
+import { IObservableAlive }                 from '../IObservableAlive';
+import { Observable }                       from 'rxjs';
+import { ToasterService }                   from 'angular2-toaster/angular2-toaster';
+import * as _                               from 'lodash';
 import {
     IAppSearchResult,
     IAppSearchItem,
@@ -28,7 +26,9 @@ import {
     AppSearchLocationItem,
     AppSearchRouteItem
 } from './appSearch';
-import { AppSearchService } from './appSearchService';
+import { AppSearchService }                 from './appSearchService';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
     selector: 'ow-appSearch',
@@ -191,9 +191,11 @@ export class AppSearch implements IObservableAlive {
             case AppSearchItemType.Invoice:
                 this.navigateToInvoice(<AppSearchInvoiceItem>item);
                 return;
+
             case AppSearchItemType.Location:
                 this.navigateToLocation(<AppSearchLocationItem>item);
                 return;
+                
             case AppSearchItemType.Route:
                 this.navigateToSingleRoute(<AppSearchRouteItem>item);
                 return;

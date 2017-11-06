@@ -15,7 +15,8 @@ export class RouteFilter implements IFilter
     public exceptionCount: boolean;
     public driverName: string;
     public assignee: string;
-    public jobIssueType: number;
+    public jobIssueType?: number;
+    public pageNumber: number;
 
     constructor()
     {
@@ -26,13 +27,15 @@ export class RouteFilter implements IFilter
         this.exceptionCount = undefined;
         this.driverName = '';
         this.assignee = '';
-        this.jobIssueType = 0;
+        this.jobIssueType = undefined;
+        this.pageNumber = 1;
     }
 
     public getFilterType(filterName: string): (value: any, value2: any, sourceRow: any) => boolean
     {
         switch (filterName)
         {
+            case 'pageNumber':
             case 'branchId':
                 //this filter is handle in the component
                 return (value: number, value2: number) => {
@@ -89,17 +92,31 @@ export class RouteFilter implements IFilter
         return undefined;
     }
 
-    public static toRouteFilter(params: AppSearchParameters): RouteFilter
+    public static toRouteFilter(params: any): RouteFilter
     {
         const routeFilter = new RouteFilter();
         const datePipe: DatePipe = new DatePipe('en-Gb');
 
         routeFilter.branchId = params.branchId;
-        routeFilter.routeNumber = params.route;
-        routeFilter.dateFormatted = _.isNil(params.date) ? undefined : datePipe.transform(params.date, 'yyyy-MM-dd');
-        routeFilter.routeStatusId = params.status;
-        routeFilter.driverName = params.driver;
+        routeFilter.routeNumber = _.isNil(params.routeNumber) ? params.route : params.routeNumber ;
+        if (_.isNil(params.dateFormatted))
+        {
+            routeFilter.dateFormatted = _.isNil(params.date) 
+                ? undefined 
+                : datePipe.transform(params.date, 'yyyy-MM-dd');
+        }
+        else
+        {
+            routeFilter.dateFormatted = datePipe.transform(params.dateFormatted, 'yyyy-MM-dd');
+        }
 
+        routeFilter.routeStatusId = _.isNil(params.routeStatusId) ? params.status : params.routeStatusId;
+        routeFilter.driverName = _.isNil(params.driverName) ? params.driver : params.driverName;
+        routeFilter.exceptionCount =  params.exceptionCount;
+        routeFilter.assignee = params.assignee;
+        routeFilter.jobIssueType = params.jobIssueType;
+        const intValue = +params.pageNumber;
+        routeFilter.pageNumber = _.isNaN(intValue) ? 1 : intValue;
         return routeFilter;
     }
 

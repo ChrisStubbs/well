@@ -17,6 +17,9 @@
  [AddressLines] VARCHAR(1000) NULL, 
     [Postcode] VARCHAR(10) NULL, 
 	[SourceFilename] VARCHAR(100) NULL,
+    [CreatedBy] VARCHAR(50) NULL , 
+    [DateSentToAdam] SMALLDATETIME NULL , 
+    [HasAccountInfo] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_GlobalUplift] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -27,4 +30,4 @@
 
 GO
 
-CREATE UNIQUE INDEX [IX_GlobalUplift_BranchAccountReference] ON [dbo].[GlobalUplift] ([BranchId], [PHAccount], [CsfReference])
+CREATE INDEX [IX_GlobalUplift_BranchAccountReference] ON [dbo].[GlobalUplift] ([BranchId], [PHAccount], [CsfReference])

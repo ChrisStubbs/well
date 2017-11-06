@@ -168,7 +168,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
             if (_archiveFile)
             {
-                File.Move(_filePath, Path.Combine(_archivePath, _id));
+                var target = Path.Combine(_archivePath, _id);
+                if (File.Exists(target) && target != _filePath)
+                {
+                    File.Delete(target);
+                }
+                File.Move(_filePath, target);
             }
 
             if (validationResults.Any())

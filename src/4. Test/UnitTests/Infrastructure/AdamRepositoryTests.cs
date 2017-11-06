@@ -131,8 +131,6 @@
 
         [Test]
         [TestCase("")]
-        [TestCase("a")]
-        [TestCase("0000000")]
         [TestCase("     ")]
         public void GrnNoNumberDoesNotWriteLineToAdam(string grnNumber)
         {

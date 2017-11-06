@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Common.Storage;
+using PH.Common.Storage.Config.ConfigFile;
+using PH.Common.Storage.Constants.Enums;
+using PH.Common.Storage.Local;
+using PH.Shared.EmailService.Client.Rest;
+using PH.Shared.Well.TranSend.File.Search;
 using PH.Well.Common;
 using PH.Well.Common.Contracts;
 using PH.Well.Repositories;
@@ -16,8 +23,11 @@ using PH.Well.Services.Contracts;
 using PH.Well.Services.DeliveryActions;
 using PH.Well.Services.Mappers;
 using PH.Well.Task.GlobalUplifts.Csv;
+using PH.Well.Task.GlobalUplifts.EpodFiles;
 using PH.Well.Task.GlobalUplifts.Import;
 using StructureMap;
+using StructureMap.Graph;
+using StructureMap.Pipeline;
 
 namespace PH.Well.Task.GlobalUplifts.Runner
 {
@@ -28,16 +38,51 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             // Get config
             var config = GetConfig();
 
+            // Register any Storage providers and the config provider
+            Storage.RegisterStorageProviderFactory(eStorageType.Local, new LocalStorageProviderFactory());
+            Storage.RegisterStorageConfigProvider(new ConfigFileConfigProvider());
+
             //Initialize container
             var container = InitIoc();
 
             var task = container.GetInstance<UpliftImportTask>();
             // Start task
+            GlobalUpliftsNameProvider.SetUsername("GlobalUplift-BatchImporter");
             task.Execute(new UpliftImportTaskData
             {
                 Directories = config.Directories,
                 ArchiveDirectory = config.ArchiveDirectory
             });
+
+            // Process all global uplifts from files from yesterday and today by default
+            var processor = container.GetInstance<EpodGlobalUpliftProcessor>();
+            GlobalUpliftsNameProvider.SetUsername("GlobalUplift-epodProcessor");
+            processor.Sources = config.EpodSources;
+            processor.Branches = config.Branches;
+            processor.Run();
+
+            GlobalUpliftsNameProvider.SetUsername("GlobalUplift-accountProcessor");
+            ITaskProcessor taskProcessor = container.GetInstance<UpdateAccountDetailsProcessor>();
+            taskProcessor.Run();
+
+            GlobalUpliftsNameProvider.SetUsername("GlobalUplift-upliftProcessor");
+            taskProcessor = container.GetInstance<EpodGlobalUpliftProcessor>();
+            taskProcessor.Run();
+
+            GlobalUpliftsNameProvider.SetUsername("GlobalUplift-emailProcessor");
+            taskProcessor = container.GetInstance<SendBranchEmailProcessor>();
+            taskProcessor.Run();
+
+            //SearchCriteria criteria = new SearchCriteria()
+            //{
+            //    Branches = config.Branches,
+            //    JobType = "UPL-GLO"
+            //};
+            //DateTime dateFrom = DateTime.Today.AddDays(-1);
+            //dateFrom = new DateTime(2017, 9, 4);
+            //DateTime dateTo = DateTime.Today;
+            //dateTo = new DateTime(2017, 10, 9);
+            //processor.ProcessGlobalUplifts(config.EpodSources, dateFrom, dateTo, criteria);
         }
 
         /// <summary>
@@ -66,6 +111,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<ICreditThresholdRepository>().Use<CreditThresholdRepository>();
                     x.For<IJobDetailToDeliveryLineCreditMapper>().Use<JobDetailToDeliveryLineCreditMapper>();
                     x.For<IUserNameProvider>().Use<GlobalUpliftsNameProvider>();
+                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<GlobalUpliftsNameProvider>();
                     x.For<IPodTransactionFactory>().Use<PodTransactionFactory>();
                     x.For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
                     x.For<IDapperReadProxy>().Use<DapperReadProxy>();
@@ -74,8 +120,9 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IUpliftDataImportService>().Use<UpliftDataImportService>();
                     x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
-                    x.For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<UserNameProvider>();
                     x.For<UpliftImportTask>().Use<UpliftImportTask>();
+                    x.For<EpodGlobalUpliftProcessor>().Use<EpodGlobalUpliftProcessor>();
+                    x.For<GlobalUpliftEmailServiceRestClient>().Use<GlobalUpliftEmailClient>();
                 });
         }
 
@@ -87,23 +134,11 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                 Directories = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.InputDirectories]
                     .Split(','),
                 ArchiveDirectory =
-                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.ArchiveDirectory]
+                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.ArchiveDirectory],
+                BranchFilter =
+                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.BranchFilter],
+                EpodSources = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.EpodSources]
             };
-        }
-
-        private class GlobalUpliftRunnerConfig
-        {
-            public string[] Directories { get; set; }
-
-            public string ArchiveDirectory { get; set; }
-        }
-    }
-
-    public class GlobalUpliftsNameProvider : IUserNameProvider
-    {
-        public string GetUserName()
-        {
-            return "GlobalUplifts";
         }
     }
 }

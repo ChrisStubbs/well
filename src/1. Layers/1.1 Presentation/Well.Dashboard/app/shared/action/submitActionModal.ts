@@ -54,8 +54,9 @@ export class SubmitActionModal implements IObservableAlive
 
         } else {
             this.summaryData = {
-                summary: 'You may only submit jobs which are assigned to you and are Pending Submission. ' + 
-                         'If both are true, please refresh the page.',
+                summary: 'You may only submit jobs which are assigned to you and are Pending Submission. ' +
+                         'If both criteria are met, it is possible that this job has been re-assigned. ' + 
+                         'Please refresh data and try again.',
                 items: [],
                 jobIds: []
             };

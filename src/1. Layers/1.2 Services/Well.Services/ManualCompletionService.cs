@@ -20,19 +20,6 @@ namespace PH.Well.Services
         private readonly IUserNameProvider userNameProvider;
         private readonly IPostImportRepository postImportRepository;
 
-        public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
-        {
-            switch (type)
-            {
-                case ManualCompletionType.CompleteAsClean:
-                    return CompleteAsClean(jobIds);
-                case ManualCompletionType.CompleteAsBypassed:
-                    return CompleteAsBypassed(jobIds);
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
         public ManualCompletionService(
             IJobService jobService,
             IEpodFileImportCommands epodFileImportCommands,
@@ -47,28 +34,28 @@ namespace PH.Well.Services
             this.userNameProvider = userNameProvider;
             this.postImportRepository = postImportRepository;
         }
-
-        public IEnumerable<Job> CompleteAsBypassed(IEnumerable<int> jobIds)
+        
+        public IEnumerable<Job> Complete(IEnumerable<int> jobIds, ManualCompletionType type)
         {
-            return ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsBypassed);
+            return ManuallyCompleteJobs(jobIds, type);
         }
 
-        public IEnumerable<Job> CompleteAsClean(IEnumerable<int> jobIds)
+        private IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, ManualCompletionType completionType)
         {
-            return ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
-        }
+            var newResolutionStatus = ResolutionStatus.Invalid;
 
-        public IEnumerable<Job> ManuallyCompleteJobs(IEnumerable<int> jobIds, ManualCompletionType completionType)
-        {
             List<Job> invoicedJobs = GetJobsAvailableForCompletion(jobIds).ToList();
 
             switch (completionType)
             {
                 case ManualCompletionType.CompleteAsClean:
                     MarkAsComplete(invoicedJobs);
+                    newResolutionStatus = ResolutionStatus.ManuallyCompleted;
                     break;
+
                 case ManualCompletionType.CompleteAsBypassed:
                     MarkAsBypassed(invoicedJobs);
+                    newResolutionStatus = ResolutionStatus.ActionRequired;
                     break;
 
                 default:
@@ -79,7 +66,7 @@ namespace PH.Well.Services
             {
                 foreach (var job in invoicedJobs)
                 {
-                    job.ResolutionStatus = ResolutionStatus.ManuallyCompleted;
+                    job.ResolutionStatus = newResolutionStatus;
 
                     // Clear job exceptions
                     lineItemActionRepository.DeleteAllLineItemActionsForJob(job.Id);

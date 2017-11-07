@@ -2,7 +2,6 @@
 
 namespace PH.Well.Domain.ValueObjects
 {
-    [DebuggerDisplay("{Server}:{Port} @{Rfs} {Username}:{Password} {EmailAddress}")]
     public class AdamSettings
     {
         public string Username { get; set; }

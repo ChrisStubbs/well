@@ -23,6 +23,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private bool _createReader;
         private bool _archiveFile;
 
+        //if most of this fields are used in a single method why are they declared as class fields?
         private List<string> _headers;
         private int _branchNumberIndex;
         private int _accountNumberIndex;

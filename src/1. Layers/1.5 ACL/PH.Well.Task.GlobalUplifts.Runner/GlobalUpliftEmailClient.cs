@@ -16,7 +16,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
 
         public GlobalUpliftEmailClient(GlobalUpliftRunnerConfig config)
         {
-            client = new GlobalUpliftEmailServiceRestClient(config.GlobalUpliftEmailApi,
+            client = new GlobalUpliftEmailServiceRestClient(config.GlobalUpliftEmailServiceUrl,
                 new HttpClient(new HttpClientHandler {UseDefaultCredentials = true}));
         }
 

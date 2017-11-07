@@ -30,12 +30,17 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         #region public events
         public void Run()
         {
+            throw new NotImplementedException("");
             var globalUpliftAttempts = _wellEntities.GlobalUpliftAttempt.Include("GlobalUplift").Where(x => x.DateSentToAdam == null).ToList();
             foreach (var globalUpliftAttempt in globalUpliftAttempts)
             {
                 // Tell ADAM
                 SendGlobalUpliftAttempt(globalUpliftAttempt, globalUpliftAttempt.GlobalUplift);
+                // Mark attempt as send
+                globalUpliftAttempt.DateSentToAdam = DateTime.Now;
             }
+
+            
         }
         #endregion public events
 

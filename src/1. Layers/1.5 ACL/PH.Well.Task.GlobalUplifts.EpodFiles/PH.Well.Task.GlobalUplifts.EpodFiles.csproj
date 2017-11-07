@@ -128,6 +128,21 @@
       <HintPath>..\..\..\packages\PH.Common.T4Templates.Generators.1.0.0.7\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PH.Shared.AccountService.Client.Interfaces, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Client.Interfaces.1.0.0.8\lib\net452\PH.Shared.AccountService.Client.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Client.Rest, Version=1.0.0.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Client.Rest.1.0.0.12\lib\net452\PH.Shared.AccountService.Client.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Constants, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Constants.1.0.0.6\lib\net452\PH.Shared.AccountService.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.9\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Constants.1.0.0.0\lib\net452\PH.Shared.Constants.dll</HintPath>
+    </Reference>
     <Reference Include="PH.Shared.EmailService.Client.Rest, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.EmailService.Client.Rest.1.0.0.1\lib\net452\PH.Shared.EmailService.Client.Rest.dll</HintPath>
       <Private>True</Private>

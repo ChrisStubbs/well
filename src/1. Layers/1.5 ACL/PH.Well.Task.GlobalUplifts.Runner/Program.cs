@@ -11,6 +11,7 @@ using PH.Common.Storage;
 using PH.Common.Storage.Config.ConfigFile;
 using PH.Common.Storage.Constants.Enums;
 using PH.Common.Storage.Local;
+using PH.Shared.AccountService.Client.Interfaces;
 using PH.Shared.EmailService.Client.Rest;
 using PH.Shared.EmailService.Interfaces;
 using PH.Shared.Well.TranSend.File.Search;
@@ -124,6 +125,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<UpliftImportTask>().Use<UpliftImportTask>();
                     x.For<EpodGlobalUpliftProcessor>().Use<EpodGlobalUpliftProcessor>();
                     x.For<IGlobalUpliftEmailService>().Use<GlobalUpliftEmailClient>();
+                    x.For<IAccountServiceClient>().Use<AccountServiceClient>();
                     x.For<GlobalUpliftRunnerConfig>().Use<GlobalUpliftRunnerConfig>().Singleton();
                 });
         }

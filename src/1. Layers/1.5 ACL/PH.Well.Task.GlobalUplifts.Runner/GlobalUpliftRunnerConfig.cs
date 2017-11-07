@@ -18,8 +18,10 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             BranchFilter =
                 ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.BranchFilter];
             EpodSources = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.EpodSources];
-            GlobalUpliftEmailApi =
-                ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.GlobalUpliftEmailApi];
+            GlobalUpliftEmailServiceUrl =
+                ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.GlobalUpliftEmailServiceUrl];
+            AccountServiceUrl =
+                ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.AccountServiceUrl];
         }
 
         public string[] Directories { get; set; }
@@ -30,7 +32,9 @@ namespace PH.Well.Task.GlobalUplifts.Runner
 
         public string EpodSources { get; set; }
 
-        public string GlobalUpliftEmailApi { get; set; }
+        public string GlobalUpliftEmailServiceUrl { get; set; }
+
+        public string AccountServiceUrl { get; set; }
 
         /// <summary>
         /// Return branch numbers or empty list it not specified

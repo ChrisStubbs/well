@@ -17,7 +17,8 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             public const string ArchiveDirectory = "GlobalUplift.Task.ArchiveDirectory";
             public const string BranchFilter = "GlobalUplift.Task.Branches";
             public const string EpodSources = "GlobalUplift.Task.EpodSources";
-            public const string GlobalUpliftEmailApi = "GlobalUplift.Task.GlobalUpliftEmailApi";
+            public const string GlobalUpliftEmailServiceUrl = "GlobalUplift.Task.GlobalUpliftEmailServiceUrl";
+            public const string AccountServiceUrl = "GlobalUplift.Task.AccountServiceUrl";
         }
     }
 }

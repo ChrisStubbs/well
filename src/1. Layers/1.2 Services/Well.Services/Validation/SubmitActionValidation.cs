@@ -44,7 +44,10 @@
 
             if (userJobs.Any(x => x.UserId != user.Id))
             {
-                return new SubmitActionResult { Message = $"User not assigned to all the items selected can not submit exceptions" };
+                return new SubmitActionResult { Message = "You may only submit jobs which are assigned to you and are Pending Submission. " + 
+                                                          "If both criteria are met, it is possible that this job has been re-assigned. " + 
+                                                          "Please refresh data and try again."
+                };
             }
 
             var pendingSubmissionJobs = jobList

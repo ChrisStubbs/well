@@ -109,7 +109,9 @@ namespace PH.Well.UnitTests.Services.Validation
                 var result = validator.Validate(submitAction.JobIds, jobs);
 
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Message, Is.EqualTo($"User not assigned to all the items selected can not submit exceptions"));
+                Assert.That(result.Message, Is.EqualTo("You may only submit jobs which are assigned to you and are Pending Submission. " +
+                                                          "If both criteria are met, it is possible that this job has been re-assigned. " +
+                                                          "Please refresh data and try again."));
             }
 
             [Test]

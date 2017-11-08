@@ -23,6 +23,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private bool _createReader;
         private bool _archiveFile;
 
+        //if most of this fields are used in a single method why are they declared as class fields?
         private List<string> _headers;
         private int _branchNumberIndex;
         private int _accountNumberIndex;
@@ -168,7 +169,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
             if (_archiveFile)
             {
-                File.Move(_filePath, Path.Combine(_archivePath, _id));
+                var target = Path.Combine(_archivePath, _id);
+                if (File.Exists(target) && target != _filePath)
+                {
+                    File.Delete(target);
+                }
+                File.Move(_filePath, target);
             }
 
             if (validationResults.Any())

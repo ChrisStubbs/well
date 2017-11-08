@@ -2,7 +2,7 @@
 {
     public enum ManualCompletionType
     {
-        CompleteAsClean,
-        CompleteAsBypassed
+        CompleteAsClean = 1,
+        CompleteAsBypassed = 2
     }
 }

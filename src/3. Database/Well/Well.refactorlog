@@ -98,4 +98,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_GlobalUpliftAttempt_GlobalUpliftIdDate]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c44367b9-99f5-4a24-a69b-1e1f3fa6abdc" ChangeDateTime="11/03/2017 11:30:33">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[SentEmail]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SentBranchEmail" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="25147004-3aa6-456c-a5db-026293ff3f11" ChangeDateTime="11/03/2017 11:30:42">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[SentBranchEmail]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BranchEmailSent" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6de7fd81-2bd6-4a5c-b53e-b668f28b558b" ChangeDateTime="11/03/2017 11:30:54">
+    <Property Name="ElementName" Value="[dbo].[GlobalUplift].[HasAccount]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUplift]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HasAccountInfo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d41c27d6-3781-474f-b4dd-954680861cae" ChangeDateTime="11/03/2017 11:37:43">
+    <Property Name="ElementName" Value="[dbo].[GlobalUplift].[SentToAdam]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUplift]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateSentToAdam" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5b20f263-c095-4ecd-b2cf-730846f40b53" ChangeDateTime="11/03/2017 11:38:49">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[BranchEmailSent]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateBranchEmailSent" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6badc006-9340-46ad-9469-85c770671f97" ChangeDateTime="11/03/2017 11:39:00">
+    <Property Name="ElementName" Value="[dbo].[GlobalUpliftAttempt].[SentToAdam]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[GlobalUpliftAttempt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateSentToAdam" />
+  </Operation>
 </Operations>

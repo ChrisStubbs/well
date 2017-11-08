@@ -63,7 +63,7 @@ namespace PH.Well.UnitTests.Services
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
                 jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
                
-                manualCompletionService.CompleteAsBypassed(jobIds);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsBypassed);
 
                 Assert.That(job.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
                 Assert.That(job2.PerformanceStatus, Is.EqualTo(PerformanceStatus.Wbypa));
@@ -91,7 +91,7 @@ namespace PH.Well.UnitTests.Services
                 jobService.Setup(x => x.GetJobsWithRoute(jobIds)).Returns(jobList);
                 jobService.Setup(x => x.CanManuallyComplete(It.IsAny<Job>(), It.IsAny<string>())).Returns(true);
 
-                manualCompletionService.CompleteAsClean(jobIds);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsClean);
 
                 Assert.That(job.JobStatus, Is.EqualTo(JobStatus.Clean));
                 Assert.That(job2.JobStatus, Is.EqualTo(JobStatus.Clean));
@@ -137,7 +137,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldCallEpodUpdateServiceOnceForEachInvoicedJob()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsClean);
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(It.IsAny<Job>(), It.IsAny<int>(), It.IsAny<DateTime>()), Times.Exactly(2));
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(job1, job1.JobRoute.BranchId, job1.JobRoute.RouteDate), Times.Once);
                 epodFileImportCommands.Verify(x => x.UpdateWithEvents(standardUpliftJob, standardUpliftJob.JobRoute.BranchId, standardUpliftJob.JobRoute.RouteDate), Times.Once);
@@ -147,7 +147,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void ShouldDleteLineItemActionsOnceForEachInvoicedJob()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds,ManualCompletionType.CompleteAsClean);
+                manualCompletionService.Complete(jobIds,ManualCompletionType.CompleteAsClean);
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(It.IsAny<int>()), Times.Exactly(2));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(job1.Id), Times.Exactly(1));
                 lineItemActionRepository.Verify(x => x.DeleteAllLineItemActionsForJob(standardUpliftJob.Id), Times.Exactly(1));
@@ -156,17 +156,31 @@ namespace PH.Well.UnitTests.Services
             }
 
             [Test]
-            public void ShouldSetResolutionStatusCompletedByWell()
+            public void Should_Set_ResolutionStatus_ManuallyCompleted()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsClean);
                 Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
                 Assert.That(standardUpliftJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.ManuallyCompleted));
             }
 
             [Test]
+            public void Should_Set_ResolutionStatus_ActionRequired()
+            {
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsBypassed);
+                Assert.That(job1.ResolutionStatus, Is.EqualTo(ResolutionStatus.ActionRequired));
+                Assert.That(standardUpliftJob.ResolutionStatus, Is.EqualTo(ResolutionStatus.ActionRequired));
+            }
+
+            [Test]
+            public void Should_Throw_Error_Incorrect_completionType()
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => manualCompletionService.Complete(jobIds, (ManualCompletionType)0));
+            }
+
+            [Test]
             public void Check_PostTranSendImport_When_CompleteAsClean()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsClean);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsClean);
 
                 postImportRepository.Verify(
                     x => x.PostTranSendImport(It.Is<IEnumerable<int>>(y => y.Contains(standardUpliftJob.Id))),
@@ -179,7 +193,7 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void Check_PostTranSendImport_When_CompleteAsBypass()
             {
-                manualCompletionService.ManuallyCompleteJobs(jobIds, ManualCompletionType.CompleteAsBypassed);
+                manualCompletionService.Complete(jobIds, ManualCompletionType.CompleteAsBypassed);
 
                 postImportRepository.Verify(
                     x => x.PostTranSendImport(It.Is<IEnumerable<int>>(y => y.Contains(job1.Id))),

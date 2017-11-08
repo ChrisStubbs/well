@@ -1,39 +1,43 @@
-import { Assignee } from './../shared/models/assignee';
-import { Component, ViewChild } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
-import { RoutesService } from './routesService';
-import { SingleRoute, SingleRouteSource, SingleRouteFilter } from './singleRoute';
-import { ActivatedRoute } from '@angular/router';
+import { window } from 'rxjs/operator/window';
+import { Assignee }                                             from './../shared/models/assignee';
+import { Component, ViewChild }                                 from '@angular/core';
+import { CurrencyPipe }                                         from '@angular/common';
+import { RoutesService }                                        from './routesService';
+import { SingleRoute, SingleRouteSource, SingleRouteFilter }    from './singleRoute';
+import { ActivatedRoute, Router, NavigationEnd }                from '@angular/router';
 import * as _ from 'lodash';
-import { AssignModel, AssignModalResult } from '../shared/components/components';
-import { Branch } from '../shared/branch/branch';
-import { SecurityService } from '../shared/services/securityService';
-import { GlobalSettingsService } from '../shared/globalSettings';
-import { IObservableAlive } from '../shared/IObservableAlive';
-import { SingleRouteItem } from './singleRoute';
+import { AssignModel, AssignModalResult }                       from '../shared/components/components';
+import { Branch }                                               from '../shared/branch/branch';
+import { SecurityService }                                      from '../shared/services/securityService';
+import { GlobalSettingsService }                                from '../shared/globalSettings';
+import { IObservableAlive }                                     from '../shared/IObservableAlive';
+import { SingleRouteItem }                                      from './singleRoute';
 import {
     LookupService,
     LookupsEnum,
     ILookupValue,
     ResolutionStatusEnum
-} from '../shared/services/services';
-import { Observable } from 'rxjs';
-import { GridHelpersFunctions } from '../shared/gridHelpers/gridHelpersFunctions';
-import { ISubmitActionResult } from '../shared/action/submitActionModel';
-import { JobService, GrnHelpers } from '../job/job';
-import { ISubmitActionResultDetails } from '../shared/action/submitActionModel';
-import { BulkEditActionModal } from '../shared/action/bulkEditActionModal';
-import { IBulkEditResult } from '../shared/action/bulkEditItem';
-import { ManualCompletionModal } from '../shared/manualCompletion/manualCompletionModal';
-import { SubmitActionModal } from '../shared/action/submitActionModal';
-import { ManualCompletionType } from '../shared/manualCompletion/manualCompletionRequest';
-import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
+}                                                               from '../shared/services/services';
+import { Observable }                                           from 'rxjs';
+import { GridHelpersFunctions }                                 from '../shared/gridHelpers/gridHelpersFunctions';
+import { ISubmitActionResult }                                  from '../shared/action/submitActionModel';
+import { JobService, GrnHelpers }                               from '../job/job';
+import { ISubmitActionResultDetails }                           from '../shared/action/submitActionModel';
+import { BulkEditActionModal }                                  from '../shared/action/bulkEditActionModal';
+import { IBulkEditResult }                                      from '../shared/action/bulkEditItem';
+import { SubmitActionModal }                                    from '../shared/action/submitActionModal';
+import { IJobIdResolutionStatus }                               from '../shared/models/jobIdResolutionStatus';
+import { Location }                                             from '@angular/common';
+import { ManualCompletionModal }                               from '../shared/manualCompletion/manualCompletionModal';
+import { ManualCompletionType }                              from '../shared/manualCompletion/manualCompletionRequest';
+import { NavigateQueryParametersService }                   from './../shared/services/navigateQueryParametersService';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/pairwise';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/singleRouteComponent.html',
-    providers: [RoutesService, LookupService, CurrencyPipe, JobService]
+    providers: [RoutesService, LookupService, CurrencyPipe, JobService/*, Router*/]
 })
 export class SingleRouteComponent implements IObservableAlive {
     public branchId: number;
@@ -53,6 +57,7 @@ export class SingleRouteComponent implements IObservableAlive {
     private filters = new SingleRouteFilter();
     private inputFilterTimer: any;
     private showCheckbox: boolean;
+    private navigateToRoute = () => console.log('');
     @ViewChild(BulkEditActionModal) private bulkEditActionModal: BulkEditActionModal;
     @ViewChild(ManualCompletionModal) private manualCompletionModal: ManualCompletionModal;
     @ViewChild(SubmitActionModal) private submitActionModal: SubmitActionModal;
@@ -60,12 +65,38 @@ export class SingleRouteComponent implements IObservableAlive {
     constructor(
         private lookupService: LookupService,
         private routeService: RoutesService,
-        private route: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
         private securityService: SecurityService,
-        private globalSettingsService: GlobalSettingsService) { }
+        private globalSettingsService: GlobalSettingsService,
+        private location: Location,
+        private historyNavigate: NavigateQueryParametersService) 
+    {
+            this.navigateToRoute = () => this.router.navigateByUrl('/routes');
+            
+            this.router.events
+            .filter(e => e instanceof NavigationEnd)
+            .pairwise()
+            .subscribe((e: any[]) => 
+            {
+                if (e[0].url == '/routes')
+                {
+                    if (_.isUndefined(this.historyNavigate.GetQueryStringObject().fromroutes))
+                    {
+                        this.historyNavigate.Save({fromroutes: true});
+                    }
+                }
+            });
+    }
 
     public ngOnInit() {
         this.refreshRouteFromApi();
+
+        if (!_.isUndefined(this.historyNavigate.GetQueryStringObject().fromroutes))
+        {
+            this.historyNavigate.historyNavigate(-1);
+            this.navigateToRoute = () => this.location.back();
+        }
 
         Observable.forkJoin(
             this.lookupService.get(LookupsEnum.JobType),
@@ -81,10 +112,12 @@ export class SingleRouteComponent implements IObservableAlive {
 
         this.showCheckbox = this.securityService.userHasPermission(SecurityService.editExceptions)
             || this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
+
     }
 
-    private refreshRouteFromApi(): void {
-        this.route.params
+    private refreshRouteFromApi(): void 
+    {
+        this.activatedRoute.params
             .flatMap(data => {
                 this.routeId = data.id;
 

@@ -77,6 +77,7 @@ import { ManualCompletionModal } from './shared/manualCompletion/manualCompletio
 import { BranchNameComponent } from './shared/branch/branchNameComponent';
 import { BranchDateThresholdComponent, BranchDateThresholdService } from './branch-role/branchDateThresholdModule';
 import { CloseExceptionsForBranchComponent } from './exceptions/CloseExceptionsForBranchComponent';
+import { NavigateQueryParametersService } from './shared/services/navigateQueryParametersService';
 
 @NgModule({
     declarations: [LoadingComponent,
@@ -99,7 +100,8 @@ import { CloseExceptionsForBranchComponent } from './exceptions/CloseExceptionsF
     providers: [
         ApprovalsService, GlobalSettingsService, HttpService, HttpErrorService, ToasterService, AccountService, BranchService,
         SeasonalDateService, RefreshService, SecurityService, LogService, appRoutingProviders, CreditThresholdService,
-        UserService, WidgetWarningService, LookupService, UserPreferenceService, ActivityService, JobService, LocationsService, BranchDateThresholdService,
+        UserService, WidgetWarningService, LookupService, UserPreferenceService, ActivityService, JobService, LocationsService, 
+        BranchDateThresholdService, NavigateQueryParametersService,
         {
             provide: APP_INITIALIZER,
             useFactory: (settingsService: GlobalSettingsService) => () => settingsService.initApp(),

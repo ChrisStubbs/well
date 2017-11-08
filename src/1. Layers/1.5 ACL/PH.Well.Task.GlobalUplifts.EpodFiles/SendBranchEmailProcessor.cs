@@ -35,7 +35,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         public void Run()
         {
             var globalUpliftAttempts = _wellEntities.GlobalUpliftAttempt.Include("GlobalUplift")
-                .Where(x => x.DateBranchEmailSent == null && x.CollectedQty > 0 && x.GlobalUplift.HasAccountInfo);
+                .Where(x => x.DateBranchEmailSent == null && x.CollectedQty > 0 && x.GlobalUplift.HasAccountInfo).ToList();
             foreach (var globalUpliftAttempt in globalUpliftAttempts)
             {
                 // Send global uplift email

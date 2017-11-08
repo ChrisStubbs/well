@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using PH.Common.Storage;
+﻿using PH.Common.Storage;
 using PH.Common.Storage.Config.ConfigFile;
 using PH.Common.Storage.Constants.Enums;
 using PH.Common.Storage.Local;
 using PH.Shared.AccountService.Client.Interfaces;
-using PH.Shared.EmailService.Client.Rest;
 using PH.Shared.EmailService.Interfaces;
-using PH.Shared.Well.TranSend.File.Search;
 using PH.Well.Common;
 using PH.Well.Common.Contracts;
 using PH.Well.Repositories;
@@ -24,12 +13,9 @@ using PH.Well.Services;
 using PH.Well.Services.Contracts;
 using PH.Well.Services.DeliveryActions;
 using PH.Well.Services.Mappers;
-using PH.Well.Task.GlobalUplifts.Csv;
 using PH.Well.Task.GlobalUplifts.EpodFiles;
 using PH.Well.Task.GlobalUplifts.Import;
 using StructureMap;
-using StructureMap.Graph;
-using StructureMap.Pipeline;
 
 namespace PH.Well.Task.GlobalUplifts.Runner
 {

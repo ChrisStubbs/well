@@ -75,7 +75,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 Telephone = globalUplift.ContactNumber,
                 Subject =
                     $"Global Uplift: BR {globalUplift.BranchId:00} Acct {globalUplift.PHAccount} Ref {globalUplift.CsfReference}",
-                To = new List<string> { branchSettings.EmailAddress ?? "david.johnston@palmerharvey.co.uk" },
+                To = branchSettings.EmailAddress.Split(','),
                 From = ALL_BRANCHES_EMAIL
             };
             globalUpliftEmailService.SendGlobalUpliftEmail(globalUpliftEmail);

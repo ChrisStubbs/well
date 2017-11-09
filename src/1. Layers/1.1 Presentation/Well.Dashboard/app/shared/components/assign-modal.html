@@ -12,10 +12,19 @@
                 <h4 class="modal-title">Available users for branch {{model.branch.name}}</h4>
             </div>
             <div class="modal-body">
+                <input type="text" 
+                    class="form-control" 
+                    #myInput 
+                    placeholder="Filter User"
+                    [(ngModel)]="name" (input)="filterItem(myInput.value)" />   
+                <div class="row">&nbsp;</div>
                 <ul class="list-group">
                     <li class="list-group-item"><a class="assign-user" (click)="unassign(model)">Unallocated</a></li>
-                    <li class="list-group-item" *ngFor="let user of users"><a class="assign-user" (click)="userSelected(user, model)">{{user.name}}</a></li>
-                </ul>   
+                    <li class="list-group-item" *ngFor="let user of filtredUsers; let i = index" 
+                        [style.background-color]="user.name == users[0].name ? 'whitesmoke' : ''" >
+                            <a class="assign-user" (click)="userSelected(user, model)">{{user.name}}</a>
+                    </li>
+                </ul>    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" (click)="hide()">Close</button>

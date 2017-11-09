@@ -1,19 +1,16 @@
 ﻿using PH.Shared.Well.Data.EF;
 using PH.Well.Domain.Enums;
-using ExceptionType = PH.Well.Domain.Enums.ExceptionType;
-using Job = PH.Shared.Well.Data.EF.Job;
-using JobDetail = PH.Shared.Well.Data.EF.JobDetail;
 
 namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Data;
     using System.Linq;
     using Common.Contracts;
     using Contracts;
     using Dapper;
     using Domain.ValueObjects;
-    using System.Collections.Specialized;
-    using System.Collections.Generic;
     using PH.Well.Domain.Extensions;
 
     public class ActivityRepository : IActivityRepository

@@ -2,7 +2,8 @@
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li>
-                <a routerLink="/routes" routerLinkActive="active">Routes</a>
+                <!-- <a routerLink="/routes" routerLinkActive="active">Routes</a> -->
+                <a (click)="navigateToRoute()">Routes</a>
             </li>
             <li class="active">Route {{routeNumber}}</li>
         </ol>

@@ -8,6 +8,10 @@
 	[JobStatusId] [tinyint] NOT NULL,
 	[CollectedQty] [smallint] NULL,
 	[SourceFilename] VARCHAR(100) NULL,
+    [DateCreated] SMALLDATETIME NOT NULL DEFAULT getdate(), 
+    [CreatedBy] VARCHAR(50) NULL, 
+    [DateSentToAdam] SMALLDATETIME NULL , 
+    [DateBranchEmailSent] SMALLDATETIME NULL , 
     CONSTRAINT [PK_GlobalUpliftAttempt] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

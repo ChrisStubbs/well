@@ -7,13 +7,31 @@
 
     public class Assignee
     {
+        private const string Unallocated = "Unallocated";
+
         public int RouteId { get; set; }
 
         public int StopId { get; set; }
 
         public int JobId { get; set; }
 
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = Unallocated;
+                }
+
+                return name;
+            }
+            set
+            {
+                this.name = value;
+            }
+        }
 
         public string Initials => Name.GetInitials();
 
@@ -36,7 +54,8 @@
                 return names[0];
             }
 
-            Func<string, bool> f = (name) => string.Equals("Unallocated", name, StringComparison.InvariantCultureIgnoreCase);
+            Func<string, bool> f = (name) => string.Equals(Unallocated, name, StringComparison.InvariantCultureIgnoreCase);
+
             var totalUnallocated = assigneeNames.Count(p => f(p));
 
             var initials = names

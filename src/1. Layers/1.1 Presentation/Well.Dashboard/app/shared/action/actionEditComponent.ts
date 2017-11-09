@@ -410,7 +410,7 @@ class LineItemActionValidator implements Validator {
 
         switch (Number(actionValue)) {
             case 0:
-                return this.validateAction(group);
+                return this.validateNotRequiredAction(group);
             case 1:
                 return this.validateAction(group);
             case 2:
@@ -439,6 +439,13 @@ class LineItemActionValidator implements Validator {
             reasonCtrl.setErrors({ required: true });
         }
 
+        return undefined;
+    }
+
+    private validateNotRequiredAction(group: FormGroup): ValidationErrors {
+        this.validateQuantity(group);
+        this.validateComment(group);
+        this.validateExceptionType(group);
         return undefined;
     }
 

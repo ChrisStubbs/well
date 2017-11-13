@@ -37,10 +37,6 @@ namespace PH.Well.UnitTests
                     connectionTwo.Close();
                     connectionOne.Close();
                 }
-                catch (Exception ex)
-                {
-                    throw;
-                }
                 finally
                 {
                     connectionOne.Dispose();

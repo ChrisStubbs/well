@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using PH.Shared.AccountService.Client.Interfaces;
-using PH.Shared.EmailService.Client.Rest;
-using PH.Shared.EmailService.Models;
 using PH.Shared.Well.Data.EF;
-using PH.Well.Services;
-using Branch = PH.Well.Domain.Enums.Branch;
 
 namespace PH.Well.Task.GlobalUplifts.EpodFiles
 {

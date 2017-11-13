@@ -30,7 +30,6 @@
 
                 string invoiceNumber = "123456";
                 string accountCode = "987654";
-                string accountName = "BOB BING BANG";
                 DateTime deliveryDate = DateTime.Now;
                 var audit = jobDetail.CreateAuditEntry(originalJobDetail, invoiceNumber, accountCode, deliveryDate);
 

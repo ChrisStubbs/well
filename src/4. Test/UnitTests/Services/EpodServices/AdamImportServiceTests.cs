@@ -55,15 +55,5 @@
                 routeService.Object
             );
         }
-
-        public class TheGetRouteOwnerIdMethod : AdamImportServiceTests
-        {
-            [Test]
-            public void ShouldReturnUndefinedIfNullBranchShortName()
-            {
-                mockRouteImportService.CallBase = true;
-                Assert.That(mockRouteImportService.Object.GetBranchId((string)null),Is.EqualTo((int)Branches.NotDefined));
-            }
-        }
     }
 }

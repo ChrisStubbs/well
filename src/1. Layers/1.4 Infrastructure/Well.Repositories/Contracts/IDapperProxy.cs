@@ -22,6 +22,8 @@
 
         void Execute();
 
+        void Execute(DynamicParameters parameters, string storeProcedureName);
+
         Task ExecuteAsync();
 
         Task ExecuteAsync(DynamicParameters parameters, string storeProcedureName);

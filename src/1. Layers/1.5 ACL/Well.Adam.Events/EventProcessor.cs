@@ -44,8 +44,7 @@ namespace PH.Well.Adam.Events
         public void Process()
         {
             this.eventLogger.TryWriteToEventLog(EventSource.WellTaskRunner, "Processing ADAM tasks...", EventId.EventProcessorLog, EventLogEntryType.Information);
-
-            var username = "Event Processor";
+            
             var eventsToProcess = this.exceptionEventRepository.GetAllUnprocessed();
 
             this.logger.LogDebug("Starting Well Adam Events!");

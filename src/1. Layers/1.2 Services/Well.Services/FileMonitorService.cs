@@ -82,13 +82,14 @@
                 var ts = stopWatch.Elapsed;
 
                 var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
+
                 // Abort if a file called stop.txt exists in exe folder
                 if (File.Exists("stop.txt"))
                 {
                     File.Delete("stop.txt");
                     return;
                 }
-                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }
 
@@ -147,32 +148,33 @@
                     break;
 
                 case EpodFileType.Epod:
-                    isSuccess = TryHandleEpod(importFile.FullName, filename, config);
+                    try
+                    {
+                        isSuccess = epodProvider.TryImport(importFile.FullName, filename, config);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.LogError(exception, importFile.FullName);
+                        isSuccess = false;
+                    }
                     break;
 
                 case EpodFileType.Clean:
-                    isSuccess = TryHandleClean(importFile.FullName);
+                    try
+                    {
+                        wellCleanUpService.Clean().Wait();
+                        isSuccess = true;
+                    }
+                    catch (Exception exception)
+                    {
+                        this.LogError(exception, importFile.FullName);
+                        isSuccess = false;
+                    }
                     break;
             }
 
             this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config, isSuccess));
             this.logger.LogDebug($"{importFile.FullName} processed!");
-        }
-
-       
-
-        private bool TryHandleClean(string filePath)
-        {
-            try
-            {
-                wellCleanUpService.Clean().Wait();
-                return true;
-            }
-            catch (Exception exception)
-            {
-                this.LogError(exception, filePath);
-                return false;
-            }
         }
 
         private bool TryHandleRoute(string filePath, string filename, IImportConfig config)
@@ -221,20 +223,7 @@
                 return false;
             }
         }
-
-        private bool TryHandleEpod(string filePath, string filename, IImportConfig config)
-        {
-            try
-            {
-                return epodProvider.TryImport(filePath, filename, config);
-            }
-            catch (Exception exception)
-            {
-                this.LogError(exception, filePath);
-                return false;
-            }
-        }
-
+        
         private void LogError(Exception exception, string filePath)
         {
             this.logger.LogError($"Something went wrong with file {filePath}", exception);

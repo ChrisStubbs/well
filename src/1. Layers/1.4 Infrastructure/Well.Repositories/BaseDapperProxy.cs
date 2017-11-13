@@ -101,6 +101,13 @@
                 }
             }
         }
+        public void Execute(DynamicParameters parameters, string storeProcedureName)
+        {
+            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            {
+                connection.Execute(storeProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: Configuration.TransactionTimeout);
+            }
+        }
 
         public async Task ExecuteAsync()
         {

@@ -25,7 +25,6 @@ namespace PH.Well.Services
             this.jobRepository = jobRepository;
             this.stopRepository = stopRepository;
         }
-
         public void ComputeWellStatus(IList<int> stopId)
         {
             var stops = new ConcurrentBag<Stop>();
@@ -39,6 +38,21 @@ namespace PH.Well.Services
             });
 
             this.SaveNewWellStatus(stops.Select(p => p).ToList());
+        }
+
+        public void ComputeWellStatus(IList<Stop> stops)
+        {
+            var all = new ConcurrentBag<Stop>();
+            
+            Parallel.ForEach(stops, s =>
+            {
+                if (ComputeWellStatus(s))
+                {
+                    all.Add(s);
+                }
+            });
+
+            this.SaveNewWellStatus(all.Select(p => p).ToList());
         }
 
         public bool ComputeAndPropagateWellStatus(Stop stop)

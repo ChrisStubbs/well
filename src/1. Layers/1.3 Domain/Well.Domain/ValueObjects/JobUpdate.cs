@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
+    using Enums;
 
     [Serializable()]
     public class JobUpdate
@@ -179,5 +180,11 @@
                 return totalOutersShort;
             }
         }
+
+        [XmlIgnore]
+        public int Id { get; set; }
+
+        [XmlIgnore]
+        public JobStatus JobStatus { get; set; }
     }
 }

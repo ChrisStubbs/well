@@ -19,6 +19,12 @@
         public string StartDepotCode { get; set; }
 
         [XmlIgnore]
+        public int Id { get; set; }
+
+        [XmlIgnore]
+        public int RouteHeaderId { get; set; }
+
+        [XmlIgnore]
         public DateTime? OrderDate { get; set; }
 
         [XmlElement("RouteDate")]

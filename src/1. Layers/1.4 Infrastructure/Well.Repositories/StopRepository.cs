@@ -184,10 +184,10 @@
                     WellStatus = (int)p.WellStatus
                 })
                 .ToList();
+            var parameters = new DynamicParameters();
 
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.StopUpdateWellStatus)
-                .AddParameter("Data", data.ToDataTables(), DbType.Object)
-                .Execute();
+            parameters.Add("Data", data.ToDataTables(), DbType.Object);
+            this.dapperProxy.Execute(parameters, StoredProcedures.StopUpdateWellStatus);
         }
 
         public Stop GetForWellStatusCalculationById(int stopId)

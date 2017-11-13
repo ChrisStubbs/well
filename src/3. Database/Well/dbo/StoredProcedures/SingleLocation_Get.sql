@@ -108,7 +108,10 @@ AS
 			SELECT COUNT(DISTINCT jd.id) AS Total, jd.JobId
 			FROM 
 				JobDetail jd
-			WHERE jd.DateDeleted IS NULL
+			WHERE 
+				jd.DateDeleted IS NULL
+				AND jd.BagId IS NULL
+				AND jd.PHProductCode != 'TOTES'
 			GROUP BY jd.JobId
 		) cl
 			ON j.Id = cl.JobId

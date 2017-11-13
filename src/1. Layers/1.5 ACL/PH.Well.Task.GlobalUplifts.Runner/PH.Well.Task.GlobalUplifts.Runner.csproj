@@ -58,6 +58,7 @@
       <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
       <Private>True</Private>
@@ -78,8 +79,8 @@
       <HintPath>..\..\..\packages\PH.Common.Data.Encryption.Interfaces.1.0.0.1\lib\net452\PH.Common.Data.Encryption.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.DateAndTime.1.0.0.0\lib\net452\PH.Common.DateAndTime.dll</HintPath>
+    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.DateAndTime.1.0.0.1\lib\net452\PH.Common.DateAndTime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.DateAndTime.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,8 +98,8 @@
       <HintPath>..\..\..\packages\PH.Common.FileNode.Constants.1.0.0.0\lib\net452\PH.Common.FileNode.Constants.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.0\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>
+    <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.1\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -120,8 +121,8 @@
       <HintPath>..\..\..\packages\PH.Common.Storage.Interfaces.1.0.0.6\lib\net452\PH.Common.Storage.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.Storage.Local.1.0.0.7\lib\net452\PH.Common.Storage.Local.dll</HintPath>
+    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Local.1.0.0.8\lib\net452\PH.Common.Storage.Local.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Storage.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -149,8 +150,9 @@
     <Reference Include="PH.Shared.AccountService.Constants, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.AccountService.Constants.1.0.0.6\lib\net452\PH.Shared.AccountService.Constants.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.9\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
+    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.10\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PH.Shared.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.Constants.1.0.0.0\lib\net452\PH.Shared.Constants.dll</HintPath>

@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PH.Common.DateAndTime;
+using PH.Well.Common.Extensions;
 
 namespace PH.Well.Task.GlobalUplifts.Runner
 {
@@ -22,6 +24,10 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                 ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.GlobalUpliftEmailServiceUrl];
             AccountServiceUrl =
                 ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.AccountServiceUrl];
+            TestStartDate =
+                DateTimeExtensions.ParseDate(ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.TestStartDate]);
+            TestEndDate =
+                DateTimeExtensions.ParseDate(ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.TestEndDate]);
         }
 
         public string[] Directories { get; set; }
@@ -35,6 +41,10 @@ namespace PH.Well.Task.GlobalUplifts.Runner
         public string GlobalUpliftEmailServiceUrl { get; set; }
 
         public string AccountServiceUrl { get; set; }
+
+        public DateTime? TestStartDate { get; set; }
+
+        public DateTime? TestEndDate { get; set; }
 
         /// <summary>
         /// Return branch numbers or empty list it not specified

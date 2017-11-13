@@ -51,8 +51,8 @@
       <HintPath>..\..\..\..\packages\PH.Common.Data.Encryption.Interfaces.1.0.0.1\lib\net452\PH.Common.Data.Encryption.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\PH.Common.DateAndTime.1.0.0.0\lib\net452\PH.Common.DateAndTime.dll</HintPath>
+    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\PH.Common.DateAndTime.1.0.0.1\lib\net452\PH.Common.DateAndTime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.DateAndTime.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -87,8 +87,8 @@
       <HintPath>..\..\..\..\packages\PH.Common.Storage.Interfaces.1.0.0.6\lib\net452\PH.Common.Storage.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\PH.Common.Storage.Local.1.0.0.7\lib\net452\PH.Common.Storage.Local.dll</HintPath>
+    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\PH.Common.Storage.Local.1.0.0.8\lib\net452\PH.Common.Storage.Local.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Storage.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">

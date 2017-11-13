@@ -85,15 +85,15 @@
       <HintPath>..\..\packages\PH.Common.FileNode.Constants.1.0.0.0\lib\net452\PH.Common.FileNode.Constants.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.0\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>
+    <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.1\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Common.SystemExtensions, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PH.Common.SystemExtensions.1.0.0.2\lib\net452\PH.Common.SystemExtensions.dll</HintPath>
+    <Reference Include="PH.Common.SystemExtensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PH.Common.SystemExtensions.1.0.0.3\lib\net452\PH.Common.SystemExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.31, Culture=neutral, processorArchitecture=MSIL">

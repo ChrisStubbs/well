@@ -50,6 +50,8 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             {
                 processor.Sources = config.EpodSources;
                 processor.Branches = config.Branches;
+                processor.StartDate = config.TestStartDate;
+                processor.EndDate = config.TestEndDate;
                 processor.Run();
             });
 

@@ -70,6 +70,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 AccountNumber = globalUplift.PHAccount,
                 BoxCount = attempt.CollectedQty.GetValueOrDefault().ToString(),
                 AccountName = globalUplift.AccountName,
+                Postcode = globalUplift.Postcode,
                 Address1 = addressLines[0],
                 Address2 = addressLines[1],
                 Address3 = addressLines[2],
@@ -80,7 +81,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 ContactName = DEFAULT_CONTACT_NAME,
                 Telephone = globalUplift.ContactNumber,
                 Subject =
-                    $"Global Uplift: BR {globalUplift.BranchId:00} Acct {globalUplift.PHAccount} Ref {globalUplift.CsfReference}",
+                    $"GLOBAL UPLIFT: BR {globalUplift.BranchId:00} Acct {globalUplift.PHAccount} Ref {globalUplift.CsfReference}",
                 To = branchSettings.EmailAddress.Split(','),
                 From = ALL_BRANCHES_EMAIL,
                 DriverName = attempt.DriverName,

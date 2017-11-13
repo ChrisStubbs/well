@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using PH.Common.Storage;
+﻿using PH.Common.Storage;
 using PH.Common.Storage.Config.ConfigFile;
 using PH.Common.Storage.Constants.Enums;
 using PH.Common.Storage.Local;
-using PH.Shared.EmailService.Client.Rest;
-using PH.Shared.Well.TranSend.File.Search;
+using PH.Shared.AccountService.Client.Interfaces;
+using PH.Shared.EmailService.Interfaces;
 using PH.Well.Common;
 using PH.Well.Common.Contracts;
 using PH.Well.Repositories;
@@ -22,12 +13,9 @@ using PH.Well.Services;
 using PH.Well.Services.Contracts;
 using PH.Well.Services.DeliveryActions;
 using PH.Well.Services.Mappers;
-using PH.Well.Task.GlobalUplifts.Csv;
 using PH.Well.Task.GlobalUplifts.EpodFiles;
 using PH.Well.Task.GlobalUplifts.Import;
 using StructureMap;
-using StructureMap.Graph;
-using StructureMap.Pipeline;
 
 namespace PH.Well.Task.GlobalUplifts.Runner
 {
@@ -35,15 +23,15 @@ namespace PH.Well.Task.GlobalUplifts.Runner
     {
         static void Main(string[] args)
         {
-            // Get config
-            var config = GetConfig();
-
             // Register any Storage providers and the config provider
             Storage.RegisterStorageProviderFactory(eStorageType.Local, new LocalStorageProviderFactory());
             Storage.RegisterStorageConfigProvider(new ConfigFileConfigProvider());
 
             //Initialize container
             var container = InitIoc();
+
+            // Get config
+            var config = container.GetInstance<GlobalUpliftRunnerConfig>();
 
             var task = container.GetInstance<UpliftImportTask>();
             // Start task
@@ -66,7 +54,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             taskProcessor.Run();
 
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-upliftProcessor");
-            taskProcessor = container.GetInstance<EpodGlobalUpliftProcessor>();
+            taskProcessor = container.GetInstance<GenerateGlobalUpliftEventProcessor>();
             taskProcessor.Run();
 
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-emailProcessor");
@@ -122,23 +110,10 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<IGlobalUpliftTransactionFactory>().Use<GlobalUpliftTransactionFactory>();
                     x.For<UpliftImportTask>().Use<UpliftImportTask>();
                     x.For<EpodGlobalUpliftProcessor>().Use<EpodGlobalUpliftProcessor>();
-                    x.For<GlobalUpliftEmailServiceRestClient>().Use<GlobalUpliftEmailClient>();
+                    x.For<IGlobalUpliftEmailService>().Use<GlobalUpliftEmailClient>();
+                    x.For<IAccountServiceClient>().Use<AccountServiceClient>();
+                    x.For<GlobalUpliftRunnerConfig>().Use<GlobalUpliftRunnerConfig>().Singleton();
                 });
-        }
-
-        private static GlobalUpliftRunnerConfig GetConfig()
-        {
-            // May be good to add checks whether each path is directory etc..
-            return new GlobalUpliftRunnerConfig
-            {
-                Directories = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.InputDirectories]
-                    .Split(','),
-                ArchiveDirectory =
-                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.ArchiveDirectory],
-                BranchFilter =
-                    ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.BranchFilter],
-                EpodSources = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.EpodSources]
-            };
         }
     }
 }

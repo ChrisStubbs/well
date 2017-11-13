@@ -38,7 +38,7 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IUserNameProvider>().Use<UserNameProvider>();
             For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<UserNameProvider>();
-            For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+            For<IWellDbConfiguration>().Use<WelllApiDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
             For<IDapperProxy>().Use<WellDapperProxy>();
@@ -52,7 +52,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-            //For<IExceptionLogger>().Use<WebApiExceptionLogger>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
             For<IStopService>().Use<StopService>();
@@ -149,6 +148,8 @@ namespace PH.Well.Api.DependencyResolution
             For<ILocationService>().Use<LocationService>();
             For<IWellStatusAggregator>().Use<WellStatusAggregator>();
             For<IPodService>().Use<PodService>();
+            For<IBranchProvider>().Use<BranchProvider>();
+            For<IConnectionStringFactory>().Use<WellApiConnectionStringFactory>();
         }
     }
 }

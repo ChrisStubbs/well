@@ -169,6 +169,7 @@
     <Compile Include="Api\Controllers\SingleRouteControllerTests.cs" />
     <Compile Include="Api\Controllers\WidgetControllerTests.cs" />
     <Compile Include="Api\Controllers\UserControllerTests.cs" />
+    <Compile Include="Api\Infrastructure\WellApiConnectionStringFactoryTests.cs" />
     <Compile Include="Api\Mapper\BranchModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryDetailModelMapperTests.cs" />
     <Compile Include="Api\Mapper\DeliveryLinesToModelMapperTests.cs" />

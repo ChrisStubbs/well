@@ -240,7 +240,12 @@
     <Compile Include="Controllers\SingleRouteController.cs" />
     <Compile Include="Controllers\StopsController.cs" />
     <Compile Include="Controllers\ThresholdLevelController.cs" />
+    <Compile Include="Infrastructure\BranchProvider.cs" />
+    <Compile Include="Infrastructure\WellApiConnectionStringFactory.cs" />
     <Compile Include="Infrastructure\CsvMediaTypeFormatter.cs" />
+    <Compile Include="Infrastructure\IBranchProvider.cs" />
+    <Compile Include="Infrastructure\IConnectionStringFactory.cs" />
+    <Compile Include="Infrastructure\WelllApiDbConfiguration.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLinesToModelMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryLineToJobDetailMapper.cs" />
     <Compile Include="Mapper\Contracts\IDeliveryToDetailMapper.cs" />

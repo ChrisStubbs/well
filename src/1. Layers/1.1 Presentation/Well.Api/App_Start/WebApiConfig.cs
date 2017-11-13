@@ -21,7 +21,7 @@
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
+                routeTemplate: "{branchId}/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional },
                 constraints: new { controller = GetControllerNames() }
             );

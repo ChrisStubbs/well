@@ -35,8 +35,6 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
             {
                 // Tell ADAM
                 SendGlobalUpliftAttempt(globalUpliftAttempt, globalUpliftAttempt.GlobalUplift);
-                // Mark attempt as send
-                globalUpliftAttempt.DateSentToAdam = DateTime.Now;
             }
         }
         #endregion public events
@@ -75,7 +73,9 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                     DateCanBeProcessed = DateTime.Now,
                     SourceId = attempt.Id.ToString()
                 };
+
                 _wellEntities.ExceptionEvent.Add(exceptionEvent);
+                attempt.DateSentToAdam = DateTime.Now;
                 _wellEntities.SaveChanges();
             }
         }

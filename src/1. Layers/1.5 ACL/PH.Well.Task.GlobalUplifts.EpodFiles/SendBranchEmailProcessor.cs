@@ -35,7 +35,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         public void Run()
         {
             var globalUpliftAttempts = _wellEntities.GlobalUpliftAttempt.Include("GlobalUplift")
-                .Where(x => x.DateBranchEmailSent == null && x.CollectedQty > 0 && x.GlobalUplift.HasAccountInfo);
+                .Where(x => x.DateBranchEmailSent == null && x.CollectedQty > 0 && x.GlobalUplift.HasAccountInfo).ToList();
             foreach (var globalUpliftAttempt in globalUpliftAttempts)
             {
                 // Send global uplift email
@@ -75,7 +75,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 Telephone = globalUplift.ContactNumber,
                 Subject =
                     $"Global Uplift: BR {globalUplift.BranchId:00} Acct {globalUplift.PHAccount} Ref {globalUplift.CsfReference}",
-                To = new List<string> { branchSettings.EmailAddress ?? "david.johnston@palmerharvey.co.uk" },
+                To = branchSettings.EmailAddress.Split(','),
                 From = ALL_BRANCHES_EMAIL
             };
             globalUpliftEmailService.SendGlobalUpliftEmail(globalUpliftEmail);

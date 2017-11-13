@@ -57,17 +57,16 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 Branches = this.Branches,
                 JobType = "UPL-GLO"
             };
+            // todo this needs to be sorted
             DateTime dateFrom = DateTime.Today.AddDays(-1);
-            dateFrom = new DateTime(2017, 9, 4);
             DateTime dateTo = DateTime.Today;
-            dateTo = new DateTime(2017, 10, 9);
             this.ProcessGlobalUplifts(this.Sources, dateFrom, dateTo, criteria);
         }
 
         public void ProcessGlobalUplifts(string sourceFolders, DateTime startDate, DateTime endDate, SearchCriteria searchCriteria)
         {
             List<GlobalUpliftSearchResult> results = new List<GlobalUpliftSearchResult>();
-            for (DateTime date = startDate; date < endDate; date = date.AddDays(1))
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 // Allow for {today} & {minus1} - {minusn} macro date replacements
                 var source = sourceFolders.Replace("{today}", $"{date:yyyyMMdd}");

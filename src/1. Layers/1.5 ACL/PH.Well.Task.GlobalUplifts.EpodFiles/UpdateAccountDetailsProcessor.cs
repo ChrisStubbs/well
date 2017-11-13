@@ -56,7 +56,6 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                         globalUpliftAttempt.GlobalUplift.ContactNumber = primaryContact.Phone;
                     }
 
-                    // todo check this condition !
                     if (!string.IsNullOrWhiteSpace(globalUpliftAttempt.GlobalUplift.AccountName) &&
                         !string.IsNullOrWhiteSpace(globalUpliftAttempt.GlobalUplift.AddressLines) &&
                         !string.IsNullOrWhiteSpace(globalUpliftAttempt.GlobalUplift.Postcode))

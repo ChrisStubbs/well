@@ -1,4 +1,5 @@
-﻿using PH.Common.Storage;
+﻿using System;
+using PH.Common.Storage;
 using PH.Common.Storage.Config.ConfigFile;
 using PH.Common.Storage.Constants.Enums;
 using PH.Common.Storage.Local;
@@ -36,41 +37,34 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             var task = container.GetInstance<UpliftImportTask>();
             // Start task
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-BatchImporter");
-            task.Execute(new UpliftImportTaskData
+            ExecuteStep("GlobalUplift-BatchImporter", () => task.Execute(new UpliftImportTaskData
             {
                 Directories = config.Directories,
                 ArchiveDirectory = config.ArchiveDirectory
-            });
+            }));
 
             // Process all global uplifts from files from yesterday and today by default
             var processor = container.GetInstance<EpodGlobalUpliftProcessor>();
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-epodProcessor");
-            processor.Sources = config.EpodSources;
-            processor.Branches = config.Branches;
-            processor.Run();
+            ExecuteStep("GlobalUplift-epodProcessor", () =>
+            {
+                processor.Sources = config.EpodSources;
+                processor.Branches = config.Branches;
+                processor.Run();
+            });
 
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-accountProcessor");
             ITaskProcessor taskProcessor = container.GetInstance<UpdateAccountDetailsProcessor>();
-            taskProcessor.Run();
+            ExecuteStep("GlobalUplift-accountProcessor", () => taskProcessor.Run());
 
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-upliftProcessor");
             taskProcessor = container.GetInstance<GenerateGlobalUpliftEventProcessor>();
-            taskProcessor.Run();
+            ExecuteStep("GlobalUplift-upliftProcessor", () => taskProcessor.Run());
+
 
             GlobalUpliftsNameProvider.SetUsername("GlobalUplift-emailProcessor");
             taskProcessor = container.GetInstance<SendBranchEmailProcessor>();
-            taskProcessor.Run();
-
-            //SearchCriteria criteria = new SearchCriteria()
-            //{
-            //    Branches = config.Branches,
-            //    JobType = "UPL-GLO"
-            //};
-            //DateTime dateFrom = DateTime.Today.AddDays(-1);
-            //dateFrom = new DateTime(2017, 9, 4);
-            //DateTime dateTo = DateTime.Today;
-            //dateTo = new DateTime(2017, 10, 9);
-            //processor.ProcessGlobalUplifts(config.EpodSources, dateFrom, dateTo, criteria);
+            ExecuteStep("GlobalUplift-emailProcessor", () => taskProcessor.Run());
         }
 
         /// <summary>
@@ -114,6 +108,25 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                     x.For<IAccountServiceClient>().Use<AccountServiceClient>();
                     x.For<GlobalUpliftRunnerConfig>().Use<GlobalUpliftRunnerConfig>().Singleton();
                 });
+        }
+
+        /// <summary>
+        /// Helper method that logs and encapsulates action in try catch block
+        /// </summary>
+        /// <param name="stepName"></param>
+        /// <param name="action"></param>
+        private static void ExecuteStep(string stepName, Action action)
+        {
+            try
+            {
+                Console.WriteLine($"Executing step {stepName}");
+                action();
+                Console.WriteLine($"Completed step {stepName}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{stepName} exception {e}");
+            }
         }
     }
 }

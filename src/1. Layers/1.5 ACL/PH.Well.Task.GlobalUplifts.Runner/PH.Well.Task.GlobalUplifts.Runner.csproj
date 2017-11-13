@@ -11,7 +11,8 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -162,9 +163,8 @@
       <HintPath>..\..\..\packages\PH.Shared.EmailService.Interfaces.1.0.0.1\lib\net452\PH.Shared.EmailService.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.EmailService.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.1.0.0.0\lib\net452\PH.Shared.EmailService.Models.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PH.Shared.EmailService.Models, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.1.0.0.2\lib\net452\PH.Shared.EmailService.Models.dll</HintPath>
     </Reference>
     <Reference Include="PH.Shared.EmailService.Models.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.Interfaces.1.0.0.0\lib\net452\PH.Shared.EmailService.Models.Interfaces.dll</HintPath>

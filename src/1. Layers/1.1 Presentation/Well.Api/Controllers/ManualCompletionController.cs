@@ -36,7 +36,7 @@
         }
 
         [HttpGet]
-        [Route("ManualCompletion/Summary")]
+        [Route("{branchId:int}/ManualCompletion/Summary")]
         public PatchSummary GetSummary([FromUri]int[] ids)
         {
             if (ids == null || ids.Length == 0)

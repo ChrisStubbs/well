@@ -20,7 +20,7 @@
         }
 
         [HttpGet]
-        [Route("damage-reasons")]
+        [Route("{branchId:int}/damage-reasons")]
         public HttpResponseMessage Get()
         {
             var jobDetailReasons = Enum<JobDetailReason>.GetValuesAndDescriptions().Select(x => new

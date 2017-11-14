@@ -25,7 +25,7 @@ namespace PH.Well.Api.Controllers
             this.userThresholdService = userThresholdService;
         }
 
-        [Route("threshold-level")]
+        [Route("{branchId:int}/threshold-level")]
         [HttpPost]
         public HttpResponseMessage Post(int thresholdId, string username)
         {

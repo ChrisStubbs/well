@@ -4,30 +4,14 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using Models;
 
     public class WellApiConnectionStringFactory : IConnectionStringFactory
     {
-        public class BranchConnection
-        {
-            public BranchConnection(int branchId, string connectionString)
-            {
-                BranchId = branchId;
-                ConnectionString = connectionString;
-            }
-
-            public int BranchId { get; set; }
-            public string ConnectionString { get; set; }
-        }
-
         private const string AppSettingFinder = "ConnectionString-";
-
         private IList<BranchConnection> branchConnections;
 
         public IList<BranchConnection> BranchConnections => branchConnections ?? (branchConnections = GetBranchConnections());
-
-        public WellApiConnectionStringFactory()
-        {
-        }
 
         public List<BranchConnection> GetBranchConnections()
         {
@@ -59,12 +43,10 @@
             {
                 return BranchConnections.Single(x => x.BranchId == branchId).ConnectionString;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw new Exception($"No Connection string mapped for BranchId {branchId}", e);
+                throw new Exception($"No Connection string mapped for BranchId {branchId}", ex);
             }
-
         }
 
         public IList<string> GetConnectionStrings()

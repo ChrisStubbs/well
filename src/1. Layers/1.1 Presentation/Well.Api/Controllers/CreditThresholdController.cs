@@ -1,8 +1,7 @@
-﻿using PH.Well.Services.Contracts;
+﻿
 
 namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -11,12 +10,10 @@ namespace PH.Well.Api.Controllers
 
     using Mapper.Contracts;
     using Models;
-    using Validators.Contracts;
     using Common.Contracts;
     using Repositories.Contracts;
-    using Validators;
+    using Services.Contracts;
 
-    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CreditThresholdController : BaseApiController
     {
         private readonly ICreditThresholdRepository creditThresholdRepository;
@@ -41,7 +38,7 @@ namespace PH.Well.Api.Controllers
             this.userThresholdService = userThresholdService;
         }
 
-        [Route("credit-threshold")]
+        [Route("{branchId:int}/credit-threshold")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
@@ -59,7 +56,7 @@ namespace PH.Well.Api.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        [Route("credit-threshold/{id:int}")]
+        [Route("{branchId:int}/credit-threshold/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -69,7 +66,7 @@ namespace PH.Well.Api.Controllers
 
         }
 
-        [Route("credit-threshold/{isUpdate:bool}")]
+        [Route("{branchId:int}/credit-threshold/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
@@ -93,7 +90,7 @@ namespace PH.Well.Api.Controllers
 
         }
 
-        [Route("credit-threshold/getByUser")]
+        [Route("{branchId:int}/credit-threshold/getByUser")]
         [HttpGet]
         [AllowAnonymous]
         public HttpResponseMessage GetByUser()

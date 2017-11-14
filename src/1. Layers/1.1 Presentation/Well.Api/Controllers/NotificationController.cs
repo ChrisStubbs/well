@@ -33,7 +33,7 @@
         }
 
 
-        [Route("notification")]
+        [Route("{branchId:int}/notification")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
@@ -45,7 +45,7 @@
 
         // AllowAnonymous to let ADAM post errors - do not remove
         [AllowAnonymous]
-        [Route("notification/adamerror")]
+        [Route("{branchId:int}/notification/adamerror")]
         [HttpPost]
         public HttpResponseMessage Post(AdamFail failure)
         {
@@ -85,7 +85,7 @@
             }
         }
 
-        [Route("notification/archive/{id:int}")]
+        [Route("{branchId:int}/notification/archive/{id:int}")]
         [HttpPut]
         public HttpResponseMessage Archive(int id)
         {
@@ -93,7 +93,6 @@
             {
                 if (id > 0)
                 {
-                    //////this.notificationRepository.CurrentUser = this.UserIdentityName;
                     this.notificationRepository.ArchiveNotification(id);
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }

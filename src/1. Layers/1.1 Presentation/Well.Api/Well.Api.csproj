@@ -286,6 +286,7 @@
     <Compile Include="Mapper\StopMapper.cs" />
     <Compile Include="Mapper\WidgetWarningMapper.cs" />
     <Compile Include="Models\AuditModel.cs" />
+    <Compile Include="Models\BranchConnection.cs" />
     <Compile Include="Models\BranchDateThresholdModel.cs" />
     <Compile Include="Models\BulkCreditModel.cs" />
     <Compile Include="Models\BulkEditPatchRequest.cs" />

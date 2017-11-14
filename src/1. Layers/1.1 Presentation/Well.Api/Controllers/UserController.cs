@@ -40,7 +40,7 @@ namespace PH.Well.Api.Controllers
             this.activeDirectoryService = activeDirectoryService;
         }
 
-        [Route("user-branches")]
+        [Route("{branchId:int}/user-branches")]
         [HttpGet]
         public HttpResponseMessage UserBranches()
         {
@@ -49,7 +49,7 @@ namespace PH.Well.Api.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, userBranches);
         }
 
-        [Route("users-for-branch/{branchId}")]
+        [Route("{branch:int}/users-for-branch/{branchId}")]
         [HttpGet]
         [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
@@ -75,14 +75,14 @@ namespace PH.Well.Api.Controllers
             return result;
         }
 
-        [Route("create-user-using-current-context")]
+        [Route("{branchId:int}/create-user-using-current-context")]
         [HttpGet]
         public HttpResponseMessage CreateUserUsingCurrentContext()
         {
             return CreateUser(UserIdentityName);
         }
 
-        [Route("create-user")]
+        [Route("{branchId:int}/create-user")]
         [HttpPost]
         public HttpResponseMessage CreateUser(string userIdentity)
         {
@@ -98,8 +98,7 @@ namespace PH.Well.Api.Controllers
             return user;
         }
 
-        [Route("users/{name}")]
-        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        [Route("{branchId:int}/users/{name}")]
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
@@ -112,8 +111,7 @@ namespace PH.Well.Api.Controllers
         }
 
 
-        [Route("user/{name}")]
-        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
+        [Route("{branchId:int}/user/{name}")]
         [HttpGet]
         public User UserByName(string name)
         {
@@ -151,14 +149,14 @@ namespace PH.Well.Api.Controllers
             return this.Save(usr.IdentityName);
         }
 
-        [Route("assign-user-to-jobs")]
+        [Route("{branchId:int}/assign-user-to-jobs")]
         [HttpPost]
         public AssignJobResult Assign(UserJobs userJobs)
         {
             return jobService.Assign(userJobs);
         }
 
-        [Route("unassign-user-from-jobs")]
+        [Route("{branchId:int}/unassign-user-from-jobs")]
         [HttpPost]
         public AssignJobResult UnAssign(int[] jobIds)
         {

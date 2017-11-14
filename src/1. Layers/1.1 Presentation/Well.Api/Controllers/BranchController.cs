@@ -79,7 +79,7 @@ namespace PH.Well.Api.Controllers
             }
         }
 
-        [Route("branch-season")]
+        [Route("{branchId:int}/branch-season")]
         [HttpGet]
         public HttpResponseMessage Get(int seasonalDateId)
         {
@@ -111,7 +111,7 @@ namespace PH.Well.Api.Controllers
 
         }
 
-        [Route("save-branches-on-behalf-of-user")]
+        [Route("{branchId:int}/save-branches-on-behalf-of-user")]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches, string username, string domain)
         {
@@ -126,14 +126,14 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
-        [Route("branchDateThreshold")]
+        [Route("{branchId:int}/branchDateThreshold")]
         public IEnumerable<BranchDateThresholdModel> GetBranchDateThresholds()
         {
             return dateThresholdService.GetAll().Select(branchModelMapper.MapDateThreshold).ToList();
         }
 
         [HttpPost]
-        [Route("updateBranchDateThreshold")]
+        [Route("{branchId:int}/updateBranchDateThreshold")]
         public void UpdateBranchDateThresholds(BranchDateThresholdModel[] branchDateThresholds)
         {
             var branchThresholds = branchDateThresholds.Select(branchModelMapper.MapDateThreshold);

@@ -27,7 +27,7 @@ AS
 		rh.RouteDate AS [Date],
 		jt.Id AS JobTypeId,
 		jt.Description AS JobType,
-		j.WellStatusId,
+		j.WellStatusId AS WellStatus,
 		j.JobStatusId, 
 		'' AS JobStatus,
 		CONVERT(Bit, CASE WHEN ISNULL(j.COD, '') = '' THEN 0 ELSE 1 END) AS Cod,

@@ -196,7 +196,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                             case RouteStatusCode.NotDeparted:
                                 attempt.JobStatusId = (int)PH.Well.Domain.Enums.JobStatus.InComplete;
                                 break;
-                            case RouteStatusCode.InProgress:
+                            case RouteStatusCode.InProgress: //this line of code is not needed because it already has a default
                             default:
                                 attempt.JobStatusId = (int)PH.Well.Domain.Enums.JobStatus.InComplete;
                                 break;

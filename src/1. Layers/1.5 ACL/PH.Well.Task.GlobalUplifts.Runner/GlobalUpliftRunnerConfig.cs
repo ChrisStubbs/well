@@ -46,6 +46,10 @@ namespace PH.Well.Task.GlobalUplifts.Runner
 
         public DateTime? TestEndDate { get; set; }
 
+        public DateTime? TestStartDate { get; set; }
+
+        public DateTime? TestEndDate { get; set; }
+
         /// <summary>
         /// Return branch numbers or empty list it not specified
         /// </summary>

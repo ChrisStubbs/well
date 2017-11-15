@@ -130,5 +130,24 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                 Console.WriteLine($"{stepName} exception {e}");
             }
         }
+
+        /// <summary>
+        /// Helper method that logs and encapsulates action in try catch block
+        /// </summary>
+        /// <param name="stepName"></param>
+        /// <param name="action"></param>
+        private static void ExecuteStep(string stepName, Action action)
+        {
+            try
+            {
+                Console.WriteLine($"Executing step {stepName}");
+                action();
+                Console.WriteLine($"Completed step {stepName}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{stepName} exception {e}");
+            }
+        }
     }
 }

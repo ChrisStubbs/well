@@ -9,6 +9,7 @@
     using Domain.Enums;
     using Repositories.Contracts;
     using System.Linq;
+    using System.Collections.Generic;
 
     public class AdamImportService : IAdamImportService
     {
@@ -21,6 +22,8 @@
         private readonly IDeadlockRetryHelper deadlockRetryHelper;
         private readonly IDbConfiguration dbConfiguration;
         private readonly IRouteService routeService;
+        private readonly IJobService jobService;
+        private readonly IStopService stopService;
 
         public AdamImportService(
             ILogger logger,
@@ -31,8 +34,9 @@
             IAdamFileImportCommands importCommands,
             IDeadlockRetryHelper deadlockRetryHelper,
             IDbConfiguration dbConfiguration,
-            IRouteService routeService
-            )
+            IRouteService routeService,
+            IJobService jobService,
+            IStopService stopService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -43,6 +47,8 @@
             this.deadlockRetryHelper = deadlockRetryHelper;
             this.dbConfiguration = dbConfiguration;
             this.routeService = routeService;
+            this.jobService = jobService;
+            this.stopService = stopService;
         }
 
         public void Import(RouteDelivery route, string fileName, IImportConfig config, out bool hasErrors)
@@ -86,7 +92,7 @@
                     var existingRouteHeader = existingRouteHeaders.ContainsKey(key) ? existingRouteHeaders[key] : null;
 
                     deadlockRetryHelper.Retry(() =>
-                            ImportRouteHeaderTransaction(route, header, existingRouteHeader)
+                            ImportRouteHeader(header, route.RouteId, existingRouteHeader)
                     );
                 }
                 catch (Exception exception)
@@ -102,65 +108,86 @@
             }
 
             routeHeaderRepository.DeleteRouteHeaderWithNoStops();
-
-        }
-
-        private void ImportRouteHeaderTransaction(RouteDelivery route, RouteHeader header, GetByNumberDateBranchResult existingRouteHeader)
-        {
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
-            {
-                this.ImportRouteHeader(header, route.RouteId, existingRouteHeader);
-                transactionScope.Complete();
-            }
         }
 
         private void ImportRouteHeader(RouteHeader header, int routeId, GetByNumberDateBranchResult existingRouteHeader = null)
         {
-            header.RoutesId = routeId;
-
-            if (existingRouteHeader != null)
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(dbConfiguration.TransactionTimeout)))
             {
-                if (existingRouteHeader.WellStatus == WellStatus.Complete)
+                header.RoutesId = routeId;
+
+                if (existingRouteHeader != null)
                 {
-                    var message = $"Ignoring Route update. Route is Complete  " +
-                                  $"route header id ({existingRouteHeader.Id}) " +
-                                  $"number ({header.RouteNumber}), " +
-                                  $"route date ({header.RouteDate.Value}), " +
-                                  $"branch ({header.RouteOwnerId})";
-                    logger.LogDebug(message);
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
-                    return;
+                    if (existingRouteHeader.WellStatus == WellStatus.Complete)
+                    {
+                        var message = $"Ignoring Route update. Route is Complete  " +
+                                      $"route header id ({existingRouteHeader.Id}) " +
+                                      $"number ({header.RouteNumber}), " +
+                                      $"route date ({header.RouteDate.Value}), " +
+                                      $"branch ({header.RouteOwnerId})";
+                        logger.LogDebug(message);
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, message, EventId.ImportIgnored);
+                        return;
+                    }
+
+                    header.Id = existingRouteHeader.Id;
+                    routeHeaderRepository.UpdateFieldsFromImported(importMapper.MapRouteHeader(header));
+
+                    logger.LogDebug(
+                        $"Updating Route  " +
+                        $"route header id ({existingRouteHeader.Id}) " +
+                        $"number ({header.RouteNumber}), " +
+                        $"route date ({header.RouteDate.Value}), " +
+                        $"branch ({header.RouteOwnerId})"
+                    );
+                }
+                else
+                {
+                    header.RouteStatusDescription = "Not Started";
+                    routeHeaderRepository.Save(header);
+
+                    logger.LogDebug(
+                        $"Inserting Route  " +
+                        $"route header id ({header.Id}) " +
+                        $"number ({header.RouteNumber}), " +
+                        $"route date ({header.RouteDate.Value}), " +
+                        $"branch ({header.RouteOwnerId})"
+                    );
                 }
 
-                header.Id = existingRouteHeader.Id;
-                routeHeaderRepository.UpdateFieldsFromImported(importMapper.MapRouteHeader(header));
+                importService.ImportStops(header, importMapper, importCommands);
 
-                logger.LogDebug(
-                    $"Updating Route  " +
-                    $"route header id ({existingRouteHeader.Id}) " +
-                    $"number ({header.RouteNumber}), " +
-                    $"route date ({header.RouteDate.Value}), " +
-                    $"branch ({header.RouteOwnerId})"
-                );
+                // Calculate well status
+                this.UpdateWellStatus(header);
+                transactionScope.Complete();
             }
-            else
+        }
+
+        private void UpdateWellStatus(RouteHeader header)
+        {
+            var allJobs = header.Stops
+                .SelectMany(p => p.Jobs)
+                .Where(p => p.Id != 0)
+                .Select(p => new Job { Id = p.Id, JobStatus = p.JobStatus, StopId = p.StopId })
+                .ToList();
+            var allStops = new List<Stop>();
+
+            foreach (var j in allJobs)
             {
-                header.RouteStatusDescription = "Not Started";
-                routeHeaderRepository.Save(header);
-
-                logger.LogDebug(
-                    $"Inserting Route  " +
-                    $"route header id ({header.Id}) " +
-                    $"number ({header.RouteNumber}), " +
-                    $"route date ({header.RouteDate.Value}), " +
-                    $"branch ({header.RouteOwnerId})"
-                );
+                this.jobService.ComputeWellStatus(j);
             }
 
-            importService.ImportStops(header, importMapper, importCommands);
+            allStops = allJobs
+                .GroupBy(p => p.StopId)
+                .Select(p => new Stop
+                {
+                    Id = p.Key,
+                    Jobs = p.ToList()
+                })
+                .ToList();
 
-            // Calculate well status
-            routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(header.Id);
+            this.stopService.ComputeWellStatus(allStops);
+            this.routeService.ComputeWellStatus(header.Id);
         }
 
         public virtual int GetBranchId(RouteHeader header, string filename)

@@ -73,6 +73,9 @@
                     fileStop.Account.StopId = fileStop.Id;
                     accountRepository.Save(fileStop.Account);
                     stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.New));
+
+                    s.Id = fileStop.Id;
+                    Parallel.ForEach(s.Jobs, x => x.StopId = fileStop.Id);
                 }
                 // Update Existing
                 else if (IsEpodImport(importCommands) || !originalStop.HasStopBeenCompleted())
@@ -83,8 +86,10 @@
                     stopRepository.Update(originalStop);
                     fileStop.Id = originalStop.Id;
                     Parallel.ForEach(fileStop.Jobs, x => x.StopId = originalStop.Id);
+                    Parallel.ForEach(s.Jobs, x => x.StopId = originalStop.Id);
 
                     stopImportStatuses.Add(new StopImportStatus(fileStop, StopImportStatus.Status.Updated, originalStopIdentifiers));
+                    s.Id = fileStop.Id;
                 }
                 else
                 {
@@ -100,11 +105,8 @@
 
             ImportJobs(fileRouteHeader, stopImportStatuses, importMapper, importCommands);
 
+            //TODO: move this to the end of the routeheader import
             DeleteStopsNotInFile(existingRouteStopsFromDb, fileRouteHeader, importCommands);
-            // Batch update WellStatus for stops
-            stopService.ComputeWellStatus(
-                stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
-                .Select(x => x.Stop.Id).ToArray());
         }
 
         private void DeleteStopsNotInFile(IEnumerable<Stop> existingRouteStopsFromDb, RouteHeader fileRouteHeader, IImportCommands importCommands)
@@ -139,56 +141,70 @@
         {
             var branchId = routeHeader.RouteOwnerId;
             var existingRouteJobIdAndStopId = jobRepository.GetJobStopsByRouteHeaderId(routeHeader.Id).ToList();
-            var fileJobs =
+            var jobs =
                 stopImportStatuses.Where(x => x.ImportStatus != StopImportStatus.Status.IgnoredAsCompleted)
                 .Select(s => s.Stop).SelectMany(j => j.Jobs).ToList();
 
-            var existingJobsBothSources = GetExistingJobs(branchId, fileJobs);
+            var existingJobsBothSources = GetExistingJobs(branchId, jobs);
 
             List<int> updateJobIds = new List<int>();
 
-            foreach (var fileJob in fileJobs.Where(fj => fj.IncludeJobTypeInImport()))
+            foreach (var job in jobs.Where(fj => fj.IncludeJobTypeInImport()))
             {
-                var originalJob = FindOriginalJob(existingJobsBothSources, fileJob);
+                var originalJob = FindOriginalJob(existingJobsBothSources, job);
 
                 if (originalJob == null)
                 {
-                    jobService.SetInitialJobStatus(fileJob);
-                    fileJob.ResolutionStatus = ResolutionStatus.Imported;
-                    jobRepository.Save(fileJob);
-                    jobRepository.SaveJobResolutionStatus(fileJob);
-                    updateJobIds.Add(fileJob.Id);
+                    jobService.SetInitialJobStatus(job);
+                    job.ResolutionStatus = ResolutionStatus.Imported;
+                    jobRepository.Save(job);
+                    jobRepository.SaveJobResolutionStatus(job);
+                    updateJobIds.Add(job.Id);
 
-                    fileJob.JobDetails.ForEach(
+                    job.JobDetails.ForEach(
                         x =>
                         {
-                            x.JobId = fileJob.Id;
+                            x.JobId = job.Id;
                             x.ShortsStatus = JobDetailStatus.Res;
                             x.JobDetailReason = JobDetailReason.NotDefined;
                             x.JobDetailSource = JobDetailSource.NotDefined;
                         });
 
-                    this.ImportJobDetails(fileJob.JobDetails);
+                    this.ImportJobDetails(job.JobDetails);
 
-                    DoAfterJobCreation(importCommands, fileJob, routeHeader);
+                    DoAfterJobCreation(importCommands, job, routeHeader);
                 }
 
-                // Update Existings
+                // Update Existing's
                 else if (originalJob.CanWeUpdateJobOnImport())
                 {
-                    bool isJobReplanned = IsJobReplanned(stopImportStatuses, fileJob, originalJob);
+                    bool isJobReplanned = IsJobReplanned(stopImportStatuses, job, originalJob);
 
-                    originalJob.StopId = fileJob.StopId;
-                    importCommands.UpdateExistingJob(fileJob, originalJob, routeHeader, isJobReplanned);
+                    originalJob.StopId = job.StopId;
+                    importCommands.UpdateExistingJob(job, originalJob, routeHeader, isJobReplanned);
                     updateJobIds.Add(originalJob.Id);
+                    job.Id = originalJob.Id;
+                    job.JobStatus = originalJob.JobStatus;
                 }
                 else
                 {
                     var message = $"Ignoring Job update. Job is Complete  " +
                                   $"job id ({originalJob.Id}) " +
-                                  $"identifier ({fileJob.Identifier()}), " +
+                                  $"identifier ({job.Identifier()}), " +
                                   $"branch id  ({branchId})";
                     logger.LogDebug(message);
+                }
+
+                var fileJob = routeHeader.Stops
+                    .SelectMany(p => p.Jobs)
+                    .FirstOrDefault(p => p.PickListRef == job.PickListRef
+                        && (p.JobTypeCode == job.JobTypeCode || p.JobTypeCodeTransend == job.JobTypeCode)
+                        && p.StopId == job.StopId);
+
+                if (fileJob != null)
+                {
+                    fileJob.Id = job.Id;
+                    fileJob.JobStatus = job.JobStatus;
                 }
             }
 
@@ -304,17 +320,9 @@
                     {
                         x.JobDetailId = detail.Id;
                         x.DamageStatus = x.Qty == 0 ? JobDetailStatus.Res : JobDetailStatus.UnRes;
+
+                        this.jobDetailDamageRepository.Save(x);
                     });
-
-                this.ImportJobDetailDamages(detail.JobDetailDamages);
-            }
-        }
-
-        private void ImportJobDetailDamages(IEnumerable<JobDetailDamage> damages)
-        {
-            foreach (var damage in damages)
-            {
-                this.jobDetailDamageRepository.Save(damage);
             }
         }
 
@@ -324,8 +332,5 @@
                 x.Identifier() == job.Identifier()
             );
         }
-
-
-
     }
 }

@@ -13,6 +13,7 @@
         //ReplanInRoadnet = 6,
         //ReplanInTranSend = 7,
         //ReplanInTheQueue = 8,
+        StandardUplift = 8, 
         Amendment = 9,
         GlobalUplift = 10,
         PodTransaction = 11

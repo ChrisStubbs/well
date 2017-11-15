@@ -29,6 +29,11 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(creditTransaction, EventAction.Credit, DateTime.Now, creditTransaction.JobId.ToString());
         }
 
+        public void InsertUpliftEventTransaction(CreditTransaction upliftTransaction)
+        {
+            SerializeToJsonAndInsertEvent(upliftTransaction, EventAction.StandardUplift, DateTime.Now, upliftTransaction.JobId.ToString());
+        }
+
         public void MarkEventAsProcessed(int eventId)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.MarkEventAsProcessed)

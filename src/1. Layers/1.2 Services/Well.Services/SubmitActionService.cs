@@ -23,6 +23,7 @@
         private readonly IJobService jobService;
         private readonly IUserRepository userRepository;
         private readonly IPodService podService;
+        private readonly IUpliftTransactionFactory upliftTransactionFactory;
 
         public SubmitActionService(
             ILogger logger,
@@ -34,7 +35,8 @@
             IJobRepository jobRepository,
             IJobService jobService,
             IUserRepository userRepository,
-            IPodService podService
+            IPodService podService,
+            IUpliftTransactionFactory upliftTransactionFactory
             )
         {
             this.logger = logger;
@@ -47,6 +49,7 @@
             this.jobService = jobService;
             this.userRepository = userRepository;
             this.podService = podService;
+            this.upliftTransactionFactory = upliftTransactionFactory;
         }
         private SubmitActionResult Reject(int[] jobsId)
         {
@@ -119,7 +122,14 @@
                             {
                                 if (!job.IsProofOfDelivery)
                                 {
-                                    SubmitCredits(job);
+                                    if (job.JobType == JobType.StandardUplift)
+                                    {
+                                        SubmitUplifts(job);
+                                    }
+                                    else
+                                    {
+                                        SubmitCredits(job);
+                                    }
                                 }
                                 else if (job.JobStatus == JobStatus.Bypassed)
                                 {
@@ -201,6 +211,25 @@
             var creditEventTransaction = this.creditTransactionFactory.Build(credits, job.JobRoute.BranchId);
             exceptionEventRepository.InsertCreditEventTransaction(creditEventTransaction);
         }
+
+        //todo
+
+        public virtual void SubmitUplifts(Job job)
+        {
+            var jobLineItemActions = job.GetAllLineItemActions();
+            if (jobLineItemActions.Any(x => x.DeliveryAction == DeliveryAction.Credit || x.DeliveryAction == DeliveryAction.Close))
+            {
+                UpliftJobInAdam(job);
+            }
+        }
+
+        public virtual void UpliftJobInAdam(Job job)
+        {
+            var uplifts = deliveryLineCreditMapper.MapUplift(job);
+            var upliftEventTransaction = this.upliftTransactionFactory.Build(uplifts, job.JobRoute.BranchId);
+            exceptionEventRepository.InsertUpliftEventTransaction(upliftEventTransaction);
+        }
+//todo
 
         public ActionSubmitSummary GetSubmitSummary(int[] jobsId, bool isStopLevel)
         {

@@ -82,6 +82,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IAmendmentService>().Use<AmendmentService>();
             For<IAmendmentRepository>().Use<AmendmentRepository>();
             For<IAmendmentFactory>().Use<AmendmentFactory>();
+            For<IUpliftTransactionFactory>().Use<UpliftTransactionFactory>();
 
             // EF Contexts
             For<WellEntities>().Use<WellEntities>();
@@ -98,9 +99,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IStopMapper>().Use<StopMapper>();
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
             For<IOrderImportMapper>().Use<OrderImportMapper>();
-
-            // delivery lines
-            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
 
             // routes
             For<IRouteReadRepository>().Use<RouteReadRepository>();

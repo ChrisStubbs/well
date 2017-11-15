@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using PH.Common.Storage.Constants.Enums;
 using PH.Common.Storage;
 using PH.Common.Storage.Config.ConfigFile;
 using PH.Common.Storage.Constants.Enums;
@@ -120,7 +117,7 @@ namespace PH.Well.Task.UatFileCopy
                                 }
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             Console.WriteLine($"Failed to read {file.FullName}");
                         }
@@ -169,7 +166,6 @@ namespace PH.Well.Task.UatFileCopy
                     int branchId;
                     bool abort = false;
                     reader.Read();
-                    bool inJob = false;
                     while (!abort)
                     {
                         switch (reader.NodeType)

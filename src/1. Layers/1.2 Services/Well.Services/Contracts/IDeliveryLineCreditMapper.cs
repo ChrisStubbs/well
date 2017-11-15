@@ -7,5 +7,6 @@
     public interface IDeliveryLineCreditMapper
     {
         List<DeliveryLineCredit> Map(Job job);
+        List<DeliveryLineUplift> MapUplift(Job job);
     }
 }

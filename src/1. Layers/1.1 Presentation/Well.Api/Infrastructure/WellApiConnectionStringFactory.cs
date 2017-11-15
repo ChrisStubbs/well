@@ -27,9 +27,13 @@
                     var connection = connections[connectionPart];
                     if (connection != null)
                     {
-                        branchCons.AddRange(
-                            ConfigurationManager.AppSettings[appSettingKey].Split(';')
-                            .Select(x => new BranchConnection(int.Parse(x), connection.ConnectionString)));
+                        branchCons.AddRange(GetBranchConnections(appSettingKey, connection,ConnectionType.Dapper));
+                        var efConnection = connections[$"{connectionPart}Entities"];
+
+                        if (efConnection != null)
+                        {
+                            branchCons.AddRange(GetBranchConnections(appSettingKey, efConnection, ConnectionType.Ef));
+                        }
                     }
                 }
             }
@@ -37,11 +41,19 @@
             return branchCons;
         }
 
-        public string GetConnectionString(int branchId)
+        private static IEnumerable<BranchConnection> GetBranchConnections(string appSettingKey, ConnectionStringSettings connection, ConnectionType type)
+        {
+            return ConfigurationManager.AppSettings[appSettingKey].Split(';')
+                                        .Select(x => new BranchConnection(int.Parse(x), connection.ConnectionString, type));
+        }
+
+        public string DefaultConnectionString => ConfigurationManager.ConnectionStrings[ConfigurationManager.AppSettings["DefaultConnectionString"]].ConnectionString;
+
+        public string GetConnectionString(int? branchId, ConnectionType type)
         {
             try
             {
-                return BranchConnections.Single(x => x.BranchId == branchId).ConnectionString;
+                return branchId.HasValue ? BranchConnections.Single(x => x.BranchId == branchId && x.Type == type).ConnectionString : DefaultConnectionString;
             }
             catch (Exception ex)
             {
@@ -49,11 +61,9 @@
             }
         }
 
-        public IList<string> GetConnectionStrings()
+        public IList<string> GetConnectionStrings(ConnectionType type)
         {
-            return BranchConnections.Select(x => x.ConnectionString).Distinct().ToList();
+            return BranchConnections.Where(x=> x.Type == type).Select(x => x.ConnectionString).Distinct().ToList();
         }
-
-
     }
 }

@@ -48,6 +48,8 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
+        //note: This will use the default database connection as no branchId prefix is supplied in route
+        [Route("branch")]
         public HttpResponseMessage Get(string username = null)
         {
             var branches = this.branchRespository.GetAllValidBranches();

@@ -40,7 +40,8 @@ namespace PH.Well.Api.Controllers
             this.activeDirectoryService = activeDirectoryService;
         }
 
-        [Route("{branchId:int}/user-branches")]
+        //note: This will use the default database connection as no branchId prefix is supplied in route
+        [Route("user-branches")]
         [HttpGet]
         public HttpResponseMessage UserBranches()
         {

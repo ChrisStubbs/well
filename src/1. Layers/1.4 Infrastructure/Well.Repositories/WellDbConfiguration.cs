@@ -3,22 +3,37 @@
     using System.Configuration;
     using System.Data;
     using Contracts;
+    using Shared.Well.Data.EF.Contracts;
 
-    public class WellDbConfiguration : BaseDbConfiguration, IWellDbConfiguration
+    public class WellDbConfiguration : BaseDbConfiguration, IWellDbConfiguration, IWellEntitiesConnectionString
     {
-        public string DatabaseConnection
+        public string DatabaseConnection => GetConnectionString("Well").ConnectionString;
+
+        private ConnectionStringSettings GetConnectionString(string connectionStringKey)
+        {
+            ConnectionStringSettings conStringSettings = ConfigurationManager.ConnectionStrings[connectionStringKey];
+
+            if (conStringSettings == null)
+            {
+                throw new ConstraintException($"{connectionStringKey} ConnectionString not found");
+            }
+            return conStringSettings;
+        }
+
+        private string entitiesNameOrConnection;
+        public string NameOrConnectionString
         {
             get
             {
-                ConnectionStringSettings wellConnectionString = ConfigurationManager.ConnectionStrings["Well"];
-
-                if (wellConnectionString == null)
+                if (string.IsNullOrWhiteSpace(entitiesNameOrConnection))
                 {
-                    throw new ConstraintException("Well ConnectionString not found");
+                    entitiesNameOrConnection = GetConnectionString("WellEntities").ConnectionString;
                 }
-
-                return wellConnectionString.ConnectionString;
+                return entitiesNameOrConnection;
             }
+            set => entitiesNameOrConnection = value;
         }
     }
+
+   
 }

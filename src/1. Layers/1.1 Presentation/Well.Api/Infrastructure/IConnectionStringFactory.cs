@@ -2,9 +2,11 @@
 
 namespace PH.Well.Api.Infrastructure
 {
+    using Models;
+
     public interface IConnectionStringFactory
     {
-        string GetConnectionString(int branchId);
-        IList<string> GetConnectionStrings();
+        string GetConnectionString(int? branchId, ConnectionType type);
+        IList<string> GetConnectionStrings(ConnectionType type);
     }
 }

@@ -1,8 +1,10 @@
 ﻿namespace PH.Well.UnitTests.Api.Infrastructure
 {
+    using System.Linq;
     using NUnit.Framework;
     using NUnit.Framework.Internal;
     using Well.Api.Infrastructure;
+    using Well.Api.Models;
     using Well.Domain.Enums;
 
 
@@ -12,9 +14,12 @@
         public class TheGetBranchConnectionsMethod : WellApiConnectionStringFactoryTests
         {
             [Test]
-            public void Test()
+            public void TestBranchConnectionStrings()
             {
                 var branchConnections = new WellApiConnectionStringFactory().GetBranchConnections();
+
+                Assert.That(branchConnections.Count(x=> x.Type == ConnectionType.Dapper), Is.EqualTo(13));
+                Assert.That(branchConnections.Count(x => x.Type == ConnectionType.Ef), Is.EqualTo(13));
 
                 foreach (var branchConnection in branchConnections)
                 {
@@ -22,44 +27,53 @@
                     switch ((Branch)branchConnection.BranchId)
                     {
                         case Branch.Medway:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Coventry:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Fareham:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Dunfermline:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Leeds:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Hemel:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test1Connection"));
+                            AssertConnection(branchConnection, "Test1");
                             break;
                         case Branch.Birtley:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                         case Branch.Belfast:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                         case Branch.Brandon:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                         case Branch.Plymouth:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                         case Branch.Bristol:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                         case Branch.Haydock:
-                            Assert.That(branchConnection.ConnectionString, Is.EqualTo("Test2Connection"));
+                            AssertConnection(branchConnection, "Test2");
                             break;
                     }
                 }
 
+            }
+
+            private void AssertConnection(BranchConnection branchConnection, string test1)
+            {
+                Assert.That(
+                    branchConnection.ConnectionString, branchConnection.Type == ConnectionType.Dapper ?
+                        Is.EqualTo($"{test1}Connection")
+                        : Is.EqualTo($"{test1}EntitiesConnection")
+                );
             }
         }
     }

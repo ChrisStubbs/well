@@ -16,6 +16,7 @@ namespace PH.Well.Adam.Listener
     using PH.Well.Services.Contracts;
     using PH.Well.Services.EpodServices;
     using Repositories.Read;
+    using Shared.Well.Data.EF.Contracts;
     using StructureMap;
 
     public class Program
@@ -53,6 +54,7 @@ namespace PH.Well.Adam.Listener
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IWellEntitiesConnectionString>().Use<WellDbConfiguration>();
                     x.For<IStopRepository>().Use<StopRepository>();
                     x.For<IJobRepository>().Use<JobRepository>();
                     x.For<IJobDetailRepository>().Use<JobDetailRepository>();

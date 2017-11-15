@@ -2,31 +2,37 @@
 {
     using System;
     using System.Web;
+    using System.Web.Hosting;
     using Domain.Enums;
 
     public class BranchProvider : IBranchProvider
     {
-        public int GetBranchId()
+
+        public int? GetBranchId()
         {
-            try
+            if (HostingEnvironment.IsHosted)
             {
-                var parts = HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.Split('/');
-                var branchPart = int.Parse(parts[1]);
-
-                if (!Enum.IsDefined(typeof(Branch), branchPart))
+                try
                 {
-                    throw new Exception($"{branchPart} is not a valid branch id");
+                    var parts = HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.Split('/');
+                    int branchId = 0;
+
+                    if (int.TryParse(parts[1], out branchId))
+                    {
+                        if (!Enum.IsDefined(typeof(Branch), branchId))
+                        {
+                            throw new Exception($"{branchId} is not a valid branch id");
+                        }
+                        return branchId;
+                    }
+
                 }
-
-                return branchPart;
-
+                catch (Exception ex)
+                {
+                    throw new Exception("The correct branch id has not been passed in the URL", ex);
+                }
             }
-            catch (Exception e)
-            {
-                throw new Exception("The correct branch id has not been passed in the URL", e);
-            }
-
-
+            return null;
         }
     }
 }

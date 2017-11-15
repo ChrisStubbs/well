@@ -19,7 +19,7 @@ namespace PH.Well.Api.DependencyResolution
     using Services.Validation;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-    using System.Web.Http.ExceptionHandling;
+    using Shared.Well.Data.EF.Contracts;
     using Infrastructure;
 
     public class DefaultRegistry : Registry
@@ -150,6 +150,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IPodService>().Use<PodService>();
             For<IBranchProvider>().Use<BranchProvider>();
             For<IConnectionStringFactory>().Use<WellApiConnectionStringFactory>();
+            For<IWellEntitiesConnectionString>().Use<WelllApiDbConfiguration>();
         }
     }
 }

@@ -24,19 +24,11 @@
     public class EventProcessorTests
     {
         private Mock<IExceptionEventRepository> exceptionEventRepository;
-
         private Mock<IDeliveryLineActionService> exceptionEventService;
-
         private Mock<IEventLogger> eventLogger;
-
         private Mock<ILogger> logger;
         private Mock<IAdamRepository> _adamRepository;
-        private Mock<IContainer> container;
-
         private EventProcessor processor;
-
-        private string username;
-      
 
         [SetUp]
         public void Setup()
@@ -53,8 +45,6 @@
                 eventLogger.Object,
                 _adamRepository.Object
                 );
-
-            this.username = "Event Processor";
         }
 
         public class TheProcessMethod : EventProcessorTests

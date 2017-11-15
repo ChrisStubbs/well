@@ -16,7 +16,6 @@ namespace PH.Well.Services.DeliveryActions
         private readonly IAdamRepository adamRepository;
         private readonly IJobRepository jobRepository;
         private readonly IExceptionEventRepository eventRepository;
-        private readonly IEnumerable<IDeliveryLinesAction> actionHandlers;
         private readonly IJobDetailRepository jobDetailRepository;
         private readonly IJobDetailDamageRepository jobDetailDamageRepository;
         private readonly IJobService jobService;
@@ -26,7 +25,6 @@ namespace PH.Well.Services.DeliveryActions
             IAdamRepository adamRepository,
             IJobRepository jobRepository,
             IExceptionEventRepository eventRepository,
-            IEnumerable<IDeliveryLinesAction> actionHandlers,
             IJobDetailRepository jobDetailRepository,
             IJobDetailDamageRepository jobDetailDamageRepository,
             IJobService jobService,
@@ -35,7 +33,6 @@ namespace PH.Well.Services.DeliveryActions
             this.adamRepository = adamRepository;
             this.jobRepository = jobRepository;
             this.eventRepository = eventRepository;
-            this.actionHandlers = actionHandlers;
             this.jobDetailRepository = jobDetailRepository;
             this.jobDetailDamageRepository = jobDetailDamageRepository;
             this.jobService = jobService;

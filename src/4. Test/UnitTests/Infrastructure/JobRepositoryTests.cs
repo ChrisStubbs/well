@@ -22,7 +22,6 @@
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<WellEntities> wellEnteties;
         private JobRepository repository;
-        private string UserName = "TestUser";
 
         [SetUp]
         public void Setup()

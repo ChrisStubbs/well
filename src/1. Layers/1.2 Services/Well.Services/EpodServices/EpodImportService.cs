@@ -6,8 +6,10 @@
     using Common.Contracts;
     using Contracts;
     using Domain;
-    using Domain.Enums;
+    using System.Linq;
     using Repositories.Contracts;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     public class EpodImportService : IEpodImportService
     {
@@ -19,6 +21,8 @@
         private readonly IEpodFileImportCommands importCommands;
         private readonly IDeadlockRetryHelper deadlockRetryHelper;
         private readonly IRouteService routeService;
+        private readonly IJobService jobService;
+        private readonly IStopService stopService;
 
         public EpodImportService(
             ILogger logger,
@@ -28,8 +32,9 @@
             IEpodImportMapper epodImportMapper,
             IEpodFileImportCommands importCommands,
             IDeadlockRetryHelper deadlockRetryHelper,
-            IRouteService routeService
-            )
+            IRouteService routeService,
+            IJobService jobService,
+            IStopService stopService)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -39,6 +44,8 @@
             this.importCommands = importCommands;
             this.deadlockRetryHelper = deadlockRetryHelper;
             this.routeService = routeService;
+            this.jobService = jobService;
+            this.stopService = stopService;
         }
         public void Import(RouteDelivery route, string fileName, out bool hasErrors)
         {
@@ -72,9 +79,38 @@
         {
             using (var transactionScope = new TransactionScope())
             {
-                var isSuccessful = TryImportRouteHeader(header, fileName);
+                if (TryImportRouteHeader(header, fileName))
+                {
+                    var allJobs = header.Stops
+                        .SelectMany(p => p.Jobs)
+                        .Where(p => p.Id != 0)
+                        .Select(p => new Job { Id = p.Id, JobStatus = p.JobStatus, StopId = p.StopId })
+                        .ToList();
+                    var allStops = new List<Stop>();
+
+                    foreach (var j in allJobs)
+                    {
+                        this.jobService.ComputeWellStatus(j);
+                    }
+
+                    allStops = allJobs
+                        .GroupBy(p => p.StopId)
+                        .Select(p => new Stop
+                        {
+                            Id = p.Key,
+                            Jobs = p.ToList()
+                        })
+                        .ToList();
+
+                    stopService.ComputeWellStatus(allStops);
+                    this.routeService.ComputeWellStatus(header.Id);
+
+                    transactionScope.Complete();
+                    return true;
+                }
+
                 transactionScope.Complete();
-                return isSuccessful;
+                return false;
             }
         }
 
@@ -105,10 +141,13 @@
 
                 epodImportMapper.MergeRouteHeader(fileHeader, existingHeader);
                 routeHeaderRepository.Update(existingHeader);
+
+                fileHeader.Id = existingHeader.Id;
+
                 importService.ImportStops(fileHeader, epodImportMapper, importCommands);
 
                 // Calculate well status
-                routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(existingHeader.Id);
+                //routeService.ComputeWellStatusAndNotifyIfChangedFromCompleted(existingHeader.Id);
                 return true;
             }
             else

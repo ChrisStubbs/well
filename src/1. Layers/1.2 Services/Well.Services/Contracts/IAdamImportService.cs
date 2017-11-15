@@ -6,6 +6,5 @@
     public interface IAdamImportService
     {
         void Import(RouteDelivery route, string fileName, IImportConfig config, out bool hasErrors);
-
     }
 }

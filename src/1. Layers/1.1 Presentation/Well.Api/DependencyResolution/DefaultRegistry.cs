@@ -100,9 +100,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IDeliveryLineCreditMapper>().Use<DeliveryLineCreditMapper>();
             For<IOrderImportMapper>().Use<OrderImportMapper>();
 
-            // delivery lines
-            For<IDeliveryLinesAction>().Use<DeliveryLinesCredit>();
-
             // routes
             For<IRouteReadRepository>().Use<RouteReadRepository>();
 

@@ -76,8 +76,8 @@
       <HintPath>..\..\..\packages\PH.Common.Data.Encryption.Interfaces.1.0.0.1\lib\net452\PH.Common.Data.Encryption.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.DateAndTime.1.0.0.0\lib\net452\PH.Common.DateAndTime.dll</HintPath>
+    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.DateAndTime.1.0.0.1\lib\net452\PH.Common.DateAndTime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.DateAndTime.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -108,8 +108,8 @@
       <HintPath>..\..\..\packages\PH.Common.Storage.Interfaces.1.0.0.6\lib\net452\PH.Common.Storage.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.Storage.Local.1.0.0.7\lib\net452\PH.Common.Storage.Local.dll</HintPath>
+    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Local.1.0.0.8\lib\net452\PH.Common.Storage.Local.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Storage.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -137,8 +137,9 @@
     <Reference Include="PH.Shared.AccountService.Constants, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.AccountService.Constants.1.0.0.6\lib\net452\PH.Shared.AccountService.Constants.dll</HintPath>
     </Reference>
-    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.9\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
+    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.10\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PH.Shared.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.Constants.1.0.0.0\lib\net452\PH.Shared.Constants.dll</HintPath>
@@ -151,9 +152,8 @@
       <HintPath>..\..\..\packages\PH.Shared.EmailService.Interfaces.1.0.0.1\lib\net452\PH.Shared.EmailService.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.EmailService.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.1.0.0.0\lib\net452\PH.Shared.EmailService.Models.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PH.Shared.EmailService.Models, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.1.0.0.3\lib\net452\PH.Shared.EmailService.Models.dll</HintPath>
     </Reference>
     <Reference Include="PH.Shared.EmailService.Models.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.Interfaces.1.0.0.0\lib\net452\PH.Shared.EmailService.Models.Interfaces.dll</HintPath>
@@ -175,9 +175,8 @@
       <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.31\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.Well.TranSend.File, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.Well.TranSend.File.1.0.0.3\lib\net452\PH.Shared.Well.TranSend.File.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PH.Shared.Well.TranSend.File, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.TranSend.File.1.0.0.4\lib\net452\PH.Shared.Well.TranSend.File.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

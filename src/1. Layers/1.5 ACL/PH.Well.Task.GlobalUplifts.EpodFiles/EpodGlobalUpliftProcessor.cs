@@ -36,6 +36,8 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         #region Public properties
         public string Sources { get; set; }
         public List<int> Branches { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         #endregion Public properties
 
         #region Constructors
@@ -57,23 +59,27 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 Branches = this.Branches,
                 JobType = "UPL-GLO"
             };
-            // todo this needs to be sorted
-            DateTime dateFrom = DateTime.Today.AddDays(-1);
-            DateTime dateTo = DateTime.Today;
+
+            // Default to today only (yesterday is envoked via macros)
+            DateTime dateFrom = StartDate.GetValueOrDefault(DateTime.Today.AddDays(-1));
+            DateTime dateTo = EndDate.GetValueOrDefault(DateTime.Today);
             this.ProcessGlobalUplifts(this.Sources, dateFrom, dateTo, criteria);
         }
 
+        /// <summary>
+        /// Process a range of dated folders under each of the specified source folders
+        /// </summary>
+        /// <param name="sourceFolders"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="searchCriteria"></param>
         public void ProcessGlobalUplifts(string sourceFolders, DateTime startDate, DateTime endDate, SearchCriteria searchCriteria)
         {
             List<GlobalUpliftSearchResult> results = new List<GlobalUpliftSearchResult>();
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                // Allow for {today} & {minus1} - {minusn} macro date replacements
+                // Allow for {today} macro date replacement
                 var source = sourceFolders.Replace("{today}", $"{date:yyyyMMdd}");
-                for (int minus = 1; minus < 5; minus++)
-                {
-                    source = source.Replace($"{{minus{minus}}}", date.AddDays(-minus).ToString("yyyyMMdd"));
-                }
 
                 // Check for new (unprocessed) ePod globalUpliftSearchResults
                 // Process those globalUpliftSearchResults
@@ -93,7 +99,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         {
             var files = Storage.GetFiles(sourceFolders).GroupBy(x => x.FullName).Select(y => y.First()).Where(x => x.Name.ToLower().StartsWith("epod_")).ToList();
             GlobalUpliftParser parser = new GlobalUpliftParser();
-            foreach (var file in files /*.Where(x => x.Name.ToLower() == "ePOD__20170911_11131106715484.xml".ToLower())*/)
+            foreach (var file in files)
             {
                 if (file.Size > 0)
                 {
@@ -136,10 +142,6 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 if (attempt == null)
                 {
                     // Look for a matching Global uplift with same CsfRefernce if present, else no CSF yet with a valid date range
-                    var globalUplifts = _globalUplifts.Where(
-                        x =>
-                            x.BranchId == searchResult.BranchId &&
-                            x.PHAccount == searchResult.AccountNumber).ToList();
                     var globalUplift = _globalUplifts.FirstOrDefault(
                         x =>
                             x.BranchId == searchResult.BranchId &&
@@ -194,7 +196,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                             case RouteStatusCode.NotDeparted:
                                 attempt.JobStatusId = (int)PH.Well.Domain.Enums.JobStatus.InComplete;
                                 break;
-                            case RouteStatusCode.InProgress:
+                            case RouteStatusCode.InProgress: //this line of code is not needed because it already has a default
                             default:
                                 attempt.JobStatusId = (int)PH.Well.Domain.Enums.JobStatus.InComplete;
                                 break;

@@ -105,14 +105,12 @@
     <Compile Include="Contracts\IActionSummaryMapper.cs" />
     <Compile Include="Contracts\IDeliveryLineCreditMapper.cs" />
     <Compile Include="Contracts\ILookupService.cs" />
-    <Compile Include="DeliveryActions\BaseDeliveryAction.cs" />
     <Compile Include="Contracts\IActiveDirectoryService.cs" />
     <Compile Include="Contracts\IAdamImportService.cs" />
     <Compile Include="Contracts\IAdamUpdateService.cs" />
     <Compile Include="Contracts\IBranchService.cs" />
     <Compile Include="Contracts\ICreditTransactionFactory.cs" />
     <Compile Include="Contracts\IJobDetailToDeliveryLineCreditMapper.cs" />
-    <Compile Include="Contracts\IDeliveryLinesAction.cs" />
     <Compile Include="Contracts\IJobService.cs" />
     <Compile Include="Contracts\IEpodUpdateService.cs" />
     <Compile Include="Contracts\IDeliveryLineActionService.cs" />
@@ -123,7 +121,6 @@
     <Compile Include="Contracts\IFileMonitorService.cs" />
     <Compile Include="Contracts\IOrderImportMapper.cs" />
     <Compile Include="Contracts\IUserThresholdService.cs" />
-    <Compile Include="DeliveryActions\DeliveryLinesCredit.cs" />
     <Compile Include="CreditTransactionFactory.cs" />
     <Compile Include="Contracts\IAppSearchService.cs" />
     <Compile Include="Contracts\IStopStatusService.cs" />

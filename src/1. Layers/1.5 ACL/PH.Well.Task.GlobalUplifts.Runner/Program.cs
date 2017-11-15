@@ -40,8 +40,8 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             ExecuteStep("GlobalUplift-BatchImporter", () => task.Execute(new UpliftImportTaskData
             {
                 Directories = config.Directories,
-                ArchiveDirectory = config.ArchiveDirectory
-            }));
+                ArchiveDirectory = config.ArchiveDirectory,
+            }, config.MaxUpliftEndDateDays));
 
             // Process all global uplifts from files from yesterday and today by default
             var processor = container.GetInstance<EpodGlobalUpliftProcessor>();

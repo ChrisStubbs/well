@@ -11,12 +11,18 @@ namespace PH.Well.Task.GlobalUplifts.Data
     /// </summary>
     public class UpliftDataProvidersCollection : IUpliftDataProvider
     {
+        #region Private fields
         private readonly List<IUpliftDataProvider> _providers;
+        #endregion Private fields
+
+        #region Constructors
         public UpliftDataProvidersCollection()
         {
             _providers = new List<IUpliftDataProvider>();
         }
+        #endregion Constructors
 
+        #region Public methods
         public void Add(IUpliftDataProvider provider)
         {
             _providers.Add(provider);
@@ -32,5 +38,6 @@ namespace PH.Well.Task.GlobalUplifts.Data
                 }
             }
         }
+        #endregion Public methods
     }
 }

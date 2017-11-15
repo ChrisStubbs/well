@@ -22,8 +22,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
     public class EpodGlobalUpliftProcessor : ITaskProcessor
     {
         #region Constants
-        private const string NOT_AVAILABLE = "*Not available*";
-        private const string ALL_BRANCHES_EMAIL = "all_branches@palmerharvey.co.uk";
+        private const int TWO_WEEKS = 14;
         #endregion Constants
 
         #region Private fields
@@ -126,7 +125,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         {
             Console.WriteLine($"Processing Global uplifts for {dateProcessed:dd/MM/yyyy}");
 
-            DateTime startWindow = dateProcessed.AddDays(-14);
+            DateTime startWindow = dateProcessed.AddDays(-TWO_WEEKS);
             DateTime endWindow = startWindow.AddMonths(2);
 
             int counter = 0;
@@ -160,7 +159,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                             SourceFilename = searchResult.Filename,
                             PHProductCode = searchResult.ProductCode,
                             StartDate = searchResult.Date,
-                            EndDate = searchResult.Date.Value.AddDays(14)
+                            EndDate = searchResult.Date.Value.AddDays(TWO_WEEKS)
                         };
                         // Create a dummy new Global uplift as we are missing one that should have existed
                         // Need to force a re-sort in case files were processed out of sequence

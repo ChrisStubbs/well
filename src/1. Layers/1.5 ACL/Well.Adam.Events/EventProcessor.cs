@@ -75,7 +75,7 @@ namespace PH.Well.Adam.Events
             {
                 case EventAction.Credit:
                     var creditEventTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
-                    this.deliveryLineActionService.CreditTransaction(creditEventTransaction, eventToProcess.Id,
+                    this.deliveryLineActionService.CreditOrUpliftTransaction(creditEventTransaction, eventToProcess.Id,
                         GetAdamSettings(creditEventTransaction.BranchId));
                     break;
                 case EventAction.Grn:
@@ -117,6 +117,12 @@ namespace PH.Well.Adam.Events
                         // Delete event since it will be recreated in adam repository
                         exceptionEventRepository.Delete(eventToProcess.Id);
                     }
+                    break;
+                //TODO
+                case EventAction.StandardUplift:
+                    var upliftTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
+                    this.deliveryLineActionService.CreditOrUpliftTransaction(upliftTransaction, eventToProcess.Id,
+                        GetAdamSettings(upliftTransaction.BranchId));
                     break;
             }
         }

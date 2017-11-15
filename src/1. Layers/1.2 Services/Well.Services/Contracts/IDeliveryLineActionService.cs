@@ -7,7 +7,7 @@
 
     public interface IDeliveryLineActionService
     {
-        void CreditTransaction(CreditTransaction creditTransaction, int eventId, AdamSettings adamSettings);
+        void CreditOrUpliftTransaction(CreditTransaction transaction, int eventId, AdamSettings adamSettings);
 
         void Grn(GrnEvent grnEvent, int eventId, AdamSettings adamSettings);
 

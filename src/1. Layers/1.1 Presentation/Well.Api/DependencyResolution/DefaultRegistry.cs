@@ -82,6 +82,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IAmendmentService>().Use<AmendmentService>();
             For<IAmendmentRepository>().Use<AmendmentRepository>();
             For<IAmendmentFactory>().Use<AmendmentFactory>();
+            For<IUpliftTransactionFactory>().Use<UpliftTransactionFactory>();
 
             // EF Contexts
             For<WellEntities>().Use<WellEntities>();

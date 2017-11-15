@@ -145,6 +145,7 @@
     <Compile Include="ValueObjects\AppSearchRouteItem.cs" />
     <Compile Include="ValueObjects\AssignJobResult.cs" />
     <Compile Include="ValueObjects\BulkActionResult.cs" />
+    <Compile Include="ValueObjects\DeliveryLineUplift.cs" />
     <Compile Include="ValueObjects\ExceptionTotalsPerRoute.cs" />
     <Compile Include="ValueObjects\IAppSearchItem.cs" />
     <Compile Include="ValueObjects\JobStop.cs" />

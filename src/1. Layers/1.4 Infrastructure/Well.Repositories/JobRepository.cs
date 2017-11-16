@@ -75,16 +75,16 @@ namespace PH.Well.Repositories
         public IList<JobDetailLineItemTotals> JobDetailTotalsPerRouteHeader(int routeHeaderId)
         {
             return wellEntities.ExceptionTotalsPerSingleRoute
-                            .Where(p => p.RouteId == routeHeaderId)
-                            .Select(p => new JobDetailLineItemTotals
-                            {
-                                JobId = p.JobId,
-                                RouteId = routeHeaderId,
-                                StopId = p.StopId,
-                                TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
-                                TotalClean = p.NumberOfClean.Value
-                            })
-                            .ToList();
+                .Where(p => p.RouteId == routeHeaderId)
+                .Select(p => new JobDetailLineItemTotals
+                {
+                    JobId = p.JobId,
+                    RouteId = routeHeaderId,
+                    StopId = p.StopId,
+                    TotalExceptions = p.TotalLInes.Value - p.NumberOfClean.Value,
+                    TotalClean = p.NumberOfClean.Value
+                })
+                .ToList();
         }
 
         public IEnumerable<JobDetailLineItemTotals> JobDetailTotalsPerJobs(IEnumerable<int> jobIds)
@@ -395,10 +395,12 @@ namespace PH.Well.Repositories
 
         public void UpdateWellStatus(Job job)
         {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.JobUpdateWellStatus)
-                .AddParameter("Id", job.Id, DbType.Int32)
-                .AddParameter("WellStatusId", (int)job.WellStatus, DbType.Int16)
-                .Execute();
+            var parameters = new DynamicParameters();
+
+            parameters.Add("Id", job.Id, DbType.Int32);
+            parameters.Add("WellStatusId", (int)job.WellStatus, DbType.Int16);
+
+            this.dapperProxy.Execute(parameters, StoredProcedures.JobUpdateWellStatus);
         }
 
         public Job GetForWellStatusCalculationById(int jobId)

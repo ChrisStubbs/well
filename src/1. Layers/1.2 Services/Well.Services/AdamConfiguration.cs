@@ -18,7 +18,12 @@ namespace PH.Well.Services
         private const string ServerKey = "server";
         private const string PortKey = "port";
         private const string RfsKey = "rfs";
+        private const string EmailKey = "email";
         private const string MissingMessage = "adam_Default setting missing from config";
+
+        /// <summary>
+        /// Ordered list of key names for parsing non-named entries
+        /// </summary>
         private static readonly string[] OrderedKeyNames = 
         {
             ServerKey,
@@ -104,7 +109,9 @@ namespace PH.Well.Services
                     Port = 
                         values.ContainsKey(PortKey) ? int.Parse(values[PortKey]) : AdamDefault?.Port ?? 0,
                     Rfs = 
-                        values.ContainsKey(RfsKey) ? values[RfsKey] : AdamDefault?.Rfs ?? MissingMessage
+                        values.ContainsKey(RfsKey) ? values[RfsKey] : AdamDefault?.Rfs ?? MissingMessage,
+                    EmailAddress =
+                        values.ContainsKey(EmailKey) ? values[EmailKey] : AdamDefault?.EmailAddress ?? MissingMessage
                 };
                 return adamSettings;
             }

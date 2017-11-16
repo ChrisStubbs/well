@@ -11,6 +11,8 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,32 +34,162 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Data.Encryption, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Data.Encryption.1.0.0.1\lib\net452\PH.Common.Data.Encryption.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Data.Encryption.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Data.Encryption.Interfaces.1.0.0.1\lib\net452\PH.Common.Data.Encryption.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.DateAndTime, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.DateAndTime.1.0.0.1\lib\net452\PH.Common.DateAndTime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.DateAndTime.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.DateAndTime.Interfaces.1.0.0.0\lib\net452\PH.Common.DateAndTime.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.Entity.Interfaces, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.Entity.Interfaces.1.0.0.2\lib\net452\PH.Common.Entity.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="PH.Common.FileNode, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.FileNode.1.0.0.4\lib\net452\PH.Common.FileNode.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.FileNode.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.FileNode.Constants.1.0.0.0\lib\net452\PH.Common.FileNode.Constants.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.FileNode.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.FileNode.Interfaces.1.0.0.1\lib\net452\PH.Common.FileNode.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PH.Common.Security.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.Security.Interfaces.1.0.0.1\lib\net452\PH.Common.Security.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Common.Storage, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.1.0.0.6\lib\net452\PH.Common.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Storage.Config.ConfigFile, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Config.ConfigFile.1.0.0.6\lib\net452\PH.Common.Storage.Config.ConfigFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Storage.Constants, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Constants.1.0.0.6\lib\net452\PH.Common.Storage.Constants.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Storage.Interfaces, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Interfaces.1.0.0.6\lib\net452\PH.Common.Storage.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Storage.Local, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Local.1.0.0.8\lib\net452\PH.Common.Storage.Local.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.Storage.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.Storage.Models.1.0.0.1\lib\net452\PH.Common.Storage.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Common.SystemExtensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.SystemExtensions.1.0.0.3\lib\net452\PH.Common.SystemExtensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PH.Common.T4Templates, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\PH.Common.T4Templates.1.0.0.0\lib\net452\PH.Common.T4Templates.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Common.T4Templates.Generators, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Common.T4Templates.Generators.1.0.0.6\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
+    <Reference Include="PH.Common.T4Templates.Generators, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Common.T4Templates.Generators.1.0.0.7\lib\net452\PH.Common.T4Templates.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.Well.Constants, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.Well.Constants.1.0.0.11\lib\net452\PH.Shared.Well.Constants.dll</HintPath>
+    <Reference Include="PH.Shared.AccountService.Client.Interfaces, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Client.Interfaces.1.0.0.8\lib\net452\PH.Shared.AccountService.Client.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Client.Rest, Version=1.0.0.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Client.Rest.1.0.0.12\lib\net452\PH.Shared.AccountService.Client.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Constants, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Constants.1.0.0.6\lib\net452\PH.Shared.AccountService.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.AccountService.Models, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.AccountService.Models.1.0.0.10\lib\net452\PH.Shared.AccountService.Models.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.26, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.26\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+    <Reference Include="PH.Shared.Constants, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Constants.1.0.0.0\lib\net452\PH.Shared.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.EmailService.Client.Rest, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Client.Rest.1.0.0.1\lib\net452\PH.Shared.EmailService.Client.Rest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.EmailService.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Interfaces.1.0.0.1\lib\net452\PH.Shared.EmailService.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.EmailService.Models, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.1.0.0.3\lib\net452\PH.Shared.EmailService.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="PH.Shared.EmailService.Models.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.EmailService.Models.Interfaces.1.0.0.0\lib\net452\PH.Shared.EmailService.Models.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Service, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Service.1.0.0.3\lib\net452\PH.Shared.Service.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Service.Rest, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Service.Rest.1.0.0.3\lib\net452\PH.Shared.Service.Rest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Service.Rest.Interfaces, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Service.Rest.Interfaces.1.0.0.1\lib\net452\PH.Shared.Service.Rest.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.Data.EF, Version=1.0.0.31, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.Data.EF.1.0.0.31\lib\net452\PH.Shared.Well.Data.EF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PH.Shared.Well.TranSend.File, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PH.Shared.Well.TranSend.File.1.0.0.4\lib\net452\PH.Shared.Well.TranSend.File.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\StructureMap.4.5.1\lib\net45\StructureMap.dll</HintPath>
@@ -66,20 +198,50 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\..\..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\..\..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountServiceClient.cs" />
+    <Compile Include="GlobalUpliftEmailClient.cs" />
+    <Compile Include="GlobalUpliftRunnerConfig.cs" />
     <Compile Include="GlobalUpliftRunnerConsts.cs" />
+    <Compile Include="GlobalUpliftsNameProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +257,10 @@
       <Project>{F6584BAC-9A01-4788-9C75-FAF17337360E}</Project>
       <Name>Well.Repositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PH.Well.Task.GlobalUplifts.EpodFiles\PH.Well.Task.GlobalUplifts.EpodFiles.csproj">
+      <Project>{8acacc4c-381c-4486-b7d9-4dfc0ee82e45}</Project>
+      <Name>PH.Well.Task.GlobalUplifts.EpodFiles</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PH.Well.Task.GlobalUplifts\PH.Well.Task.GlobalUplifts.csproj">
       <Project>{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}</Project>
       <Name>PH.Well.Task.GlobalUplifts</Name>
@@ -104,4 +270,33 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\OctoPack.3.6.2\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\OctoPack.3.6.2\build\OctoPack.targets'))" />
+  </Target>
+  <Import Project="..\..\..\packages\OctoPack.3.6.2\build\OctoPack.targets" Condition="Exists('..\..\..\packages\OctoPack.3.6.2\build\OctoPack.targets')" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile" Condition="Exists('App.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="App.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="AfterPublish">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
 </Project>

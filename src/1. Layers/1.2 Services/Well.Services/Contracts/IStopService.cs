@@ -11,6 +11,8 @@ namespace PH.Well.Services.Contracts
     {
         void ComputeWellStatus(IList<int> stopId);
         
+        void ComputeWellStatus(IList<Stop> stops);
+
         bool ComputeAndPropagateWellStatus(Stop stop);
 
         bool ComputeAndPropagateWellStatus(int stopId);

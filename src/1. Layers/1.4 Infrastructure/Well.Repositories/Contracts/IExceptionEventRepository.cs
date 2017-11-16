@@ -12,6 +12,8 @@ namespace PH.Well.Repositories.Contracts
     {
         void InsertCreditEventTransaction(CreditTransaction creditTransaction);
 
+        void InsertUpliftEventTransaction(CreditTransaction upliftTransaction);
+
         void MarkEventAsProcessed(int eventId);
 
         void Delete(int id);

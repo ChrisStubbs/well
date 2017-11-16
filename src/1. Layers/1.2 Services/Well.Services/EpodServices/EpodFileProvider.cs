@@ -24,36 +24,37 @@ namespace PH.Well.Services.EpodServices
             this.routeHeaderRepository = routeHeaderRepository;
         }
 
-        public void Import(string filePath, string filename,IImportConfig config)
+        public bool TryImport(string filePath, string filename, IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
 
             try
             {
+                bool hasErrors = false;
                 using (var streamReader = new StreamReader(filePath))
                 {
                     var routes = (RouteDelivery)xmlSerializer.Deserialize(streamReader);
-
 
                     int branchId = 0;
                     if (!routes.RouteHeaders.First().TryParseBranchIdFromRouteNumber(out branchId) || !config.ProcessDataForBranch((Well.Domain.Enums.Branch)branchId))
                     {
                         logger.LogDebug($"Skip route delivery {filePath}");
-                        return;
                     }
 
                     var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
                     routes.RouteId = route.Id;
 
-                    this.epodImportService.Import(routes, filename);
-                }
+                    this.epodImportService.Import(routes, filename, out hasErrors);
 
+                }
                 logger.LogDebug($"File {filename} imported!");
+                return !hasErrors;
             }
             catch (Exception exception)
             {
                 this.logger.LogError($"Epod update error in XML file {filename}!", exception);
+                return false;
             }
         }
     }

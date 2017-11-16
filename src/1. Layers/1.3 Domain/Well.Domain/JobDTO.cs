@@ -494,5 +494,8 @@ namespace PH.Well.Domain
                 return total;
             }
         }
+
+        [XmlIgnore]
+        public JobStatus JobStatus { get; set; }
     }
 }

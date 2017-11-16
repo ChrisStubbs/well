@@ -17,6 +17,7 @@ export class AssignModal implements IObservableAlive
 {
     public isVisible: boolean = false;
     public users: IUser[];
+    public filtredUsers: IUser[];
     public userJobs: UserJobs;
     public httpResponse: HttpResponse = new HttpResponse();
     public assigned = false;
@@ -27,6 +28,7 @@ export class AssignModal implements IObservableAlive
 
     private allUsers: IUser[];
     private isReadOnlyUser: boolean;
+    private name: string;
 
     constructor(
         private securityService: SecurityService,
@@ -43,6 +45,7 @@ export class AssignModal implements IObservableAlive
             {
                 return _.isNil(this.model.assigned) || current.name != this.model.assigned;
             });
+        this.filterItem('');
     }
 
     public ngOnInit()
@@ -117,5 +120,18 @@ export class AssignModal implements IObservableAlive
 
         this.onAssigned.emit(result);
         this.buildUsersSource();
+    }
+
+    private filterItem(name: string): void
+    {
+        if (_.isEmpty(name))
+        {
+            this.filtredUsers = this.users;
+        }
+
+        this.filtredUsers = _.filter(this.users, (current: IUser) =>
+            {
+                return _.includes(current.name.toLowerCase(), name.toLowerCase());
+            });
     }
 }

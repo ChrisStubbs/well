@@ -5,16 +5,15 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Xml.Serialization;
 
     using PH.Well.Common;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Domain.Enums;
-    using PH.Well.Repositories;
     using PH.Well.Repositories.Contracts;
     using PH.Well.Services.Contracts;
 
@@ -30,6 +29,7 @@
         private readonly IRouteHeaderRepository routeHeaderRepository;
         private readonly IEpodFileProvider epodProvider;
         private readonly IWellCleanUpService wellCleanUpService;
+        private readonly IImportedFileRepository importedFileRepository;
 
         readonly Regex fileNameRegEx = new Regex("^(ROUTE|ORDER|EPOD|CLEAN)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -43,7 +43,8 @@
             IAdamUpdateService adamUpdateService,
             IRouteHeaderRepository routeHeaderRepository,
             IEpodFileProvider epodProvider,
-            IWellCleanUpService wellCleanUpService)
+            IWellCleanUpService wellCleanUpService,
+            IImportedFileRepository importedFileRepository)
         {
             this.logger = logger;
             this.eventLogger = eventLogger;
@@ -55,6 +56,7 @@
             this.routeHeaderRepository = routeHeaderRepository;
             this.epodProvider = epodProvider;
             this.wellCleanUpService = wellCleanUpService;
+            this.importedFileRepository = importedFileRepository;
         }
 
         public void Monitor(IAdamFileMonitorServiceConfig config)
@@ -73,19 +75,21 @@
                 stopWatch.Restart();
 
                 this.logger.LogDebug($"Start to process file {file.FullName}");
+               
                 this.fileService.WaitForFile(file.FullName);
                 this.Process(file, config);
 
                 var ts = stopWatch.Elapsed;
 
                 var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
+
                 // Abort if a file called stop.txt exists in exe folder
                 if (File.Exists("stop.txt"))
                 {
                     File.Delete("stop.txt");
                     return;
                 }
-                this.logger.LogDebug($"File {file.FullName} took {elapsedTime} to process");
             }
         }
 
@@ -120,47 +124,60 @@
 
         public void Process(ImportFileInfo importFile, IAdamFileMonitorServiceConfig config)
         {
+            if (importedFileRepository.HasFileAlreadyBeenImported(importFile.Name))
+            {
+                this.logger.LogDebug($"{importFile.Name} ignored as already in system !");
+                this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config, false));
+                return;
+            }
+
             var filename = importFile.Name;
             var fileType = this.fileTypeService.DetermineFileType(filename);
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
+            bool isSuccess = false;
             switch (fileType)
             {
                 case EpodFileType.Route:
-                    this.HandleRoute(importFile.FullName, filename,config);
+                    isSuccess = TryHandleRoute(importFile.FullName, filename, config);
                     break;
 
                 case EpodFileType.Order:
-                    this.HandleOrder(importFile.FullName, filename, config);
+                    isSuccess = TryHandleOrder(importFile.FullName, filename, config);
                     break;
 
                 case EpodFileType.Epod:
-                    this.HandleEpod(importFile.FullName, filename, config);
+                    try
+                    {
+                        isSuccess = epodProvider.TryImport(importFile.FullName, filename, config);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.LogError(exception, importFile.FullName);
+                        isSuccess = false;
+                    }
                     break;
 
                 case EpodFileType.Clean:
-                    this.HandleClean(importFile.FullName);
+                    try
+                    {
+                        wellCleanUpService.Clean().Wait();
+                        isSuccess = true;
+                    }
+                    catch (Exception exception)
+                    {
+                        this.LogError(exception, importFile.FullName);
+                        isSuccess = false;
+                    }
                     break;
             }
-           
-            this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config));
+
+            this.fileModule.MoveFile(importFile.FullName, GetArchivePath(importFile, config, isSuccess));
             this.logger.LogDebug($"{importFile.FullName} processed!");
         }
 
-        private void HandleClean(string filePath)
-        {
-            try
-            {
-                wellCleanUpService.Clean().Wait();
-            }
-            catch (Exception exception)
-            {
-                this.LogError(exception, filePath);
-            }
-        }
-
-        private void HandleRoute(string filePath, string filename,IImportConfig config)
+        private bool TryHandleRoute(string filePath, string filename, IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteDelivery));
             try
@@ -172,17 +189,19 @@
                     var route = this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
                     routes.RouteId = route.Id;
-
-                    this.adamImportService.Import(routes, filename, config);
+                    bool hasErrors;
+                    this.adamImportService.Import(routes, filename, config, out hasErrors);
+                    return !hasErrors;
                 }
             }
             catch (Exception exception)
             {
                 this.LogError(exception, filePath);
+                return false;
             }
         }
 
-        private void HandleOrder(string filePath, string filename, IImportConfig config)
+        private bool TryHandleOrder(string filePath, string filename, IImportConfig config)
         {
             var xmlSerializer = new XmlSerializer(typeof(RouteUpdates));
             try
@@ -193,27 +212,18 @@
 
                     this.routeHeaderRepository.Create(new Routes { FileName = filename });
 
-                    this.adamUpdateService.Update(routes,config);
+                    this.adamUpdateService.Update(routes, config);
+                    return true;
+
                 }
             }
             catch (Exception exception)
             {
                 this.LogError(exception, filePath);
+                return false;
             }
         }
-
-        private void HandleEpod(string filePath, string filename, IImportConfig config)
-        {
-            try
-            {
-                this.epodProvider.Import(filePath, filename, config);
-            }
-            catch (Exception exception)
-            {
-                this.LogError(exception, filePath);
-            }
-        }
-
+        
         private void LogError(Exception exception, string filePath)
         {
             this.logger.LogError($"Something went wrong with file {filePath}", exception);
@@ -223,9 +233,16 @@
                 3332);
         }
 
-        private string GetArchivePath(ImportFileInfo importFile,IAdamFileMonitorServiceConfig config)
+        private string GetArchivePath(ImportFileInfo importFile, IAdamFileMonitorServiceConfig config, bool isSuccessful)
         {
-            return Path.Combine(config.ArchiveFolder, GetDateStampFromFile(importFile).ToString("yyyyMMdd"));
+            var pathString = Path.Combine(config.ArchiveFolder, GetDateStampFromFile(importFile).ToString("yyyyMMdd"));
+            
+            if (!isSuccessful)
+            {
+                pathString = Path.Combine(pathString, "Failures");
+            }
+
+            return pathString;
         }
 
         public class ImportFileInfo
@@ -249,9 +266,9 @@
                 CreationTime = creationTime;
             }
 
-            public ImportFileInfo(FileInfo fileInfo):this(fileInfo.FullName, fileInfo.Name,fileInfo.LastWriteTime,fileInfo.CreationTime)
+            public ImportFileInfo(FileInfo fileInfo) : this(fileInfo.FullName, fileInfo.Name, fileInfo.LastWriteTime, fileInfo.CreationTime)
             {
-                
+
             }
         }
     }

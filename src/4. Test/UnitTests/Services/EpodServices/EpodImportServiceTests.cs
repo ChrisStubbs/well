@@ -25,6 +25,9 @@
         private IDeadlockRetryHelper deadlockRetryHelper;
         private EpodImportService epodImportService;
         private Mock<IRouteService> routeService;
+        private Mock<IJobService> jobService;
+        private Mock<IStopService> stopService;
+
         [SetUp]
         public virtual void SetUp()
         {
@@ -35,7 +38,9 @@
             epodImportMapper = new Mock<IEpodImportMapper>();
             importCommands = new Mock<IEpodFileImportCommands>();
             deadlockRetryConfig = new Mock<IDeadlockRetryConfig>();
-            routeService = new Mock<IRouteService>();;
+            routeService = new Mock<IRouteService>(); 
+            this.jobService = new Mock<IJobService>();
+            this.stopService = new Mock<IStopService>();
 
             deadlockRetryHelper = new DeadlockRetryHelper(logger.Object, deadlockRetryConfig.Object);
 
@@ -47,8 +52,9 @@
                 epodImportMapper.Object,
                 importCommands.Object,
                 deadlockRetryHelper,
-                routeService.Object
-                );
+                routeService.Object,
+                jobService.Object,
+                stopService.Object);
         }
 
         [Test]
@@ -72,7 +78,8 @@
 
             const string filename = "epod_file.xml";
             //ACT
-            epodImportService.Import(route, filename);
+            bool hasErrors = false;
+            epodImportService.Import(route, filename, out hasErrors);
 
             //ASSERT
             this.routeHeaderRepository.Verify(

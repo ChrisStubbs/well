@@ -28,7 +28,7 @@ export class HttpErrorService
                 // this.logService.log('HTTP Error: ' + message);
 
                 this.toasterService.pop('error',
-                    'Looks like something went worng. The error has been logged and reported.', 
+                    'Looks like something went wrong. The error has been logged and reported.', 
                     '');
             }
             catch (ex)

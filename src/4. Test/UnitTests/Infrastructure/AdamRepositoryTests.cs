@@ -130,11 +130,13 @@
         }
 
         [Test]
-        public void GrnNoNumberDoesNotWriteLineToAdam()
+        [TestCase("")]
+        [TestCase("     ")]
+        public void GrnNoNumberDoesNotWriteLineToAdam(string grnNumber)
         {
             var adamSettings = new AdamSettings();
             var grnEvent = new GrnEvent();
-            var delivery = new DeliveryDetail { GrnNumber = string.Empty, AccountCode = "56666" };
+            var delivery = new DeliveryDetail { GrnNumber = grnNumber, AccountCode = "56666" };
 
             deliveryReadRepository.Setup(x => x.GetDeliveryById(It.IsAny<int>(), It.IsAny<string>())).Returns(delivery);
 

@@ -675,9 +675,11 @@ namespace PH.Well.UnitTests.Services
         }
 
         [Test]
-        public void SetGrnShouldFailAfterSubmissionDate()
+        public void ChangeGrnShouldFailAfterSubmissionDate()
         {
-            var job = JobFactory.New.Build();
+            var job = JobFactory.New
+                .With(p => p.GrnNumber = "GrnNumber")
+                .Build();
             var jobs = new[] { job };
             var routeDate = DateTime.Now;
             var routes = new[] {new JobRoute() {JobId = job.Id, RouteDate = routeDate}};
@@ -688,8 +690,27 @@ namespace PH.Well.UnitTests.Services
             dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, job.Id, 0))
                 .Returns<DateTime>(x => routeDate.AddHours(-1));
 
-            Assert.Throws<Exception>(() => service.SetGrn(job.Id, "123"));
+            Assert.IsFalse(service.SetGrn(job.Id, "123"));
+        }
 
+        [Test]
+        public void ChangeGrnShouldPassAfterSubmissionDate()
+        {
+            var job = JobFactory.New
+                .With(p => p.GrnNumber = null)
+                .Build();
+            var jobs = new[] { job };
+            var routeDate = DateTime.Now;
+            var routes = new[] { new JobRoute() { JobId = job.Id, RouteDate = routeDate } };
+
+            jobRepository.Setup(x => x.GetByIds(It.IsAny<IEnumerable<int>>())).Returns(jobs);
+            jobRepository.Setup(x => x.GetJobsRoute(It.IsAny<IEnumerable<int>>())).Returns(routes);
+            jobRepository.Setup(x => x.SaveGrn(It.IsAny<int>(), It.IsAny<string>()));
+
+            dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, job.Id, 0))
+                .Returns<DateTime>(x => routeDate.AddHours(-1));
+
+            Assert.IsTrue(service.SetGrn(job.Id, "123"));
         }
 
         [Test]
@@ -708,7 +729,7 @@ namespace PH.Well.UnitTests.Services
             dateThresholdService.Setup(x => x.GracePeriodEnd(routeDate, routes[0].BranchId, 0))
                 .Returns(routeDate.AddHours(1));
 
-            service.SetGrn(job.Id, "123");
+            Assert.IsTrue(service.SetGrn(job.Id, "123"));
         }
 
         [TestFixture]

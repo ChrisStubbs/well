@@ -11,7 +11,7 @@ USING	(VALUES	(1,'Credit','deployment',GETDATE(),'deployment',GETDATE()),
 				(5,'Pod','deployment',GETDATE(),'deployment',GETDATE()),
 				--(6,'Reject','deployment',GETDATE(),'deployment',GETDATE()),
 				--(7,'','deployment',GETDATE(),'deployment',GETDATE()),
-				--(8,'CreditTransaction','deployment',GETDATE(),'deployment',GETDATE()),
+				(8,'StandardUplift','deployment',GETDATE(),'deployment',GETDATE()),
 				(9,'Amendment','deployment',GETDATE(),'deployment',GETDATE()),
 				(10,'GlobalUplift','deployment',GETDATE(),'deployment',GETDATE()),
 				(11,'PodTransaction','deployment',GETDATE(),'deployment',GETDATE()))

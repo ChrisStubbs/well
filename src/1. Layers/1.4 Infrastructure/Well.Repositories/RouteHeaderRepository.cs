@@ -9,6 +9,7 @@
     using Contracts;
     using Dapper;
     using Domain;
+    using Domain.ValueObjects;
     using static PH.Well.Domain.Mappers.AutoMapperConfig;
 
     public class RouteHeaderRepository : DapperRepository<RouteHeader, int>, IRouteHeaderRepository

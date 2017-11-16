@@ -8,6 +8,8 @@
 	<description>Package for Well Database</description>
 	</metadata>
 	<files>
+	  <file src="\bin\Release\Well-Archive.dacpac" target="Content\Deploy" />
+	  <file src="\bin\Release\Well-Archive.xml" target="Content\Deploy" />
 		<file src="\bin\Release\Well.dacpac" target="Content\Deploy" />
 		<file src="\bin\Release\Well.xml" target="Content\Deploy" />
 		<file src="\bin\Release\ManualStep\**" target="Content\ManualStep" />

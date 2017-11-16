@@ -80,10 +80,10 @@
 
         public class TheUserHasRequiredCreditThresholdMethod : UserThresholdServiceTests
         {
-
             private Mock<UserThresholdService> stubbedUserThreshold;
+
             [SetUp]
-            public void SetUp()
+            public override void SetUp()
             {
                 base.SetUp();
                 stubbedUserThreshold = new Mock<UserThresholdService>(

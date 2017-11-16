@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Archive_ExceptionEvent]
 	@ArchiveDate DateTime
 AS
-	-- Account
+	-- ExceptionEvent
 	DELETE ex
 	OUTPUT Deleted.[Id]
 		,Deleted.[Event]
@@ -14,7 +14,7 @@ AS
 		,Deleted.[UpdatedBy]
 		,Deleted.[DateUpdated]
 		,@ArchiveDate
-	INTO archive.ExceptionEvent
+	INTO [$(WellArchive)].[dbo].ExceptionEvent
 		([Id]
 		,[Event]
 		,[ExceptionActionId]

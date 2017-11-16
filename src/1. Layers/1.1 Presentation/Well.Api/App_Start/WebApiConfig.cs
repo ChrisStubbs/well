@@ -7,6 +7,7 @@
     using Elmah.Contrib.WebApi;
     using System.Reflection;
     using System.Linq;
+    using Infrastructure;
 
     public static class WebApiConfig
     {
@@ -37,6 +38,7 @@
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Filters.Add(new AuthorizeAttribute());
+            config.Formatters.Add(new CsvMediaTypeFormatter());
         }
 
         private static string GetControllerNames()

@@ -10,15 +10,22 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 {
     public class DirectoryCsvUpliftDataProvider : UpliftDataProvidersCollection
     {
+        #region Fields
         private readonly string _directoryPath;
         private readonly string _archivePath;
+        private readonly int _maxUpliftEndDateDays;
+        #endregion Fields
 
-        public DirectoryCsvUpliftDataProvider(string directoryPath,string archivePath)
+        #region Constructors
+        public DirectoryCsvUpliftDataProvider(string directoryPath,string archivePath, int maxUpliftEndDateDays)
         {
             _directoryPath = directoryPath;
             _archivePath = archivePath;
+            _maxUpliftEndDateDays = maxUpliftEndDateDays;
         }
+        #endregion Constructors
 
+        #region Public methods
         public override IEnumerable<UpliftDataSet> GetUpliftData()
         {
             // Get providers for given directory
@@ -30,8 +37,9 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         {
             foreach (var csvFile in Directory.GetFiles(_directoryPath, "*.csv"))
             {
-                Add(new CsvUpliftDataProvider(csvFile, _archivePath));
+                Add(new CsvUpliftDataProvider(csvFile, _archivePath) {MaxUpliftEndDateDays = this._maxUpliftEndDateDays});
             }
         }
+        #endregion Public methods
     }
 }

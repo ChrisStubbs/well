@@ -93,5 +93,6 @@ namespace PH.Well.Domain
         
         public bool IsInvoice { get; set; }
         public string AccountNumber { get; set; }
+        public int CsfNumber { get; set; }
     }
 }

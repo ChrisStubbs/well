@@ -14,14 +14,14 @@ export  class JobService {
         private httpErrorService: HttpErrorService,
         private toasterService: ToasterService) { }
 
-    public setGrnForJob(jobId: number, grn: string): Observable<any>
+    public setGrnForJob(jobId: number, grn: string): Observable<boolean>
     {
         const url = this.globalSettingsService.globalSettings.apiUrl + 'job/SetGrn';
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
         return this.http.post(url, JSON.stringify({ id: jobId, grn: grn }), options)
-            .map((response: Response) => { return response; })
+            .map((response: Response) => response.json())
             .catch((e: Response) =>
             {
                 if (e.status == 400)

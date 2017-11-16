@@ -17,7 +17,6 @@ namespace PH.Well.UnitTests.Services
     {
         private Mock<IAdamRepository> adamRepository;
         private Mock<IJobRepository> jobRepository;
-        private Mock<IEnumerable<IDeliveryLinesAction>> actionHandlers;
         private Mock<IJobDetailRepository> jobDetailRepository;
         private Mock<IJobDetailDamageRepository> jobDetailDamageRepository;
         private Mock<IJobService> jobService;
@@ -31,7 +30,6 @@ namespace PH.Well.UnitTests.Services
         {
             this.adamRepository = new Mock<IAdamRepository>(MockBehavior.Strict);
             this.jobRepository = new Mock<IJobRepository>(MockBehavior.Strict);
-            this.actionHandlers = new Mock<IEnumerable<IDeliveryLinesAction>>(MockBehavior.Strict);
             this.jobDetailRepository = new Mock<IJobDetailRepository>(MockBehavior.Strict);
             this.jobDetailDamageRepository = new Mock<IJobDetailDamageRepository>(MockBehavior.Strict);
             this.jobService = new Mock<IJobService>(MockBehavior.Strict);
@@ -41,7 +39,6 @@ namespace PH.Well.UnitTests.Services
             this.service = new DeliveryLineActionService(this.adamRepository.Object,
                 this.jobRepository.Object,
                 this.eventRepository.Object,
-                this.actionHandlers.Object,
                 this.jobDetailRepository.Object,
                 this.jobDetailDamageRepository.Object,
                 this.jobService.Object,
@@ -66,7 +63,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(response);
                 this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
 
-                this.service.CreditTransaction(creditTransaction, 0, settings);
+                this.service.CreditOrUpliftTransaction(creditTransaction, 0, settings);
                 this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()),
                     Times.Once());
 

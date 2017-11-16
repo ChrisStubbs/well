@@ -27,7 +27,7 @@ AS
 		rh.RouteDate AS [Date],
 		jt.Id AS JobTypeId,
 		jt.Description AS JobType,
-		j.WellStatusId,
+		j.WellStatusId AS WellStatus,
 		j.JobStatusId, 
 		'' AS JobStatus,
 		CONVERT(Bit, CASE WHEN ISNULL(j.COD, '') = '' THEN 0 ELSE 1 END) AS Cod,
@@ -44,7 +44,11 @@ AS
 		j.ActivityId as ActivityId,
 		j.Id as JobId,
 		CONVERT(Bit, CASE WHEN a.ActivityTypeId = dbo.ActivityType_Invoice() THEN 1 ELSE 0 END) AS IsInvoice,
-		j.PHAccount AS AccountNumber
+		j.PHAccount AS AccountNumber,
+		CASE
+		  WHEN a.ActivityTypeId = dbo.ActivityType_Uplift() THEN j.PickListRef 
+		  ELSE 0 
+		END AS CsfNumber
 	FROM 
 		Job j 
 		INNER JOIN Activity a
@@ -104,7 +108,10 @@ AS
 			SELECT COUNT(DISTINCT jd.id) AS Total, jd.JobId
 			FROM 
 				JobDetail jd
-			WHERE jd.DateDeleted IS NULL
+			WHERE 
+				jd.DateDeleted IS NULL
+				AND jd.BagId IS NULL
+				AND jd.PHProductCode != 'TOTES'
 			GROUP BY jd.JobId
 		) cl
 			ON j.Id = cl.JobId

@@ -51,6 +51,7 @@ export class ActionEditComponent implements IObservableAlive
     private actionsForm: FormGroup;
     private actionsGroup: FormArray;
     private canEditExceptions: boolean = false;
+    private warnings: Array<string>;
 
     constructor(
         private lookupService: LookupService,
@@ -321,6 +322,8 @@ export class ActionEditComponent implements IObservableAlive
 
     private validateOverallQuantity(formArray: AbstractControl): ValidationErrors {
         const errors = new Array<ValidationErrors>();
+        this.warnings = new Array<string>();
+
         const sum = _.sumBy(formArray.value,
             item => {
                 return item.quantity || 0;
@@ -352,14 +355,11 @@ export class ActionEditComponent implements IObservableAlive
                     if (Number(value.action) === this.creditActionValue &&
                         value.exceptionType == this.exceptionTypeShort) {
 
-                        errors.push({
-                            upliftShortCredit: true,
-                            isWarning: true,
-                            message:
+                        this.warnings.push(
                                 'Please be aware that you are creating credit ' +
                                     'for goods that have not been returned to branch. ' +
                                     'Are you sure?'
-                        });
+                        );
                         // break loop
                         return false;
                     }
@@ -368,7 +368,8 @@ export class ActionEditComponent implements IObservableAlive
 
         if (errors.length > 0) {
             return errors;
-        } else {
+        } else 
+        {
             return undefined;
         }
     }
@@ -410,7 +411,7 @@ class LineItemActionValidator implements Validator {
 
         switch (Number(actionValue)) {
             case 0:
-                return this.validateAction(group);
+                return this.validateNotRequiredAction(group);
             case 1:
                 return this.validateAction(group);
             case 2:
@@ -439,6 +440,13 @@ class LineItemActionValidator implements Validator {
             reasonCtrl.setErrors({ required: true });
         }
 
+        return undefined;
+    }
+
+    private validateNotRequiredAction(group: FormGroup): ValidationErrors {
+        this.validateQuantity(group);
+        this.validateComment(group);
+        this.validateExceptionType(group);
         return undefined;
     }
 

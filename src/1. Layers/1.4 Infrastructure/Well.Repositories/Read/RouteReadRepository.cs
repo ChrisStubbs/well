@@ -30,8 +30,8 @@ namespace PH.Well.Repositories.Read
 
         public IEnumerable<Route> GetAllRoutesForBranch(int branchId, string username)
         {
-            using (var scope = new TransactionScope(System.Transactions.TransactionScopeOption.Required,
-                new System.Transactions.TransactionOptions
+            using (var scope = new TransactionScope(TransactionScopeOption.Required,
+                new TransactionOptions
                 {
                     IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted
                 }))
@@ -48,7 +48,7 @@ namespace PH.Well.Repositories.Read
                             BranchName = x.Branch.Name,
                             RouteNumber = x.RouteNumber,
                             RouteDate = x.RouteDate,
-                            StopCount = x.Stop.Count(),
+                            StopCount = x.Stop.Count(s=> s.DateUpdated != null),
                             x.WellStatus,
                             DriverName = x.DriverName,
                             x.ExceptionCount,
@@ -113,14 +113,14 @@ namespace PH.Well.Repositories.Read
 
                         return null;
                     };
-
+                    
                     var result = routeHeaders
                         .Select(item =>
                         {
                             var routeWellStatus = (item.WellStatus.HasValue)
                                 ? (WellStatus) item.WellStatus
                                 : WellStatus.Unknown;
-
+                            
                             return new Route()
                             {
                                 Id = item.RouteId,
@@ -135,7 +135,8 @@ namespace PH.Well.Repositories.Read
                                 RouteStatus = routeWellStatus.Description(),
 
                                 Assignees = getAssignees(item.RouteId),
-                                JobIssueType =
+                                /*future routes have no issue type*/
+                                JobIssueType = item.RouteDate.Value.Date > DateTime.Now.Date ? JobIssueType.All : 
                                     (item.HasNotDefinedDeliveryAction.GetValueOrDefault()
                                         ? JobIssueType.ActionRequired
                                         : JobIssueType.All) |
@@ -174,6 +175,5 @@ namespace PH.Well.Repositories.Read
 
             return readRoutes;
         }
-
     }
 }

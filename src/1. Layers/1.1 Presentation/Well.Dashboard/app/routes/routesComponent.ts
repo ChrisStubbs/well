@@ -1,3 +1,4 @@
+import { NavigateQueryParametersService }               from './../shared/services/navigateQueryParametersService';
 import { ActivatedRoute }                               from '@angular/router';
 import { Component }                                    from '@angular/core';
 import { Router }                                       from '@angular/router';
@@ -21,7 +22,7 @@ import 'rxjs/Rx';
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/routesComponent.html',
-    providers: [RoutesService]
+    providers: [RoutesService, NavigateQueryParametersService]
 })
 export class RoutesComponent implements IObservableAlive {
     public routes: Route[];
@@ -44,12 +45,22 @@ export class RoutesComponent implements IObservableAlive {
         private routeService: RoutesService,
         private activatedRoute: ActivatedRoute,
         private branchService: BranchService,
-        private router: Router) { }
+        private router: Router,
+        private historyNavigate: NavigateQueryParametersService) { }
 
-    public ngOnInit() {
+    public ngOnInit() 
+    {
+        this.historyNavigate.BrowserNavigation
+            .takeWhile(() => this.isAlive)
+            .subscribe((p: string) =>
+            {
+                const params = this.historyNavigate.GetQueryStringObject();
+                this.handleQueryString(params);
+            });
+
         this.activatedRoute.queryParams
             .flatMap(params => {
-                this.routeFilter = RouteFilter.toRouteFilter(<AppSearchParameters>params);
+                this.handleQueryString(params);
 
                 return Observable.forkJoin(
                     this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName),
@@ -74,6 +85,11 @@ export class RoutesComponent implements IObservableAlive {
                 this.routeStatus = res[1];
                 this.jobIssueType = res[2];
             });
+    }
+
+    private handleQueryString(qs: any): void
+    {
+        this.routeFilter = RouteFilter.toRouteFilter(qs); 
     }
 
     public ngOnDestroy() {
@@ -120,6 +136,12 @@ export class RoutesComponent implements IObservableAlive {
             .value();
     }
 
+    private applyFilter()
+    {
+        this.fillGridSource();
+        this.historyNavigate.Save(this.routeFilter);
+    }
+
     private fillGridSource() {
         this.gridSource = GridHelpersFunctions.applyGridFilter<Route, RouteFilter>(this.routes, this.routeFilter);
     }
@@ -129,7 +151,7 @@ export class RoutesComponent implements IObservableAlive {
 
         this.routeFilter = new RouteFilter();
         this.routeFilter.branchId = branchId;
-        this.fillGridSource();
+        this.applyFilter();
     }
 
     public getAssignModel(route: Route): AssignModel {
@@ -153,6 +175,7 @@ export class RoutesComponent implements IObservableAlive {
         }
 
         this.getRoutesByBranch();
+        this.historyNavigate.Save(this.routeFilter);
     }
 
     public getJobIssueTypeDescription() {
@@ -166,4 +189,10 @@ export class RoutesComponent implements IObservableAlive {
 
         return '';
     }
+
+     private changePage(p: number)
+     {
+        this.routeFilter.pageNumber = p;
+        this.historyNavigate.Save(this.routeFilter);
+     }
 }

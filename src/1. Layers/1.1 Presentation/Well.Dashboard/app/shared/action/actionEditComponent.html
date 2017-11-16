@@ -12,7 +12,7 @@
                         <h4 class="modal-title" id="myModalLabel">Add and edit exceptions</h4>
                     </div>
                     <div style="padding: 15px 15px 0 15px">
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-md-2">
                                 <label>Job Id:</label>
                                 <span> {{source.jobId}}</span>
@@ -34,7 +34,7 @@
                                 </tooltip-content>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-md-2">
                                 <label>Account:</label>
                                 <span> {{source.accountCode}}</span>
@@ -48,7 +48,7 @@
                                 <span>{{source.jobTypeDescription}}</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-md-2">
                                 <label>Product:</label>
                                 <span>{{source.productNumber}}</span>
@@ -62,7 +62,7 @@
                                 <span>{{source.value | currency:'GBP':true}}</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-md-2">
                                 <label>Invoiced:</label>
                                 <span>{{source.invoiced}}</span>
@@ -84,12 +84,22 @@
                                 <span>{{source.bypass}}</span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="alert alert-danger" *ngIf="shouldErrorsDivBeVisible()">
                                 <h4>Form contains invalid data</h4>
                                 <ul>
                                     <li *ngFor="let error of actionsForm.controls.actionsGroup.errors">
                                         <strong>{{error.message}}</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="alert alert-danger" *ngIf="warnings.length > 0">
+                                <h4>Warnings</h4>
+                                <ul>
+                                    <li *ngFor="let w of warnings">
+                                        <strong>{{w}}</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -243,7 +253,7 @@
                         <div class="col-md-6">
                             <div class="pull-right">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" #closeModal>Cancel</button>&nbsp;
-                                <button *ngIf="canEditExceptions" type="button" class="btn btn-success" [disabled]="!actionsForm.valid && !canEditExceptions" (click)="save()">Save</button>
+                                <button *ngIf="canEditExceptions" type="button" class="btn btn-success" [disabled]="!(actionsForm.valid && canEditExceptions)" (click)="save()">Save</button>
                             </div>
                         </div>
                     </div>

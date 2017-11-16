@@ -32,6 +32,8 @@ export class SingleLocationGroup
     public isInvoice: boolean;
     public accountNumber: string;
     public activityId: number;
+    public csfNumber: number;
+    //here declare the property for csfnumber
 }
 
 export class SingleLocation
@@ -71,6 +73,8 @@ export class SingleLocation
     public accountNumber: string;
     public activityId: number;
     public completedOnPaper: boolean;
+    public csfNumber: number;
+    //here declare the property for csfnumber
 }
 
 export class SingleLocationFilter implements IFilter

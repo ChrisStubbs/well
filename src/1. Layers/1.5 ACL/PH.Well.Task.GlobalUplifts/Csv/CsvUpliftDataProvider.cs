@@ -13,6 +13,11 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 {
     public class CsvUpliftDataProvider : IUpliftDataProvider
     {
+        #region Constants
+        private const int TWO_WEEKS = 14;
+        #endregion Constants
+
+        #region Private fields
         /// <summary>
         /// Id that gets assigned as result set id
         /// </summary>
@@ -23,6 +28,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private bool _createReader;
         private bool _archiveFile;
 
+        //if most of this fields are used in a single method why are they declared as class fields?
         private List<string> _headers;
         private int _branchNumberIndex;
         private int _accountNumberIndex;
@@ -32,8 +38,20 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         private int _startDateIndex;
         private int _endDateIndex;
         private int _referenceIndex;
+        #endregion Private fields
 
+        #region Properties
+        public DateTime MaxUpliftStartDate { get; set; }
 
+        /// <summary>
+        /// Max value of how many days uplift end date can be greater than start date (default = 14)
+        /// </summary>
+        public int MaxUpliftEndDateDays { get; set; }
+
+        public string CreditReasonCode { get; set; }
+        #endregion Properties
+
+        #region Constructors
         public CsvUpliftDataProvider(string filePath,string archivePath) : this()
         {
             _filePath = filePath;
@@ -54,19 +72,11 @@ namespace PH.Well.Task.GlobalUplifts.Csv
             // Set defaults
             MaxUpliftStartDate = DateTime.Now;
             CreditReasonCode = "GLOBAL UPLIFT";
-            MaxUpliftEndDateDays = 14;
+            MaxUpliftEndDateDays = TWO_WEEKS;
         }
+        #endregion Constructors
 
-        public DateTime MaxUpliftStartDate { get; set; }
-
-        /// <summary>
-        /// Max value of how many days uplift end date can be greater than start date (default = 14)
-        /// </summary>
-        public int MaxUpliftEndDateDays { get; set; }
-
-        public string CreditReasonCode { get; set; }
-
-
+        #region Public methods
         public IEnumerable<UpliftDataSet> GetUpliftData()
         {
             var validationResults = new List<ValidationResult>();
@@ -168,7 +178,12 @@ namespace PH.Well.Task.GlobalUplifts.Csv
 
             if (_archiveFile)
             {
-                File.Move(_filePath, Path.Combine(_archivePath, _id));
+                var target = Path.Combine(_archivePath, _id);
+                if (File.Exists(target) && target != _filePath)
+                {
+                    File.Delete(target);
+                }
+                File.Move(_filePath, target);
             }
 
             if (validationResults.Any())
@@ -182,8 +197,9 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 return new[] { new UpliftDataSet(_id, records) };
             }
         }
+        #endregion Public methods
 
-
+        #region Private helper methods
         /// <summary>
         /// Finds index of given header value using case insensitive search
         /// </summary>
@@ -208,5 +224,6 @@ namespace PH.Well.Task.GlobalUplifts.Csv
                 return csvNode.Parse(_textReader, true).ToList();
             }
         }
+        #endregion Private helper methods
     }
 }

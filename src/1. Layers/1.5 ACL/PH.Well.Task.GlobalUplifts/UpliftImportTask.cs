@@ -18,7 +18,7 @@ namespace PH.Well.Task.GlobalUplifts
             _importService = importService;
         }
 
-        public void Execute(UpliftImportTaskData data)
+        public void Execute(UpliftImportTaskData data, int maxUpliftEndDateDays)
         {
             var archiveDirectoryPath = Path.Combine(data.ArchiveDirectory, DateTime.Now.ToString("yyyyMMdd"));
             Directory.CreateDirectory(archiveDirectoryPath);
@@ -26,7 +26,7 @@ namespace PH.Well.Task.GlobalUplifts
             var providersCollection = new UpliftDataProvidersCollection();
             foreach (var dataDirectory in data.Directories)
             {
-                providersCollection.Add(new DirectoryCsvUpliftDataProvider(dataDirectory, archiveDirectoryPath));
+                providersCollection.Add(new DirectoryCsvUpliftDataProvider(dataDirectory, archiveDirectoryPath, maxUpliftEndDateDays));
             }
 
             //Run import

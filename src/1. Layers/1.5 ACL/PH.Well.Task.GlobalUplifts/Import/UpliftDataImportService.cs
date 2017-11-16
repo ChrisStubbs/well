@@ -105,6 +105,8 @@ namespace PH.Well.Task.GlobalUplifts.Import
                         {
                             globalUplift.CustomerReference = record.CustomerReference;
                         }
+                        // For now, assume sent immediately
+                        globalUplift.DateSentToAdam = DateTime.Now;
                         _wellEntities.SaveChanges();
 
                         // Now tell Adam about the uplift

@@ -11,6 +11,26 @@ namespace PH.Well.Task.GlobalUplifts.Runner
 {
     public class GlobalUpliftRunnerConfig
     {
+        #region Properties
+        public string[] Directories { get; set; }
+
+        public string ArchiveDirectory { get; set; }
+
+        public string BranchFilter { private get; set; }
+
+        public string EpodSources { get; set; }
+
+        public string GlobalUpliftEmailServiceUrl { get; set; }
+
+        public string AccountServiceUrl { get; set; }
+
+        public DateTime? TestStartDate { get; set; }
+
+        public DateTime? TestEndDate { get; set; }
+
+        public int MaxUpliftEndDateDays { get; set; }
+        #endregion Properties
+
         public GlobalUpliftRunnerConfig()
         {
             Directories = ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.InputDirectories]
@@ -28,23 +48,9 @@ namespace PH.Well.Task.GlobalUplifts.Runner
                 DateTimeExtensions.ParseDate(ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.TestStartDate]);
             TestEndDate =
                 DateTimeExtensions.ParseDate(ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.TestEndDate]);
+            MaxUpliftEndDateDays =
+                int.Parse(ConfigurationManager.AppSettings[GlobalUpliftRunnerConsts.SettingNames.MaxUpliftEndDateDays]);
         }
-
-        public string[] Directories { get; set; }
-
-        public string ArchiveDirectory { get; set; }
-
-        public string BranchFilter { private get; set; }
-
-        public string EpodSources { get; set; }
-
-        public string GlobalUpliftEmailServiceUrl { get; set; }
-
-        public string AccountServiceUrl { get; set; }
-
-        public DateTime? TestStartDate { get; set; }
-
-        public DateTime? TestEndDate { get; set; }
 
         /// <summary>
         /// Return branch numbers or empty list it not specified

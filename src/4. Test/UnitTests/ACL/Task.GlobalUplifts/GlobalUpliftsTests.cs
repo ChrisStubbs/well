@@ -78,7 +78,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
         public void DirectoryCsvDataProviderTest()
         {
             var path = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath) , @"ACL\Task.GlobalUplifts");
-            var directoryProvider = new DirectoryCsvUpliftDataProvider(path, path);
+            var directoryProvider = new DirectoryCsvUpliftDataProvider(path, path, 14);
             var dataSets = directoryProvider.GetUpliftData().ToList();
             Assert.That(dataSets.Count == 2);
         }
@@ -94,7 +94,7 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
             {
                 Directories = new[] {directoryPath}.ToList(),
                 ArchiveDirectory = directoryPath
-            });
+            }, 14);
 
             //Verify that import has been called once. (1 directory csv provider per directory)
             importService.Verify(x => x.Import(It.IsAny<IUpliftDataProvider>()), Times.Once);
@@ -109,7 +109,6 @@ namespace PH.Well.UnitTests.ACL.Task.GlobalUplifts
 
             var lineSql = globalUpliftTransactionFactory.LineSql(transaction);
             var headerSql = globalUpliftTransactionFactory.HeaderSql(transaction);
-
         }
 
         [Test]

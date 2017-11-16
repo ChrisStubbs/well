@@ -21,6 +21,7 @@ namespace PH.Well.Task.GlobalUplifts.Runner
             public const string AccountServiceUrl = "GlobalUplift.Task.AccountServiceUrl";
             public const string TestStartDate = "GlobalUplift.Task.TestStartDate";
             public const string TestEndDate = "GlobalUplift.Task.TestEndDate";
+            public const string MaxUpliftEndDateDays = "GlobalUplift.Task.MaxUpliftEndDateDays";
         }
     }
 }

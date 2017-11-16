@@ -70,7 +70,7 @@
 
                 this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
                 this.exceptionEventService.Setup(
-                    x => x.CreditTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
+                    x => x.CreditOrUpliftTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
 
                 this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
                 this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
@@ -87,7 +87,7 @@
 
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 this.exceptionEventService.Verify(
-                    x => x.CreditTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
+                    x => x.CreditOrUpliftTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
                     Times.Once);
             }
 
@@ -216,6 +216,48 @@
                 this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
                 exceptionEventService.Verify(
                     x => x.PodTransaction(It.IsAny<PodTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
+                    Times.Once);
+            }
+
+            [Test]
+            public void StandardUplift()
+            {
+                var lineDictionary = new Dictionary<int, string>();
+                var line = "jhgkjhgkj";
+                lineDictionary.Add(1, line);
+                var upliftEvent = new CreditTransaction { BranchId = 22, HeaderSql = "20011.110", LineSql = lineDictionary };
+
+                var json = JsonConvert.SerializeObject(upliftEvent);
+
+                var exception = new ExceptionEvent
+                {
+                    Id = 501,
+                    Event = json,
+                    ExceptionActionId = (int)EventAction.StandardUplift
+                };
+
+                var events = new List<ExceptionEvent> { exception };
+
+                this.exceptionEventRepository.Setup(x => x.GetAllUnprocessed()).Returns(events);
+                this.exceptionEventService.Setup(
+                    x => x.CreditOrUpliftTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()));
+
+                this.logger.Setup(x => x.LogDebug("Starting Well Adam Events!"));
+                this.logger.Setup(x => x.LogDebug("Finished Well Adam Events!"));
+
+                this.eventLogger.Setup(
+                    x =>
+                        x.TryWriteToEventLog(
+                            EventSource.WellTaskRunner,
+                            "Processing ADAM tasks...",
+                            5655,
+                            EventLogEntryType.Information)).Returns(true);
+
+                this.processor.Process();
+
+                this.exceptionEventRepository.Verify(x => x.GetAllUnprocessed(), Times.Once);
+                this.exceptionEventService.Verify(
+                    x => x.CreditOrUpliftTransaction(It.IsAny<CreditTransaction>(), exception.Id, It.IsAny<AdamSettings>()),
                     Times.Once);
             }
         }

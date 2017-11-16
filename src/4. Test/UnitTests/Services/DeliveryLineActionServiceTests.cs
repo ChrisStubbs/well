@@ -63,7 +63,7 @@ namespace PH.Well.UnitTests.Services
                     .Returns(response);
                 this.eventRepository.Setup(x => x.MarkEventAsProcessed(It.IsAny<int>()));
 
-                this.service.CreditTransaction(creditTransaction, 0, settings);
+                this.service.CreditOrUpliftTransaction(creditTransaction, 0, settings);
                 this.adamRepository.Verify(x => x.Credit(It.IsAny<CreditTransaction>(), It.IsAny<AdamSettings>()),
                     Times.Once());
 

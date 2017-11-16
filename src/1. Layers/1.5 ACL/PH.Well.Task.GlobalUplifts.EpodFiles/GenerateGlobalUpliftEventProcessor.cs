@@ -16,6 +16,10 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
     /// </summary>
     public class GenerateGlobalUpliftEventProcessor : ITaskProcessor
     {
+        #region Constants
+        private const int TWO_WEEKS = 14;
+        #endregion Constants
+
         #region Private fields
         private readonly WellEntities _wellEntities;
         #endregion Private fields
@@ -43,7 +47,6 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
 
         private void SendGlobalUpliftAttempt(GlobalUpliftAttempt attempt, GlobalUplift globalUplift)
         {
-            // TODO: Added start and end date to global uplift attempt event - liaise with Pete F
             var upliftEvent = new GlobalUpliftEvent()
             {
                 Id = attempt.Id,
@@ -57,7 +60,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
                 WriteLine = true,
                 WriteHeader = true,
                 StartDate = globalUplift.StartDate.GetValueOrDefault(attempt.DateAttempted),
-                EndDate = globalUplift.EndDate.GetValueOrDefault(attempt.DateAttempted.AddDays(14))
+                EndDate = globalUplift.EndDate.GetValueOrDefault(attempt.DateAttempted.AddDays(TWO_WEEKS))
             };
 
             // Make sure we have not already sent this event

@@ -97,6 +97,7 @@ namespace PH.Well.Task.GlobalUplifts.EpodFiles
         private IEnumerable<GlobalUpliftSearchResult> SearchEpodFiles(string sourceFolders, DateTime date, SearchCriteria searchCriteria)
         {
             var files = Storage.GetFiles(sourceFolders).GroupBy(x => x.FullName).Select(y => y.First()).Where(x => x.Name.ToLower().StartsWith("epod_")).ToList();
+            Console.WriteLine($"Scanning {files.Count} Epod files for Global Uplifts");
             GlobalUpliftParser parser = new GlobalUpliftParser();
             foreach (var file in files)
             {

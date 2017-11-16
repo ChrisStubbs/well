@@ -48,7 +48,6 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
-        //note: This will use the default database connection as no branchId prefix is supplied in route
         [Route("branch")]
         public HttpResponseMessage Get(string username = null)
         {
@@ -101,6 +100,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpPost]
+        [Route("branch")]
         public HttpResponseMessage Post(Branch[] branches)
         {
             if (branches.Length > 0)

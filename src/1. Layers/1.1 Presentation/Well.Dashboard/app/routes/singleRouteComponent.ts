@@ -72,14 +72,15 @@ export class SingleRouteComponent implements IObservableAlive {
         private location: Location,
         private historyNavigate: NavigateQueryParametersService) 
     {
-            this.navigateToRoute = () => this.router.navigateByUrl('/routes');
+        this.navigateToRoute = () =>
+            this.router.navigateByUrl(`/routes/${globalSettingsService.currentBranchId}`);
             
-            this.router.events
+        this.router.events
             .filter(e => e instanceof NavigationEnd)
             .pairwise()
             .subscribe((e: any[]) => 
             {
-                if (e[0].url == '/routes')
+                if (e[0].url == `/routes/${globalSettingsService.currentBranchId}`)
                 {
                     if (_.isUndefined(this.historyNavigate.GetQueryStringObject().fromroutes))
                     {
@@ -90,6 +91,8 @@ export class SingleRouteComponent implements IObservableAlive {
     }
 
     public ngOnInit() {
+
+        this.globalSettingsService.setCurrentBranchFromUrl(this.activatedRoute);
         this.refreshRouteFromApi();
 
         if (!_.isUndefined(this.historyNavigate.GetQueryStringObject().fromroutes))

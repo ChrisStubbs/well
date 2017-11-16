@@ -143,6 +143,8 @@ export class AppSearch implements IObservableAlive {
         parameters.routeIds = [];
         parameters.upliftInvoiceNumber = formData.upliftInvoiceNumber;
 
+        this.globalSettingsService.globalSettings.currentBranchId = parameters.branchId;
+
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
             .subscribe((result: IAppSearchResult) => {

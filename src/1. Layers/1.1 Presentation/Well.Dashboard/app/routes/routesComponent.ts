@@ -7,7 +7,6 @@ import { Route }                                        from './route';
 import { RouteFilter }                                  from './routeFilter';
 import { RoutesService }                                from './routesService';
 import { BranchService }                                from '../shared/branch/branchService';
-import { AppSearchParameters }                          from '../shared/appSearch/appSearch';
 import { AssignModel, AssignModalResult }               from '../shared/components/components';
 import { Branch }                                       from '../shared/branch/branch';
 import { IObservableAlive }                             from '../shared/IObservableAlive';
@@ -18,11 +17,12 @@ import { GridHelpersFunctions }                         from '../shared/gridHelp
 import { SecurityService }                              from '../shared/services/securityService';
 import { Assignee }                                     from './../shared/models/assignee';
 import 'rxjs/Rx';
+import {GlobalSettings} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-route',
     templateUrl: './app/routes/routesComponent.html',
-    providers: [RoutesService, NavigateQueryParametersService]
+    providers: [RoutesService, NavigateQueryParametersService, GlobalSettings]
 })
 export class RoutesComponent implements IObservableAlive {
     public routes: Route[];
@@ -50,6 +50,8 @@ export class RoutesComponent implements IObservableAlive {
 
     public ngOnInit() 
     {
+        this.globalSettingsService.setCurrentBranchFromUrl(this.activatedRoute);
+
         this.historyNavigate.BrowserNavigation
             .takeWhile(() => this.isAlive)
             .subscribe((p: string) =>
@@ -77,8 +79,9 @@ export class RoutesComponent implements IObservableAlive {
                     return;
                 }
 
-                if (!this.routeFilter.branchId) {
-                    this.routeFilter.branchId = +this.branches[0][0];
+                if (!this.globalSettingsService.currentBranchId ) {
+                    this.globalSettingsService.currentBranchId = +this.branches[0][0];
+                    this.routeFilter.branchId = this.globalSettingsService.currentBranchId;
                 }
 
                 this.getRoutesByBranch();
@@ -87,9 +90,8 @@ export class RoutesComponent implements IObservableAlive {
             });
     }
 
-    private handleQueryString(qs: any): void
-    {
-        this.routeFilter = RouteFilter.toRouteFilter(qs); 
+    private handleQueryString(qs: any): void {
+        this.routeFilter = RouteFilter.toRouteFilter(this.globalSettingsService.currentBranchId, qs); 
     }
 
     public ngOnDestroy() {
@@ -97,7 +99,8 @@ export class RoutesComponent implements IObservableAlive {
     }
 
     private getRoutesByBranch(): void {
-        this.routeService.getRoutesByBranch(this.routeFilter.branchId)
+        
+        this.routeService.getRoutesByBranch(this.globalSettingsService.currentBranchId)
             .takeWhile(() => this.isAlive)
             .subscribe((result: Route[]) => {
                 this.routes = _.orderBy(result, [function (route: Route) {
@@ -147,10 +150,12 @@ export class RoutesComponent implements IObservableAlive {
     }
 
     public clearFilters(): void {
-        const branchId = this.routeFilter.branchId;
-
         this.routeFilter = new RouteFilter();
-        this.routeFilter.branchId = branchId;
+        this.routeFilter.branchId = this.globalSettingsService.currentBranchId;
+    }
+
+    public clearFiltersAndApply() {
+        this.clearFilters();
         this.applyFilter();
     }
 
@@ -168,14 +173,19 @@ export class RoutesComponent implements IObservableAlive {
             }
         }
     }
-
-    public refreshData(event): void {
-        if (event) {
-            this.routeFilter.branchId = +event.target.value;
-        }
-
+    
+    public refreshData(): void {
         this.getRoutesByBranch();
         this.historyNavigate.Save(this.routeFilter);
+    }
+
+    public changeBranch(event): void {
+        if (event) {
+            this.globalSettingsService.currentBranchId = +event.target.value;
+            this.router.navigateByUrl(`/routes/${this.globalSettingsService.currentBranchId}`);
+            this.clearFilters();
+            this.refreshData();
+        }
     }
 
     public getJobIssueTypeDescription() {

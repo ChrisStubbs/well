@@ -15,8 +15,8 @@ namespace PH.Well.Api.Controllers
             this.lookupService = lookupService;
         }
 
-        //note: This will use the default database connection as no branchId prefix is supplied in route
         [Route("Lookup/{lookUp}")]
+        [Route("{branchId:int}/Lookup/{lookUp}")]
         public IList<KeyValuePair<string, string>> Get(string lookUp)
         {
             LookupType lookupValue;

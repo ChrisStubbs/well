@@ -14,7 +14,7 @@
         {
             this.branchProvider = branchProvider;
             this.connectionStringFactory = connectionStringFactory;
-            this.NameOrConnectionString = connectionStringFactory.GetConnectionString(branchProvider.GetBranchId(), ConnectionType.Ef); ;
+            this.NameOrConnectionString = connectionStringFactory.GetConnectionString(branchProvider.GetBranchId(), ConnectionType.Ef);
         }
 
         public string DatabaseConnection => connectionStringFactory.GetConnectionString(branchProvider.GetBranchId(), ConnectionType.Dapper);

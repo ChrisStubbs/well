@@ -2,10 +2,10 @@
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li>
-                <a routerLink="/routes" routerLinkActive="active">Routes</a>
+                <a routerLink="/routes/{{globalSettingsService.currentBranchId}}" routerLinkActive="active">Routes</a>
             </li>
             <li>
-                <a routerLink="/singleroute/{{stop.routeId}}" routerLinkActive="active">Route {{stop.routeNumber}}</a>
+                <a routerLink="/singleroute/{{globalSettingsService.currentBranchId}}/{{stop.routeId}}" routerLinkActive="active">Route {{stop.routeNumber}}</a>
             </li>
             <li class="active" *ngIf="!isActionMode">
                 Stop {{stop.stopNo}} of {{stop.totalNoOfStopsOnRoute}}
@@ -243,7 +243,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Invoice: </label>
-                                    <a *ngIf="item.invoice" [routerLink]="['/invoice', item.invoiceId]">{{item.invoice}}</a>
+                                    <a *ngIf="item.invoice" [routerLink]="['/invoice', globalSettingsService.currentBranchId, item.invoiceId]">{{item.invoice}}</a>
                                     &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="item.completedOnPaper"></ow-completed-on-paper>
                                 </td>
                                 <td>
@@ -252,7 +252,7 @@
                                 </td>
                                 <td colspan="2">
                                     <label>Account: </label>
-                                    <a [routerLink]="['/singlelocation']" [queryParams]="{locationId: item.locationId}">{{item.account}}</a>
+                                    <a [routerLink]="['/singlelocation', globalSettingsService.currentBranchId]" [queryParams]="{locationId: item.locationId}">{{item.account}}</a>
                                     <assignGrn-Modal [model]="item"></assignGrn-Modal>
                                 </td>
                                 <td class="text-right">{{item.totalInvoiced}}</td>

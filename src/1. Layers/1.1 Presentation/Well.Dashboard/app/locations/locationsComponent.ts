@@ -57,6 +57,9 @@ export class LocationsComponent implements IObservableAlive
                     this.router.navigateByUrl('/branch');
                     return;
                 }
+                if (_.isNil(this.globalSettingsService.currentBranchId)) {
+                    this.globalSettingsService.currentBranchId = +this.branches[0][0];
+                }
                 this.loadData(+this.branches[0][0]);
                 this.jobIssueType = res[1];
                 this.filters.jobIssueType = 0;

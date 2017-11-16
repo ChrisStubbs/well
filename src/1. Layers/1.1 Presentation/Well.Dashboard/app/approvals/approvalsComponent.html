@@ -162,7 +162,7 @@
                         <td>{{item.account}}</td>
                         <td class="text-center">{{item.deliveryDate | date:'dd MMM yyyy'}}</td>
                         <td>
-                            <a [routerLink]="['/invoice', item.invoiceId]">{{item.invoiceNumber}}</a>
+                            <a [routerLink]="['/invoice', globalSettingsService.currentBranchId, item.invoiceId]">{{item.invoiceNumber}}</a>
                         </td>
                         <td>{{item.submittedBy}}</td>
                         <td class="text-center">{{item.dateSubmitted | date:'dd MMM yyyy HH:mm:ss' }}</td>

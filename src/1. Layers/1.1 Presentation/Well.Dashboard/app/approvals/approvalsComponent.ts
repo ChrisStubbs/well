@@ -90,6 +90,7 @@ export class ApprovalsComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
+        this.globalSettingsService.setCurrentBranchFromUrl(this.route);
         this.sortField = new Sort();
         this.sortField.field = 'branchName';
 

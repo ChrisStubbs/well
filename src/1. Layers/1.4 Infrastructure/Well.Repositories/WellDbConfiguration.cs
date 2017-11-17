@@ -31,9 +31,10 @@
                 }
                 return entitiesNameOrConnection;
             }
-            set => entitiesNameOrConnection = value;
+            set
+            {
+                entitiesNameOrConnection = value;
+            } 
         }
     }
-
-   
 }

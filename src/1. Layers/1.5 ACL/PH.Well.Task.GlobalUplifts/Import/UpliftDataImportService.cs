@@ -18,12 +18,19 @@ namespace PH.Well.Task.GlobalUplifts.Import
 {
     public class UpliftDataImportService : IUpliftDataImportService
     {
+        #region Constants
+        private const int ONE_MILLION = 1000000;
+        #endregion Constants
+
+        #region Private fields
         private readonly ILogger _logger;
         private readonly IEventLogger _eventLogger;
         private readonly IAdamRepository _adamRepository;
         private readonly IRouteHeaderRepository _routeHeaderRepository;
         private readonly WellEntities _wellEntities;
+        #endregion Private fields
 
+        #region Constructors
         public UpliftDataImportService(ILogger logger, IEventLogger eventLogger, IAdamRepository adamRepository, IRouteHeaderRepository routeHeaderRepository, WellEntities wellEntities)
         {
             _logger = logger;
@@ -32,7 +39,9 @@ namespace PH.Well.Task.GlobalUplifts.Import
             _routeHeaderRepository = routeHeaderRepository;
             _wellEntities = wellEntities;
         }
+        #endregion Constructors
 
+        #region Public methods
         public void Import(IUpliftDataProvider dataProvider)
         {
             foreach (var dataSet in dataProvider.GetUpliftData())
@@ -79,6 +88,10 @@ namespace PH.Well.Task.GlobalUplifts.Import
                             };
                             _wellEntities.GlobalUplift.Add(globalUplift);
                         }
+                        else
+                        {
+                            int dupe = 1;
+                        }
 
                         if (string.IsNullOrEmpty(globalUplift.SourceFilename))
                         {
@@ -105,45 +118,87 @@ namespace PH.Well.Task.GlobalUplifts.Import
                         {
                             globalUplift.CustomerReference = record.CustomerReference;
                         }
-                        // For now, assume sent immediately
-                        globalUplift.DateSentToAdam = DateTime.Now;
-                        _wellEntities.SaveChanges();
 
-                        // Now tell Adam about the uplift
-                        var transaction = new GlobalUpliftTransaction(GenerateTransactionId(record, route.Id), record.BranchId,
-                            record.AccountNumber,
-                            record.CreditReasonCode,
-                            record.ProductCode, 
-                            record.Quantity, 
-                            record.StartDate, 
-                            record.EndDate, 
-                            0, 
-                            record.CustomerReference);
+                        try
+                        {
+                            // Save Global Uplift changes before ADAM event sending (allows failure and retry)
+                            _wellEntities.SaveChanges();
 
-                        //Write to adam
-                        var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
+                            // Only send ADAM events once
+                            if (!globalUplift.DateSentToAdam.HasValue)
+                            {
+                                // If not marked as sent, send it
+                                globalUplift.DateSentToAdam = DateTime.Now;
+                                _wellEntities.SaveChanges();
 
-                        // do we need to check status and do something after ?
+                                // Now tell Adam about the uplift
+                                var transaction = new GlobalUpliftTransaction(GenerateTransactionId(record, globalUplift.Id),
+                                    record.BranchId,
+                                    record.AccountNumber,
+                                    record.CreditReasonCode,
+                                    record.ProductCode,
+                                    record.Quantity,
+                                    record.StartDate,
+                                    record.EndDate,
+                                    0,
+                                    record.CustomerReference);
+
+                                try
+                                {
+                                    // Write to adam
+                                    //var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
+                                }
+                                catch (Exception e)
+                                {
+                                    _logger.LogError($"Uplift ADAM.", e);
+                                    _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
+                                    Console.WriteLine(e);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogError($"Uplift write failure.", e);
+                            _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, e);
+                            Console.WriteLine(e);
+                        }
                     }
                 }
             }
         }
+        #endregion Public methods
 
+        #region Private helper methods
+        /// <summary>
+        /// Get the settings for a specified branch number
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
         private AdamSettings GetAdamSettings(int branchId)
         {
             return AdamSettingsFactory.GetAdamSettings((Branch)branchId);
         }
 
         /// <summary>
-        /// 
+        /// Create an ADAM unique ID using "10" + the Global Uplift counter ID
         /// </summary>
-        /// <param name="upliftData">Import record</param>
-        /// <param name="routeId">Import id</param>
+        /// <param name="upliftData">Now Unused - Import record</param>
+        /// <param name="globalUpliftId">Global Uplift Record ID</param>
         /// <returns></returns>
-        private int GenerateTransactionId(IUpliftData upliftData, int routeId)
+        private int GenerateTransactionId(IUpliftData upliftData, int globalUpliftId)
         {
-            var idString = $"{GlobalUpliftTransaction.WELLHDRCDTYPE}{routeId}{upliftData.Id}";
-            return int.Parse(idString);
+            try
+            {
+                var idString = $"{GlobalUpliftTransaction.WELLHDRCDTYPE}{globalUpliftId % ONE_MILLION}";
+                return int.Parse(idString);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error generating ADAM ID", ex);
+                _eventLogger.TryWriteToEventLog(EventSource.WellGlobalUpliftTask, ex);
+                return globalUpliftId;
+            }
         }
+        #endregion Private helper methods
     }
 }

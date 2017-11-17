@@ -70,7 +70,7 @@ namespace PH.Well.Task.GlobalUplifts.Csv
         protected CsvUpliftDataProvider()
         {
             // Set defaults
-            MaxUpliftStartDate = DateTime.Now;
+            MaxUpliftStartDate = DateTime.Today;
             CreditReasonCode = "GLOBAL UPLIFT";
             MaxUpliftEndDateDays = TWO_WEEKS;
         }

@@ -88,10 +88,6 @@ namespace PH.Well.Task.GlobalUplifts.Import
                             };
                             _wellEntities.GlobalUplift.Add(globalUplift);
                         }
-                        else
-                        {
-                            int dupe = 1;
-                        }
 
                         if (string.IsNullOrEmpty(globalUplift.SourceFilename))
                         {
@@ -146,7 +142,7 @@ namespace PH.Well.Task.GlobalUplifts.Import
                                 try
                                 {
                                     // Write to adam
-                                    //var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
+                                    var status = _adamRepository.GlobalUplift(transaction, GetAdamSettings(record.BranchId));
                                 }
                                 catch (Exception e)
                                 {

@@ -94,11 +94,16 @@
                     this.logger.LogError(ex.Message);
                     continue;
                 }
-                    
-                var targetFileName = Path.Combine(Configuration.DownloadFilePath, 
-                    listing.Filename,
+                
+                var folder = Path.Combine(Configuration.DownloadFilePath,
                     folderName);
-               
+                var targetFileName = Path.Combine(folder, listing.Filename);
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
                 if (!File.Exists(targetFileName))
                 {
                     
@@ -141,7 +146,7 @@
 
         private int GetBranchNumber(string fileName)
         {
-            var depots = new Dictionary<string, int>()
+            var depots = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase)
             {
                 {"med", 2},
                 {"cov", 3},
@@ -157,7 +162,7 @@
                 {"hay", 82}
             };
 
-            if (fileName.StartsWith("route") || fileName.StartsWith("order"))
+            if (fileName.Contains("ORDER_") || fileName.Contains("ROUTE_"))
             {
                 var parts = fileName.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
                 var branch = parts[1].ToLower();
@@ -170,38 +175,40 @@
                 throw new ConfigurationErrorsException($"No branch found on file {fileName}");
             }
 
-            using (var reader = XmlReader.Create(File.OpenRead(fileName)))
+            using (var file = File.OpenRead(fileName))
             {
-                while (reader.Read())
+                using (var reader = XmlReader.Create(file))
                 {
-                    reader.MoveToContent();
-
-                    if (reader.NodeType == XmlNodeType.Element
-                        && string.Equals(reader.Name, "EntityAttributeValue", StringComparison.CurrentCultureIgnoreCase))
+                    while (reader.Read())
                     {
-                        var el = XNode.ReadFrom(reader) as XElement;
+                        reader.MoveToContent();
 
-                        if (el != null)
+                        if (reader.NodeType == XmlNodeType.Element
+                            && string.Equals(reader.Name, "EntityAttributeValue", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            var xElements = el.DescendantNodes()
-                                .Where(p => p is XElement)
-                                .Select(p => (XElement)p)
-                                .ToList();
+                            var el = XNode.ReadFrom(reader) as XElement;
 
-                            var hasRouteOwner = xElements
-                                .Any(p => string.Equals(p.Name.LocalName, "Code", StringComparison.CurrentCultureIgnoreCase) 
-                                       && string.Equals(p.Value, "ROUTEOWNER", StringComparison.CurrentCultureIgnoreCase));
-
-                            if (hasRouteOwner)
+                            if (el != null)
                             {
-                                var branch = xElements.First(p => p.Name == "Value1").Value;
+                                var xElements = el.DescendantNodes()
+                                    .Where(p => p is XElement)
+                                    .Select(p => (XElement)p)
+                                    .ToList();
 
-                                if (depots.ContainsKey(branch))
+                                var hasRouteOwner = xElements
+                                    .Any(p => string.Equals(p.Name.LocalName, "Code", StringComparison.CurrentCultureIgnoreCase)
+                                           && string.Equals(p.Value, "ROUTEOWNER", StringComparison.CurrentCultureIgnoreCase));
+
+                                if (hasRouteOwner)
                                 {
-                                    return depots[branch];
-                                }
+                                    var branch = xElements.First(p => p.Name == "Value1").Value;
 
-                                throw new ConfigurationErrorsException($"No branch found on file {fileName}");
+                                    if (depots.ContainsKey(branch))
+                                    {
+                                        return depots[branch];
+                                    }
+                                    throw new ConfigurationErrorsException($"No branch found on file {fileName}");
+                                }
                             }
                         }
                     }

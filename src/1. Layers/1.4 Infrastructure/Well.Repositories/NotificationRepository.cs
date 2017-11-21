@@ -15,7 +15,7 @@
         {
         }
 
-        public void SaveNotification(Notification notification)
+        public void SaveNotification(Notification notification, string connectionString)
         {
             Task.Run(async () =>
             {
@@ -34,16 +34,19 @@
                         .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                         .AddParameter("UpdatedBy", notification.Source, DbType.String, size: 50)
                         .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                        .ExecuteAsync();
+                        .ExecuteAsync(connectionString);
             });
         }
 
-        public IEnumerable<Notification> GetNotifications()
+        public void SaveNotification(Notification notification)
         {
+            SaveNotification(notification, dapperProxy.DbConfiguration.DatabaseConnection);
+        }
 
+        public IEnumerable<Notification> GetNotifications(string connectionString)
+        {
             return dapperProxy.WithStoredProcedure(StoredProcedures.GetNotifications)
-              .Query<Notification>();
-
+              .Query<Notification>(connectionString);
         }
 
         public void ArchiveNotification(int id)

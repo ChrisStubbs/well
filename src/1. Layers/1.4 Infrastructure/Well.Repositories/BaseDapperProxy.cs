@@ -94,7 +94,11 @@
 
         public void Execute()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            Execute(DbConfiguration.DatabaseConnection);
+        }
+        public void Execute(string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -109,7 +113,12 @@
 
         public async Task ExecuteAsync()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            await ExecuteAsync(DbConfiguration.DatabaseConnection);
+        }
+
+        public async Task ExecuteAsync(string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {

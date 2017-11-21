@@ -27,7 +27,7 @@ export class NotificationModalComponent {
     }
 
     public yes() {
-        this.notificationsService.archiveNotification(this.notification.id)
+        this.notificationsService.archiveNotification(this.notification.id, this.notification.branch)
             .subscribe((res: Response) => {
                 this.httpResponse = JSON.parse(JSON.stringify(res));
                 if (this.httpResponse.success) {

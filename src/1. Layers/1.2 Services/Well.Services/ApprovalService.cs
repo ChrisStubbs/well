@@ -15,18 +15,17 @@
         private readonly ILogger logger;
         private readonly IJobRepository jobRepository;
         private readonly IAssigneeReadRepository assigneeRepository;
-        private readonly IDbMultiConfiguration multiDatabases;
+       
 
         public ApprovalService(ILogger logger, 
             IJobRepository jobRepository, 
-            IAssigneeReadRepository assigneeRepository,
-            IDbMultiConfiguration multiDatabases
+            IAssigneeReadRepository assigneeRepository
             )
         {
             this.logger = logger;
             this.jobRepository = jobRepository;
             this.assigneeRepository = assigneeRepository;
-            this.multiDatabases = multiDatabases;
+            
         }
 
         public IList<JobToBeApproved> GetJobsToBeApproved(int branchId)

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PH.Well.Common
 {
@@ -6,22 +8,11 @@ namespace PH.Well.Common
     {
         public static IEnumerable<IEnumerable<T>> Batch<T>(IEnumerable<T> source, int size)
         {
-            var list = new List<T>(size);
+            double max = Math.Ceiling((double)source.Count() / (double)size);
 
-            foreach (T item in source)
+            foreach (var p in Enumerable.Range(0, (int)max))
             {
-                list.Add(item);
-                if (list.Count == size)
-                {
-                    List<T> chunk = list;
-                    list = new List<T>(size);
-                    yield return chunk;
-                }
-            }
-
-            if (list.Count > 0)
-            {
-                yield return list;
+                yield return source.Skip(p * size).Take(size);
             }
         }
     }

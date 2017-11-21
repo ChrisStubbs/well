@@ -20,7 +20,7 @@ const routes: Routes = [
     { path: 'dashboard', redirectTo: '/widgets', pathMatch: 'full' },
     { path: '', redirectTo: '/widgets', pathMatch: 'full' },
     { path: 'unauthorised', component: UnauthorisedComponent },
-    { path: 'approvals/:branchId', component: ApprovalsComponent },
+    { path: 'approvals', component: ApprovalsComponent },
     { path: 'account', component: AccountComponent },
     { path: 'branch', component: BranchSelectionComponent },
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },

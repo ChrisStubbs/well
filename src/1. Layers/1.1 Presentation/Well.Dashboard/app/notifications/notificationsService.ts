@@ -21,16 +21,17 @@ export class NotificationsService {
 
     public getNotifications(): Observable<Notification[]> {
 
-        const url = this.globalSettingsService.globalSettings.apiUrl + 'notification';
+        const url = this.globalSettingsService.globalSettings.baseUrl + 'notification';
 
         return this.http.get(url)
             .map((response: Response) => <Notification[]>response.json())
             .catch(e => this.httpErrorService.handleError(e));
     }
 
-    public archiveNotification(id: number): Observable<any> {
+    public archiveNotification(id: number, branchId: number): Observable<any> {
 
-        return this.http.put(this.globalSettingsService.globalSettings.apiUrl + 'notification/archive/' + id,
+        return this.http.put(
+            `${this.globalSettingsService.globalSettings.baseUrl}${branchId}/notification/archive/${id}`,
             this.options)
             .map(res => res.json())
             .catch(e => this.httpErrorService.handleError(e));

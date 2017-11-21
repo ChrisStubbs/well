@@ -151,6 +151,9 @@ namespace PH.Well.Api.DependencyResolution
             For<IBranchProvider>().Use<BranchProvider>();
             For<IConnectionStringFactory>().Use<WellApiConnectionStringFactory>();
             For<IWellEntitiesConnectionString>().Use<WelllApiDbConfiguration>();
+            For<IDbMultiConfiguration>().Use<WelllApiDbConfiguration>();
+            For<IApprovalService>().Use<ApprovalService>();
+            For<INotificationService>().Use<NotificationService>();
         }
     }
 }

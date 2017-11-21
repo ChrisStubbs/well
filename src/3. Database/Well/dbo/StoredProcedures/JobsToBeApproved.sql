@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE JobsToBeApproved
+		@BranchId int
 AS
 	DECLARE @PendingApproval varchar(50) = 'Pending Approval' 
 	DECLARE @ResolutionStatus Int = (SELECT id FROM ResolutionStatus WHERE Description = @PendingApproval)
@@ -70,3 +71,4 @@ AS
 	WHERE 
 		j.ResolutionStatusId = @ResolutionStatus
 		AND j.DateDeleted is Null
+		AND r.RouteOwnerId = @BranchId

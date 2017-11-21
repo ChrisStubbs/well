@@ -86,68 +86,68 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.AreEqual("widgets", routeAttribute.Template);
             }
 
-            [Test]
-            public void ReturnsCorrectWarningLevels()
-            {
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
+            //[Test]
+            //public void ReturnsCorrectWarningLevels()
+            //{
+            //    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
 
-                var warnings = new WidgetWarningLevels()
-                {
-                    ExceptionWarningLevel = 2,
-                    OutstandingWarningLevel = 2,
-                    AssignedWarningLevel = 2,
-                    NotificationsWarningLevel = 2
-                };
+            //    var warnings = new WidgetWarningLevels()
+            //    {
+            //        ExceptionWarningLevel = 2,
+            //        OutstandingWarningLevel = 2,
+            //        AssignedWarningLevel = 2,
+            //        NotificationsWarningLevel = 2
+            //    };
 
-                notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>());
+            //    notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>());
 
-                this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(warnings);
+            //    this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(warnings);
 
-                var result = Controller.Get();
+            //    var result = Controller.Get();
 
-                var response = GetResponseObject<IEnumerable<WidgetModel>>(result);
+            //    var response = GetResponseObject<IEnumerable<WidgetModel>>(result);
 
-                Assert.AreEqual(warnings.ExceptionWarningLevel, response.Single(r => r.Name == "Exceptions").WarningLevel);
-                Assert.AreEqual(warnings.AssignedWarningLevel, response.Single(r => r.Name == "Assigned").WarningLevel);
-                Assert.AreEqual(warnings.NotificationsWarningLevel, response.SingleOrDefault(r => r.Name == "Notifications").WarningLevel);
-                Assert.AreEqual(warnings.OutstandingWarningLevel, response.SingleOrDefault(r => r.Name == "Outstanding").WarningLevel);
-            }
+            //    Assert.AreEqual(warnings.ExceptionWarningLevel, response.Single(r => r.Name == "Exceptions").WarningLevel);
+            //    Assert.AreEqual(warnings.AssignedWarningLevel, response.Single(r => r.Name == "Assigned").WarningLevel);
+            //    Assert.AreEqual(warnings.NotificationsWarningLevel, response.SingleOrDefault(r => r.Name == "Notifications").WarningLevel);
+            //    Assert.AreEqual(warnings.OutstandingWarningLevel, response.SingleOrDefault(r => r.Name == "Outstanding").WarningLevel);
+            //}
 
-            [Test]
-            public void ReturnsCorrectCounts()
-            {
-                string userIdentity = "bob";
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
+            //[Test]
+            //public void ReturnsCorrectCounts()
+            //{
+            //    string userIdentity = "bob";
+            //    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(userIdentity), new[] { "A role" });
 
-                var exceptions = new List<Delivery>();
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now});
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now});
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
-                exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
-                var approvals = new List<Delivery>();
-                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
-                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
-                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
-                approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    var exceptions = new List<Delivery>();
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now});
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now});
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    exceptions.Add(new Delivery() {IsPendingCredit = false, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    var approvals = new List<Delivery>();
+            //    approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+            //    approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now.AddDays(-1)});
+            //    approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "jim", DeliveryDate = DateTime.Now});
+            //    approvals.Add(new Delivery() {IsPendingCredit = true, IdentityName = "bob", DeliveryDate = DateTime.Now.AddDays(-1)});
 
-                notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
+            //    notificationsRepository.Setup(n => n.GetNotifications()).Returns(new List<Notification>() {new Notification()});
 
-                this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());
+            //    this.userStatsRepository.Setup(r => r.GetWidgetWarningLevels(userIdentity)).Returns(new WidgetWarningLevels());
 
-                var result = Controller.Get();
+            //    var result = Controller.Get();
 
-                var response = GetResponseObject<IEnumerable<WidgetModel>>(result);
+            //    var response = GetResponseObject<IEnumerable<WidgetModel>>(result);
 
-                Assert.AreEqual(6, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "unsubmitted-exceptions").Count);
-                Assert.AreEqual(4, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "approval-exceptions").Count);
-                Assert.AreEqual(3, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-unsubmitted-exceptions").Count);
-                Assert.AreEqual(1, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-approval-exceptions").Count);
-                Assert.AreEqual(4, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-unsubmitted-exceptions").Count);
-                Assert.AreEqual(2, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-approval-exceptions").Count);
-                Assert.AreEqual(1, response.SingleOrDefault(r => r.Name == "Notifications").Count);
-            }
+            //    Assert.AreEqual(6, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "unsubmitted-exceptions").Count);
+            //    Assert.AreEqual(4, response.Single(r => r.Name == "Exceptions").Links.Single(l => l.CountName == "approval-exceptions").Count);
+            //    Assert.AreEqual(3, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-unsubmitted-exceptions").Count);
+            //    Assert.AreEqual(1, response.Single(r => r.Name == "Assigned").Links.Single(l => l.CountName == "my-approval-exceptions").Count);
+            //    Assert.AreEqual(4, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-unsubmitted-exceptions").Count);
+            //    Assert.AreEqual(2, response.Single(r => r.Name == "Outstanding").Links.Single(l => l.CountName == "outstanding-approval-exceptions").Count);
+            //    Assert.AreEqual(1, response.SingleOrDefault(r => r.Name == "Notifications").Count);
+            //}
         }
     }
 }

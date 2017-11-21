@@ -93,12 +93,16 @@ export class ApprovalsComponent implements IObservableAlive
         this.globalSettingsService.setCurrentBranchFromUrl(this.route);
         this.sortField = new Sort();
         this.sortField.field = 'branchName';
-
-        this.refreshDataFromAPI();
-
+        
         this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName)
             .takeWhile(() => this.isAlive)
-            .subscribe((branches: Array<[string, string]>) => this.branches = branches);
+            .subscribe((branches: Array<[string, string]>) => {
+                this.branches = branches;
+                if (!this.globalSettingsService.currentBranchId) {
+                    this.globalSettingsService.currentBranchId = +this.branches[0][0];
+                }
+                this.refreshDataFromAPI();
+            });
 
         this.isReadOnlyUser = !this.securityService.userHasPermission(SecurityService.submitCreditApprovals);
     }
@@ -297,5 +301,12 @@ export class ApprovalsComponent implements IObservableAlive
                     this.toasterService.pop('error', res.message, '');
                 }   
             }));
+    }
+
+    public changeBranch(event): void {
+        if (event) {
+            this.globalSettingsService.currentBranchId = +event.target.value;
+            this.refreshDataFromAPI();
+        }
     }
 }

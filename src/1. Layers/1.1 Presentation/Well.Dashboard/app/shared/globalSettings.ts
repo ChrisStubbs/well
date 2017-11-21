@@ -9,7 +9,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 import * as _ from 'lodash';
 
 export class GlobalSettings {
-    private baseUrl: string;
+    public baseUrl: string;
 
     public get apiUrl(): string {
 

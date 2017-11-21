@@ -50,7 +50,7 @@
 
         IEnumerable<int> GetJobsWithLineItemActions(IEnumerable<int> jobIds);
 
-        IEnumerable<JobToBeApproved> GetJobsToBeApproved();
+        IEnumerable<JobToBeApproved> GetJobsToBeApproved(int branchId);
 
         Dictionary<int, string> GetPrimaryAccountNumberByRouteHeaderId(int routeHeaderId);
 

@@ -1,43 +1,42 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System;
-    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
-    using System.Web;
     using System.Web.Http;
+    using Domain.Extensions;
+    using Infrastructure;
+    using Models;
     using PH.Well.Common.Contracts;
-    using PH.Well.Domain;
-    using PH.Well.Domain.Enums;
     using PH.Well.Domain.ValueObjects;
-    using PH.Well.Repositories.Contracts;
+    using Services.Contracts;
 
     public class NotificationController : BaseApiController
     {
         private readonly ILogger logger;
 
-        private readonly INotificationRepository notificationRepository;
+        private readonly INotificationService notificationService;
 
-        private readonly IServerErrorResponseHandler serverErrorResponseHandler;
+        private readonly IConnectionStringFactory connectionsStrings;
 
-        public NotificationController(ILogger logger, INotificationRepository notificationRepository,
-            IServerErrorResponseHandler serverErrorResponseHandler,
-            IUserNameProvider userNameProvider)
+        public NotificationController(ILogger logger, INotificationService notificationService,
+            IUserNameProvider userNameProvider,
+            IConnectionStringFactory connectionsStrings)
             : base(userNameProvider)
         {
             this.logger = logger;
-            this.notificationRepository = notificationRepository;
-            this.serverErrorResponseHandler = serverErrorResponseHandler;
+            this.notificationService = notificationService;
+
+            this.connectionsStrings = connectionsStrings;
         }
 
 
-        [Route("{branchId:int}/notification")]
+        [Route("notification")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var notifications = this.notificationRepository.GetNotifications().ToList();
+            var notifications = this.notificationService.GetNotificationsAllDatabases();
             return !notifications.Any()
                ? this.Request.CreateResponse(HttpStatusCode.NotFound)
                 : this.Request.CreateResponse(HttpStatusCode.OK, notifications);
@@ -45,7 +44,7 @@
 
         // AllowAnonymous to let ADAM post errors - do not remove
         [AllowAnonymous]
-        [Route("{branchId:int}/notification/adamerror")]
+        [Route("notification/adamerror")]
         [HttpPost]
         public HttpResponseMessage Post(AdamFail failure)
         {
@@ -53,26 +52,9 @@
             {
                 if (failure.JobId > 0)
                 {
-                    string[] substrings = failure.JobParameters.Split(',');
-                    int type;
-                    Int32.TryParse(substrings[0], out type);
-
-                    var notification = new Notification
-                    {
-                        JobId = failure.JobId,
-                        ErrorMessage = failure.ErrorMessage,
-                        Type = type,
-                        Branch = substrings[1],
-                        Account = substrings[2],
-                        InvoiceNumber = substrings[3],
-                        LineNumber = substrings[4],
-                        AdamErrorNumber = substrings[5],
-                        AdamCrossReference = substrings[6],
-                        UserName = failure.Operator,
-                        Source = "ADAMCSS"
-                    };
-
-                    this.notificationRepository.SaveNotification(notification);
+                    var notification = failure.ToNotification();
+                    string connectionString = connectionsStrings.GetConnectionString(int.Parse(notification.Branch), ConnectionType.Dapper);
+                    notificationService.SaveNotification(notification, connectionString);
                     return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
                 }
 
@@ -85,15 +67,16 @@
             }
         }
 
-        [Route("{branchId:int}/notification/archive/{id:int}")]
         [HttpPut]
+        [Route("{branchId:int}/notification/archive/{id:int}")]
         public HttpResponseMessage Archive(int id)
         {
             try
             {
                 if (id > 0)
                 {
-                    this.notificationRepository.ArchiveNotification(id);
+                  
+                    this.notificationService.ArchiveNotification(id);
                     return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
                 }
 

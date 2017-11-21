@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.Domain", "1. Layers\1.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.Repositories", "1. Layers\1.4 Infrastructure\Well.Repositories\Well.Repositories.csproj", "{F6584BAC-9A01-4788-9C75-FAF17337360E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.TranSend", "1. Layers\1.5 ACL\Well.TranSend\Well.TranSend.csproj", "{559D6545-BC06-432A-B006-7EF8C65B4BD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.FileDistributor", "1. Layers\1.5 ACL\Well.TranSend\Well.FileDistributor.csproj", "{559D6545-BC06-432A-B006-7EF8C65B4BD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well.Adam.Events", "1. Layers\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj", "{9B115560-A7E1-45A9-9213-712A0860303C}"
 EndProject

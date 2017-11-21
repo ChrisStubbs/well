@@ -1,4 +1,4 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.FileDistributor.Infrastructure
 {
     using System.Configuration;
     using Common.Contracts;
@@ -14,11 +14,11 @@
 
         public static string ArchiveLocation => ConfigurationManager.AppSettings["archiveLocation"];
 
-        public static string FtpLocation => ConfigurationManager.AppSettings["transendFTPLocation"];
+        public static string FtpLocation => ConfigurationManager.AppSettings["FileDistributorFTPLocation"];
 
-        public static string FtpUsername => ConfigurationManager.AppSettings["transendUser"];
+        public static string FtpUsername => ConfigurationManager.AppSettings["FileDistributorUser"];
 
-        public static string FtpPassword => ConfigurationManager.AppSettings["transendPass"];
+        public static string FtpPassword => ConfigurationManager.AppSettings["FileDistributorPass"];
 
         public static string DashboardRefreshEndpoint => ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
 

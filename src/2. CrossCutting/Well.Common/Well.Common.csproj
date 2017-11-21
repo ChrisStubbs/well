@@ -66,9 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchGroups.cs" />
     <Compile Include="Contracts\IDeadlockRetryHelper.cs" />
     <Compile Include="Contracts\IEventLogger.cs" />
-    <Compile Include="Contracts\IFtpClient.cs" />
     <Compile Include="Contracts\IDeadlockRetryConfig.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
@@ -85,7 +85,6 @@
     <Compile Include="Extensions\IListExtentions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="FtpClient.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />

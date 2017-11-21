@@ -1,55 +1,54 @@
-﻿namespace PH.Well.TranSend.Infrastructure
+﻿namespace PH.Well.FileDistributor.Infrastructure
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Xml.Serialization;
-
     using Contracts;
     using Common.Contracts;
-
     using PH.Well.Common;
-    using PH.Well.Domain;
     using PH.Well.Domain.ValueObjects;
-    using PH.Well.Repositories.Contracts;
-
-    using Well.Services.Contracts;
+    using System.Xml;
+    using System.Xml.Linq;
+    using System.Configuration;
+    using System.Collections.Specialized;
+    using Newtonsoft.Json;
 
     public class EpodFtpProvider : IEpodProvider
     {
         private readonly IFtpClient ftpClient;
         private readonly IWebClient webClient;
         private readonly IEventLogger eventLogger;
-        private readonly IRouteHeaderRepository routeHeaderRepository;
-        private readonly IFileModule fileModule;
-        private readonly IEpodImportService epodImportService;
         private readonly ILogger logger;
-
+        private readonly Lazy<BranchGroups> branchGroupsSetup;
 
         public EpodFtpProvider(
             ILogger logger,
             IFtpClient ftpClient,
             IWebClient webClient,
-            IEventLogger eventLogger,
-            IRouteHeaderRepository routeHeaderRepository,
-            IFileModule fileModule,
-            IEpodImportService epodImportService
-            )
+            IEventLogger eventLogger)
         {
             this.logger = logger;
             this.ftpClient = ftpClient;
             this.webClient = webClient;
             this.eventLogger = eventLogger;
-            this.routeHeaderRepository = routeHeaderRepository;
-            this.fileModule = fileModule;
-            this.epodImportService = epodImportService;
 
             this.ftpClient.FtpLocation = Configuration.FtpLocation;
             this.ftpClient.FtpUserName = Configuration.FtpUsername;
             this.ftpClient.FtpPassword = Configuration.FtpPassword;
             this.webClient.Credentials = new NetworkCredential(Configuration.FtpUsername, Configuration.FtpPassword);
+
+            branchGroupsSetup = new Lazy<BranchGroups>(() =>
+            {
+                var collection = ConfigurationManager.AppSettings;
+                const string AppSettingFinder = "ConnectionStringGroups";
+
+                return JsonConvert.DeserializeObject<BranchGroups>(collection.Cast<string>()
+                .Select(key => new KeyValuePair<string, string>(key, collection[key]))
+                .First(p => p.Key == AppSettingFinder).Value);
+            });
+
         }
 
         public void Import()
@@ -71,22 +70,38 @@
 
             foreach (var listing in listings.OrderBy(x => x.Datetime))
             {
-                var guid = Guid.NewGuid();
-                var targetFileName = Path.Combine(Configuration.DownloadFilePath, listing.Filename);
-                var tempFilename = GetTemporaryFilename(listing.Filename, guid);
+                var tempFilename = GetTemporaryFilename(listing.Filename, Guid.NewGuid());
+                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
+                                        Path.Combine(Configuration.DownloadFilePath, tempFilename));
+
+                if (string.IsNullOrWhiteSpace(downloadedFile))
+                {
+                    this.logger.LogDebug($"FileDistributor file not copied from FTP {listing.Filename}!");
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"FileDistributor file not copied from FTP {listing.Filename}!", EventId.FtpFileDistributorFileNotCopied);
+
+                    continue;
+                }
+
+                int branchId;
+                string folderName;
+                try
+                {
+                    branchId = this.GetBranchNumber(downloadedFile);
+                    folderName = this.GetGroupFolder(branchId);
+                }
+                catch (ConfigurationErrorsException ex)
+                {
+                    this.logger.LogError(ex.Message);
+                    continue;
+                }
+                    
+                var targetFileName = Path.Combine(Configuration.DownloadFilePath, 
+                    listing.Filename,
+                    folderName);
                
                 if (!File.Exists(targetFileName))
                 {
-                    var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
-                        Path.Combine(Configuration.DownloadFilePath, tempFilename));
-
-                    if (string.IsNullOrWhiteSpace(downloadedFile))
-                    {
-                        this.logger.LogDebug($"Transend file not copied from FTP {listing.Filename}!");
-                        this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"Transend file not copied from FTP {listing.Filename}!", EventId.FtpTransendFileNotCopied);
-
-                        continue;
-                    }
+                    
                     if (!File.Exists(targetFileName))
                     {
                         File.Move(downloadedFile, targetFileName);
@@ -101,6 +116,7 @@
                     if (File.Exists("stop.txt"))
                     {
                         File.Delete("stop.txt");
+                        this.logger.LogDebug("Process stopped due Stop.txt file");
                         return;
                     }
                 }
@@ -108,8 +124,91 @@
                 {
                     this.logger.LogDebug($"File { listing.Filename } already exists in target folder. File not copied from FTP.");
                 }
-
             }
+        }
+
+        private string GetGroupFolder(int branchId)
+        {
+            try
+            {
+                return branchGroupsSetup.Value.GetGroupNameForBranch(branchId);
+            }
+            catch
+            {
+                throw new ConfigurationErrorsException($"No configuration found for branch {branchId}. Please check your app.config settings and make sure it's correctly configure on ConnectionStringGroups");
+            }
+        }
+
+        private int GetBranchNumber(string fileName)
+        {
+            var depots = new Dictionary<string, int>()
+            {
+                {"med", 2},
+                {"cov", 3},
+                {"far", 5},
+                {"dun", 9},
+                {"lee", 14},
+                {"hem", 20},
+                {"bir", 22},
+                {"bel", 33},
+                {"bra", 42},
+                {"ply", 55},
+                {"bri", 59},
+                {"hay", 82}
+            };
+
+            if (fileName.StartsWith("route") || fileName.StartsWith("order"))
+            {
+                var parts = fileName.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                var branch = parts[1].ToLower();
+
+                if (depots.ContainsKey(branch))
+                {
+                    return depots[branch];
+                }
+
+                throw new ConfigurationErrorsException($"No branch found on file {fileName}");
+            }
+
+            using (var reader = XmlReader.Create(File.OpenRead(fileName)))
+            {
+                while (reader.Read())
+                {
+                    reader.MoveToContent();
+
+                    if (reader.NodeType == XmlNodeType.Element
+                        && string.Equals(reader.Name, "EntityAttributeValue", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        var el = XNode.ReadFrom(reader) as XElement;
+
+                        if (el != null)
+                        {
+                            var xElements = el.DescendantNodes()
+                                .Where(p => p is XElement)
+                                .Select(p => (XElement)p)
+                                .ToList();
+
+                            var hasRouteOwner = xElements
+                                .Any(p => string.Equals(p.Name.LocalName, "Code", StringComparison.CurrentCultureIgnoreCase) 
+                                       && string.Equals(p.Value, "ROUTEOWNER", StringComparison.CurrentCultureIgnoreCase));
+
+                            if (hasRouteOwner)
+                            {
+                                var branch = xElements.First(p => p.Name == "Value1").Value;
+
+                                if (depots.ContainsKey(branch))
+                                {
+                                    return depots[branch];
+                                }
+
+                                throw new ConfigurationErrorsException($"No branch found on file {fileName}");
+                            }
+                        }
+                    }
+                }
+            }
+
+            throw new ConfigurationErrorsException($"No branch found on file {fileName}");
         }
 
         private string GetTemporaryFilename(string filename, Guid guid)

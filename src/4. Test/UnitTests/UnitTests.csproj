@@ -178,6 +178,7 @@
     <Compile Include="Api\Mapper\StopMapperTests.cs" />
     <Compile Include="Api\StructuremapTests.cs" />
     <Compile Include="Api\Validators\SeasonalDateValidatorTests.cs" />
+    <Compile Include="Common\BranchGroupsTests.cs" />
     <Compile Include="Common\DeadlockRetryHelperTests.cs" />
     <Compile Include="Common\IListExtentionsTests.cs" />
     <Compile Include="Common\JobExtensionsTests.cs" />
@@ -309,9 +310,9 @@
       <Project>{55273256-3c5f-416e-834a-3ac264f7819c}</Project>
       <Name>Well.Clean</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.TranSend\Well.TranSend.csproj">
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.TranSend\Well.FileDistributor.csproj">
       <Project>{559d6545-bc06-432a-b006-7ef8c65b4bd4}</Project>
-      <Name>Well.TranSend</Name>
+      <Name>Well.FileDistributor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\2. CrossCutting\Well.Common\Well.Common.csproj">
       <Project>{d1032947-bba3-4d82-91fb-8e2ae054f0e3}</Project>

@@ -10,7 +10,7 @@
         public const int AdamPodCreditPodTransactionException = 2020;
         public const int AdamAmendmentTransactionException = 2015;
         public const int AdamAmendmentHeaderTransactionException = 2025;
-        public const int FtpTransendFileNotCopied = 4433;
+        public const int FtpFileDistributorFileNotCopied = 4433;
         public const int EventProcessorLog = 5655;
         public const int ImportIgnored = 7776;
         public const int FtpException = 8555;

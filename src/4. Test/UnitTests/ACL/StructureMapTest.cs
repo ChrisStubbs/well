@@ -1,10 +1,7 @@
 ﻿namespace PH.Well.UnitTests.ACL
 {
     using Adam.Events;
-    using Clean;
     using NUnit.Framework;
-    using TranSend;
-    using TranSend.Infrastructure;
     using Well.Services.Contracts;
 
     [TestFixture]
@@ -24,14 +21,6 @@
             var container = PH.Well.Adam.Listener.Program.InitIoc();
             IFileMonitorService monitorService;
             Assert.DoesNotThrow(() => monitorService = container.GetInstance<IFileMonitorService>());
-        }
-        
-        [Test]
-        public void CheckWellTransendIoc()
-        {
-            var container = DependancyRegister.InitIoc();
-            ITransendImport import;
-            Assert.DoesNotThrow(() => import = container.GetInstance<ITransendImport>());
         }
 
         [Test]

@@ -40,7 +40,6 @@ export class ApprovalFilter implements IFilter
 {
     constructor()
     {
-        this.branchName = '';
         this.account = '';
         this.deliveryDateFormatted = '';
         this.invoiceNumber = '';
@@ -55,7 +54,6 @@ export class ApprovalFilter implements IFilter
         return 999999999;
     }
 
-    private branchName: string;
     public account: string;
     public deliveryDateFormatted: string;
     public invoiceNumber: string;
@@ -67,7 +65,6 @@ export class ApprovalFilter implements IFilter
     public getFilterType(filterName: string): (value: any, value2: any) => boolean
     {
         switch (filterName) {
-            case 'branchName':
             case 'deliveryDateFormatted':
             case 'dateSubmittedFormatted':
             case 'submittedBy':

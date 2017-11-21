@@ -48,6 +48,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
+        [Route("{branchId:int}/branch")]
         [Route("branch")]
         public HttpResponseMessage Get(string username = null)
         {

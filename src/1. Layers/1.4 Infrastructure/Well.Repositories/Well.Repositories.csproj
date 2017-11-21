@@ -103,6 +103,7 @@
     <Compile Include="Contracts\ICreditThresholdRepository.cs" />
     <Compile Include="Contracts\ICustomerRoyaltyExceptionRepository.cs" />
     <Compile Include="Contracts\IDateThresholdRepository.cs" />
+    <Compile Include="Contracts\IDbMultiConfiguration.cs" />
     <Compile Include="Contracts\IGlobalUpliftTransactionFactory.cs" />
     <Compile Include="Contracts\IJobResolutionStatusRepository.cs" />
     <Compile Include="Contracts\ILineItemActionCommentRepository.cs" />

@@ -12,6 +12,8 @@
 
         IEnumerable<TEntity> Query<TEntity>();
 
+        IEnumerable<TEntity> Query<TEntity>(string connectionString);
+
         Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName);
 
         IEnumerable<TEntity> SqlQuery<TEntity>(string sql);

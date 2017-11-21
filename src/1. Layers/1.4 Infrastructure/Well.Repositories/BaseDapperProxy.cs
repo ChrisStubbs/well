@@ -20,7 +20,12 @@
 
         public IEnumerable<TEntity> Query<TEntity>()
         {
-            return this.QueryDapper<TEntity>();
+            return this.QueryDapper<TEntity>(DbConfiguration.DatabaseConnection);
+        }
+
+        public IEnumerable<TEntity> Query<TEntity>(string connectionString)
+        {
+            return this.QueryDapper<TEntity>(connectionString);
         }
 
         public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName)
@@ -59,7 +64,7 @@
                 try
                 {
                     return action(
-                        connection.QueryMultiple(this.storedProcedure, this.parameters, 
+                        connection.QueryMultiple(this.storedProcedure, this.parameters,
                         commandType: CommandType.StoredProcedure,
                         commandTimeout: DbConfiguration.CommandTimeout));
                 }
@@ -76,7 +81,7 @@
             {
                 try
                 {
-                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, 
+                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters,
                         commandType: CommandType.StoredProcedure,
                         commandTimeout: DbConfiguration.CommandTimeout));
                 }
@@ -155,9 +160,9 @@
             return this;
         }
 
-        private IEnumerable<TEntity> QueryDapper<TEntity>()
+        private IEnumerable<TEntity> QueryDapper<TEntity>(string connectionString)
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -168,7 +173,6 @@
                 {
                     this.parameters = null;
                 }
-                
             }
         }
     }

@@ -310,7 +310,7 @@
       <Project>{55273256-3c5f-416e-834a-3ac264f7819c}</Project>
       <Name>Well.Clean</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.TranSend\Well.FileDistributor.csproj">
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.FileDistributor\Well.FileDistributor.csproj">
       <Project>{559d6545-bc06-432a-b006-7ef8c65b4bd4}</Project>
       <Name>Well.FileDistributor</Name>
     </ProjectReference>

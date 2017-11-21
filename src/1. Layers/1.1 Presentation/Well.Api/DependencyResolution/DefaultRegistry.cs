@@ -42,7 +42,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
             For<IDapperProxy>().Use<WellDapperProxy>();
-            For<IDbConfiguration>().Use<WellDbConfiguration>();
+            For<IDbConfiguration>().Use<WelllApiDbConfiguration>();
             For<ILogger>().Use<NLogger>();
             For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
             For<IServerErrorResponseHandler>().Use<ServerErrorResponseHandler>();

@@ -45,10 +45,10 @@ namespace PH.Well.Repositories.Read
                 .ToList();
         }
 
-        public IList<KeyValuePair<string, string>> Driver()
+        public IList<KeyValuePair<string, string>> Driver(string connectionString)
         {
             return dapperReadProxy.WithStoredProcedure(StoredProcedures.Driver)
-                .Query<KeyValuePair<string, string>>()
+                .Query<KeyValuePair<string, string>>(connectionString)
                 .OrderBy(p => p.Value)
                 .ToList();
         }

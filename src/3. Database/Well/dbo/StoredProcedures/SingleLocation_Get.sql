@@ -96,6 +96,7 @@ AS
 					ON lia.LineItemId = jd.LineItemId 
 					AND jd.DateDeleted IS NULL
                     AND lia.DateDeleted IS NULL
+					AND lia.ExceptionTypeId != 4 --uplift
                 INNER JOIN Job j
                     ON jd.JobId = j.id
                     AND j.DateDeleted IS NULL
@@ -117,3 +118,4 @@ AS
 			ON j.Id = cl.JobId
 	WHERE
 		l.Id = @LocationId
+

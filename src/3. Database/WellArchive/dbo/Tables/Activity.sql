@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Activity]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[DocumentNumber] VARCHAR(40) NULL,
 	[InitialDocument] VARCHAR(40) NOT NULL,
 	[ActivityTypeId] TINYINT NOT NULL,

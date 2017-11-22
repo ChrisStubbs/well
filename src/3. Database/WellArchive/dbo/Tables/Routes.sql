@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Routes]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[FileName] VARCHAR(255),
 	[DateDeleted] DATETIME NULL, 
 	[CreatedBy] VARCHAR(50) NOT NULL,

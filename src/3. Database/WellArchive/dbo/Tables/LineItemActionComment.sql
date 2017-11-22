@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[LineItemActionComment]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[LineItemActionId] INT NOT NULL,
 	[CommentReasonId] INT NOT NULL,
 	[FromQty] INT NULL DEFAULT 0,

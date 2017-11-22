@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[LineItemAction]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[ExceptionTypeId] INT NOT NULL,
 	[Quantity] INT NOT NULL,
 	[SourceId] TINYINT NULL,

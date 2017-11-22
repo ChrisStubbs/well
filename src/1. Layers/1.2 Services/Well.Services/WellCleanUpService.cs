@@ -147,7 +147,7 @@
             return Task.Run(async () =>
             {
                 var values = new ConcurrentBag<JobForClean>();
-                ;
+                
                 foreach (var item in data)
                 {
                     DateTime compareDate;

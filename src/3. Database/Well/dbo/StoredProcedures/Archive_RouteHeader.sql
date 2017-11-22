@@ -4,6 +4,7 @@ AS
 	-- Routes
 	DELETE rh
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[CompanyId]
 		,Deleted.[RouteNumber]
 		,Deleted.[RouteDate]
@@ -32,6 +33,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].RouteHeader
 		(  [Id]
+	      ,DataSource
 		  ,[CompanyId]
 		  ,[RouteNumber]
 		  ,[RouteDate]

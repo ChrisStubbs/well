@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[LineItem]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[LineNumber] SMALLINT NULL,
 	[ProductCode] VARCHAR(60) NOT NULL,
 	[ProductDescription] VARCHAR(100) NOT NULL,

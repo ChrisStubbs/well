@@ -155,5 +155,9 @@
         {
             return this.PhProductCode.Length == LengthOfBarcode;
         }
+
+        public int? UpliftAction { get; set; }
+
+        public bool IsSubOuterQuantity { get; set; }
     }
 }

@@ -128,6 +128,7 @@ export class ActivitySourceDetail
     }
 
     public isSelected: boolean;
+    public upliftAction: number;
 }
 
 export class ActivityFilter implements IFilter

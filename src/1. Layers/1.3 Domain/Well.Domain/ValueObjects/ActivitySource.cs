@@ -80,5 +80,6 @@
         public bool HasNoDefinedActions { get; set; }
         public int JobStatusId { get; set; }
         public bool HasLineItemActions { get; set; }
+        public int UpliftAction { get; set; }
     }
 }

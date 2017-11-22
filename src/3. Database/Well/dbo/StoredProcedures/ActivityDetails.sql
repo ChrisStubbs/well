@@ -38,7 +38,8 @@ AS
 			SELECT COUNT(LineItemAction)
 			FROM LineWithProblems la
 			WHERE la.Id = a.LineItemId 
-		)) AS HasLineItemActions
+		)) AS HasLineItemActions,
+		a.UpliftAction_Id
 	FROM 
 		ActivityDetailsView a
 	WHERE 

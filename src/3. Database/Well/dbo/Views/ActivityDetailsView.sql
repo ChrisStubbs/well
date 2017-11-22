@@ -44,7 +44,8 @@ AS
         j.JobStatusId,
         ac.BypassTotal,
         ac.DamageTotal,
-        ac.ShortTotal
+        ac.ShortTotal,
+		jd.UpliftAction_Id
     FROM 
         Activity a
         INNER JOIN Job j

@@ -8,15 +8,18 @@ namespace PH.Well.Services
 {
     using System.Linq;
     using System.Runtime.Remoting.Messaging;
+    using Common;
     using Common.Extensions;
 
     public class LookupService : ILookupService
     {
         private readonly ILookupRepository lookupRepository;
+        private readonly IDbMultiConfiguration connections;
 
-        public LookupService(ILookupRepository lookupRepository)
+        public LookupService(ILookupRepository lookupRepository, IDbMultiConfiguration connections)
         {
             this.lookupRepository = lookupRepository;
+            this.connections = connections;
         }
 
         public IList<KeyValuePair<string, string>> GetLookup(LookupType lookupType)
@@ -36,8 +39,8 @@ namespace PH.Well.Services
                     return this.lookupRepository.JobType();
 
                 case LookupType.Driver:
-                    return this.lookupRepository.Driver();
-
+                    return GetDistinctDriversFromAllDatabases();
+                    
                 case LookupType.DeliveryAction:
                     return this.GetDeliveryActions();
 
@@ -68,6 +71,19 @@ namespace PH.Well.Services
                 default:
                     throw new ArgumentException($"{lookupType}");
             }
+        }
+
+        private IList<KeyValuePair<string, string>> GetDistinctDriversFromAllDatabases()
+        {
+            var comparer = new EqualityComparer<KeyValuePair<string, string>>(
+                (k1, k2) => k1.Key == k2.Key,
+                k1 => k1.Key.GetHashCode());
+
+            return connections.ConnectionStrings
+                .Select(p => this.lookupRepository.Driver(p))
+                .SelectMany(p => p)
+                .Distinct(comparer)
+                .ToList();
         }
 
         private IList<KeyValuePair<string, string>> GetJobIssueType()

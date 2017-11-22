@@ -76,6 +76,7 @@
     <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
     <Compile Include="DeadlockRetryHelper.cs" />
+    <Compile Include="EqualityComparer.cs" />
     <Compile Include="EventId.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />

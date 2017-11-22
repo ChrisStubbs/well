@@ -20,5 +20,7 @@
         IEnumerable<UserJob> GetUserJobsByJobIds(IEnumerable<int> jobIds);
 
         IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null);
+
+        void Save(User user, string connectionString);
     }
 }

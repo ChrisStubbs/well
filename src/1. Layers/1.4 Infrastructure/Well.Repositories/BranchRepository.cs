@@ -28,13 +28,13 @@
             return branches.Where(x => x.Id != (int)Domain.Enums.Branch.NotDefined);
         }
 
-        public void DeleteUserBranches(User user)
+        public void DeleteUserBranches(User user, string connectionString)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.DeleteUserBranches)
-                .AddParameter("UserId", user.Id, DbType.Int32).Execute();
+                .AddParameter("UserId", user.Id, DbType.Int32).Execute(connectionString);
         }
 
-        public void SaveBranchesForUser(IEnumerable<Branch> branches, User user)
+        public void SaveBranchesForUser(IEnumerable<Branch> branches, User user,string connectionString)
         {
             foreach (var branch in branches)
             {
@@ -45,7 +45,7 @@
                     .AddParameter("DateCreated", DateTime.Now, DbType.DateTime)
                     .AddParameter("UpdatedBy", this.CurrentUser, DbType.String, size: 50)
                     .AddParameter("DateUpdated", DateTime.Now, DbType.DateTime)
-                    .Execute();
+                    .Execute(connectionString);
             }
         }
 

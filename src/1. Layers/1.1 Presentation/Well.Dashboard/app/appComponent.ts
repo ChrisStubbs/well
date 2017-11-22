@@ -20,7 +20,7 @@ export class AppComponent implements IObservableAlive
 
     private get currentBranchIdDisplay(): string {
         if (this.globalSettingsService.currentBranchId) {
-            return `(${ this.globalSettingsService.currentBranchId})`;
+            return `(current selected branch: ${ this.globalSettingsService.currentBranchId})`;
         }
         return undefined;
     }

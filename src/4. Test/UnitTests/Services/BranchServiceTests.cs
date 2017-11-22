@@ -18,13 +18,13 @@ namespace PH.Well.UnitTests.Services
     public class BranchServiceTests
     {
         private Mock<IUserRepository> userRepository;
-
         private Mock<IBranchRepository> branchRepository;
-
         private Mock<IActiveDirectoryService> activeDirectoryService;
-
         private BranchService service;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IDbMultiConfiguration> connections;
+
+        private const string ConnectionString = "Connection";
 
         [SetUp]
         public void Setup()
@@ -34,11 +34,16 @@ namespace PH.Well.UnitTests.Services
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
             this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
+            this.connections = new Mock<IDbMultiConfiguration>();
 
-            this.service = new BranchService(this.userRepository.Object, this.branchRepository.Object, this.activeDirectoryService.Object, this.userNameProvider.Object);
+            this.connections.Setup(x => x.ConnectionStrings).Returns(new List<string> { ConnectionString });
 
-            //////this.userRepository.SetupSet(x => x.CurrentUser = "foo");
-            //////this.branchRepository.SetupSet(x => x.CurrentUser = "foo");
+            this.service = new BranchService(this.userRepository.Object, 
+                this.branchRepository.Object, 
+                this.activeDirectoryService.Object, 
+                this.userNameProvider.Object,
+                this.connections.Object);
+
         }
 
         public class TheSaveBranchesForUserMethod : BranchServiceTests
@@ -50,18 +55,17 @@ namespace PH.Well.UnitTests.Services
                 var branches = new Branch[] { BranchFactory.New.Build() };
 
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns((User)null);
-
-                this.userRepository.Setup(x => x.Save(It.IsAny<User>()));
-                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>()));
+                this.userRepository.Setup(x => x.Save(It.IsAny<User>(), ConnectionString));
+                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>(),ConnectionString));
+                
 
                 this.activeDirectoryService.Setup(x => x.GetUser("foo")).Returns(new User());
 
                 this.service.SaveBranchesForUser(branches);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
-
-                this.userRepository.Verify(x => x.Save(It.IsAny<User>()), Times.Once);
-                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, It.IsAny<User>()), Times.Once);
+                this.userRepository.Verify(x => x.Save(It.IsAny<User>(), ConnectionString), Times.Once);
+                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, It.IsAny<User>(), ConnectionString), Times.Once);
             }
 
             [Test]
@@ -72,15 +76,14 @@ namespace PH.Well.UnitTests.Services
                 var user = UserFactory.New.Build();
 
                 this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
-
-                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, user));
-                this.branchRepository.Setup(x => x.DeleteUserBranches(user));
+                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, user, ConnectionString));
+                this.branchRepository.Setup(x => x.DeleteUserBranches(user, ConnectionString));
 
                 this.service.SaveBranchesForUser(branches);
 
                 this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
-                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user), Times.Once);
-                this.branchRepository.Verify(x => x.DeleteUserBranches(user), Times.Once);
+                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user, ConnectionString), Times.Once);
+                this.branchRepository.Verify(x => x.DeleteUserBranches(user, ConnectionString), Times.Once);
             }
         }
 
@@ -89,10 +92,12 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void IfLess6ThanShouldShowFullBranchName()
             {
-                var branches = new List<Branch>();
-                branches.Add(BranchFactory.New.With(x => x.Name = "Medway").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Coventry").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Farham").Build());
+                var branches = new List<Branch>
+                {
+                    BranchFactory.New.With(x => x.Name = "Medway").Build(),
+                    BranchFactory.New.With(x => x.Name = "Coventry").Build(),
+                    BranchFactory.New.With(x => x.Name = "Farham").Build()
+                };
 
                 this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
                 this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
@@ -104,14 +109,16 @@ namespace PH.Well.UnitTests.Services
             [Test]
             public void IfMoreThan6ShouldThanShouldShowFirstThreeCharacters()
             {
-                var branches = new List<Branch>();
-                branches.Add(BranchFactory.New.With(x => x.Name = "Medway").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Coventry").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Farham").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Dunfermline").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Leeds").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Hemel").Build());
-                branches.Add(BranchFactory.New.With(x => x.Name = "Belfast").Build());
+                var branches = new List<Branch>
+                {
+                    BranchFactory.New.With(x => x.Name = "Medway").Build(),
+                    BranchFactory.New.With(x => x.Name = "Coventry").Build(),
+                    BranchFactory.New.With(x => x.Name = "Farham").Build(),
+                    BranchFactory.New.With(x => x.Name = "Dunfermline").Build(),
+                    BranchFactory.New.With(x => x.Name = "Leeds").Build(),
+                    BranchFactory.New.With(x => x.Name = "Hemel").Build(),
+                    BranchFactory.New.With(x => x.Name = "Belfast").Build()
+                };
 
                 this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
                 this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());

@@ -48,17 +48,7 @@
 
         protected override void SaveNew(User entity)
         {
-            entity.Id =
-                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserSave)
-                    .AddParameter("Name", entity.Name, DbType.String, size: 255)
-                    .AddParameter("JobDescription", entity.JobDescription, DbType.String, size: 500)
-                    .AddParameter("IdentityName", entity.IdentityName, DbType.String, size: 255)
-                    .AddParameter("Domain", entity.Domain, DbType.String, size: 50)
-                    .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
-                    .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
-                    .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
-                    .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
-                    .Query<int>().SingleOrDefault();
+            this.Save(entity, dapperProxy.DbConfiguration.DatabaseConnection);
         }
 
         public void AssignJobToUser(int userId, int jobId)
@@ -96,6 +86,21 @@
 
             return users;
 
+        }
+
+        public void Save(User entity, string connectionString)
+        {
+            entity.Id =
+                this.dapperProxy.WithStoredProcedure(StoredProcedures.UserSave)
+                    .AddParameter("Name", entity.Name, DbType.String, size: 255)
+                    .AddParameter("JobDescription", entity.JobDescription, DbType.String, size: 500)
+                    .AddParameter("IdentityName", entity.IdentityName, DbType.String, size: 255)
+                    .AddParameter("Domain", entity.Domain, DbType.String, size: 50)
+                    .AddParameter("CreatedBy", entity.CreatedBy, DbType.String, size: 50)
+                    .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
+                    .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, size: 50)
+                    .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
+                    .Query<int>(connectionString).SingleOrDefault();
         }
 
         private IEnumerable<User> GetByGrid(SqlMapper.GridReader gridReader)

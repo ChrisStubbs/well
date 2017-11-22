@@ -38,6 +38,7 @@
 
         //note: This will use the default database connection as no branchId prefix is supplied in route
         [Route("user-branches")]
+        [Route("{branchId:int}/user-branches")]
         [HttpGet]
         public HttpResponseMessage UserBranches()
         {

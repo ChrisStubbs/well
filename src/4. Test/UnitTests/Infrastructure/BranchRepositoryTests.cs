@@ -100,15 +100,15 @@
                 this.dapperProxy.Setup(x => x.AddParameter("UserId", user.Id, DbType.Int32, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Execute());
+                this.dapperProxy.Setup(x => x.Execute("ConnectionString"));
 
-                this.repository.DeleteUserBranches(user);
+                this.repository.DeleteUserBranches(user, "ConnectionString");
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.DeleteUserBranches), Times.Once);
 
                 this.dapperProxy.Verify(x => x.AddParameter("UserId", user.Id, DbType.Int32, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.Execute(), Times.Once);
+                this.dapperProxy.Verify(x => x.Execute("ConnectionString"), Times.Once);
             }
         }
 
@@ -141,9 +141,9 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Execute());
+                this.dapperProxy.Setup(x => x.Execute("Connection"));
 
-                this.repository.SaveBranchesForUser(branches, user);
+                this.repository.SaveBranchesForUser(branches, user,"Connection");
 
                 this.dapperProxy.Verify(x => x.WithStoredProcedure(StoredProcedures.SaveUserBranch), Times.Exactly(2));
 
@@ -151,7 +151,7 @@
 
                 this.dapperProxy.Verify(x => x.AddParameter("BranchId", branches[0].Id, DbType.Int32, null), Times.Exactly(2));
 
-                this.dapperProxy.Verify(x => x.Execute(), Times.Exactly(2));
+                this.dapperProxy.Verify(x => x.Execute("Connection"), Times.Exactly(2));
             }
         }
 

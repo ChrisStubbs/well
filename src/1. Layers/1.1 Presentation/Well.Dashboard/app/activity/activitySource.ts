@@ -80,6 +80,7 @@ export class ActivitySourceDetail
     public stopDate: Date;
     public jobId: number;
     public jobType: string;
+    public jobTypeId: number;
     public jobTypeAbbreviation: string;
     public lineItemId: number;
     public hasUnresolvedActions: boolean;

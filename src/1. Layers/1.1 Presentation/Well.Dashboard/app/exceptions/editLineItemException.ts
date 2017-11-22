@@ -31,6 +31,7 @@ export class EditLineItemException {
     public canEditActionsReason: string;
     public hasUnresolvedActions: boolean;
     public readonly isProofOfDelivery: boolean;
+    public upliftAction: number;
 }
 
 export class EditLineItemExceptionDetail {

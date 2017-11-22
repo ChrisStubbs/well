@@ -17,7 +17,8 @@ import { Observable }               from 'rxjs';
 import { LineItemAction }           from '../../exceptions/lineItemAction';
 import { EditLineItemException }    from '../../exceptions/editLineItemException';
 import { LineItemActionComment }    from '../../exceptions/lineItemAction';
-import {SecurityService}            from '../services/securityService';
+import { SecurityService } from '../services/securityService';
+import { UpliftAction } from '../../job/job';
 
 @Component({
     selector: 'action-edit',
@@ -108,6 +109,12 @@ export class ActionEditComponent implements IObservableAlive
         if (this.source.jobType == this.jobTypeUplift && this.source.bypass > 0) 
         {
             this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter, 
+                (current: ILookupValue) => +current.key != this.creditActionValue);
+        }
+
+        if (this.source.upliftAction == UpliftAction.UpliftNoCredit ||
+            this.source.upliftAction == UpliftAction.NoUpliftNoCredit) {
+            this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter,
                 (current: ILookupValue) => +current.key != this.creditActionValue);
         }
 

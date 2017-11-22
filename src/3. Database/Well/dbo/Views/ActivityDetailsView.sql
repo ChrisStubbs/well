@@ -28,6 +28,7 @@ AS
         a.Id AS ActivityId,
         li.ProductCode AS Product,
         j.JobTypeCode AS JobType,
+        j.JobTypeId AS JobTypeId,
         jd.SSCCBarcode AS Barcode,
         li.ProductDescription AS Description,
         jd.NetPrice AS Value,

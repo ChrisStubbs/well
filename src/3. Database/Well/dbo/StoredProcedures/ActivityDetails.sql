@@ -39,7 +39,8 @@ AS
 			FROM LineWithProblems la
 			WHERE la.Id = a.LineItemId 
 		)) AS HasLineItemActions,
-		a.UpliftAction_Id
+		a.UpliftAction_Id AS UpliftAction,
+		a.JobTypeId AS JobTypeId
 	FROM 
 		ActivityDetailsView a
 	WHERE 

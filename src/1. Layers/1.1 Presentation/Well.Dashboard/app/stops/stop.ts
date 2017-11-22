@@ -55,6 +55,8 @@ export class StopItem implements IGrnAssignable, IGrnAssignable
     public completedOnPaper: boolean;
     public locationId: number;
     public hasLineItemActions: boolean;
+    public upliftAction: number;
+    public jobTypeId: number;
 
     public get barCode(): string
     {

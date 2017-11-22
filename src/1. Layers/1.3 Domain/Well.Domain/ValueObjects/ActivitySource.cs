@@ -81,5 +81,6 @@
         public int JobStatusId { get; set; }
         public bool HasLineItemActions { get; set; }
         public int UpliftAction { get; set; }
+        public int JobTypeId { get; set; }
     }
 }

@@ -101,6 +101,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpPost]
+        [Route("{branchId:int}/branch")]
         [Route("branch")]
         public HttpResponseMessage Post(Branch[] branches)
         {
@@ -115,6 +116,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [Route("{branchId:int}/save-branches-on-behalf-of-user")]
+        [Route("save-branches-on-behalf-of-user")]
         [HttpPost]
         public HttpResponseMessage Post(Branch[] branches, string username, string domain)
         {

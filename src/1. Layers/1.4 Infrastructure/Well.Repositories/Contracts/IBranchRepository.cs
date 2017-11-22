@@ -10,9 +10,9 @@
 
         IEnumerable<Branch> GetAllValidBranches();
 
-        void DeleteUserBranches(User user);
+        void DeleteUserBranches(User user, string connectionString);
 
-        void SaveBranchesForUser(IEnumerable<Branch> branches, User user);
+        void SaveBranchesForUser(IEnumerable<Branch> branches, User user, string connectionString);
 
         IEnumerable<Branch> GetBranchesForUser(string username);
 

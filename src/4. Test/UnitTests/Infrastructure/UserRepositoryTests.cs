@@ -78,7 +78,9 @@
                 this.dapperProxy.Setup(x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null))
                     .Returns(this.dapperProxy.Object);
 
-                this.dapperProxy.Setup(x => x.Query<int>()).Returns(new int[] { 1 });
+                this.dapperProxy.Setup(x => x.DbConfiguration.DatabaseConnection).Returns("Connection");
+
+                this.dapperProxy.Setup(x => x.Query<int>("Connection")).Returns(new int[] { 1 });
 
                 this.repository.Save(user);
 
@@ -108,7 +110,7 @@
                 this.dapperProxy.Verify(
                     x => x.AddParameter("DateUpdated", It.IsAny<DateTime>(), DbType.DateTime, null), Times.Once);
 
-                this.dapperProxy.Verify(x => x.Query<int>(), Times.Once);
+                this.dapperProxy.Verify(x => x.Query<int>("Connection"), Times.Once);
             }
         }
 

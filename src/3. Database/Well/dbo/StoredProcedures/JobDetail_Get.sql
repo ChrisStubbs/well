@@ -38,6 +38,7 @@ AS
            ,jd.[DateUpdated]
 		   ,jd.[DateDeleted]
            ,jd.[Version]
+		   ,jd.[UpliftAction_Id] AS UpliftAction
   FROM [dbo].[JobDetail] jd
   INNER JOIN @JobDetailIdsTable Ids ON Ids.JobDetailId = jd.Id
 

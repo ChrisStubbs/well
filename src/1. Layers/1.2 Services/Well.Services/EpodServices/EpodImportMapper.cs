@@ -54,6 +54,8 @@
             destination.ShortQty = source.ShortQty;
             destination.DeliveredQty = source.DeliveredQty;
             destination.LineDeliveryStatus = source.LineDeliveryStatus;
+            destination.UpliftAction = source.UpliftAction;
+            destination.IsSubOuterQuantity = source.IsSubOuterQuantity;
         }
     }
     

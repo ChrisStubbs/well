@@ -13,8 +13,8 @@ $publishSettingsPath = $publishSettingsPath + ".xml"
 $baseSqlPackagePath = "${Env:ProgramFiles(x86)}\Microsoft SQL Server\"
 $sqlInstanceName = $OctopusParameters["SqlInstance"]
 
-#$roundhouseDir = (Join-Path $OctopusOriginalPackageDirectoryPath "content\ManualStep")
-#$roundhouseExe = (Join-Path $roundhouseDir "roundhouse.0.8.6\bin\rh.exe")
+$roundhouseDir = (Join-Path $OctopusOriginalPackageDirectoryPath "content\ManualStep")
+$roundhouseExe = (Join-Path $roundhouseDir "roundhouse.0.8.6\bin\rh.exe")
 
 if (Test-Path  ($baseSqlPackagePath + "\120\DAC\bin\SqlPackage.exe"))
 {
@@ -43,8 +43,8 @@ Write-Host "Machine name     : " $machineName
 Write-Host "SQL Instance     : " $sqlInstanceName
 
 #Run the roundhouse scripts
-#Set-Location $roundhouseDir
-#& $roundhouseExe /d=$databaseName /f=scripts /s=$machineName\$sqlInstanceName --dnc=true --silent=true
+Set-Location $roundhouseDir
+& $roundhouseExe /d=$databaseName /f=scripts /s=$machineName\$sqlInstanceName --dnc=true --silent=true
 
 # Run the deployment tool
 Set-Location $sqlPackageDir

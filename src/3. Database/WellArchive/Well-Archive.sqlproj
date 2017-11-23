@@ -61,6 +61,11 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="ManualStep" />
+    <Folder Include="ManualStep\roundhouse.0.8.6" />
+    <Folder Include="ManualStep\roundhouse.0.8.6\bin" />
+    <Folder Include="ManualStep\scripts" />
+    <Folder Include="ManualStep\scripts\runBeforeUp" />
+    <Folder Include="ManualStep\scripts\up" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Account.sql" />
@@ -79,6 +84,7 @@
     <Build Include="dbo\Tables\Stop.sql" />
     <Build Include="dbo\Tables\UserJob.sql" />
     <None Include="ManualStep\MigrateArchive.sql" />
+    <None Include="ManualStep\scripts\up\001_FillSourceColumnArchive.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Well-Archive.xml">
@@ -88,6 +94,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Well-Archive.nuspec" />
+    <None Include="ManualStep\roundhouse.0.8.6\bin\rh.exe" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\packages\OctoPack.3.0.60\tools\OctoPack.targets" />
 </Project>

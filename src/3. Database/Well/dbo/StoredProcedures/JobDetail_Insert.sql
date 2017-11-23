@@ -24,7 +24,10 @@
 	@CreatedBy				VARCHAR(50),
 	@DateCreated			Datetime,
 	@UpdatedBy				VARCHAR(50),
-	@DateUpdated			Datetime
+	@DateUpdated			Datetime,
+	@UpliftActionId			TINYINT,
+	@IsSubOuterQuantity		BIT
+
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -54,7 +57,9 @@ INSERT INTO [dbo].[JobDetail]
            ,[CreatedBy]
            ,[DateCreated]
            ,[UpdatedBy]
-           ,[DateUpdated])
+           ,[DateUpdated]
+		   ,[UpliftAction_Id]
+		   ,[IsSubOuterQuantity])
      VALUES
            (@LineNumber
 		   ,@OriginalDespatchQty
@@ -80,7 +85,9 @@ INSERT INTO [dbo].[JobDetail]
            ,@CreatedBy
            ,@DateCreated
            ,@UpdatedBy
-           ,@DateUpdated)
+           ,@DateUpdated
+		   ,@UpliftActionId
+		   ,@IsSubOuterQuantity)
 		   
 SELECT CAST(SCOPE_IDENTITY() as int);
 END

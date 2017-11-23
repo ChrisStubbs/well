@@ -28,6 +28,7 @@ AS
         a.Id AS ActivityId,
         li.ProductCode AS Product,
         j.JobTypeCode AS JobType,
+        j.JobTypeId AS JobTypeId,
         jd.SSCCBarcode AS Barcode,
         li.ProductDescription AS Description,
         jd.NetPrice AS Value,
@@ -44,7 +45,8 @@ AS
         j.JobStatusId,
         ac.BypassTotal,
         ac.DamageTotal,
-        ac.ShortTotal
+        ac.ShortTotal,
+		jd.UpliftAction_Id
     FROM 
         Activity a
         INNER JOIN Job j

@@ -34,6 +34,8 @@ CREATE TABLE [dbo].[JobDetail]
 	[Version] [TIMESTAMP] NOT NULL,
 	[LineItemId] INT NULL,
 	[BagId] INT NULL,
+	[UpliftAction_Id] TINYINT NULL,
+	[IsSubOuterQuantity] BIT DEFAULT 0
     CONSTRAINT [PK_JobDetail] PRIMARY KEY CLUSTERED ([Id] ASC),
 	CONSTRAINT [FK_JobDetail_Job] FOREIGN KEY ([JobId]) REFERENCES [dbo].[Job] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT [FK_JobDetail_JobDetailStatus] FOREIGN KEY ([ShortsStatus]) REFERENCES [dbo].JobDetailStatus ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION,

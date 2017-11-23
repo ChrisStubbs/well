@@ -20,7 +20,9 @@
 	@UpdatedBy				VARCHAR(50),
 	@DateUpdated			DATETIME,
 	@OriginalDespatchQty	INT,
-	@NetPrice				FLOAT
+	@NetPrice				FLOAT,
+	@UpliftActionId			TINYINT,
+	@IsSubOuterQuantity		BIT
 
 AS
 BEGIN
@@ -50,6 +52,8 @@ UPDATE
       ,[DateUpdated] = @DateUpdated
 	  ,OriginalDespatchQty = @OriginalDespatchQty
 	  ,NetPrice = COALESCE(@NetPrice, NetPrice)
+	  ,UpliftAction_Id = @UpliftActionId
+	  ,IsSubOuterQuantity = @IsSubOuterQuantity
  WHERE 
 	[Id] = @Id
 END

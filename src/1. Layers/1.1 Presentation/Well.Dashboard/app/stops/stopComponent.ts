@@ -17,7 +17,7 @@ import { EditExceptionsService }                            from '../exceptions/
 import { EditLineItemException, EditLineItemExceptionDetail }   from '../exceptions/editLineItemException';
 import { LookupService }                                    from '../shared/services/lookupService';
 import { LookupsEnum }                                      from '../shared/services/lookupsEnum';
-import { GrnHelpers, IGrnAssignable }                       from '../job/job';
+import { GrnHelpers, IGrnAssignable, UpliftAction, UpliftActionHelpers } from '../job/job';
 import { ISubmitActionResult }                              from '../shared/action/submitActionModel';
 import { ISubmitActionResultDetails }                       from '../shared/action/submitActionModel';
 import { BulkEditActionModal }                              from '../shared/action/bulkEditActionModal';
@@ -552,6 +552,10 @@ export class StopComponent implements IObservableAlive
         }
 
         this.fillGridSource();
+    }
+
+    private getUpliftActionCode(item: StopItem): string {
+        return UpliftActionHelpers.getUpliftActionCode(item.jobTypeId, item.upliftAction);
     }
 }
 

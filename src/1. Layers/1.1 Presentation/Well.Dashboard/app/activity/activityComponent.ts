@@ -36,6 +36,7 @@ import { ManualCompletionType }                             from '../shared/manu
 import { IJobIdResolutionStatus }                           from '../shared/models/jobIdResolutionStatus';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import { UpliftActionHelpers} from '../job/job';
 
 @Component({
     selector: 'ow-activity',
@@ -457,5 +458,9 @@ export class ActivityComponent implements IObservableAlive
             default:
                 return;
         }
+    }
+
+    private getUpliftActionCode(item: ActivitySourceDetail): string {
+        return UpliftActionHelpers.getUpliftActionCode(item.jobTypeId, item.upliftAction);
     }
 }

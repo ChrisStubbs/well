@@ -67,6 +67,8 @@
             destination.SkuGoodsValue = source.SkuGoodsValue;
             destination.OriginalDespatchQty = source.OriginalDespatchQty;
             destination.NetPrice = source.NetPrice;
+            destination.UpliftAction = source.UpliftAction;
+            destination.IsSubOuterQuantity = source.IsSubOuterQuantity;
         }
     }
 }

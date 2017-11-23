@@ -16,14 +16,17 @@
         private readonly ICreditThresholdRepository creditThresholdRepository;
         private readonly IUserRepository userRepository;
         private readonly IUserNameProvider userNameProvider;
+        private readonly IDbMultiConfiguration connections;
 
         public UserThresholdService(ICreditThresholdRepository creditThresholdRepository,
             IUserRepository userRepository,
-            IUserNameProvider userNameProvider)
+            IUserNameProvider userNameProvider,
+            IDbMultiConfiguration connections)
         {
             this.creditThresholdRepository = creditThresholdRepository;
             this.userRepository = userRepository;
             this.userNameProvider = userNameProvider;
+            this.connections = connections;
         }
 
         public virtual ThresholdResponse CanUserCredit(decimal creditValue)
@@ -99,13 +102,21 @@
             return null;
         }
 
-        public void SetThresholdLevel(string userName, int creditThresholdId)
+        public void SetThresholdLevelAllDatabases(string userName, int creditThresholdId)
         {
-            var user = userRepository.GetByIdentity(userName);
-            var threshold = creditThresholdRepository.GetById(creditThresholdId);
+            foreach (var connectionString in connections.ConnectionStrings)
+            {
+                SetThresholdLevel(userName, creditThresholdId, connectionString);
+            }
+        }
+
+        private void SetThresholdLevel(string userName, int creditThresholdId, string connectionString)
+        {
+            var user = userRepository.GetByIdentity(userName, connectionString);
+            var threshold = creditThresholdRepository.GetById(creditThresholdId, connectionString);
 
             // If username or creditThresholdId are wrong it will throw null ref that's actually ok
-            creditThresholdRepository.SetForUser(user.Id, threshold.Id);
+            creditThresholdRepository.SetForUser(user.Id, threshold.Id,connectionString);
             user.CreditThresholdId = threshold.Id;
         }
     }

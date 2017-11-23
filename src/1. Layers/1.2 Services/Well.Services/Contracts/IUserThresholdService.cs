@@ -14,7 +14,7 @@
 
         bool UserHasRequiredCreditThreshold(Job job);
 
-        void SetThresholdLevel(string userName, int creditThresholdId);
+        void SetThresholdLevelAllDatabases(string userName, int creditThresholdId);
 
         CreditThreshold GetCreditThreshold(string userName);
     }

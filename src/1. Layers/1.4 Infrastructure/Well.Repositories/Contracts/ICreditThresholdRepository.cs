@@ -10,12 +10,12 @@
 
         void Delete(int id);
 
-        CreditThreshold GetById(int thresholdId);
+        CreditThreshold GetById(int thresholdId, string connectionString);
 
         void PendingCreditInsert(int jobId);
 
         CreditThreshold GetByUserId(int userId);
 
-        void SetForUser(int userId, int creditThresholdId);
+        void SetForUser(int userId, int creditThresholdId, string connectionString);
     }
 }

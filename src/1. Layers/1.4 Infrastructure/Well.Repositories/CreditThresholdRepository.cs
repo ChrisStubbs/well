@@ -22,7 +22,7 @@
         protected override void SaveNew(CreditThreshold entity)
         {
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
-                .AddParameter("Level", (int) entity.Level, DbType.Int32)
+                .AddParameter("Level", (int)entity.Level, DbType.Int32)
                 .AddParameter("Value", entity.Threshold, DbType.Decimal)
                 .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
@@ -52,9 +52,9 @@
                 .AddParameter("Id", id, DbType.Int32).Execute();
         }
 
-        public CreditThreshold GetById(int thresholdId)
+        public CreditThreshold GetById(int thresholdId, string connectionString)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>()
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>(connectionString)
                 .FirstOrDefault(x => x.Id == thresholdId);
         }
 
@@ -75,11 +75,11 @@
                 .FirstOrDefault();
         }
 
-        public void SetForUser(int userId, int creditThresholdId)
+        public void SetForUser(int userId, int creditThresholdId,string connectionString)
         {
             // Delete previously assigned threshold
             dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserDelete)
-                .AddParameter("UserId",userId,DbType.Int32).Execute();
+                .AddParameter("UserId", userId, DbType.Int32).Execute(connectionString);
 
             var now = DateTime.Now;
             var user = CurrentUser;
@@ -89,7 +89,7 @@
                 .AddParameter("DateCreated", now, DbType.DateTime)
                 .AddParameter("DateUpdated", now, DbType.DateTime)
                 .AddParameter("CreatedBy", user, DbType.String, size: 50)
-                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute();
+                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute(connectionString);
         }
     }
 }

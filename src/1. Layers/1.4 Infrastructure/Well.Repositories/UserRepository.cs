@@ -19,14 +19,19 @@
         {
         }
 
-        public User GetById(int id)
-        {
-            return Get(id, null, null, null, null).SingleOrDefault();
-        }
+        //public User GetById(int id)
+        //{
+        //    return Get(id, null, null, null, null).SingleOrDefault();
+        //}
 
         public User GetByIdentity(string identity)
         {
             return Get(null, identity, null, null, null).SingleOrDefault();
+        }
+
+        public User GetByIdentity(string identity,string connectionString)
+        {
+            return Get(null, identity, null, null, null, connectionString).SingleOrDefault();
         }
 
         public User GetByName(string name)
@@ -72,7 +77,7 @@
                 .Execute();
         }
 
-        public IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null)
+        public IEnumerable<User> Get(int? id = null, string identity = null, string name = null, int? creditThresholdId = null, int? branchId = null,string connectionstring = null)
         {
             IEnumerable<User> users = new List<User>();
 
@@ -82,7 +87,7 @@
                 .AddParameter("Name", name, DbType.String, size: 255)
                 .AddParameter("CreditThresholdId", creditThresholdId, DbType.Int32)
                 .AddParameter("BranchId", branchId, DbType.Int32)
-                .QueryMultiple(x => users = GetByGrid(x));
+                .QueryMultiple(x => users = GetByGrid(x), connectionstring);
 
             return users;
 
@@ -90,6 +95,7 @@
 
         public void Save(User entity, string connectionString)
         {
+            entity.SetCreatedProperties(this.CurrentUser);
             entity.Id =
                 this.dapperProxy.WithStoredProcedure(StoredProcedures.UserSave)
                     .AddParameter("Name", entity.Name, DbType.String, size: 255)

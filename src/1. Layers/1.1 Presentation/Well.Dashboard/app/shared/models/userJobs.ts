@@ -1,5 +1,5 @@
 export class UserJobs {
-    public userId: number;
+    public userName: string;
     public jobIds: number[];
     public allocatePendingApprovalJobs: boolean;
 }

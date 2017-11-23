@@ -39,6 +39,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [Route("{branchId:int}/credit-threshold")]
+        [Route("credit-threshold")]
         [HttpGet]
         public HttpResponseMessage Get()
         {

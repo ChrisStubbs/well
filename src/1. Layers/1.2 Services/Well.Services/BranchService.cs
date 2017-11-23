@@ -20,18 +20,21 @@ namespace PH.Well.Services
 
         private readonly IUserNameProvider userNameProvider;
         private readonly IDbMultiConfiguration connections;
+        private readonly IUserService userService;
 
         public BranchService(IUserRepository userRepository,
             IBranchRepository branchRepository,
             IActiveDirectoryService activeDirectoryService,
             IUserNameProvider userNameProvider,
-            IDbMultiConfiguration connections)
+            IDbMultiConfiguration connections,
+            IUserService userService)
         {
             this.userRepository = userRepository;
             this.branchRepository = branchRepository;
             this.activeDirectoryService = activeDirectoryService;
             this.userNameProvider = userNameProvider;
             this.connections = connections;
+            this.userService = userService;
         }
 
         public void SaveBranchesForUser(Branch[] branches)
@@ -80,13 +83,14 @@ namespace PH.Well.Services
         }
         public void SaveBranchesForExistingUser(Branch[] branches, User user, string connectionString)
         {
+            user = userService.CreateUserIfNotExists(user, connectionString);
             this.branchRepository.DeleteUserBranches(user, connectionString);
             this.branchRepository.SaveBranchesForUser(branches, user, connectionString);
         }
 
         public void SaveBranchesForNewUser(Branch[] branches, User newUser, string connectionString)
         {
-            this.userRepository.Save(newUser, connectionString);
+            newUser = userService.CreateUserIfNotExists(newUser, connectionString);
             this.branchRepository.SaveBranchesForUser(branches, newUser, connectionString);
         }
 

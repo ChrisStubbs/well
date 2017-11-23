@@ -18,6 +18,7 @@
 
         IEnumerable<TEntity> SqlQuery<TEntity>(string sql);
 
+        TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action, string connectionString);
         TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action);
 
         IEnumerable<TEntity> QueryMultiples<TEntity>(Func<SqlMapper.GridReader, IEnumerable<TEntity>> action);

@@ -23,26 +23,29 @@ namespace PH.Well.UnitTests.Services
         private BranchService service;
         private Mock<IUserNameProvider> userNameProvider;
         private Mock<IDbMultiConfiguration> connections;
+        private Mock<IUserService> userService;
 
         private const string ConnectionString = "Connection";
 
         [SetUp]
         public void Setup()
         {
-            this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
-            this.branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
-            this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
-            this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
-            this.userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
-            this.connections = new Mock<IDbMultiConfiguration>();
+            userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            branchRepository = new Mock<IBranchRepository>(MockBehavior.Strict);
+            activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
+            userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
+            connections = new Mock<IDbMultiConfiguration>();
+            userService = new Mock<IUserService>();
 
             this.connections.Setup(x => x.ConnectionStrings).Returns(new List<string> { ConnectionString });
 
-            this.service = new BranchService(this.userRepository.Object, 
-                this.branchRepository.Object, 
-                this.activeDirectoryService.Object, 
-                this.userNameProvider.Object,
-                this.connections.Object);
+            this.service = new BranchService(userRepository.Object, 
+                branchRepository.Object, 
+                activeDirectoryService.Object, 
+                userNameProvider.Object,
+                connections.Object,
+                userService.Object);
 
         }
 
@@ -54,18 +57,19 @@ namespace PH.Well.UnitTests.Services
                 var username = "foo";
                 var branches = new Branch[] { BranchFactory.New.Build() };
 
-                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns((User)null);
-                this.userRepository.Setup(x => x.Save(It.IsAny<User>(), ConnectionString));
-                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>(),ConnectionString));
-                
+                userRepository.Setup(x => x.GetByIdentity(username)).Returns((User)null);
+                //userRepository.Setup(x => x.Save(It.IsAny<User>(), ConnectionString));
+                branchRepository.Setup(x => x.SaveBranchesForUser(branches, It.IsAny<User>(),ConnectionString));
+                var user = new User();
 
-                this.activeDirectoryService.Setup(x => x.GetUser("foo")).Returns(new User());
+                activeDirectoryService.Setup(x => x.GetUser("foo")).Returns(user);
+                userService.Setup(x => x.CreateUserIfNotExists(user, ConnectionString)).Returns(user);
+                service.SaveBranchesForUser(branches);
 
-                this.service.SaveBranchesForUser(branches);
-
-                this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
-                this.userRepository.Verify(x => x.Save(It.IsAny<User>(), ConnectionString), Times.Once);
-                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, It.IsAny<User>(), ConnectionString), Times.Once);
+                userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
+                branchRepository.Verify(x => x.SaveBranchesForUser(branches, It.IsAny<User>(), ConnectionString), Times.Once);
+                userService.Verify(x => x.CreateUserIfNotExists(user, ConnectionString), Times.Once);
+                userService.Verify(x => x.CreateUserIfNotExists(user, ConnectionString), Times.Once);
             }
 
             [Test]
@@ -75,15 +79,17 @@ namespace PH.Well.UnitTests.Services
                 var branches = new Branch[] { BranchFactory.New.Build() };
                 var user = UserFactory.New.Build();
 
-                this.userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
-                this.branchRepository.Setup(x => x.SaveBranchesForUser(branches, user, ConnectionString));
-                this.branchRepository.Setup(x => x.DeleteUserBranches(user, ConnectionString));
+                userRepository.Setup(x => x.GetByIdentity(username)).Returns(user);
+                branchRepository.Setup(x => x.SaveBranchesForUser(branches, user, ConnectionString));
+                branchRepository.Setup(x => x.DeleteUserBranches(user, ConnectionString));
+                userService.Setup(x => x.CreateUserIfNotExists(user, ConnectionString)).Returns(user);
 
-                this.service.SaveBranchesForUser(branches);
+                service.SaveBranchesForUser(branches);
 
-                this.userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
-                this.branchRepository.Verify(x => x.SaveBranchesForUser(branches, user, ConnectionString), Times.Once);
-                this.branchRepository.Verify(x => x.DeleteUserBranches(user, ConnectionString), Times.Once);
+                userRepository.Verify(x => x.GetByIdentity(username), Times.Once);
+                branchRepository.Verify(x => x.SaveBranchesForUser(branches, user, ConnectionString), Times.Once);
+                branchRepository.Verify(x => x.DeleteUserBranches(user, ConnectionString), Times.Once);
+                userService.Verify(x => x.CreateUserIfNotExists(user, ConnectionString), Times.Once);
             }
         }
 
@@ -99,9 +105,9 @@ namespace PH.Well.UnitTests.Services
                     BranchFactory.New.With(x => x.Name = "Farham").Build()
                 };
 
-                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
-                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
-                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+                branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+                branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
+                var branchInformation = service.GetUserBranchesFriendlyInformation("foo");
 
                 Assert.That(branchInformation, Is.EqualTo("Medway, Coventry, Farham"));
             }
@@ -120,9 +126,9 @@ namespace PH.Well.UnitTests.Services
                     BranchFactory.New.With(x => x.Name = "Belfast").Build()
                 };
 
-                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
-                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
-                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+                branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+                branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
+                var branchInformation = service.GetUserBranchesFriendlyInformation("foo");
 
                 Assert.That(branchInformation, Is.EqualTo("Med, Cov, Far, Dun, Lee, Hem, Bel"));
             }
@@ -131,9 +137,9 @@ namespace PH.Well.UnitTests.Services
             public void IfAllBranchesShouldSayAllBranches()
             {
                 var branches = BranchFactory.GetAllBranches();
-                this.branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
-                this.branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
-                var branchInformation = this.service.GetUserBranchesFriendlyInformation("foo");
+                branchRepository.Setup(x => x.GetBranchesForUser("foo")).Returns(branches);
+                branchRepository.Setup(x => x.GetAllValidBranches()).Returns(BranchFactory.GetAllBranches());
+                var branchInformation = service.GetUserBranchesFriendlyInformation("foo");
 
                 Assert.That(branchInformation, Is.EqualTo("All branches selected"));
             }

@@ -1,6 +1,7 @@
 ﻿namespace PH.Well.UnitTests.ACL
 {
     using Adam.Events;
+    using Clean;
     using NUnit.Framework;
     using Well.Services.Contracts;
 
@@ -27,8 +28,8 @@
         public void CheckWellCleanIoc()
         {
             var container = Clean.Program.InitIoc();
-            IWellCleanUpService clean;
-            Assert.DoesNotThrow(() => clean = container.GetInstance<IWellCleanUpService>());
+            ITriggerCleanProcess trigger;
+            Assert.DoesNotThrow(() => trigger = container.GetInstance<ITriggerCleanProcess>());
 
         }
     }

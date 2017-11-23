@@ -78,7 +78,7 @@ export class AssignModal implements IObservableAlive
     public userSelected(user: IUser, newModel: AssignModel): void
     {
         this.userJobs.jobIds = newModel.jobIds;
-        this.userJobs.userId = user.id;
+        this.userJobs.userName = user.name;
         this.userJobs.allocatePendingApprovalJobs = newModel.allocatePendingApprovalJobs;
         this.userService.assign(this.userJobs)
             .takeWhile(() => this.isAlive)

@@ -5,7 +5,6 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Contracts;
     using Dapper;
@@ -59,14 +58,19 @@
 
         public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            return QueryMultiple<TEntity>(action, DbConfiguration.DatabaseConnection);
+        }
+
+        public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action, string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString ?? DbConfiguration.DatabaseConnection))
             {
                 try
                 {
                     return action(
                         connection.QueryMultiple(this.storedProcedure, this.parameters,
-                        commandType: CommandType.StoredProcedure,
-                        commandTimeout: DbConfiguration.CommandTimeout));
+                            commandType: CommandType.StoredProcedure,
+                            commandTimeout: DbConfiguration.CommandTimeout));
                 }
                 finally
                 {

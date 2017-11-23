@@ -1,12 +1,17 @@
 ﻿namespace PH.Well.Repositories
 {
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Data;
     using Contracts;
     using Shared.Well.Data.EF.Contracts;
 
-    public class WellDbConfiguration : BaseDbConfiguration, IWellDbConfiguration, IWellEntitiesConnectionString
+    public class WellDbConfiguration : BaseDbConfiguration, IWellDbConfiguration, IWellEntitiesConnectionString, IDbMultiConfiguration
     {
+        public WellDbConfiguration()
+        {
+            ConnectionStrings = new List<string> { DatabaseConnection };
+        }
         public string DatabaseConnection => GetConnectionString("Well").ConnectionString;
 
         private ConnectionStringSettings GetConnectionString(string connectionStringKey)
@@ -34,7 +39,9 @@
             set
             {
                 entitiesNameOrConnection = value;
-            } 
+            }
         }
+
+        public IList<string> ConnectionStrings { get; }
     }
 }

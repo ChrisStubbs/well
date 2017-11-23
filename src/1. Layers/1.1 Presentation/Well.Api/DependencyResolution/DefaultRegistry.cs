@@ -154,6 +154,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IDbMultiConfiguration>().Use<WelllApiDbConfiguration>();
             For<IApprovalService>().Use<ApprovalService>();
             For<INotificationService>().Use<NotificationService>();
+            For<IUserService>().Use<UserService>();
         }
     }
 }

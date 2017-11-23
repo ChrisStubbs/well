@@ -2,7 +2,7 @@
 {
     public class UserJobs
     {
-        public int UserId { get; set; }
+        public string UserName { get; set; }
 
         public int[] JobIds { get; set; }
 

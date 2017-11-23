@@ -8,6 +8,7 @@
         public int InvoiceId { get; set; }
         public string @Type { get; set; }
         public string JobTypeAbbreviation { get; set; }
+        public int JobTypeId { get; set; }
         public string Account { get; set; }
         public int AccountID { get; set; }
         public int JobDetailId { get; set; }
@@ -33,5 +34,7 @@
         public int LocationId { get; set; }
         public bool CompletedOnPaper { get; set; }
         public bool HasLineItemActions { get; set; }
+
+        public int UpliftAction { get; set; }
     }
 }

@@ -222,6 +222,7 @@
     <TypeScriptCompile Include="app\job\assignGrnModal.ts" />
     <TypeScriptCompile Include="app\job\job.ts" />
     <TypeScriptCompile Include="app\job\jobService.ts" />
+    <TypeScriptCompile Include="app\job\upliftAction.ts" />
     <TypeScriptCompile Include="app\locations\locations.ts" />
     <TypeScriptCompile Include="app\locations\locationsComponent.ts" />
     <TypeScriptCompile Include="app\locations\locationsService.ts" />

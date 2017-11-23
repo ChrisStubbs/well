@@ -279,6 +279,38 @@ namespace PH.Well.Domain
             }
         }
 
+        [XmlIgnore]
+        public int? UpliftAction
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "UPLIFTACTN");
+                if (string.IsNullOrWhiteSpace(attribute?.Value))
+                {
+                    return null;
+                }
+                int upliftAction = 0;
+                int.TryParse(attribute?.Value, out upliftAction);
+                return upliftAction;
+            }
+        }
+
+
+        [XmlIgnore]
+        public bool IsSubOuterQuantity
+        {
+            get
+            {
+                var attribute = this.EntityAttributes.FirstOrDefault(x => x.Code == "SUBOUTRQTY");
+                if (attribute != null)
+                {
+                    return attribute.Value != "N";
+                }
+
+                return false;
+            }
+        }
+
         //[XmlIgnore]
         //public int LineItemId { get; set; }
 

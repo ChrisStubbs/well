@@ -267,7 +267,7 @@
                             </td>
                         </tr>
                         <tr *ngFor="let detail of item.details" [style.display]="item.isExpanded ? 'table-row' : 'none'">
-                            <td colspan="2">{{detail.product}}</td>
+                            <td colspan="2">{{detail.product}}<br/>{{getUpliftActionCode(detail)}}</td>
                             <td>{{detail.type}}</td>
                             <td>
                                 <div *ngIf="detail.barCode != 'NoBarCode'" class="hideOverflow" title="{{detail.barCode}}">

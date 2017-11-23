@@ -15,6 +15,7 @@
         WellStatus,
         CommentReason,
         ResolutionStatus,
-        JobIssueType
+        JobIssueType,
+        UpliftAction
     }
 }

@@ -31,10 +31,10 @@ namespace PH.Well.Api.Mapper
         {
             var jobGroupToBeAdvised = jobs.GroupBy(j => new { j.OuterCount, j.ToBeAdvisedCount })
                                         .Select(y => new ToBeAdvisedGroup()
-                                                    {
-                                                        OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
-                                                        ToBeAdvisedCount = y.Key.ToBeAdvisedCount
-                                                    }).ToList();
+                                        {
+                                            OuterCountId = y.Key.OuterCount.GetValueOrDefault(),
+                                            ToBeAdvisedCount = y.Key.ToBeAdvisedCount
+                                        }).ToList();
 
             var stopModel = new StopModel
             {
@@ -50,7 +50,7 @@ namespace PH.Well.Api.Mapper
                 TotalNoOfStopsOnRoute = route.PlannedStops,
                 Items = MapItems(jobs, jobDetailTotalsPerStop.ToList())
             };
-            
+
             return stopModel;
         }
 
@@ -80,7 +80,9 @@ namespace PH.Well.Api.Mapper
                                 det.SSCCBarcode,
                                 det.LineItemId,
                                 IsTobaccoBag = det.IsTobaccoBag(),
-                                HasLineItemActions = line.LineItemActions.Where(lia => lia.DateDeleted == null).Count() > 0
+                                HasLineItemActions = line.LineItemActions.Where(lia => lia.DateDeleted == null).Count() > 0,
+                                UpliftAction = det.UpliftAction.GetValueOrDefault(),
+                                JobTypeId = (int)p.JobType
                             });
 
                     if (p.JobType == JobType.Tobacco)
@@ -119,13 +121,15 @@ namespace PH.Well.Api.Mapper
                                 GrnNumber = p.GrnNumber,
                                 CanEditReason = jobService.CanEdit(p, userNameProvider.GetUserName()),
                                 LocationId = p.LocationId,
-                                CompletedOnPaper  = p.JobStatus == JobStatus.CompletedOnPaper,
-                                HasLineItemActions = line.HasLineItemActions
+                                CompletedOnPaper = p.JobStatus == JobStatus.CompletedOnPaper,
+                                HasLineItemActions = line.HasLineItemActions,
+                                UpliftAction = line.UpliftAction,
+                                JobTypeId = line.JobTypeId
                             }
                         })
                         .ToList();
                 })
-                .Select(line => 
+                .Select(line =>
                 {
                     var totals = jobDetailTotalsPerStop.FirstOrDefault(p => p.JobDetailId == line.DetailId) ?? new JobDetailLineItemTotals();
 

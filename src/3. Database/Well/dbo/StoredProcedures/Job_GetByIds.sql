@@ -99,7 +99,8 @@ AS
 			d.UpdatedBy, 
 			d.DateUpdated, 
 			d.Version, 
-			d.LineItemId
+			d.LineItemId,
+			d.UpliftAction_Id AS UpliftAction
 	FROM	Job AS j 
 			INNER JOIN Stop AS s ON j.StopId = s.Id 
 			INNER JOIN RouteHeader AS r ON s.RouteHeaderId = r.Id 

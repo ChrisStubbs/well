@@ -13,4 +13,5 @@ export enum LookupsEnum
     CommentReason,
     ResolutionStatus,
     JobIssueType,
+    UpliftAction
 }

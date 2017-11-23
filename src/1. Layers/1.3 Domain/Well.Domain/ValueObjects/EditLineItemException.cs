@@ -37,6 +37,7 @@
         public bool HasUnresolvedActions => LineItemActions.Any(x => x.DeliveryAction == DeliveryAction.NotDefined);
         public IList<EditLineItemExceptionDetail> Exceptions { get; set; }
         public IList<LineItemAction> LineItemActions { get; set; }
+        public int UpliftAction { get; set; }
     }
 
     public class EditLineItemExceptionDetail

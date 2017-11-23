@@ -81,6 +81,8 @@
                 .AddParameter("DateCreated", jobDetail.DateCreated, DbType.DateTime)
                 .AddParameter("UpdatedBy", jobDetail.UpdatedBy, DbType.String)
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
+                .AddParameter("UpliftActionId", jobDetail.UpliftAction, DbType.Int16)
+                .AddParameter("IsSubOuterQuantity", jobDetail.IsSubOuterQuantity, DbType.Boolean)
                 .Query<int>().FirstOrDefault();
         }
 
@@ -109,6 +111,8 @@
                 .AddParameter("DateUpdated", jobDetail.DateUpdated, DbType.DateTime)
                 .AddParameter("OriginalDespatchQty", jobDetail.OriginalDespatchQty, DbType.Int32)
                 .AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal)
+                .AddParameter("UpliftActionId", jobDetail.UpliftAction, DbType.Int16)
+                .AddParameter("IsSubOuterQuantity", jobDetail.IsSubOuterQuantity, DbType.Boolean)
                 .Execute();
         }
 

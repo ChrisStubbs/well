@@ -48,6 +48,8 @@
             to.SkuGoodsValue = from.SkuGoodsValue;
             to.OriginalDespatchQty = from.OriginalDespatchQty;
             to.NetPrice = from.NetPrice;
+            to.UpliftAction = from.UpliftAction;
+            to.IsSubOuterQuantity = from.IsSubOuterQuantity;
         }
 
     }

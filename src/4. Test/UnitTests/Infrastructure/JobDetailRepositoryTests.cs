@@ -325,6 +325,14 @@
                         x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null))
                     .Returns(this.dapperProxy.Object);
 
+                this.dapperProxy.Setup(
+                      x => x.AddParameter("UpliftActionId", jobDetail.UpliftAction, DbType.Int16, null))
+                  .Returns(this.dapperProxy.Object);
+
+                this.dapperProxy.Setup(
+                  x => x.AddParameter("IsSubOuterQuantity", jobDetail.IsSubOuterQuantity, DbType.Boolean, null))
+              .Returns(this.dapperProxy.Object);
+
                 this.dapperProxy.Setup(x => x.Execute());
 
                 this.repository.Update(jobDetail);
@@ -396,6 +404,12 @@
 
                 this.dapperProxy.Verify(
                     x => x.AddParameter("NetPrice", jobDetail.NetPrice, DbType.Decimal, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                x => x.AddParameter("UpliftActionId", jobDetail.UpliftAction, DbType.Int16, null), Times.Once);
+
+                this.dapperProxy.Verify(
+                x => x.AddParameter("IsSubOuterQuantity", jobDetail.IsSubOuterQuantity, DbType.Boolean, null), Times.Once);
             }
         }
     }

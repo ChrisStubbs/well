@@ -26,16 +26,22 @@ namespace PH.Well.Repositories
             return this.dapperProxy.QueryAsync<DateThreshold>(null, StoredProcedures.DateThreshold);
         }
 
-		public IList<DateThreshold> Get()
+        public void Update(DateThreshold entity, string conectionString)
+        {
+            entity.SetUpdatedProperties(CurrentUser);
+            this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThresholdUpdate)
+                .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
+                .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute(conectionString);
+        }
+
+        public IList<DateThreshold> Get()
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThreshold).Query<DateThreshold>().ToList();
         }
 
         protected override void UpdateExisting(DateThreshold entity)
         {
-            this.dapperProxy.WithStoredProcedure(StoredProcedures.DateThresholdUpdate)
-                .AddParameter("NumberOfDays", entity.NumberOfDays, DbType.Int16)
-                .AddParameter("BranchId", entity.BranchId, DbType.Int32).Execute();
+            Update(entity, dapperProxy.DbConfiguration.DatabaseConnection);
         }
     }
 }

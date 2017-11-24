@@ -11,6 +11,6 @@ namespace PH.Well.Repositories.Contracts
     {
         IList<DateThreshold> Get();
         Task<IEnumerable<DateThreshold>> GetAsync();
-        void Update(DateThreshold dateThreshold, string co);
+        void Update(DateThreshold dateThreshold, string conectionString);
     }
 }

@@ -102,12 +102,6 @@ export class ActionEditComponent implements IObservableAlive
                 });
         }
 
-        if (this.source.jobType == this.jobTypeUplift && this.source.bypass > 0) 
-        {
-            this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter, 
-                (current: ILookupValue) => +current.key != this.creditActionValue);
-        }
-
         if (this.source.upliftAction == UpliftAction.UpliftNoCredit ||
             this.source.upliftAction == UpliftAction.NoUpliftNoCredit) {
             this.deliveryActionsWithFilter = _.filter(this.deliveryActionsWithFilter,
@@ -356,7 +350,7 @@ export class ActionEditComponent implements IObservableAlive
             _.each(formArray.value,
                 value => {
                     if (Number(value.action) === this.creditActionValue &&
-                        value.exceptionType == this.exceptionTypeShort) {
+                        (value.exceptionType == this.exceptionTypeShort || this.source.bypass > 0)) {
 
                         this.warnings.push(
                                 'Please be aware that you are creating credit ' +

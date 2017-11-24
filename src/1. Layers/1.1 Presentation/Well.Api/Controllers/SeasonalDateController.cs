@@ -37,6 +37,8 @@
 
         }
 
+        [Route("{branchId:int}/seasonal-date")]
+        [Route("seasonal-date")]
         public HttpResponseMessage Get()
         {
             var seasonalDates = this.seasonalDateRepository.GetAll().OrderBy(x => x.From).ToList();

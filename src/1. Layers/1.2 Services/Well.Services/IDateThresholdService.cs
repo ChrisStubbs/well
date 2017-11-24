@@ -12,6 +12,6 @@ namespace PH.Well.Services
         DateTime GracePeriodEnd(DateTime routeDate, int branchId, int royaltyCode);
         Task<DateTime> GracePeriodEndAsync(DateTime routeDate, int branchId, int royaltyCode);
         IList<DateThreshold> GetAll();
-        void Update(DateThreshold dateThreshold);
+        void UpdateDateThresholdAllDatabases(DateThreshold dateThreshold);
     }
 }

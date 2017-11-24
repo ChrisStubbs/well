@@ -6,7 +6,7 @@
             <th>From</th>
             <th>To</th>
             <th>Branches</th>
-            <th style="text-align: right;"><button id="add-seasonal-date" type="button" class="btn btn-primary" (click)="add()">Add</button></th>
+            <!--<th style="text-align: right;"><button id="add-seasonal-date" type="button" class="btn btn-primary" (click)="add()">Add</button></th>-->
         </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                     <td (click)="selectSeason(x)" id="seasonal-from-date-{{x.id}}">{{x.fromDate | date:'dd MMM yyyy'}}</td>
                     <td (click)="selectSeason(x)" id="seasonal-to-date-{{x.id}}">{{x.toDate | date:'dd MMM yyyy'}}</td>
                     <td (click)="selectSeason(x)" id="seasonal-branches-{{x.id}}">{{x.branchName}}</td>
-                    <td id="seasonal-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>
+                    <!--<td id="seasonal-remove-{{x.id}}" style="text-align: right;" (click)="remove(x)"><span title="Remove" class="glyphicon glyphicon-remove"></span></td>-->
                 </tr>
             </ng-container> 
         </tbody>

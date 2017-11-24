@@ -99,6 +99,7 @@
     <None Include="ManualStep\scripts\up\032_remove_view_v2.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\ManualDeployment\DeleteBranchData.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />

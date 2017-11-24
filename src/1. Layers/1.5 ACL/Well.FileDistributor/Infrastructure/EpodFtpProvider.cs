@@ -7,12 +7,11 @@
     using System.Net;
     using Contracts;
     using Common.Contracts;
-    using PH.Well.Common;
-    using PH.Well.Domain.ValueObjects;
+    using Common;
+    using Domain.ValueObjects;
     using System.Xml;
     using System.Xml.Linq;
     using System.Configuration;
-    using System.Collections.Specialized;
     using Newtonsoft.Json;
 
     public class EpodFtpProvider : IEpodProvider
@@ -22,6 +21,22 @@
         private readonly IEventLogger eventLogger;
         private readonly ILogger logger;
         private readonly Lazy<BranchGroups> branchGroupsSetup;
+
+        private Dictionary<string, int> depots = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase)
+        {
+            {"med", 2},
+            {"cov", 3},
+            {"far", 5},
+            {"dun", 9},
+            {"lee", 14},
+            {"hem", 20},
+            {"bir", 22},
+            {"bel", 33},
+            {"bra", 42},
+            {"ply", 55},
+            {"bri", 59},
+            {"hay", 82}
+        };
 
         public EpodFtpProvider(
             ILogger logger,
@@ -41,12 +56,14 @@
 
             branchGroupsSetup = new Lazy<BranchGroups>(() =>
             {
-                var collection = ConfigurationManager.AppSettings;
-                const string AppSettingFinder = "ConnectionStringGroups";
+                //var collection = ConfigurationManager.AppSettings;
+                //const string AppSettingFinder = "BranchGroups";
 
-                return JsonConvert.DeserializeObject<BranchGroups>(collection.Cast<string>()
-                .Select(key => new KeyValuePair<string, string>(key, collection[key]))
-                .First(p => p.Key == AppSettingFinder).Value);
+                //return JsonConvert.DeserializeObject<BranchGroups>(collection.Cast<string>()
+                //.Select(key => new KeyValuePair<string, string>(key, collection[key]))
+                //.First(p => p.Key == AppSettingFinder).Value);
+
+                return JsonConvert.DeserializeObject<BranchGroups>(Configuration.BranchGroups);
             });
 
         }
@@ -146,22 +163,6 @@
 
         private int GetBranchNumber(string fileName)
         {
-            var depots = new Dictionary<string, int>(StringComparer.CurrentCultureIgnoreCase)
-            {
-                {"med", 2},
-                {"cov", 3},
-                {"far", 5},
-                {"dun", 9},
-                {"lee", 14},
-                {"hem", 20},
-                {"bir", 22},
-                {"bel", 33},
-                {"bra", 42},
-                {"ply", 55},
-                {"bri", 59},
-                {"hay", 82}
-            };
-
             if (fileName.Contains("ORDER_") || fileName.Contains("ROUTE_"))
             {
                 var parts = fileName.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);

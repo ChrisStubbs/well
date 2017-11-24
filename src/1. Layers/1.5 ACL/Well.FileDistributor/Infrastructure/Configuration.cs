@@ -30,5 +30,6 @@
 
         public static bool DeleteFtpFileAfterImport => bool.Parse(ConfigurationManager.AppSettings["deleteFtpFileAfterImport"]);
 
+        public static string BranchGroups => ConfigurationManager.AppSettings["BranchGroups"];
     }
 }

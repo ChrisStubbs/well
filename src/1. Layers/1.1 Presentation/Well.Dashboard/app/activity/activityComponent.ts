@@ -34,7 +34,6 @@ import { ManualCompletionModal }                            from '../shared/manu
 import { SubmitActionModal }                                from '../shared/action/submitActionModal';
 import { ManualCompletionType }                             from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus }                           from '../shared/models/jobIdResolutionStatus';
-import { UpliftActionHelpers }                              from '../job/job';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
 

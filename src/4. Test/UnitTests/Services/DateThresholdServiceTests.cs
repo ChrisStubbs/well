@@ -8,13 +8,13 @@
     using Well.Domain;
     using Well.Services;
 
-
     [TestFixture]
     public class DateThresholdServiceTests
     {
         private Mock<ISeasonalDateRepository> seasonalDate;
         private Mock<IDateThresholdRepository> dateThresholdRepository;
         private Mock<ICustomerRoyaltyExceptionRepository> customerRoyaltyExceptionRepository;
+        private Mock<IDbMultiConfiguration> connections;
         private DateThresholdService sut;
 
         [SetUp]
@@ -23,8 +23,11 @@
             this.seasonalDate = new Mock<ISeasonalDateRepository>();
             this.dateThresholdRepository = new Mock<IDateThresholdRepository>();
             this.customerRoyaltyExceptionRepository = new Mock<ICustomerRoyaltyExceptionRepository>();
-
-            this.sut = new DateThresholdService(seasonalDate.Object, dateThresholdRepository.Object, customerRoyaltyExceptionRepository.Object);
+            this.connections = new Mock<IDbMultiConfiguration>();
+            this.sut = new DateThresholdService(seasonalDate.Object, 
+                dateThresholdRepository.Object, 
+                customerRoyaltyExceptionRepository.Object,
+                connections.Object);
         }
 
         public class BranchGracePeriodEndDateMethod : DateThresholdServiceTests
@@ -40,7 +43,10 @@
                 this.seasonalDate.Setup(p => p.GetByBranchId(2)).Returns(new List<SeasonalDate>());
 
                 dateThresholdRepository.Setup(p => p.Get()).Returns(this.GetDateThreshold());
-                this.sut = new DateThresholdService(seasonalDate.Object, dateThresholdRepository.Object, customerRoyaltyExceptionRepository.Object);
+                this.sut = new DateThresholdService(seasonalDate.Object, 
+                    dateThresholdRepository.Object, 
+                    customerRoyaltyExceptionRepository.Object,
+                    connections.Object);
             }
 
             private IList<DateThreshold> GetDateThreshold()

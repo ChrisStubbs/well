@@ -75,6 +75,7 @@
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IActivityRepository>().Use<ActivityRepository>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
+                    x.For<IDbMultiConfiguration>().Use<WellDbConfiguration>();
                 });
         }
     }

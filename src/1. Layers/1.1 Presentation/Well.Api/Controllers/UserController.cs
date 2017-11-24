@@ -17,20 +17,21 @@
     public class UserController : BaseApiController
     {
         private readonly IBranchService branchService;
-        private readonly IUserRepository userRepository;
+        private readonly IUserService userService;
         private readonly ILogger logger;
         private readonly IJobService jobService;
         private readonly IActiveDirectoryService activeDirectoryService;
 
         public UserController(IBranchService branchService,
             IActiveDirectoryService activeDirectoryService,
-            IUserRepository userRepository, ILogger logger,
+            IUserService userService,
+            ILogger logger,
             IUserNameProvider userNameProvider,
             IJobService jobService)
             : base(userNameProvider)
         {
             this.branchService = branchService;
-            this.userRepository = userRepository;
+            this.userService = userService;
             this.logger = logger;
             this.jobService = jobService;
             this.activeDirectoryService = activeDirectoryService;
@@ -52,25 +53,12 @@
         [CacheOutput(ClientTimeSpan = 60, ServerTimeSpan = 60)]
         public HttpResponseMessage UsersForBranch(int branchId)
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK, this.userRepository.GetByBranchId(branchId));
+            return this.Request.CreateResponse(HttpStatusCode.OK, this.userService.GetByBranchId(branchId));
         }
 
         public IList<User> Get()
         {
-            var data = this.userRepository.Get().ToList();
-            var result = new List<User>(data.Count());
-            var me = data.FirstOrDefault(p => p.IdentityName == this.UserNameProvider.GetUserName());
-
-            if (me != null)
-            {
-                result.Add(me);
-            }
-
-            result.AddRange(data
-                .Where(p => p.IdentityName != this.UserNameProvider.GetUserName())
-                .OrderBy(p => p.Name));
-
-            return result;
+            return userService.Get();
         }
 
         [Route("{branchId:int}/create-user-using-current-context")]
@@ -84,24 +72,16 @@
         [HttpPost]
         public HttpResponseMessage CreateUser(string userIdentity)
         {
-            return this.Request.CreateResponse(HttpStatusCode.Created, this.Save(userIdentity));
+            return this.Request.CreateResponse(HttpStatusCode.Created, userService.CreateNewUserByIdentityOnAllDatabases(userIdentity));
         }
 
-        private User Save(string userIdentity)
-        {
-            var user = this.activeDirectoryService.GetUser(userIdentity);
 
-            this.userRepository.Save(user);
-
-            return user;
-        }
-
+        [Route("users/{name}")]
         [Route("{branchId:int}/users/{name}")]
         [HttpGet]
         public HttpResponseMessage Users(string name)
         {
-            var users =
-                this.activeDirectoryService.FindUsers(name.Trim(), Api.Configuration.DomainsToSearch).ToList();
+            var users = this.activeDirectoryService.FindUsers(name.Trim(), Api.Configuration.DomainsToSearch).ToList();
 
             if (!users.Any()) users.Add(new User { Id = -1, Name = "No users found!" });
 
@@ -110,15 +90,11 @@
 
 
         [Route("{branchId:int}/user/{name}")]
+        [Route("user/{name}")]
         [HttpGet]
         public User UserByName(string name)
         {
-            var user = userRepository.GetByName(name);
-
-            if (user == null)
-            {
-                user = this.CreateNewUser(name);
-            }
+            var user = userService.GetByName(name, Api.Configuration.DomainsToSearch);
 
             if (user == null)
             {
@@ -126,25 +102,6 @@
             }
 
             return user;
-        }
-
-        /// <summary>
-        /// Used when it's been trying set set a threshold for a non existing DB user
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        private User CreateNewUser(string name)
-        {
-            var usr = this.activeDirectoryService.FindUsers(name.Split(' ')[0], Api.Configuration.DomainsToSearch)
-                .ToList()
-                .FirstOrDefault(p => p.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
-
-            if (usr == null)
-            {
-                return null;
-            }
-
-            return this.Save(usr.IdentityName);
         }
 
         [Route("{branchId:int}/assign-user-to-jobs")]

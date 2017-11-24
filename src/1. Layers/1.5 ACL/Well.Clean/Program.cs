@@ -1,8 +1,7 @@
 ﻿namespace PH.Well.Clean
 {
-    using System;
     using System.Configuration;
-    using System.IO;
+    using Common;
     using Common.Contracts;
     using StructureMap;
 
@@ -17,21 +16,8 @@
             // file imports to time out and deadlocks to occur. Need to look into the reasons for time out before re-instating 
             // the clean process into its own task.
             var container = InitIoc();
-            var logger = container.GetInstance<ILogger>();
-            try
-            {
-
-                var filename = Path.Combine(TargetFolder, $"CLEAN__{DateTime.Now:yyyyMMdd_HHmmssff}.txt");
-                logger.LogDebug($"Writing empty trigger file {filename}");
-                File.Create(filename).Dispose();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Error writing file", ex);
-                throw;
-            }
-            
-            //Clean().Wait();
+            var trigger = container.GetInstance<ITriggerCleanProcess>();
+            trigger.TriggerClean(TargetFolder);
         }
 
         /// <summary>
@@ -42,17 +28,16 @@
             return new Container(
                 x =>
                 {
-                    x.Scan(p =>
-                    {
-                        //p.AssemblyContainingType<IWellCleanUpService>();
-                        //p.AssemblyContainingType<IStopRepository>();
-                        p.AssemblyContainingType<IEventLogger>();
-                        p.WithDefaultConventions();
-                        p.RegisterConcreteTypesAgainstTheFirstInterface();
-                        p.SingleImplementationsOfInterface();
-                    });
-                    //x.For<IUserNameProvider>().Use<WellCleanUserNameProvider>();
-                    //x.For<IWellCleanConfig>().Use<Configuration>();
+                    //x.Scan(p =>
+                    //{
+                    //    p.AssemblyContainingType<ITriggerCleanProcess>();
+                    //    p.AssemblyContainingType<ILogger>();
+                    //    p.WithDefaultConventions();
+                    //    p.RegisterConcreteTypesAgainstTheFirstInterface();
+                    //    p.SingleImplementationsOfInterface();
+                    //});
+                    x.For<ILogger>().Use<NLogger>();
+                    x.For<ITriggerCleanProcess>().Use<TriggerCleanProcess>();
                 });
         }
     }

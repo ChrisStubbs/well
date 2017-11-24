@@ -12,7 +12,7 @@ import {IObservableAlive}                       from '../shared/IObservableAlive
 })
 export class BranchDateThresholdComponent implements IObservableAlive
 {
-    public isAlive: boolean;
+    public isAlive: boolean = true;
 
     private branchThresholdsForm: FormGroup;
 

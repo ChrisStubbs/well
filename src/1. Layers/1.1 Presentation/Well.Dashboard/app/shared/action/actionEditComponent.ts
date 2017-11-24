@@ -18,7 +18,6 @@ import { LineItemAction }           from '../../exceptions/lineItemAction';
 import { EditLineItemException }    from '../../exceptions/editLineItemException';
 import { LineItemActionComment }    from '../../exceptions/lineItemAction';
 import { SecurityService }          from '../services/securityService';
-import { UpliftAction }             from '../../job/job';
 
 @Component({
     selector: 'action-edit',

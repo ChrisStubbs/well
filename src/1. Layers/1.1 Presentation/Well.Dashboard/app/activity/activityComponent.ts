@@ -1,4 +1,4 @@
-import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
+import { NumberFormatStyle }                                from '@angular/common/src/pipes/intl';
 import { Component, ViewChild }                             from '@angular/core';
 import { ActivatedRoute }                                   from '@angular/router';
 import { IObservableAlive }                                 from '../shared/IObservableAlive';

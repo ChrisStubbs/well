@@ -10,5 +10,6 @@
 	[LastUpdatedDate] DATETIME NOT NULL,
     [DateDeleted] DATETIME NULL, 
 	[Version] [TIMESTAMP] NOT NULL,
-    CONSTRAINT [PK_CreditThreshold] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_CreditThreshold] PRIMARY KEY CLUSTERED ([Id] ASC),
+	CONSTRAINT UC_CreditThreshold UNIQUE ([Level])
 )

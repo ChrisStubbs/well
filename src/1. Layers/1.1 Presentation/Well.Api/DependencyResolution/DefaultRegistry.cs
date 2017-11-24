@@ -155,6 +155,7 @@ namespace PH.Well.Api.DependencyResolution
             For<IApprovalService>().Use<ApprovalService>();
             For<INotificationService>().Use<NotificationService>();
             For<IUserService>().Use<UserService>();
+            For<ICreditThresholdService>().Use<CreditThresholdService>();
         }
     }
 }

@@ -85,6 +85,8 @@
     <Compile Include="Contracts\IApprovalService.cs" />
     <Compile Include="Contracts\INotificationService.cs" />
     <Compile Include="Contracts\IUserService.cs" />
+    <Compile Include="CreditThresholdService.cs" />
+    <Compile Include="Contracts\ICreditThresholdService.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="PodService.cs" />
     <Compile Include="BranchService.cs" />

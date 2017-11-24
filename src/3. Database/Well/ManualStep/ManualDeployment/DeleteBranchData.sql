@@ -1,46 +1,45 @@
+	/*
+		Delete all data for 
+		branches that are no longer needed in the database
+	*/
+BEGIN TRAN --NOTE ******When you are happy you need to commit the transaction at the bottom!!******
+	
 	DECLARE @JobIds IntTableType;
 
-	-- Here Put in the Branches you Wish To Keep Depending on The Daatbase
-	IF(DB_NAME() != 'Well')
-	BEGIN
-		INSERT INTO @JobIds 
-		SELECT j.Id 
-		FROM	Job  j
-		INNER JOIN Stop s on j.StopId = s.Id
-		INNER JOIN RouteHeader rh on s.RouteHeaderId = s.Id
-		WHERE rh.RouteOwnerId NOT IN ( 59,20,55 ) -- Add additional Branches here
-	END
-
-	IF(DB_NAME() != 'Well2')
-	BEGIN
-		INSERT INTO @JobIds 
-		SELECT j.Id 
-		FROM	Job  j
-		INNER JOIN Stop s on j.StopId = s.Id
-		INNER JOIN RouteHeader rh on s.RouteHeaderId = s.Id
-		WHERE rh.RouteOwnerId NOT IN ( 82,280,507 ) -- Add additional Branches here
-	END
-
-	IF(DB_NAME() != 'Well3')
-	BEGIN
-		INSERT INTO @JobIds 
-		SELECT j.Id 
-		FROM	Job  j
-		INNER JOIN Stop s on j.StopId = s.Id
-		INNER JOIN RouteHeader rh on s.RouteHeaderId = s.Id
-		WHERE rh.RouteOwnerId NOT IN ( 2,9,42 ) -- Add additional Branches here
-	END
-
-	IF(DB_NAME() != 'Well4')
-	BEGIN
-		INSERT INTO @JobIds 
-		SELECT j.Id 
-		FROM	Job  j
-		INNER JOIN Stop s on j.StopId = s.Id
-		INNER JOIN RouteHeader rh on s.RouteHeaderId = s.Id
-		WHERE rh.RouteOwnerId NOT IN ( 3,5,33 ) -- Add additional Branches here
-	END
+	DECLARE @DatabaseSplit TABLE(DatabaseName VARCHAR(50),BranchId INT)
 	
+	INSERT INTO  @DatabaseSplit
+	SELECT		 'Well',59		-- Bristol
+	UNION SELECT 'Well',20		-- Hemel
+	UNION SELECT 'Well',55		-- Plymouth
+	
+	UNION SELECT 'Well2',82		-- Haydock
+	UNION SELECT 'Well2',22		-- Birtley
+	UNION SELECT 'Well2',14		-- Leeds
+
+	UNION SELECT 'Well3',2		-- Medway
+	UNION SELECT 'Well3',9		-- Dunfermlin
+	UNION SELECT 'Well3',42		-- Brandon 
+	
+	UNION SELECT 'Well4',3		-- Coventry
+	UNION SELECT 'Well4',5		-- Fareham
+	UNION SELECT 'Well4',33		-- Belfast 
+
+	-- Select all the JobIds 
+	-- for branches that a
+	-- not in the current database
+	INSERT INTO @JobIds 
+	SELECT j.Id 
+	FROM	Job  j
+	INNER JOIN Stop s on j.StopId = s.Id
+	INNER JOIN RouteHeader rh on s.RouteHeaderId = rh.Id
+	INNER JOIN @DatabaseSplit db on rh.RouteOwnerId = db.BranchId
+	WHERE
+		db.DatabaseName != DB_NAME()
+	
+
+	--SELECT * From @JobIds
+	-- Delete the data for the selected JobIds
 
 	DELETE c
 	FROM dbo.LineItemActionComment c
@@ -100,6 +99,8 @@
 	INNER JOIN #Bag bid on bid.BagId = b.Id
 	PRINT ('Deleted Bag')
 	PRINT ('----------------')
+
+	DROP Table #Bag
 
 	--JobResolutionStatus
 	DELETE jrs
@@ -165,10 +166,16 @@
 	PRINT ('----------------')
 	
 	-- Clear Down The Exception Event Table
-	IF(DB_NAME() != 'Well')
-	BEGIN
-		TRUNCATE TABLE ExceptionEvent
-	END
+	Delete From dbo.ExceptionEvent Where SourceId Is Null AND DB_NAME() != 'Well'
+	
 
-
+	-- delete all the exceptionEvents that do not belong to thid database
+	DELETE	ex 
+	FROM	dbo.ExceptionEvent  ex
+	INNER JOIN @JobIds jobIds ON ex.SourceId = jobIds.Value
+		
+	
 	-- Maybe Rebuild The Statistics
+
+--ROLLBACK
+--COMMIT

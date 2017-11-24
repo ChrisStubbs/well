@@ -88,22 +88,18 @@ export class ActionEditComponent implements IObservableAlive
         }
     }
 
-    private getDeliveryActions(): Array<ILookupValue>
-    {
-        if (_.isUndefined(this.deliveryActionsWithFilter))
-        {
-            const self = this;
-            if (this.source.isProofOfDelivery) {
-                this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
-                    (action: ILookupValue) => {
-                        return Number(action.key) != self.creditActionValue;
-                    });
-            } else {
-                this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
-                    (action: ILookupValue) => {
-                        return Number(action.key) != self.podActionValue;
-                    });
-            }
+    private getDeliveryActions(): Array<ILookupValue> {
+        const self = this;
+        if (this.source.isProofOfDelivery) {
+            this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
+                (action: ILookupValue) => {
+                    return Number(action.key) != self.creditActionValue;
+                });
+        } else {
+            this.deliveryActionsWithFilter = _.filter(this.deliveryActions,
+                (action: ILookupValue) => {
+                    return Number(action.key) != self.podActionValue;
+                });
         }
 
         if (this.source.jobType == this.jobTypeUplift && this.source.bypass > 0) 

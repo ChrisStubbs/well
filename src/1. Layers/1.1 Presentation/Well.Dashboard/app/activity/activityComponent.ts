@@ -1,4 +1,4 @@
-import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
+import { NumberFormatStyle }                                from '@angular/common/src/pipes/intl';
 import { Component, ViewChild }                             from '@angular/core';
 import { ActivatedRoute }                                   from '@angular/router';
 import { IObservableAlive }                                 from '../shared/IObservableAlive';
@@ -34,9 +34,9 @@ import { ManualCompletionModal }                            from '../shared/manu
 import { SubmitActionModal }                                from '../shared/action/submitActionModal';
 import { ManualCompletionType }                             from '../shared/manualCompletion/manualCompletionRequest';
 import { IJobIdResolutionStatus }                           from '../shared/models/jobIdResolutionStatus';
+import { UpliftActionHelpers }                              from '../job/job';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
-import { UpliftActionHelpers} from '../job/job';
 
 @Component({
     selector: 'ow-activity',

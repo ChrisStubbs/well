@@ -7,7 +7,7 @@
 
     public class Program
     {
-        public static string TargetFolder => ConfigurationManager.AppSettings["downloadFilePath"];
+        public static string TargetFolder => ConfigurationManager.AppSettings["cleanFileDestinationFolder"];
         public static void Main(string[] args)
         {
             // This program will just write out a file to Adam File Folder that will trigger the clean

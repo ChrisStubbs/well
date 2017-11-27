@@ -2,7 +2,7 @@
 {
     public enum EventAction
     {
-        // values 1 to 10 correspond to the transaction record type required by ADAM
+        // values 1 to 11 correspond to the transaction record type required by ADAM
         // commented out the ones that are not used so far because they may need renaming
         Credit = 1,
         //CreditAndReorder = 2,
@@ -16,7 +16,8 @@
         StandardUplift = 8, 
         Amendment = 9,
         GlobalUplift = 10,
-        PodTransaction = 11
+        RecirculateDocuments = 11,
+        PodTransaction = 20
 
     }
 }

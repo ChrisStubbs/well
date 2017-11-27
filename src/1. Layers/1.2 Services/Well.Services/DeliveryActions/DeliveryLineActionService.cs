@@ -125,5 +125,11 @@ namespace PH.Well.Services.DeliveryActions
                 }
             }
         }
+
+        public void DocumentRecirculation(DocumentRecirculationTransaction transaction, int eventId, AdamSettings adamSettings)
+        {
+            var adamResponse = this.adamRepository.DocumentRecirculation(transaction, adamSettings);
+            MarkSuccessfulEventAsDone(eventId, adamResponse);
+        }
     }
 }

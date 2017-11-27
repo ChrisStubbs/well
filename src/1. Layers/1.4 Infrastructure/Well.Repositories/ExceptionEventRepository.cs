@@ -93,6 +93,11 @@ namespace PH.Well.Repositories
             SerializeToJsonAndInsertEvent(amendmentEvent, EventAction.Amendment, DateTime.Now);
         }
 
+        public void InsertRecirculationDocEventTransaction(DocumentRecirculationTransaction transaction)
+        {
+            SerializeToJsonAndInsertEvent(transaction, EventAction.RecirculateDocuments, DateTime.Now, transaction.Id.ToString());
+        }
+
         public void InsertGlobalUpliftEvent(GlobalUpliftEvent globalUpliftEvent, string sourceId = null)
         {
             SerializeToJsonAndInsertEvent(globalUpliftEvent, EventAction.GlobalUplift, DateTime.Now, sourceId);

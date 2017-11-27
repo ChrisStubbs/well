@@ -31,5 +31,7 @@
         AdamResponse AmendmentTransaction(AmendmentTransaction amend, AdamSettings adamSettings);
         AdamResponse GlobalUplift(GlobalUpliftTransaction globalUpliftTransaction, AdamSettings adamSettings);
 
+        AdamResponse DocumentRecirculation(DocumentRecirculationTransaction transaction, AdamSettings adamSettings);
+
     }
 }

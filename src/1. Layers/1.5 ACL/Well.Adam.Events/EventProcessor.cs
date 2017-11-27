@@ -118,11 +118,15 @@ namespace PH.Well.Adam.Events
                         exceptionEventRepository.Delete(eventToProcess.Id);
                     }
                     break;
-                //TODO
                 case EventAction.StandardUplift:
                     var upliftTransaction = JsonConvert.DeserializeObject<CreditTransaction>(eventToProcess.Event);
                     this.deliveryLineActionService.CreditOrUpliftTransaction(upliftTransaction, eventToProcess.Id,
                         GetAdamSettings(upliftTransaction.BranchId));
+                    break;
+                case EventAction.RecirculateDocuments:
+                    var recirculationTransaction = JsonConvert.DeserializeObject<DocumentRecirculationTransaction>(eventToProcess.Event);
+                    this.deliveryLineActionService.DocumentRecirculation(recirculationTransaction, eventToProcess.Id,
+                        GetAdamSettings(recirculationTransaction.BranchId));
                     break;
             }
         }

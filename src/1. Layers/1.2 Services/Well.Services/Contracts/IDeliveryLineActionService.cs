@@ -16,5 +16,7 @@
         void PodTransaction(PodTransaction podTransaction, int eventId, AdamSettings adamSettings);
 
         void AmendmentTransaction(AmendmentTransaction amendmentTransaction, int eventId, AdamSettings adamSettings);
+
+        void DocumentRecirculation(DocumentRecirculationTransaction transaction, int eventId, AdamSettings adamSettings);
     }
 }

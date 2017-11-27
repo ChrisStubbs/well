@@ -183,6 +183,29 @@
             Assert.That(result == AdamResponse.Success);
         }
 
+        [Test]
+        public void SuccessfulDocRecirculationWritesLineToAdam()
+        {
+            var adamSettings = new AdamSettings();
+            var transaction = new DocumentRecirculationTransaction();
+
+            var connection = new Mock<DbConnection>();
+            var command = new Mock<DbCommand>();
+            moqAdamRepository.Setup(x => x.GetAdamConnection(It.IsAny<AdamSettings>()))
+                .Returns(connection.Object);
+
+            moqAdamRepository.Setup(x => x.GetAdamCommand(It.IsAny<DbConnection>()))
+                         .Returns(command.Object);
+
+            command.Setup(x => x.ExecuteNonQuery());
+
+            var result = moqAdamRepository.Object.DocumentRecirculation(transaction, adamSettings);
+
+            command.Verify(x => x.ExecuteNonQuery(), Times.Once);
+            Assert.That(result == AdamResponse.Success);
+
+        }
+
         private CreditTransaction GetCreditTransaction(int numberOfLines)
         {
             return new CreditTransaction { HeaderSql = GetHeaderForTransaction(), JobId = 1, BranchId = 2, LineSql = GetLinesForTransaction(numberOfLines) };

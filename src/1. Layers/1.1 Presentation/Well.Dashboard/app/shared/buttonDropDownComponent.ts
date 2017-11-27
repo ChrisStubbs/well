@@ -18,6 +18,7 @@ export class  ButtonDropDownComponent
         {
             this.items.push('Manually Complete');
             this.items.push('Manually Bypass');
+            this.items.push('Recirculate Documents');
         }
 
         if (this.securityService.userHasPermission(SecurityService.editExceptions))

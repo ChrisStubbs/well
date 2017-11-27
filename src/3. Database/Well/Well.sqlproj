@@ -524,6 +524,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Post-Deployement\Populate-UpliftAction.sql" />
+    <None Include="ManualStep\scripts\up\039_Update_ExceptionEvent_SetPodTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />

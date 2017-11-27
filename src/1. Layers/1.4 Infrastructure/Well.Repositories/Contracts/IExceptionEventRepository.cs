@@ -40,5 +40,7 @@ namespace PH.Well.Repositories.Contracts
 
         bool IsPodTransactionCreatedForJob(string jobId);
 
+        void InsertRecirculationDocEventTransaction(DocumentRecirculationTransaction transaction);
+
     }
 }

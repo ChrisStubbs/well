@@ -562,6 +562,39 @@
             }
         }
 
+        public AdamResponse DocumentRecirculation(DocumentRecirculationTransaction transaction, AdamSettings adamSettings)
+        {
+            using (var connection = GetAdamConnection(adamSettings))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var command = GetAdamCommand(connection))
+                    {
+                        command.CommandText = transaction.HeaderSql;
+                        command.ExecuteNonQuery();
+
+                        return AdamResponse.Success;
+                    }
+                }
+                catch (AdamProviderException exception)
+                {
+                    if (IsKeyViolationException(exception))
+                    {
+                        return AdamResponse.Success;
+                    }
+
+                    var message = $"ADAM error occurred writing document transaction for stopId {transaction.Id}";
+                    this.logger.LogError(message, exception);
+                    this.eventLogger.TryWriteToEventLog(EventSource.WellApi, message,
+                        EventId.AdamPodHeaderException);
+
+                    return AdamResponse.AdamDown;
+                }
+            }
+        }
+
         #endregion Global Uplift
 
         private static string GetConnection(AdamSettings settings)

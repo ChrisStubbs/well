@@ -14,13 +14,19 @@ USING	(VALUES	(1,'Credit','deployment',GETDATE(),'deployment',GETDATE()),
 				(8,'StandardUplift','deployment',GETDATE(),'deployment',GETDATE()),
 				(9,'Amendment','deployment',GETDATE(),'deployment',GETDATE()),
 				(10,'GlobalUplift','deployment',GETDATE(),'deployment',GETDATE()),
-				(11,'PodTransaction','deployment',GETDATE(),'deployment',GETDATE()))
+				(11,'RecirculateDocuments','deployment',GETDATE(),'deployment',GETDATE()),
+				(20,'PodTransaction','deployment',GETDATE(),'deployment',GETDATE()))
 
 AS Source ([Id],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
 	ON Target.[Id] = Source.[Id]
 
 WHEN NOT MATCHED BY TARGET THEN
 	INSERT ([Id],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
-	VALUES ([Id],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate]);
+	VALUES ([Id],[Description],[CreatedBy],[CreatedDate],[LastUpdatedBy],[LastUpdatedDate])
+WHEN MATCHED AND [Description] != Source.[Description] THEN
+	UPDATE SET
+	    [Description] = Source.[Description],
+		[LastUpdatedBy] = Source.[LastUpdatedBy],
+		[LastUpdatedDate] = Source.[LastUpdatedDate];
 
 SET IDENTITY_INSERT [ExceptionAction] OFF

@@ -507,9 +507,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\SyncLineItem.sql" />
-    <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

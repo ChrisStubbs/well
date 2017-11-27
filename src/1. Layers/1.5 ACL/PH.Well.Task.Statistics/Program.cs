@@ -15,6 +15,8 @@ using StructureMap;
 
 namespace PH.Well.Task.Statistics
 {
+    using Shared.Well.Data.EF.Contracts;
+
     public class Program
     {
         static void Main(string[] args)
@@ -45,7 +47,8 @@ namespace PH.Well.Task.Statistics
                     x.For<IWellDapperProxy>().Use<WellDapperProxy>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
-                    x.For<RouteStatistics>().Use<RouteStatistics>();
+                    x.For<IWellEntitiesConnectionString>().Use<WellDbConfiguration>();
+                    x.For<IRouteStatistics>().Use<RouteStatistics>();
                 });
         }
     }

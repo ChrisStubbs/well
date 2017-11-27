@@ -4,6 +4,7 @@
     using Clean;
     using NUnit.Framework;
     using Well.Services.Contracts;
+    using Well.Task.Statistics;
 
     [TestFixture]
     public class StructureMapTest
@@ -30,6 +31,15 @@
             var container = Clean.Program.InitIoc();
             ITriggerCleanProcess trigger;
             Assert.DoesNotThrow(() => trigger = container.GetInstance<ITriggerCleanProcess>());
+
+        }
+
+        [Test]
+        public void CheckWellStatisticsIoc()
+        {
+            var container = PH.Well.Task.Statistics.Program.InitIoc();
+            IRouteStatistics routeStatistics;
+            Assert.DoesNotThrow(() => routeStatistics = container.GetInstance<IRouteStatistics>());
 
         }
     }

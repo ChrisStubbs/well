@@ -299,6 +299,10 @@
       <Project>{AA5B62B7-5CBF-4441-81D6-78F11DC9A4C4}</Project>
       <Name>PH.Well.Task.GlobalUplifts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\1. Layers\1.5 ACL\PH.Well.Task.Statistics\PH.Well.Task.Statistics.csproj">
+      <Project>{c5795a27-dca6-45f2-ba00-f215eb0dd101}</Project>
+      <Name>PH.Well.Task.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\1. Layers\1.5 ACL\Well.Adam.Events\Well.Adam.Events.csproj">
       <Project>{9b115560-a7e1-45a9-9213-712a0860303c}</Project>
       <Name>Well.Adam.Events</Name>

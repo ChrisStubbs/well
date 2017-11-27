@@ -66,6 +66,7 @@
     <Folder Include="ManualStep\scripts" />
     <Folder Include="ManualStep\scripts\runBeforeUp" />
     <Folder Include="ManualStep\scripts\up" />
+    <Folder Include="ManualStep\Post-Deployement" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Account.sql" />
@@ -84,7 +85,7 @@
     <Build Include="dbo\Tables\Stop.sql" />
     <Build Include="dbo\Tables\UserJob.sql" />
     <None Include="ManualStep\MigrateArchive.sql" />
-    <None Include="ManualStep\scripts\up\001_FillSourceColumnArchive.sql">
+    <None Include="ManualStep\Post-Deployement\FillSourceColumnArchive.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

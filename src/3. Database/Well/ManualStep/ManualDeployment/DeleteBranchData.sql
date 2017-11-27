@@ -37,10 +37,7 @@ BEGIN TRAN --NOTE ******When you are happy you need to commit the transaction at
 	WHERE
 		db.DatabaseName != DB_NAME()
 	
-
-	--SELECT * From @JobIds
-	-- Delete the data for the selected JobIds
-
+	--LineItemActionComment
 	DELETE c
 	FROM dbo.LineItemActionComment c
 	INNER JOIN LineItemAction lia ON lia.Id = c.LineItemActionId

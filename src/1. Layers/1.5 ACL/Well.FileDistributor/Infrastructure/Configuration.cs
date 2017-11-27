@@ -16,6 +16,8 @@
 
         public static string FtpLocation => ConfigurationManager.AppSettings["FileDistributorFTPLocation"];
 
+        public static string LocalFSLocation => ConfigurationManager.AppSettings["FileDistributorLocalFileLocation"];
+
         public static string FtpUsername => ConfigurationManager.AppSettings["FileDistributorUser"];
 
         public static string FtpPassword => ConfigurationManager.AppSettings["FileDistributorPass"];

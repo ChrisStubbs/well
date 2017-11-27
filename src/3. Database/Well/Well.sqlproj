@@ -519,15 +519,6 @@
     <RefactorLog Include="Well.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WellArchive\Well-Archive.sqlproj">
-      <Name>Well-Archive</Name>
-      <Project>{138b9918-8dce-47b6-861a-92634460db70}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>WellArchive</DatabaseSqlCmdVariable>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <SqlCmdVariable Include="WellArchive">
       <DefaultValue>Well-Archive</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>

@@ -24,6 +24,12 @@ elseif (Test-Path  ($baseSqlPackagePath + "\110\DAC\bin\SqlPackage.exe"))
 {
 	$sqlPackageDir = (Join-Path $baseSqlPackagePath "\110\DAC\bin")
 }
+else
+{
+    Write-Host "***********ups***********"
+    Write-Host $baseSqlPackagePath
+    Write-Host "***********ups***********"
+}
 
 $sqlPackageExe = (Join-Path $sqlPackageDir "SqlPackage.exe")
 

@@ -1,7 +1,5 @@
 # Internal Variables
 $databaseName = $OctopusParameters["DatabaseName"]
-#$databaseName = "Well"
-#$OctopusOriginalPackageDirectoryPath = "C:\temp\WellDB";
 $contentPath  = (Join-Path $OctopusOriginalPackageDirectoryPath "content")
 $deployPath  = (Join-Path $contentPath "deploy")
 $dbFileName = (Get-ChildItem $deployPath\*.dacpac -Name | Select-Object -First 1)
@@ -14,7 +12,6 @@ $publishSettingsPath = (Join-Path $deployPath "Well")
 $publishSettingsPath = $publishSettingsPath + ".xml"
 $baseSqlPackagePath = "${Env:ProgramFiles(x86)}\Microsoft SQL Server\"
 $sqlInstanceName = $OctopusParameters["SqlInstance"]
-#$sqlInstanceName = "SQLSERVER2014"
 
 $roundhouseDir = (Join-Path $OctopusOriginalPackageDirectoryPath "content\ManualStep")
 $roundhouseExe = (Join-Path $roundhouseDir "roundhouse.0.8.6\bin\rh.exe")

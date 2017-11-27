@@ -166,7 +166,7 @@ BEGIN TRAN --NOTE ******When you are happy you need to commit the transaction at
 	Delete From dbo.ExceptionEvent Where SourceId Is Null AND DB_NAME() != 'Well'
 	
 
-	-- delete all the exceptionEvents that do not belong to thid database
+	-- delete all the exceptionEvents that do not belong to this database
 	DELETE	ex 
 	FROM	dbo.ExceptionEvent  ex
 	INNER JOIN @JobIds jobIds ON ex.SourceId = jobIds.Value

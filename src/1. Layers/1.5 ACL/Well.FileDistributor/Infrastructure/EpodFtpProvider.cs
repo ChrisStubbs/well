@@ -167,8 +167,6 @@
                 {
                     foreach (var file in Directory.GetFiles(Configuration.LocalFSLocation, "*.xml"))
                     {
-                        SendToFinalDestination(file, Path.GetFileName(file));
-
                         var fileName = Path.GetFileName(file);
                         if (SendToFinalDestination(file, fileName))
                         {

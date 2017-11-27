@@ -31,6 +31,14 @@ namespace PH.Well.Task.UatFileCopy
             {"hay", 82}
         };
 
+        private static string[] Connections =
+        {
+            "WellEntities",
+            "Well2Entities",
+            "Well3Entities",
+            "Well4Entities"
+        };
+
         static void Main(string[] args)
         {
             Storage.RegisterStorageProviderFactory(eStorageType.Ftp, new FtpStorageProviderFactory());
@@ -85,8 +93,13 @@ namespace PH.Well.Task.UatFileCopy
             System.Threading.Thread.Sleep(pause);
 
             // Get a list of all files already processed from the Well database last
-            WellEntities entities = new WellEntities();
-            var processed = entities.Routes.Select(x => x.FileName.ToLower()).Distinct().ToList();
+            List<string> processed = new List<string>();
+            var userNameProvider = new UserNameProvider();
+            foreach (string connection in Connections)
+            {
+                WellEntities entities = new WellEntities(userNameProvider, new WellEntitiesConnectionString(connection));
+                processed.AddRange(entities.Routes.Select(x => x.FileName.ToLower()).Distinct());
+            }
             Console.WriteLine($"Exclude {processed.Count} files from Well records");
 
             files = files.Where(x => !processed.Contains(x.Name.ToLower())).ToList();

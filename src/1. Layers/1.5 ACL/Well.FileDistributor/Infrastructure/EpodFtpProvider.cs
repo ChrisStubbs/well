@@ -61,7 +61,7 @@
             });
         }
 
-        private void SendToFinalDestination(string originalFileLocation, string fileName)
+        private bool SendToFinalDestination(string originalFileLocation, string fileName)
         {
             int branchId;
             string folderName;
@@ -73,7 +73,7 @@
             catch (ConfigurationErrorsException ex)
             {
                 this.logger.LogError(ex.Message);
-                return;
+                return false;
             }
 
             var folder = Path.Combine(Configuration.DownloadFilePath,
@@ -88,12 +88,14 @@
             if (!File.Exists(targetFileName))
             {
                 File.Move(originalFileLocation, targetFileName);
-                logger.LogDebug($"Success! File {fileName} copied from ftp!");
+                return true;
             }
             else
             {
                 this.logger.LogDebug($"File { fileName } already exists in target folder. File not copied from");
             }
+
+            return false;
         }
 
         private Task LoadFtp()
@@ -136,7 +138,10 @@
                         continue;
                     }
 
-                    SendToFinalDestination(downloadedFile, listing.Filename);
+                    if (SendToFinalDestination(downloadedFile, listing.Filename))
+                    {
+                        logger.LogDebug($"Success! File {listing.Filename} copied from ftp");
+                    }
 
                     if (Configuration.DeleteFtpFileAfterImport)
                     {
@@ -163,6 +168,12 @@
                     foreach (var file in Directory.GetFiles(Configuration.LocalFSLocation, "*.xml"))
                     {
                         SendToFinalDestination(file, Path.GetFileName(file));
+
+                        var fileName = Path.GetFileName(file);
+                        if (SendToFinalDestination(file, fileName))
+                        {
+                            logger.LogDebug($"Success! File {fileName} copied from File System");
+                        }
 
                         // Abort if a file called stop.txt exists in exe folder
                         if (File.Exists("stop.txt"))

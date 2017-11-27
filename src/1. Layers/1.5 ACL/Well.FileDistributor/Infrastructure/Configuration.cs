@@ -7,9 +7,7 @@
     { 
 
         public static string WellConnection => ConfigurationManager.ConnectionStrings["Well"].ConnectionString;
-
-        public static string FilePath => ConfigurationManager.AppSettings["downloadFilePath"];
-
+        
         public static string SearchPattern => "*.xml*";
 
         public static string ArchiveLocation => ConfigurationManager.AppSettings["archiveLocation"];
@@ -24,7 +22,7 @@
 
         public static string DashboardRefreshEndpoint => ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
 
-        public static string DownloadFilePath => ConfigurationManager.AppSettings["downloadFilePath"];
+        public static string DestinationRootFolder => ConfigurationManager.AppSettings["DistributorRootFilesDestination"];
 
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
 

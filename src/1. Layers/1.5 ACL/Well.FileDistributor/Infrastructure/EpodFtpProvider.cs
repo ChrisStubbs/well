@@ -76,7 +76,7 @@
                 return false;
             }
 
-            var folder = Path.Combine(Configuration.DownloadFilePath,
+            var folder = Path.Combine(Configuration.DestinationRootFolder,
                 folderName);
             var targetFileName = Path.Combine(folder, fileName);
 
@@ -128,7 +128,7 @@
                 {
                     var tempFilename = GetTemporaryFilename(listing.Filename, Guid.NewGuid());
                     var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
-                                            Path.Combine(Configuration.DownloadFilePath, tempFilename));
+                                            Path.Combine(Configuration.DestinationRootFolder, tempFilename));
 
                     if (string.IsNullOrWhiteSpace(downloadedFile))
                     {

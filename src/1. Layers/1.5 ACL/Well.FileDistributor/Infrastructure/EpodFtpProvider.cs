@@ -13,6 +13,7 @@
     using System.Xml.Linq;
     using System.Configuration;
     using Newtonsoft.Json;
+    using System.Threading.Tasks;
 
     public class EpodFtpProvider : IEpodProvider
     {
@@ -56,84 +57,92 @@
 
             branchGroupsSetup = new Lazy<BranchGroups>(() =>
             {
-                //var collection = ConfigurationManager.AppSettings;
-                //const string AppSettingFinder = "BranchGroups";
-
-                //return JsonConvert.DeserializeObject<BranchGroups>(collection.Cast<string>()
-                //.Select(key => new KeyValuePair<string, string>(key, collection[key]))
-                //.First(p => p.Key == AppSettingFinder).Value);
-
                 return JsonConvert.DeserializeObject<BranchGroups>(Configuration.BranchGroups);
             });
-
         }
 
-        public void Import()
+        private void SendToFinalDestination(string originalFileLocation, string fileName)
         {
-            var listings = new List<DirectoryListing>();
-
-            using (var response = this.ftpClient.GetResponseStream())
+            int branchId;
+            string folderName;
+            try
             {
-                using (var reader = new StreamReader(response))
-                {
-                    var routeFile = string.Empty;
-
-                    while ((routeFile = reader.ReadLine()) != null)
-                    {
-                        listings.Add(new DirectoryListing(routeFile));
-                    }
-                }
+                branchId = this.GetBranchNumber(originalFileLocation);
+                folderName = this.GetGroupFolder(branchId);
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                this.logger.LogError(ex.Message);
+                return;
             }
 
-            foreach (var listing in listings.OrderBy(x => x.Datetime))
+            var folder = Path.Combine(Configuration.DownloadFilePath,
+                folderName);
+            var targetFileName = Path.Combine(folder, fileName);
+
+            if (!Directory.Exists(folder))
             {
-                var tempFilename = GetTemporaryFilename(listing.Filename, Guid.NewGuid());
-                var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
-                                        Path.Combine(Configuration.DownloadFilePath, tempFilename));
+                Directory.CreateDirectory(folder);
+            }
 
-                if (string.IsNullOrWhiteSpace(downloadedFile))
+            if (!File.Exists(targetFileName))
+            {
+                File.Move(originalFileLocation, targetFileName);
+                logger.LogDebug($"Success! File {fileName} copied from ftp!");
+            }
+            else
+            {
+                this.logger.LogDebug($"File { fileName } already exists in target folder. File not copied from");
+            }
+        }
+
+        private Task LoadFtp()
+        {
+            return Task.Run(() =>
+            {
+                //if ftp url is not configure lets exit
+                if (string.IsNullOrEmpty(Configuration.FtpLocation))
                 {
-                    this.logger.LogDebug($"FileDistributor file not copied from FTP {listing.Filename}!");
-                    this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"FileDistributor file not copied from FTP {listing.Filename}!", EventId.FtpFileDistributorFileNotCopied);
-
-                    continue;
+                    return;
                 }
 
-                int branchId;
-                string folderName;
-                try
-                {
-                    branchId = this.GetBranchNumber(downloadedFile);
-                    folderName = this.GetGroupFolder(branchId);
-                }
-                catch (ConfigurationErrorsException ex)
-                {
-                    this.logger.LogError(ex.Message);
-                    continue;
-                }
-                
-                var folder = Path.Combine(Configuration.DownloadFilePath,
-                    folderName);
-                var targetFileName = Path.Combine(folder, listing.Filename);
+                var listings = new List<DirectoryListing>();
 
-                if (!Directory.Exists(folder))
+                using (var response = this.ftpClient.GetResponseStream())
                 {
-                    Directory.CreateDirectory(folder);
-                }
-
-                if (!File.Exists(targetFileName))
-                {
-                    
-                    if (!File.Exists(targetFileName))
+                    using (var reader = new StreamReader(response))
                     {
-                        File.Move(downloadedFile, targetFileName);
-                        this.logger.LogDebug($"Success! File {listing.Filename} copied from ftp!");
+                        var routeFile = string.Empty;
+                        var i = 0;
+                        while ((routeFile = reader.ReadLine()) != null && i < 10)
+                        {
+                            listings.Add(new DirectoryListing(routeFile));
+                            i++;
+                        }
                     }
+                }
+
+                foreach (var listing in listings.OrderBy(x => x.Datetime))
+                {
+                    var tempFilename = GetTemporaryFilename(listing.Filename, Guid.NewGuid());
+                    var downloadedFile = this.webClient.CopyFile(Configuration.FtpLocation + "/" + listing.Filename,
+                                            Path.Combine(Configuration.DownloadFilePath, tempFilename));
+
+                    if (string.IsNullOrWhiteSpace(downloadedFile))
+                    {
+                        this.logger.LogDebug($"FileDistributor file not copied from FTP {listing.Filename}!");
+                        this.eventLogger.TryWriteToEventLog(EventSource.WellAdamXmlImport, $"FileDistributor file not copied from FTP {listing.Filename}!", EventId.FtpFileDistributorFileNotCopied);
+
+                        continue;
+                    }
+
+                    SendToFinalDestination(downloadedFile, listing.Filename);
 
                     if (Configuration.DeleteFtpFileAfterImport)
                     {
-                        this.ftpClient.DeleteFile(Path.GetFileName(targetFileName));
+                        this.ftpClient.DeleteFile(listing.Filename);
                     }
+
                     // Abort if a file called stop.txt exists in exe folder
                     if (File.Exists("stop.txt"))
                     {
@@ -142,11 +151,36 @@
                         return;
                     }
                 }
-                else
+            });
+        }
+
+        private Task LoadLocalPath()
+        {
+            return Task.Run(() =>
+            {
+                if (Directory.Exists(Configuration.LocalFSLocation))
                 {
-                    this.logger.LogDebug($"File { listing.Filename } already exists in target folder. File not copied from FTP.");
+                    foreach (var file in Directory.GetFiles(Configuration.LocalFSLocation, "*.xml"))
+                    {
+                        SendToFinalDestination(file, Path.GetFileName(file));
+
+                        // Abort if a file called stop.txt exists in exe folder
+                        if (File.Exists("stop.txt"))
+                        {
+                            File.Delete("stop.txt");
+                            this.logger.LogDebug("Process stopped due Stop.txt file");
+                            return;
+                        }
+                    }
                 }
-            }
+            });
+        }
+
+        public void Import()
+        {
+            var t = Task.WhenAll(LoadFtp(), LoadLocalPath());
+
+            t.Wait();
         }
 
         private string GetGroupFolder(int branchId)

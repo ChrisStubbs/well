@@ -22,7 +22,7 @@
 
         public static string DashboardRefreshEndpoint => ConfigurationManager.AppSettings["dashboardRefreshEndpoint"];
 
-        public static string DestinationRootFolder => ConfigurationManager.AppSettings["DistributorRootFilesDestination"];
+        public static string DestinationRootFolder => ConfigurationManager.AppSettings["FileDistributorDestinationRoot"];
 
         public int MaxNoOfDeadlockRetires => int.Parse(ConfigurationManager.AppSettings["maxNoOfDeadlockRetries"]);
 

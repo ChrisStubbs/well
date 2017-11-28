@@ -1,6 +1,5 @@
 ﻿namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -12,9 +11,7 @@
     using Validators.Contracts;
     using Common.Contracts;
     using Repositories.Contracts;
-    using Validators;
 
-    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class SeasonalDateController : BaseApiController
     {
         private readonly ISeasonalDateRepository seasonalDateRepository;
@@ -38,9 +35,10 @@
             this.mapper = mapper;
             this.validator = validator;
 
-            //////this.seasonalDateRepository.CurrentUser = this.UserIdentityName;
         }
 
+        [Route("{branchId:int}/seasonal-date")]
+        [Route("seasonal-date")]
         public HttpResponseMessage Get()
         {
             var seasonalDates = this.seasonalDateRepository.GetAll().OrderBy(x => x.From).ToList();
@@ -57,7 +55,7 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        [Route("seasonal-date/{id:int}")]
+        [Route("{branchId:int}/seasonal-date/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -66,7 +64,7 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
-        [Route("seasonal-date")]
+        [Route("{branchId:int}/seasonal-date")]
         [HttpPost]
         public HttpResponseMessage Post(SeasonalDateModel model)
         {

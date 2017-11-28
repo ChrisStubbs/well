@@ -1,0 +1,15 @@
+UPDATE Account SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE Activity SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE Bag SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE ExceptionEvent SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE Job SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE JobDetail SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE JobDetailDamage SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE JobResolutionStatus SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE LineItem SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE LineItemAction SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE LineItemActionComment SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE RouteHeader SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE Routes SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE [Stop] SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL
+UPDATE UserJob SET DataSource = @@SERVERNAME + '.' + DB_NAME() WHERE DataSource IS NULL

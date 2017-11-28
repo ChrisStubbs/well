@@ -4,7 +4,6 @@ using PH.Well.Common.Contracts;
 namespace PH.Well.Services
 {
     using System;
-    using System.Text;
     using System.Transactions;
 
     using PH.Well.Domain;
@@ -20,76 +19,79 @@ namespace PH.Well.Services
         private readonly IActiveDirectoryService activeDirectoryService;
 
         private readonly IUserNameProvider userNameProvider;
+        private readonly IDbMultiConfiguration connections;
+        private readonly IUserService userService;
 
-        public BranchService(IUserRepository userRepository, 
-            IBranchRepository branchRepository, 
-            IActiveDirectoryService activeDirectoryService, 
-            IUserNameProvider userNameProvider)
+        public BranchService(IUserRepository userRepository,
+            IBranchRepository branchRepository,
+            IActiveDirectoryService activeDirectoryService,
+            IUserNameProvider userNameProvider,
+            IDbMultiConfiguration connections,
+            IUserService userService)
         {
             this.userRepository = userRepository;
             this.branchRepository = branchRepository;
             this.activeDirectoryService = activeDirectoryService;
             this.userNameProvider = userNameProvider;
+            this.connections = connections;
+            this.userService = userService;
         }
 
         public void SaveBranchesForUser(Branch[] branches)
         {
             var identityName = userNameProvider.GetUserName();
-
             var user = this.userRepository.GetByIdentity(identityName);
+            Action<Branch[], User, string> saveUser = SaveBranchesForExistingUser;
 
             if (user == null)
             {
-                var newUser = this.activeDirectoryService.GetUser(identityName);
-
-                if (newUser == null) throw new ApplicationException($"User not found in active directory {identityName}");
-
-                using (var transactionScope = new TransactionScope())
-                {
-                    this.userRepository.Save(newUser);
-                    this.branchRepository.SaveBranchesForUser(branches, newUser);
-                    transactionScope.Complete();
-                }
+                user = this.activeDirectoryService.GetUser(identityName);
+                saveUser = SaveBranchesForNewUser;
+                if (user == null) throw new ApplicationException($"User not found in active directory {identityName}");
             }
-            else
+
+            SaveBranchesForUser(branches, saveUser, user);
+        }
+        
+        public void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string domain)
+        {
+            username = username.Replace('-', ' ');
+            var user = this.userRepository.GetByName(username);
+            Action<Branch[], User, string> saveUser = SaveBranchesForExistingUser;
+
+            if (user == null)
+            {
+                user = this.activeDirectoryService.GetUser(username, domain);
+                if (user == null) throw new ApplicationException($"User not found in active directory {username}");
+                saveUser = SaveBranchesForNewUser;
+            }
+
+            SaveBranchesForUser(branches, saveUser, user);
+
+        }
+
+        private void SaveBranchesForUser(Branch[] branches, Action<Branch[], User, string> saveUser, User user)
+        {
+            foreach (var connectionString in connections.ConnectionStrings)
             {
                 using (var transactionScope = new TransactionScope())
                 {
-                    this.branchRepository.DeleteUserBranches(user);
-                    this.branchRepository.SaveBranchesForUser(branches, user);
+                    saveUser.Invoke(branches, user, connectionString);
                     transactionScope.Complete();
                 }
             }
         }
-
-        public void SaveBranchesOnBehalfOfAUser(Branch[] branches, string username, string domain)
+        public void SaveBranchesForExistingUser(Branch[] branches, User user, string connectionString)
         {
-            username = username.Replace('-', ' ');
+            user = userService.CreateUserIfNotExists(user, connectionString);
+            this.branchRepository.DeleteUserBranches(user, connectionString);
+            this.branchRepository.SaveBranchesForUser(branches, user, connectionString);
+        }
 
-            var user = this.userRepository.GetByName(username);
-
-            if (user == null)
-            {
-                var newUser = this.activeDirectoryService.GetUser(username, domain);
-
-                if (newUser == null) throw new ApplicationException($"User not found in active directory {username}");
-
-                using (var transactionScope = new TransactionScope())
-                {
-                    this.userRepository.Save(newUser);
-                    this.branchRepository.SaveBranchesForUser(branches, newUser);
-                    transactionScope.Complete();
-                }
-            }
-            else
-            {
-                using (var transactionScope = new TransactionScope())
-                {
-                    this.branchRepository.DeleteUserBranches(user);
-                    this.branchRepository.SaveBranchesForUser(branches, user);
-                    transactionScope.Complete();
-                }
-            }
+        public void SaveBranchesForNewUser(Branch[] branches, User newUser, string connectionString)
+        {
+            newUser = userService.CreateUserIfNotExists(newUser, connectionString);
+            this.branchRepository.SaveBranchesForUser(branches, newUser, connectionString);
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace PH.Well.Services
         public string GetUserBranchesFriendlyInformation(string username)
         {
             var allBranchesCount = this.branchRepository.GetAllValidBranches().Count();
-            var branches = this.branchRepository.GetBranchesForUser(username).Select(x=>x.Name).ToList();
+            var branches = this.branchRepository.GetBranchesForUser(username).Select(x => x.Name).ToList();
             string friendlyString = "";
 
             if (branches.Count() == allBranchesCount)
@@ -116,7 +118,7 @@ namespace PH.Well.Services
             }
             else
             {
-                friendlyString = string.Join(", ", branches.Select(x => x.Substring(0,3)));
+                friendlyString = string.Join(", ", branches.Select(x => x.Substring(0, 3)));
             }
 
             return friendlyString;

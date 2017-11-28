@@ -1,5 +1,6 @@
 ﻿namespace PH.Well.Domain
 {
+    using System;
     using System.Collections.Generic;
     using ValueObjects;
 
@@ -14,6 +15,11 @@
         public static string GetBranchName(int id, string name)
         {
             return $"{name} ({id})";
+        }
+
+        public static explicit operator Branch(int v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

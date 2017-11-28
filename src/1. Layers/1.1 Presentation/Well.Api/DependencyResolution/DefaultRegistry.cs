@@ -19,7 +19,7 @@ namespace PH.Well.Api.DependencyResolution
     using Services.Validation;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-    using System.Web.Http.ExceptionHandling;
+    using Shared.Well.Data.EF.Contracts;
     using Infrastructure;
 
     public class DefaultRegistry : Registry
@@ -38,11 +38,11 @@ namespace PH.Well.Api.DependencyResolution
 
             For<IUserNameProvider>().Use<UserNameProvider>();
             For<PH.Common.Security.Interfaces.IUserNameProvider>().Use<UserNameProvider>();
-            For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+            For<IWellDbConfiguration>().Use<WelllApiDbConfiguration>();
             For<IWellDapperProxy>().Use<WellDapperProxy>();
             For<IDapperReadProxy>().Use<DapperReadProxy>();
             For<IDapperProxy>().Use<WellDapperProxy>();
-            For<IDbConfiguration>().Use<WellDbConfiguration>();
+            For<IDbConfiguration>().Use<WelllApiDbConfiguration>();
             For<ILogger>().Use<NLogger>();
             For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
             For<IServerErrorResponseHandler>().Use<ServerErrorResponseHandler>();
@@ -52,7 +52,6 @@ namespace PH.Well.Api.DependencyResolution
             For<IJobRepository>().Use<JobRepository>();
             For<IDeliveryReadRepository>().Use<DeliveryReadRepository>();
             For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
-            //For<IExceptionLogger>().Use<WebApiExceptionLogger>();
             For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
             For<IJobService>().Use<JobService>();
             For<IStopService>().Use<StopService>();
@@ -149,6 +148,14 @@ namespace PH.Well.Api.DependencyResolution
             For<IPodService>().Use<PodService>();
 
             For<IDocumentRecirculationFactory>().Use<DocumentRecirculationTransactionFactory>();
+            For<IBranchProvider>().Use<BranchProvider>();
+            For<IConnectionStringFactory>().Use<WellApiConnectionStringFactory>();
+            For<IWellEntitiesConnectionString>().Use<WelllApiDbConfiguration>();
+            For<IDbMultiConfiguration>().Use<WelllApiDbConfiguration>();
+            For<IApprovalService>().Use<ApprovalService>();
+            For<INotificationService>().Use<NotificationService>();
+            For<IUserService>().Use<UserService>();
+            For<ICreditThresholdService>().Use<CreditThresholdService>();
         }
     }
 }

@@ -585,7 +585,7 @@ namespace PH.Well.Services
 
         public AssignJobResult Assign(UserJobs userJobs)
         {
-            var user = userRepository.GetById(userJobs.UserId);
+            var user = userRepository.GetByName(userJobs.UserName);
             var jobs = jobRepository.GetByIds(userJobs.JobIds).ToArray();
 
             if (user != null && jobs.Any())
@@ -595,7 +595,7 @@ namespace PH.Well.Services
                 {
                     foreach (var job in jobs)
                     {
-                        this.userRepository.AssignJobToUser(userJobs.UserId, job.Id);
+                        this.userRepository.AssignJobToUser(user.Id, job.Id);
                     }
 
                     return new AssignJobResult(true, "Jobs have been assigned");

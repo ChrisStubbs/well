@@ -155,7 +155,7 @@
                                 </a>
                             </td>
                             <td colspan="3">
-                                <a routerLink="/stops/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}} - {{item.accountName}} <span *ngIf="item.previously"> - ({{item.previously}})</span></a>
+                                <a routerLink="/stops/{{globalSettingsService.currentBranchId}}/{{item.stopId}}" routerLinkActive="active">Stop {{item.stop}} - {{item.accountName}} <span *ngIf="item.previously"> - ({{item.previously}})</span></a>
                             </td>
                             <td colspan="2">
                                 {{item.stopStatus}}
@@ -180,10 +180,10 @@
                         <tr *ngFor="let detail of item.items" [style.display]="item.isExpanded ? 'table-row' : 'none'">
                             <td>&nbsp;</td>
                             <td>
-                                <a [routerLink]="['/singlelocation']"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
+                                <a [routerLink]="['/singlelocation', globalSettingsService.currentBranchId]"  [queryParams]="{locationId: detail.locationId}">{{detail.account}}</a>
                             </td>
                             <td>
-                                <div><a *ngIf="detail.invoice" [routerLink]="['/invoice', detail.invoiceId]">{{detail.invoice}}</a></div>
+                                <div><a *ngIf="detail.invoice" [routerLink]="['/invoice', globalSettingsService.currentBranchId, detail.invoiceId]">{{detail.invoice}}</a></div>
                                 <div><assignGrn-Modal *ngIf="detail.invoice" [model]="detail"></assignGrn-Modal></div>
                             </td>
                             <td>{{detail.jobType}}</td>

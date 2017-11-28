@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Stop]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[TransportOrderReference] VARCHAR(50) NOT NULL,
 	[PlannedStopNumber] VARCHAR(4) NOT NULL,
 	[RouteHeaderCode] VARCHAR(10)  NULL,

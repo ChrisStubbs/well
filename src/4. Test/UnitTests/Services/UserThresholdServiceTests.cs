@@ -20,6 +20,7 @@
 
         private UserThresholdService service;
         private Mock<IUserNameProvider> userNameProvider;
+        private Mock<IDbMultiConfiguration> connections;
 
         [SetUp]
         public virtual void SetUp()
@@ -27,9 +28,14 @@
             creditThresholdRepository = new Mock<ICreditThresholdRepository>(MockBehavior.Strict);
             userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
             userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
+            connections = new Mock<IDbMultiConfiguration>();
             userNameProvider.Setup(x => x.GetUserName()).Returns("foo");
-
-            service = new UserThresholdService(creditThresholdRepository.Object, userRepository.Object, userNameProvider.Object);
+            connections.Setup(x => x.ConnectionStrings).Returns(new List<string> {"TheConnection"});
+            service = new UserThresholdService(
+                creditThresholdRepository.Object,
+                userRepository.Object, 
+                userNameProvider.Object, 
+                connections.Object);
         }
 
         public class TheCanUserCreditMethod : UserThresholdServiceTests
@@ -39,7 +45,7 @@
             {
                 var userThreshold = new CreditThreshold { Id = 5, Threshold = 100 };
                 var threshold2 = new CreditThreshold { Id = 50, Threshold = 101 };
-                var user = new User {CreditThresholdId = userThreshold.Id};
+                var user = new User { CreditThresholdId = userThreshold.Id };
                 var thresholds = new List<CreditThreshold> { userThreshold, threshold2 };
 
                 var creditValue = 100;
@@ -61,7 +67,7 @@
                 var userThreshold = new CreditThreshold { Id = 5, Threshold = 100 };
                 var threshold2 = new CreditThreshold { Id = 50, Threshold = 101 };
                 var user = new User { CreditThresholdId = userThreshold.Id };
-                var thresholds = new List<CreditThreshold> { userThreshold, threshold2 };
+                
 
                 var username = "foo";
                 var creditValue = 102;
@@ -87,8 +93,11 @@
             {
                 base.SetUp();
                 stubbedUserThreshold = new Mock<UserThresholdService>(
-                            creditThresholdRepository.Object, 
-                            userRepository.Object, userNameProvider.Object) { CallBase = true };
+                            creditThresholdRepository.Object,
+                            userRepository.Object, 
+                            userNameProvider.Object,
+                            connections.Object)
+                { CallBase = true };
             }
 
             [Test]
@@ -103,11 +112,11 @@
             {
 
                 var job = GetJobWithCredit();
-                stubbedUserThreshold.Setup(x => x.CanUserCredit(It.IsAny<decimal>())).Returns(new ThresholdResponse {CanUserCredit = true});
+                stubbedUserThreshold.Setup(x => x.CanUserCredit(It.IsAny<decimal>())).Returns(new ThresholdResponse { CanUserCredit = true });
 
                 Assert.That(stubbedUserThreshold.Object.UserHasRequiredCreditThreshold(job), Is.EqualTo(true));
 
-                stubbedUserThreshold.Verify(x=> x.CanUserCredit(140M),Times.Once);
+                stubbedUserThreshold.Verify(x => x.CanUserCredit(140M), Times.Once);
             }
 
             [Test]

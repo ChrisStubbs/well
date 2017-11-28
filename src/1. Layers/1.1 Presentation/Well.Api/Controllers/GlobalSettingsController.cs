@@ -8,6 +8,7 @@ namespace PH.Well.Api.Controllers
     using System.Net.Http;
     using System.Reflection;
     using System.Web.Hosting;
+    using System.Web.Http;
     using Models;
     using Common.Contracts;
     using Repositories.Contracts;
@@ -27,6 +28,7 @@ namespace PH.Well.Api.Controllers
             this.userRoleProvider = userRoleProvider;
         }
         
+        [Route("GlobalSettings")]
         public HttpResponseMessage Get()
         {
             var deploymentDate = File.GetLastWriteTime(Path.Combine(HostingEnvironment.MapPath("~"), "web.config"));

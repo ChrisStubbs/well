@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[UserJob]
 (
 	[Id]			INT NOT NULL, 
+	DataSource		VarChar(255) NULL,
 	[UserId]		INT NOT NULL,
 	[JobId]			INT NOT NULL,
 	[CreatedBy]		VARCHAR(50) NOT NULL,

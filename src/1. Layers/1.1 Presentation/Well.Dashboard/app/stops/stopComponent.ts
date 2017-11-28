@@ -87,11 +87,12 @@ export class StopComponent implements IObservableAlive
         private globalSettingsService: GlobalSettingsService,
         private accountService: AccountService,
         private editExceptionsService: EditExceptionsService,
-        private lookupService: LookupService) { }
+        private lookupService: LookupService,
+        private activatedRoute: ActivatedRoute) { }
 
     public ngOnInit(): void
     {
-
+        this.globalSettingsService.setCurrentBranchFromUrl(this.activatedRoute);
         this.refreshStopFromApi();
 
         this.lookupService.get(LookupsEnum.ResolutionStatus)

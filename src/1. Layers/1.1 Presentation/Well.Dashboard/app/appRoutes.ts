@@ -26,18 +26,20 @@ const routes: Routes = [
     { path: 'branch/:name/:domain', component: BranchSelectionComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'routes', component: RoutesComponent },
+    { path: 'routes/:branchId', component: RoutesComponent },
     { path: 'widgets', component: WidgetComponent },
     { path: 'preferences', component: UserPreferenceComponent },
     { path: 'branch-role', component: BranchRoleComponent },
     { path: 'user-threshold', component: UserThresholdComponent },
     { path: 'user-threshold-level/:name', component: UserThresholdLevelComponent },
-    { path: 'singleroute/:id', component: SingleRouteComponent },
-    { path: 'stops/:id', component: StopComponent },
-    { path: 'invoice/:id', component: ActivityComponent },
-    { path: 'singlelocation', component: SingleLocationComponent },
+    { path: 'singleroute/:branchId/:id', component: SingleRouteComponent },
+    { path: 'stops/:branchId/:id', component: StopComponent },
+    { path: 'invoice/:branchId/:id', component: ActivityComponent },
+    { path: 'singlelocation/:branchId', component: SingleLocationComponent },
     { path: 'locations', component: LocationsComponent },
+    { path: 'locations/:branchId', component: LocationsComponent },
     { path: 'closeExceptionsForBranch', component: CloseExceptionsForBranchComponent}
 ];
 
 export const appRoutingProviders: any[] = [];
-export const routing = RouterModule.forRoot(routes);
+export const routing = RouterModule.forRoot(routes, { /*enableTracing: true*/ });

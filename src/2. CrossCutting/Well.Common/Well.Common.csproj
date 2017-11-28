@@ -58,7 +58,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,9 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchGroups.cs" />
     <Compile Include="Contracts\IDeadlockRetryHelper.cs" />
     <Compile Include="Contracts\IEventLogger.cs" />
-    <Compile Include="Contracts\IFtpClient.cs" />
     <Compile Include="Contracts\IDeadlockRetryConfig.cs" />
     <Compile Include="Contracts\ILogger.cs" />
     <Compile Include="Contracts\IServerErrorResponseHandler.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="Contracts\IUserRoleProvider.cs" />
     <Compile Include="Contracts\IWebClient.cs" />
     <Compile Include="DeadlockRetryHelper.cs" />
+    <Compile Include="EqualityComparer.cs" />
     <Compile Include="EventId.cs" />
     <Compile Include="EventLogger.cs" />
     <Compile Include="EventSource.cs" />
@@ -85,7 +85,6 @@
     <Compile Include="Extensions\IListExtentions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="FtpClient.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="HttpContextCache.cs" />
     <Compile Include="Contracts\ICache.cs" />

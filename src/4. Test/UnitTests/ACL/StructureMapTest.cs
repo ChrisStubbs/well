@@ -3,9 +3,8 @@
     using Adam.Events;
     using Clean;
     using NUnit.Framework;
-    using TranSend;
-    using TranSend.Infrastructure;
     using Well.Services.Contracts;
+    using Well.Task.Statistics;
 
     [TestFixture]
     public class StructureMapTest
@@ -25,21 +24,22 @@
             IFileMonitorService monitorService;
             Assert.DoesNotThrow(() => monitorService = container.GetInstance<IFileMonitorService>());
         }
-        
-        [Test]
-        public void CheckWellTransendIoc()
-        {
-            var container = DependancyRegister.InitIoc();
-            ITransendImport import;
-            Assert.DoesNotThrow(() => import = container.GetInstance<ITransendImport>());
-        }
 
         [Test]
         public void CheckWellCleanIoc()
         {
             var container = Clean.Program.InitIoc();
-            IWellCleanUpService clean;
-            Assert.DoesNotThrow(() => clean = container.GetInstance<IWellCleanUpService>());
+            ITriggerCleanProcess trigger;
+            Assert.DoesNotThrow(() => trigger = container.GetInstance<ITriggerCleanProcess>());
+
+        }
+
+        [Test]
+        public void CheckWellStatisticsIoc()
+        {
+            var container = PH.Well.Task.Statistics.Program.InitIoc();
+            IRouteStatistics routeStatistics;
+            Assert.DoesNotThrow(() => routeStatistics = container.GetInstance<IRouteStatistics>());
 
         }
     }

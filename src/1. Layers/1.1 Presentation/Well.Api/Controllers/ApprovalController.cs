@@ -1,42 +1,24 @@
 ﻿namespace PH.Well.Api.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Http;
-    using Domain.ValueObjects;
-    using Common.Extensions;
     using Domain;
-    using Repositories.Contracts;
+    using Services.Contracts;
 
     public class ApprovalController : ApiController
     {
-        private readonly IJobRepository jobRepository;
-        private readonly IAssigneeReadRepository assigneeRepository;
+        private readonly IApprovalService approvalService;
 
-        public ApprovalController(
-            IJobRepository jobRepository,
-            IAssigneeReadRepository assigneeRepository
-            )
+        public ApprovalController(IApprovalService approvalService)
         {
-            this.jobRepository = jobRepository;
-            this.assigneeRepository = assigneeRepository;
+            this.approvalService = approvalService;
         }
 
-        public IEnumerable<JobToBeApproved> Get()
+        [Route("{branchId:int}/Approval")]
+        
+        public IEnumerable<JobToBeApproved> Get(int branchId)
         {
-            var jobs = jobRepository.GetJobsToBeApproved();
-            var assignees = assigneeRepository.GetByJobIds(jobs.Select(p => p.JobId).Distinct());
-
-            return jobs
-                .Select(p =>
-                {
-                    p.AssignedTo = Assignee.GetDisplayNames(assignees.Where(v => v.JobId == p.JobId)) ?? "Unallocated";
-                    p.SubmittedBy = p.SubmittedBy.StripDomain();
-                    p.BranchName = Branch.GetBranchName(p.BranchId, p.BranchName);
-
-                    return p;
-                })
-                .ToList();
+            return approvalService.GetJobsToBeApproved(branchId);
         }
     }
 }

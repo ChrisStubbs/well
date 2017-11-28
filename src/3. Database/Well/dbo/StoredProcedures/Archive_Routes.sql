@@ -6,6 +6,7 @@ AS
 
 	DELETE r
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[FileName]
 		,Deleted.[DateDeleted]
 		,Deleted.[CreatedBy]
@@ -15,6 +16,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].[Routes]
 		([Id]
+		,DataSource
 		,[FileName]
 		,[DateDeleted]
 		,[CreatedBy]

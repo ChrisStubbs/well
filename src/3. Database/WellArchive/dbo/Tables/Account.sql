@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Account]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[Code] VARCHAR(20) NOT NULL,
 	[AccountTypeCode] VARCHAR(20) NOT NULL,
 	[DepotId] INT  NULL,

@@ -15,6 +15,7 @@ namespace PH.Well.Services
         private readonly ISeasonalDateRepository seasonalDate;
         private readonly IDateThresholdRepository dateThresholdRepository;
         private readonly ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository;
+        private readonly IDbMultiConfiguration connections;
         private CustomerRoyaltyExceptionWell[] customerRoyaltyExceptions;
 
         public const string ErrorMessage = "Date Threshold is not defined for branch {0}";
@@ -22,11 +23,13 @@ namespace PH.Well.Services
         public DateThresholdService(
             ISeasonalDateRepository seasonalDate,
             IDateThresholdRepository dateThresholdRepository,
-            ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository)
+            ICustomerRoyaltyExceptionRepository customerRoyaltyExceptionRepository,
+            IDbMultiConfiguration connections)
         {
             this.seasonalDate = seasonalDate;
             this.dateThresholdRepository = dateThresholdRepository;
             this.customerRoyaltyExceptionRepository = customerRoyaltyExceptionRepository;
+            this.connections = connections;
         }
 
         public DateTime RouteGracePeriodEnd(DateTime routeDate, int branchId)
@@ -89,13 +92,21 @@ namespace PH.Well.Services
             return dateThresholdRepository.Get();
         }
 
-        public void Update(DateThreshold dateThreshold)
+        public void UpdateDateThresholdAllDatabases(DateThreshold dateThreshold)
+        {
+            foreach (var connectionString in connections.ConnectionStrings)
+            {
+                Update(dateThreshold, connectionString);
+            }
+        }
+
+        private void Update(DateThreshold dateThreshold,string connectionString)
         {
             if (dateThreshold.NumberOfDays < 2)
             {
                 throw new ArgumentException(nameof(dateThreshold.NumberOfDays));
             }
-            dateThresholdRepository.Update(dateThreshold);
+            dateThresholdRepository.Update(dateThreshold, connectionString);
         }
 
         private Task<IEnumerable<SeasonalDate>> GetSeasonalDatesAsync(int branchId)

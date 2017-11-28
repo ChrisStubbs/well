@@ -5,6 +5,7 @@ AS
 	--LineItemActionComment
 	DELETE c
 	OUTPUT	Deleted.[Id]
+			,@@SERVERNAME + '.' + DB_NAME()
 			,Deleted.[LineItemActionId]
 			,Deleted.[CommentReasonId]
 			,Deleted.[FromQty]
@@ -18,6 +19,7 @@ AS
 			,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].LineItemActionComment
 			([Id]
+			,DataSource
 			,[LineItemActionId]
 			,[CommentReasonId]
 			,[FromQty]
@@ -39,6 +41,7 @@ AS
 	--LineItemAction
 	DELETE lia
 	OUTPUT Deleted.[Id]
+		  ,@@SERVERNAME + '.' + DB_NAME()
 		  ,Deleted.[ExceptionTypeId]
 		  ,Deleted.[Quantity]
 		  ,Deleted.[SourceId]
@@ -61,6 +64,7 @@ AS
 		  ,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].LineItemAction
 		  ([Id]
+		  ,DataSource
 		  ,[ExceptionTypeId]
 		  ,[Quantity]
 		  ,[SourceId]
@@ -90,6 +94,7 @@ AS
 	--JobDetailDamage
 	DELETE jdd
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[JobDetailId]
 		,Deleted.[Qty]
 		,Deleted.[DateDeleted]
@@ -106,6 +111,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].JobDetailDamage	
 		([Id]
+		,DataSource
 		,[JobDetailId]
 		,[Qty]
 		,[DateDeleted]
@@ -135,6 +141,7 @@ AS
 	--JobDetail
 	DELETE jd
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[LineNumber]
 		,Deleted.[PHProductCode]
 		,Deleted.[OriginalDespatchQty]
@@ -169,6 +176,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].JobDetail 
 		([Id]
+		,DataSource
 		,[LineNumber]
 		,[PHProductCode]
 		,[OriginalDespatchQty]
@@ -210,6 +218,7 @@ AS
 	--JobDetail
 	DELETE jd
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[LineNumber]
 		,Deleted.[PHProductCode]
 		,Deleted.[OriginalDespatchQty]
@@ -244,6 +253,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].JobDetail 
 		([Id]
+		,DataSource
 		,[LineNumber]
 		,[PHProductCode]
 		,[OriginalDespatchQty]
@@ -285,6 +295,7 @@ AS
 	--LineItem
 	DELETE	li
 	OUTPUT	Deleted.[Id]
+	        ,@@SERVERNAME + '.' + DB_NAME()
 			,Deleted.[LineNumber]
 			,Deleted.[ProductCode]
 			,Deleted.[ProductDescription]
@@ -303,6 +314,7 @@ AS
 			,@ArchiveDate
 	INTO  [$(WellArchive)].[dbo].LineItem
 		([Id]
+		,DataSource
 		,[LineNumber]
 		,[ProductCode]
 		,[ProductDescription]
@@ -327,6 +339,7 @@ AS
 	--Bag
 	DELETE b
 	OUTPUT	Deleted.[Id]
+			,@@SERVERNAME + '.' + DB_NAME()
 			,Deleted.[Barcode]
 			,Deleted.[Description]
 			,Deleted.[CreatedBy]
@@ -337,6 +350,7 @@ AS
 			,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].Bag	
 			([Id]
+			,DataSource
 			,[Barcode]
 			,[Description]
 			,[CreatedBy]
@@ -353,6 +367,7 @@ AS
 	--JobResolutionStatus
 	DELETE jrs
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[Status]
 		,Deleted.[Job]
 		,Deleted.[By]
@@ -360,6 +375,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].JobResolutionStatus 
 		([Id]
+		,DataSource
 		,[Status]
 		,[Job]
 		,[By]
@@ -373,6 +389,7 @@ AS
 	--UserJob
 	DELETE uj
 	OUTPUT Deleted. [Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[UserId]
 		,Deleted.[JobId]
 		,Deleted.[CreatedBy]
@@ -382,6 +399,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].UserJob	
 		([Id]
+		,DataSource
 		,[UserId]
 		,[JobId]
 		,[CreatedBy]
@@ -397,6 +415,7 @@ AS
 	--Job
 	DELETE j
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[Sequence]
 		,Deleted.[JobTypeCode]
 		,Deleted.[PHAccount]
@@ -446,6 +465,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].Job
 	  ([Id]
+	  ,DataSource
       ,[Sequence]
       ,[JobTypeCode]
       ,[PHAccount]

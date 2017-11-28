@@ -9,7 +9,7 @@ using PH.Well.Services.Contracts;
 
 namespace PH.Well.Task.Statistics
 {
-    public class RouteStatistics
+    public class RouteStatistics : IRouteStatistics
     {
         private readonly IRouteService routeService;
         private readonly ILogger logger;

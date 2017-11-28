@@ -1,19 +1,13 @@
 ﻿namespace PH.Well.Clean
 {
-    using System;
     using System.Configuration;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading.Tasks;
     using Common;
     using Common.Contracts;
-    using Repositories.Contracts;
-    using Services.Contracts;
     using StructureMap;
 
     public class Program
     {
-        public static string TargetFolder => ConfigurationManager.AppSettings["downloadFilePath"];
+        public static string TargetFolder => ConfigurationManager.AppSettings["cleanFileDestinationFolder"];
         public static void Main(string[] args)
         {
             // This program will just write out a file to Adam File Folder that will trigger the clean
@@ -22,36 +16,8 @@
             // file imports to time out and deadlocks to occur. Need to look into the reasons for time out before re-instating 
             // the clean process into its own task.
             var container = InitIoc();
-            var logger = container.GetInstance<ILogger>();
-            try
-            {
-
-                var filename = Path.Combine(TargetFolder, $"CLEAN__{DateTime.Now:yyyyMMdd_HHmmssff}.txt");
-                logger.LogDebug($"Writing empty trigger file {filename}");
-                File.Create(filename).Dispose();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Error writing file", ex);
-                throw;
-            }
-            
-            //Clean().Wait();
-        }
-
-        private static Task Clean()
-        {
-            var container = InitIoc();
-
-            var eventLogger = container.GetInstance<IEventLogger>();
-
-            eventLogger.TryWriteToEventLog(
-                EventSource.WellTaskRunner,
-                "Processing clean deliveries...",
-                2123,
-                EventLogEntryType.Information);
-
-            return container.GetInstance<IWellCleanUpService>().Clean();
+            var trigger = container.GetInstance<ITriggerCleanProcess>();
+            trigger.TriggerClean(TargetFolder);
         }
 
         /// <summary>
@@ -62,17 +28,16 @@
             return new Container(
                 x =>
                 {
-                    x.Scan(p =>
-                    {
-                        p.AssemblyContainingType<IWellCleanUpService>();
-                        p.AssemblyContainingType<IStopRepository>();
-                        p.AssemblyContainingType<IEventLogger>();
-                        p.WithDefaultConventions();
-                        p.RegisterConcreteTypesAgainstTheFirstInterface();
-                        p.SingleImplementationsOfInterface();
-                    });
-                    x.For<IUserNameProvider>().Use<WellCleanUserNameProvider>();
-                    x.For<IWellCleanConfig>().Use<Configuration>();
+                    //x.Scan(p =>
+                    //{
+                    //    p.AssemblyContainingType<ITriggerCleanProcess>();
+                    //    p.AssemblyContainingType<ILogger>();
+                    //    p.WithDefaultConventions();
+                    //    p.RegisterConcreteTypesAgainstTheFirstInterface();
+                    //    p.SingleImplementationsOfInterface();
+                    //});
+                    x.For<ILogger>().Use<NLogger>();
+                    x.For<ITriggerCleanProcess>().Use<TriggerCleanProcess>();
                 });
         }
     }

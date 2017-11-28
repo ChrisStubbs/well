@@ -95,9 +95,11 @@
                         <th (click)="sortData('branchName', $event)" [style.background-color]="isSortedBy('branchName') ? '#bfbfbf': ''">
                             <div class="text-center">Branch &nbsp;<span class="glyphicon" [ngClass]="getSortStyles('branchName')" aria-hidden="true"></span></div>
                             <div>
-                                <select class="form-control" id="searchBranch" (change)="fillGridSource()" [(ngModel)]="filters.branchName">
-                                    <option value>All</option>
-                                    <option *ngFor="let branch of branches" [value]="branch[1]">
+                                <select class="form-control" 
+                                        id="searchBranch" 
+                                        (change)="changeBranch($event)" 
+                                        [(ngModel)]="globalSettingsService.currentBranchId">
+                                    <option *ngFor="let branch of branches" [value]="branch[0]">
                                         {{ branch[1] }}
                                     </option>
                                 </select>
@@ -162,7 +164,7 @@
                         <td>{{item.account}}</td>
                         <td class="text-center">{{item.deliveryDate | date:'dd MMM yyyy'}}</td>
                         <td>
-                            <a [routerLink]="['/invoice', item.invoiceId]">{{item.invoiceNumber}}</a>
+                            <a [routerLink]="['/invoice', globalSettingsService.currentBranchId, item.invoiceId]">{{item.invoiceNumber}}</a>
                         </td>
                         <td>{{item.submittedBy}}</td>
                         <td class="text-center">{{item.dateSubmitted | date:'dd MMM yyyy HH:mm:ss' }}</td>

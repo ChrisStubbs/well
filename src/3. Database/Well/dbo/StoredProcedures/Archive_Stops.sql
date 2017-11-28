@@ -4,6 +4,7 @@ AS
 	-- Account
 	DELETE acs
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[Code]
 		,Deleted.[AccountTypeCode]
 		,Deleted.[DepotId]
@@ -25,6 +26,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].Account
 		([Id]
+		,DataSource
 		,[Code]
 		,[AccountTypeCode]
 		,[DepotId]
@@ -54,6 +56,7 @@ AS
 	-- Stop
 	DELETE s
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[TransportOrderReference]
 		,Deleted.[PlannedStopNumber]
 		,Deleted.[RouteHeaderCode]
@@ -86,6 +89,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].[Stop]
 		([Id]
+		,DataSource
 		,[TransportOrderReference]
 		,[PlannedStopNumber]
 		,[RouteHeaderCode]

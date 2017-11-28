@@ -5,7 +5,7 @@
     using System.Data;
     using System.Linq;
     using System.Transactions;
-
+    using Domain.Enums;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
     using PH.Well.Repositories.Contracts;
@@ -21,8 +21,14 @@
 
         protected override void SaveNew(CreditThreshold entity)
         {
+           Save(entity, dapperProxy.DbConfiguration.DatabaseConnection);
+        }
+
+        public void Save(CreditThreshold entity, string connectionString)
+        {
+            entity.SetCreatedProperties(this.CurrentUser);
             entity.Id = this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdSave)
-                .AddParameter("Level", (int) entity.Level, DbType.Int32)
+                .AddParameter("Level", (int)entity.Level, DbType.Int32)
                 .AddParameter("Value", entity.Threshold, DbType.Decimal)
                 .AddParameter("DateCreated", entity.DateCreated, DbType.DateTime)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
@@ -33,29 +39,46 @@
 
         public IEnumerable<CreditThreshold> GetAll()
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>();
+          return GetAll(dapperProxy.DbConfiguration.DatabaseConnection);
+        }
+
+        public IEnumerable<CreditThreshold> GetAll(string connection)
+        {
+            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>(connection);
         }
 
         protected override void UpdateExisting(CreditThreshold entity)
         {
+            Update(entity, dapperProxy.DbConfiguration.DatabaseConnection);
+        }
+
+        public void Update(CreditThreshold entity, string connectionString)
+        {
+            entity.SetUpdatedProperties(CurrentUser);
             dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUpdate)
                 .AddParameter("Id", entity.Id, DbType.Int32)
                 .AddParameter("Threshold", entity.Threshold, DbType.Decimal)
                 .AddParameter("DateUpdated", entity.DateUpdated, DbType.DateTime)
                 .AddParameter("UpdatedBy", entity.UpdatedBy, DbType.String, 50)
-                .Execute();
+                .Execute(connectionString);
         }
 
-        public void Delete(int id)
+        public void Delete(int id, string connectionString)
         {
             this.dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdDelete)
-                .AddParameter("Id", id, DbType.Int32).Execute();
+                .AddParameter("Id", id, DbType.Int32).Execute(connectionString);
         }
 
-        public CreditThreshold GetById(int thresholdId)
+        public CreditThreshold GetById(int thresholdId, string connectionString)
         {
-            return dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdGetAll).Query<CreditThreshold>()
-                .FirstOrDefault(x => x.Id == thresholdId);
+            return GetAll(connectionString)
+                .SingleOrDefault(x => x.Id == thresholdId);
+        }
+
+        public CreditThreshold GetByLevel(ThresholdLevel level, string connectionString)
+        {
+            return GetAll(connectionString)
+                .SingleOrDefault(x => x.Level == level);
         }
 
         public void PendingCreditInsert(int jobId)
@@ -75,11 +98,11 @@
                 .FirstOrDefault();
         }
 
-        public void SetForUser(int userId, int creditThresholdId)
+        public void SetForUser(int userId, int creditThresholdId,string connectionString)
         {
             // Delete previously assigned threshold
             dapperProxy.WithStoredProcedure(StoredProcedures.CreditThresholdUserDelete)
-                .AddParameter("UserId",userId,DbType.Int32).Execute();
+                .AddParameter("UserId", userId, DbType.Int32).Execute(connectionString);
 
             var now = DateTime.Now;
             var user = CurrentUser;
@@ -89,7 +112,7 @@
                 .AddParameter("DateCreated", now, DbType.DateTime)
                 .AddParameter("DateUpdated", now, DbType.DateTime)
                 .AddParameter("CreatedBy", user, DbType.String, size: 50)
-                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute();
+                .AddParameter("UpdatedBy", user, DbType.String, size: 50).Execute(connectionString);
         }
     }
 }

@@ -16,11 +16,12 @@ namespace PH.Well.Api.Controllers
         }
 
         [Route("Lookup/{lookUp}")]
+        [Route("{branchId:int}/Lookup/{lookUp}")]
         public IList<KeyValuePair<string, string>> Get(string lookUp)
         {
             LookupType lookupValue;
 
-            lookupValue = (LookupType)Enum.Parse(typeof(LookupType), lookUp);
+            lookupValue = (LookupType)Enum.Parse(typeof(LookupType), lookUp, true);
             if (!(Enum.IsDefined(typeof(LookupType), lookupValue) | lookupValue.ToString().Contains(",")))
             {
                 throw new ArgumentException($"{lookUp}");

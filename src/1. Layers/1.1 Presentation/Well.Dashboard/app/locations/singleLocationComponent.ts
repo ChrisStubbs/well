@@ -28,6 +28,7 @@ import { ManualCompletionType } from '../shared/manualCompletion/manualCompletio
 import { IJobIdResolutionStatus } from '../shared/models/jobIdResolutionStatus';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/forkJoin';
+import {GlobalSettingsService} from '../shared/globalSettings';
 
 @Component({
     selector: 'ow-singleLocation',
@@ -56,14 +57,15 @@ export class SingleLocationComponent implements IObservableAlive {
         private securityService: SecurityService,
         private lookupService: LookupService,
         private route: ActivatedRoute,
-        private locationsService: LocationsService) { }
+        private locationsService: LocationsService,
+        private globalSettingsService: GlobalSettingsService) { }
 
     public ngOnDestroy(): void {
         this.isAlive = false;
     }
 
     public ngOnInit(): void {
-
+        this.globalSettingsService.setCurrentBranchFromUrl(this.route);
         this.refreshLocationFromApi();
         this.canDoManualActions = this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
         this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);

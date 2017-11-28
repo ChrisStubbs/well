@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[JobDetailDamage]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[JobDetailId] INT NOT NULL,
 	[Qty] INT NULL,
 	[DateDeleted] DATETIME NULL, 

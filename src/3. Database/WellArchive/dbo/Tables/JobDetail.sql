@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[JobDetail]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[LineNumber] INT NOT NULL,
 	[PHProductCode] VARCHAR(60) NULL,
 	[OriginalDespatchQty] INT NULL,

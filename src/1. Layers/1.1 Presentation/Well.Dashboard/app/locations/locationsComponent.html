@@ -45,7 +45,9 @@
                         <th style="width: 13%">
                             <div class="text-center">Branch</div>
                             <div>
-                                <select class="form-control" (change)="loadData($event.target.value)">
+                                <select class="form-control" 
+                                        (change)="loadData($event.target.value)"
+                                        [(ngModel)]="globalSettingsService.currentBranchId">
                                     <option *ngFor="let branch of branches" [value]="branch[0]">
                                         {{ branch[1] }}
                                     </option>
@@ -90,10 +92,9 @@
                 <tbody>
                     <tr *ngFor="let item of gridSource | paginate: { itemsPerPage: 10, currentPage: p }">
                         <td><span>{{item.branch}}</span></td>
-                        <!--<td><a [routerLink]="['/singlelocation']"  [queryParams]="{accountNumber: item.primaryAccountNumber, branchId: item.branchId}">{{item.primaryAccountNumber}}</a></td>-->
                         <td>{{item.accountNumber}}</td>
                         <td>{{item.accountName}}</td>
-                        <td><a [routerLink]="['/singlelocation']" [queryParams]="{locationId: item.id}">{{item.address}}</a></td>
+                        <td><a [routerLink]="['/singlelocation', globalSettingsService.currentBranchId]" [queryParams]="{locationId: item.id}">{{item.address}}</a></td>
                         <td class="text-right">{{item.totalInvoices}}</td>
                         <td class="text-right">{{item.exceptions}}</td>
                         <td class="text-right">{{item.cleans}}</td>

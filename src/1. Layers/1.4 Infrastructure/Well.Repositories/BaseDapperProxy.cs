@@ -5,7 +5,6 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Contracts;
     using Dapper;
@@ -20,7 +19,12 @@
 
         public IEnumerable<TEntity> Query<TEntity>()
         {
-            return this.QueryDapper<TEntity>();
+            return this.QueryDapper<TEntity>(DbConfiguration.DatabaseConnection);
+        }
+
+        public IEnumerable<TEntity> Query<TEntity>(string connectionString)
+        {
+            return this.QueryDapper<TEntity>(connectionString);
         }
 
         public async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(DynamicParameters parameters, string storeProcedureName)
@@ -54,14 +58,19 @@
 
         public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action)
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            return QueryMultiple<TEntity>(action, DbConfiguration.DatabaseConnection);
+        }
+
+        public TEntity QueryMultiple<TEntity>(Func<SqlMapper.GridReader, TEntity> action, string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString ?? DbConfiguration.DatabaseConnection))
             {
                 try
                 {
                     return action(
-                        connection.QueryMultiple(this.storedProcedure, this.parameters, 
-                        commandType: CommandType.StoredProcedure,
-                        commandTimeout: DbConfiguration.CommandTimeout));
+                        connection.QueryMultiple(this.storedProcedure, this.parameters,
+                            commandType: CommandType.StoredProcedure,
+                            commandTimeout: DbConfiguration.CommandTimeout));
                 }
                 finally
                 {
@@ -76,7 +85,7 @@
             {
                 try
                 {
-                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters, 
+                    return action(connection.QueryMultiple(this.storedProcedure, this.parameters,
                         commandType: CommandType.StoredProcedure,
                         commandTimeout: DbConfiguration.CommandTimeout));
                 }
@@ -89,7 +98,11 @@
 
         public void Execute()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            Execute(DbConfiguration.DatabaseConnection);
+        }
+        public void Execute(string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -111,7 +124,12 @@
 
         public async Task ExecuteAsync()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            await ExecuteAsync(DbConfiguration.DatabaseConnection);
+        }
+
+        public async Task ExecuteAsync(string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -162,9 +180,9 @@
             return this;
         }
 
-        private IEnumerable<TEntity> QueryDapper<TEntity>()
+        private IEnumerable<TEntity> QueryDapper<TEntity>(string connectionString)
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -175,7 +193,6 @@
                 {
                     this.parameters = null;
                 }
-                
             }
         }
     }

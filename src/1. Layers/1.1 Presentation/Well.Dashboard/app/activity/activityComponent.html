@@ -2,10 +2,10 @@
     <div class="col-xs-12">
         <ol class="breadcrumb">
             <li>
-                <a [routerLink]="['/locations']">Locations</a>
+                <a [routerLink]="['/locations', globalSettingsService.currentBranchId]">Locations</a>
             </li>
             <li>
-                <a [routerLink]="['/singlelocation']" [queryParams]="{locationId: source.locationId}">Location {{source.primaryAccount}}</a>
+                <a [routerLink]="['/singlelocation', globalSettingsService.currentBranchId]" [queryParams]="{locationId: source.locationId}">Location {{source.primaryAccount}}</a>
             </li>
             <li class="active" *ngIf="source.isInvoice">Invoice {{source.itemNumber}}</li>
             <li class="active" *ngIf="!source.isInvoice">Uplift {{source.itemNumber}}</li>
@@ -253,7 +253,7 @@
                                 </a>
                             </td>
                             <td colspan="5">
-                                <a [routerLink]="['/stops', item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
+                                <a [routerLink]="['/stops', globalSettingsService.currentBranchId, item.stopId]">Stop {{item.stop}} - {{source.accountName}} - {{item.type }} </a>
                                 &nbsp;<ow-completed-on-paper [isCompletedOnPaper]="item.completedOnPaper"></ow-completed-on-paper>
                             </td>
                             <td class="text-right">{{item.totalExpected}}</td>

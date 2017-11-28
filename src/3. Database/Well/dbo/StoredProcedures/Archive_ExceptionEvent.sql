@@ -4,6 +4,7 @@ AS
 	-- ExceptionEvent
 	DELETE ex
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[Event]
 		,Deleted.[ExceptionActionId]
 		,Deleted.[Processed]
@@ -16,6 +17,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].ExceptionEvent
 		([Id]
+		,DataSource
 		,[Event]
 		,[ExceptionActionId]
 		,[Processed]

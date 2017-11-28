@@ -143,6 +143,8 @@ export class AppSearch implements IObservableAlive {
         parameters.routeIds = [];
         parameters.upliftInvoiceNumber = formData.upliftInvoiceNumber;
 
+        this.globalSettingsService.globalSettings.currentBranchId = parameters.branchId;
+
         this.appSearchService.Search(parameters)
             .takeWhile(() => this.isAlive)
             .subscribe((result: IAppSearchResult) => {
@@ -203,14 +205,16 @@ export class AppSearch implements IObservableAlive {
     }
 
     private navigateToInvoice(item: AppSearchInvoiceItem) {
-        this.router.navigateByUrl('/invoice/' + item.id);
+        this.router.navigateByUrl(`/invoice/${this.globalSettingsService.currentBranchId}/${item.id}`);
     }
 
     private navigateToLocation(item: AppSearchLocationItem) {
-        this.router.navigate(['/singlelocation'], { queryParams: {locationId: item.id}});
+        this.router.navigate(['/singlelocation',
+                                this.globalSettingsService.currentBranchId],
+                                { queryParams: { locationId: item.id } });
     }
 
     private navigateToSingleRoute(item: AppSearchRouteItem) {
-        this.router.navigateByUrl('/singleroute/' + item.id);
+        this.router.navigateByUrl(`/singleroute/${this.globalSettingsService.currentBranchId}/${item.id}`);
     }
 }

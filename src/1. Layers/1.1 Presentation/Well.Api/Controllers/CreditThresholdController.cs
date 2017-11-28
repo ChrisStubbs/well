@@ -1,8 +1,7 @@
-﻿using PH.Well.Services.Contracts;
+﻿
 
 namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -11,22 +10,20 @@ namespace PH.Well.Api.Controllers
 
     using Mapper.Contracts;
     using Models;
-    using Validators.Contracts;
     using Common.Contracts;
     using Repositories.Contracts;
-    using Validators;
+    using Services.Contracts;
 
-    //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
     public class CreditThresholdController : BaseApiController
     {
-        private readonly ICreditThresholdRepository creditThresholdRepository;
+        private readonly ICreditThresholdService creditThresholdService;
         private readonly ILogger logger;
         private readonly ICreditThresholdMapper mapper;
         private readonly IUserRepository userRepository;
         private readonly IUserThresholdService userThresholdService;
 
         public CreditThresholdController(
-            ICreditThresholdRepository creditThresholdRepository,
+            ICreditThresholdService creditThresholdService,
             ILogger logger,
             ICreditThresholdMapper mapper,
             IUserRepository userRepository,
@@ -34,18 +31,19 @@ namespace PH.Well.Api.Controllers
             IUserThresholdService userThresholdService)
             : base(userNameProvider)
         {
-            this.creditThresholdRepository = creditThresholdRepository;
+            this.creditThresholdService = creditThresholdService;
             this.logger = logger;
             this.mapper = mapper;
             this.userRepository = userRepository;
             this.userThresholdService = userThresholdService;
         }
 
+        [Route("{branchId:int}/credit-threshold")]
         [Route("credit-threshold")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var creditThresholds = this.creditThresholdRepository.GetAll().ToList();
+            var creditThresholds = this.creditThresholdService.GetAll().ToList();
 
             var model = new List<CreditThresholdModel>();
 
@@ -59,17 +57,17 @@ namespace PH.Well.Api.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        [Route("credit-threshold/{id:int}")]
+        [Route("{branchId:int}/credit-threshold/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
-            this.creditThresholdRepository.Delete(id);
+            this.creditThresholdService.DeleteFromAllDatbases(id);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
 
         }
 
-        [Route("credit-threshold/{isUpdate:bool}")]
+        [Route("{branchId:int}/credit-threshold/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(CreditThresholdModel model, bool isUpdate)
         {
@@ -80,20 +78,13 @@ namespace PH.Well.Api.Controllers
 
             var creditThreshold = this.mapper.Map(model);
 
-            if (isUpdate)
-            {
-                creditThresholdRepository.Update(creditThreshold);
-            }
-            else
-            {
-                creditThresholdRepository.Save(creditThreshold);
-            }
+            creditThresholdService.SaveOnAllDatabases(creditThreshold);
 
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
 
         }
 
-        [Route("credit-threshold/getByUser")]
+        [Route("{branchId:int}/credit-threshold/getByUser")]
         [HttpGet]
         [AllowAnonymous]
         public HttpResponseMessage GetByUser()

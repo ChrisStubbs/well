@@ -13,7 +13,7 @@ namespace PH.Well.Repositories.Contracts
         IList<KeyValuePair<string, string>> ExceptionActions();
         IList<KeyValuePair<string, string>> JobStatus();
         IList<KeyValuePair<string, string>> JobType();
-        IList<KeyValuePair<string, string>> Driver();
+        IList<KeyValuePair<string, string>> Driver(string connectionString);
         IList<KeyValuePair<string, string>> CommentReason();
     }
 }

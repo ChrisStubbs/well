@@ -9,6 +9,7 @@
     using Repositories.Read;
     using Services.DeliveryActions;
     using Services.Mappers;
+    using Shared.Well.Data.EF.Contracts;
     using StructureMap;
 
     public class Program
@@ -32,6 +33,7 @@
                     x.For<ILogger>().Use<NLogger>();
                     x.For<IDapperProxy>().Use<WellDapperProxy>();
                     x.For<IWellDbConfiguration>().Use<WellDbConfiguration>();
+                    x.For<IWellEntitiesConnectionString>().Use<WellDbConfiguration>();
                     x.For<IAdamRepository>().Use<AdamRepository>();
                     x.For<IExceptionEventRepository>().Use<ExceptionEventRepository>();
                     x.For<IDeliveryLineActionService>().Use<DeliveryLineActionService>();
@@ -73,6 +75,7 @@
                     x.For<IRouteHeaderRepository>().Use<RouteHeaderRepository>();
                     x.For<IActivityRepository>().Use<ActivityRepository>();
                     x.For<INotificationRepository>().Use<NotificationRepository>();
+                    x.For<IDbMultiConfiguration>().Use<WellDbConfiguration>();
                 });
         }
     }

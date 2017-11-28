@@ -15,7 +15,6 @@
             this.accountRespository = accountRepository;
         }
 
-        [Route("account/{id:int}")]
         public Account Get(int id)
         {
             var account = this.accountRespository.GetAccountByAccountId(id);

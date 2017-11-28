@@ -94,6 +94,7 @@ export class ActivityComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
+        this.globalSettingsService.setCurrentBranchFromUrl(this.route);
         this.refreshActivityFromApi();
         this.canDoManualActions = this.securityService.userHasPermission(SecurityService.manuallyCompleteBypass);
         this.canEditExceptions = this.securityService.userHasPermission(SecurityService.editExceptions);

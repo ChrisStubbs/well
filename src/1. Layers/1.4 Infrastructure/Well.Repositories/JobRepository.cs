@@ -297,9 +297,10 @@ namespace PH.Well.Repositories
                 .Execute();
         }
 
-        public IEnumerable<JobToBeApproved> GetJobsToBeApproved()
+        public IEnumerable<JobToBeApproved> GetJobsToBeApproved(int branchId)
         {
             return this.dapperProxy.WithStoredProcedure(StoredProcedures.JobsToBeApproved)
+                    .AddParameter("BranchId", branchId, DbType.Int32)
                     .Query<JobToBeApproved>();
         }
 
@@ -375,7 +376,7 @@ namespace PH.Well.Repositories
                 .AddParameter("DeletedByImport", deletedByImport, DbType.Boolean)
                 .Execute();
         }
-        
+
         public void ReinstateJobsSoftDeletedByImport(IList<int> jobIds)
         {
             dapperProxy.WithStoredProcedure(StoredProcedures.JobsReinstateSoftDeletedByImport)

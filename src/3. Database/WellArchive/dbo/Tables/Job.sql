@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Job]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[Sequence] INT NOT NULL,
 	[JobTypeCode] VARCHAR(10) NOT NULL,
 	[PHAccount] VARCHAR(40) NOT NULL,

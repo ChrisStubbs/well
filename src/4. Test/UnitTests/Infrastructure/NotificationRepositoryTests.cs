@@ -3,13 +3,11 @@
     using System;
     using System.Data;
     using PH.Well.Common.Contracts;
-    using Domain;
     using Moq;
     using NUnit.Framework;
     using Repositories;
     using Repositories.Contracts;
     using System.Collections.Generic;
-    using System.Linq;
     using Factories;
     using Well.Domain;
 
@@ -41,12 +39,12 @@
             public void ShouldCallTheStoredProcedureCorrectly()
             {
                 dapperProxy.Setup(x => x.WithStoredProcedure("Notifications_Get")).Returns(this.dapperProxy.Object);
-                dapperProxy.Setup(x => x.Query<Notification>()).Returns(new List<Notification>());
+                dapperProxy.Setup(x => x.Query<Notification>("connectionString")).Returns(new List<Notification>());
 
-                var result = repository.GetNotifications();
+                var result = repository.GetNotifications("connectionString");
 
                 dapperProxy.Verify(x => x.WithStoredProcedure("Notifications_Get"), Times.Once);
-                dapperProxy.Verify(x => x.Query<Notification>(), Times.Once());
+                dapperProxy.Verify(x => x.Query<Notification>("connectionString"), Times.Once());
             }
         }
 

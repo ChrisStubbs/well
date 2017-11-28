@@ -92,12 +92,12 @@ export class RouteFilter implements IFilter
         return undefined;
     }
 
-    public static toRouteFilter(params: any): RouteFilter
+    public static toRouteFilter(branchId: number, params: any): RouteFilter
     {
         const routeFilter = new RouteFilter();
         const datePipe: DatePipe = new DatePipe('en-Gb');
 
-        routeFilter.branchId = params.branchId;
+        routeFilter.branchId = branchId;
         routeFilter.routeNumber = _.isNil(params.routeNumber) ? params.route : params.routeNumber ;
         if (_.isNil(params.dateFormatted))
         {

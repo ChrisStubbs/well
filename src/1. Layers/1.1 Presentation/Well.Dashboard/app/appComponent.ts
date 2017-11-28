@@ -4,6 +4,7 @@ import { BranchService }            from './shared/branch/branchService';
 import { SecurityService }          from './shared/services/securityService';
 import { IObservableAlive }         from './shared/IObservableAlive';
 import 'rxjs/Rx';
+import {GlobalSettings} from './shared/globalSettings';
 
 @Component({
     selector: 'ow-app',
@@ -17,6 +18,13 @@ export class AppComponent implements IObservableAlive
     public IsWellAdmin: boolean;
     public IsWellDeveloper: boolean;
 
+    private get currentBranchIdDisplay(): string {
+        if (this.globalSettingsService.currentBranchId) {
+            return `(current selected branch: ${ this.globalSettingsService.currentBranchId})`;
+        }
+        return undefined;
+    }
+    
     constructor(
         private globalSettingsService: GlobalSettingsService,
         private branchService: BranchService,

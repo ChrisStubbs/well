@@ -39,7 +39,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
-        [Route("bulkedit/Summary/Jobs/")]
+        [Route("{branchId:int}/bulkedit/Summary/Jobs/")]
         public PatchSummary GetSummaryForJob([FromUri]int[] id, DeliveryAction deliveryAction)
         {
             if (id == null || id.Length == 0)
@@ -51,7 +51,7 @@ namespace PH.Well.Api.Controllers
         }
 
         [HttpGet]
-        [Route("bulkedit/Summary/LineItems/")]
+        [Route("{branchId:int}/bulkedit/Summary/LineItems/")]
         public PatchSummary GetSummaryForLineItems([FromUri]int[] id, DeliveryAction deliveryAction)
         {
             if (id == null || id.Length == 0)

@@ -2,9 +2,7 @@
 
 namespace PH.Well.UnitTests.Api.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Net;
     using System.Net.Http;
     using Moq;
@@ -12,7 +10,6 @@ namespace PH.Well.UnitTests.Api.Controllers
     using PH.Well.Api.Controllers;
     using PH.Well.Common.Contracts;
     using PH.Well.Domain;
-    using PH.Well.Domain.ValueObjects;
     using PH.Well.Services.Contracts;
     using PH.Well.UnitTests.Factories;
 
@@ -20,7 +17,7 @@ namespace PH.Well.UnitTests.Api.Controllers
     public class UserControllerTests : BaseControllerTests<UserController>
     {
         private Mock<IBranchService> branchService;
-        private Mock<IUserRepository> userRepository;
+        private Mock<IUserService> userService;
         private Mock<ILogger> logger;
         private Mock<IActiveDirectoryService> activeDirectoryService;
         private Mock<IUserNameProvider> userNameProvider;
@@ -32,7 +29,7 @@ namespace PH.Well.UnitTests.Api.Controllers
         public void Setup()
         {
             this.branchService = new Mock<IBranchService>(MockBehavior.Strict);
-            this.userRepository = new Mock<IUserRepository>(MockBehavior.Strict);
+            this.userService = new Mock<IUserService>(MockBehavior.Strict);
             this.logger = new Mock<ILogger>(MockBehavior.Strict);
             this.activeDirectoryService = new Mock<IActiveDirectoryService>(MockBehavior.Strict);
             this.userNameProvider = new Mock<IUserNameProvider>(MockBehavior.Strict);
@@ -44,7 +41,7 @@ namespace PH.Well.UnitTests.Api.Controllers
 
             this.Controller = new UserController(this.branchService.Object,
                 this.activeDirectoryService.Object,
-                this.userRepository.Object,
+                this.userService.Object,
                 this.logger.Object,
                 this.userNameProvider.Object,
                 jobService.Object
@@ -92,37 +89,15 @@ namespace PH.Well.UnitTests.Api.Controllers
         public class TheGetMethod : UserControllerTests
         {
             [Test]
-            public void ShouldOrderByUsersAndReturnCurrentUserFirst()
+            public void ShouldCallUserServiceGet()
             {
-                var me = new User
-                {
-                    Name = "Z",
-                    IdentityName = "Z"
-                };
-                var users = new List<User>
-                {
-                    UserFactory.New
-                        .With(p => p.Name = "A")
-                        .With(p => p.IdentityName = "A")
-                        .Build(),
-                    UserFactory.New
-                        .With(p => p.Name = "B")
-                        .With(p => p.IdentityName = "B")
-                        .Build(),
-                    me
-                };
-
-                var expectResult = new List<User>();
-                expectResult.Add(users[2]);
-                expectResult.Add(users[0]);
-                expectResult.Add(users[1]);
-
-                this.userNameProvider.Setup(x => x.GetUserName()).Returns(me.Name);
-                this.userRepository.Setup(p => p.Get(null, null, null, null, null)).Returns(users);
+                var users = new List<User>();
+                this.userService.Setup(p => p.Get()).Returns(users);
 
                 var response = this.Controller.Get();
 
-                Assert.That(response, Is.EqualTo(expectResult));
+                 userService.Verify(x=> x.Get(),Times.Once);
+                Assert.That(response, Is.EqualTo(users));
             }
         }
 
@@ -132,7 +107,7 @@ namespace PH.Well.UnitTests.Api.Controllers
             public void ShouldReturnUserCreditThreshold()
             {
                 var user = new User { Id = 227 };
-                this.userRepository.Setup(x => x.GetByName("lee grunion")).Returns(user);
+                this.userService.Setup(x => x.GetByName("lee grunion", "palmerharvey")).Returns(user);
 
                 var returnedUser = this.Controller.UserByName("lee grunion");
 
@@ -140,31 +115,6 @@ namespace PH.Well.UnitTests.Api.Controllers
                 Assert.That(returnedUser.Id, Is.EqualTo(227));
             }
 
-            [Test]
-            public void ShouldReturnNullCreditThresholdIfNoUserThreshold()
-            {
-                var firstName = "A";
-                var lastName = "User";
-                var userName = $"{firstName} {lastName}";
-                var usr = new User
-                {
-                    Name = userName,
-                    Domain = "Domain",
-                    IdentityName = $"Domain\\{firstName}.{lastName}"
-                };
-                var resultUsers = new List<User> { usr };
-
-                //Domain\A.User
-                this.activeDirectoryService.Setup(p => p.GetUser($"{resultUsers[0].Domain}\\{firstName}.{lastName}")).Returns(usr);
-                this.activeDirectoryService.Setup(p => p.FindUsers(firstName, It.IsAny<string>())).Returns(resultUsers);
-                this.userRepository.Setup(x => x.GetByName(userName)).Returns((User)null);
-                this.userRepository.Setup(p => p.Save(usr));
-
-                var returnedUser = this.Controller.UserByName(userName);
-
-                Assert.That(returnedUser, Is.EqualTo(usr));
-                userRepository.Verify(p => p.Save(usr), Times.Once);
-            }
         }
     }
 }

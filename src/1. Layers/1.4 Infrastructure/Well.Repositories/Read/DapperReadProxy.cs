@@ -25,10 +25,14 @@
 
             return this;
         }
-
         public IEnumerable<TValueObject> Query<TValueObject>()
         {
-            using (var connection = new SqlConnection(DbConfiguration.DatabaseConnection))
+            return Query<TValueObject>(DbConfiguration.DatabaseConnection);
+        }
+
+        public IEnumerable<TValueObject> Query<TValueObject>(string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
                 try
                 {

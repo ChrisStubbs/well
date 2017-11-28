@@ -13,7 +13,7 @@
                 <div class="logo"><img src="" /></div>
             </a>
             <div id="headerHolder">
-                <a id="branch-selection" routerLink="/branch" routerLinkActive="active">{{branches}}</a>
+                <a id="branch-selection" routerLink="/branch" routerLinkActive="active">{{branches}} {{currentBranchIdDisplay}}</a> 
             </div>
             <div id="user-details" class="pull-right">
                 <div>Logged in as <span id="current-user-name">@Html.EmployeeDisplayName()</span></div>
@@ -21,12 +21,11 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid">
-        <div id="nav">
+    <div class="row-fluid"><div id="nav">
             <ul class="nav nav-pills" style="min-height: 39px;">
                 <li><a routerLink="/widgets" routerLinkActive="active" title="Home">Home</a></li>
-                <li><a routerLink="/locations" routerLinkActive="active">Locations</a></li>
-                <li><a routerLink="/routes" routerLinkActive="active" title="View jobs by route">Routes</a></li>
+                <li><a routerLink="/locations//{{globalSettingsService.currentBranchId}}" routerLinkActive="active">Locations</a></li>
+                <li><a routerLink="/routes/{{globalSettingsService.currentBranchId}}" routerLinkActive="active" title="View jobs by route">Routes</a></li>
                 <li><a routerLink="/approvals" routerLinkActive="active">Approvals</a></li>
                 <li><a routerLink="/notifications" routerLinkActive="active" title="View notifications">Notifications</a></li>
                 <li class="dropdown pull-right">

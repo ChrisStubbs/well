@@ -2,16 +2,11 @@
 
 namespace PH.Well.Api.Controllers
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
     using PH.Well.Common.Contracts;
-    using PH.Well.Domain.Enums;
-    using PH.Well.Domain.Extensions;
-    using PH.Well.Repositories.Contracts;
-    using PH.Well.Services;
 
     public class ThresholdLevelController : BaseApiController
     {
@@ -25,11 +20,12 @@ namespace PH.Well.Api.Controllers
             this.userThresholdService = userThresholdService;
         }
 
+        [Route("{branchId:int}/threshold-level")]
         [Route("threshold-level")]
         [HttpPost]
         public HttpResponseMessage Post(int thresholdId, string username)
         {
-            userThresholdService.SetThresholdLevel(username, thresholdId);
+            userThresholdService.SetThresholdLevelAllDatabases(username, thresholdId);
             return this.Request.CreateResponse(HttpStatusCode.Created, new { success = true });
         }
     }

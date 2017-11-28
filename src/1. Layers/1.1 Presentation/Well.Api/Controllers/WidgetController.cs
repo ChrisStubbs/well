@@ -7,14 +7,9 @@
     using System.Net.Http;
     using System.Web.Http;
     using Common.Contracts;
-    using Domain.Enums;
     using Mapper.Contracts;
     using Models;
-
-    using PH.Well.Common.Security;
     using Repositories.Contracts;
-    using Services.Contracts;
-    using Validators;
     using Validators.Contracts;
 
     public class WidgetController : BaseApiController
@@ -44,11 +39,9 @@
             this.mapper = mapper;
             this.validator = validator;
             this.notificationRepository = notificationRepository;
-
-            //////this.widgetRepository.CurrentUser = this.UserIdentityName;
         }
 
-        [Route("widgets")]
+        [Route("{branchId:int}/widgets")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
@@ -163,8 +156,7 @@
             //}
         }
 
-        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
-        [Route("widgetsWarnings")]
+        [Route("{branchId:int}/widgetsWarnings")]
         [HttpGet]
         public HttpResponseMessage GetWarnings()
         {
@@ -181,8 +173,7 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, model);
         }
 
-        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
-        [Route("widgetWarning/{isUpdate:bool}")]
+        [Route("{branchId:int}/widgetWarning/{isUpdate:bool}")]
         [HttpPost]
         public HttpResponseMessage Post(WidgetWarningModel model, bool isUpdate)
         {
@@ -199,8 +190,7 @@
             return this.Request.CreateResponse(HttpStatusCode.OK, new { success = true });
         }
 
-        //[PHAuthorize(Permissions = Consts.Security.PermissionWellAdmin)]
-        [Route("widgetWarning/{id:int}")]
+        [Route("{branchId:int}/widgetWarning/{id:int}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {

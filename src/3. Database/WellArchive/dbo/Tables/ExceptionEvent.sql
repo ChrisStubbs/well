@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[ExceptionEvent]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[Event] [varchar](max) NOT NULL,
 	[ExceptionActionId] [int] NOT NULL,
 	[Processed] [bit] NOT NULL,

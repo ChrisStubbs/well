@@ -13,7 +13,7 @@ export class SeasonalDateService {
     constructor(private http: HttpService, private globalSettingsService: GlobalSettingsService) { }
 
     public getSeasonalDates(): Observable<SeasonalDate[]> {
-        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'seasonaldate')
+        return this.http.get(this.globalSettingsService.globalSettings.apiUrl + 'seasonal-date')
             .map((res: Response) => 
             {    
                 const seasons = <SeasonalDate[]>res.json();

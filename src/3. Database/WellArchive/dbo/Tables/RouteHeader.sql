@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[RouteHeader]
 (
 	[Id] INT NOT NULL,
+	DataSource VarChar(255) NULL,
 	[CompanyId] INT NOT NULL,
 	[RouteNumber] VARCHAR(12) NOT NULL,
 	[RouteDate] DATETIME NULL,

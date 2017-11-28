@@ -8,7 +8,8 @@ import { GridHelpersFunctions }         from '../shared/gridHelpers/gridHelpersF
 import { LocationFilter, Locations }    from './singleLocation';
 import { ILookupValue }                 from '../shared/services/ILookupValue';
 import { Observable }                   from 'rxjs/Rx';
-import { LookupService, LookupsEnum }   from '../shared/services/services';
+import { LookupService, LookupsEnum } from '../shared/services/services';
+import { ActivatedRoute } from '@angular/router';
 import * as _                           from 'lodash';
 import 'rxjs/Rx';
 
@@ -27,13 +28,14 @@ export class LocationsComponent implements IObservableAlive
     private source: Array<Locations> = [];
     private gridSource: Array<Locations> = [];
     private inputFilterTimer: any;
-    private selectedBranhId: number;
+    //private selectedBranhId: number;
 
     constructor(private locationsService: LocationsService,
                 private branchService: BranchService,
                 private globalSettingsService: GlobalSettingsService,
                 private router: Router,
-                private lookupService: LookupService) {}
+                private lookupService: LookupService,
+                private activatedRoute: ActivatedRoute) { }
 
     public ngOnDestroy(): void {
         this.isAlive = false;
@@ -41,6 +43,7 @@ export class LocationsComponent implements IObservableAlive
 
     public ngOnInit(): void
     {
+        this.globalSettingsService.setCurrentBranchFromUrl(this.activatedRoute);
         Observable.forkJoin(
             this.branchService.getBranchesValueList(this.globalSettingsService.globalSettings.userName),
             this.lookupService.get(LookupsEnum.JobIssueType)
@@ -54,7 +57,9 @@ export class LocationsComponent implements IObservableAlive
                     this.router.navigateByUrl('/branch');
                     return;
                 }
-
+                if (_.isNil(this.globalSettingsService.currentBranchId)) {
+                    this.globalSettingsService.currentBranchId = +this.branches[0][0];
+                }
                 this.loadData(+this.branches[0][0]);
                 this.jobIssueType = res[1];
                 this.filters.jobIssueType = 0;
@@ -63,12 +68,11 @@ export class LocationsComponent implements IObservableAlive
 
     private loadData(branchId: number): void
     {
-        if (branchId)
-        {
-            this.selectedBranhId = branchId;
+        if (branchId) {
+            this.router.navigateByUrl(`/locations/${this.globalSettingsService.currentBranchId}`);
         }
 
-        this.locationsService.getLocations(this.selectedBranhId)
+        this.locationsService.getLocations(this.globalSettingsService.currentBranchId)
             .takeWhile(() => this.isAlive)
             .subscribe(res => {
                 this.source = res;

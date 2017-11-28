@@ -99,6 +99,7 @@
     <None Include="ManualStep\scripts\up\032_remove_view_v2.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ManualStep\ManualDeployment\DeleteBranchData.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\VisitType.sql" />
@@ -506,9 +507,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Build Include="dbo\StoredProcedures\SyncLineItem.sql" />
-    <None Include="ManualStep\scripts\up\034_RemoveOrphanedGRNExceptionEvents.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ManualStep\scripts\up\035_DeleteCreditExceptionEventsWithBadData.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -530,15 +528,6 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Well.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WellArchive\Well-Archive.sqlproj">
-      <Name>Well-Archive</Name>
-      <Project>{138b9918-8dce-47b6-861a-92634460db70}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>WellArchive</DatabaseSqlCmdVariable>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="WellArchive">

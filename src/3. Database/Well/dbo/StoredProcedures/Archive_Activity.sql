@@ -4,6 +4,7 @@ AS
 	-- Activity
 	DELETE a
 	OUTPUT Deleted.[Id]
+		,@@SERVERNAME + '.' + DB_NAME()
 		,Deleted.[DocumentNumber]
 		,Deleted.[InitialDocument]
 		,Deleted.[ActivityTypeId]
@@ -16,6 +17,7 @@ AS
 		,@ArchiveDate
 	INTO [$(WellArchive)].[dbo].Activity
 		([Id]
+		,DataSource
 		,[DocumentNumber]
 		,[InitialDocument]
 		,[ActivityTypeId]

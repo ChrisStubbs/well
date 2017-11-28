@@ -579,10 +579,10 @@ namespace PH.Well.UnitTests.Services
                 var userJobs = new UserJobs
                 {
                     JobIds = jobs.Select(x => x.Id).ToArray(),
-                    UserId = user.Id
+                    UserName = user.Name
                 };
 
-                userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                userRepository.Setup(x => x.GetByName(userJobs.UserName)).Returns(user);
                 jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(jobs);
 
                 var result = service.Assign(userJobs);
@@ -599,11 +599,11 @@ namespace PH.Well.UnitTests.Services
                 var userJobs = new UserJobs
                 {
                     JobIds = allJobs.Select(x => x.Id).ToArray(),
-                    UserId = user.Id,
+                    UserName = user.Name,
                     AllocatePendingApprovalJobs = true
                 };
 
-                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                this.userRepository.Setup(x => x.GetByName(userJobs.UserName)).Returns(user);
                 jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(allJobs);
 
                 var result = service.Assign(userJobs);
@@ -629,10 +629,10 @@ namespace PH.Well.UnitTests.Services
                 var user = new User();
                 var userJobs = new UserJobs
                 {
-                    UserId = user.Id
+                    UserName = user.Name
                 };
 
-                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                this.userRepository.Setup(x => x.GetByName(userJobs.UserName)).Returns(user);
                 jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(new List<Job>());
 
                 var result = service.Assign(userJobs);
@@ -646,11 +646,11 @@ namespace PH.Well.UnitTests.Services
                 var userJobs = new UserJobs
                 {
                     JobIds = pendingApprovalJobs.Select(x => x.Id).ToArray(),
-                    UserId = user.Id,
+                    UserName = user.Name,
                     AllocatePendingApprovalJobs = false // Exclude pending approval jobs
                 };
 
-                this.userRepository.Setup(x => x.GetById(userJobs.UserId)).Returns(user);
+                this.userRepository.Setup(x => x.GetByName(userJobs.UserName)).Returns(user);
                 jobRepository.Setup(j => j.GetByIds(userJobs.JobIds)).Returns(pendingApprovalJobs);
 
                 var result = service.Assign(userJobs);

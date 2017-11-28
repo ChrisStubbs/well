@@ -27,6 +27,8 @@
 
         void Execute(DynamicParameters parameters, string storeProcedureName);
 
+        void Execute(string connectionString);
+
         Task ExecuteAsync();
 
         Task ExecuteAsync(string connectionString);
